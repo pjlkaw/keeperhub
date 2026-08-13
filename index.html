@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeeperHub</title>
+  
+  <!-- Configurações básicas para PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <style>
+    /* 1. Variáveis CSS (Root) */
+    :root {
+      /* Fundo padrão */
+      --bg-color: #ffffff;
+      --text-color: #1a202c;
+      --card-bg: #f8fafc;
+      --border-color: #e2e8f0;
+
+      /* 5 Cores de destaque para as diferentes ferramentas */
+      --tool-accent-1: #E47A00; /* Azul */
+      --tool-accent-2: #FFD900; /* Verde */
+      --tool-accent-3: #5985FC; /* Roxo */
+      --tool-accent-4: #A67B5B; /* Laranja */
+      --tool-accent-5: #00D02D; /* Rosa */
+    }
+
+    /* 2. Reset básico e Layout da Página */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* 3. Cabeçalho */
+    header {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .btns-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .btn-login {
+      background-color: var(--text-color);
+      color: var(--bg-color);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* 4. Container dos Cards */
+    main {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* 5. Estrutura do Card de Ferramenta */
+    .tool-card {
+      width: 90%;
+      max-width: 500px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-left: 6px solid var(--accent-color, var(--tool-accent-1)); /* Usa a variável dinâmica */
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .tool-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tool-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background-color: var(--accent-color, var(--tool-accent-1));
+      opacity: 0.15;
+    }
+
+    .tool-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .tool-description {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    .tool-card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    .btn-access {
+      background-color: transparent;
+      color: var(--accent-color, var(--tool-accent-1));
+      border: 1px solid var(--accent-color, var(--tool-accent-1));
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Classes utilitárias para aplicar as cores de destaque */
+    .tool-1 { --accent-color: var(--tool-accent-1); }
+    .tool-2 { --accent-color: var(--tool-accent-2); }
+    .tool-3 { --accent-color: var(--tool-accent-3); }
+    .tool-4 { --accent-color: var(--tool-accent-4); }
+    .tool-5 { --accent-color: var(--tool-accent-5); }
+  </style>
+</head>
+<body>
+
+  <!-- Cabeçalho com o nome e botão de login -->
+  <header>
+    <div class="logo">KeeperHub</div>
+    <div class="btns-header">
+        <i><p>theme</p></i>
+        <button class="btn-login">Entrar</button>
+    </div>
+  </header>
+
+  <!-- Hub de Ferramentas -->
+  <main>
+
+    <!-- Card 1 (Usa a cor de destaque 1) -->
+    <div class="tool-card tool-1">
+      <div class="tool-card-header">
+        <div class="tool-icon"></div>
+        <h2 class="tool-title">Metas</h2>
+      </div>
+      <p class="tool-description">Defina objetivos pessoais, acompanhe seu progresso e estabeleça etapas para alcançar suas conquistas.</p>
+      <div class="tool-card-footer">
+</div>      </div>
+    </div>
+
+    <!-- Card 2 (Usa a cor de destaque 2) -->
+    <div class="tool-card tool-2">
+      <div class="tool-card-header">
+        <div class="tool-icon"></div>
+        <h2 class="tool-title">Finanças</h2>
+      </div>
+      <p class="tool-description">Monitore suas entradas e saídas, controle orçamentos e obtenha previsões claras sobre seus gastos.</p>
+      <div class="tool-card-footer">
+</div>      </div>
+    </div>
+
+    <!-- Card 3 (Usa a cor de destaque 3) -->
+    <div class="tool-card tool-3">
+      <div class="tool-card-header">
+        <div class="tool-icon"></div>
+        <h2 class="tool-title">Pets</h2>
+      </div>
+      <p class="tool-description">Organize o histórico de vacinas, consultas veterinárias, rotina de alimentação e cuidados com seus animais.</p>
+      <div class="tool-card-footer">
+</div>      </div>
+    </div>
+
+    <!-- Card 4 (Usa a cor de destaque 4) -->
+    <div class="tool-card tool-4">
+      <div class="tool-card-header">
+        <div class="tool-icon"></div>
+        <h2 class="tool-title">Despensa</h2>
+      </div>
+      <p class="tool-description">Faça o inventário de alimentos e itens de casa, acompanhe datas de validade e monte listas de compras automatizadas.</p>
+      <div class="tool-card-footer">
+</div>    </div>
+
+    <!-- Card 5 (Usa a cor de destaque 5) -->
+    <div class="tool-card tool-5">
+      <div class="tool-card-header">
+        <div class="tool-icon"></div>
+        <h2 class="tool-title">Medicamentos</h2>
+      </div>
+      <p class="tool-description">Cadastre seus remédios, gerencie horários de doses, estoques de caixas e receba alertas para não perder nenhuma medicação.</p>
+      <div class="tool-card-footer">
+    </div>
+  </main>
+
+</body>
+</html>

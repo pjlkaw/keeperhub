@@ -1,0 +1,58 @@
+KEEPERHUB - ESTRUTURA DE PASTAS
+=================================
+
+keeperhub/
+|
+|-- index.html
+|   Shell principal do HUB. Tela de login, splash e redirecionamento
+|   para o modulo que o usuario escolher na navegacao inferior.
+|
+|-- manifest.json
+|   Arquivo de configuracao do PWA (nome, icones, cores, modo de exibicao).
+|
+|-- service-worker.js
+|   Controla cache offline e sincronizacao com o IndexedDB. Responsavel
+|   por fazer o app funcionar sem internet.
+|
+|-- README.md
+|   Documentacao geral do projeto: como rodar, como contribuir, etc.
+|
+|-- .gitignore
+|   Lista de arquivos/pastas que o Git deve ignorar.
+|
+|-- shared/
+|   Codigo compartilhado por TODOS os modulos. Nenhum modulo deve
+|   duplicar o que existe aqui, e nenhum modulo deve ser importado
+|   por outro modulo diretamente - se algo e comum, sobe pra shared/.
+|   |
+|   |-- components/
+|   |   Componentes visuais usados em todo o HUB: header, bottom-nav
+|   |   (footer), modais genericos, botoes padrao, etc.
+|   |
+|   |-- styles/
+|   |   |-- variables.css   -> cores por modulo, tipografia (Verdana/Tahoma), espacamentos
+|   |   |-- reset.css       -> reset de estilos padrao do navegador
+|   |
+|   |-- services/
+|   |   |-- auth.js            -> login via Google
+|   |   |-- db.js              -> wrapper de acesso ao IndexedDB
+|   |   |-- notifications.js   -> push notifications e alertas
+|   |
+|   |-- utils/
+|       Funcoes auxiliares genericas: formatacao de data, validacoes
+|       de formulario, helpers diversos usados por mais de um modulo.
+|
+|-- modules/
+|   Cada pasta aqui dentro e um modulo independente do HUB, com
+|   responsavel proprio. Um modulo NUNCA importa arquivos de dentro
+|   de outro modulo - so pode usar o que esta em shared/.
+|   |
+|   |-- despensa/      -> controle de estoque e comparacao de precos
+|   |-- pets/          -> gerenciamento de rotina e saude dos pets
+|   |-- metas/         -> metas pessoais, financeiras e area Solitude
+|   |-- financas/      -> controle financeiro (metodo 50-30-20)
+|   |-- medicamentos/  -> controle de validade, estoque e alertas de medicamentos
+|
+|-- docs/
+    Documentacao do projeto: especificacao tecnica, este arquivo de
+    estrutura, e outros materiais de referencia da equipe.
