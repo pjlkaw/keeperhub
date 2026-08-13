@@ -1,0 +1,79 @@
+KEEPERHUB - PADRONIZACAO DO PROJETO
+=====================================
+
+1. NOMENCLATURA DE ARQUIVOS E PASTAS
+-------------------------------------
+- Pastas e arquivos: sempre em minusculo, separados por hifen (kebab-case)
+  Exemplo: cadastro-medicamento.js, alerta-validade.js
+- Nao usar espacos, acentos ou maiusculas em nomes de arquivo/pasta
+- Cada modulo segue o padrao: modules/nome-do-modulo/index.html
+
+2. NOMENCLATURA NO CODIGO (JS)
+-------------------------------------
+- Variaveis e funcoes: camelCase (ex: buscarMedicamento, listaDeItens)
+- Constantes fixas: UPPER_SNAKE_CASE (ex: URL_API, LIMITE_ESTOQUE)
+- Nomes em portugues, mantendo consistencia com o dominio do projeto
+  (o time todo entende "medicamento", nao precisa traduzir pra "medicine")
+
+3. ESTRUTURA E IMPORTACAO ENTRE MODULOS
+-------------------------------------
+- Um modulo NUNCA importa arquivos de dentro de outro modulo
+  (ex: modules/pets/ nao pode importar nada de modules/financas/)
+- Qualquer coisa usada por mais de um modulo deve subir para shared/
+- shared/services -> logica (auth, banco, notificacoes)
+- shared/components -> elementos visuais reutilizaveis (header, footer)
+- shared/utils -> funcoes auxiliares puras (formatacao, validacao)
+
+4. PADRAO DE COMMITS (Conventional Commits)
+-------------------------------------
+Formato: tipo: descricao curta no infinitivo
+
+Tipos usados no projeto:
+  feat:     nova funcionalidade
+  fix:      correcao de bug
+  refactor: mudanca de codigo sem alterar comportamento
+  style:    ajuste visual/CSS, formatacao, sem mudar logica
+  docs:     documentacao (README, docs/, comentarios)
+  chore:    tarefas de configuracao (estrutura, dependencias, etc)
+
+Exemplos:
+  feat: adicionar cadastro de medicamento por codigo de barras
+  fix: corrigir alerta de validade nao disparando
+  docs: atualizar estrutura de pastas no docs/estrutura.txt
+
+5. PADRAO DE BRANCHES
+-------------------------------------
+Formato: tipo/modulo-descricao-curta
+
+Exemplos:
+  feature/medicamentos-cadastro-produto
+  fix/pets-upload-foto
+  docs/estrutura-pastas
+
+- Nunca commitar direto na main
+- Toda mudanca entra via Pull Request com revisao do responsavel do modulo (CODEOWNERS)
+
+6. PADRAO VISUAL (conforme especificacao tecnica)
+-------------------------------------
+Tipografia:
+  Titulos:        Verdana, Bold
+  Corpo de texto: Tahoma, Regular
+
+Cores por modulo (usar em shared/styles/variables.css):
+  Despensa      -> Bege Frances     #A67B5B
+  Metas         -> Amarelo Sol      #FFD900
+  Medicamentos  -> Verde Resideo    #00D02D
+  Financas      -> Laranja Escuro   #E47A00
+  Pets          -> Azul Periwinkle  #5985FC
+
+Espacamentos: 8px, 16px, 24px
+Bordas de card: 8px a 16px
+Area minima de toque (thumb zone): 44x44px a 48x48px
+
+7. CODIGO E FORMATACAO GERAL
+-------------------------------------
+- Indentacao: 2 espacos (nao usar tab)
+- Ponto e virgula obrigatorio no fim das linhas JS
+- Aspas simples para strings em JS: 'exemplo'
+- Uma pasta CSS por modulo, nomeado igual ao modulo (ex: medicamentos.css)
+- Comentarios curtos explicando o "porque", nao o "o que" (o codigo ja diz o que faz)
