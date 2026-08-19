@@ -24,7 +24,7 @@ KEEPERHUB - PADRONIZACAO DO PROJETO
 - shared/components -> elementos visuais reutilizaveis (header, footer)
 - shared/utils -> funcoes auxiliares puras (formatacao, validacao)
 
-4. PADRAO DE COMMITS (Conventional Commits)
+4. PADRAO DE COMMITS
 -------------------------------------
 Formato: tipo: descricao curta no infinitivo
 
