@@ -1,0 +1,205 @@
+/* ==========================================================
+  RESET E TIPOGRAFIA
+  ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1, h2, h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* ==========================================================
+  CABEÇALHO
+  ========================================================== */
+header {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.btns-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-theme {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.btn-login {
+  background-color: var(--pill-bg);
+  color: var(--pill-text);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
+}
+
+/* ==========================================================
+  BUSCA
+  ========================================================== */
+.search-bar {
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+}
+
+.search-bar i {
+  color: var(--text-muted);
+}
+
+.search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-color);
+  font-family: Tahoma, sans-serif;
+  font-size: 0.9rem;
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ==========================================================
+  CARDS DE MÓDULO
+  A cor de cada card vem do atributo data-name, casado com as
+  variáveis --tool-* definidas em shared/styles/variables.css.
+  Pra adicionar um módulo novo: cria a variável --tool-nome lá
+  e o seletor [data-name="nome"] aqui embaixo.
+  ========================================================== */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.tool-card {
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.tool-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.tool-card-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tool-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #0b0b0d;
+}
+
+.tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tool-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.tool-description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tool-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-access {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
+}
+
+.btn-access:hover {
+  background-color: var(--accent-color);
+  color: #0b0b0d;
+}
+
+/* Cor de destaque por módulo, via atributo em vez de classe */
+[data-name="metas"]        { --accent-color: var(--tool-metas); }
+[data-name="financas"]     { --accent-color: var(--tool-financas); }
+[data-name="pets"]         { --accent-color: var(--tool-pets); }
+[data-name="despensa"]     { --accent-color: var(--tool-despensa); }
+[data-name="medicamentos"] { --accent-color: var(--tool-medicamentos); }

@@ -1,15 +1,32 @@
+/* 5 cores de destaque, uma por módulo (docs/padronizacao.txt) */
 :root {
-    --tool-metas:        #FFD900; /* Amarelo Sol */
-    --tool-financas:     #E47A00; /* Laranja Escuro */
-    --tool-pets:         #5985FC; /* Azul Periwinkle */
-    --tool-despensa:     #A67B5B; /* Bege Frances */
-    --tool-medicamentos: #00D02D; /* Verde Resideo */
+  --tool-metas:        #FFD900; /* Amarelo Sol */
+  --tool-financas:     #E47A00; /* Laranja Escuro */
+  --tool-pets:         #5985FC; /* Azul Periwinkle */
+  --tool-despensa:     #A67B5B; /* Bege Francês */
+  --tool-medicamentos: #00D02D; /* Verde Resideo */
+}
 
-    --bg-color: #0b0b0d;
-    --text-color: #f4f4f5;
-    --text-muted: #9a9aa2;
-    --card-bg: #17171a;
-    --border-color: rgba(255, 255, 255, 0.08);
-    --pill-bg: #000000;
-    --pill-text: #ffffff;
+/* Tema escuro (padrão) */
+html[data-theme="dark"] {
+  --bg-color: #0b0b0d;
+  --header-bg: #0b0b0d;
+  --text-color: #f4f4f5;
+  --text-muted: #9a9aa2;
+  --card-bg: #17171a;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --pill-bg: #000000;
+  --pill-text: #ffffff;
+}
+
+/* Tema claro */
+html[data-theme="light"] {
+  --bg-color: #ffffff;
+  --header-bg: #ffffff;
+  --text-color: #1a202c;
+  --text-muted: #64748b;
+  --card-bg: #f8fafc;
+  --border-color: #e2e8f0;
+  --pill-bg: #1a202c;
+  --pill-text: #ffffff;
 }

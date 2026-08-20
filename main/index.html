@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeeperHub</title>
+
+  <!-- Configurações básicas para PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../shared/styles/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+  <!-- Cabeçalho com o nome, alternância de tema e botão de login -->
+  <header>
+    <div class="logo">KeeperHub</div>
+    <div class="btns-header">
+      <button class="btn-theme" id="theme-toggle" aria-label="Alternar tema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="btn-login">Entrar</button>
+    </div>
+  </header>
+
+  <!-- Busca de módulos -->
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Buscar módulo..." id="search-input">
+  </div>
+
+  <!-- Hub de Ferramentas -->
+  <main id="tool-list">
+
+    <div class="tool-card" data-name="metas">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Metas</h2>
+          <p class="tool-description">Defina objetivos pessoais, acompanhe seu progresso e estabeleça etapas para alcançar suas conquistas.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
+
+    <div class="tool-card" data-name="financas">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Finanças</h2>
+          <p class="tool-description">Monitore suas entradas e saídas, controle orçamentos e obtenha previsões claras sobre seus gastos.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
+
+    <div class="tool-card" data-name="pets">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-paw"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Pets</h2>
+          <p class="tool-description">Organize o histórico de vacinas, consultas veterinárias, rotina de alimentação e cuidados com seus animais.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
+
+    <div class="tool-card" data-name="despensa">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Despensa</h2>
+          <p class="tool-description">Faça o inventário de alimentos e itens de casa, acompanhe datas de validade e monte listas de compras automatizadas.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
+
+    <div class="tool-card" data-name="medicamentos">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-briefcase-medical"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Medicamentos</h2>
+          <p class="tool-description">Cadastre seus remédios, gerencie horários de doses, estoques de caixas e receba alertas para não perder nenhuma medicação.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../shared/services/theme.js"></script>
+  <script src="js/script.js"></script>
+
+</body>
+</html>
