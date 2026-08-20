@@ -2,13 +2,13 @@
 # Define quem precisa aprovar Pull Requests que mexem em cada módulo.
 # Sintaxe: <caminho>  @usuario1 @usuario2
  
-/modules/metas/           @usuario1
-/modules/financas/        @usuario2
-/modules/pets/            @usuario3
-/modules/despensa/        @usuario4
-/modules/medicamentos/    @usuario5
+/modules/metas/           
+/modules/financas/        @infofieb 
+/modules/pets/            
+/modules/despensa/        
+/modules/medicamentos/    @pjlkaw @junxtop
 
 # Arquivos compartilhados (shared/) — exigem aprovação de qualquer um dos
 # gerentes do projeto, já que afetam todos os módulos.
-/shared/                  @usuario1 @usuario2 @usuario3
+/shared/                  @pjlkaw @junxtop 
  
