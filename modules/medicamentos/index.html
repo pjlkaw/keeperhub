@@ -1,1 +1,275 @@
-.
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeeperHub - Medicamentos</title>
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="stylesheet" href="../../shared/styles/variables.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    h1, h2 {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    /* Carrossel de módulos (abas) */
+    .module-tabs {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      gap: 22px;
+      padding: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .module-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .module-tab {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: Tahoma, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding-bottom: 6px;
+    }
+
+    .module-tab.active {
+      color: var(--tool-medicamentos);
+      border-bottom: 2px solid var(--tool-medicamentos);
+    }
+
+    /* Área de conteúdo com slide (swipe) */
+    .content-slide {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 0;
+      touch-action: pan-y;
+    }
+
+    .tool-card {
+      width: 90%;
+      max-width: 500px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tool-card-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .tool-icon {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background-color: var(--tool-medicamentos);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #0b0b0d;
+    }
+
+    .tool-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .tool-description {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .tool-card-footer {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-access {
+      background-color: transparent;
+      color: var(--tool-medicamentos);
+      border: 1px solid var(--tool-medicamentos);
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: Tahoma, sans-serif;
+    }
+
+    /* Linha de acesso rápido (3 círculos, como no Figma) */
+    .quick-actions {
+      width: 90%;
+      max-width: 500px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .quick-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .quick-action-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--tool-medicamentos);
+      font-size: 1.2rem;
+    }
+
+    .quick-action span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Carrossel de módulos -->
+  <nav class="module-tabs" id="module-tabs">
+    <button class="module-tab" data-module="metas">Metas</button>
+    <button class="module-tab" data-module="financas">Finanças</button>
+    <button class="module-tab" data-module="pets">Pets</button>
+    <button class="module-tab" data-module="despensa">Despensa</button>
+    <button class="module-tab active" data-module="medicamentos">Medicamentos</button>
+  </nav>
+
+  <!-- Conteúdo do módulo (com slide/swipe entre módulos) -->
+  <main class="content-slide" id="content-slide">
+
+    <div class="tool-card">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-pills"></i></div>
+        <div>
+          <h2 class="tool-title">Remédios</h2>
+          <p class="tool-description">Veja todos os medicamentos cadastrados, doses e horários.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Ver remédios</button>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="quick-action">
+        <span class="quick-action-icon"><i class="fa-solid fa-plus"></i></span>
+        <span>Adicionar</span>
+      </button>
+      <button class="quick-action">
+        <span class="quick-action-icon"><i class="fa-solid fa-barcode"></i></span>
+        <span>Scanner</span>
+      </button>
+      <button class="quick-action">
+        <span class="quick-action-icon"><i class="fa-solid fa-bell"></i></span>
+        <span>Alertas</span>
+      </button>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-chart-simple"></i></div>
+        <div>
+          <h2 class="tool-title">Dashboard</h2>
+          <p class="tool-description">Estoque, validade e consumo mensal em um só lugar.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Ver dashboard</button>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Ordem dos módulos, igual à do HUB
+    const modules = ["metas", "financas", "pets", "despensa", "medicamentos"];
+    const currentModule = "medicamentos";
+
+    function goToModule(name) {
+      window.location.href = `../${name}/index.html`;
+    }
+
+    // Clique nas abas do carrossel navega para o módulo
+    document.querySelectorAll(".module-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        const name = tab.dataset.module;
+        if (name !== currentModule) goToModule(name);
+      });
+    });
+
+    // Slide (swipe) no conteúdo para trocar de módulo
+    const slideArea = document.getElementById("content-slide");
+    let touchStartX = 0;
+
+    slideArea.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    slideArea.addEventListener("touchend", (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const deltaX = touchEndX - touchStartX;
+      const minSwipe = 60;
+
+      if (Math.abs(deltaX) < minSwipe) return;
+
+      const currentIndex = modules.indexOf(currentModule);
+      if (deltaX < 0 && currentIndex < modules.length - 1) {
+        goToModule(modules[currentIndex + 1]); // swipe pra esquerda -> próximo módulo
+      } else if (deltaX > 0 && currentIndex > 0) {
+        goToModule(modules[currentIndex - 1]); // swipe pra direita -> módulo anterior
+      }
+    });
+  </script>
+
+</body>
+</html>
