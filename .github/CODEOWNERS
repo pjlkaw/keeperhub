@@ -3,12 +3,12 @@
 # Sintaxe: <caminho>  @usuario1 @usuario2
  
 /modules/metas/           
-/modules/financas/        @infofieb 
-/modules/pets/            
+/modules/financas/        @infofieb @Davivilas1
+/modules/pets/            @yrbibo @arthur26-code
 /modules/despensa/        
-/modules/medicamentos/    @pjlkaw @junxtop
+/modules/medicamentos/    @pjlkaw @junxtop 
 
 # Arquivos compartilhados (shared/) — exigem aprovação de qualquer um dos
 # gerentes do projeto, já que afetam todos os módulos.
-/shared/                  @pjlkaw @junxtop 
+/shared/                  @pjlkaw @junxtop @arthur26-code
  
