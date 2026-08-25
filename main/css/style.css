@@ -1,247 +1,205 @@
-/* Cor do botão principal (CTA) — específica da landing page (main/) */
-:root {
-	--cta-primary: #01ab8e;
+/* ==========================================================
+  RESET E TIPOGRAFIA
+  ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	background-color: var(--bg-color);
-	color: var(--text-color);
-	font-family: Tahoma, Geneva, Verdana, sans-serif;
-	line-height: 1.5;
-	/* app só-mobile: nada de largura pensada pra desktop */
-	min-height: 100vh;
-	min-height: 100dvh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-h1,
-h2,
-h3 {
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
+h1, h2, h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.container {
-	width: 100%;
-	margin: 0 auto;
-	padding: 0 clamp(16px, 5vw, 24px);
-}
-
-/* Header */
+/* ==========================================================
+  CABEÇALHO
+  ========================================================== */
 header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: max(16px, env(safe-area-inset-top)) clamp(16px, 5vw, 24px) 16px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
 }
 
 .logo {
-	font-size: clamp(1.2rem, 5vw, 1.4rem);
-	font-weight: 700;
-	letter-spacing: -0.5px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.btns-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .btn-theme {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background-color: var(--card-bg);
-	border: 1px solid var(--border-color);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: var(--text-color);
-	font-size: 1rem;
-	cursor: pointer;
-	flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
-/* Hero */
-.hero {
-	text-align: center;
-	padding-top: clamp(24px, 8vw, 40px);
-	padding-bottom: clamp(32px, 8vw, 50px);
+.btn-login {
+  background-color: var(--pill-bg);
+  color: var(--pill-text);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
 }
 
-.hero h1 {
-	font-size: clamp(1.35rem, 7vw, 1.7rem);
-	font-weight: 700;
-	margin-bottom: 20px;
+/* ==========================================================
+  BUSCA
+  ========================================================== */
+.search-bar {
+  width: 90%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
 }
 
-.hero p {
-	color: var(--text-muted);
-	font-size: clamp(0.85rem, 3.8vw, 0.95rem);
-	margin-bottom: 28px;
+.search-bar i {
+  color: var(--text-muted);
 }
 
-.btn {
-	display: block;
-	width: 100%;
-	padding: 14px 24px;
-	border-radius: 999px;
-	font-family: Tahoma, sans-serif;
-	font-weight: 600;
-	font-size: 0.95rem;
-	cursor: pointer;
-	text-align: center;
-	text-decoration: none;
+.search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-color);
+  font-family: Tahoma, sans-serif;
+  font-size: 0.9rem;
 }
 
-.btn-primary {
-	background-color: var(--cta-primary);
-	color: #ffffff;
-	border: none;
-	margin-bottom: 14px;
+.search-bar input::placeholder {
+  color: var(--text-muted);
 }
 
-.btn-outline {
-	background-color: transparent;
-	color: var(--text-color);
-	border: 1px solid var(--border-color);
+/* ==========================================================
+  CARDS DE MÓDULO
+  A cor de cada card vem do atributo data-name, casado com as
+  variáveis --tool-* definidas em shared/styles/variables.css.
+  Pra adicionar um módulo novo: cria a variável --tool-nome lá
+  e o seletor [data-name="nome"] aqui embaixo.
+  ========================================================== */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
-.btn-light {
-	background-color: #f4f4f5;
-	color: #0a0a0a;
-	border: none;
+.tool-card {
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
-/* Bloco de destaque com divisórias */
-.highlight {
-	text-align: center;
-	padding-top: 32px;
-	padding-bottom: 32px;
-	border-top: 1px solid var(--border-color);
-	border-bottom: 1px solid var(--border-color);
+.tool-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
 }
 
-.highlight p {
-	color: var(--text-muted);
-	font-size: 0.95rem;
+.tool-card-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-/* Seção de módulos */
-.modules-section {
-	padding-top: 50px;
-	padding-bottom: 40px;
-	text-align: center;
+.tool-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #0b0b0d;
 }
 
-.modules-section h2 {
-	font-size: clamp(1.15rem, 6vw, 1.4rem);
-	font-weight: 700;
-	margin-bottom: 32px;
+.tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.module-list {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	text-align: left;
+.tool-title {
+  font-size: 1.05rem;
+  font-weight: 700;
 }
 
-.module-card {
-	background-color: var(--card-bg);
-	border: 1px solid var(--accent-color);
-	border-radius: 12px;
-	padding: 20px;
+.tool-description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
 }
 
-.module-card.disabled {
-	opacity: 0.45;
+.tool-card-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.module-card-header {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 12px;
+.btn-access {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
 }
 
-.module-card-header i {
-	color: var(--accent-color);
-	font-size: 1.1rem;
+.btn-access:hover {
+  background-color: var(--accent-color);
+  color: #0b0b0d;
 }
 
-.module-card-header span {
-	color: var(--accent-color);
-	font-weight: 700;
-	font-size: 1rem;
-}
-
-.module-card p {
-	color: var(--text-color);
-	font-size: 0.9rem;
-	margin-bottom: 16px;
-}
-
-.module-card a {
-	color: var(--accent-color);
-	font-weight: 600;
-	font-size: 0.9rem;
-	text-decoration: none;
-}
-
-.module-financas {
-	--accent-color: var(--tool-financas);
-}
-.module-metas {
-	--accent-color: var(--tool-metas);
-}
-.module-medicamentos {
-	--accent-color: var(--tool-medicamentos);
-}
-.module-pets {
-	--accent-color: var(--tool-pets);
-}
-.module-despensa {
-	--accent-color: var(--tool-despensa);
-}
-
-/* CTA final */
-.final-cta {
-	text-align: center;
-	padding-top: 50px;
-	padding-bottom: 50px;
-}
-
-.final-cta h2 {
-	font-size: clamp(1.15rem, 6vw, 1.4rem);
-	font-weight: 700;
-	margin-bottom: 16px;
-}
-
-.final-cta p {
-	color: var(--text-muted);
-	font-size: 0.9rem;
-	margin-bottom: 28px;
-}
-
-/* Footer */
-footer {
-	text-align: center;
-	padding: 40px clamp(16px, 5vw, 24px) max(24px, env(safe-area-inset-bottom));
-	border-top: 1px solid var(--border-color);
-}
-
-footer .logo {
-	display: block;
-	margin-bottom: 16px;
-}
-
-.footer-links {
-	display: flex;
-	justify-content: center;
-	gap: 20px;
-	margin-bottom: 20px;
-}
-
-.footer-links a {
-	color: var(--text-color);
-	font-size: 0.85rem;
-	text-decoration: none;
-}
-
-footer .copyright {
-	color: var(--text-muted);
-	font-size: 0.75rem;
-}
+/* Cor de destaque por módulo, via atributo em vez de classe */
+[data-name="metas"]        { --accent-color: var(--tool-metas); }
+[data-name="financas"]     { --accent-color: var(--tool-financas); }
+[data-name="pets"]         { --accent-color: var(--tool-pets); }
+[data-name="despensa"]     { --accent-color: var(--tool-despensa); }
+[data-name="medicamentos"] { --accent-color: var(--tool-medicamentos); }

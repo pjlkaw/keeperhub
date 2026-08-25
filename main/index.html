@@ -1,149 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-		/>
-		<title>KeeperHub - Sua rotina centralizada</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeeperHub</title>
 
-		<link rel="manifest" href="/manifest.json" />
-		<meta name="theme-color" content="#0a0a0a" />
+  <!-- Configurações básicas para PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../shared/styles/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
 
-		<link rel="stylesheet" href="../shared/styles/reset.css" />
-		<link rel="stylesheet" href="../shared/styles/variables.css" />
-		<link rel="stylesheet" href="css/style.css" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css"
-			integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		/>
-	</head>
-	<body>
-		<header>
-			<div class="logo">KEEPER Hub</div>
-			<button
-				class="btn-theme"
-				id="theme-toggle"
-				aria-label="Alternar tema"
-			>
-				<i class="fa-solid fa-moon"></i>
-			</button>
-		</header>
+  <!-- Cabeçalho com o nome, alternância de tema e botão de login -->
+  <header>
+    <div class="logo">KeeperHub</div>
+    <div class="btns-header">
+      <button class="btn-theme" id="theme-toggle" aria-label="Alternar tema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="btn-login">Entrar</button>
+    </div>
+  </header>
 
-		<section class="hero container">
-			<h1>Sua rotina centralizada em um único ecossistema.</h1>
-			<p>
-				Organize finanças, metas, medicamentos, pets e sua despensa em
-				um só lugar. Tenha mais controle sobre sua rotina, acompanhe o
-				que realmente importa e receba lembretes para não deixar nada
-				passar.
-			</p>
-			<a href="#" class="btn btn-primary">Começar 1 mês grátis</a>
-			<a href="#modulos" class="btn btn-outline">Conhecer os módulos</a>
-		</section>
+  <!-- Busca de módulos -->
+  <div class="search-bar">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Buscar módulo..." id="search-input">
+  </div>
 
-		<section class="highlight container">
-			<p>
-				O KeeperHub reduz o ruído da vida moderna. Substitua múltiplos
-				aplicativos desconectados por uma única interface premium,
-				projetada para clareza e eficiência.
-			</p>
-		</section>
+  <!-- Hub de Ferramentas -->
+  <main id="tool-list">
 
-		<section class="modules-section container" id="modulos">
-			<h2>O que você quer organizar hoje?</h2>
+    <div class="tool-card" data-name="metas">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Metas</h2>
+          <p class="tool-description">Defina objetivos pessoais, acompanhe seu progresso e estabeleça etapas para alcançar suas conquistas.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
 
-			<div class="module-list">
-				<div class="module-card module-financas">
-					<div class="module-card-header">
-						<i class="fa-solid fa-credit-card"></i>
-						<span>Finanças</span>
-					</div>
-					<p>
-						Suas finanças sob controle. Ganhos, gastos e relatórios.
-					</p>
-					<a href="../modules/financas/index.html"
-						>Conhecer Finanças →</a
-					>
-				</div>
+    <div class="tool-card" data-name="financas">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Finanças</h2>
+          <p class="tool-description">Monitore suas entradas e saídas, controle orçamentos e obtenha previsões claras sobre seus gastos.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
 
-				<div class="module-card module-metas">
-					<div class="module-card-header">
-						<i class="fa-solid fa-flag"></i>
-						<span>Metas</span>
-					</div>
-					<p>
-						Transforme objetivos em progresso. Organize metas e
-						acompanhe cada passo.
-					</p>
-					<a href="../modules/metas/index.html">Conhecer Metas →</a>
-				</div>
+    <div class="tool-card" data-name="pets">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-paw"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Pets</h2>
+          <p class="tool-description">Organize o histórico de vacinas, consultas veterinárias, rotina de alimentação e cuidados com seus animais.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
 
-				<div class="module-card module-medicamentos">
-					<div class="module-card-header">
-						<i class="fa-solid fa-briefcase-medical"></i>
-						<span>Medicamentos</span>
-					</div>
-					<p>
-						Sua rotina de medicamentos mais organizada. Horários,
-						estoque e alertas.
-					</p>
-					<a href="../modules/medicamentos/index.html"
-						>Conhecer Medicamentos →</a
-					>
-				</div>
+    <div class="tool-card" data-name="despensa">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Despensa</h2>
+          <p class="tool-description">Faça o inventário de alimentos e itens de casa, acompanhe datas de validade e monte listas de compras automatizadas.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
 
-				<div class="module-card module-pets">
-					<div class="module-card-header">
-						<i class="fa-solid fa-paw"></i>
-						<span>Pets</span>
-					</div>
-					<p>
-						Todo o cuidado do seu pet em um só lugar. Vacinas,
-						consultas e histórico.
-					</p>
-					<a href="../modules/pets/index.html">Conhecer Pets →</a>
-				</div>
+    <div class="tool-card" data-name="medicamentos">
+      <div class="tool-card-main">
+        <div class="tool-icon"><i class="fa-solid fa-briefcase-medical"></i></div>
+        <div class="tool-info">
+          <h2 class="tool-title">Medicamentos</h2>
+          <p class="tool-description">Cadastre seus remédios, gerencie horários de doses, estoques de caixas e receba alertas para não perder nenhuma medicação.</p>
+        </div>
+      </div>
+      <div class="tool-card-footer">
+        <button class="btn-access">Acessar módulo</button>
+      </div>
+    </div>
 
-				<div class="module-card module-despensa disabled">
-					<div class="module-card-header">
-						<i class="fa-solid fa-basket-shopping"></i>
-						<span>Despensa</span>
-					</div>
-					<p>
-						Organize sua despensa antes que algo falte. Produtos,
-						validade e compras.
-					</p>
-					<a href="../modules/despensa/index.html"
-						>Conhecer Despensa →</a
-					>
-				</div>
-			</div>
-		</section>
+  </main>
 
-		<section class="final-cta container">
-			<h2>Experimente o KeeperHub por 1 mês grátis.</h2>
-			<p>Posteriormente, apenas R$ 15 por mês por todo o ecossistema.</p>
-			<a href="#" class="btn btn-light">Iniciar teste gratuito</a>
-		</section>
+  <script src="../shared/services/theme.js"></script>
+  <script src="js/script.js"></script>
 
-		<footer>
-			<div class="logo">KEEPER Hub</div>
-			<div class="footer-links">
-				<a href="#">Termos de Uso</a>
-				<a href="#">Privacidade</a>
-				<a href="#">Ajuda</a>
-			</div>
-			<div class="copyright">
-				© 2024 KeeperHub. Premium Digital Ecosystem.
-			</div>
-		</footer>
-
-		<script src="../shared/services/theme.js"></script>
-		<script src="js/script.js"></script>
-	</body>
+</body>
 </html>
