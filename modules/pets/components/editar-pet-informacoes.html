@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Editar Pet (Informações)</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+    <main class="edit-pet">
+
+        <header class="page-header">
+            <a href="#" class="page-header__back">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">Voltar</span>
+            </a>
+            <h1 class="page-header__title">Editar Pet</h1>
+        </header>
+
+        <nav class="pet-tabs" aria-label="Seções do pet">
+            <a href="#" class="pet-tabs__link pet-tabs__link--active" aria-current="page">Informações</a>
+            <a href="#" class="pet-tabs__link">Rotina</a>
+            <a href="#" class="pet-tabs__link">Tutor</a>
+        </nav>
+
+        <form class="edit-pet-form">
+
+            <figure class="edit-pet-form__photo">
+                <img src="" alt="Foto de Max">
+            </figure>
+
+            <button type="button" class="text-button edit-pet-form__change-photo">
+                Alterar foto
+            </button>
+
+            <div class="form-field">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" value="Max">
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="idade">Idade</label>
+                    <input type="text" id="idade" name="idade" value="3 anos">
+                </div>
+
+                <div class="form-field">
+                    <label for="peso">Peso (kg)</label>
+                    <input type="number" id="peso" name="peso" value="12.5" step="0.1">
+                </div>
+            </div>
+
+            <fieldset class="form-field">
+                <legend>Gênero</legend>
+                <div class="segmented-control">
+                    <label class="segmented-control__option">
+                        <input type="radio" name="genero" value="macho" checked>
+                        Macho
+                    </label>
+                    <label class="segmented-control__option">
+                        <input type="radio" name="genero" value="femea">
+                        Fêmea
+                    </label>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="primary-button edit-pet-form__submit">
+                Salvar Alterações
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html>
