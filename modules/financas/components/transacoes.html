@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Transações</title>
+</head>
+<body>
+    <section class="app-shell">
+        <section class="screen transactions-list-screen">
+            <header class="transactions-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Transações</h1></header>
+            <section class="transactions-content">
+                <form class="transactions-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Buscar transações..."><button type="button" aria-label="Filtros">☷</button></form>
+                <nav class="filter-chips" aria-label="Filtros de transações"><button class="filter-active" type="button">Todas</button><button type="button">Receitas</button><button type="button">Despesas</button><button type="button">▣ Este Mês</button></nav>
+                <section class="transaction-list" id="transaction-list"></section>
+            </section>
+        </section>
+    </section>
+    <script src="../js/script.js"></script>
+</body>
+</html>
