@@ -11,6 +11,3 @@
 # Arquivos compartilhados (shared/) — exigem aprovação de qualquer um dos
 # gerentes do projeto, já que afetam todos os módulos.
 /shared/                  @pjlkaw @junxtop @arthur26-code
-
-
-#teste ruleset only owner accepts
