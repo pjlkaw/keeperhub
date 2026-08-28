@@ -1,275 +1,277 @@
-<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KeeperHub - Medicamentos</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Medicamentos • KeeperHub</title>
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="theme-color" content="#101114" id="meta-theme-color" />
+		<meta name="color-scheme" content="dark light" />
+		<meta name="format-detection" content="telephone=no, address=no, email=no" />
 
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0b0b0d">
-  <link rel="stylesheet" href="../../shared/styles/variables.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<!-- Estilos Estruturais e Compartilhados -->
+		<link rel="stylesheet" href="/shared/styles/reset.css" />
+		<link rel="stylesheet" href="/shared/styles/variables.css" />
+		<link rel="stylesheet" href="/modules/medicamentos/assets/css/style.css" />
+	</head>
+	<body>
+		<div class="app-page-wrapper">
+			<div class="app-container">
+				<!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL) -->
+				<nav class="modules-nav-wrapper" aria-label="Navegação entre módulos">
+					<div class="modules-nav-bar" role="tablist">
+						<span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+							<img src="/assets/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+							Finanças
+						</span>
+						<span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+							<img src="/assets/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+							Despensa
+						</span>
+						<span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+							<img src="/assets/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+							Pets
+						</span>
+						<span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+							<img src="/assets/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+							Metas
+						</span>
+						<span class="modules-nav-item active" role="tab" aria-selected="true" tabindex="0">
+							<img src="/assets/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+							Medicamentos
+						</span>
+					</div>
+				</nav>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+				<!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + TEMA + NOTIFICAÇÃO) -->
+				<header class="meds-header-section" id="meds-header">
+					<div class="meds-header-title-area">
+						<div class="meds-header-top-row">
+							<a href="/main/" class="meds-header-back-btn" id="btn-back-hub" aria-label="Voltar para a Home do KeeperHub" title="Voltar ao Hub">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+									<polyline points="15 18 9 12 15 6"></polyline>
+								</svg>
+							</a>
+							<h1 class="meds-header-title" id="meds-title">Medicamentos</h1>
+						</div>
+						<div class="meds-header-meta">
+							<span>Hoje, 24 de agosto</span>
+							<span class="meds-header-badge">3 doses pendentes</span>
+						</div>
+					</div>
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding-bottom: 40px;
-    }
+					<div class="meds-header-controls">
+						<!-- Alternador de Tema (Quadrado Arredondado - Dark=Lua, Light=Sol) -->
+						<button type="button" class="btn-theme-toggle" id="btn-theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
+							<img src="/assets/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
+							<img src="/assets/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
+						</button>
 
-    h1, h2 {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
+						<!-- Sino de Notificações com Indicador -->
+						<button type="button" class="btn-app-notification-compact" id="btn-app-notifications" aria-label="Notificações de medicamentos" title="Notificações">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+								<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+							</svg>
+							<span class="notification-dot" aria-hidden="true"></span>
+						</button>
+					</div>
+				</header>
 
-    /* Carrossel de módulos (abas) */
-    .module-tabs {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      gap: 22px;
-      padding: 20px;
-      overflow-x: auto;
-      scroll-snap-type: x proximity;
-      border-bottom: 1px solid var(--border-color);
-    }
+				<!-- CONTEÚDO PRINCIPAL DA HOME DE MEDICAMENTOS -->
+				<main class="meds-main" id="main-content">
+					<div class="meds-stack">
+						<!-- 3. SEÇÃO “SUA MEDICAÇÃO” — DOSE ATRASADA (PRIORIDADE VISUAL) -->
+						<section aria-labelledby="section-delayed-title">
+							<div class="section-header-row">
+								<h2 class="meds-section-title" id="section-delayed-title">Sua medicação</h2>
+							</div>
 
-    .module-tabs::-webkit-scrollbar {
-      display: none;
-    }
+							<article class="meds-card-delayed" id="card-dose-delayed">
+								<div class="meds-card-delayed-header">
+									<span class="status-badge-delayed">ATRASADA (07:00)</span>
+								</div>
 
-    .module-tab {
-      flex-shrink: 0;
-      scroll-snap-align: start;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-family: Tahoma, sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding-bottom: 6px;
-    }
+								<div class="meds-delayed-content">
+									<span class="meds-delayed-name">Omega 3</span>
+									<span class="meds-delayed-dose">1 cápsula</span>
+								</div>
 
-    .module-tab.active {
-      color: var(--tool-medicamentos);
-      border-bottom: 2px solid var(--tool-medicamentos);
-    }
+								<div class="meds-delayed-actions">
+									<button type="button" class="btn-meds-take" id="btn-take-delayed">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+											<polyline points="20 6 9 17 4 12"></polyline>
+										</svg>
+										Tomei
+									</button>
+									<button type="button" class="btn-meds-out" id="btn-out-delayed">Estou sem</button>
+								</div>
+							</article>
+						</section>
 
-    /* Área de conteúdo com slide (swipe) */
-    .content-slide {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      padding: 20px 0;
-      touch-action: pan-y;
-    }
+						<!-- 4. SEÇÃO “PRÓXIMAS DOSES” -->
+						<section aria-labelledby="section-upcoming-title">
+							<div class="section-header-row">
+								<h2 class="meds-section-title" id="section-upcoming-title">Próximas doses</h2>
+							</div>
 
-    .tool-card {
-      width: 90%;
-      max-width: 500px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+							<article class="meds-card-upcoming" id="card-doses-upcoming">
+								<div class="upcoming-header-row">
+									<span class="upcoming-time-tag">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true" style="color: var(--color-meds-primary);">
+											<circle cx="12" cy="12" r="10"></circle>
+											<polyline points="12 6 12 12 16 14"></polyline>
+										</svg>
+										08:00
+									</span>
+									<span class="upcoming-time-pill">3 medicamentos</span>
+								</div>
 
-    .tool-card-main {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+								<ul class="upcoming-med-list" aria-label="Medicamentos das 08:00">
+									<li class="upcoming-med-item">
+										<span class="upcoming-med-bullet" aria-hidden="true"></span>
+										<span>Losartana 50 mg</span>
+									</li>
+									<li class="upcoming-med-item">
+										<span class="upcoming-med-bullet" aria-hidden="true"></span>
+										<span>Metformina 500 mg</span>
+									</li>
+									<li class="upcoming-med-item">
+										<span class="upcoming-med-bullet" aria-hidden="true"></span>
+										<span>Vitamina D</span>
+									</li>
+								</ul>
 
-    .tool-icon {
-      flex-shrink: 0;
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background-color: var(--tool-medicamentos);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #0b0b0d;
-    }
+								<div class="upcoming-footer">
+									<button type="button" class="btn-meds-secondary" id="btn-meds-routine">
+										<span>Ver rotina</span>
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+											<line x1="5" y1="12" x2="19" y2="12"></line>
+											<polyline points="12 5 19 12 12 19"></polyline>
+										</svg>
+									</button>
+								</div>
+							</article>
+						</section>
 
-    .tool-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
+						<!-- 5. SEÇÃO “ATALHOS PRINCIPAIS” -->
+						<section aria-label="Atalhos rápidos de Medicamentos">
+							<div class="meds-shortcuts-grid">
+								<!-- Atalho 1: MEDICAÇÕES -->
+								<a href="/modules/medicamentos/medicacoes/" class="meds-shortcut-card" id="shortcut-medicacoes" aria-label="Acessar listagem de Medicações (6 ativas)">
+									<div class="shortcut-icon-wrap" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+											<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+											<path d="m8.5 8.5 7 7"></path>
+										</svg>
+									</div>
+									<span class="shortcut-tag">MEDICAÇÕES</span>
+									<span class="shortcut-value">6 ativas</span>
+								</a>
 
-    .tool-description {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
+								<!-- Atalho 2: ROTINA -->
+								<div class="meds-shortcut-card" tabindex="0">
+									<div class="shortcut-icon-wrap" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+											<circle cx="12" cy="12" r="10"></circle>
+											<polyline points="12 6 12 12 16 14"></polyline>
+										</svg>
+									</div>
+									<span class="shortcut-tag">ROTINA</span>
+									<span class="shortcut-value">4 hoje</span>
+								</div>
 
-    .tool-card-footer {
-      display: flex;
-      justify-content: flex-end;
-    }
+								<!-- Atalho 3: ESTOQUE -->
+								<div class="meds-shortcut-card" tabindex="0">
+									<div class="shortcut-icon-wrap wrap-alert" aria-hidden="true">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+											<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+											<path d="m3.3 7 8.7 5 8.7-5"></path>
+											<path d="M12 22V12"></path>
+										</svg>
+									</div>
+									<span class="shortcut-tag">ESTOQUE</span>
+									<span class="shortcut-value">1 atenção</span>
+								</div>
+							</div>
+						</section>
 
-    .btn-access {
-      background-color: transparent;
-      color: var(--tool-medicamentos);
-      border: 1px solid var(--tool-medicamentos);
-      padding: 7px 16px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: Tahoma, sans-serif;
-    }
+						<!-- 6. SEÇÃO “ATENÇÃO” (ESTOQUE BAIXO) -->
+						<section aria-labelledby="section-attention-title">
+							<div class="section-header-row">
+								<h2 class="meds-section-title" id="section-attention-title">Atenção</h2>
+							</div>
 
-    /* Linha de acesso rápido (3 círculos, como no Figma) */
-    .quick-actions {
-      width: 90%;
-      max-width: 500px;
-      display: flex;
-      justify-content: space-between;
-    }
+							<article class="meds-card-attention" id="card-stock-attention">
+								<div class="attention-content-wrap">
+									<div class="attention-icon-circle" aria-hidden="true">
+										<img src="/assets/img/imagem-sem-fundo.png" alt="" class="attention-icon-img" width="26" height="26" loading="lazy" />
+									</div>
+									<div class="attention-info-area">
+										<span class="attention-med-name">Dipirona 500 mg</span>
+										<span class="attention-status-text">Estoque baixo • 2 comprimidos</span>
+									</div>
+								</div>
 
-    .quick-action {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
+								<button type="button" class="btn-meds-repor" id="btn-repor-dipirona">Repor</button>
+							</article>
+						</section>
 
-    .quick-action-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--tool-medicamentos);
-      font-size: 1.2rem;
-    }
+						<!-- 7. SEÇÃO “BONS HÁBITOS” -->
+						<section aria-labelledby="section-habits-title">
+							<div class="section-header-row">
+								<h2 class="meds-section-title" id="section-habits-title">Bons Hábitos</h2>
+								<button type="button" class="btn-meds-secondary" id="btn-habits-progress">
+									<span>Ver progresso</span>
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+										<line x1="5" y1="12" x2="19" y2="12"></line>
+										<polyline points="12 5 19 12 12 19"></polyline>
+									</svg>
+								</button>
+							</div>
 
-    .quick-action span {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-  </style>
-</head>
-<body>
+							<div class="habits-scroll-wrapper" role="region" aria-label="Lista de Bons Hábitos">
+								<!-- Hábito 1: Água -->
+								<div class="habit-card">
+									<div class="habit-icon-wrap habit-icon-wrap--water" aria-hidden="true">
+										<img src="/assets/img/gota.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+									</div>
+									<span class="habit-name">Água</span>
+									<span class="habit-value">1,5 L / 2 L</span>
+								</div>
 
-  <!-- Carrossel de módulos -->
-  <nav class="module-tabs" id="module-tabs">
-    <button class="module-tab" data-module="metas">Metas</button>
-    <button class="module-tab" data-module="financas">Finanças</button>
-    <button class="module-tab" data-module="pets">Pets</button>
-    <button class="module-tab" data-module="despensa">Despensa</button>
-    <button class="module-tab active" data-module="medicamentos">Medicamentos</button>
-  </nav>
+								<!-- Hábito 2: Caminhada -->
+								<div class="habit-card">
+									<div class="habit-icon-wrap habit-icon-wrap--walk" aria-hidden="true">
+										<img src="/assets/img/icone-pessoa-verde-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+									</div>
+									<span class="habit-name">Caminhada</span>
+									<span class="habit-value habit-done">Feito</span>
+								</div>
 
-  <!-- Conteúdo do módulo (com slide/swipe entre módulos) -->
-  <main class="content-slide" id="content-slide">
+								<!-- Hábito 3: Sono -->
+								<div class="habit-card">
+									<div class="habit-icon-wrap habit-icon-wrap--sleep" aria-hidden="true">
+										<img src="/assets/img/logo-lua-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+									</div>
+									<span class="habit-name">Sono</span>
+									<span class="habit-value">7h 30min</span>
+								</div>
+							</div>
+						</section>
+					</div>
+				</main>
 
-    <div class="tool-card">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-pills"></i></div>
-        <div>
-          <h2 class="tool-title">Remédios</h2>
-          <p class="tool-description">Veja todos os medicamentos cadastrados, doses e horários.</p>
-        </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Ver remédios</button>
-      </div>
-    </div>
+				<!-- 8. FAB (BOTÃO FLUTUANTE ADICIONAR) -->
+				<button type="button" class="btn-meds-fab" id="btn-meds-fab" aria-label="Adicionar medicamento" title="Adicionar medicamento">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<line x1="12" y1="5" x2="12" y2="19"></line>
+						<line x1="5" y1="12" x2="19" y2="12"></line>
+					</svg>
+				</button>
+			</div>
+		</div>
 
-    <div class="quick-actions">
-      <button class="quick-action">
-        <span class="quick-action-icon"><i class="fa-solid fa-plus"></i></span>
-        <span>Adicionar</span>
-      </button>
-      <button class="quick-action">
-        <span class="quick-action-icon"><i class="fa-solid fa-barcode"></i></span>
-        <span>Scanner</span>
-      </button>
-      <button class="quick-action">
-        <span class="quick-action-icon"><i class="fa-solid fa-bell"></i></span>
-        <span>Alertas</span>
-      </button>
-    </div>
-
-    <div class="tool-card">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-chart-simple"></i></div>
-        <div>
-          <h2 class="tool-title">Dashboard</h2>
-          <p class="tool-description">Estoque, validade e consumo mensal em um só lugar.</p>
-        </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Ver dashboard</button>
-      </div>
-    </div>
-
-  </main>
-
-  <script>
-    // Ordem dos módulos, igual à do HUB
-    const modules = ["metas", "financas", "pets", "despensa", "medicamentos"];
-    const currentModule = "medicamentos";
-
-    function goToModule(name) {
-      window.location.href = `../${name}/index.html`;
-    }
-
-    // Clique nas abas do carrossel navega para o módulo
-    document.querySelectorAll(".module-tab").forEach(tab => {
-      tab.addEventListener("click", () => {
-        const name = tab.dataset.module;
-        if (name !== currentModule) goToModule(name);
-      });
-    });
-
-    // Slide (swipe) no conteúdo para trocar de módulo
-    const slideArea = document.getElementById("content-slide");
-    let touchStartX = 0;
-
-    slideArea.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    slideArea.addEventListener("touchend", (e) => {
-      const touchEndX = e.changedTouches[0].screenX;
-      const deltaX = touchEndX - touchStartX;
-      const minSwipe = 60;
-
-      if (Math.abs(deltaX) < minSwipe) return;
-
-      const currentIndex = modules.indexOf(currentModule);
-      if (deltaX < 0 && currentIndex < modules.length - 1) {
-        goToModule(modules[currentIndex + 1]); // swipe pra esquerda -> próximo módulo
-      } else if (deltaX > 0 && currentIndex > 0) {
-        goToModule(modules[currentIndex - 1]); // swipe pra direita -> módulo anterior
-      }
-    });
-  </script>
-
-</body>
+		<!-- Script Exclusivo do Módulo Medicamentos -->
+		<script type="module" src="/modules/medicamentos/js/script.js"></script>
+	</body>
 </html>
