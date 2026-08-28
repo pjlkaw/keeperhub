@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Nova Transação</title>
+</head>
+<body>
+    <section class="app-shell">
+        <section class="screen transaction-screen">
+            <a class="screen-back form-back" href="../index.html" aria-label="Voltar">←</a>
+            <form class="transaction-form" id="transaction-form">
+                <fieldset class="type-toggle" aria-label="Tipo de transação"><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true">Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false">Receita</button></fieldset>
+                <output class="value-input"><label for="value">VALOR</label><small class="value-help">Digite o valor do lançamento.</small><span class="currency-field"><span>R$</span><input id="value" name="value" type="text" inputmode="decimal" value="0,00" aria-label="Valor" required autofocus></span></output>
+                <label class="field-label" for="description">Descrição</label><small class="field-help">Nome curto para identificar este lançamento.</small><section class="input-wrap description-wrap"><span class="field-icon" aria-hidden="true">☷</span><input id="description" name="description" type="text" placeholder="Ex: Supermercado" required></section>
+                <label class="field-label" for="date">Data</label><small class="field-help">Dia em que a despesa ou receita aconteceu.</small><section class="input-wrap"><input id="date" name="date" type="date" aria-label="Data" required></section>
+                <label class="field-label" for="category">Categoria</label><small class="field-help">Grupo usado para organizar os relatórios.</small><section class="input-wrap category-wrap"><select id="category" name="category" aria-label="Categoria" required><option value="" selected disabled>Selecione uma categoria</option><option>Alimentação</option><option>Transporte</option><option>Renda</option><option>Lazer</option><option>Assinaturas</option><option>Transferência</option></select></section>
+                <label class="field-label" for="account">Conta</label><small class="field-help">Conta, cartão ou carteira usada no lançamento.</small><section class="input-wrap category-wrap"><select id="account" name="account" aria-label="Conta" required><option value="" selected disabled>Selecione uma conta</option><option>Conta principal</option><option>Poupança</option><option>Carteira</option></select></section>
+                <label class="field-label" for="due-date">Vencimento</label><small class="field-help">Use quando houver prazo para pagar.</small><section class="input-wrap"><input id="due-date" name="dueDate" type="date" aria-label="Vencimento"></section>
+                <label class="field-label" for="status">Status</label><small class="field-help">Pendente ainda falta pagar; pago já foi concluído.</small><section class="input-wrap category-wrap"><select id="status" name="status" aria-label="Status" required><option value="pending" selected>Pendente</option><option value="paid">Pago</option></select></section>
+                <label class="field-label notes-label" for="notes">Observações (Opcional)</label><small class="field-help">Detalhes extras, como parcelas ou comprovante.</small><textarea id="notes" name="notes" placeholder="Adicione notas adicionais aqui..."></textarea>
+                <footer class="actions"><button class="save-button" type="submit"><span aria-hidden="true">▣</span> Salvar Transação</button><button class="cancel-button" type="button">Cancelar</button></footer>
+            </form>
+        </section>
+    </section>
+    <script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Relatórios</title>
+</head>
+<body>
+    <section class="app-shell">
+        <section class="screen reports-screen">
+            <header class="reports-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Relatórios</h1></header>
+            <section class="reports-content">
+                <article class="report-card income-report"><header class="report-card-top"><span>Receitas Totais</span><i aria-hidden="true">↑</i></header><strong id="report-income">R$ 0,00</strong><b>Dados do banco</b></article>
+                <article class="report-card expense-report"><header class="report-card-top"><span>Despesas Totais</span><i aria-hidden="true">↓</i></header><strong id="report-expense">R$ 0,00</strong><b>Dados do banco</b></article>
+                <article class="report-card net-report"><header class="report-card-top"><span>Saldo Líquido</span><i aria-hidden="true">▣</i></header><strong id="report-balance">R$ 0,00</strong><meter class="margin-track" min="0" max="100" value="0">0%</meter><b id="report-margin">0% de margem</b></article>
+                <article class="report-card comparison-report"><header class="report-card-top"><span>Comparação mensal</span><i aria-hidden="true">↔</i></header><strong>--</strong><b>Histórico mensal será calculado pelo banco</b></article>
+                <form class="report-filters"><label for="report-period">Período</label><select id="report-period"><option>Este mês</option><option>Últimos 3 meses</option><option>Este ano</option></select><label for="report-type">Tipo</label><select id="report-type"><option>Todos</option><option>Receitas</option><option>Despesas</option></select></form>
+            </section>
+        </section>
+    </section>
+    <script src="../js/script.js"></script>
+</body>
+</html>

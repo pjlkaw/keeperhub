@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Minhas Contas</title>
+</head>
+<body>
+    <section class="app-shell">
+        <section class="screen transactions-list-screen accounts-screen">
+            <header class="transactions-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Minhas Contas</h1></header>
+            <main class="transactions-content">
+                <form class="account-form" id="account-form">
+                    <label class="field-label" for="account-name">Nome da conta</label>
+                    <input class="account-input" id="account-name" name="name" placeholder="Ex: Conta principal" required>
+                    <label class="field-label" for="account-type">Tipo</label>
+                    <select class="account-input" id="account-type" name="type" required><option value="" selected disabled>Selecione o tipo</option><option>Conta corrente</option><option>Poupança</option><option>Carteira</option><option>Cartão</option></select>
+                    <button class="save-button" type="submit">Cadastrar conta</button>
+                </form>
+                <section class="account-list" id="account-list" aria-label="Contas cadastradas"></section>
+            </main>
+        </section>
+    </section>
+    <script src="../js/script.js"></script>
+</body>
+</html>
