@@ -1,16 +1,2 @@
-# CODEOWNERS — KeeperHub
-# Define quem precisa aprovar Pull Requests que mexem em cada módulo.
-# Sintaxe: <caminho>  @usuario1 @usuario2
- 
-/modules/metas/           @jr7513445-max
-/modules/financas/        @infofieb @Davivilas1
-/modules/pets/            @yrbibo @arthur26-code
-/modules/despensa/        @Serg1o-Rafael
-/modules/medicamentos/    @pjlkaw @junxtop 
-
-# Arquivos compartilhados (shared/) — exigem aprovação de qualquer um dos
-# gerentes do projeto, já que afetam todos os módulos.
-/shared/                  @pjlkaw @junxtop @arthur26-code
-
-
-#teste ruleset only owner accepts
+# gerentes do projeto
+* @pjlkaw @junxtop @arthur26-code
