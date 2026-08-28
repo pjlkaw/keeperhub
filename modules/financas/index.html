@@ -4,31 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
-    <title>KEEPER hub</title>
+    <title>KeeperHub - Finanças</title>
 </head>
 <body>
     <section class="app-shell">
         <section class="screen dashboard-screen">
-            <header class="topbar">
-                <section class="brand"><span class="brand-mark" aria-hidden="true">⬡</span><strong>KEEPER hub</strong></section>
-                <aside class="topbar-actions"><button class="theme-button" type="button" aria-label="Alternar tema">☼</button><span class="avatar">AS</span></aside>
-            </header>
+
             <main class="dashboard-content">
                 <nav class="module-nav" aria-label="Módulos">
                     <section class="module-links">
-                        <a class="active" href="index.html">Finanças</a>
-                        <a class="inative" href="../medicamentos/index.html">Medicamentos</a>
-                        <a href="../despensa/index.html">Despensa</a>
-                        <a href="../pets/index.html">Pets</a>
-                        <a href="../metas/index.html">Metas</a>
+                        <a class="active" href="index.html"><span class="module-icon finance-icon" aria-hidden="true">▥</span>Finanças</a>
+                        <a href="../despensa/index.html"><span class="module-icon pantry-icon" aria-hidden="true">♨</span>Despensa</a>
+                        <a href="../pets/index.html"><span class="module-icon pets-icon" aria-hidden="true">♙</span>Pets</a>
+                        <a href="../medicamentos/index.html"><span class="module-icon medicine-icon" aria-hidden="true">⚕</span>Medicamentos</a>
+                        <a href="../metas/index.html"><span class="module-icon goals-icon" aria-hidden="true">◎</span>Metas</a>
                     </section>
-                    <button class="search-button" type="button" aria-label="Pesquisar">⌕</button>
                 </nav>
-                <header class="page-heading"><h1>Módulo de Finanças</h1><a class="new-transaction" href="components/nova-transacao.html">+ Nova Transação</a></header>
+                <header class="finance-header">
+                    <section class="finance-title-row">
+                        <a class="header-back" href="../../main/index.html" aria-label="Voltar">‹</a>
+                        <h1>Finanças</h1>
+                        <section class="header-actions" aria-label="Ações do cabeçalho">
+                            <button class="header-action theme-toggle" type="button" aria-label="Alternar tema">
+                                <svg viewBox="0 0 32 32" aria-hidden="true">
+                                    <rect x="3.5" y="3.5" width="25" height="25" rx="5"></rect>
+                                    <path d="M18.8 9.2a8 8 0 1 0 4 13.9 7.2 7.2 0 0 1-4-13.9Z"></path>
+                                    <path d="m22.5 10 .7 1.5 1.6.2-1.2 1.1.3 1.6-1.4-.8-1.4.8.3-1.6-1.2-1.1 1.6-.2.7-1.5Z"></path>
+                                </svg>
+                            </button>
+                            <button class="header-action notification-button" type="button" aria-label="Notificações">
+                                <svg viewBox="0 0 32 32" aria-hidden="true">
+                                    <path d="M7.5 23.5h17c-2-2.3-2.5-4.7-2.5-8a6 6 0 0 0-12 0c0 3.3-.5 5.7-2.5 8Z"></path>
+                                    <path d="M13.5 26a3 3 0 0 0 5 0"></path>
+                                </svg>
+                                <span class="notification-dot"></span>
+                            </button>
+                        </section>
+                    </section>
+                    <section class="finance-header-meta">
+                        <p id="finance-today">Hoje</p>
+                        <span>Resumo atualizado</span>
+                    </section>
+                    <a class="new-transaction" href="components/nova-transacao.html">+ Nova Transação</a>
+                </header>
                 <section class="dashboard-grid">
-                    <article class="balance-card"><header class="balance-label"><span class="wallet-icon" aria-hidden="true">▣</span>SALDO TOTAL</header><output class="balance-value" id="dashboard-balance">R$ 0,00</output><footer class="balance-change" id="dashboard-change">Dados do banco</footer></article>
-                    <section class="shortcut-grid"><a class="shortcut-card transactions-link" href="components/transacoes.html"><span class="shortcut-icon" aria-hidden="true">▤</span><h2>Transações</h2><p>Ver tudo</p></a><a class="shortcut-card reports-link" href="components/relatorios.html"><span class="shortcut-icon" aria-hidden="true">▥</span><h2>Relatórios</h2><p>Análise mensal</p></a><a class="shortcut-card" href="components/contas.html"><span class="shortcut-icon" aria-hidden="true">▤</span><h2>Minhas Contas</h2><p>Gerenciar contas</p></a><a class="shortcut-card" href="components/vencimentos.html"><span class="shortcut-icon" aria-hidden="true">◷</span><h2>Próximos Vencimentos</h2><p>Ver agenda</p></a></section>
-                    <article class="monthly-card"><header class="card-heading"><h2>Despesas Mensais</h2><button class="more-button" type="button" aria-label="Mais opções">⋮</button></header><section class="monthly-summary" aria-label="Resumo de despesas"><span><small>Total do mês</small><strong id="monthly-total">R$ 0,00</strong></span><span><small>Maior gasto</small><strong id="monthly-highest">R$ 0,00</strong></span></section><figure class="chart" aria-label="Gráfico de despesas mensais"><span class="chart-item"><span class="bar bar-one"></span><small>--</small></span><span class="chart-item"><span class="bar bar-two"></span><small>--</small></span><span class="chart-item"><span class="bar bar-three"></span><small>--</small></span><span class="chart-item"><span class="bar bar-four"></span><small>--</small></span></figure></article>
+                    <article class="balance-card">
+                        <header class="balance-label"><span class="wallet-icon" aria-hidden="true">▣</span><span>Seu saldo agora</span></header>
+                        <output class="balance-value" id="dashboard-balance">R$ 0,00</output>
+                        <footer class="balance-footer"><span class="balance-change" id="dashboard-change">Dados do banco</span><span class="balance-status">Tudo em dia</span></footer>
+                    </article>
+                    <header class="section-title-row"><span><small>ACESSO RÁPIDO</small><h2>O que você quer fazer?</h2></span></header>
+                    <section class="shortcut-grid">
+                        <a class="shortcut-card transactions-link" href="components/transacoes.html"><span class="shortcut-icon" aria-hidden="true">↕</span><span class="shortcut-copy"><h2>Transações</h2><p>Seu histórico</p></span><b aria-hidden="true">›</b></a>
+                        <a class="shortcut-card reports-link" href="components/relatorios.html"><span class="shortcut-icon" aria-hidden="true">▥</span><span class="shortcut-copy"><h2>Relatórios</h2><p>Veja os números</p></span><b aria-hidden="true">›</b></a>
+                        <a class="shortcut-card" href="components/contas.html"><span class="shortcut-icon" aria-hidden="true">▤</span><span class="shortcut-copy"><h2>Contas</h2><p>Organize tudo</p></span><b aria-hidden="true">›</b></a>
+                        <a class="shortcut-card" href="components/vencimentos.html"><span class="shortcut-icon" aria-hidden="true">◷</span><span class="shortcut-copy"><h2>Vencimentos</h2><p>Não perca datas</p></span><b aria-hidden="true">›</b></a>
+                    </section>
+                    <article class="monthly-card">
+                        <header class="card-heading"><span><small>ESTE MÊS</small><h2>Seus gastos</h2></span><button class="more-button" type="button" aria-label="Mais opções">⋮</button></header>
+                        <section class="monthly-summary" aria-label="Resumo de despesas"><span><small>Total gasto</small><strong id="monthly-total">R$ 0,00</strong></span><span><small>Maior gasto</small><strong id="monthly-highest">R$ 0,00</strong></span></section>
+                        <figure class="chart" aria-label="Gráfico de despesas mensais"><span class="chart-item"><span class="bar bar-one"></span><small>--</small></span><span class="chart-item"><span class="bar bar-two"></span><small>--</small></span><span class="chart-item"><span class="bar bar-three"></span><small>--</small></span><span class="chart-item"><span class="bar bar-four"></span><small>--</small></span></figure>
+                    </article>
                 </section>
             </main>
         </section>

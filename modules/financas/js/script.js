@@ -21,6 +21,15 @@ const parseCurrency = (value) => {
     return Number(normalized);
 };
 
+const todayLabel = document.getElementById('finance-today');
+if (todayLabel) {
+    const formattedToday = new Intl.DateTimeFormat('pt-BR', {
+        day: 'numeric',
+        month: 'long'
+    }).format(new Date());
+    todayLabel.textContent = `Hoje, ${formattedToday}`;
+}
+
 async function loadFinancialSummary(query = '') {
     const hasSummaryOutput = document.querySelector('#dashboard-balance, #report-income, #report-expense, #report-balance');
     if (!hasSummaryOutput) return;

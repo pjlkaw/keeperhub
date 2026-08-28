@@ -9,7 +9,7 @@
 <body>
     <section class="app-shell">
         <section class="screen transaction-screen">
-            <a class="screen-back form-back" href="../index.html" aria-label="Voltar">←</a>
+            <header class="transactions-header form-header"><a class="screen-back" href="../index.html" aria-label="Voltar">‹</a><div class="page-title"><small>FINANÇAS</small><h1>Nova Transação</h1></div></header>
             <form class="transaction-form" id="transaction-form">
                 <fieldset class="type-toggle" aria-label="Tipo de transação"><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true">Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false">Receita</button></fieldset>
                 <output class="value-input"><label for="value">VALOR</label><small class="value-help">Digite o valor do lançamento.</small><span class="currency-field"><span>R$</span><input id="value" name="value" type="text" inputmode="decimal" value="0,00" aria-label="Valor" required autofocus></span></output>
