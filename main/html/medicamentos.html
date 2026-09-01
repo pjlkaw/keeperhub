@@ -1,0 +1,1476 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark" data-module="medicamentos">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medicamentos | Organize horários e estoque | KeeperHub</title>
+    <meta name="description" content="Organize medicamentos, horários, estoque, validade e lembretes com o módulo Medicamentos do KeeperHub." />
+    <meta name="author" content="KeeperHub" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://keeperhub.com.br/medicamentos/" />
+    <meta name="theme-color" content="#101114" id="meta-theme-color" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+
+    <!-- Open Graph / Compartilhamento Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KeeperHub" />
+    <meta property="og:title" content="Medicamentos | KeeperHub" />
+    <meta property="og:description" content="Organize medicamentos, horários, estoque, validade e lembretes com o módulo Medicamentos do KeeperHub." />
+    <meta property="og:url" content="https://keeperhub.com.br/medicamentos/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:secure_url" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:alt" content="KeeperHub - Módulo Medicamentos" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Medicamentos | KeeperHub" />
+    <meta name="twitter:description" content="Organize medicamentos, horários, estoque, validade e lembretes com o módulo Medicamentos do KeeperHub." />
+    <meta name="twitter:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta name="twitter:image:alt" content="KeeperHub - Módulo Medicamentos" />
+
+    <!-- Favicon e Ícones de Aplicação -->
+    <link rel="icon" type="image/png" href="/assets/img/logo-home.png" />
+    <link rel="apple-touch-icon" href="/assets/img/logo-home.png" />
+
+    <!-- Dados Estruturados Schema.org (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://keeperhub.com.br/medicamentos/#webpage",
+          "url": "https://keeperhub.com.br/medicamentos/",
+          "name": "Medicamentos | Organize horários e estoque | KeeperHub",
+          "description": "Organize medicamentos, horários, estoque, validade e lembretes com o módulo Medicamentos do KeeperHub.",
+          "inLanguage": "pt-BR",
+          "isPartOf": {
+            "@id": "https://keeperhub.com.br/#website"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('keeperhub-theme');
+          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          var theme = saved || systemDark;
+          document.documentElement.setAttribute('data-theme', theme);
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', theme === 'light' ? '#F5F7F7' : '#101114');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Estilos Compartilhados Oficiais -->
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/shared/styles/module-landing.css" />
+  </head>
+  <body>
+    <div class="module-page-wrapper">
+      <!-- HEADER COMPACTO -->
+      <header class="module-header" id="module-header">
+        <div class="container">
+          <a href="/" class="btn-back-keeperhub" id="btn-back-home" aria-label="Voltar para a página inicial do KeeperHub">
+            <span aria-hidden="true">←</span> Voltar KeeperHub
+          </a>
+
+          <div class="header-actions">
+            <a href="/" class="module-header-brand" aria-label="KeeperHub - Início">
+              <img src="/assets/img/logo-home.png" alt="" class="module-header-logo" width="36" height="32" />
+              <img src="/assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub" class="module-header-wordmark brand-wordmark-dark" width="75" height="24" />
+              <img src="/assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="module-header-wordmark brand-wordmark-light" width="75" height="24" />
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+      <div class="theme-bar" id="theme-bar">
+        <div class="container">
+          <button
+            type="button"
+            class="btn-theme-toggle"
+            id="btn-theme-toggle"
+            aria-label="Ativar tema claro"
+            title="Ativar tema claro"
+          >
+            <img
+              src="/assets/img/icon-theme-sun.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-sun"
+              width="20"
+              height="20"
+            />
+            <img
+              src="/assets/img/icon-theme-moon.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-moon"
+              width="20"
+              height="20"
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO PRINCIPAL -->
+      <main id="main-content">
+        <!-- HERO DO MÓDULO -->
+        <section class="module-hero-section" id="hero-medicamentos" aria-labelledby="module-headline">
+          <div class="container module-hero-container">
+            <!-- Badge Oficial -->
+            <div class="module-badge">
+              <span class="badge-dot" aria-hidden="true"></span>
+              KEEPERHUB • MEDICAMENTOS
+            </div>
+
+            <!-- Logo do Módulo -->
+            <div class="module-main-logo-wrapper">
+              <img src="/assets/img/logo-medicamentos.png" alt="Ícone Módulo Medicamentos" class="module-main-logo" width="40" height="40" />
+            </div>
+
+            <!-- Headline Principal -->
+            <h1 class="module-headline" id="module-headline">
+              Sua rotina de medicamentos mais organizada.
+            </h1>
+
+            <!-- Descrição Curta -->
+            <p class="module-subheadline">
+              Organize seus medicamentos, acompanhe estoque e validade e configure lembretes para horários e doses importantes da sua rotina.
+            </p>
+
+            <!-- Controles Reais de Demonstração de Funcionalidades -->
+            <div class="module-chips-list" role="tablist" aria-label="Demonstrações de Funcionalidades do Módulo">
+              <button type="button" class="module-chip active" role="tab" aria-selected="true" data-target-view="home" id="btn-tab-demo-home">
+                Visão geral
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="medications" id="btn-tab-demo-medications">
+                Medicações
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="rotina" id="btn-tab-demo-rotina">
+                Rotina
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="estoque" id="btn-tab-demo-estoque">
+                Estoque
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="scanner" id="btn-tab-demo-scanner">
+                Scanner
+              </button>
+            </div>
+
+            <!-- Grupo de CTAs -->
+            <div class="module-actions-group">
+              <a href="/criar-conta/" class="btn-module-primary" id="btn-cta-experimentar">
+                Experimentar 1 mês grátis
+              </a>
+              <a href="#preview-medicamentos" class="btn-module-secondary" id="btn-cta-funcionalidades">
+                Ver funcionalidades ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEMONSTRAÇÃO REAL DA HOME DO MÓDULO MEDICAMENTOS -->
+        <section class="module-preview-section" id="preview-medicamentos" aria-label="Demonstração da Home do Módulo Medicamentos">
+          <div class="container">
+            <!-- Frame da Demonstração Mobile-First do App -->
+            <div class="med-demo-device-frame" id="med-demo-frame">
+              <!-- Área de Scroll Interno Nativo -->
+              <div class="med-demo-scroll-area" id="med-demo-scroll-area">
+                
+                <!-- ==========================================
+                     VISTA 1: HOME DEMONSTRATIVA
+                     ========================================== -->
+                <div class="med-demo-view active" id="med-demo-view-home">
+                  <!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / DEMONSTRAÇÃO) -->
+                  <nav class="med-demo-modules-nav" aria-label="Navegação entre módulos (demonstração)">
+                    <div class="med-demo-modules-bar" role="tablist">
+                      <span class="med-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-financas.png" alt="" class="med-demo-module-icon" width="14" height="14" />
+                        Finanças
+                      </span>
+                      <span class="med-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-despensa.png" alt="" class="med-demo-module-icon" width="14" height="14" />
+                        Despensa
+                      </span>
+                      <span class="med-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-pets.png" alt="" class="med-demo-module-icon" width="14" height="14" />
+                        Pets
+                      </span>
+                      <span class="med-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-metas.png" alt="" class="med-demo-module-icon" width="14" height="14" />
+                        Metas
+                      </span>
+                      <span class="med-demo-module-chip active" role="tab" aria-selected="true">
+                        <img src="/assets/img/logo-medicamentos.png" alt="" class="med-demo-module-icon" width="14" height="14" />
+                        Medicamentos
+                      </span>
+                    </div>
+                  </nav>
+
+                  <!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + NOTIFICAÇÃO) -->
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button type="button" class="med-demo-back-btn" aria-label="Voltar para a Home do KeeperHub (demonstração)" title="Voltar ao Hub">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title">Medicamentos</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span>Hoje, 24 de agosto</span>
+                        <span class="med-demo-badge" id="med-demo-badge">3 doses pendentes</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="med-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. BARRA DE CONTROLE DE TEMA DA DEMO -->
+                  <div class="med-demo-theme-bar">
+                    <button
+                      type="button"
+                      class="med-demo-theme-btn"
+                      aria-label="Controle de tema da demonstração"
+                      title="Tema visual da demonstração"
+                    >
+                      <img
+                        src="/assets/img/icon-theme-sun.png"
+                        alt=""
+                        aria-hidden="true"
+                        class="theme-icon theme-icon-sun"
+                        width="18"
+                        height="18"
+                      />
+                      <img
+                        src="/assets/img/icon-theme-moon.png"
+                        alt=""
+                        aria-hidden="true"
+                        class="theme-icon theme-icon-moon"
+                        width="18"
+                        height="18"
+                      />
+                    </button>
+                  </div>
+
+                  <!-- Conteúdo da Home Demo -->
+                  <div class="med-demo-content">
+                    
+                    <!-- 1. Seção: Sua medicação (Dose Atrasada) -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Sua medicação</span>
+                      
+                      <div class="med-demo-card-delayed" id="med-demo-delayed-card">
+                        <div class="med-demo-card-header">
+                          <span class="med-demo-status-delayed" id="med-demo-delayed-status">ATRASADA (07:00)</span>
+                        </div>
+                        
+                        <div class="med-demo-med-info">
+                          <span class="med-demo-med-name">Omega 3</span>
+                          <span class="med-demo-med-dose">1 cápsula</span>
+                        </div>
+                        
+                        <div class="med-demo-actions">
+                          <button type="button" class="btn-med-demo-take" id="btn-med-demo-take" aria-label="Registrar dose tomada">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" class="med-demo-icon-check" aria-hidden="true">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span id="btn-med-take-text">Tomei</span>
+                          </button>
+                          
+                          <button type="button" class="btn-med-demo-out" id="btn-med-demo-out" aria-label="Informar que está sem o medicamento">
+                            <span id="btn-med-out-text">Estou sem</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 2. Seção: Próximas doses -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Próximas doses</span>
+                      
+                      <div class="med-demo-card-upcoming">
+                        <div class="med-demo-upcoming-header">
+                          <span class="med-demo-time-tag">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true" style="color: #70DE01;">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            08:00
+                          </span>
+                          <span class="med-demo-time-pill">3 medicamentos</span>
+                        </div>
+                        
+                        <ul class="med-demo-med-list" aria-label="Medicamentos das 08:00">
+                          <li class="med-demo-med-item">
+                            <span class="med-demo-bullet" aria-hidden="true"></span>
+                            <span>Losartana 50 mg</span>
+                          </li>
+                          <li class="med-demo-med-item">
+                            <span class="med-demo-bullet" aria-hidden="true"></span>
+                            <span>Metformina 500 mg</span>
+                          </li>
+                          <li class="med-demo-med-item">
+                            <span class="med-demo-bullet" aria-hidden="true"></span>
+                            <span>Vitamina D</span>
+                          </li>
+                        </ul>
+                        
+                        <div class="med-demo-upcoming-footer">
+                          <button type="button" class="btn-med-demo-routine" id="btn-med-demo-routine" aria-label="Ver rotina de medicamentos (demonstração)">
+                            <span>Ver rotina</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                              <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 3. Cards de Resumo / Atalhos Principais -->
+                    <div class="med-demo-shortcuts-grid" role="region" aria-label="Resumo de Medicamentos (demonstração)">
+                      <!-- Atalho 1: MEDICAÇÕES (CONTROLE INTERATIVO REAL DA DEMONSTRAÇÃO) -->
+                      <button
+                        type="button"
+                        class="med-demo-shortcut-card med-demo-shortcut-btn"
+                        id="btn-med-demo-open-medications"
+                        aria-label="Abrir tela de Medicações (6 ativas)"
+                        title="Ver tela de Medicações"
+                      >
+                        <div class="med-demo-shortcut-icon-wrap" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                            <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
+                            <path d="m8.5 8.5 7 7"></path>
+                          </svg>
+                        </div>
+                        <span class="med-demo-shortcut-tag">MEDICAÇÕES</span>
+                        <span class="med-demo-shortcut-value">6 ativas</span>
+                      </button>
+
+                      <!-- Atalho 2: ROTINA (CONTROLE INTERATIVO REAL DA DEMONSTRAÇÃO) -->
+                      <button
+                        type="button"
+                        class="med-demo-shortcut-card med-demo-shortcut-btn"
+                        id="btn-med-demo-open-rotina"
+                        aria-label="Abrir demonstração de Rotina (4 hoje)"
+                        title="Ver rotina diária"
+                      >
+                        <div class="med-demo-shortcut-icon-wrap" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                          </svg>
+                        </div>
+                        <span class="med-demo-shortcut-tag">ROTINA</span>
+                        <span class="med-demo-shortcut-value">4 hoje</span>
+                      </button>
+
+                      <!-- Atalho 3: ESTOQUE (CONTROLE INTERATIVO REAL DA DEMONSTRAÇÃO) -->
+                      <button
+                        type="button"
+                        class="med-demo-shortcut-card med-demo-shortcut-btn"
+                        id="btn-med-demo-open-estoque"
+                        aria-label="Abrir demonstração de Estoque (1 atenção)"
+                        title="Ver controle de Estoque"
+                      >
+                        <div class="med-demo-shortcut-icon-wrap wrap-alert" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+                            <path d="m3.3 7 8.7 5 8.7-5"></path>
+                            <path d="M12 22V12"></path>
+                          </svg>
+                        </div>
+                        <span class="med-demo-shortcut-tag">ESTOQUE</span>
+                        <span class="med-demo-shortcut-value">1 atenção</span>
+                      </button>
+                    </div>
+
+                    <!-- 4. Seção: Atenção (Estoque Baixo) -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Atenção</span>
+                      
+                      <div class="med-demo-card-attention">
+                        <div class="med-demo-attention-content">
+                          <div class="med-demo-attention-icon-circle" aria-hidden="true">
+                            <img
+                              src="/assets/img/imagem-sem-fundo.png"
+                              alt=""
+                              class="med-demo-attention-icon-img"
+                              width="22"
+                              height="22"
+                              loading="lazy"
+                            />
+                          </div>
+                          <div class="med-demo-attention-info">
+                            <span class="med-demo-attention-med-name">Dipirona 500 mg</span>
+                            <span class="med-demo-attention-status-text">Estoque baixo • 2 comprimidos</span>
+                          </div>
+                        </div>
+
+                        <button type="button" class="btn-med-demo-repor" id="btn-med-demo-repor" aria-label="Ver controle de Estoque (demonstração)">
+                          Repor
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- 5. Seção: Bons Hábitos -->
+                    <div class="med-demo-section">
+                      <div class="med-demo-habits-header">
+                        <span class="med-demo-section-label">Bons Hábitos</span>
+                        <button type="button" class="btn-med-demo-habits-progress" id="btn-med-demo-habits-progress" aria-label="Ver progresso de hábitos (demonstração)">
+                          <span>Ver progresso</span>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <div class="med-demo-habits-scroll" role="region" aria-label="Lista de Bons Hábitos (demonstração)">
+                        <!-- Hábito 1: Água -->
+                        <div class="med-demo-habit-card">
+                          <div class="med-demo-habit-icon-wrap med-demo-habit-icon-wrap--water" aria-hidden="true">
+                            <img
+                              src="/assets/img/gota.png"
+                              alt=""
+                              class="med-demo-habit-icon-img"
+                              width="20"
+                              height="20"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span class="med-demo-habit-name">Água</span>
+                          <span class="med-demo-habit-value">1,5 L / 2 L</span>
+                        </div>
+
+                        <!-- Hábito 2: Caminhada -->
+                        <div class="med-demo-habit-card">
+                          <div class="med-demo-habit-icon-wrap med-demo-habit-icon-wrap--walk" aria-hidden="true">
+                            <img
+                              src="/assets/img/icone-pessoa-verde-sem-fundo.png"
+                              alt=""
+                              class="med-demo-habit-icon-img"
+                              width="20"
+                              height="20"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span class="med-demo-habit-name">Caminhada</span>
+                          <span class="med-demo-habit-value habit-done">Feito</span>
+                        </div>
+
+                        <!-- Hábito 3: Sono -->
+                        <div class="med-demo-habit-card">
+                          <div class="med-demo-habit-icon-wrap med-demo-habit-icon-wrap--sleep" aria-hidden="true">
+                            <img
+                              src="/assets/img/logo-lua-sem-fundo.png"
+                              alt=""
+                              class="med-demo-habit-icon-img"
+                              width="20"
+                              height="20"
+                              loading="lazy"
+                            />
+                          </div>
+                          <span class="med-demo-habit-name">Sono</span>
+                          <span class="med-demo-habit-value">7h 30m</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- Botão Flutuante + da Home Demonstrativa -->
+                  <div class="med-demo-fab-container">
+                    <button type="button" class="btn-med-demo-fab" id="btn-med-demo-fab" aria-label="Adicionar medicamento (demonstração)" title="Adicionar medicamento">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 2: PREVIEW RESUMIDO — MEDICAÇÕES
+                     ========================================== -->
+                <div class="med-demo-view" id="med-demo-view-medications" style="display: none;">
+                  <!-- Cabeçalho de Medicações -->
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="med-demo-back-btn"
+                          id="btn-med-demo-back-to-home"
+                          aria-label="Voltar para a Visão Geral"
+                          title="Voltar para a Visão Geral"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title">Medicações</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span>Catálogo de remédios</span>
+                        <span class="med-demo-badge">6 cadastradas</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações de medicações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="med-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Conteúdo Resumido da Demonstração -->
+                  <div class="med-demo-content">
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Suas medicações organizadas</span>
+                      
+                      <div class="med-demo-summary-list">
+                        <!-- Amostra 1: Losartana -->
+                        <div class="med-demo-summary-card">
+                          <div class="med-demo-summary-card-header">
+                            <span class="med-demo-summary-name">Losartana 50 mg</span>
+                            <span class="med-demo-status-badge med-demo-status-badge--active">Uso contínuo</span>
+                          </div>
+                          <div class="med-demo-summary-details">
+                            <span>1 comprimido • 08:00 e 20:00</span>
+                            <span class="med-demo-summary-stock">18 restantes no estoque</span>
+                          </div>
+                        </div>
+
+                        <!-- Amostra 2: Amoxicilina -->
+                        <div class="med-demo-summary-card">
+                          <div class="med-demo-summary-card-header">
+                            <span class="med-demo-summary-name">Amoxicilina 500 mg</span>
+                            <span class="med-demo-status-badge med-demo-status-badge--treatment">Temporário</span>
+                          </div>
+                          <div class="med-demo-summary-details">
+                            <span>1 cápsula a cada 8h</span>
+                            <span class="med-demo-summary-info">Tratamento até 27 de agosto</span>
+                          </div>
+                        </div>
+
+                        <!-- Amostra 3: Dipirona -->
+                        <div class="med-demo-summary-card">
+                          <div class="med-demo-summary-card-header">
+                            <span class="med-demo-summary-name">Dipirona 500 mg</span>
+                            <span class="med-demo-status-badge med-demo-status-badge--eventual">Eventual</span>
+                          </div>
+                          <div class="med-demo-summary-details">
+                            <span>1 comprimido se necessário</span>
+                            <span class="med-demo-summary-alert">Estoque baixo (2 restantes)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Retorno rápido para a Visão Geral -->
+                    <div class="med-demo-history-row">
+                      <button type="button" class="btn-med-demo-secondary" id="btn-med-demo-return-home" aria-label="Voltar para Visão geral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Voltar para Visão geral</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 3: PREVIEW RESUMIDO — ROTINA DIÁRIA
+                     ========================================== -->
+                <div class="med-demo-view" id="med-demo-view-rotina" style="display: none;">
+                  <!-- Cabeçalho de Rotina -->
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="med-demo-back-btn"
+                          id="btn-med-demo-rotina-back"
+                          aria-label="Voltar para a Visão Geral"
+                          title="Voltar para a Visão Geral"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title">Rotina</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span>Rotina de hoje</span>
+                        <span class="med-demo-badge" id="med-demo-rotina-badge">6 doses hoje</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Conteúdo Resumido da Demonstração de Rotina -->
+                  <div class="med-demo-content">
+                    
+                    <!-- Resumo de Doses do Dia -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Rotina de hoje</span>
+                      <div class="med-demo-routine-stats-grid">
+                        <div class="med-demo-stat-card">
+                          <span class="med-demo-stat-number" id="stat-rotina-total">6</span>
+                          <span class="med-demo-stat-label">Doses</span>
+                        </div>
+                        <div class="med-demo-stat-card">
+                          <span class="med-demo-stat-number med-demo-stat-number--taken" id="stat-rotina-tomadas">4</span>
+                          <span class="med-demo-stat-label">Tomadas</span>
+                        </div>
+                        <div class="med-demo-stat-card">
+                          <span class="med-demo-stat-number" id="stat-rotina-pendentes">1</span>
+                          <span class="med-demo-stat-label">Pendente</span>
+                        </div>
+                        <div class="med-demo-stat-card">
+                          <span class="med-demo-stat-number med-demo-stat-number--delayed" id="stat-rotina-atrasadas">1</span>
+                          <span class="med-demo-stat-label">Atrasada</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Lista de Amostra de Horários -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Horários</span>
+                      <div class="med-demo-routine-list">
+                        
+                        <!-- Horário 1: 07:00 - Omega 3 - ATRASADA -->
+                        <div class="med-demo-routine-card">
+                          <div class="med-demo-routine-card-header">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                              <span class="med-demo-routine-time-badge">07:00</span>
+                              <span class="med-demo-routine-med-name">Omega 3</span>
+                            </div>
+                            <span class="med-demo-routine-badge med-demo-routine-badge--delayed">ATRASADA</span>
+                          </div>
+                          <div class="med-demo-routine-details">
+                            <span>1 cápsula • com água</span>
+                          </div>
+                        </div>
+
+                        <!-- Horário 2: 08:00 - Losartana 50 mg - TOMADO -->
+                        <div class="med-demo-routine-card">
+                          <div class="med-demo-routine-card-header">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                              <span class="med-demo-routine-time-badge">08:00</span>
+                              <span class="med-demo-routine-med-name">Losartana 50 mg</span>
+                            </div>
+                            <span class="med-demo-routine-badge med-demo-routine-badge--taken">TOMADO</span>
+                          </div>
+                          <div class="med-demo-routine-details">
+                            <span>1 comprimido • uso contínuo</span>
+                          </div>
+                        </div>
+
+                        <!-- Horário 3: 14:00 - Metformina 500 mg - PENDENTE (com botão demonstrativo) -->
+                        <div class="med-demo-routine-card" id="routine-card-metformina">
+                          <div class="med-demo-routine-card-header">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                              <span class="med-demo-routine-time-badge">14:00</span>
+                              <span class="med-demo-routine-med-name">Metformina 500 mg</span>
+                            </div>
+                            <span class="med-demo-routine-badge med-demo-routine-badge--pending" id="badge-rotina-metformina">PENDENTE</span>
+                          </div>
+                          <div class="med-demo-routine-details">
+                            <span>1 comprimido • após almoço</span>
+                          </div>
+                          <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+                            <button type="button" class="btn-med-demo-take-routine" id="btn-rotina-take-metformina" aria-label="Marcar Metformina como tomada (demonstração)">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                              <span id="btn-rotina-take-text">Marcar como tomada</span>
+                            </button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <!-- Controle Visual: Registrar uso eventual -->
+                    <div class="med-demo-section" style="margin-top: 4px;">
+                      <button type="button" class="btn-med-demo-eventual-action" id="btn-rotina-eventual-action" aria-label="Registrar uso eventual (demonstração)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+                          <line x1="12" y1="5" x2="12" y2="19"></line>
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>Registrar uso eventual</span>
+                      </button>
+                    </div>
+
+                    <!-- Retorno rápido para a Visão Geral -->
+                    <div class="med-demo-history-row">
+                      <button type="button" class="btn-med-demo-secondary" id="btn-med-demo-rotina-return" aria-label="Voltar para Visão geral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Voltar para Visão geral</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 4: PREVIEW RESUMIDO — ESTOQUE
+                     ========================================== -->
+                <div class="med-demo-view" id="med-demo-view-estoque" style="display: none;">
+                  <!-- Cabeçalho de Estoque -->
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="med-demo-back-btn"
+                          id="btn-med-demo-estoque-back"
+                          aria-label="Voltar para a Visão Geral"
+                          title="Voltar para a Visão Geral"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title">Estoque</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span>Controle de estoque</span>
+                        <span class="med-demo-badge">2 monitorados</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Conteúdo Resumido da Demonstração de Estoque -->
+                  <div class="med-demo-content">
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Controle de Estoque</span>
+                      
+                      <div class="med-demo-summary-list">
+                        <!-- Card 1: Losartana 50 mg - ESTOQUE OK -->
+                        <div class="med-demo-summary-card">
+                          <div class="med-demo-summary-card-header">
+                            <span class="med-demo-summary-name">Losartana 50 mg</span>
+                            <span class="med-demo-status-badge med-demo-status-badge--active">ESTOQUE OK</span>
+                          </div>
+                          <div class="med-demo-summary-details">
+                            <span>18 comprimidos restantes</span>
+                            <span class="med-demo-summary-stock">≈ 9 dias restantes</span>
+                          </div>
+                        </div>
+
+                        <!-- Card 2: Dipirona 500 mg - ESTOQUE BAIXO + BOTÃO REPOR -->
+                        <div class="med-demo-summary-card">
+                          <div class="med-demo-summary-card-header">
+                            <span class="med-demo-summary-name">Dipirona 500 mg</span>
+                            <span class="med-demo-status-badge med-demo-status-badge--danger">ESTOQUE BAIXO</span>
+                          </div>
+                          <div class="med-demo-summary-details">
+                            <span class="med-demo-summary-alert">2 comprimidos restantes</span>
+                            <span>Atingiu o nível mínimo</span>
+                          </div>
+                          <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+                            <button type="button" class="btn-med-demo-repor-stock" id="btn-med-demo-repor-stock" aria-label="Repor estoque de Dipirona 500 mg (demonstração)">
+                              Repor
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Resumo do estoque -->
+                    <div class="med-demo-section">
+                      <span class="med-demo-section-label">Resumo do estoque</span>
+                      <div class="med-demo-stock-summary-box">
+                        <div class="med-demo-stock-summary-item">
+                          <span><span class="med-demo-stock-dot"></span>2 medicamentos monitorados</span>
+                          <span class="med-demo-stock-status-active">Monitoramento ativo</span>
+                        </div>
+                        <div class="med-demo-stock-summary-item alert-item">
+                          <span><span class="med-demo-stock-dot med-demo-stock-dot--alert"></span>1 precisa de atenção</span>
+                          <span class="med-demo-stock-status-alert">Reposição sugerida</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Retorno rápido para a Visão Geral -->
+                    <div class="med-demo-history-row">
+                      <button type="button" class="btn-med-demo-secondary" id="btn-med-demo-estoque-return" aria-label="Voltar para Visão geral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Voltar para Visão geral</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 5: PREVIEW RESUMIDO — SCANNER / ESCANEAR MEDICAMENTO
+                     ========================================== -->
+                <div class="med-demo-view" id="med-demo-view-scanner" style="display: none;">
+                  <!-- Cabeçalho de Scanner -->
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="med-demo-back-btn"
+                          id="btn-med-demo-scanner-back"
+                          aria-label="Voltar para a Visão Geral"
+                          title="Voltar para a Visão Geral"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title">Escanear medicamento</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span>Leitura de código de barras</span>
+                        <span class="med-demo-badge">Simulador</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Conteúdo do Scanner Demonstrativo -->
+                  <div class="med-demo-content">
+                    
+                    <!-- ESTADO 1 & 2: ÁREA DE LEITURA (PRONTO / LENDO) -->
+                    <div id="med-scanner-stage-scanning" class="med-scanner-stage">
+                      <p class="med-scanner-instruction-text">
+                        Aponte a câmera para o código de barras da embalagem.
+                      </p>
+
+                      <!-- Viewfinder simulado da câmera -->
+                      <div class="med-scanner-viewfinder" id="med-scanner-viewfinder" aria-label="Visor simulado do scanner">
+                        <!-- Cantos do visor -->
+                        <span class="med-scanner-corner top-left" aria-hidden="true"></span>
+                        <span class="med-scanner-corner top-right" aria-hidden="true"></span>
+                        <span class="med-scanner-corner bottom-left" aria-hidden="true"></span>
+                        <span class="med-scanner-corner bottom-right" aria-hidden="true"></span>
+
+                        <!-- Ilustração de Código de Barras -->
+                        <div class="med-scanner-barcode-graphic" aria-hidden="true">
+                          <div class="med-scanner-barcode-lines">
+                            <span class="b-bar b-w2"></span>
+                            <span class="b-bar b-w1"></span>
+                            <span class="b-bar b-w3"></span>
+                            <span class="b-bar b-w1"></span>
+                            <span class="b-bar b-w2"></span>
+                            <span class="b-bar b-w1"></span>
+                            <span class="b-bar b-w4"></span>
+                            <span class="b-bar b-w2"></span>
+                            <span class="b-bar b-w1"></span>
+                            <span class="b-bar b-w3"></span>
+                            <span class="b-bar b-w2"></span>
+                            <span class="b-bar b-w1"></span>
+                            <span class="b-bar b-w3"></span>
+                            <span class="b-bar b-w2"></span>
+                          </div>
+                          <span class="med-scanner-barcode-num">7 891234 567890</span>
+                        </div>
+
+                        <!-- Linha Laser de Leitura Verde -->
+                        <div class="med-scanner-laser-line" id="med-scanner-laser" aria-hidden="true"></div>
+
+                        <!-- Indicador de Status de Leitura -->
+                        <div class="med-scanner-status-label" id="med-scanner-status-text">
+                          Posicione o código aqui
+                        </div>
+                      </div>
+
+                      <!-- Botão Principal: Simular Leitura -->
+                      <div class="med-scanner-actions-row">
+                        <button
+                          type="button"
+                          class="btn-med-scanner-simulate"
+                          id="btn-med-scanner-simulate"
+                          aria-label="Simular leitura de código de barras"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+                            <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                            <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                            <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                            <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                            <line x1="7" y1="12" x2="17" y2="12"></line>
+                          </svg>
+                          <span id="btn-med-scanner-simulate-text">Simular leitura</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          class="btn-med-scanner-manual"
+                          id="btn-med-scanner-manual"
+                          aria-label="Cadastrar manualmente (demonstração)"
+                        >
+                          Cadastrar manualmente
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- ESTADO 3: MEDICAMENTO ENCONTRADO -->
+                    <div id="med-scanner-stage-found" class="med-scanner-stage" style="display: none;">
+                      <div class="med-scanner-result-card">
+                        <!-- Header de Sucesso -->
+                        <div class="med-scanner-result-header">
+                          <div class="med-scanner-success-badge">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>MEDICAMENTO ENCONTRADO</span>
+                          </div>
+                        </div>
+
+                        <!-- Detalhes do Medicamento Identificado -->
+                        <div class="med-scanner-med-info">
+                          <h3 class="med-scanner-med-title">Losartana 50 mg</h3>
+                          <p class="med-scanner-med-form">Comprimido • Uso contínuo</p>
+                        </div>
+
+                        <!-- Dados do Código Lido -->
+                        <div class="med-scanner-code-box">
+                          <div class="med-scanner-code-header">
+                            <span class="med-scanner-code-label">Código de barras</span>
+                            <span class="med-scanner-code-type">EAN-13</span>
+                          </div>
+                          <span class="med-scanner-code-value">7891234567890</span>
+                        </div>
+
+                        <!-- Ações do Resultado -->
+                        <div class="med-scanner-result-buttons">
+                          <button
+                            type="button"
+                            class="btn-med-scanner-continue"
+                            id="btn-med-scanner-continue"
+                            aria-label="Continuar cadastro (demonstração)"
+                          >
+                            <span id="btn-med-scanner-continue-text">Continuar cadastro</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                              <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                          </button>
+
+                          <button
+                            type="button"
+                            class="btn-med-scanner-retry"
+                            id="btn-med-scanner-retry"
+                            aria-label="Tentar novamente a leitura"
+                          >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                              <path d="M3 3v5h5"></path>
+                            </svg>
+                            <span>Tentar novamente</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Retorno rápido para a Visão Geral -->
+                    <div class="med-demo-history-row">
+                      <button type="button" class="btn-med-demo-secondary" id="btn-med-demo-scanner-return" aria-label="Voltar para Visão geral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Voltar para Visão geral</span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 6: PREVIEW RESUMIDO — OUTRAS FUNCIONALIDADES (EM BREVE)
+                     ========================================== -->
+                <div class="med-demo-view" id="med-demo-view-placeholder" style="display: none;">
+                  <div class="med-demo-header-section">
+                    <div class="med-demo-header-title-area">
+                      <div class="med-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="med-demo-back-btn"
+                          id="btn-med-demo-placeholder-back"
+                          aria-label="Voltar para a Visão Geral"
+                          title="Voltar para a Visão Geral"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="med-demo-title" id="med-demo-placeholder-title">Rotina</h2>
+                      </div>
+                      <div class="med-demo-meta">
+                        <span id="med-demo-placeholder-desc">Visão demonstrativa</span>
+                        <span class="med-demo-badge">Em breve</span>
+                      </div>
+                    </div>
+
+                    <div class="med-demo-header-controls">
+                      <div class="med-demo-bell" aria-label="Notificações (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="med-demo-content">
+                    <div class="med-demo-placeholder-card">
+                      <div class="med-demo-placeholder-icon" id="med-demo-placeholder-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                      </div>
+                      <h3 class="med-demo-placeholder-h3" id="med-demo-placeholder-heading">Rotina diária</h3>
+                      <p class="med-demo-placeholder-text" id="med-demo-placeholder-text">
+                        Acompanhe horários de tomada, histórico diário e alertas inteligentes integrados à sua rotina.
+                      </p>
+                    </div>
+
+                    <div class="med-demo-history-row">
+                      <button type="button" class="btn-med-demo-secondary" id="btn-med-demo-placeholder-return" aria-label="Voltar para Visão geral">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                          <line x1="19" y1="12" x2="5" y2="12"></line>
+                          <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Voltar para Visão geral</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER INSTITUCIONAL -->
+      <footer class="site-footer" id="site-footer">
+        <div class="container">
+          <div class="footer-divider" aria-hidden="true"></div>
+          <div class="footer-content">
+            <a href="/" class="footer-brand" id="footer-brand">KeeperHub</a>
+            <nav class="footer-nav" id="footer-nav" aria-label="Links institucionais">
+              <a href="/politica-de-privacidade/" class="footer-link" id="link-footer-privacy">Política de Privacidade</a>
+              <a href="/termos-de-uso/" class="footer-link" id="link-footer-terms">Termos de Uso</a>
+              <a href="/contato/" class="footer-link" id="link-footer-contact">Contato</a>
+            </nav>
+            <p class="footer-copyright" id="footer-copyright">
+              &copy; 2026 KeeperHub. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts Compartilhados & Demonstração Interativa Isolada -->
+    <script type="module">
+      import { initTheme } from '/shared/services/theme.js';
+      initTheme();
+
+      // Interações visuais isoladas da Demonstração Pública
+      (function initMedicamentosDemo() {
+        const scrollArea = document.getElementById('med-demo-scroll-area');
+        const viewHome = document.getElementById('med-demo-view-home');
+        const viewMeds = document.getElementById('med-demo-view-medications');
+        const viewRotina = document.getElementById('med-demo-view-rotina');
+        const viewEstoque = document.getElementById('med-demo-view-estoque');
+        const viewScanner = document.getElementById('med-demo-view-scanner');
+        const viewPlaceholder = document.getElementById('med-demo-view-placeholder');
+        
+        const tabButtons = document.querySelectorAll('.module-chips-list .module-chip');
+        const btnOpenMeds = document.getElementById('btn-med-demo-open-medications');
+        const btnOpenRotina = document.getElementById('btn-med-demo-open-rotina');
+        const btnOpenEstoque = document.getElementById('btn-med-demo-open-estoque');
+        const btnReporAttention = document.getElementById('btn-med-demo-repor');
+        const btnReporStock = document.getElementById('btn-med-demo-repor-stock');
+
+        const btnBackToHome = document.getElementById('btn-med-demo-back-to-home');
+        const btnReturnHome = document.getElementById('btn-med-demo-return-home');
+        const btnRotinaBack = document.getElementById('btn-med-demo-rotina-back');
+        const btnRotinaReturn = document.getElementById('btn-med-demo-rotina-return');
+        const btnEstoqueBack = document.getElementById('btn-med-demo-estoque-back');
+        const btnEstoqueReturn = document.getElementById('btn-med-demo-estoque-return');
+        const btnScannerBack = document.getElementById('btn-med-demo-scanner-back');
+        const btnScannerReturn = document.getElementById('btn-med-demo-scanner-return');
+        const btnPlaceholderBack = document.getElementById('btn-med-demo-placeholder-back');
+        const btnPlaceholderReturn = document.getElementById('btn-med-demo-placeholder-return');
+
+        const placeholderTitle = document.getElementById('med-demo-placeholder-title');
+        const placeholderHeading = document.getElementById('med-demo-placeholder-heading');
+        const placeholderText = document.getElementById('med-demo-placeholder-text');
+
+        const placeholderDetails = {
+          outros: {
+            title: 'Recursos',
+            heading: 'Demonstração de Recursos',
+            text: 'Conheça outras facilidades do módulo Medicamentos integradas à sua rotina.'
+          }
+        };
+
+        function switchDemoView(targetView) {
+          // Atualiza abas / chips com destaque ativo (#70DE01)
+          tabButtons.forEach(function (btn) {
+            const isMatch = btn.getAttribute('data-target-view') === targetView;
+            btn.classList.toggle('active', isMatch);
+            btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+          });
+
+          // Esconde todas as visualizações do frame
+          if (viewHome) {
+            viewHome.style.display = 'none';
+            viewHome.classList.remove('active');
+          }
+          if (viewMeds) {
+            viewMeds.style.display = 'none';
+            viewMeds.classList.remove('active');
+          }
+          if (viewRotina) {
+            viewRotina.style.display = 'none';
+            viewRotina.classList.remove('active');
+          }
+          if (viewEstoque) {
+            viewEstoque.style.display = 'none';
+            viewEstoque.classList.remove('active');
+          }
+          if (viewScanner) {
+            viewScanner.style.display = 'none';
+            viewScanner.classList.remove('active');
+          }
+          if (viewPlaceholder) {
+            viewPlaceholder.style.display = 'none';
+            viewPlaceholder.classList.remove('active');
+          }
+
+          // Exibe apenas a visualização selecionada
+          if (targetView === 'home' && viewHome) {
+            viewHome.style.display = 'flex';
+            viewHome.classList.add('active');
+          } else if (targetView === 'medications' && viewMeds) {
+            viewMeds.style.display = 'flex';
+            viewMeds.classList.add('active');
+          } else if (targetView === 'rotina' && viewRotina) {
+            viewRotina.style.display = 'flex';
+            viewRotina.classList.add('active');
+          } else if (targetView === 'estoque' && viewEstoque) {
+            viewEstoque.style.display = 'flex';
+            viewEstoque.classList.add('active');
+          } else if (targetView === 'scanner' && viewScanner) {
+            viewScanner.style.display = 'flex';
+            viewScanner.classList.add('active');
+          } else if (viewPlaceholder) {
+            const info = placeholderDetails[targetView] || {
+              title: 'Funcionalidade',
+              heading: 'Demonstração',
+              text: 'Visualização da funcionalidade em preparação.'
+            };
+            if (placeholderTitle) placeholderTitle.textContent = info.title;
+            if (placeholderHeading) placeholderHeading.textContent = info.heading;
+            if (placeholderText) placeholderText.textContent = info.text;
+
+            viewPlaceholder.style.display = 'flex';
+            viewPlaceholder.classList.add('active');
+          }
+
+          if (scrollArea) scrollArea.scrollTop = 0;
+        }
+
+        // Cliques nos Botões Reais da Barra de Funcionalidades
+        tabButtons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            const target = btn.getAttribute('data-target-view') || 'home';
+            switchDemoView(target);
+          });
+        });
+
+        // Atalhos da Home: "MEDICAÇÕES", "ROTINA" e "ESTOQUE"
+        if (btnOpenMeds) {
+          btnOpenMeds.addEventListener('click', function () {
+            switchDemoView('medications');
+          });
+        }
+
+        if (btnOpenRotina) {
+          btnOpenRotina.addEventListener('click', function () {
+            switchDemoView('rotina');
+          });
+        }
+
+        if (btnOpenEstoque) {
+          btnOpenEstoque.addEventListener('click', function () {
+            switchDemoView('estoque');
+          });
+        }
+
+        if (btnReporAttention) {
+          btnReporAttention.addEventListener('click', function () {
+            switchDemoView('estoque');
+          });
+        }
+
+        const btnFab = document.getElementById('btn-med-demo-fab');
+        if (btnFab) {
+          btnFab.addEventListener('click', function () {
+            switchDemoView('scanner');
+          });
+        }
+
+        // Interação demonstrativa do Scanner: [Simular leitura] -> [Lendo código...] -> [Medicamento encontrado]
+        const stageScanning = document.getElementById('med-scanner-stage-scanning');
+        const stageFound = document.getElementById('med-scanner-stage-found');
+        const viewfinder = document.getElementById('med-scanner-viewfinder');
+        const statusScannerText = document.getElementById('med-scanner-status-text');
+        const btnSimulate = document.getElementById('btn-med-scanner-simulate');
+        const btnSimulateText = document.getElementById('btn-med-scanner-simulate-text');
+        const btnRetryScan = document.getElementById('btn-med-scanner-retry');
+        const btnContinueCadastro = document.getElementById('btn-med-scanner-continue');
+        const btnContinueText = document.getElementById('btn-med-scanner-continue-text');
+        const btnManualCadastro = document.getElementById('btn-med-scanner-manual');
+
+        let isScanningProcess = false;
+
+        if (btnSimulate) {
+          btnSimulate.addEventListener('click', function () {
+            if (isScanningProcess) return;
+            isScanningProcess = true;
+
+            // Transição para ESTADO 2: LENDO CÓDIGO
+            if (viewfinder) viewfinder.classList.add('is-reading');
+            if (btnSimulate) btnSimulate.disabled = true;
+            if (btnSimulateText) btnSimulateText.textContent = 'Lendo código...';
+            if (statusScannerText) statusScannerText.textContent = 'Lendo código...';
+
+            // Duração da simulação curta (~1000ms)
+            setTimeout(function () {
+              if (viewfinder) viewfinder.classList.remove('is-reading');
+              if (btnSimulate) btnSimulate.disabled = false;
+              if (btnSimulateText) btnSimulateText.textContent = 'Simular leitura';
+              if (statusScannerText) statusScannerText.textContent = 'Posicione o código aqui';
+
+              // Transição para ESTADO 3: MEDICAMENTO ENCONTRADO
+              if (stageScanning) stageScanning.style.display = 'none';
+              if (stageFound) stageFound.style.display = 'flex';
+              isScanningProcess = false;
+
+              if (scrollArea) scrollArea.scrollTop = 0;
+            }, 1000);
+          });
+        }
+
+        // Ação: [Tentar novamente] -> Retorna para ESTADO 1 (PRONTO PARA ESCANEAR)
+        if (btnRetryScan) {
+          btnRetryScan.addEventListener('click', function () {
+            if (stageFound) stageFound.style.display = 'none';
+            if (stageScanning) stageScanning.style.display = 'flex';
+            if (btnContinueCadastro) btnContinueCadastro.classList.remove('is-confirmed');
+            if (btnContinueText) btnContinueText.textContent = 'Continuar cadastro';
+            if (scrollArea) scrollArea.scrollTop = 0;
+          });
+        }
+
+        // Ação: [Continuar cadastro] -> Feedback puramente visual sem sair da demo
+        let continueTimer = null;
+        if (btnContinueCadastro) {
+          btnContinueCadastro.addEventListener('click', function () {
+            btnContinueCadastro.classList.add('is-confirmed');
+            if (btnContinueText) btnContinueText.textContent = '✓ Pronto para cadastrar';
+
+            if (continueTimer) clearTimeout(continueTimer);
+            continueTimer = setTimeout(function () {
+              btnContinueCadastro.classList.remove('is-confirmed');
+              if (btnContinueText) btnContinueText.textContent = 'Continuar cadastro';
+            }, 1800);
+          });
+        }
+
+        // Ação: [Cadastrar manualmente] -> Feedback demonstrativo sutil
+        if (btnManualCadastro) {
+          btnManualCadastro.addEventListener('click', function () {
+            switchDemoView('medications');
+          });
+        }
+
+        // Interação demonstrativa da Rotina: [Marcar como tomada]
+        const btnRotinaTake = document.getElementById('btn-rotina-take-metformina');
+        const btnRotinaTakeText = document.getElementById('btn-rotina-take-text');
+        const badgeRotinaMetformina = document.getElementById('badge-rotina-metformina');
+        const statRotinaTomadas = document.getElementById('stat-rotina-tomadas');
+        const statRotinaPendentes = document.getElementById('stat-rotina-pendentes');
+        const statRotinaBadge = document.getElementById('med-demo-rotina-badge');
+        let isMetforminaTaken = false;
+
+        if (btnRotinaTake) {
+          btnRotinaTake.addEventListener('click', function () {
+            isMetforminaTaken = !isMetforminaTaken;
+            if (isMetforminaTaken) {
+              btnRotinaTake.classList.add('is-taken');
+              if (btnRotinaTakeText) btnRotinaTakeText.textContent = 'Tomada registrada';
+              if (badgeRotinaMetformina) {
+                badgeRotinaMetformina.textContent = 'TOMADO';
+                badgeRotinaMetformina.className = 'med-demo-routine-badge med-demo-routine-badge--taken';
+              }
+              if (statRotinaTomadas) statRotinaTomadas.textContent = '5';
+              if (statRotinaPendentes) statRotinaPendentes.textContent = '0';
+              if (statRotinaBadge) statRotinaBadge.textContent = '5 de 6 tomadas';
+            } else {
+              btnRotinaTake.classList.remove('is-taken');
+              if (btnRotinaTakeText) btnRotinaTakeText.textContent = 'Marcar como tomada';
+              if (badgeRotinaMetformina) {
+                badgeRotinaMetformina.textContent = 'PENDENTE';
+                badgeRotinaMetformina.className = 'med-demo-routine-badge med-demo-routine-badge--pending';
+              }
+              if (statRotinaTomadas) statRotinaTomadas.textContent = '4';
+              if (statRotinaPendentes) statRotinaPendentes.textContent = '1';
+              if (statRotinaBadge) statRotinaBadge.textContent = '6 doses hoje';
+            }
+          });
+        }
+
+        // Feedback puramente visual no botão Repor da tela de Estoque (sem modal, sem backend)
+        if (btnReporStock) {
+          btnReporStock.addEventListener('click', function () {
+            btnReporStock.classList.toggle('is-repondo');
+            if (btnReporStock.classList.contains('is-repondo')) {
+              btnReporStock.textContent = 'Solicitado';
+            } else {
+              btnReporStock.textContent = 'Repor';
+            }
+          });
+        }
+
+        // Retornos para a Home Demonstrativa
+        [btnBackToHome, btnReturnHome, btnRotinaBack, btnRotinaReturn, btnEstoqueBack, btnEstoqueReturn, btnScannerBack, btnScannerReturn, btnPlaceholderBack, btnPlaceholderReturn].forEach(function (btn) {
+          if (btn) {
+            btn.addEventListener('click', function () {
+              switchDemoView('home');
+            });
+          }
+        });
+
+        // Interações da Home (Dose atrasada / Tomei / Estou sem)
+        const btnTake = document.getElementById('btn-med-demo-take');
+        const btnOut = document.getElementById('btn-med-demo-out');
+        const takeText = document.getElementById('btn-med-take-text');
+        const outText = document.getElementById('btn-med-out-text');
+        const cardDelayed = document.getElementById('med-demo-delayed-card');
+        const statusDelayed = document.getElementById('med-demo-delayed-status');
+        const badgePending = document.getElementById('med-demo-badge');
+
+        let isTaken = false;
+        let isOut = false;
+
+        if (btnTake) {
+          btnTake.addEventListener('click', function () {
+            isTaken = !isTaken;
+            if (isTaken) {
+              btnTake.classList.add('is-active-taken');
+              if (takeText) takeText.textContent = 'Dose registrada';
+              if (cardDelayed) cardDelayed.classList.add('is-taken-state');
+              if (statusDelayed) statusDelayed.textContent = 'REGISTRADA (07:00)';
+              if (badgePending) badgePending.textContent = '2 doses pendentes';
+              
+              if (isOut) {
+                isOut = false;
+                if (btnOut) btnOut.classList.remove('is-active-out');
+                if (outText) outText.textContent = 'Estou sem';
+              }
+            } else {
+              btnTake.classList.remove('is-active-taken');
+              if (takeText) takeText.textContent = 'Tomei';
+              if (cardDelayed) cardDelayed.classList.remove('is-taken-state');
+              if (statusDelayed) statusDelayed.textContent = 'ATRASADA (07:00)';
+              if (badgePending) badgePending.textContent = '3 doses pendentes';
+            }
+          });
+        }
+
+        if (btnOut) {
+          btnOut.addEventListener('click', function () {
+            isOut = !isOut;
+            if (isOut) {
+              btnOut.classList.add('is-active-out');
+              if (outText) outText.textContent = 'Aviso registrado';
+              
+              if (isTaken) {
+                isTaken = false;
+                if (btnTake) btnTake.classList.remove('is-active-taken');
+                if (takeText) takeText.textContent = 'Tomei';
+                if (cardDelayed) cardDelayed.classList.remove('is-taken-state');
+                if (statusDelayed) statusDelayed.textContent = 'ATRASADA (07:00)';
+                if (badgePending) badgePending.textContent = '3 doses pendentes';
+              }
+            } else {
+              btnOut.classList.remove('is-active-out');
+              if (outText) outText.textContent = 'Estou sem';
+            }
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

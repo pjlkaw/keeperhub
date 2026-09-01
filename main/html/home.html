@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeeperHub | Organize sua vida em um só lugar</title>
+    <meta name="description" content="O KeeperHub reúne finanças, metas, despensa, pets e medicamentos em um só lugar para ajudar você a organizar sua rotina." />
+    <meta name="author" content="KeeperHub" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://keeperhub.com.br/" />
+    <meta name="theme-color" content="#101114" id="meta-theme-color" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+
+    <!-- Open Graph / Compartilhamento Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KeeperHub" />
+    <meta property="og:title" content="KeeperHub | Organize sua vida em um só lugar" />
+    <meta property="og:description" content="O KeeperHub reúne finanças, metas, despensa, pets e medicamentos em um só lugar para ajudar você a organizar sua rotina." />
+    <meta property="og:url" content="https://keeperhub.com.br/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:secure_url" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:alt" content="KeeperHub - Plataforma de organização pessoal integrada" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KeeperHub | Organize sua vida em um só lugar" />
+    <meta name="twitter:description" content="O KeeperHub reúne finanças, metas, despensa, pets e medicamentos em um só lugar para ajudar você a organizar sua rotina." />
+    <meta name="twitter:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta name="twitter:image:alt" content="KeeperHub - Plataforma de organização pessoal integrada" />
+
+    <!-- Favicon e Ícones de Aplicação -->
+    <link rel="icon" type="image/png" href="/assets/img/logo-home.png" />
+    <link rel="apple-touch-icon" href="/assets/img/logo-home.png" />
+
+    <!-- Dados Estruturados Schema.org (JSON-LD) - SEO & GEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://keeperhub.com.br/#website",
+          "url": "https://keeperhub.com.br/",
+          "name": "KeeperHub",
+          "description": "Plataforma de organização pessoal para finanças, metas, despensa, pets e medicamentos.",
+          "inLanguage": "pt-BR",
+          "publisher": {
+            "@id": "https://keeperhub.com.br/#organization"
+          }
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://keeperhub.com.br/#organization",
+          "name": "KeeperHub",
+          "url": "https://keeperhub.com.br/",
+          "logo": "https://keeperhub.com.br/assets/img/logo-home.png"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://keeperhub.com.br/#software",
+          "name": "KeeperHub",
+          "url": "https://keeperhub.com.br/",
+          "applicationCategory": "LifestyleApplication",
+          "operatingSystem": "Web",
+          "description": "Plataforma integrada de organização pessoal que reúne finanças, metas, despensa, pets e medicamentos em um único ambiente centralizado.",
+          "featureList": [
+            "Finanças: organização de gastos e vida financeira.",
+            "Metas: criação e acompanhamento de objetivos.",
+            "Despensa: controle de produtos, estoque e validade.",
+            "Pets: organização da rotina e dos cuidados dos pets.",
+            "Medicamentos: organização de medicamentos, horários e estoque."
+          ],
+          "inLanguage": "pt-BR",
+          "publisher": {
+            "@id": "https://keeperhub.com.br/#organization"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('keeperhub-theme');
+          var theme = (saved === 'dark' || saved === 'light') 
+            ? saved 
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.getElementById('meta-theme-color');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#F5F7F7' : '#101114');
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Estilos Estruturais e de Landing -->
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/main/css/landing.css" />
+  </head>
+  <body>
+    <div class="page-wrapper" id="app-root">
+      <!-- HEADER PÚBLICO -->
+      <header class="site-header" id="site-header">
+        <div class="container">
+          <a href="https://keeperhub.com.br/" class="brand-link" id="header-brand-logo" aria-label="KeeperHub - Página Inicial">
+            <img src="/assets/img/logo-home.png" alt="" class="brand-logo-img" width="50" height="40" />
+            <img src="/assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub" class="brand-wordmark brand-wordmark-dark" width="90" height="30" />
+            <img src="/assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="brand-wordmark brand-wordmark-light" width="90" height="30" />
+          </a>
+          <nav class="header-actions" id="header-actions" aria-label="Acesso e Cadastro">
+            <a href="/entrar/" class="btn-login" id="btn-header-login">Entrar</a>
+            <a href="/criar-conta/" class="btn-cta-primary btn-header-cta" id="btn-header-cta">Criar conta</a>
+          </nav>
+        </div>
+      </header>
+
+      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+      <div class="theme-bar" id="theme-bar">
+        <div class="container">
+          <button type="button" class="btn-theme-toggle" id="btn-theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
+            <img src="/assets/img/icon-theme-sun.png" alt="" class="theme-icon theme-icon-sun" width="20" height="20" />
+            <img src="/assets/img/icon-theme-moon.png" alt="" class="theme-icon theme-icon-moon" width="20" height="20" />
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO PRINCIPAL -->
+      <main id="main-content">
+        <!-- HERO COMPACTO -->
+        <section class="hero-section" id="hero-section" aria-labelledby="hero-title">
+          <div class="container">
+            <h1 class="hero-title" id="hero-title">
+              <span class="hero-title-main">KeeperHub.</span>
+              <span class="hero-title-sub">Sua rotina. Um só lugar.</span>
+            </h1>
+          </div>
+        </section>
+
+        <!-- GRID DOS 5 MÓDULOS (2 + 2 + 1) -->
+        <section class="modules-section" id="modules-section" aria-label="Módulos do KeeperHub">
+          <div class="container">
+            <div class="modules-grid" id="modules-grid">
+              <!-- Card 1: Finanças -->
+              <a href="/financas/" class="module-card module-card-financas" id="module-financas">
+                <div class="module-logo-wrapper">
+                  <img src="/assets/img/logo-financas.png" alt="" class="module-logo" width="48" height="40" />
+                </div>
+                <h2 class="module-title">Finanças</h2>
+                <p class="module-description">Controle gastos e organize sua vida financeira.</p>
+                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+
+              <!-- Card 2: Metas -->
+              <a href="/metas/" class="module-card module-card-metas" id="module-metas">
+                <div class="module-logo-wrapper">
+                  <img src="/assets/img/logo-metas.png" alt="" class="module-logo" width="48" height="40" />
+                </div>
+                <h2 class="module-title">Metas</h2>
+                <p class="module-description">Crie objetivos e acompanhe seu progresso.</p>
+                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+
+              <!-- Card 3: Despensa -->
+              <a href="/despensa/" class="module-card module-card-despensa" id="module-despensa">
+                <div class="module-logo-wrapper">
+                  <img src="/assets/img/logo-despensa.png" alt="" class="module-logo" width="48" height="40" />
+                </div>
+                <h2 class="module-title">Despensa</h2>
+                <p class="module-description">Controle produtos, estoque e validade.</p>
+                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+
+              <!-- Card 4: Pets -->
+              <a href="/pets/" class="module-card module-card-pets" id="module-pets">
+                <div class="module-logo-wrapper">
+                  <img src="/assets/img/logo-pets.png" alt="" class="module-logo" width="48" height="40" />
+                </div>
+                <h2 class="module-title">Pets</h2>
+                <p class="module-description">Organize a rotina e os cuidados dos seus pets.</p>
+                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+
+              <!-- Card 5: Medicamentos (Centralizado 2+2+1) -->
+              <a href="/medicamentos/" class="module-card module-card-medicamentos" id="module-medicamentos">
+                <div class="module-logo-wrapper">
+                  <img src="/assets/img/logo-medicamentos.png" alt="" class="module-logo" width="48" height="40" />
+                </div>
+                <h2 class="module-title">Medicamentos</h2>
+                <p class="module-description">Organize medicamentos, horários e estoque.</p>
+                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÇÃO CTA PRINCIPAL -->
+        <section class="cta-section" id="cta-section" aria-labelledby="cta-title">
+          <div class="container">
+            <div class="cta-card" id="cta-card">
+              <h2 class="cta-title" id="cta-title">
+                Comece pelo que importa<br />para você.
+              </h2>
+              <p class="cta-text">
+                Escolha os módulos que fazem parte<br class="cta-br-mobile" />
+                da sua rotina e deixe o KeeperHub<br class="cta-br-mobile" />
+                ajudar na organização.
+              </p>
+              <a href="/criar-conta/" class="btn-cta-primary cta-btn" id="btn-cta-section">
+                Teste grátis
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- SEÇÃO INSTITUCIONAL ("Tudo em um só lugar") -->
+        <section class="institutional-section" id="institutional-section" aria-labelledby="institutional-title">
+          <div class="container">
+            <div class="institutional-divider" aria-hidden="true"></div>
+            <div class="institutional-content">
+              <h2 class="institutional-title" id="institutional-title">Tudo em um só lugar</h2>
+              <p class="institutional-text">
+                O KeeperHub reúne diferentes áreas da sua rotina em uma experiência simples e integrada. Você escolhe o que deseja organizar e encontra as informações importantes sem precisar espalhá-las entre várias ferramentas.
+              </p>
+              <p class="institutional-highlight">
+                Menos ferramentas. Mais organização.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOTER OFICIAL DA HOME -->
+        <footer class="site-footer" id="site-footer">
+          <div class="container">
+            <div class="footer-divider" aria-hidden="true"></div>
+            <div class="footer-content">
+              <span class="footer-brand" id="footer-brand">KeeperHub</span>
+              <nav class="footer-nav" id="footer-nav" aria-label="Links institucionais">
+                <a href="/politica-de-privacidade/" class="footer-link" id="link-footer-privacy">Política de Privacidade</a>
+                <a href="/termos-de-uso/" class="footer-link" id="link-footer-terms">Termos de Uso</a>
+                <a href="/contato/" class="footer-link" id="link-footer-contact">Contato</a>
+                <a href="/faq/" class="footer-link" id="link-footer-faq">FAQ</a>
+              </nav>
+              <p class="footer-copyright" id="footer-copyright">
+                &copy; 2026 KeeperHub. Todos os direitos reservados.
+              </p>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Scripts (Modular ESM) -->
+    <script type="module" src="/main/js/landing.js"></script>
+  </body>
+</html>

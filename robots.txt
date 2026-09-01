@@ -1,0 +1,8 @@
+# robots.txt para https://keeperhub.com.br/
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /auth/
+
+# Sitemap Oficial
+Sitemap: https://keeperhub.com.br/sitemap.xml

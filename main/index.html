@@ -1,110 +1,304 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KeeperHub</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeeperHub</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#101114" id="meta-theme-color" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
 
-  <!-- Configurações básicas para PWA -->
-  <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#0b0b0d">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="../shared/styles/variables.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+    <!-- Favicon e Ícones de Aplicação -->
+    <link rel="icon" type="image/png" href="/assets/img/logo-home.png" />
+    <link rel="apple-touch-icon" href="/assets/img/logo-home.png" />
 
-  <!-- Cabeçalho com o nome, alternância de tema e botão de login -->
-  <header>
-    <div class="logo">KeeperHub</div>
-    <div class="btns-header">
-      <button class="btn-theme" id="theme-toggle" aria-label="Alternar tema">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-      <button class="btn-login">Entrar</button>
-    </div>
-  </header>
+    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('keeperhub-theme');
+          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          var theme = saved || systemDark;
+          document.documentElement.setAttribute('data-theme', theme);
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', theme === 'light' ? '#F5F7F7' : '#101114');
+          }
+        } catch (e) {}
+      })();
+    </script>
 
-  <!-- Busca de módulos -->
-  <div class="search-bar">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Buscar módulo..." id="search-input">
-  </div>
+    <!-- Estilos Estruturais e Compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/main/css/style.css" />
+  </head>
+  <body>
+    <div class="app-page-wrapper">
+      <!-- HEADER INTERNO COMPACTO -->
+      <header class="app-header" id="app-header">
+        <div class="app-container">
+          <div class="app-header-inner">
+            <!-- IDENTIDADE À ESQUERDA: AVATAR + KEEPERHUB -->
+            <a href="/main/" class="app-header-brand" id="app-header-brand" aria-label="KeeperHub - Página Inicial">
+              <div class="app-header-avatar" aria-hidden="true">
+                <!-- Avatar demonstrativo elegante e estável em SVG -->
+                <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" class="app-header-avatar-img">
+                  <circle cx="18" cy="18" r="18" fill="#1E293B"/>
+                  <circle cx="18" cy="14" r="6" fill="#94A3B8"/>
+                  <path d="M7 32C7 26.4772 11.9249 22 18 22C24.0751 22 29 26.4772 29 32" fill="#64748B"/>
+                </svg>
+              </div>
+              <span class="app-header-brand-name">KeeperHub</span>
+            </a>
 
-  <!-- Hub de Ferramentas -->
-  <main id="tool-list">
+            <!-- AÇÕES À DIREITA: SINO DISCRETO -->
+            <div class="app-header-controls">
+              <button
+                type="button"
+                class="btn-app-notification-compact"
+                id="btn-app-notifications"
+                aria-label="Notificações"
+                title="Notificações"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
 
-    <div class="tool-card" data-name="metas">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-bullseye"></i></div>
-        <div class="tool-info">
-          <h2 class="tool-title">Metas</h2>
-          <p class="tool-description">Defina objetivos pessoais, acompanhe seu progresso e estabeleça etapas para alcançar suas conquistas.</p>
+      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+      <div class="theme-bar" id="theme-bar">
+        <div class="app-container">
+          <button
+            type="button"
+            class="btn-theme-toggle"
+            id="btn-theme-toggle"
+            aria-label="Ativar tema claro"
+            title="Ativar tema claro"
+          >
+            <img
+              src="/assets/img/icon-theme-sun.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-sun"
+              width="20"
+              height="20"
+            />
+            <img
+              src="/assets/img/icon-theme-moon.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-moon"
+              width="20"
+              height="20"
+            />
+          </button>
         </div>
       </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Acessar módulo</button>
-      </div>
-    </div>
 
-    <div class="tool-card" data-name="financas">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-        <div class="tool-info">
-          <h2 class="tool-title">Finanças</h2>
-          <p class="tool-description">Monitore suas entradas e saídas, controle orçamentos e obtenha previsões claras sobre seus gastos.</p>
+      <!-- CONTEÚDO PRINCIPAL / RESUMO DIÁRIO -->
+      <main class="app-main" id="main-content">
+        <div class="app-container">
+          <!-- SEÇÃO DE SAUDAÇÃO -->
+          <section class="app-greeting-section" id="greeting-section" aria-labelledby="greeting-title">
+            <h1 class="app-greeting-title" id="greeting-title">Olá, Fulano</h1>
+            <p class="app-greeting-subtitle">Seu resumo diário.</p>
+          </section>
+
+          <!-- CARDS DOS 5 MÓDULOS -->
+          <section class="app-modules-stack" id="modules-stack" aria-label="Resumo dos Módulos">
+            <!-- 1. CARD METAS -->
+            <article class="module-card" id="hub-card-metas" tabindex="0">
+              <div class="module-card-top-accent accent-top-metas" aria-hidden="true"></div>
+              
+              <div class="module-card-header">
+                <img
+                  src="/assets/img/logo-metas.png"
+                  alt=""
+                  class="module-card-logo-icon"
+                  width="18"
+                  height="18"
+                />
+                <span class="module-card-tag">METAS</span>
+              </div>
+
+              <div class="module-card-content">
+                <span class="module-card-val-huge val-yellow">72%</span>
+                <span class="module-card-sublabel">Progresso Geral</span>
+              </div>
+
+              <!-- Marca d'Água: Logo Oficial Discreta -->
+              <div class="module-card-watermark" aria-hidden="true">
+                <img
+                  src="/assets/img/logo-metas.png"
+                  alt=""
+                  class="module-card-watermark-img watermark-metas"
+                  width="80"
+                  height="80"
+                  loading="lazy"
+                />
+              </div>
+            </article>
+
+            <!-- 2. CARD FINANÇAS -->
+            <article class="module-card" id="hub-card-financas" tabindex="0">
+              <div class="module-card-top-accent accent-top-financas" aria-hidden="true"></div>
+
+              <div class="module-card-header">
+                <img
+                  src="/assets/img/logo-financas.png"
+                  alt=""
+                  class="module-card-logo-icon"
+                  width="18"
+                  height="18"
+                />
+                <span class="module-card-tag">FINANÇAS</span>
+              </div>
+
+              <div class="module-card-content">
+                <span class="module-card-val-title val-white">R$ 4.520,00</span>
+                <span class="module-card-sublabel">Saldo Atual</span>
+              </div>
+
+              <!-- Marca d'Água: Logo Oficial Discreta -->
+              <div class="module-card-watermark" aria-hidden="true">
+                <img
+                  src="/assets/img/logo-financas.png"
+                  alt=""
+                  class="module-card-watermark-img watermark-financas"
+                  width="82"
+                  height="82"
+                  loading="lazy"
+                />
+              </div>
+            </article>
+
+            <!-- 3. CARD PETS -->
+            <a href="/modules/pets/" class="module-card module-card-interactive" id="hub-card-pets" aria-label="Acessar Módulo Pets">
+              <div class="module-card-top-accent accent-top-pets" aria-hidden="true"></div>
+
+              <div class="module-card-header">
+                <img
+                  src="/assets/img/logo-pets.png"
+                  alt=""
+                  class="module-card-logo-icon"
+                  width="18"
+                  height="18"
+                />
+                <span class="module-card-tag">PETS</span>
+              </div>
+
+              <div class="module-card-content">
+                <div class="module-pets-row">
+                  <div class="module-pets-avatar" aria-hidden="true">
+                    <img
+                      src="/assets/img/logo-pets.png"
+                      alt=""
+                      class="module-pets-avatar-icon"
+                      width="26"
+                      height="26"
+                    />
+                  </div>
+                  <div class="module-pets-details">
+                    <span class="module-pets-name">Luna</span>
+                    <span class="module-card-sublabel">3 anos • Tudo ok</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Marca d'Água: Logo Oficial Discreta -->
+              <div class="module-card-watermark" aria-hidden="true">
+                <img
+                  src="/assets/img/logo-pets.png"
+                  alt=""
+                  class="module-card-watermark-img watermark-pets"
+                  width="78"
+                  height="78"
+                  loading="lazy"
+                />
+              </div>
+            </a>
+
+            <!-- 4. CARD MEDICAMENTOS -->
+            <a href="/modules/medicamentos/" class="module-card module-card-interactive" id="hub-card-medicamentos" aria-label="Acessar Módulo Medicamentos">
+              <div class="module-card-top-accent accent-top-medicamentos" aria-hidden="true"></div>
+
+              <div class="module-card-header">
+                <img
+                  src="/assets/img/logo-medicamentos.png"
+                  alt=""
+                  class="module-card-logo-icon"
+                  width="18"
+                  height="18"
+                />
+                <span class="module-card-tag">MEDICAMENTOS</span>
+              </div>
+
+              <div class="module-card-content">
+                <div class="module-meds-row">
+                  <span class="meds-time-badge">14:00</span>
+                  <span class="meds-name-text">Vitamina D</span>
+                </div>
+                <span class="module-card-sublabel">Próxima dose</span>
+              </div>
+
+              <!-- Marca d'Água: Logo Oficial Discreta -->
+              <div class="module-card-watermark" aria-hidden="true">
+                <img
+                  src="/assets/img/logo-medicamentos.png"
+                  alt=""
+                  class="module-card-watermark-img watermark-medicamentos"
+                  width="80"
+                  height="80"
+                  loading="lazy"
+                />
+              </div>
+            </a>
+
+            <!-- 5. CARD DESPENSA -->
+            <article class="module-card" id="hub-card-despensa" tabindex="0">
+              <div class="module-card-top-accent accent-top-despensa" aria-hidden="true"></div>
+
+              <div class="module-card-header">
+                <img
+                  src="/assets/img/logo-despensa.png"
+                  alt=""
+                  class="module-card-logo-icon"
+                  width="18"
+                  height="18"
+                />
+                <span class="module-card-tag">DESPENSA</span>
+              </div>
+
+              <div class="module-card-content">
+                <span class="module-card-val-title val-white">3 Itens</span>
+                <span class="module-card-sublabel">Estoque Baixo</span>
+              </div>
+
+              <!-- Marca d'Água: Logo Oficial Discreta -->
+              <div class="module-card-watermark" aria-hidden="true">
+                <img
+                  src="/assets/img/logo-despensa.png"
+                  alt=""
+                  class="module-card-watermark-img watermark-despensa"
+                  width="84"
+                  height="84"
+                  loading="lazy"
+                />
+              </div>
+            </article>
+          </section>
         </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Acessar módulo</button>
-      </div>
+      </main>
     </div>
 
-    <div class="tool-card" data-name="pets">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-paw"></i></div>
-        <div class="tool-info">
-          <h2 class="tool-title">Pets</h2>
-          <p class="tool-description">Organize o histórico de vacinas, consultas veterinárias, rotina de alimentação e cuidados com seus animais.</p>
-        </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Acessar módulo</button>
-      </div>
-    </div>
-
-    <div class="tool-card" data-name="despensa">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-basket-shopping"></i></div>
-        <div class="tool-info">
-          <h2 class="tool-title">Despensa</h2>
-          <p class="tool-description">Faça o inventário de alimentos e itens de casa, acompanhe datas de validade e monte listas de compras automatizadas.</p>
-        </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Acessar módulo</button>
-      </div>
-    </div>
-
-    <div class="tool-card" data-name="medicamentos">
-      <div class="tool-card-main">
-        <div class="tool-icon"><i class="fa-solid fa-briefcase-medical"></i></div>
-        <div class="tool-info">
-          <h2 class="tool-title">Medicamentos</h2>
-          <p class="tool-description">Cadastre seus remédios, gerencie horários de doses, estoques de caixas e receba alertas para não perder nenhuma medicação.</p>
-        </div>
-      </div>
-      <div class="tool-card-footer">
-        <button class="btn-access">Acessar módulo</button>
-      </div>
-    </div>
-
-  </main>
-
-  <script src="../shared/services/theme.js"></script>
-  <script src="js/script.js"></script>
-
-</body>
+    <!-- Script Exclusivo do Hub -->
+    <script type="module" src="/main/js/script.js"></script>
+  </body>
 </html>
