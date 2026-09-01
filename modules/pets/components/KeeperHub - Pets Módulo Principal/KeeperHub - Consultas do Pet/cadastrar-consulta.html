@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Adicionar Consulta</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+    <main class="add-appointment">
+
+        <header class="page-header">
+            <a href="consultas-exames.html" class="page-header__back">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">Voltar</span>
+            </a>
+            <h1 class="page-header__title">Adicionar Consulta</h1>
+        </header>
+
+        <form class="add-appointment-form">
+
+            <div class="form-field">
+                <label for="nome-medico">Nome do Médico</label>
+                <input type="text" id="nome-medico" name="nome_medico" placeholder="Ex: Dra. Amanda Silva">
+            </div>
+
+            <div class="form-field">
+                <label for="area-atuacao">Área de Atuação</label>
+                <select id="area-atuacao" name="area_atuacao">
+                    <option value="" selected disabled>Selecione uma especialidade</option>
+                    <option value="clinico_geral">Clínico Geral</option>
+                    <option value="dermatologista">Dermatologista</option>
+                    <option value="cardiologista">Cardiologista</option>
+                    <option value="oftalmologista">Oftalmologista</option>
+                    <option value="ortopedista">Ortopedista</option>
+                    <option value="odontologista">Odontologista</option>
+                    <option value="outra">Outra</option>
+                </select>
+            </div>
+
+            <!-- Aparece somente quando "Outra" é selecionada acima — JS depois -->
+            <div class="form-field">
+                <label for="area-atuacao-outra">Qual especialidade?</label>
+                <input type="text" id="area-atuacao-outra" name="area_atuacao_outra" placeholder="Digite a especialidade">
+            </div>
+
+            <div class="form-field">
+                <label for="clinica">Clínica / Local</label>
+                <input type="text" id="clinica" name="clinica" placeholder="Ex: Clínica Pata Azul">
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="data-consulta">Data</label>
+                    <input type="date" id="data-consulta" name="data_consulta">
+                </div>
+
+                <div class="form-field">
+                    <label for="horario-consulta">Horário</label>
+                    <input type="time" id="horario-consulta" name="horario_consulta">
+                </div>
+            </div>
+
+            <div class="form-field form-field--toggle">
+                <label for="lembrar-consulta">Lembrar</label>
+                <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
+            </div>
+
+            <button type="submit" class="primary-button add-appointment-form__submit">
+                Salvar Consulta
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html>

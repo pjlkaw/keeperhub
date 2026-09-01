@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Vacinações</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+    <main class="pet-vaccinations">
+
+        <header class="page-header">
+            <a href="#" class="page-header__back">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">Voltar</span>
+            </a>
+            <h1 class="page-header__title">Vacinações</h1>
+            <button type="button" class="page-header__action" aria-label="Mais opções">
+                <span class="icon" aria-hidden="true"></span>
+            </button>
+        </header>
+
+        <section class="vaccine-highlights" aria-labelledby="proximas-vacinas-heading">
+            <h2 id="proximas-vacinas-heading">Próximas Vacinas</h2>
+
+            <ul>
+                <li>
+                    <article class="vaccine-highlight-card vaccine-highlight-card--featured">
+                        <p class="vaccine-highlight-card__label">Reforço Anual</p>
+                        <h3 class="vaccine-highlight-card__name">V10 (Múltipla)</h3>
+                        <span class="icon" aria-hidden="true"></span>
+
+                        <p class="vaccine-highlight-card__date">
+                            <span class="icon" aria-hidden="true"></span>
+                            15 Outubro 2024
+                        </p>
+
+                        <div class="progress-bar" aria-hidden="true">
+                            <div class="progress-bar__fill"></div>
+                        </div>
+                        <p class="vaccine-highlight-card__countdown">Faltam 5 dias</p>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="vaccine-highlight-card">
+                        <p class="vaccine-highlight-card__label">Dose Única</p>
+                        <h3 class="vaccine-highlight-card__name">Antirrábica</h3>
+                        <span class="icon" aria-hidden="true"></span>
+
+                        <p class="vaccine-highlight-card__date">
+                            <span class="icon" aria-hidden="true"></span>
+                            22 Novembro 2024
+                        </p>
+
+                        <div class="progress-bar" aria-hidden="true">
+                            <div class="progress-bar__fill"></div>
+                        </div>
+                        <p class="vaccine-highlight-card__countdown">Faltam 43 dias</p>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="vaccine-schedule" aria-labelledby="cronograma-heading">
+            <h2 id="cronograma-heading">Cronograma Completo</h2>
+
+            <ul>
+                <li>
+                    <article class="vaccine-item vaccine-item--late">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="vaccine-item__info">
+                            <h3 class="vaccine-item__name">Gripe Canina</h3>
+                            <p class="vaccine-item__detail">Era prevista para 01 Outubro 2024</p>
+                        </div>
+                        <span class="status-badge status-badge--late">Atrasada</span>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="vaccine-item vaccine-item--scheduled">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="vaccine-item__info">
+                            <h3 class="vaccine-item__name">V10 (Múltipla)</h3>
+                            <p class="vaccine-item__detail">15 Outubro 2024</p>
+                        </div>
+                        <span class="status-badge status-badge--scheduled">Agendada</span>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="vaccine-item vaccine-item--applied">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="vaccine-item__info">
+                            <h3 class="vaccine-item__name">Vermífugo</h3>
+                            <p class="vaccine-item__detail">10 Setembro 2024</p>
+                        </div>
+                        <span class="status-badge status-badge--applied">Aplicada</span>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="vaccine-history" aria-labelledby="vaccine-history-heading">
+            <h2 id="vaccine-history-heading">Histórico</h2>
+
+            <ul>
+                <li>
+                    <article class="vaccine-item">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="vaccine-item__info">
+                            <h3 class="vaccine-item__name">Giárdia (1ª Dose)</h3>
+                            <p class="vaccine-item__detail">Aplicada em 15 Jan 2024</p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="vaccine-item">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="vaccine-item__info">
+                            <h3 class="vaccine-item__name">V10 (Múltipla)</h3>
+                            <p class="vaccine-item__detail">Aplicada em 12 Out 2023 · Certificado Digital</p>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <button type="button" class="fab" aria-label="Adicionar vacina">
+            <span class="icon" aria-hidden="true"></span>
+        </button>
+
+    </main>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html>

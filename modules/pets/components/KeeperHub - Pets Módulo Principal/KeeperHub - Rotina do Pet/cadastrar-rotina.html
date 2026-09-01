@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Adicionar Rotina</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+    <main class="add-routine">
+
+        <header class="page-header">
+            <a href="rotina-diaria.html" class="page-header__back">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">Voltar</span>
+            </a>
+            <h1 class="page-header__title">Adicionar Rotina</h1>
+        </header>
+
+        <section class="add-routine__feeding" aria-labelledby="alimentacao-heading">
+            <h2 id="alimentacao-heading">Alimentação</h2>
+
+            <form class="meal-form">
+
+                <div class="meal-list">
+                    <header class="meal-list__header">
+                        <button type="button" class="text-button meal-list__add">
+                            <span class="icon" aria-hidden="true"></span>
+                            Adicionar Refeição
+                        </button>
+                    </header>
+
+                    <ul>
+                        <li>
+                            <article class="meal-card">
+                                <span class="icon" aria-hidden="true"></span>
+                                <div class="meal-card__info">
+                                    <h3 id="titulo-cafe-manha-2" class="meal-card__title">Café da manhã</h3>
+                                    <input type="time" id="horario-cafe-manha-2" name="horario_cafe_manha" class="meal-card__time-input" aria-labelledby="titulo-cafe-manha-2" value="06:00">
+                                </div>
+
+                                <fieldset class="meal-card__status">
+                                    <legend class="sr-only">Status: Café da manhã</legend>
+                                    <div class="segmented-control">
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_cafe_manha" value="ativa" checked>
+                                            Ativa
+                                        </label>
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_cafe_manha" value="descartar">
+                                            Descartar
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+                                <button type="button" class="icon-button" aria-label="Remover refeição">
+                                    <span class="icon" aria-hidden="true"></span>
+                                </button>
+                            </article>
+                        </li>
+
+                        <li>
+                            <article class="meal-card">
+                                <span class="icon" aria-hidden="true"></span>
+                                <div class="meal-card__info">
+                                    <h3 id="titulo-almoco-2" class="meal-card__title">Almoço</h3>
+                                    <input type="time" id="horario-almoco-2" name="horario_almoco" class="meal-card__time-input" aria-labelledby="titulo-almoco-2" value="12:00">
+                                </div>
+
+                                <fieldset class="meal-card__status">
+                                    <legend class="sr-only">Status: Almoço</legend>
+                                    <div class="segmented-control">
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_almoco" value="ativa" checked>
+                                            Ativa
+                                        </label>
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_almoco" value="descartar">
+                                            Descartar
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+                                <button type="button" class="icon-button" aria-label="Remover refeição">
+                                    <span class="icon" aria-hidden="true"></span>
+                                </button>
+                            </article>
+                        </li>
+
+                        <li>
+                            <article class="meal-card">
+                                <span class="icon" aria-hidden="true"></span>
+                                <div class="meal-card__info">
+                                    <h3 id="titulo-jantar-2" class="meal-card__title">Jantar</h3>
+                                    <input type="time" id="horario-jantar-2" name="horario_jantar" class="meal-card__time-input" aria-labelledby="titulo-jantar-2" value="19:00">
+                                </div>
+
+                                <fieldset class="meal-card__status">
+                                    <legend class="sr-only">Status: Jantar</legend>
+                                    <div class="segmented-control">
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_jantar" value="ativa" checked>
+                                            Ativa
+                                        </label>
+                                        <label class="segmented-control__option">
+                                            <input type="radio" name="status_jantar" value="descartar">
+                                            Descartar
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+                                <button type="button" class="icon-button" aria-label="Remover refeição">
+                                    <span class="icon" aria-hidden="true"></span>
+                                </button>
+                            </article>
+                        </li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="primary-button">
+                    Salvar Alimentação
+                </button>
+
+            </form>
+        </section>
+
+        <section class="add-routine__hygiene" aria-labelledby="higiene-heading">
+            <h2 id="higiene-heading">Higiene e Bem-estar</h2>
+
+            <form class="hygiene-form">
+
+                <fieldset class="form-field">
+                    <legend>Atividade</legend>
+                    <ul class="activity-options">
+                        <li>
+                            <label class="activity-options__option">
+                                <input type="radio" name="atividade" value="banho">
+                                Banho
+                            </label>
+                        </li>
+                        <li>
+                            <label class="activity-options__option">
+                                <input type="radio" name="atividade" value="banho_tosa">
+                                Banho e Tosa
+                            </label>
+                        </li>
+                        <li>
+                            <label class="activity-options__option">
+                                <input type="radio" name="atividade" value="corte_unha">
+                                Corte de Unha
+                            </label>
+                        </li>
+                        <li>
+                            <label class="activity-options__option">
+                                <input type="radio" name="atividade" value="escovacao">
+                                Escovação
+                            </label>
+                        </li>
+                        <li>
+                            <label class="activity-options__option">
+                                <input type="radio" name="atividade" value="passeio_matinal">
+                                Passeio Matinal
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <fieldset class="form-field">
+                    <legend>Frequência</legend>
+                    <ul class="frequency-options">
+                        <li>
+                            <label class="frequency-options__option">
+                                <input type="radio" name="frequencia_higiene" value="semanal">
+                                Semanal
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frequency-options__option">
+                                <input type="radio" name="frequencia_higiene" value="quinzenal">
+                                A cada 15 dias
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frequency-options__option">
+                                <input type="radio" name="frequencia_higiene" value="mensal">
+                                Mensal
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="data-atividade">Data</label>
+                        <input type="date" id="data-atividade" name="data_atividade">
+                    </div>
+
+                    <!--
+                        Campo relevante quando a atividade selecionada acima for
+                        "Passeio Matinal", "Banho" ou "Banho e Tosa" — exibição
+                        condicional fica pro JS depois.
+                    -->
+                    <div class="form-field">
+                        <label for="horario-atividade">Horário</label>
+                        <input type="time" id="horario-atividade" name="horario_atividade">
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-button">
+                    Adicionar Atividade
+                </button>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html>
