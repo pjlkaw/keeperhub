@@ -40,12 +40,24 @@
                         <article class="meal-card">
                             <span class="icon" aria-hidden="true"></span>
                             <div class="meal-card__info">
-                                <h3 class="meal-card__title">Café da manhã</h3>
-                                <p class="meal-card__time">06:00</p>
+                                <h3 id="titulo-cafe-manha" class="meal-card__title">Café da manhã</h3>
+                                <input type="time" id="horario-cafe-manha" name="horario_cafe_manha" class="meal-card__time-input" aria-labelledby="titulo-cafe-manha" value="06:00">
                             </div>
-                            <button type="button" class="icon-button" aria-label="Editar refeição">
-                                <span class="icon" aria-hidden="true"></span>
-                            </button>
+
+                            <fieldset class="meal-card__status">
+                                <legend class="sr-only">Status: Café da manhã</legend>
+                                <div class="segmented-control">
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_cafe_manha" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_cafe_manha" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
                             <button type="button" class="icon-button" aria-label="Remover refeição">
                                 <span class="icon" aria-hidden="true"></span>
                             </button>
@@ -56,12 +68,24 @@
                         <article class="meal-card">
                             <span class="icon" aria-hidden="true"></span>
                             <div class="meal-card__info">
-                                <h3 class="meal-card__title">Almoço</h3>
-                                <p class="meal-card__time">12:00</p>
+                                <h3 id="titulo-almoco" class="meal-card__title">Almoço</h3>
+                                <input type="time" id="horario-almoco" name="horario_almoco" class="meal-card__time-input" aria-labelledby="titulo-almoco" value="12:00">
                             </div>
-                            <button type="button" class="icon-button" aria-label="Editar refeição">
-                                <span class="icon" aria-hidden="true"></span>
-                            </button>
+
+                            <fieldset class="meal-card__status">
+                                <legend class="sr-only">Status: Almoço</legend>
+                                <div class="segmented-control">
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_almoco" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_almoco" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
                             <button type="button" class="icon-button" aria-label="Remover refeição">
                                 <span class="icon" aria-hidden="true"></span>
                             </button>
@@ -72,12 +96,24 @@
                         <article class="meal-card">
                             <span class="icon" aria-hidden="true"></span>
                             <div class="meal-card__info">
-                                <h3 class="meal-card__title">Jantar</h3>
-                                <p class="meal-card__time">19:00</p>
+                                <h3 id="titulo-jantar" class="meal-card__title">Jantar</h3>
+                                <input type="time" id="horario-jantar" name="horario_jantar" class="meal-card__time-input" aria-labelledby="titulo-jantar" value="19:00">
                             </div>
-                            <button type="button" class="icon-button" aria-label="Editar refeição">
-                                <span class="icon" aria-hidden="true"></span>
-                            </button>
+
+                            <fieldset class="meal-card__status">
+                                <legend class="sr-only">Status: Jantar</legend>
+                                <div class="segmented-control">
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_jantar" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="segmented-control__option">
+                                        <input type="radio" name="status_jantar" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
                             <button type="button" class="icon-button" aria-label="Remover refeição">
                                 <span class="icon" aria-hidden="true"></span>
                             </button>

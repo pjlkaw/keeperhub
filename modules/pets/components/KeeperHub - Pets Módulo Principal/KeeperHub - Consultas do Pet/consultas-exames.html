@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Consultas e Exames</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+    <main class="medical-dashboard">
+
+        <header class="page-header">
+            <a href="#" class="page-header__back">
+                <span class="icon" aria-hidden="true"></span>
+                <span class="sr-only">Voltar</span>
+            </a>
+            <h1 class="page-header__title">Consultas e Exames</h1>
+        </header>
+
+        <section class="appointments" aria-labelledby="proximas-consultas-heading">
+            <h2 id="proximas-consultas-heading">Próximas Consultas</h2>
+
+            <ul>
+                <li>
+                    <article class="appointment-card appointment-card--featured">
+                        <h3 class="appointment-card__doctor">Dra. Amanda Silva</h3>
+                        <p class="appointment-card__location">
+                            <span class="icon" aria-hidden="true"></span>
+                            Clínica Pata Azul
+                        </p>
+
+                        <p class="appointment-card__datetime">
+                            <span class="appointment-card__date">
+                                <span class="icon" aria-hidden="true"></span>
+                                15 Out
+                            </span>
+                            <span class="appointment-card__time">
+                                <span class="icon" aria-hidden="true"></span>
+                                14:30
+                            </span>
+                        </p>
+
+                        <div class="appointment-card__reminder">
+                            <label for="lembrar-amanda">Lembrar</label>
+                            <input type="checkbox" id="lembrar-amanda" name="lembrar_amanda" checked>
+                        </div>
+
+                        <details class="confirm-appointment">
+                            <summary class="confirm-appointment__trigger">Confirmar Consulta</summary>
+                            <form class="confirm-appointment__form">
+                                <div class="form-field">
+                                    <label for="resumo-amanda">O que aconteceu na consulta?</label>
+                                    <textarea id="resumo-amanda" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
+                                </div>
+                                <button type="submit" class="primary-button">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="appointment-card">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="appointment-card__info">
+                            <h3 class="appointment-card__doctor">Dr. Roberto (Dermatologista)</h3>
+                            <p class="appointment-card__datetime">22 Out - 09:00</p>
+                        </div>
+
+                        <details class="confirm-appointment">
+                            <summary class="confirm-appointment__trigger">Confirmar Consulta</summary>
+                            <form class="confirm-appointment__form">
+                                <div class="form-field">
+                                    <label for="resumo-roberto">O que aconteceu na consulta?</label>
+                                    <textarea id="resumo-roberto" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
+                                </div>
+                                <button type="submit" class="primary-button">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </article>
+                </li>
+            </ul>
+
+            <a href="cadastrar-consulta.html" class="edit-link">Adicionar</a>
+        </section> aria-labelledby="exames-heading">
+            <header class="medical-exams__header">
+                <h2 id="exames-heading">Exames e Laudos</h2>
+
+                <label for="upload-exame" class="text-button">Adicionar</label>
+                <input type="file" id="upload-exame" name="upload_exame" class="sr-only" accept=".pdf,.jpg,.jpeg,.png">
+
+                <!-- "Ver todos" revela itens além dos 3 primeiros — comportamento de JS depois -->
+                <button type="button" class="text-button medical-exams__view-all">Ver todos</button>
+            </header>
+
+            <ul>
+                <li>
+                    <article class="exam-card">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="exam-card__info">
+                            <h3 class="exam-card__name">Hemograma Completo</h3>
+                            <p class="exam-card__date">10 Set 2023</p>
+                        </div>
+                        <a href="#" class="icon-button" aria-label="Baixar Hemograma Completo" download>
+                            <span class="icon" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="exam-card">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="exam-card__info">
+                            <h3 class="exam-card__name">Raio-X Torácico</h3>
+                            <p class="exam-card__date">05 Ago 2023</p>
+                        </div>
+                        <a href="#" class="icon-button" aria-label="Baixar Raio-X Torácico" download>
+                            <span class="icon" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="exam-card">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="exam-card__info">
+                            <h3 class="exam-card__name">Exame de Urina</h3>
+                            <p class="exam-card__date">15 Jun 2023</p>
+                        </div>
+                        <a href="#" class="icon-button" aria-label="Baixar Exame de Urina" download>
+                            <span class="icon" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="medical-history" aria-labelledby="historico-medico-heading">
+            <h2 id="historico-medico-heading">Histórico Médico</h2>
+
+            <ol class="medical-timeline">
+                <li>
+                    <article class="medical-timeline__item">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="medical-timeline__content">
+                            <h3 class="medical-timeline__title">Check-up Anual</h3>
+                            <p class="medical-timeline__date">10 Set 2023</p>
+                            <p class="medical-timeline__description">
+                                Consulta geral. Peso adequado, pelagem brilhante. Recomendação de manter a dieta atual e reforçar a vacina antirrábica no próximo mês.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="medical-timeline__item">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="medical-timeline__content">
+                            <h3 class="medical-timeline__title">Vacinação (V10)</h3>
+                            <p class="medical-timeline__date">15 Fev 2023</p>
+                            <p class="medical-timeline__description">
+                                Reforço anual da vacina V10 administrado sem intercorrências. Próxima dose programada para Fev 2024.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="medical-timeline__item">
+                        <span class="icon" aria-hidden="true"></span>
+                        <div class="medical-timeline__content">
+                            <h3 class="medical-timeline__title">Consulta de Emergência - Otite</h3>
+                            <p class="medical-timeline__date">05 Nov 2022</p>
+                            <p class="medical-timeline__description">
+                                Tratamento iniciado com gotas auriculares por 7 dias. Retorno para reavaliação agendado.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+            </ol>
+        </section>
+
+        <a href="cadastrar-consulta.html" class="fab" aria-label="Adicionar consulta">
+            <span class="icon" aria-hidden="true"></span>
+        </a>
+
+    </main>
+
+    <script src="../js/script.js" defer></script>
+</body>
+</html>
