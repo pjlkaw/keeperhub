@@ -1,0 +1,1966 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark" data-module="despensa">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Despensa | Organize estoque e validade | KeeperHub</title>
+    <meta name="description" content="Organize produtos, estoque, validade e suas próximas compras com o módulo Despensa do KeeperHub." />
+    <meta name="author" content="KeeperHub" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://keeperhub.com.br/despensa/" />
+    <meta name="theme-color" content="#101114" id="meta-theme-color" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+
+    <!-- Open Graph / Compartilhamento Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KeeperHub" />
+    <meta property="og:title" content="Despensa | KeeperHub" />
+    <meta property="og:description" content="Organize produtos, estoque, validade e suas próximas compras com o módulo Despensa do KeeperHub." />
+    <meta property="og:url" content="https://keeperhub.com.br/despensa/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:secure_url" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta property="og:image:alt" content="KeeperHub - Módulo Despensa" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Despensa | KeeperHub" />
+    <meta name="twitter:description" content="Organize produtos, estoque, validade e suas próximas compras com o módulo Despensa do KeeperHub." />
+    <meta name="twitter:image" content="https://keeperhub.com.br/assets/img/keeperhub-og.png" />
+    <meta name="twitter:image:alt" content="KeeperHub - Módulo Despensa" />
+
+    <!-- Favicon e Ícones de Aplicação -->
+    <link rel="icon" type="image/png" href="/assets/img/logo-home.png" />
+    <link rel="apple-touch-icon" href="/assets/img/logo-home.png" />
+
+    <!-- Dados Estruturados Schema.org (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://keeperhub.com.br/despensa/#webpage",
+          "url": "https://keeperhub.com.br/despensa/",
+          "name": "Despensa | Organize estoque e validade | KeeperHub",
+          "description": "Organize produtos, estoque, validade e suas próximas compras com o módulo Despensa do KeeperHub.",
+          "inLanguage": "pt-BR",
+          "isPartOf": {
+            "@id": "https://keeperhub.com.br/#website"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('keeperhub-theme');
+          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          var theme = saved || systemDark;
+          document.documentElement.setAttribute('data-theme', theme);
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', theme === 'light' ? '#F5F7F7' : '#101114');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Estilos Compartilhados Oficiais -->
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/shared/styles/module-landing.css" />
+  </head>
+  <body>
+    <div class="module-page-wrapper">
+      <!-- HEADER COMPACTO -->
+      <header class="module-header" id="module-header">
+        <div class="container">
+          <a href="/" class="btn-back-keeperhub" id="btn-back-home" aria-label="Voltar para a página inicial do KeeperHub">
+            <span aria-hidden="true">←</span> Voltar KeeperHub
+          </a>
+
+          <div class="header-actions">
+            <a href="/" class="module-header-brand" aria-label="KeeperHub - Início">
+              <img src="/assets/img/logo-home.png" alt="" class="module-header-logo" width="36" height="32" />
+              <img src="/assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub" class="module-header-wordmark brand-wordmark-dark" width="75" height="24" />
+              <img src="/assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="module-header-wordmark brand-wordmark-light" width="75" height="24" />
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+      <div class="theme-bar" id="theme-bar">
+        <div class="container">
+          <button
+            type="button"
+            class="btn-theme-toggle"
+            id="btn-theme-toggle"
+            aria-label="Ativar tema claro"
+            title="Ativar tema claro"
+          >
+            <img
+              src="/assets/img/icon-theme-sun.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-sun"
+              width="20"
+              height="20"
+            />
+            <img
+              src="/assets/img/icon-theme-moon.png"
+              alt=""
+              aria-hidden="true"
+              class="theme-icon theme-icon-moon"
+              width="20"
+              height="20"
+            />
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO PRINCIPAL -->
+      <main id="main-content">
+        <!-- HERO DO MÓDULO -->
+        <section class="module-hero-section" id="hero-despensa" aria-labelledby="module-headline">
+          <div class="container module-hero-container">
+            <!-- Badge Oficial -->
+            <div class="module-badge">
+              <span class="badge-dot" aria-hidden="true"></span>
+              KEEPERHUB • DESPENSA
+            </div>
+
+            <!-- Logo do Módulo -->
+            <div class="module-main-logo-wrapper">
+              <img src="/assets/img/logo-despensa.png" alt="Ícone Módulo Despensa" class="module-main-logo" width="40" height="40" />
+            </div>
+
+            <!-- Headline Principal -->
+            <h1 class="module-headline" id="module-headline">
+              Saiba o que você tem em casa antes de comprar novamente.
+            </h1>
+
+            <!-- Descrição Curta -->
+            <p class="module-subheadline">
+              Organize os produtos da sua casa, acompanhe quantidades e validades e prepare suas próximas compras com mais controle.
+            </p>
+
+            <!-- Controles Reais de Demonstração de Funcionalidades -->
+            <div class="module-chips-list" role="tablist" aria-label="Demonstrações de Funcionalidades do Módulo Despensa">
+              <button type="button" class="module-chip active" role="tab" aria-selected="true" data-target-view="home" id="btn-tab-des-home">
+                Visão geral
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="products" id="btn-tab-des-products">
+                Produtos
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="vencimentos" id="btn-tab-des-vencimentos">
+                Vencimentos
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="comparacao" id="btn-tab-des-comparacao">
+                Comparação de preços
+              </button>
+              <button type="button" class="module-chip" role="tab" aria-selected="false" data-target-view="novo-produto" id="btn-tab-des-novo-produto">
+                Novo produto
+              </button>
+            </div>
+
+            <!-- Grupo de CTAs -->
+            <div class="module-actions-group">
+              <a href="/criar-conta/" class="btn-module-primary" id="btn-cta-experimentar">
+                Experimentar 1 mês grátis
+              </a>
+              <a href="#preview-despensa" class="btn-module-secondary" id="btn-cta-funcionalidades">
+                Ver funcionalidades ↓
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEMONSTRAÇÃO REAL DA HOME DO MÓDULO DESPENSA -->
+        <section class="module-preview-section" id="preview-despensa" aria-label="Demonstração da Home do Módulo Despensa">
+          <div class="container">
+            <!-- Frame da Demonstração Mobile-First do App -->
+            <div class="des-demo-device-frame" id="des-demo-frame">
+              <!-- Área de Scroll Interno Nativo -->
+              <div class="des-demo-scroll-area" id="des-demo-scroll-area">
+                
+                <!-- ==========================================
+                     VISTA 1: HOME DEMONSTRATIVA
+                     ========================================== -->
+                <div class="des-demo-view active" id="des-demo-view-home">
+                  <!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / DEMONSTRAÇÃO) -->
+                  <nav class="des-demo-modules-nav" aria-label="Navegação entre módulos (demonstração)">
+                    <div class="des-demo-modules-bar" role="tablist">
+                      <span class="des-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-financas.png" alt="" class="des-demo-module-icon" width="14" height="14" />
+                        Finanças
+                      </span>
+                      <span class="des-demo-module-chip active" role="tab" aria-selected="true">
+                        <img src="/assets/img/logo-despensa.png" alt="" class="des-demo-module-icon" width="14" height="14" />
+                        Despensa
+                      </span>
+                      <span class="des-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-pets.png" alt="" class="des-demo-module-icon" width="14" height="14" />
+                        Pets
+                      </span>
+                      <span class="des-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-metas.png" alt="" class="des-demo-module-icon" width="14" height="14" />
+                        Metas
+                      </span>
+                      <span class="des-demo-module-chip" role="tab" aria-selected="false">
+                        <img src="/assets/img/logo-medicamentos.png" alt="" class="des-demo-module-icon" width="14" height="14" />
+                        Medicamentos
+                      </span>
+                    </div>
+                  </nav>
+
+                  <!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + NOTIFICAÇÃO) -->
+                  <div class="des-demo-header-section">
+                    <div class="des-demo-header-title-area">
+                      <div class="des-demo-header-top-row">
+                        <button type="button" class="des-demo-back-btn" aria-label="Voltar para o KeeperHub (demonstração)" title="Voltar ao Hub">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="des-demo-title">Despensa</h2>
+                      </div>
+                      <div class="des-demo-meta">
+                        <span>Controle da sua despensa</span>
+                        <span class="des-demo-badge" id="des-demo-badge">5 a vencer</span>
+                      </div>
+                    </div>
+
+                    <div class="des-demo-header-controls">
+                      <div class="des-demo-bell" aria-label="Notificações da despensa (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="des-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. BARRA DE CONTROLE DE TEMA DA DEMO -->
+                  <div class="des-demo-theme-bar">
+                    <button
+                      type="button"
+                      class="des-demo-theme-btn"
+                      aria-label="Controle de tema da demonstração"
+                      title="Tema visual da demonstração"
+                    >
+                      <img
+                        src="/assets/img/icon-theme-sun.png"
+                        alt=""
+                        aria-hidden="true"
+                        class="theme-icon theme-icon-sun"
+                        width="18"
+                        height="18"
+                      />
+                      <img
+                        src="/assets/img/icon-theme-moon.png"
+                        alt=""
+                        aria-hidden="true"
+                        class="theme-icon theme-icon-moon"
+                        width="18"
+                        height="18"
+                      />
+                    </button>
+                  </div>
+
+                  <!-- Conteúdo da Home Demo -->
+                  <div class="des-demo-content">
+                    
+                    <!-- SEÇÃO 1: RESUMO (GRID 2x2) -->
+                    <div class="des-demo-section">
+                      <span class="des-demo-section-label">Resumo</span>
+                      
+                      <div class="des-demo-shortcuts-grid" role="region" aria-label="Resumo da Despensa (demonstração)">
+                        <!-- Card 1: PRODUTOS -->
+                        <button
+                          type="button"
+                          class="des-demo-shortcut-card des-demo-shortcut-btn"
+                          id="btn-des-demo-open-products"
+                          aria-label="Ver produtos cadastrados (24 cadastrados)"
+                          title="Produtos cadastrados"
+                        >
+                          <div class="des-demo-shortcut-icon-wrap" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                              <path d="m7.5 4.27 9 5.15"></path>
+                              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+                              <path d="m3.3 7 8.7 5 8.7-5"></path>
+                              <path d="M12 22V12"></path>
+                            </svg>
+                          </div>
+                          <span class="des-demo-shortcut-tag">PRODUTOS</span>
+                          <span class="des-demo-shortcut-value">24 <span class="des-demo-shortcut-sub">cadastrados</span></span>
+                        </button>
+
+                        <!-- Card 2: PRÓXIMOS A VENCER -->
+                        <button
+                          type="button"
+                          class="des-demo-shortcut-card des-demo-shortcut-btn"
+                          id="btn-des-demo-open-expiring"
+                          aria-label="Ver produtos próximos a vencer (5 itens)"
+                          title="Próximos a vencer"
+                        >
+                          <div class="des-demo-shortcut-icon-wrap wrap-alert" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                          </div>
+                          <span class="des-demo-shortcut-tag tag-alert">PRÓXIMOS A VENCER</span>
+                          <span class="des-demo-shortcut-value value-alert">5 <span class="des-demo-shortcut-sub">precisam atenção</span></span>
+                        </button>
+
+                        <!-- Card 3: QUANTIDADE -->
+                        <div
+                          class="des-demo-shortcut-card"
+                          role="group"
+                          aria-label="Quantidade total em estoque (87 unidades)"
+                        >
+                          <div class="des-demo-shortcut-icon-wrap wrap-qty" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                              <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"></path>
+                              <path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"></path>
+                              <circle cx="8" cy="12" r="2"></circle>
+                            </svg>
+                          </div>
+                          <span class="des-demo-shortcut-tag">QUANTIDADE</span>
+                          <span class="des-demo-shortcut-value">87 <span class="des-demo-shortcut-sub">unidades</span></span>
+                        </div>
+
+                        <!-- Card 4: COMPARAÇÃO -->
+                        <button
+                          type="button"
+                          class="des-demo-shortcut-card des-demo-shortcut-btn"
+                          id="btn-des-demo-open-compare"
+                          aria-label="Acessar comparação de preços (Economize nas compras)"
+                          title="Comparação de preços"
+                        >
+                          <div class="des-demo-shortcut-icon-wrap wrap-copper" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                              <line x1="12" y1="1" x2="12" y2="23"></line>
+                              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                          </div>
+                          <span class="des-demo-shortcut-tag">COMPARAÇÃO</span>
+                          <span class="des-demo-shortcut-value des-demo-shortcut-accent">Economize <span class="des-demo-shortcut-sub">nas compras</span></span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- SEÇÃO 2: PRÓXIMOS A VENCER (AMOSTRA COMPACTA) -->
+                    <div class="des-demo-section">
+                      <div class="des-demo-section-header">
+                        <span class="des-demo-section-label">Próximos a vencer</span>
+                        <span class="des-demo-section-counter">3 de 5</span>
+                      </div>
+
+                      <div class="des-demo-items-list" role="list">
+                        <!-- Item 1: Leite Integral (Vence em 3 dias - Crítico/Alerta) -->
+                        <div class="des-demo-item-card des-demo-item--critical" role="listitem">
+                          <div class="des-demo-item-main">
+                            <div class="des-demo-item-header">
+                              <span class="des-demo-item-name">Leite Integral</span>
+                              <span class="des-demo-status-badge des-status-critical">Vence em 3 dias</span>
+                            </div>
+                            <div class="des-demo-item-meta">
+                              <span>1 L</span>
+                              <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                              <span class="des-demo-item-unit" id="des-unit-leite">1 unidade</span>
+                            </div>
+                          </div>
+                          <div class="des-demo-qty-control" aria-label="Controle de quantidade para Leite Integral">
+                            <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="leite" aria-label="Diminuir quantidade de Leite Integral">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <span class="des-qty-val" id="des-qty-leite">1</span>
+                            <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="leite" aria-label="Aumentar quantidade de Leite Integral">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Item 2: Macarrão Espaguete (Vence em 7 dias - Atenção/Warning) -->
+                        <div class="des-demo-item-card des-demo-item--warning" role="listitem">
+                          <div class="des-demo-item-main">
+                            <div class="des-demo-item-header">
+                              <span class="des-demo-item-name">Macarrão Espaguete</span>
+                              <span class="des-demo-status-badge des-status-warning">Vence em 7 dias</span>
+                            </div>
+                            <div class="des-demo-item-meta">
+                              <span>500 g</span>
+                              <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                              <span class="des-demo-item-unit" id="des-unit-macarrao">2 unidades</span>
+                            </div>
+                          </div>
+                          <div class="des-demo-qty-control" aria-label="Controle de quantidade para Macarrão Espaguete">
+                            <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="macarrao" aria-label="Diminuir quantidade de Macarrão Espaguete">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <span class="des-qty-val" id="des-qty-macarrao">2</span>
+                            <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="macarrao" aria-label="Aumentar quantidade de Macarrão Espaguete">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Item 3: Molho de Tomate (Vence em 12 dias - Atenção Moderada) -->
+                        <div class="des-demo-item-card des-demo-item--notice" role="listitem">
+                          <div class="des-demo-item-main">
+                            <div class="des-demo-item-header">
+                              <span class="des-demo-item-name">Molho de Tomate</span>
+                              <span class="des-demo-status-badge des-status-notice">Vence em 12 dias</span>
+                            </div>
+                            <div class="des-demo-item-meta">
+                              <span>340 g</span>
+                              <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                              <span class="des-demo-item-unit" id="des-unit-molho">1 unidade</span>
+                            </div>
+                          </div>
+                          <div class="des-demo-qty-control" aria-label="Controle de quantidade para Molho de Tomate">
+                            <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="molho" aria-label="Diminuir quantidade de Molho de Tomate">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <span class="des-qty-val" id="des-qty-molho">1</span>
+                            <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="molho" aria-label="Aumentar quantidade de Molho de Tomate">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- SEÇÃO 3: PRODUTOS / TODOS OS PRODUTOS (AMOSTRA COMPACTA) -->
+                    <div class="des-demo-section">
+                      <div class="des-demo-section-header">
+                        <span class="des-demo-section-label">Produtos</span>
+                        <span class="des-demo-section-counter">Amostra</span>
+                      </div>
+
+                      <div class="des-demo-items-list" role="list">
+                        <!-- Item 4: Arroz Branco -->
+                        <div class="des-demo-item-card des-demo-item--ok" role="listitem">
+                          <div class="des-demo-item-main">
+                            <div class="des-demo-item-header">
+                              <span class="des-demo-item-name">Arroz Branco</span>
+                              <span class="des-demo-status-badge des-status-ok">Estoque OK</span>
+                            </div>
+                            <div class="des-demo-item-meta">
+                              <span>5 kg</span>
+                              <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                              <span class="des-demo-item-unit" id="des-unit-arroz">1 unidade</span>
+                            </div>
+                          </div>
+                          <div class="des-demo-qty-control" aria-label="Controle de quantidade para Arroz Branco">
+                            <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="arroz" aria-label="Diminuir quantidade de Arroz Branco">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <span class="des-qty-val" id="des-qty-arroz">1</span>
+                            <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="arroz" aria-label="Aumentar quantidade de Arroz Branco">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+
+                        <!-- Item 5: Feijão Carioca -->
+                        <div class="des-demo-item-card des-demo-item--ok" role="listitem">
+                          <div class="des-demo-item-main">
+                            <div class="des-demo-item-header">
+                              <span class="des-demo-item-name">Feijão Carioca</span>
+                              <span class="des-demo-status-badge des-status-ok">Estoque OK</span>
+                            </div>
+                            <div class="des-demo-item-meta">
+                              <span>1 kg</span>
+                              <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                              <span class="des-demo-item-unit" id="des-unit-feijao">2 unidades</span>
+                            </div>
+                          </div>
+                          <div class="des-demo-qty-control" aria-label="Controle de quantidade para Feijão Carioca">
+                            <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="feijao" aria-label="Diminuir quantidade de Feijão Carioca">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                            <span class="des-qty-val" id="des-qty-feijao">2</span>
+                            <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="feijao" aria-label="Aumentar quantidade de Feijão Carioca">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 2: TODOS OS PRODUTOS (DEMONSTRAÇÃO)
+                     ========================================== -->
+                <div class="des-demo-view" id="des-demo-view-products">
+                  <!-- CABEÇALHO DA TELA TODOS OS PRODUTOS (RETORNO + TÍTULO) -->
+                  <div class="des-demo-header-section">
+                    <div class="des-demo-header-title-area">
+                      <div class="des-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="des-demo-back-btn"
+                          id="btn-des-demo-back-to-home"
+                          aria-label="Voltar para a Home da Despensa"
+                          title="Voltar para o Resumo"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="des-demo-title">Todos os Produtos</h2>
+                      </div>
+                      <div class="des-demo-meta">
+                        <span>Controle de estoque</span>
+                        <span class="des-demo-badge" id="des-demo-prod-badge">4 itens</span>
+                      </div>
+                    </div>
+
+                    <div class="des-demo-header-controls">
+                      <div class="des-demo-bell" aria-label="Notificações da despensa (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="des-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- CAMPO DE BUSCA -->
+                  <div class="des-demo-search-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" class="des-demo-search-icon" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input
+                      type="text"
+                      id="des-demo-search-input"
+                      class="des-demo-search-input"
+                      placeholder="Buscar produtos..."
+                      aria-label="Buscar produtos demonstrativos"
+                      autocomplete="off"
+                    />
+                  </div>
+
+                  <!-- BARRA DE CATEGORIAS (FILTROS) -->
+                  <nav class="des-demo-categories-bar" role="tablist" aria-label="Categorias de produtos">
+                    <button type="button" class="des-demo-cat-chip active" data-cat="all" role="tab" aria-selected="true">
+                      Todos
+                    </button>
+                    <button type="button" class="des-demo-cat-chip" data-cat="laticinios" role="tab" aria-selected="false">
+                      Laticínios
+                    </button>
+                    <button type="button" class="des-demo-cat-chip" data-cat="graos" role="tab" aria-selected="false">
+                      Grãos
+                    </button>
+                    <button type="button" class="des-demo-cat-chip" data-cat="bebidas" role="tab" aria-selected="false">
+                      Bebidas
+                    </button>
+                  </nav>
+
+                  <!-- LISTA DE PRODUTOS MOCK -->
+                  <div class="des-demo-items-list" id="des-demo-products-list" role="list">
+                    
+                    <!-- Produto 1: Leite Integral (Laticínios) -->
+                    <div
+                      class="des-demo-item-card des-demo-item--critical"
+                      id="des-card-prod-leite"
+                      role="listitem"
+                      data-product-name="leite integral"
+                      data-product-cat="laticinios"
+                      data-original-status="critical"
+                    >
+                      <div class="des-demo-item-main">
+                        <div class="des-demo-item-header">
+                          <span class="des-demo-item-name">Leite Integral</span>
+                          <span class="des-demo-status-badge des-status-critical" id="des-status-tag-prod-leite">Vence em 3 dias</span>
+                        </div>
+                        <div class="des-demo-item-meta">
+                          <span>1 L</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span>Laticínios</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span class="des-demo-item-unit" id="des-unit-prod-leite">4 unidades</span>
+                        </div>
+                      </div>
+                      <div class="des-demo-item-actions">
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Leite Integral">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="prod-leite" aria-label="Diminuir quantidade de Leite Integral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-prod-leite">4</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="prod-leite" aria-label="Aumentar quantidade de Leite Integral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                        <button type="button" class="btn-des-demo-delete" aria-label="Excluir Leite Integral (demonstração)" title="Excluir produto">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Produto 2: Arroz Branco (Grãos) -->
+                    <div
+                      class="des-demo-item-card des-demo-item--ok"
+                      id="des-card-prod-arroz"
+                      role="listitem"
+                      data-product-name="arroz branco"
+                      data-product-cat="graos"
+                      data-original-status="ok"
+                    >
+                      <div class="des-demo-item-main">
+                        <div class="des-demo-item-header">
+                          <span class="des-demo-item-name">Arroz Branco</span>
+                          <span class="des-demo-status-badge des-status-ok" id="des-status-tag-prod-arroz">Estoque OK</span>
+                        </div>
+                        <div class="des-demo-item-meta">
+                          <span>5 kg</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span>Grãos</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span class="des-demo-item-unit" id="des-unit-prod-arroz">2 unidades</span>
+                        </div>
+                      </div>
+                      <div class="des-demo-item-actions">
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Arroz Branco">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="prod-arroz" aria-label="Diminuir quantidade de Arroz Branco">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-prod-arroz">2</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="prod-arroz" aria-label="Aumentar quantidade de Arroz Branco">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                        <button type="button" class="btn-des-demo-delete" aria-label="Excluir Arroz Branco (demonstração)" title="Excluir produto">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Produto 3: Suco de Uva (Bebidas) -->
+                    <div
+                      class="des-demo-item-card des-demo-item--ok"
+                      id="des-card-prod-suco"
+                      role="listitem"
+                      data-product-name="suco de uva"
+                      data-product-cat="bebidas"
+                      data-original-status="ok"
+                    >
+                      <div class="des-demo-item-main">
+                        <div class="des-demo-item-header">
+                          <span class="des-demo-item-name">Suco de Uva</span>
+                          <span class="des-demo-status-badge des-status-ok" id="des-status-tag-prod-suco">Estoque OK</span>
+                        </div>
+                        <div class="des-demo-item-meta">
+                          <span>1,5 L</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span>Bebidas</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span class="des-demo-item-unit" id="des-unit-prod-suco">1 unidade</span>
+                        </div>
+                      </div>
+                      <div class="des-demo-item-actions">
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Suco de Uva">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="prod-suco" aria-label="Diminuir quantidade de Suco de Uva">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-prod-suco">1</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="prod-suco" aria-label="Aumentar quantidade de Suco de Uva">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                        <button type="button" class="btn-des-demo-delete" aria-label="Excluir Suco de Uva (demonstração)" title="Excluir produto">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Produto 4: Feijão Carioca (Grãos) -->
+                    <div
+                      class="des-demo-item-card des-demo-item--ok"
+                      id="des-card-prod-feijao"
+                      role="listitem"
+                      data-product-name="feijao carioca feijão carioca"
+                      data-product-cat="graos"
+                      data-original-status="ok"
+                    >
+                      <div class="des-demo-item-main">
+                        <div class="des-demo-item-header">
+                          <span class="des-demo-item-name">Feijão Carioca</span>
+                          <span class="des-demo-status-badge des-status-ok" id="des-status-tag-prod-feijao">Estoque OK</span>
+                        </div>
+                        <div class="des-demo-item-meta">
+                          <span>1 kg</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span>Grãos</span>
+                          <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                          <span class="des-demo-item-unit" id="des-unit-prod-feijao">2 unidades</span>
+                        </div>
+                      </div>
+                      <div class="des-demo-item-actions">
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Feijão Carioca">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="prod-feijao" aria-label="Diminuir quantidade de Feijão Carioca">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-prod-feijao">2</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="prod-feijao" aria-label="Aumentar quantidade de Feijão Carioca">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                        <button type="button" class="btn-des-demo-delete" aria-label="Excluir Feijão Carioca (demonstração)" title="Excluir produto">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- ESTADO VAZIO DA BUSCA / FILTRO -->
+                  <div class="des-demo-empty-state" id="des-demo-empty-state" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="28" height="28" class="des-demo-empty-icon" aria-hidden="true">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <p class="des-demo-empty-title">Nenhum produto encontrado</p>
+                    <p class="des-demo-empty-sub">Tente outro termo ou limpe a categoria.</p>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 3: VENCIMENTOS (DEMONSTRAÇÃO)
+                     ========================================== -->
+                <div class="des-demo-view" id="des-demo-view-vencimentos">
+                  <!-- CABEÇALHO DA TELA VENCIMENTOS (RETORNO + TÍTULO) -->
+                  <div class="des-demo-header-section">
+                    <div class="des-demo-header-title-area">
+                      <div class="des-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="des-demo-back-btn"
+                          id="btn-des-demo-back-from-venc"
+                          aria-label="Voltar para a Home da Despensa"
+                          title="Voltar para o Resumo"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="des-demo-title">Vencimentos</h2>
+                      </div>
+                      <div class="des-demo-meta">
+                        <span>Controle de validade</span>
+                        <span class="des-demo-badge" id="des-demo-venc-badge">3 itens de atenção</span>
+                      </div>
+                    </div>
+
+                    <div class="des-demo-header-controls">
+                      <div class="des-demo-bell" aria-label="Notificações da despensa (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="des-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RESUMO DE INDICADORES DE VALIDADE (3 INDICADORES COMPACTOS) -->
+                  <div class="des-demo-venc-summary" aria-label="Indicadores de validade">
+                    <div class="des-demo-venc-row-top">
+                      <!-- Card 1: Vencidos -->
+                      <div class="des-demo-venc-stat-card stat-critical">
+                        <span class="des-demo-venc-stat-label">Vencidos</span>
+                        <span class="des-demo-venc-stat-value">12</span>
+                      </div>
+                      <!-- Card 2: 7 dias -->
+                      <div class="des-demo-venc-stat-card stat-warning">
+                        <span class="des-demo-venc-stat-label">Vencem em 7 dias</span>
+                        <span class="des-demo-venc-stat-value">8</span>
+                      </div>
+                    </div>
+                    <!-- Card 3: 30 dias -->
+                    <div class="des-demo-venc-stat-card stat-notice">
+                      <div class="des-demo-venc-stat-inline">
+                        <span class="des-demo-venc-stat-label">Vencem em 30 dias</span>
+                        <span class="des-demo-venc-stat-value">24</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FILTROS RESUMIDOS: TODOS / CRÍTICOS -->
+                  <nav class="des-demo-categories-bar" role="tablist" aria-label="Filtro de urgência de vencimento">
+                    <button type="button" class="des-demo-cat-chip des-demo-venc-chip active" data-venc-filter="all" role="tab" aria-selected="true" id="btn-venc-filter-all">
+                      Todos
+                    </button>
+                    <button type="button" class="des-demo-cat-chip des-demo-venc-chip" data-venc-filter="critical" role="tab" aria-selected="false" id="btn-venc-filter-critical">
+                      Críticos
+                    </button>
+                  </nav>
+
+                  <!-- SEÇÃO: ATENÇÃO NECESSÁRIA -->
+                  <div class="des-demo-section" style="margin-top: 4px;">
+                    <div class="des-demo-section-header">
+                      <span class="des-demo-section-label">Atenção necessária</span>
+                      <span class="des-demo-section-counter" id="des-demo-venc-counter">4 itens</span>
+                    </div>
+
+                    <div class="des-demo-items-list" id="des-demo-venc-list" role="list">
+                      <!-- Item 1: Molho de Tomate Orgânico (Vencido há 3 dias - Crítico) -->
+                      <div class="des-demo-item-card des-demo-item--critical" data-venc-critical="true" role="listitem">
+                        <div class="des-demo-item-main">
+                          <div class="des-demo-item-header">
+                            <span class="des-demo-item-name">Molho de Tomate Orgânico</span>
+                            <span class="des-demo-status-badge des-status-critical" id="des-status-tag-venc-molho">Vencido há 3 dias</span>
+                          </div>
+                          <div class="des-demo-item-meta">
+                            <span>La Molisana</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span>400 g</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span class="des-demo-item-unit" id="des-unit-venc-molho">2 unidades</span>
+                          </div>
+                        </div>
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Molho de Tomate Orgânico">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="venc-molho" aria-label="Diminuir quantidade de Molho de Tomate Orgânico">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-venc-molho">2</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="venc-molho" aria-label="Aumentar quantidade de Molho de Tomate Orgânico">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Item 2: Café Especial Torrado (Vence em 2 dias - Atenção/Crítico) -->
+                      <div class="des-demo-item-card des-demo-item--warning" data-venc-critical="true" role="listitem">
+                        <div class="des-demo-item-main">
+                          <div class="des-demo-item-header">
+                            <span class="des-demo-item-name">Café Especial Torrado</span>
+                            <span class="des-demo-status-badge des-status-warning" id="des-status-tag-venc-cafe">Vence em 2 dias</span>
+                          </div>
+                          <div class="des-demo-item-meta">
+                            <span>Coffee Lab</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span>250 g</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span class="des-demo-item-unit" id="des-unit-venc-cafe">1 unidade</span>
+                          </div>
+                        </div>
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Café Especial Torrado">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="venc-cafe" aria-label="Diminuir quantidade de Café Especial Torrado">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-venc-cafe">1</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="venc-cafe" aria-label="Aumentar quantidade de Café Especial Torrado">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Item 3: Leite Integral (Vence em 3 dias - Atenção/Crítico) -->
+                      <div class="des-demo-item-card des-demo-item--warning" data-venc-critical="true" role="listitem">
+                        <div class="des-demo-item-main">
+                          <div class="des-demo-item-header">
+                            <span class="des-demo-item-name">Leite Integral</span>
+                            <span class="des-demo-status-badge des-status-warning" id="des-status-tag-venc-leite">Vence em 3 dias</span>
+                          </div>
+                          <div class="des-demo-item-meta">
+                            <span>1 L</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span class="des-demo-item-unit" id="des-unit-venc-leite">1 unidade</span>
+                          </div>
+                        </div>
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Leite Integral">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="venc-leite" aria-label="Diminuir quantidade de Leite Integral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-venc-leite">1</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="venc-leite" aria-label="Aumentar quantidade de Leite Integral">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Item 4: Feijão Carioca (Vence em 18 dias - Não Crítico, ilustra filtro Todos vs Críticos) -->
+                      <div class="des-demo-item-card des-demo-item--notice" data-venc-critical="false" role="listitem">
+                        <div class="des-demo-item-main">
+                          <div class="des-demo-item-header">
+                            <span class="des-demo-item-name">Feijão Carioca</span>
+                            <span class="des-demo-status-badge des-status-notice" id="des-status-tag-venc-feijao">Vence em 18 dias</span>
+                          </div>
+                          <div class="des-demo-item-meta">
+                            <span>Camil</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span>1 kg</span>
+                            <span class="des-demo-meta-dot" aria-hidden="true">•</span>
+                            <span class="des-demo-item-unit" id="des-unit-venc-feijao">2 unidades</span>
+                          </div>
+                        </div>
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade para Feijão Carioca">
+                          <button type="button" class="btn-des-qty btn-des-qty-minus" data-target="venc-feijao" aria-label="Diminuir quantidade de Feijão Carioca">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                          <span class="des-qty-val" id="des-qty-venc-feijao">2</span>
+                          <button type="button" class="btn-des-qty btn-des-qty-plus" data-target="venc-feijao" aria-label="Aumentar quantidade de Feijão Carioca">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" aria-hidden="true">
+                              <line x1="12" y1="5" x2="12" y2="19"></line>
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 4: COMPARAÇÃO DE PREÇOS (DEMONSTRAÇÃO)
+                     ========================================== -->
+                <div class="des-demo-view" id="des-demo-view-comparacao">
+                  <!-- CABEÇALHO DA TELA COMPARAÇÃO (RETORNO + TÍTULO) -->
+                  <div class="des-demo-header-section">
+                    <div class="des-demo-header-title-area">
+                      <div class="des-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="des-demo-back-btn"
+                          id="btn-des-demo-back-from-compare"
+                          aria-label="Voltar para a Home da Despensa"
+                          title="Voltar para o Resumo"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="des-demo-title">Comparação de preços</h2>
+                      </div>
+                      <div class="des-demo-meta">
+                        <span>Economia inteligente</span>
+                        <span class="des-demo-badge" id="des-demo-compare-badge">2 mercados</span>
+                      </div>
+                    </div>
+
+                    <div class="des-demo-header-controls">
+                      <div class="des-demo-bell" aria-label="Notificações da despensa (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="des-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FILTROS SUPERIORES RESUMIDOS (SELECTS COMPACTOS) -->
+                  <div class="des-demo-compare-filters" aria-label="Filtros de comparação">
+                    <div class="des-demo-select-wrap">
+                      <select id="des-demo-period-select" class="des-demo-select" aria-label="Selecionar período">
+                        <option value="semana" selected>Semana atual</option>
+                        <option value="mes">Últimos 30 dias</option>
+                      </select>
+                      <svg class="des-demo-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                    <div class="des-demo-select-wrap">
+                      <select id="des-demo-market-select" class="des-demo-select" aria-label="Selecionar mercado">
+                        <option value="todos" selected>Todos os mercados</option>
+                        <option value="pao">Pão de Açúcar</option>
+                        <option value="extra">Mercado Extra</option>
+                      </select>
+                      <svg class="des-demo-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- CARD PRINCIPAL: TOTAL ESTIMADO & DISTRIBUIÇÃO -->
+                  <div class="des-demo-compare-summary-card">
+                    <div class="des-demo-compare-total-header">
+                      <span class="des-demo-compare-total-label">TOTAL ESTIMADO</span>
+                      <span class="des-demo-compare-total-val" id="des-compare-total-val">R$ 485,90</span>
+                    </div>
+
+                    <!-- Barras de Distribuição de Gastos -->
+                    <div class="des-demo-market-dist" aria-label="Distribuição por mercados">
+                      <div class="des-demo-market-dist-item">
+                        <div class="des-demo-market-dist-info">
+                          <span class="des-demo-market-dist-name">Pão de Açúcar</span>
+                          <span class="des-demo-market-dist-pct" id="des-dist-pao-pct">60%</span>
+                        </div>
+                        <div class="des-demo-market-bar-track">
+                          <div class="des-demo-market-bar-fill fill-pao" id="des-dist-pao-bar" style="width: 60%;"></div>
+                        </div>
+                      </div>
+                      <div class="des-demo-market-dist-item">
+                        <div class="des-demo-market-dist-info">
+                          <span class="des-demo-market-dist-name">Mercado Extra</span>
+                          <span class="des-demo-market-dist-pct" id="des-dist-extra-pct">40%</span>
+                        </div>
+                        <div class="des-demo-market-bar-track">
+                          <div class="des-demo-market-bar-fill fill-extra" id="des-dist-extra-bar" style="width: 40%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- CARD DE DESTAQUE: ECONOMIA POTENCIAL & MELHOR ROTA -->
+                  <div class="des-demo-savings-card">
+                    <div class="des-demo-savings-top">
+                      <div class="des-demo-savings-badge-wrap">
+                        <span class="des-demo-savings-tag">ECONOMIA POTENCIAL</span>
+                        <span class="des-demo-savings-val" id="des-compare-savings-val">R$ 42,50</span>
+                      </div>
+                      <p class="des-demo-savings-sub">Comprando cada item onde está mais barato.</p>
+                    </div>
+                    <button type="button" class="btn-des-demo-route-toggle" id="btn-des-demo-toggle-route" aria-expanded="false">
+                      <span class="btn-des-route-label" id="des-route-btn-label">Ver melhor rota</span>
+                      <svg class="btn-des-route-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- BLOCO EXPANSÍVEL: MELHOR ROTA -->
+                  <div class="des-demo-route-container" id="des-demo-route-container" style="display: none;">
+                    <div class="des-demo-route-card">
+                      <div class="des-demo-route-header">
+                        <div class="des-demo-route-title-wrap">
+                          <span class="des-demo-route-title">MELHOR ROTA</span>
+                          <span class="des-demo-route-metrics">18 min • 5,4 km • Economia R$ 42,50</span>
+                        </div>
+                      </div>
+
+                      <div class="des-demo-route-steps">
+                        <div class="des-demo-route-step">
+                          <div class="des-demo-route-step-num">1</div>
+                          <div class="des-demo-route-step-content">
+                            <span class="des-demo-route-step-name">Pão de Açúcar</span>
+                            <span class="des-demo-route-step-details">8 itens • R$ 120,00</span>
+                          </div>
+                        </div>
+                        <div class="des-demo-route-step">
+                          <div class="des-demo-route-step-num">2</div>
+                          <div class="des-demo-route-step-content">
+                            <span class="des-demo-route-step-name">Mercado Extra</span>
+                            <span class="des-demo-route-step-details">4 itens • R$ 85,00</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button type="button" class="btn-des-demo-route-hide" id="btn-des-demo-hide-route">
+                        Ocultar rota
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- SEÇÃO: COMPARATIVO DE PRODUTOS -->
+                  <div class="des-demo-section" style="margin-top: 8px;">
+                    <div class="des-demo-section-header">
+                      <span class="des-demo-section-label">Comparativo</span>
+                      <span class="des-demo-section-counter">3 produtos</span>
+                    </div>
+
+                    <div class="des-demo-compare-items-list" role="list">
+                      <!-- Produto 1: Arroz Branco 5 kg -->
+                      <div class="des-demo-compare-item-card" role="listitem">
+                        <div class="des-demo-compare-item-header">
+                          <span class="des-demo-item-name">Arroz Branco</span>
+                          <span class="des-demo-item-qty-tag">5 kg</span>
+                        </div>
+                        <div class="des-demo-compare-prices-grid">
+                          <div class="des-demo-price-col">
+                            <span class="des-demo-price-market">Pão de Açúcar</span>
+                            <span class="des-demo-price-val">R$ 32,90</span>
+                          </div>
+                          <div class="des-demo-price-col des-price-winner">
+                            <div class="des-demo-price-market-row">
+                              <span class="des-demo-price-market">Mercado Extra</span>
+                              <span class="des-demo-best-price-badge">MELHOR PREÇO</span>
+                            </div>
+                            <span class="des-demo-price-val">R$ 29,90</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Produto 2: Leite Integral 1 L -->
+                      <div class="des-demo-compare-item-card" role="listitem">
+                        <div class="des-demo-compare-item-header">
+                          <span class="des-demo-item-name">Leite Integral</span>
+                          <span class="des-demo-item-qty-tag">1 L</span>
+                        </div>
+                        <div class="des-demo-compare-prices-grid">
+                          <div class="des-demo-price-col">
+                            <span class="des-demo-price-market">Pão de Açúcar</span>
+                            <span class="des-demo-price-val">R$ 6,49</span>
+                          </div>
+                          <div class="des-demo-price-col des-price-winner">
+                            <div class="des-demo-price-market-row">
+                              <span class="des-demo-price-market">Mercado Extra</span>
+                              <span class="des-demo-best-price-badge">MELHOR PREÇO</span>
+                            </div>
+                            <span class="des-demo-price-val">R$ 5,89</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Produto 3: Café 500 g -->
+                      <div class="des-demo-compare-item-card" role="listitem">
+                        <div class="des-demo-compare-item-header">
+                          <span class="des-demo-item-name">Café</span>
+                          <span class="des-demo-item-qty-tag">500 g</span>
+                        </div>
+                        <div class="des-demo-compare-prices-grid">
+                          <div class="des-demo-price-col des-price-winner">
+                            <div class="des-demo-price-market-row">
+                              <span class="des-demo-price-market">Pão de Açúcar</span>
+                              <span class="des-demo-best-price-badge">MELHOR PREÇO</span>
+                            </div>
+                            <span class="des-demo-price-val">R$ 22,90</span>
+                          </div>
+                          <div class="des-demo-price-col">
+                            <span class="des-demo-price-market">Mercado Extra</span>
+                            <span class="des-demo-price-val">R$ 24,50</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ==========================================
+                     VISTA 5: NOVO PRODUTO (DEMONSTRAÇÃO DE CADASTRO)
+                     ========================================== -->
+                <div class="des-demo-view" id="des-demo-view-novo-produto">
+                  <!-- CABEÇALHO DA TELA NOVO PRODUTO (RETORNO + TÍTULO) -->
+                  <div class="des-demo-header-section">
+                    <div class="des-demo-header-title-area">
+                      <div class="des-demo-header-top-row">
+                        <button
+                          type="button"
+                          class="des-demo-back-btn"
+                          id="btn-des-demo-back-from-new"
+                          aria-label="Voltar para a Home da Despensa"
+                          title="Voltar para o Resumo"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                          </svg>
+                        </button>
+                        <h2 class="des-demo-title">Novo produto</h2>
+                      </div>
+                      <div class="des-demo-meta">
+                        <span>Cadastro simplificado</span>
+                        <span class="des-demo-badge">Demonstração</span>
+                      </div>
+                    </div>
+
+                    <div class="des-demo-header-controls">
+                      <div class="des-demo-bell" aria-label="Notificações da despensa (demonstração)" title="Notificações">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="des-demo-bell-dot" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- FORMULÁRIO DEMONSTRATIVO DE CADASTRO -->
+                  <form id="des-demo-new-product-form" class="des-demo-new-product-form" onsubmit="return false;" novalidate>
+                    <!-- ÁREA COMPACTA DE FOTO -->
+                    <button
+                      type="button"
+                      class="des-demo-photo-box"
+                      id="des-demo-photo-btn"
+                      aria-label="Adicionar foto do produto (demonstrativo)"
+                    >
+                      <svg class="des-demo-photo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                      </svg>
+                      <span id="des-demo-photo-label">Adicionar foto</span>
+                    </button>
+
+                    <!-- CAMPO: NOME DO PRODUTO + BOTÃO SCANNER MOCK -->
+                    <div class="des-demo-form-group">
+                      <label for="des-new-prod-name" class="des-demo-form-label">
+                        Nome do produto
+                      </label>
+                      <div class="des-demo-input-scanner-row">
+                        <input
+                          type="text"
+                          id="des-new-prod-name"
+                          class="des-demo-input"
+                          placeholder="Ex: Azeite de Oliva Extra Virgem"
+                          autocomplete="off"
+                        />
+                        <button
+                          type="button"
+                          class="btn-des-demo-scanner"
+                          id="btn-des-demo-mock-scanner"
+                          aria-label="Simular leitura de código de barras (preenchimento automático demonstrativo)"
+                          title="Simular leitura de código de barras"
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+                            <path d="M3 5v14"></path>
+                            <path d="M8 5v14"></path>
+                            <path d="M12 5v14"></path>
+                            <path d="M17 5v14"></path>
+                            <path d="M21 5v14"></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- CAMPO: CATEGORIA -->
+                    <div class="des-demo-form-group">
+                      <label for="des-new-prod-cat" class="des-demo-form-label">
+                        Categoria
+                      </label>
+                      <div class="des-demo-select-wrap">
+                        <select id="des-new-prod-cat" class="des-demo-select">
+                          <option value="">Selecione</option>
+                          <option value="Laticínios">Laticínios</option>
+                          <option value="Grãos">Grãos</option>
+                          <option value="Bebidas">Bebidas</option>
+                          <option value="Enlatados">Enlatados</option>
+                          <option value="Outros">Outros</option>
+                        </select>
+                        <svg class="des-demo-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- GRID DUPLA: QUANTIDADE E UNIDADE -->
+                    <div class="des-demo-form-grid-2">
+                      <div class="des-demo-form-group">
+                        <label class="des-demo-form-label">
+                          Quantidade
+                        </label>
+                        <div class="des-demo-qty-control" aria-label="Controle de quantidade">
+                          <button
+                            type="button"
+                            class="btn-des-new-qty"
+                            id="btn-des-new-qty-minus"
+                            aria-label="Diminuir quantidade"
+                          >−</button>
+                          <span class="des-demo-new-qty-val" id="des-new-qty-val">1</span>
+                          <button
+                            type="button"
+                            class="btn-des-new-qty"
+                            id="btn-des-new-qty-plus"
+                            aria-label="Aumentar quantidade"
+                          >+</button>
+                        </div>
+                      </div>
+
+                      <div class="des-demo-form-group">
+                        <label for="des-new-prod-unit" class="des-demo-form-label">
+                          Unidade
+                        </label>
+                        <div class="des-demo-select-wrap">
+                          <select id="des-new-prod-unit" class="des-demo-select">
+                            <option value="unidade" selected>unidade</option>
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="L">L</option>
+                            <option value="ml">ml</option>
+                          </select>
+                          <svg class="des-demo-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- CAMPO: DATA DE VALIDADE (OPCIONAL) -->
+                    <div class="des-demo-form-group">
+                      <label for="des-new-prod-exp" class="des-demo-form-label">
+                        <span>Data de validade</span>
+                        <span class="des-demo-form-optional">Opcional</span>
+                      </label>
+                      <input
+                        type="date"
+                        id="des-new-prod-exp"
+                        class="des-demo-input"
+                      />
+                    </div>
+
+                    <!-- CAMPO: MARCA (OPCIONAL) -->
+                    <div class="des-demo-form-group">
+                      <label for="des-new-prod-brand" class="des-demo-form-label">
+                        <span>Marca</span>
+                        <span class="des-demo-form-optional">Opcional</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="des-new-prod-brand"
+                        class="des-demo-input"
+                        placeholder="Ex: Camil"
+                        autocomplete="off"
+                      />
+                    </div>
+
+                    <!-- FEEDBACK VISUAL DE VALIDAÇÃO / SUCESSO -->
+                    <div id="des-new-feedback" class="des-demo-feedback-banner" style="display: none;" role="alert"></div>
+
+                    <!-- BOTÃO PRINCIPAL: SALVAR PRODUTO -->
+                    <button
+                      type="button"
+                      class="btn-des-demo-save"
+                      id="btn-des-new-save-product"
+                    >
+                      SALVAR PRODUTO
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- BOTÃO FLUTUANTE ADICIONAR (FAB +) - DEMONSTRATIVO -->
+              <button
+                type="button"
+                class="btn-des-demo-fab"
+                id="btn-des-demo-add"
+                aria-label="Adicionar produto na despensa (demonstração)"
+                title="Adicionar produto"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER INSTITUCIONAL -->
+      <footer class="site-footer" id="site-footer">
+        <div class="container">
+          <div class="footer-divider" aria-hidden="true"></div>
+          <div class="footer-content">
+            <a href="/" class="footer-brand" id="footer-brand">KeeperHub</a>
+            <nav class="footer-nav" id="footer-nav" aria-label="Links institucionais">
+              <a href="/politica-de-privacidade/" class="footer-link" id="link-footer-privacy">Política de Privacidade</a>
+              <a href="/termos-de-uso/" class="footer-link" id="link-footer-terms">Termos de Uso</a>
+              <a href="/contato/" class="footer-link" id="link-footer-contact">Contato</a>
+            </nav>
+            <p class="footer-copyright" id="footer-copyright">
+              &copy; 2026 KeeperHub. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Scripts Compartilhados & Lógica da Demonstração Interativa da Despensa -->
+    <script type="module">
+      import { initTheme } from '/shared/services/theme.js';
+      initTheme();
+
+      // Lógica interativa da Demonstração da Despensa (Padronizada com a Landing Medicamentos)
+      (function initDespensaDemo() {
+        const scrollArea = document.getElementById('des-demo-scroll-area');
+        const viewHome = document.getElementById('des-demo-view-home');
+        const viewProducts = document.getElementById('des-demo-view-products');
+        const viewVencimentos = document.getElementById('des-demo-view-vencimentos');
+        const viewComparacao = document.getElementById('des-demo-view-comparacao');
+        const viewNovoProduto = document.getElementById('des-demo-view-novo-produto');
+        const tabButtons = document.querySelectorAll('.module-chips-list .module-chip');
+        const btnOpenProducts = document.getElementById('btn-des-demo-open-products');
+        const btnOpenExpiring = document.getElementById('btn-des-demo-open-expiring');
+        const btnOpenCompare = document.getElementById('btn-des-demo-open-compare');
+        const btnBackToHome = document.getElementById('btn-des-demo-back-to-home');
+        const btnBackFromVenc = document.getElementById('btn-des-demo-back-from-venc');
+        const btnBackFromCompare = document.getElementById('btn-des-demo-back-from-compare');
+        const btnBackFromNew = document.getElementById('btn-des-demo-back-from-new');
+        const fabBtn = document.getElementById('btn-des-demo-add');
+
+        // 1. Função Central de Alternância de Visualizações do Preview
+        function switchDemoView(targetView) {
+          // Atualiza o estado ativo dos botões superiores da landing
+          tabButtons.forEach(function (btn) {
+            const isMatch = btn.getAttribute('data-target-view') === targetView;
+            btn.classList.toggle('active', isMatch);
+            btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+          });
+
+          // Gerencia a exibição das views implementadas no preview único
+          if (targetView === 'home') {
+            if (viewProducts) viewProducts.classList.remove('active');
+            if (viewVencimentos) viewVencimentos.classList.remove('active');
+            if (viewComparacao) viewComparacao.classList.remove('active');
+            if (viewNovoProduto) viewNovoProduto.classList.remove('active');
+            if (viewHome) viewHome.classList.add('active');
+            if (scrollArea) scrollArea.scrollTop = 0;
+          } else if (targetView === 'products') {
+            if (viewHome) viewHome.classList.remove('active');
+            if (viewVencimentos) viewVencimentos.classList.remove('active');
+            if (viewComparacao) viewComparacao.classList.remove('active');
+            if (viewNovoProduto) viewNovoProduto.classList.remove('active');
+            if (viewProducts) viewProducts.classList.add('active');
+            if (scrollArea) scrollArea.scrollTop = 0;
+          } else if (targetView === 'vencimentos') {
+            if (viewHome) viewHome.classList.remove('active');
+            if (viewProducts) viewProducts.classList.remove('active');
+            if (viewComparacao) viewComparacao.classList.remove('active');
+            if (viewNovoProduto) viewNovoProduto.classList.remove('active');
+            if (viewVencimentos) viewVencimentos.classList.add('active');
+            if (scrollArea) scrollArea.scrollTop = 0;
+          } else if (targetView === 'comparacao') {
+            if (viewHome) viewHome.classList.remove('active');
+            if (viewProducts) viewProducts.classList.remove('active');
+            if (viewVencimentos) viewVencimentos.classList.remove('active');
+            if (viewNovoProduto) viewNovoProduto.classList.remove('active');
+            if (viewComparacao) viewComparacao.classList.add('active');
+            if (scrollArea) scrollArea.scrollTop = 0;
+          } else if (targetView === 'novo-produto') {
+            if (viewHome) viewHome.classList.remove('active');
+            if (viewProducts) viewProducts.classList.remove('active');
+            if (viewVencimentos) viewVencimentos.classList.remove('active');
+            if (viewComparacao) viewComparacao.classList.remove('active');
+            if (viewNovoProduto) viewNovoProduto.classList.add('active');
+            if (scrollArea) scrollArea.scrollTop = 0;
+          }
+        }
+
+        // Cliques nos Botões Reais da Barra de Funcionalidades
+        tabButtons.forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = btn.getAttribute('data-target-view') || 'home';
+            switchDemoView(target);
+          });
+        });
+
+        // Conexão Dupla: Card "PRODUTOS (24 cadastrados)" na Home abre a visualização Produtos
+        if (btnOpenProducts) {
+          btnOpenProducts.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('products');
+          });
+        }
+
+        // Conexão Dupla: Card "PRÓXIMOS A VENCER (5 precisam atenção)" na Home abre a visualização Vencimentos
+        if (btnOpenExpiring) {
+          btnOpenExpiring.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('vencimentos');
+          });
+        }
+
+        // Conexão Dupla: Card "COMPARAÇÃO (Economize nas compras)" na Home abre a visualização Comparação
+        if (btnOpenCompare) {
+          btnOpenCompare.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('comparacao');
+          });
+        }
+
+        // Conexão Dupla: Botão flutuante (+) na Home abre a visualização Novo Produto
+        if (fabBtn) {
+          fabBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('novo-produto');
+          });
+        }
+
+        // Retorno: Botão "←" no cabeçalho interno de Todos os Produtos retorna à Visão Geral
+        if (btnBackToHome) {
+          btnBackToHome.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('home');
+          });
+        }
+
+        // Retorno: Botão "←" no cabeçalho interno de Vencimentos retorna à Visão Geral
+        if (btnBackFromVenc) {
+          btnBackFromVenc.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('home');
+          });
+        }
+
+        // Retorno: Botão "←" no cabeçalho interno de Comparação retorna à Visão Geral
+        if (btnBackFromCompare) {
+          btnBackFromCompare.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('home');
+          });
+        }
+
+        // Retorno: Botão "←" no cabeçalho interno de Novo Produto retorna à Visão Geral
+        if (btnBackFromNew) {
+          btnBackFromNew.addEventListener('click', function (e) {
+            e.preventDefault();
+            switchDemoView('home');
+          });
+        }
+
+        // 2. Busca e Filtro de Categorias em Todos os Produtos
+        const searchInput = document.getElementById('des-demo-search-input');
+        const catChips = document.querySelectorAll('.des-demo-cat-chip:not(.des-demo-venc-chip)');
+        const productCards = document.querySelectorAll('#des-demo-products-list .des-demo-item-card');
+        const emptyState = document.getElementById('des-demo-empty-state');
+        const prodBadge = document.getElementById('des-demo-prod-badge');
+
+        let activeCategory = 'all';
+
+        function normalizeString(str) {
+          return (str || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function filterProducts() {
+          const searchTerm = normalizeString(searchInput ? searchInput.value.trim() : '');
+          let visibleCount = 0;
+
+          productCards.forEach(function (card) {
+            const prodName = normalizeString(card.dataset.productName || '');
+            const prodCat = card.dataset.productCat || '';
+
+            const matchesCategory = activeCategory === 'all' || prodCat === activeCategory;
+            const matchesSearch = !searchTerm || prodName.includes(searchTerm);
+
+            if (matchesCategory && matchesSearch) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          if (emptyState) {
+            emptyState.style.display = visibleCount === 0 ? 'flex' : 'none';
+          }
+
+          if (prodBadge) {
+            prodBadge.textContent = visibleCount === 1 ? '1 item' : visibleCount + ' itens';
+          }
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener('input', filterProducts);
+        }
+
+        catChips.forEach(function (chip) {
+          chip.addEventListener('click', function (e) {
+            e.preventDefault();
+            catChips.forEach(function (c) {
+              c.classList.remove('active');
+              c.setAttribute('aria-selected', 'false');
+            });
+            chip.classList.add('active');
+            chip.setAttribute('aria-selected', 'true');
+            activeCategory = chip.dataset.cat || 'all';
+            filterProducts();
+          });
+        });
+
+        // 3. Filtro Resumido de Vencimentos (Todos / Críticos)
+        const vencChips = document.querySelectorAll('.des-demo-venc-chip');
+        const vencCards = document.querySelectorAll('#des-demo-venc-list .des-demo-item-card');
+        const vencCounter = document.getElementById('des-demo-venc-counter');
+
+        vencChips.forEach(function (chip) {
+          chip.addEventListener('click', function (e) {
+            e.preventDefault();
+            vencChips.forEach(function (c) {
+              c.classList.remove('active');
+              c.setAttribute('aria-selected', 'false');
+            });
+            chip.classList.add('active');
+            chip.setAttribute('aria-selected', 'true');
+
+            const filterType = chip.getAttribute('data-venc-filter') || 'all';
+            let visibleCount = 0;
+
+            vencCards.forEach(function (card) {
+              const isCrit = card.getAttribute('data-venc-critical') === 'true';
+              if (filterType === 'all' || (filterType === 'critical' && isCrit)) {
+                card.style.display = 'flex';
+                visibleCount++;
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            if (vencCounter) {
+              vencCounter.textContent = filterType === 'critical' ? visibleCount + ' itens críticos' : visibleCount + ' itens';
+            }
+          });
+        });
+
+        // 4. Interatividade da Vista de Comparação (Alternar Rota e Filtros Demonstrativos)
+        const btnToggleRoute = document.getElementById('btn-des-demo-toggle-route');
+        const btnHideRoute = document.getElementById('btn-des-demo-hide-route');
+        const routeContainer = document.getElementById('des-demo-route-container');
+        const routeBtnLabel = document.getElementById('des-route-btn-label');
+
+        function toggleRouteView(shouldShow) {
+          if (!routeContainer || !btnToggleRoute) return;
+          const isVisible = shouldShow !== undefined ? shouldShow : routeContainer.style.display !== 'none';
+          if (isVisible) {
+            routeContainer.style.display = 'none';
+            btnToggleRoute.setAttribute('aria-expanded', 'false');
+            if (routeBtnLabel) routeBtnLabel.textContent = 'Ver melhor rota';
+          } else {
+            routeContainer.style.display = 'block';
+            btnToggleRoute.setAttribute('aria-expanded', 'true');
+            if (routeBtnLabel) routeBtnLabel.textContent = 'Ocultar rota';
+          }
+        }
+
+        if (btnToggleRoute) {
+          btnToggleRoute.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleRouteView();
+          });
+        }
+
+        if (btnHideRoute) {
+          btnHideRoute.addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleRouteView(true); // oculta
+          });
+        }
+
+        // Filtros Demonstrativos de Período e Mercado (Mock interativo simples)
+        const periodSelect = document.getElementById('des-demo-period-select');
+        const marketSelect = document.getElementById('des-demo-market-select');
+        const totalValEl = document.getElementById('des-compare-total-val');
+        const savingsValEl = document.getElementById('des-compare-savings-val');
+        const paoPctEl = document.getElementById('des-dist-pao-pct');
+        const extraPctEl = document.getElementById('des-dist-extra-pct');
+        const paoBarEl = document.getElementById('des-dist-pao-bar');
+        const extraBarEl = document.getElementById('des-dist-extra-bar');
+
+        function updateCompareMockData() {
+          const period = periodSelect ? periodSelect.value : 'semana';
+          const market = marketSelect ? marketSelect.value : 'todos';
+
+          if (period === 'mes') {
+            if (totalValEl) totalValEl.textContent = market === 'pao' ? 'R$ 1.045,40' : (market === 'extra' ? 'R$ 696,90' : 'R$ 1.742,30');
+            if (savingsValEl) savingsValEl.textContent = 'R$ 158,20';
+          } else {
+            if (totalValEl) totalValEl.textContent = market === 'pao' ? 'R$ 291,50' : (market === 'extra' ? 'R$ 194,40' : 'R$ 485,90');
+            if (savingsValEl) savingsValEl.textContent = 'R$ 42,50';
+          }
+
+          if (market === 'pao') {
+            if (paoPctEl) paoPctEl.textContent = '100%';
+            if (extraPctEl) extraPctEl.textContent = '0%';
+            if (paoBarEl) paoBarEl.style.width = '100%';
+            if (extraBarEl) extraBarEl.style.width = '0%';
+          } else if (market === 'extra') {
+            if (paoPctEl) paoPctEl.textContent = '0%';
+            if (extraPctEl) extraPctEl.textContent = '100%';
+            if (paoBarEl) paoBarEl.style.width = '0%';
+            if (extraBarEl) extraBarEl.style.width = '100%';
+          } else {
+            if (paoPctEl) paoPctEl.textContent = '60%';
+            if (extraPctEl) extraPctEl.textContent = '40%';
+            if (paoBarEl) paoBarEl.style.width = '60%';
+            if (extraBarEl) extraBarEl.style.width = '40%';
+          }
+        }
+
+        if (periodSelect) periodSelect.addEventListener('change', updateCompareMockData);
+        if (marketSelect) marketSelect.addEventListener('change', updateCompareMockData);
+
+        // 5. Interatividade da Vista de Novo Produto (Cadastro Demonstrativo)
+        const photoBtn = document.getElementById('des-demo-photo-btn');
+        const photoLabel = document.getElementById('des-demo-photo-label');
+        const newNameInput = document.getElementById('des-new-prod-name');
+        const newCatSelect = document.getElementById('des-new-prod-cat');
+        const newUnitSelect = document.getElementById('des-new-prod-unit');
+        const newBrandInput = document.getElementById('des-new-prod-brand');
+        const newExpInput = document.getElementById('des-new-prod-exp');
+        const newQtyVal = document.getElementById('des-new-qty-val');
+        const btnNewQtyMinus = document.getElementById('btn-des-new-qty-minus');
+        const btnNewQtyPlus = document.getElementById('btn-des-new-qty-plus');
+        const btnMockScanner = document.getElementById('btn-des-demo-mock-scanner');
+        const btnSaveProduct = document.getElementById('btn-des-new-save-product');
+        const feedbackBanner = document.getElementById('des-new-feedback');
+
+        let isPhotoSelected = false;
+        let newQty = 1;
+        let mockToggle = false;
+        let feedbackTimer = null;
+
+        // Foto demonstrativa (alterna estado visual)
+        if (photoBtn) {
+          photoBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            isPhotoSelected = !isPhotoSelected;
+            photoBtn.classList.toggle('has-photo', isPhotoSelected);
+            if (photoLabel) {
+              photoLabel.textContent = isPhotoSelected ? 'Foto selecionada ✓' : 'Adicionar foto';
+            }
+          });
+        }
+
+        // Quantidade (mínimo 1 na criação)
+        if (btnNewQtyMinus) {
+          btnNewQtyMinus.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (newQty > 1) {
+              newQty -= 1;
+              if (newQtyVal) newQtyVal.textContent = newQty;
+            }
+          });
+        }
+
+        if (btnNewQtyPlus) {
+          btnNewQtyPlus.addEventListener('click', function (e) {
+            e.preventDefault();
+            newQty += 1;
+            if (newQtyVal) newQtyVal.textContent = newQty;
+          });
+        }
+
+        // Scanner Mock (preenchimento automático demonstrativo)
+        if (btnMockScanner) {
+          btnMockScanner.addEventListener('click', function (e) {
+            e.preventDefault();
+            mockToggle = !mockToggle;
+
+            if (mockToggle) {
+              if (newNameInput) newNameInput.value = 'Leite Integral';
+              if (newCatSelect) newCatSelect.value = 'Laticínios';
+              if (newUnitSelect) newUnitSelect.value = 'L';
+              if (newBrandInput) newBrandInput.value = 'Piracanjuba';
+            } else {
+              if (newNameInput) newNameInput.value = 'Arroz Branco';
+              if (newCatSelect) newCatSelect.value = 'Grãos';
+              if (newUnitSelect) newUnitSelect.value = 'kg';
+              if (newBrandInput) newBrandInput.value = 'Camil';
+            }
+            newQty = 1;
+            if (newQtyVal) newQtyVal.textContent = '1';
+
+            // Efeito tátil
+            btnMockScanner.style.transform = 'scale(0.88)';
+            setTimeout(function () {
+              btnMockScanner.style.transform = '';
+            }, 150);
+          });
+        }
+
+        // Salvar Produto (Validação mínima e feedback demonstrativo)
+        if (btnSaveProduct) {
+          btnSaveProduct.addEventListener('click', function (e) {
+            e.preventDefault();
+            const name = newNameInput ? newNameInput.value.trim() : '';
+
+            if (feedbackTimer) {
+              clearTimeout(feedbackTimer);
+              feedbackTimer = null;
+            }
+
+            if (!name) {
+              if (feedbackBanner) {
+                feedbackBanner.textContent = 'Informe o nome do produto.';
+                feedbackBanner.className = 'des-demo-feedback-banner des-demo-feedback-error';
+                feedbackBanner.style.display = 'block';
+                if (newNameInput) newNameInput.focus();
+              }
+              return;
+            }
+
+            // Sucesso demonstrativo
+            if (feedbackBanner) {
+              feedbackBanner.textContent = 'Produto adicionado à demonstração ✓';
+              feedbackBanner.className = 'des-demo-feedback-banner des-demo-feedback-success';
+              feedbackBanner.style.display = 'block';
+            }
+
+            // Limpa o formulário após salvar para permitir nova demonstração
+            if (newNameInput) newNameInput.value = '';
+            if (newBrandInput) newBrandInput.value = '';
+            if (newCatSelect) newCatSelect.value = '';
+            if (newExpInput) newExpInput.value = '';
+            if (newUnitSelect) newUnitSelect.value = 'unidade';
+            newQty = 1;
+            if (newQtyVal) newQtyVal.textContent = '1';
+            isPhotoSelected = false;
+            if (photoBtn) photoBtn.classList.remove('has-photo');
+            if (photoLabel) photoLabel.textContent = 'Adicionar foto';
+
+            // Oculta o feedback suavemente após 2.5s
+            feedbackTimer = setTimeout(function () {
+              if (feedbackBanner) feedbackBanner.style.display = 'none';
+            }, 2500);
+          });
+        }
+
+        // 6. Controle Interativo de Quantidade (+ e −) nos cards de produto com suporte a Sem Estoque
+        const originalStatusData = {
+          'leite': { text: 'Vence em 3 dias', class: 'des-status-critical' },
+          'macarrao': { text: 'Vence em 7 dias', class: 'des-status-warning' },
+          'prod-leite': { text: 'Vence em 3 dias', class: 'des-status-critical' },
+          'prod-arroz': { text: 'Estoque OK', class: 'des-status-ok' },
+          'prod-suco': { text: 'Estoque OK', class: 'des-status-ok' },
+          'prod-feijao': { text: 'Estoque OK', class: 'des-status-ok' },
+          'venc-molho': { text: 'Vencido há 3 dias', class: 'des-status-critical' },
+          'venc-cafe': { text: 'Vence em 2 dias', class: 'des-status-warning' },
+          'venc-leite': { text: 'Vence em 3 dias', class: 'des-status-warning' },
+          'venc-feijao': { text: 'Vence em 18 dias', class: 'des-status-notice' }
+        };
+
+        const qtyButtons = document.querySelectorAll('.btn-des-qty');
+
+        qtyButtons.forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const target = btn.dataset.target;
+            if (!target) return;
+
+            const qtyEl = document.getElementById('des-qty-' + target);
+            const unitEl = document.getElementById('des-unit-' + target);
+            const statusTag = document.getElementById('des-status-tag-' + target);
+
+            if (!qtyEl) return;
+
+            let currentQty = parseInt(qtyEl.textContent, 10);
+            if (isNaN(currentQty)) currentQty = 0;
+
+            const isPlus = btn.classList.contains('btn-des-qty-plus');
+
+            if (isPlus) {
+              currentQty += 1;
+            } else {
+              if (currentQty > 0) {
+                currentQty -= 1;
+              }
+            }
+
+            qtyEl.textContent = currentQty;
+
+            if (unitEl) {
+              unitEl.textContent = currentQty + (currentQty === 1 ? ' unidade' : ' unidades');
+            }
+
+            // Atualização semântica de status para zero unidades
+            if (statusTag) {
+              const orig = originalStatusData[target];
+              if (currentQty === 0) {
+                statusTag.textContent = 'Sem estoque';
+                statusTag.className = 'des-demo-status-badge des-status-out-of-stock';
+              } else if (orig) {
+                statusTag.textContent = orig.text;
+                statusTag.className = 'des-demo-status-badge ' + orig.class;
+              }
+            }
+          });
+        });
+
+        // 7. Feedback tátil demonstrativo nos botões de exclusão
+        const deleteButtons = document.querySelectorAll('.btn-des-demo-delete');
+        deleteButtons.forEach(function (btn) {
+          btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.style.transform = 'scale(0.9)';
+            setTimeout(function () {
+              btn.style.transform = '';
+            }, 150);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
