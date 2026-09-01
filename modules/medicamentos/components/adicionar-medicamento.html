@@ -44,12 +44,12 @@
           <div class="meds-header-title-area">
             <div class="meds-header-top-row">
               <a
-                href="/modules/medicamentos/medicacoes/"
+                href="/modules/medicamentos/components/medicacoes.html"
                 class="meds-header-back-btn"
                 id="btn-back-medications"
                 aria-label="Voltar para a listagem de Medicações"
                 title="Voltar"
-              >
+                >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
                   <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
@@ -57,41 +57,40 @@
               <h1 class="meds-header-title" id="add-medication-page-title">Adicionar medicamento</h1>
             </div>
           </div>
+          <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+          <div class="theme-bar" id="theme-bar">
+            <button
+              type="button"
+              class="btn-theme-toggle"
+              id="btn-theme-toggle"
+              aria-label="Ativar tema claro"
+              title="Ativar tema claro"
+            >
+              <img
+                src="../../../shared/img/icon-theme-sun.png"
+                alt=""
+                aria-hidden="true"
+                class="theme-icon theme-icon-sun"
+                width="20"
+                height="20"
+              />
+              <img
+                src="../../../shared/img/icon-theme-moon.png"
+                alt=""
+                aria-hidden="true"
+                class="theme-icon theme-icon-moon"
+                width="20"
+                height="20"
+              />
+            </button>
+          </div>
         </header>
-
-        <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-        <div class="theme-bar" id="theme-bar">
-          <button
-            type="button"
-            class="btn-theme-toggle"
-            id="btn-theme-toggle"
-            aria-label="Ativar tema claro"
-            title="Ativar tema claro"
-          >
-            <img
-              src="../../../shared/img/icon-theme-sun.png"
-              alt=""
-              aria-hidden="true"
-              class="theme-icon theme-icon-sun"
-              width="20"
-              height="20"
-            />
-            <img
-              src="../../../shared/img/icon-theme-moon.png"
-              alt=""
-              aria-hidden="true"
-              class="theme-icon theme-icon-moon"
-              width="20"
-              height="20"
-            />
-          </button>
-        </div>
-
+        
         <!-- ORIENTAÇÃO INTRODUTÓRIA -->
         <p class="meds-form-intro" id="add-medication-intro">
           Cadastre as informações do medicamento para organizar sua rotina.
         </p>
-
+        
         <!-- FORMULÁRIO DE CADASTRO -->
         <main id="main-content">
           <form class="meds-form" id="form-add-medication" novalidate>
