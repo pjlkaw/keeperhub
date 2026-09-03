@@ -1,12 +1,18 @@
-/**
- * ==================================================
- * KEEPERHUB — MAIN HUB SCRIPT
- * Padrão Arquitetural Oficial: keeperhub-main / main/js/script.js
- * Responsabilidade: Lógica exclusiva do Hub Interno Principal
- * ==================================================
- */
+// Busca simples por módulo
+const searchInput = document.getElementById('search-input');
+const cards = document.querySelectorAll('.tool-card');
 
-import { initTheme } from '/shared/services/theme.js';
+searchInput.addEventListener('input', (e) => {
+  const term = e.target.value.trim().toLowerCase();
+  cards.forEach(card => {
+    const name = card.dataset.name;
+    card.style.display = name.includes(term) ? 'flex' : 'none';
+  });
+});
 
-// Inicialização do tema compartilhado
-initTheme();
+// Cada card leva para o index.html do respectivo módulo
+cards.forEach(card => {
+  card.addEventListener('click', () => {
+    window.location.href = `../modules/${card.dataset.name}/index.html`;
+  });
+});

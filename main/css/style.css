@@ -1,643 +1,205 @@
-/* ==================================================
-   KEEPERHUB — MAIN HUB STYLE
-   Padrão Arquitetural Oficial: keeperhub-main / main/css/style.css
-   Estilos específicos do Hub Interno Principal
-   ================================================== */
+/* ==========================================================
+  RESET E TIPOGRAFIA
+  ========================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-.app-page-wrapper {
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 100vh;
-  background-color: var(--color-bg-page, #101114);
-  color: var(--color-text-primary, #ffffff);
-  position: relative;
-  overflow-x: hidden;
+  padding-bottom: 40px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-[data-theme="light"] .app-page-wrapper {
-  background-color: var(--color-bg-page, #F5F7F7);
+h1, h2, h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-/* Container Centralizado do App (Mobile Frame) */
-.app-container {
+/* ==========================================================
+  CABEÇALHO
+  ========================================================== */
+header {
   width: 100%;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-/* ==================================================
-   HEADER INTERNO COMPACTO
-   ================================================== */
-.app-header {
-  width: 100%;
-  padding-top: 16px;
-  padding-bottom: 12px;
-  background-color: transparent;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-.app-header-inner {
+  max-width: 600px;
+  padding: 20px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-
-/* Identidade à Esquerda (Avatar + Nome KeeperHub) */
-.app-header-brand {
-  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: var(--color-text-primary, #ffffff);
-}
-
-[data-theme="light"] .app-header-brand {
-  color: var(--color-text-primary, #111827);
-}
-
-.app-header-avatar {
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1e222b;
-  flex-shrink: 0;
-}
-
-.app-header-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.app-header-brand-name {
-  font-size: 1.125rem; /* 18px */
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: inherit;
-}
-
-/* Controles à Direita do Header (Tema + Sino) */
-.app-header-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Sino de Notificações à Direita */
-.btn-app-notification-compact {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  min-width: 36px;
-  min-height: 36px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #d1d5db;
-  border-radius: 50%;
-  transition: color 0.15s ease, background-color 0.15s ease;
-  position: relative;
-}
-
-.btn-app-notification-compact:hover {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.06);
-}
-
-.btn-app-notification-compact:focus-visible {
-  outline: 2px solid var(--color-secondary, #01ab8e);
-  outline-offset: 2px;
-}
-
-.btn-app-notification-compact svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2;
-}
-
-[data-theme="light"] .btn-app-notification-compact {
-  color: #4b5563;
-}
-
-[data-theme="light"] .btn-app-notification-compact:hover {
-  color: #111827;
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* ==================================================
-   CONTEÚDO PRINCIPAL / SAUDAÇÃO E CARDS
-   ================================================== */
-.app-main {
-  flex: 1;
-  padding-top: 8px;
-  padding-bottom: 36px;
-}
-
-/* Saudação */
-.app-greeting-section {
-  margin-top: 8px;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 20px;
 }
 
-.app-greeting-title {
-  font-size: 1.625rem; /* 26px */
+.logo {
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--color-text-primary, #ffffff);
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-  margin: 0 0 4px 0;
+  letter-spacing: -0.5px;
 }
 
-[data-theme="light"] .app-greeting-title {
-  color: var(--color-text-primary, #111827);
-}
-
-.app-greeting-subtitle {
-  font-size: 0.875rem; /* 14px */
-  color: var(--color-text-muted, #8E929E);
-  margin: 0;
-  line-height: 1.4;
-}
-
-/* Grade / Lista Vertical de Cards */
-.app-modules-stack {
+.btns-header {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  gap: 16px;
 }
 
-/* ==================================================
-   CARD DE MÓDULO UNIFICADO
-   ================================================== */
-.module-card {
-  position: relative;
-  background-color: var(--color-bg-surface, #16181D);
-  border: 1px solid var(--color-border-card, rgba(255, 255, 255, 0.07));
-  border-radius: 16px;
-  padding: 16px 18px 18px 18px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 114px;
-  overflow: hidden;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.22s ease, 
-              box-shadow 0.22s ease, 
-              background-color 0.22s ease;
-  cursor: default;
-  text-decoration: none;
-  color: inherit;
-  will-change: transform;
-}
-
-a.module-card,
-.module-card-interactive {
+.btn-theme {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 1.1rem;
   cursor: pointer;
-}
-
-.module-card:focus-visible {
-  outline: 2px solid var(--color-secondary, #01ab8e);
-  outline-offset: 2px;
-}
-
-[data-theme="light"] .module-card {
-  background-color: var(--color-bg-surface, #ffffff);
-  border-color: var(--color-border-subtle, #e5e7eb);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-/* Linha de Acento Superior */
-.module-card-top-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2.5px;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  transition: filter 0.22s ease, box-shadow 0.22s ease;
-}
-
-.accent-top-metas {
-  background-color: var(--color-metas, #FFC100);
-}
-
-.accent-top-financas {
-  background-color: var(--color-financas, #E47A00);
-}
-
-.accent-top-pets {
-  background-color: var(--color-pets, #5985FC);
-}
-
-.accent-top-medicamentos {
-  background-color: var(--color-medicamentos, #70DE01);
-}
-
-.accent-top-despensa {
-  background-color: var(--color-despensa, #633600);
-}
-
-/* Topo do Card: Nome do Módulo e Logo */
-.module-card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  position: relative;
-  z-index: 2;
 }
 
-.module-card-logo-icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  display: block;
-  flex-shrink: 0;
-  transition: filter 0.22s ease, opacity 0.22s ease;
+.btn-login {
+  background-color: var(--pill-bg);
+  color: var(--pill-text);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
 }
 
-.module-card-tag {
-  font-size: 0.75rem; /* 12px */
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary, #D1D5DB);
-}
-
-[data-theme="light"] .module-card-tag {
-  color: var(--color-text-secondary, #374151);
-}
-
-/* Conteúdo Principal do Card */
-.module-card-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.module-card-val-huge {
-  font-size: 2.125rem; /* 34px */
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
-
-.val-yellow {
-  color: var(--color-metas, #FFC100);
-}
-
-.val-white {
-  color: var(--color-text-primary, #FFFFFF);
-}
-
-[data-theme="light"] .val-white {
-  color: var(--color-text-primary, #111827);
-}
-
-.module-card-val-title {
-  font-size: 1.375rem; /* 22px */
-  font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-[data-theme="light"] .module-card-val-title {
-  color: var(--color-text-primary, #111827);
-}
-
-.module-card-sublabel {
-  font-size: 0.8125rem; /* 13px */
-  color: var(--color-text-muted, #8E929E);
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-/* Card Específico: Pets com Avatar */
-.module-pets-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.module-pets-avatar {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(89, 133, 252, 0.4);
-  background: radial-gradient(circle, #1E293B 0%, #0F172A 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
-}
-
-.module-pets-avatar-icon {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-  transition: filter 0.22s ease, opacity 0.22s ease;
-}
-
-.module-pets-details {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.module-pets-name {
-  font-size: 1.125rem; /* 18px */
-  font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
-  line-height: 1.2;
-}
-
-[data-theme="light"] .module-pets-name {
-  color: var(--color-text-primary, #111827);
-}
-
-/* Card Específico: Medicamentos com Pill Badge de Horário */
-.module-meds-row {
+/* ==========================================================
+  BUSCA
+  ========================================================== */
+.search-bar {
+  width: 90%;
+  max-width: 500px;
   display: flex;
   align-items: center;
   gap: 10px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
 }
 
-.meds-time-badge {
-  display: inline-flex;
+.search-bar i {
+  color: var(--text-muted);
+}
+
+.search-bar input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-color);
+  font-family: Tahoma, sans-serif;
+  font-size: 0.9rem;
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ==========================================================
+  CARDS DE MÓDULO
+  A cor de cada card vem do atributo data-name, casado com as
+  variáveis --tool-* definidas em shared/styles/variables.css.
+  Pra adicionar um módulo novo: cria a variável --tool-nome lá
+  e o seletor [data-name="nome"] aqui embaixo.
+  ========================================================== */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: rgba(112, 222, 1, 0.16);
-  color: var(--color-medicamentos, #70DE01);
-  font-size: 0.8125rem; /* 13px */
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 100px;
-  letter-spacing: 0.02em;
-  transition: background-color 0.22s ease, color 0.22s ease;
+  gap: 16px;
 }
 
-.meds-name-text {
-  font-size: 1.0625rem; /* 17px */
-  font-weight: 600;
-  color: var(--color-text-primary, #FFFFFF);
+.tool-card {
+  width: 90%;
+  max-width: 500px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
-[data-theme="light"] .meds-name-text {
-  color: var(--color-text-primary, #111827);
+.tool-card:hover {
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
 }
 
-/* ==================================================
-   LOGOS OFICIAIS COMO MARCAS D'ÁGUA DISCRETAS
-   ================================================== */
-.module-card-watermark {
-  position: absolute;
-  right: -6px;
-  bottom: -6px;
-  top: 0;
-  width: 120px;
-  pointer-events: none;
-  z-index: 1;
+.tool-card-main {
   display: flex;
   align-items: center;
+  gap: 14px;
+}
+
+.tool-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #0b0b0d;
+}
+
+.tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tool-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.tool-description {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.tool-card-footer {
+  display: flex;
   justify-content: flex-end;
-  overflow: hidden;
 }
 
-.module-card-watermark-img {
-  width: 82px;
-  height: 82px;
-  object-fit: contain;
-  opacity: 0.12;
-  transform: rotate(-4deg);
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              filter 0.22s ease;
-  user-select: none;
-  -webkit-user-drag: none;
+.btn-access {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: Tahoma, sans-serif;
 }
 
-/* Refinamento de proporção e peso visual de cada logo oficial */
-.watermark-metas {
-  width: 78px;
-  height: 78px;
-  opacity: 0.13;
+.btn-access:hover {
+  background-color: var(--accent-color);
+  color: #0b0b0d;
 }
 
-.watermark-financas {
-  width: 82px;
-  height: 82px;
-  opacity: 0.12;
-}
-
-.watermark-pets {
-  width: 76px;
-  height: 76px;
-  opacity: 0.11;
-}
-
-.watermark-medicamentos {
-  width: 78px;
-  height: 78px;
-  opacity: 0.12;
-}
-
-.watermark-despensa {
-  width: 82px;
-  height: 82px;
-  opacity: 0.14;
-}
-
-[data-theme="light"] .module-card-watermark-img {
-  opacity: 0.09;
-}
-
-[data-theme="light"] .watermark-despensa {
-  opacity: 0.11;
-}
-
-/* ==================================================
-   MICROINTERAÇÃO HOVER NOS CARDS DO HUB (Desktop / Mouse)
-   ================================================== */
-@media (hover: hover) and (pointer: fine) {
-  /* 1. Elevação e Sombra Base */
-  .module-card:hover {
-    transform: translateY(-4px);
-    background-color: var(--color-bg-surface-elevated, #1c1e24);
-    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.4);
-  }
-
-  [data-theme="light"] .module-card:hover {
-    background-color: #ffffff;
-    box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.08);
-  }
-
-  /* 2. Ícones Menores com Leve Ganho de Luminosidade */
-  .module-card:hover .module-card-logo-icon {
-    filter: brightness(1.12);
-  }
-
-  /* 3. Realce de Borda, Top Accent e Marca d'Água por Módulo */
-  /* METAS (Amarelo) */
-  #hub-card-metas:hover {
-    border-color: rgba(255, 193, 0, 0.35);
-  }
-  #hub-card-metas:hover .accent-top-metas {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(255, 193, 0, 0.5));
-  }
-  #hub-card-metas:hover .watermark-metas {
-    opacity: 0.42;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
-  }
-
-  /* FINANÇAS (Laranja) */
-  #hub-card-financas:hover {
-    border-color: rgba(228, 122, 0, 0.35);
-  }
-  #hub-card-financas:hover .accent-top-financas {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(228, 122, 0, 0.5));
-  }
-  #hub-card-financas:hover .watermark-financas {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
-  }
-
-  /* PETS (Azul) */
-  #hub-card-pets:hover {
-    border-color: rgba(89, 133, 252, 0.35);
-  }
-  #hub-card-pets:hover .accent-top-pets {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(89, 133, 252, 0.5));
-  }
-  #hub-card-pets:hover .module-pets-avatar {
-    border-color: rgba(89, 133, 252, 0.7);
-    box-shadow: 0 0 8px rgba(89, 133, 252, 0.25);
-  }
-  #hub-card-pets:hover .module-pets-avatar-icon {
-    filter: brightness(1.12);
-  }
-  #hub-card-pets:hover .watermark-pets {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
-  }
-
-  /* MEDICAMENTOS (Verde) */
-  #hub-card-medicamentos:hover {
-    border-color: rgba(112, 222, 1, 0.35);
-  }
-  #hub-card-medicamentos:hover .accent-top-medicamentos {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(112, 222, 1, 0.5));
-  }
-  #hub-card-medicamentos:hover .meds-time-badge {
-    background-color: rgba(112, 222, 1, 0.24);
-  }
-  #hub-card-medicamentos:hover .watermark-medicamentos {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
-  }
-
-  /* DESPENSA (Marrom / Bronze) */
-  #hub-card-despensa:hover {
-    border-color: rgba(201, 113, 28, 0.35);
-  }
-  #hub-card-despensa:hover .accent-top-despensa {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(201, 113, 28, 0.5));
-  }
-  #hub-card-despensa:hover .watermark-despensa {
-    opacity: 0.42;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
-  }
-
-  /* Ajustes Específicos para Light Mode no Hover */
-  [data-theme="light"] #hub-card-metas:hover {
-    border-color: rgba(255, 193, 0, 0.45);
-  }
-  [data-theme="light"] #hub-card-metas:hover .watermark-metas {
-    opacity: 0.30;
-    filter: brightness(1.15) saturate(1.3);
-  }
-
-  [data-theme="light"] #hub-card-financas:hover {
-    border-color: rgba(228, 122, 0, 0.45);
-  }
-  [data-theme="light"] #hub-card-financas:hover .watermark-financas {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
-  }
-
-  [data-theme="light"] #hub-card-pets:hover {
-    border-color: rgba(89, 133, 252, 0.45);
-  }
-  [data-theme="light"] #hub-card-pets:hover .watermark-pets {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
-  }
-
-  [data-theme="light"] #hub-card-medicamentos:hover {
-    border-color: rgba(112, 222, 1, 0.45);
-  }
-  [data-theme="light"] #hub-card-medicamentos:hover .watermark-medicamentos {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
-  }
-
-  [data-theme="light"] #hub-card-despensa:hover {
-    border-color: rgba(201, 113, 28, 0.45);
-  }
-  [data-theme="light"] #hub-card-despensa:hover .watermark-despensa {
-    opacity: 0.30;
-    filter: brightness(1.15) saturate(1.3);
-  }
-}
-
-/* ==================================================
-   RESPONSIVIDADE E DISPOSITIVOS
-   ================================================== */
-@media (max-width: 360px) {
-  .app-container {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
-  .module-card {
-    padding: 14px 15px 15px 15px;
-  }
-
-  .module-card-val-huge {
-    font-size: 1.875rem; /* 30px */
-  }
-
-  .module-card-val-title {
-    font-size: 1.25rem; /* 20px */
-  }
-}
+/* Cor de destaque por módulo, via atributo em vez de classe */
+[data-name="metas"]        { --accent-color: var(--tool-metas); }
+[data-name="financas"]     { --accent-color: var(--tool-financas); }
+[data-name="pets"]         { --accent-color: var(--tool-pets); }
+[data-name="despensa"]     { --accent-color: var(--tool-despensa); }
+[data-name="medicamentos"] { --accent-color: var(--tool-medicamentos); }
