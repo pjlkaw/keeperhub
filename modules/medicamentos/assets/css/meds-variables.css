@@ -1,0 +1,25 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: meds-variables.css
+Variáveis de cor específicas deste módulo (estados de
+dose atrasada, alerta de estoque, tom do módulo em si).
+
+Depende de: shared/styles/variables.css (deve ser
+carregado ANTES deste arquivo)
+Usado por: TODAS as páginas do módulo
+================================================== */
+
+:root {
+    --color-meds-primary: #70de01;
+    --color-meds-primary-hover: #62c500;
+    --color-meds-bg-tint: rgba(112, 222, 1, 0.12);
+    --color-meds-border-tint: rgba(112, 222, 1, 0.35);
+
+    --color-delayed: #ffc100;
+    --color-delayed-bg: rgba(255, 193, 0, 0.12);
+    --color-delayed-border: rgba(255, 193, 0, 0.35);
+
+    --color-stock-alert: #ef4444;
+    --color-stock-alert-bg: rgba(239, 68, 68, 0.12);
+    --color-stock-alert-border: rgba(239, 68, 68, 0.35);
+}

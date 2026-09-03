@@ -4,37 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adicionar Medicamento • Medicamentos • KeeperHub</title>
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="theme-color" content="#101114" id="meta-theme-color" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="format-detection" content="telephone=no, address=no, email=no" />
 
-    <!-- Favicon e Ícones de Aplicação -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" type="image/png" sizes="32x32" href="../../../shared/img/favicon-32x32.png" />
-    <link rel="apple-touch-icon" href="../../../shared/img/apple-touch-icon.png" />
-
-    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
-    <script>
-      (function () {
-        try {
-          var saved = localStorage.getItem('keeperhub-theme');
-          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          var theme = saved || systemDark;
-          document.documentElement.setAttribute('data-theme', theme);
-          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
-          if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', theme === 'light' ? '#F5F7F7' : '#101114');
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <!-- Estilos Estruturais e Compartilhados -->
-    <link rel="stylesheet" href="/shared/styles/reset.css" />
-    <link rel="stylesheet" href="/shared/styles/variables.css" />
-    <link rel="stylesheet" href="/modules/medicamentos/assets/css/style.css" />
-  </head>
+		<!-- Estilos Estruturais e Compartilhados -->
+		<link rel="stylesheet" href="/shared/styles/variables.css">
+		<link rel="stylesheet" href="/shared/styles/reset.css">
+		<link rel="stylesheet" href="../assets/css/meds-variables.css">
+		<link rel="stylesheet" href="../assets/css/layout.css">
+		<link rel="stylesheet" href="../assets/css/header.css">
+		<link rel="stylesheet" href="../assets/css/components.css">
+		<link rel="stylesheet" href="../assets/css/meds-form.css">  </head>
   <body>
     <div class="app-page-wrapper">
       <div class="app-container">

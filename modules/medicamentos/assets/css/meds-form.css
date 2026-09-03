@@ -1,0 +1,735 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: medicamentos-form.css
+Estilos EXCLUSIVOS da tela "Adicionar Medicamento":
+blocos do formulário, campos, segmented control de
+tipo de uso, seletor de dias, lista de horários,
+switch e botão de envio.
+
+Depende de: shared/styles/variables.css, meds-variables.css,
+            layout.css, header.css, components.css
+Usado por: apenas a página de adicionar medicamento
+================================================== */
+
+.meds-form-intro {
+    font-size: 0.8125rem;
+    /* 13px */
+    color: #8e929e;
+    line-height: 1.4;
+    margin-top: -4px;
+    margin-bottom: 14px;
+}
+
+[data-theme="light"] .meds-form-intro {
+    color: #6b7280;
+}
+
+.meds-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.meds-form-block {
+    background-color: #16181d;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
+}
+
+[data-theme="light"] .meds-form-block {
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.meds-form-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 8px;
+    margin-bottom: 2px;
+}
+
+[data-theme="light"] .meds-form-block-header {
+    border-bottom-color: #f3f4f6;
+}
+
+.meds-form-block-title {
+    font-size: 0.75rem;
+    /* 12px */
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #8e929e;
+    margin: 0;
+}
+
+[data-theme="light"] .meds-form-block-title {
+    color: #6b7280;
+}
+
+.meds-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.meds-form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.meds-form-row>.meds-form-field {
+    flex: 1;
+    min-width: 0;
+}
+
+.meds-form-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 600;
+    color: #e5e7eb;
+    line-height: 1.25;
+}
+
+[data-theme="light"] .meds-form-label {
+    color: #374151;
+}
+
+.meds-label-required {
+    color: var(--color-meds-primary);
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+[data-theme="light"] .meds-label-required {
+    color: #55b800;
+}
+
+.meds-label-optional {
+    font-size: 0.6875rem;
+    /* 11px */
+    font-weight: 500;
+    color: #8e929e;
+}
+
+[data-theme="light"] .meds-label-optional {
+    color: #9ca3af;
+}
+
+.meds-form-input,
+.meds-form-select {
+    width: 100%;
+    height: 42px;
+    padding: 0 12px;
+    font-size: 0.875rem;
+    /* 14px */
+    font-family: inherit;
+    background-color: #101114;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    color: #ffffff;
+    outline: none;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.meds-form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.meds-form-input::placeholder {
+    color: #6b7280;
+}
+
+.meds-form-input:focus,
+.meds-form-select:focus {
+    border-color: var(--color-meds-primary);
+    box-shadow: 0 0 0 2px var(--color-meds-bg-tint);
+}
+
+[data-theme="light"] .meds-form-input,
+[data-theme="light"] .meds-form-select {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    color: #111827;
+}
+
+[data-theme="light"] .meds-form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234B5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+[data-theme="light"] .meds-form-input::placeholder {
+    color: #9ca3af;
+}
+
+[data-theme="light"] .meds-form-input:focus,
+[data-theme="light"] .meds-form-select:focus {
+    background-color: #ffffff;
+    border-color: #55b800;
+    box-shadow: 0 0 0 2px rgba(112, 222, 1, 0.2);
+}
+
+.meds-form-helper {
+    font-size: 0.75rem;
+    /* 12px */
+    color: #8e929e;
+    line-height: 1.35;
+}
+
+[data-theme="light"] .meds-form-helper {
+    color: #6b7280;
+}
+
+.meds-form-helper-box {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.8125rem;
+    /* 13px */
+    color: #9ca3af;
+    line-height: 1.4;
+}
+
+[data-theme="light"] .meds-form-helper-box {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+    color: #4b5563;
+}
+
+/* Sub-blocos Condicionais com Recuo / Cartão Secundário */
+.meds-subfield-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    gap: 8px;
+    margin-top: 2px;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+[data-theme="light"] .meds-subfield-card {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+/* Ação Escanear Código de Barras (Secundária) */
+.meds-barcode-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: not-allowed;
+    opacity: 0.82;
+    transition: opacity 0.15s ease;
+}
+
+[data-theme="light"] .meds-barcode-action {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.barcode-action-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 600;
+    color: #c5c9d3;
+}
+
+[data-theme="light"] .barcode-action-left {
+    color: #4b5563;
+}
+
+.barcode-action-left svg {
+    width: 17px;
+    height: 17px;
+    color: #8e929e;
+}
+
+.barcode-badge-soon {
+    font-size: 0.6875rem;
+    /* 11px */
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #8e929e;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+[data-theme="light"] .barcode-badge-soon {
+    background-color: #e5e7eb;
+    color: #4b5563;
+}
+
+/* Segmented Control / Seleção de Tipo de Uso */
+.meds-usage-type-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    background-color: #101114;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 3px;
+}
+
+@media (max-width: 390px) {
+    .meds-usage-type-group {
+        grid-template-columns: 1fr;
+        gap: 3px;
+    }
+}
+
+.meds-usage-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7px 6px;
+    min-height: 38px;
+    border-radius: 7px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 600;
+    color: #8e929e;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+    background: transparent;
+    border: 1px solid transparent;
+    line-height: 1.25;
+}
+
+.meds-usage-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.meds-usage-option:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.meds-usage-option.active {
+    background-color: var(--color-meds-bg-tint);
+    border-color: var(--color-meds-primary);
+    color: var(--color-meds-primary);
+    font-weight: 700;
+}
+
+[data-theme="light"] .meds-usage-type-group {
+    background-color: #f3f4f6;
+    border-color: #e5e7eb;
+}
+
+[data-theme="light"] .meds-usage-option {
+    color: #6b7280;
+}
+
+[data-theme="light"] .meds-usage-option:hover {
+    color: #111827;
+}
+
+[data-theme="light"] .meds-usage-option.active {
+    background-color: #ffffff;
+    border-color: #55b800;
+    color: #2e6e00;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Seletor de Dias Específicos */
+.meds-weekday-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.meds-weekday-chip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    background-color: #101114;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    /* 12px */
+    font-weight: 600;
+    color: #8e929e;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.meds-weekday-chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.meds-weekday-chip:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.meds-weekday-chip.active {
+    background-color: var(--color-meds-bg-tint);
+    border-color: var(--color-meds-primary);
+    color: var(--color-meds-primary);
+    font-weight: 700;
+}
+
+[data-theme="light"] .meds-weekday-chip {
+    background-color: #ffffff;
+    border-color: #d1d5db;
+    color: #6b7280;
+}
+
+[data-theme="light"] .meds-weekday-chip:hover {
+    border-color: #9ca3af;
+    color: #111827;
+}
+
+[data-theme="light"] .meds-weekday-chip.active {
+    background-color: rgba(112, 222, 1, 0.15);
+    border-color: #55b800;
+    color: #2e6e00;
+}
+
+/* Lista de Horários */
+.meds-times-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.meds-time-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meds-time-row .meds-form-input {
+    flex: 1;
+}
+
+.btn-meds-remove-time {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    background-color: #101114;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-meds-remove-time:hover {
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: #ef4444;
+}
+
+[data-theme="light"] .btn-meds-remove-time {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.btn-meds-add-time {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 600;
+    color: var(--color-meds-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-top: 2px;
+}
+
+.btn-meds-add-time:hover {
+    background-color: var(--color-meds-bg-tint);
+    border-color: var(--color-meds-primary);
+}
+
+[data-theme="light"] .btn-meds-add-time {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+    color: #489b00;
+}
+
+[data-theme="light"] .btn-meds-add-time:hover {
+    background-color: rgba(112, 222, 1, 0.1);
+    border-color: #55b800;
+}
+
+/* Switch Component (Acessível e Compacto) */
+.meds-switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    padding: 2px 0;
+}
+
+.meds-switch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.meds-switch-title {
+    font-size: 0.875rem;
+    /* 14px */
+    font-weight: 600;
+    color: #e5e7eb;
+    line-height: 1.3;
+}
+
+[data-theme="light"] .meds-switch-title {
+    color: #111827;
+}
+
+.meds-switch-subtitle {
+    font-size: 0.75rem;
+    /* 12px */
+    color: #8e929e;
+    line-height: 1.35;
+}
+
+[data-theme="light"] .meds-switch-subtitle {
+    color: #6b7280;
+}
+
+.meds-toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.meds-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.meds-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #272a30;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.2s ease;
+    border-radius: 24px;
+}
+
+.meds-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: #ffffff;
+    transition: 0.2s ease;
+    border-radius: 50%;
+}
+
+.meds-toggle-switch input:checked+.meds-toggle-slider {
+    background-color: var(--color-meds-primary);
+    border-color: var(--color-meds-primary);
+}
+
+.meds-toggle-switch input:checked+.meds-toggle-slider:before {
+    transform: translateX(20px);
+    background-color: #101114;
+}
+
+[data-theme="light"] .meds-toggle-slider {
+    background-color: #d1d5db;
+    border-color: #d1d5db;
+}
+
+[data-theme="light"] .meds-toggle-switch input:checked+.meds-toggle-slider {
+    background-color: #55b800;
+    border-color: #55b800;
+}
+
+[data-theme="light"] .meds-toggle-switch input:checked+.meds-toggle-slider:before {
+    background-color: #ffffff;
+}
+
+/* CTA de Submissão */
+.meds-form-submit-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 8px;
+    padding-bottom: 28px;
+}
+
+.btn-meds-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 48px;
+    background-color: var(--color-meds-primary);
+    color: #101114;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.9375rem;
+    /* 15px */
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition:
+        opacity 0.15s ease,
+        transform 0.1s ease,
+        filter 0.15s ease;
+    user-select: none;
+}
+
+.btn-meds-submit:hover:not(:disabled) {
+    filter: brightness(1.06);
+}
+
+.btn-meds-submit:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.btn-meds-submit:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+    filter: grayscale(0.2);
+}
+
+/* Mensagem Feedback de Desenvolvimento (Discreta e Neutra) */
+.meds-form-feedback {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 500;
+    color: #c5c9d3;
+    text-align: center;
+    line-height: 1.4;
+    animation: fadeInMeds 0.2s ease;
+}
+
+.meds-form-feedback.show {
+    display: block;
+}
+
+[data-theme="light"] .meds-form-feedback {
+    background-color: #f3f4f6;
+    border-color: #d1d5db;
+    color: #374151;
+}
+
+@keyframes fadeInMeds {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================================================
+RESPONSIVIDADE (max-width: 360px)
+================================================== */
+@media (max-width: 360px) {
+    .meds-form-block {
+        padding: 12px 10px;
+        gap: 10px;
+        border-radius: 10px;
+    }
+
+    .meds-form-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .meds-weekday-grid {
+        gap: 2px;
+    }
+
+    .meds-weekday-chip {
+        height: 34px;
+        font-size: 0.6875rem;
+        /* 11px */
+        border-radius: 6px;
+    }
+
+    .meds-switch-title {
+        font-size: 0.8125rem;
+    }
+
+    .meds-switch-subtitle {
+        font-size: 0.6875rem;
+    }
+
+    .btn-meds-submit {
+        height: 46px;
+        font-size: 0.875rem;
+    }
+}

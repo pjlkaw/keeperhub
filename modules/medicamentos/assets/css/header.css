@@ -1,0 +1,352 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: header.css
+Navegação horizontal entre módulos + cabeçalho da página
+(título, badge, botão de tema, sino de notificações).
+
+Depende de: shared/styles/variables.css, meds-variables.css
+Usado por: TODAS as páginas do módulo (componente fixo de topo)
+================================================== */
+
+/* ==================================================
+1. NAVEGAÇÃO HORIZONTAL ENTRE MÓDULOS
+================================================== */
+.modules-nav-wrapper {
+    margin-top: 4px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.modules-nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+}
+
+.modules-nav-bar::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+}
+
+.modules-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 500;
+    color: #9ca3af;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: default;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.modules-nav-item.active {
+    background-color: var(--color-meds-bg-tint);
+    border-color: var(--color-meds-border-tint);
+    color: var(--color-meds-primary);
+    font-weight: 700;
+}
+
+.modules-nav-item-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    display: block;
+}
+
+[data-theme="light"] .modules-nav-item {
+    color: #6b7280;
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+}
+
+[data-theme="light"] .modules-nav-item.active {
+    background-color: rgba(112, 222, 1, 0.12);
+    border-color: rgba(112, 222, 1, 0.5);
+    color: #4da500;
+}
+
+/* ==================================================
+2. CABEÇALHO DO MÓDULO & CONTROLES
+================================================== */
+.meds-header-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.meds-header-title-area {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.meds-header-top-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meds-header-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d1d5db;
+    text-decoration: none;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+    flex-shrink: 0;
+}
+
+.meds-header-back-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.meds-header-back-btn:active {
+    transform: scale(0.94);
+}
+
+[data-theme="light"] .meds-header-back-btn {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #374151;
+}
+
+[data-theme="light"] .meds-header-back-btn:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #111827;
+}
+
+.meds-header-title {
+    font-size: 1.625rem;
+    /* 26px */
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin: 0;
+}
+
+[data-theme="light"] .meds-header-title {
+    color: #111827;
+}
+
+.meds-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    /* 14px */
+    color: #8e929e;
+    line-height: 1.4;
+}
+
+.meds-header-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-meds-bg-tint);
+    color: var(--color-meds-primary);
+    font-size: 0.75rem;
+    /* 12px */
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+}
+
+[data-theme="light"] .meds-header-badge {
+    color: #489b00;
+    background-color: rgba(112, 222, 1, 0.14);
+}
+
+.meds-header-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 2px;
+}
+
+/* Botão Alternador de Tema */
+.btn-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    color: #d1d5db;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease;
+    flex-shrink: 0;
+}
+
+.btn-theme-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.btn-theme-toggle:active {
+    transform: scale(0.94);
+}
+
+.btn-theme-toggle:focus-visible {
+    outline: 2px solid var(--color-secondary, #01ab8e);
+    outline-offset: 2px;
+}
+
+.theme-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: block;
+}
+
+.theme-icon-sun {
+    display: none;
+}
+
+.theme-icon-moon {
+    display: block;
+}
+
+html[data-theme="dark"] .theme-icon-moon,
+[data-theme="dark"] .theme-icon-moon {
+    display: block !important;
+}
+
+html[data-theme="dark"] .theme-icon-sun,
+[data-theme="dark"] .theme-icon-sun {
+    display: none !important;
+}
+
+[data-theme="light"] .btn-theme-toggle {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #4b5563;
+}
+
+[data-theme="light"] .btn-theme-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.16);
+    color: #111827;
+}
+
+html[data-theme="light"] .theme-icon-sun,
+[data-theme="light"] .theme-icon-sun {
+    display: block !important;
+}
+
+html[data-theme="light"] .theme-icon-moon,
+[data-theme="light"] .theme-icon-moon {
+    display: none !important;
+}
+
+/* Sino de Notificações */
+.btn-app-notification-compact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #d1d5db;
+    border-radius: 50%;
+    transition:
+        color 0.15s ease,
+        background-color 0.15s ease;
+    position: relative;
+}
+
+.btn-app-notification-compact:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.btn-app-notification-compact:focus-visible {
+    outline: 2px solid var(--color-secondary, #01ab8e);
+    outline-offset: 2px;
+}
+
+.btn-app-notification-compact svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+}
+
+[data-theme="light"] .btn-app-notification-compact {
+    color: #4b5563;
+}
+
+[data-theme="light"] .btn-app-notification-compact:hover {
+    color: #111827;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.notification-dot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
+    background-color: var(--color-meds-primary);
+    border-radius: 50%;
+    border: 1.5px solid #101114;
+}
+
+[data-theme="light"] .notification-dot {
+    border-color: #f3f4f6;
+}
+
+/* ==================================================
+RESPONSIVIDADE (max-width: 360px)
+================================================== */
+@media (max-width: 360px) {
+    .meds-header-title {
+        font-size: 1.375rem;
+        /* 22px */
+    }
+}
