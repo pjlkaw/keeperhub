@@ -1,509 +1,17 @@
-/* Separar CSS style.css por partes e páginas */
 /* ==================================================
-KEEPERHUB — MEDICAMENTOS MODULE STYLE
-Padrão Arquitetural Oficial: keeperhub-main / modules/medicamentos/assets/css/style.css
-Estilos específicos da Home do Módulo Medicamentos (#70DE01)
-Dark Mode (Padrão) + Light Mode
-Mobile First: 320px a 1440px
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: home.css
+Estilos EXCLUSIVOS da tela inicial do módulo:
+dose atrasada, próximas doses, atalhos, atenção
+(estoque baixo) e bons hábitos.
+
+Depende de: shared/styles/variables.css, meds-variables.css,
+            layout.css, header.css, components.css
+Usado por: apenas a página Home do módulo
 ================================================== */
 
-:root {
-    --color-meds-primary: #70de01;
-    --color-meds-primary-hover: #62c500;
-    --color-meds-bg-tint: rgba(112, 222, 1, 0.12);
-    --color-meds-border-tint: rgba(112, 222, 1, 0.35);
-
-    --color-delayed: #ffc100;
-    --color-delayed-bg: rgba(255, 193, 0, 0.12);
-    --color-delayed-border: rgba(255, 193, 0, 0.35);
-
-    --color-stock-alert: #ef4444;
-    --color-stock-alert-bg: rgba(239, 68, 68, 0.12);
-    --color-stock-alert-border: rgba(239, 68, 68, 0.35);
-}
-
-/* Container e Layout Mobile First */
-.app-page-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: var(--color-bg-page, #101114);
-    color: var(--color-text-primary, #ffffff);
-    position: relative;
-    overflow-x: hidden;
-}
-
-[data-theme="light"] .app-page-wrapper {
-    background-color: var(--color-bg-page, #f5f7f7);
-}
-
-.app-container {
-    width: 100%;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-/* Espaçamento Principal do Módulo */
-.meds-main {
-    flex: 1;
-    padding-top: 4px;
-    padding-bottom: 84px;
-    /* Espaço para não cobrir conteúdo com o FAB */
-}
-
-.meds-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 /* ==================================================
-1. NAVEGAÇÃO HORIZONTAL ENTRE MÓDULOS
-================================================== */
-.modules-nav-wrapper {
-    margin-top: 4px;
-    margin-bottom: 12px;
-    position: relative;
-}
-
-.modules-nav-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 4px 0;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* IE/Edge */
-}
-
-.modules-nav-bar::-webkit-scrollbar {
-    display: none;
-    /* Chrome/Safari */
-}
-
-.modules-nav-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    border-radius: 100px;
-    font-size: 0.8125rem;
-    /* 13px */
-    font-weight: 500;
-    color: #9ca3af;
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    white-space: nowrap;
-    text-decoration: none;
-    cursor: default;
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        border-color 0.15s ease;
-    user-select: none;
-    flex-shrink: 0;
-}
-
-.modules-nav-item.active {
-    background-color: var(--color-meds-bg-tint);
-    border-color: var(--color-meds-border-tint);
-    color: var(--color-meds-primary);
-    font-weight: 700;
-}
-
-.modules-nav-item-icon {
-    width: 14px;
-    height: 14px;
-    object-fit: contain;
-    display: block;
-}
-
-[data-theme="light"] .modules-nav-item {
-    color: #6b7280;
-    background-color: #ffffff;
-    border-color: #e5e7eb;
-}
-
-[data-theme="light"] .modules-nav-item.active {
-    background-color: rgba(112, 222, 1, 0.12);
-    border-color: rgba(112, 222, 1, 0.5);
-    color: #4da500;
-}
-
-/* ==================================================
-2. CABEÇALHO DO MÓDULO & CONTROLES
-================================================== */
-.meds-header-section {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 4px;
-}
-
-.meds-header-title-area {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-
-.meds-header-top-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.meds-header-back-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #d1d5db;
-    text-decoration: none;
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        transform 0.1s ease;
-    flex-shrink: 0;
-}
-
-.meds-header-back-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-}
-
-.meds-header-back-btn:active {
-    transform: scale(0.94);
-}
-
-[data-theme="light"] .meds-header-back-btn {
-    background-color: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: #374151;
-}
-
-[data-theme="light"] .meds-header-back-btn:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-    color: #111827;
-}
-
-.meds-header-title {
-    font-size: 1.625rem;
-    /* 26px */
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-    margin: 0;
-}
-
-[data-theme="light"] .meds-header-title {
-    color: #111827;
-}
-
-.meds-header-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    font-size: 0.875rem;
-    /* 14px */
-    color: #8e929e;
-    line-height: 1.4;
-}
-
-.meds-header-badge {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--color-meds-bg-tint);
-    color: var(--color-meds-primary);
-    font-size: 0.75rem;
-    /* 12px */
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 100px;
-    letter-spacing: 0.02em;
-}
-
-[data-theme="light"] .meds-header-badge {
-    color: #489b00;
-    background-color: rgba(112, 222, 1, 0.14);
-}
-
-.meds-header-controls {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding-top: 2px;
-}
-
-/* Botão Alternador de Tema */
-.btn-theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    padding: 0;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    cursor: pointer;
-    color: #d1d5db;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.1s ease;
-    flex-shrink: 0;
-}
-
-.btn-theme-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-}
-
-.btn-theme-toggle:active {
-    transform: scale(0.94);
-}
-
-.btn-theme-toggle:focus-visible {
-    outline: 2px solid var(--color-secondary, #01ab8e);
-    outline-offset: 2px;
-}
-
-.theme-icon {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-    display: block;
-}
-
-.theme-icon-sun {
-    display: none;
-}
-
-.theme-icon-moon {
-    display: block;
-}
-
-html[data-theme="dark"] .theme-icon-moon,
-[data-theme="dark"] .theme-icon-moon {
-    display: block !important;
-}
-
-html[data-theme="dark"] .theme-icon-sun,
-[data-theme="dark"] .theme-icon-sun {
-    display: none !important;
-}
-
-[data-theme="light"] .btn-theme-toggle {
-    background-color: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.1);
-    color: #4b5563;
-}
-
-[data-theme="light"] .btn-theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.16);
-    color: #111827;
-}
-
-html[data-theme="light"] .theme-icon-sun,
-[data-theme="light"] .theme-icon-sun {
-    display: block !important;
-}
-
-html[data-theme="light"] .theme-icon-moon,
-[data-theme="light"] .theme-icon-moon {
-    display: none !important;
-}
-
-/* Sino de Notificações */
-.btn-app-notification-compact {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: #d1d5db;
-    border-radius: 50%;
-    transition:
-        color 0.15s ease,
-        background-color 0.15s ease;
-    position: relative;
-}
-
-.btn-app-notification-compact:hover {
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.06);
-}
-
-.btn-app-notification-compact:focus-visible {
-    outline: 2px solid var(--color-secondary, #01ab8e);
-    outline-offset: 2px;
-}
-
-.btn-app-notification-compact svg {
-    width: 20px;
-    height: 20px;
-    stroke-width: 2;
-}
-
-[data-theme="light"] .btn-app-notification-compact {
-    color: #4b5563;
-}
-
-[data-theme="light"] .btn-app-notification-compact:hover {
-    color: #111827;
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-.notification-dot {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    width: 7px;
-    height: 7px;
-    background-color: var(--color-meds-primary);
-    border-radius: 50%;
-    border: 1.5px solid #101114;
-}
-
-[data-theme="light"] .notification-dot {
-    border-color: #f3f4f6;
-}
-
-/* ==================================================
-TÍTULOS DE SEÇÃO PADRÃO
-================================================== */
-.section-header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.meds-section-title {
-    font-size: 1.0625rem;
-    /* 17px */
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: -0.01em;
-    margin: 0;
-    white-space: nowrap;
-}
-
-[data-theme="light"] .meds-section-title {
-    color: #111827;
-}
-
-/* ==================================================
-COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
-(Ver rotina →, Ver progresso →, Histórico →, etc.)
-================================================== */
-.btn-meds-secondary,
-.secondary-action-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    height: 35px;
-    min-height: 35px;
-    padding: 0 14px;
-    font-size: 0.8125rem;
-    /* 13px */
-    font-weight: 600;
-    color: var(--color-meds-primary);
-    background-color: var(--color-meds-bg-tint);
-    border: 1px solid var(--color-meds-border-tint);
-    border-radius: 9px;
-    cursor: pointer;
-    white-space: nowrap;
-    text-decoration: none;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease,
-        transform 0.1s ease;
-    user-select: none;
-    -webkit-user-select: none;
-    flex-shrink: 0;
-}
-
-.btn-meds-secondary:hover,
-.secondary-action-btn:hover {
-    background-color: rgba(112, 222, 1, 0.2);
-    border-color: rgba(112, 222, 1, 0.55);
-}
-
-.btn-meds-secondary:active,
-.secondary-action-btn:active {
-    transform: scale(0.97);
-    background-color: rgba(112, 222, 1, 0.25);
-}
-
-.btn-meds-secondary:focus-visible,
-.secondary-action-btn:focus-visible {
-    outline: 2px solid var(--color-meds-primary);
-    outline-offset: 2px;
-}
-
-.btn-meds-secondary svg,
-.secondary-action-btn svg {
-    width: 15px;
-    height: 15px;
-    stroke-width: 2;
-    transition: transform 0.15s ease;
-    flex-shrink: 0;
-}
-
-.btn-meds-secondary:hover svg,
-.secondary-action-btn:hover svg {
-    transform: translateX(2px);
-}
-
-[data-theme="light"] .btn-meds-secondary,
-[data-theme="light"] .secondary-action-btn {
-    color: #3b8200;
-    background-color: rgba(112, 222, 1, 0.12);
-    border-color: rgba(112, 222, 1, 0.45);
-}
-
-[data-theme="light"] .btn-meds-secondary:hover,
-[data-theme="light"] .secondary-action-btn:hover {
-    background-color: rgba(112, 222, 1, 0.22);
-    border-color: rgba(112, 222, 1, 0.65);
-    color: #2e6600;
-}
-
-[data-theme="light"] .btn-meds-secondary:focus-visible,
-[data-theme="light"] .secondary-action-btn:focus-visible {
-    outline-color: #3b8200;
-}
-
-/* ==================================================
-3. SUA MEDICAÇÃO / DOSE ATRASADA (PRIORITÁRIO)
+1. SUA MEDICAÇÃO / DOSE ATRASADA (PRIORITÁRIO)
 ================================================== */
 .meds-card-delayed {
     position: relative;
@@ -652,7 +160,7 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-4. PRÓXIMAS DOSES (CARD COMPACTO)
+2. PRÓXIMAS DOSES (CARD COMPACTO)
 ================================================== */
 .meds-card-upcoming {
     background-color: #16181d;
@@ -743,7 +251,7 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-5. ATALHOS PRINCIPAIS (3 CARDS COMPACTOS)
+3. ATALHOS PRINCIPAIS (3 CARDS COMPACTOS)
 ================================================== */
 .meds-shortcuts-grid {
     display: grid;
@@ -835,7 +343,7 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-6. SEÇÃO “ATENÇÃO” (ESTOQUE BAIXO)
+4. SEÇÃO "ATENÇÃO" (ESTOQUE BAIXO)
 ================================================== */
 .meds-card-attention {
     background-color: #16181d;
@@ -965,7 +473,7 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-7. BONS HÁBITOS (CARDS VERTICAIS COM SWIPE REAL)
+5. BONS HÁBITOS (CARDS VERTICAIS COM SWIPE REAL)
 ================================================== */
 .habits-scroll-wrapper {
     display: flex;
@@ -1098,42 +606,59 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-8. FAB (FLOATING ACTION BUTTON)
+RESPONSIVIDADE (max-width: 360px)
 ================================================== */
-.btn-meds-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--color-meds-primary);
-    color: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 6px 20px rgba(112, 222, 1, 0.4);
-    border: none;
-    cursor: pointer;
-    z-index: 90;
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background-color 0.15s ease;
-}
+@media (max-width: 360px) {
+    .meds-delayed-name {
+        font-size: 1.1875rem;
+        /* 19px */
+    }
 
-.btn-meds-fab:hover {
-    background-color: var(--color-meds-primary-hover);
-    transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(112, 222, 1, 0.5);
-}
+    .btn-meds-take {
+        padding: 0 12px;
+        font-size: 0.875rem;
+    }
 
-.btn-meds-fab:active {
-    transform: scale(0.94);
-}
+    .btn-meds-out {
+        padding: 0 10px;
+        font-size: 0.8125rem;
+    }
 
-.btn-meds-fab svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.5;
+    .meds-shortcut-card {
+        padding: 10px 4px;
+    }
+
+    .meds-card-attention {
+        padding: 14px 12px;
+        gap: 10px;
+    }
+
+    .attention-content-wrap {
+        gap: 10px;
+    }
+
+    .attention-icon-circle {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+
+    .attention-icon-img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .btn-meds-repor {
+        padding: 0 12px;
+        font-size: 0.8125rem;
+        height: 34px;
+    }
+
+    .habit-card {
+        width: 106px;
+        min-width: 106px;
+        height: 136px;
+        min-height: 136px;
+        padding: 12px 6px;
+    }
 }

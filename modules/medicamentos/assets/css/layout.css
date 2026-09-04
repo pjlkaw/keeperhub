@@ -1,0 +1,47 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: layout.css
+Estrutura base de página: wrapper, container, área
+principal e stack de seções.
+
+Depende de: shared/styles/variables.css, meds-variables.css
+Usado por: TODAS as páginas do módulo
+Mobile First: 320px a 1440px
+================================================== */
+
+.app-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-bg-page, #101114);
+    color: var(--color-text-primary, #ffffff);
+    position: relative;
+    overflow-x: hidden;
+}
+
+[data-theme="light"] .app-page-wrapper {
+    background-color: var(--color-bg-page, #f5f7f7);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Espaçamento Principal do Módulo */
+.meds-main {
+    flex: 1;
+    padding-top: 4px;
+    padding-bottom: 84px;
+    /* Espaço para não cobrir conteúdo com o FAB */
+}
+
+.meds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -1,0 +1,175 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: components.css
+Componentes reutilizáveis em mais de uma página:
+título de seção padrão, botão de ação secundária
+("Ver rotina →", "Histórico →" etc.) e o FAB.
+
+Depende de: shared/styles/variables.css, meds-variables.css
+Usado por: mais de uma página do módulo
+================================================== */
+
+/* ==================================================
+TÍTULOS DE SEÇÃO PADRÃO
+================================================== */
+.section-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.meds-section-title {
+    font-size: 1.0625rem;
+    /* 17px */
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    margin: 0;
+    white-space: nowrap;
+}
+
+[data-theme="light"] .meds-section-title {
+    color: #111827;
+}
+
+/* ==================================================
+COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
+(Ver rotina →, Ver progresso →, Histórico →, etc.)
+================================================== */
+.btn-meds-secondary,
+.secondary-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 35px;
+    min-height: 35px;
+    padding: 0 14px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 600;
+    color: var(--color-meds-primary);
+    background-color: var(--color-meds-bg-tint);
+    border: 1px solid var(--color-meds-border-tint);
+    border-radius: 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    flex-shrink: 0;
+}
+
+.btn-meds-secondary:hover,
+.secondary-action-btn:hover {
+    background-color: rgba(112, 222, 1, 0.2);
+    border-color: rgba(112, 222, 1, 0.55);
+}
+
+.btn-meds-secondary:active,
+.secondary-action-btn:active {
+    transform: scale(0.97);
+    background-color: rgba(112, 222, 1, 0.25);
+}
+
+.btn-meds-secondary:focus-visible,
+.secondary-action-btn:focus-visible {
+    outline: 2px solid var(--color-meds-primary);
+    outline-offset: 2px;
+}
+
+.btn-meds-secondary svg,
+.secondary-action-btn svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.btn-meds-secondary:hover svg,
+.secondary-action-btn:hover svg {
+    transform: translateX(2px);
+}
+
+[data-theme="light"] .btn-meds-secondary,
+[data-theme="light"] .secondary-action-btn {
+    color: #3b8200;
+    background-color: rgba(112, 222, 1, 0.12);
+    border-color: rgba(112, 222, 1, 0.45);
+}
+
+[data-theme="light"] .btn-meds-secondary:hover,
+[data-theme="light"] .secondary-action-btn:hover {
+    background-color: rgba(112, 222, 1, 0.22);
+    border-color: rgba(112, 222, 1, 0.65);
+    color: #2e6600;
+}
+
+[data-theme="light"] .btn-meds-secondary:focus-visible,
+[data-theme="light"] .secondary-action-btn:focus-visible {
+    outline-color: #3b8200;
+}
+
+/* ==================================================
+FAB (FLOATING ACTION BUTTON)
+================================================== */
+.btn-meds-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--color-meds-primary);
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(112, 222, 1, 0.4);
+    border: none;
+    cursor: pointer;
+    z-index: 90;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.btn-meds-fab:hover {
+    background-color: var(--color-meds-primary-hover);
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(112, 222, 1, 0.5);
+}
+
+.btn-meds-fab:active {
+    transform: scale(0.94);
+}
+
+.btn-meds-fab svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+}
+
+/* ==================================================
+RESPONSIVIDADE (max-width: 360px)
+================================================== */
+@media (max-width: 360px) {
+    .btn-meds-secondary,
+    .secondary-action-btn {
+        height: 33px;
+        min-height: 33px;
+        padding: 0 10px;
+        font-size: 0.75rem;
+        /* 12px */
+        gap: 4px;
+    }
+}

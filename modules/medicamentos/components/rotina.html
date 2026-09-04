@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Rotina • Medicamentos • KeeperHub</title>
+
+		<!-- Estilos Estruturais e Compartilhados -->
+		<link rel="stylesheet" href="/shared/styles/variables.css" />
+		<link rel="stylesheet" href="/shared/styles/reset.css" />
+		<link rel="stylesheet" href="../assets/css/meds-variables.css" />
+		<link rel="stylesheet" href="../assets/css/layout.css" />
+		<link rel="stylesheet" href="../assets/css/header.css" />
+		<link rel="stylesheet" href="../assets/css/components.css" />
+		<link rel="stylesheet" href="../assets/css/rotina.css" />
+	</head>
+	<body>
+		<div class="app-page-wrapper">
+			<div class="app-container">
+				<!-- CABEÇALHO DA TELA ROTINA -->
+				<header class="meds-header-section" id="routine-header">
+					<div class="meds-header-title-area">
+						<a href="/modules/medicamentos/"class="meds-header-back-btn"id="btn-back-meds-home"aria-label="Voltar para a Home de Medicamentos"title="Voltar">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20" aria-hidden="true">
+								<polyline points="15 18 9 12 15 6"></polyline>
+							</svg>
+						</a>
+                        
+						<h1 class="meds-header-title" id="routine-page-title">
+							Rotina
+						</h1>
+                        
+                        <div class="theme-bar" id="theme-bar">
+                            <button
+                            type="button"
+                            class="btn-theme-toggle"
+                            id="theme-toggle"
+                            aria-label="Ativar tema claro"
+                            title="Ativar tema claro"
+                            >
+                            <img
+                                src="/shared/img/icon-theme-sun.png"
+                                alt=""
+                                aria-hidden="true"
+                                class="theme-icon theme-icon-sun"
+                                width="20"
+                                height="20"
+                            />
+                            <img
+                                src="/shared/img/icon-theme-moon.png"
+                                alt=""
+                                aria-hidden="true"
+                                class="theme-icon theme-icon-moon"
+                                width="20"
+                                height="20"
+                            />
+                            </button>
+                      </div>
+					</div>
+                    
+				</header>
+
+				<!-- CONTEÚDO PRINCIPAL -->
+				<main class="meds-main" id="main-content">
+					<div class="routine-stack">
+						<!-- SELETOR DE DATA / NAVEGAÇÃO POR DIA -->
+						<nav class="routine-date-selector" aria-label="Navegação por data">
+							<button
+								type="button"
+								class="btn-date-nav"
+								id="btn-prev-day"
+								aria-label="Dia anterior"
+							>
+								<svg
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									width="16"
+									height="16"
+									aria-hidden="true"
+								>
+									<polyline points="15 18 9 12 15 6"></polyline>
+								</svg>
+							</button>
+							<span class="routine-current-date" id="current-date-label">
+								Hoje, 21 de agosto
+							</span>
+							<button
+								type="button"
+								class="btn-date-nav"
+								id="btn-next-day"
+								aria-label="Próximo dia"
+							>
+								<svg
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									width="16"
+									height="16"
+									aria-hidden="true"
+								>
+									<polyline points="9 18 15 12 9 6"></polyline>
+								</svg>
+							</button>
+						</nav>
+
+						<!-- RESUMO DIÁRIO (BADGES DE MÉTRICAS) -->
+						<section class="routine-summary-section" aria-label="Resumo diário">
+							<div class="routine-summary-header">
+								<h2 class="routine-summary-title">RESUMO<br />DIÁRIO</h2>
+								<div class="routine-summary-badges">
+									<div class="routine-badge routine-badge--doses">
+										6 Doses
+									</div>
+									<div class="routine-badge routine-badge--taken">
+										6 Tomadas
+									</div>
+									<div class="routine-badge routine-badge--pending">
+										0 Pendentes
+									</div>
+									<div class="routine-badge routine-badge--delayed">
+										0 Atrasadas
+									</div>
+								</div>
+							</div>
+
+							<!-- BANNER DE STATUS CONCLUÍDO -->
+							<div class="routine-completion-banner" role="status">
+								<div class="routine-completion-icon" aria-hidden="true">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="3"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="14"
+										height="14"
+									>
+										<polyline points="20 6 9 17 4 12"></polyline>
+									</svg>
+								</div>
+								<div class="routine-completion-text">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="16"
+										height="16"
+										aria-hidden="true"
+									>
+										<polyline points="20 6 9 17 4 12"></polyline>
+									</svg>
+									<span>Medicações de hoje concluídas</span>
+								</div>
+							</div>
+						</section>
+
+						<!-- TIMELINE / CRONOGRAMA DE HORÁRIOS -->
+						<section class="routine-timeline" aria-label="Linha do tempo de medicações">
+							
+							<!-- HORÁRIO 07:00 -->
+							<div class="timeline-group">
+								<div class="timeline-time-header">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="16"
+										height="16"
+										aria-hidden="true"
+									>
+										<circle cx="12" cy="12" r="10"></circle>
+										<polyline points="12 6 12 12 16 14"></polyline>
+									</svg>
+									<span>07:00</span>
+								</div>
+
+								<div class="timeline-card-list">
+									<div class="routine-card routine-card--taken" tabindex="0">
+										<div class="routine-card-body">
+											<div class="routine-card-info">
+												<div class="routine-card-title-row">
+													<svg
+														class="icon-check"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														width="14"
+														height="14"
+														aria-hidden="true"
+													>
+														<polyline points="20 6 9 17 4 12"></polyline>
+													</svg>
+													<span class="routine-card-name">Eutirox 50mcg</span>
+												</div>
+												<span class="routine-card-time-taken">Tomado às 07:05</span>
+											</div>
+											<span class="routine-status-pill routine-status-pill--taken">Tomado</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- HORÁRIO 08:00 -->
+							<div class="timeline-group">
+								<div class="timeline-time-header">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="16"
+										height="16"
+										aria-hidden="true"
+									>
+										<circle cx="12" cy="12" r="10"></circle>
+										<polyline points="12 6 12 12 16 14"></polyline>
+									</svg>
+									<span>08:00</span>
+								</div>
+
+								<div class="timeline-card-list">
+									<div class="routine-card routine-card--taken" tabindex="0">
+										<div class="routine-card-body">
+											<div class="routine-card-info">
+												<div class="routine-card-title-row">
+													<svg
+														class="icon-check"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														width="14"
+														height="14"
+														aria-hidden="true"
+													>
+														<polyline points="20 6 9 17 4 12"></polyline>
+													</svg>
+													<span class="routine-card-name">Losartana 50mg</span>
+												</div>
+												<span class="routine-card-time-taken">Tomado às 08:12</span>
+											</div>
+											<span class="routine-status-pill routine-status-pill--taken">Tomado</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- HORÁRIO 14:00 -->
+							<div class="timeline-group">
+								<div class="timeline-time-header">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="16"
+										height="16"
+										aria-hidden="true"
+									>
+										<circle cx="12" cy="12" r="10"></circle>
+										<polyline points="12 6 12 12 16 14"></polyline>
+									</svg>
+									<span>14:00</span>
+								</div>
+
+								<div class="timeline-card-list">
+									<div class="routine-card routine-card--taken" tabindex="0">
+										<div class="routine-card-body">
+											<div class="routine-card-info">
+												<div class="routine-card-title-row">
+													<svg
+														class="icon-check"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														width="14"
+														height="14"
+														aria-hidden="true"
+													>
+														<polyline points="20 6 9 17 4 12"></polyline>
+													</svg>
+													<span class="routine-card-name">Metformina 500mg</span>
+												</div>
+												<span class="routine-card-time-taken">Tomado às 14:05</span>
+											</div>
+											<span class="routine-status-pill routine-status-pill--taken">Tomado</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- HORÁRIO 20:00 -->
+							<div class="timeline-group">
+								<div class="timeline-time-header">
+									<svg
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										width="16"
+										height="16"
+										aria-hidden="true"
+									>
+										<circle cx="12" cy="12" r="10"></circle>
+										<polyline points="12 6 12 12 16 14"></polyline>
+									</svg>
+									<span>20:00</span>
+								</div>
+
+								<div class="timeline-card-list">
+									<div class="routine-card routine-card--taken" tabindex="0">
+										<div class="routine-card-body">
+											<div class="routine-card-info">
+												<div class="routine-card-title-row">
+													<svg
+														class="icon-check"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														width="14"
+														height="14"
+														aria-hidden="true"
+													>
+														<polyline points="20 6 9 17 4 12"></polyline>
+													</svg>
+													<span class="routine-card-name">Atorvastatina 20mg</span>
+												</div>
+												<span class="routine-card-time-taken">Tomado às 20:10</span>
+											</div>
+											<span class="routine-status-pill routine-status-pill--taken">Tomado</span>
+										</div>
+									</div>
+
+									<div class="routine-card routine-card--taken" tabindex="0">
+										<div class="routine-card-body">
+											<div class="routine-card-info">
+												<div class="routine-card-title-row">
+													<svg
+														class="icon-check"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														width="14"
+														height="14"
+														aria-hidden="true"
+													>
+														<polyline points="20 6 9 17 4 12"></polyline>
+													</svg>
+													<span class="routine-card-name">Metformina 500mg</span>
+												</div>
+												<span class="routine-card-time-taken">Tomado às 20:10</span>
+											</div>
+											<span class="routine-status-pill routine-status-pill--taken">Tomado</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</section>
+
+						<!-- AÇÃO INFERIOR: REGISTRAR USO EVENTUAL -->
+						<div class="routine-action-footer">
+							<button
+								type="button"
+								class="btn-register-eventual"
+								id="btn-register-eventual-use"
+							>
+								<svg
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									width="16"
+									height="16"
+									aria-hidden="true"
+								>
+									<line x1="12" y1="5" x2="12" y2="19"></line>
+									<line x1="5" y1="12" x2="19" y2="12"></line>
+								</svg>
+								<span>Registrar uso eventual</span>
+							</button>
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="/shared/services/theme.js"></script>
+		<script type="module" src="/modules/medicamentos/js/routine.js"></script>
+	</body>
+</html>
