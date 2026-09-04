@@ -1,0 +1,381 @@
+/* ==================================================
+KEEPERHUB — MÓDULO MEDICAMENTOS
+Arquivo: meds-routine.css
+Estilos EXCLUSIVOS da tela "Rotina"
+Fidelidade total à UI apresentada na imagem.
+================================================== */
+
+/* Contêiner Geral da Tela */
+.meds-main {
+    padding-bottom: 32px;
+}
+
+.routine-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header */
+.meds-header-section {
+    padding: 12px 0 16px 0;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.meds-header-title-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+.meds-header-back-btn {
+    position: absolute;
+    left: 0;
+    color: #72de01;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.theme-bar {
+    position: absolute;
+    right: 0;
+}
+
+.meds-header-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+}
+
+/* Navegação por Data (Seletor do Dia) */
+.routine-date-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 4px;
+}
+
+.btn-date-nav {
+    background: transparent;
+    border: none;
+    color: #72de01;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    transition: transform 0.15s ease;
+}
+
+.btn-date-nav:active {
+    transform: scale(0.9);
+}
+
+.routine-current-date {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.01em;
+}
+
+/* Resumo Diário & Badges de Status */
+.routine-summary-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.routine-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.routine-summary-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #8e929e;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.routine-summary-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    max-width: 220px;
+}
+
+.routine-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Tipos de Badges */
+.routine-badge--doses {
+    background-color: rgba(114, 222, 1, 0.1);
+    color: #72de01;
+    border: 1px solid rgba(114, 222, 1, 0.25);
+}
+
+.routine-badge--taken {
+    background-color: rgba(114, 222, 1, 0.1);
+    color: #72de01;
+    border: 1px solid rgba(114, 222, 1, 0.25);
+}
+
+.routine-badge--pending,
+.routine-badge--delayed {
+    background-color: rgba(255, 255, 255, 0.04);
+    color: #6b7280;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Banner de Conclusão de Dia */
+.routine-completion-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(114, 222, 1, 0.05);
+    border: 1px solid rgba(114, 222, 1, 0.3);
+    border-radius: 12px;
+    padding: 12px 16px;
+}
+
+.routine-completion-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #72de01;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.routine-completion-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.routine-completion-text svg {
+    color: #ffffff;
+}
+
+/* Timeline (Linha do Tempo de Horários) */
+.routine-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 4px;
+}
+
+/* Linha vertical condutora no fundo da timeline */
+.routine-timeline::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 8px;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.06);
+    z-index: 0;
+}
+
+.timeline-group {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Cabeçalho do Horário (Ícone Relógio + Texto) */
+.timeline-time-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+.timeline-time-header svg {
+    color: #8e929e;
+}
+
+.timeline-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Card do Medicamento na Rotina */
+.routine-card {
+    position: relative;
+    background-color: #16181d;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 14px 16px 14px 20px;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color 0.15s ease;
+}
+
+.routine-card:hover {
+    background-color: #1b1e24;
+}
+
+/* Faixa lateral indicadora do estado no card */
+.routine-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 4px;
+    border-radius: 4px;
+    background-color: #383b42;
+}
+
+.routine-card--taken::before {
+    background-color: #72de01;
+}
+
+.routine-card--pending::before {
+    background-color: #eab308;
+}
+
+.routine-card-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.routine-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.routine-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.routine-card-title-row .icon-check {
+    color: #8e929e;
+}
+
+.routine-card-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #d1d5db;
+}
+
+.routine-card-time-taken {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    margin-left: 20px;
+}
+
+/* Status Pill no Canto Direito do Card (Tomado / Pendente) */
+.routine-status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+.routine-status-pill--taken {
+    background-color: rgba(114, 222, 1, 0.08);
+    color: #5bb300;
+    border: 1px solid rgba(114, 222, 1, 0.15);
+}
+
+/* Botão Flutuante Inferior (Registrar Uso Eventual) */
+.routine-action-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.btn-register-eventual {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background-color: #121418;
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    color: #d1d5db;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-register-eventual:hover {
+    background-color: #181a20;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.btn-register-eventual svg {
+    color: #9ca3af;
+}
+
+/* Suporte Light Theme (Caso ativado) */
+[data-theme="light"] .routine-card {
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .routine-card-name {
+    color: #111827;
+}
+
+[data-theme="light"] .routine-current-date,
+[data-theme="light"] .meds-header-title {
+    color: #111827;
+}
+
+[data-theme="light"] .btn-register-eventual {
+    background-color: #ffffff;
+    border-color: #d1d5db;
+    color: #374151;
+}

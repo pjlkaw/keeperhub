@@ -1,6 +1,6 @@
 /* ==================================================
 KEEPERHUB — MÓDULO MEDICAMENTOS
-Arquivo: meds-list.css
+Arquivo: med-list.css
 Estilos EXCLUSIVOS da tela "Medicações" (listagem geral):
 abas (Medicações/Receitas), busca e filtro, grupos e
 card de medicamento.
@@ -9,6 +9,10 @@ Depende de: shared/styles/variables.css, meds-variables.css,
             layout.css, header.css, components.css
 Usado por: apenas a página de listagem do módulo
 ================================================== */
+
+.meds-header-section {
+    margin-top: 12px;
+}
 
 /* Abas (Medicações / Receitas) */
 .meds-subnav-tabs {
