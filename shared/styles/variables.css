@@ -18,7 +18,7 @@ html[data-theme="dark"] {
   --pill-bg: #000000;
   --pill-text: #ffffff;
 }
-
+  
 /* Tema claro */
 html[data-theme="light"] {
   --bg-color: #ffffff;

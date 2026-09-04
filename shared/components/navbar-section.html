@@ -1,0 +1,33 @@
+<!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL) -->
+<!-- Para usar no seu módulo precisa ter uma tag no header com: 
+    <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav> 
+
+    E no head precisa do script e do link css:
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <script>
+        fetch('/shared/components/navbar-section.html').then(response => response.text()).then(data => {
+            document.getElementById('modules-nav-wrapper').innerHTML = data;});
+    </script>
+-->
+    <div class="modules-nav-bar" role="tablist">
+        <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+            <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+            Finanças
+        </span>
+        <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+            <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+            Despensa
+        </span>
+        <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+            <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+            Pets
+        </span>
+        <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+            <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+            Metas
+        </span>
+        <span class="modules-nav-item active" role="tab" aria-selected="true" tabindex="0">
+            <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+            Medicamentos
+        </span>
+    </div>
