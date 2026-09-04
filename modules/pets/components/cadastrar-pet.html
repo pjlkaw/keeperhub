@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0c" />
+    <title>KeeperHub — Cadastrar Pet</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body>
+    <main class="edit-pet">
+      <header class="page-header">
+        <a href="../index.html" class="page-header__back" aria-label="Voltar ao dashboard">
+          <span aria-hidden="true">‹</span>
+        </a>
+        <h1 class="page-header__title">Cadastrar Pet</h1>
+      </header>
+
+      <form class="edit-pet-form">
+        <figure class="edit-pet-form__photo">
+          <img src="../../../shared/img/logo-pets.png" alt="Foto do pet" />
+        </figure>
+
+        <button type="button" class="text-button edit-pet-form__change-photo">
+          Adicionar foto
+        </button>
+
+        <div class="form-field">
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Nome do pet" />
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Tipo de Animal</legend>
+          <ul class="species-options">
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="cachorro" />Cachorro</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="gato" />Gato</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="passaro" />Pássaro</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="cavalo" />Cavalo</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="reptil" />Réptil</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="pequeno-mamifero" />Pequeno Mamífero</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="peixe" />Peixe</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="animal-fazenda" />Animal de Fazenda</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="anfibio" />Anfíbio</label></li>
+            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="exotico" />Exótico</label></li>
+          </ul>
+        </fieldset>
+
+        <div class="form-field">
+          <label for="raca">Raça</label>
+          <input type="text" id="raca" name="raca" placeholder="Ex: Golden Retriever" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="idade">Idade</label>
+            <input type="text" id="idade" name="idade" placeholder="Ex: 3 anos" />
+          </div>
+          <div class="form-field">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" name="peso" step="0.1" placeholder="0.0" />
+          </div>
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Gênero</legend>
+          <div class="segmented-control">
+            <label class="segmented-control__option">
+              <input type="radio" name="genero" value="macho" />
+              Macho
+            </label>
+            <label class="segmented-control__option">
+              <input type="radio" name="genero" value="femea" />
+              Fêmea
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="primary-button edit-pet-form__submit">
+          Cadastrar Pet
+        </button>
+      </form>
+    </main>
+
+    <script src="../js/script.js" defer></script>
+  </body>
+</html>
