@@ -11,9 +11,18 @@ Depende de: shared/styles/variables.css, meds-variables.css,
 Usado por: apenas a página de adicionar medicamento
 ================================================== */
 
+
+.meds-header-section {
+    display: flex;
+    align-items: center;
+}
+
+.meds-header-title {
+    text-align: center;
+}
+
 .meds-form-intro {
     font-size: 0.8125rem;
-    /* 13px */
     color: #8e929e;
     line-height: 1.4;
     margin-top: -4px;

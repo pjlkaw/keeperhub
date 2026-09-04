@@ -1,464 +1,357 @@
 <!doctype html>
 <html lang="pt-BR" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adicionar Medicamento • Medicamentos • KeeperHub</title>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Adicionar Medicamento • Medicamentos • KeeperHub</title>
 
-		<!-- Estilos Estruturais e Compartilhados -->
-		<link rel="stylesheet" href="/shared/styles/variables.css">
-		<link rel="stylesheet" href="/shared/styles/reset.css">
-		<link rel="stylesheet" href="../assets/css/meds-variables.css">
-		<link rel="stylesheet" href="../assets/css/layout.css">
-		<link rel="stylesheet" href="../assets/css/header.css">
-		<link rel="stylesheet" href="../assets/css/components.css">
-		<link rel="stylesheet" href="../assets/css/meds-form.css">  </head>
-  <body>
-    <div class="app-page-wrapper">
-      <div class="app-container">
+	<!-- Estilos Estruturais e Compartilhados -->
+	<link rel="stylesheet" href="/shared/styles/variables.css">
+	<link rel="stylesheet" href="/shared/styles/reset.css">
+	<link rel="stylesheet" href="../assets/css/meds-variables.css">
+	<link rel="stylesheet" href="../assets/css/layout.css">
+	<link rel="stylesheet" href="../assets/css/header.css">
+	<link rel="stylesheet" href="../assets/css/components.css">
+	<link rel="stylesheet" href="../assets/css/meds-form.css">
+</head>
+<body>
+	<div class="app-page-wrapper">
+		<div class="app-container">
 
-        <!-- CABEÇALHO DA TELA ADICIONAR MEDICAMENTO -->
-        <header class="meds-header-section" id="add-medication-header">
-          <div class="meds-header-title-area">
-            <div class="meds-header-top-row">
-              <a
-                href="/modules/medicamentos/components/medicacoes.html"
-                class="meds-header-back-btn"
-                id="btn-back-medications"
-                aria-label="Voltar para a listagem de Medicações"
-                title="Voltar"
-                >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </a>
-              <h1 class="meds-header-title" id="add-medication-page-title">Adicionar medicamento</h1>
-            </div>
-          </div>
-          <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-          <div class="theme-bar" id="theme-bar">
-            <button
-              type="button"
-              class="btn-theme-toggle"
-              id="theme-toggle"
-              aria-label="Ativar tema claro"
-              title="Ativar tema claro"
-            >
-              <img
-                src="../../../shared/img/icon-theme-sun.png"
-                alt=""
-                aria-hidden="true"
-                class="theme-icon theme-icon-sun"
-                width="20"
-                height="20"
-              />
-              <img
-                src="../../../shared/img/icon-theme-moon.png"
-                alt=""
-                aria-hidden="true"
-                class="theme-icon theme-icon-moon"
-                width="20"
-                height="20"
-              />
-            </button>
-          </div>
-        </header>
-        
-        <!-- ORIENTAÇÃO INTRODUTÓRIA -->
-        <p class="meds-form-intro" id="add-medication-intro">
-          Cadastre as informações do medicamento para organizar sua rotina.
-        </p>
-        
-        <!-- FORMULÁRIO DE CADASTRO -->
-        <main id="main-content">
-          <form class="meds-form" id="form-add-medication" novalidate>
+			<!-- CABEÇALHO DA TELA ADICIONAR MEDICAMENTO -->
+			<header class="meds-header-section" id="add-medication-header">
+				<div class="meds-header-title-area">
+					<div class="meds-header-top-row">
+						<a href="/modules/medicamentos/components/medicacoes.html" class="meds-header-back-btn" id="btn-back-medications" aria-label="Voltar para a listagem de Medicações" title="Voltar">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+								<polyline points="15 18 9 12 15 6"></polyline>
+							</svg>
+						</a>
+						<h1 class="meds-header-title" id="add-medication-page-title">Adicionar medicamento</h1>
+					</div>
+				</div>
+				<!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
+				<div class="theme-bar" id="theme-bar">
+					<button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
+						<img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
+						<img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
+					</button>
+				</div>
 
-            <!-- 1. BLOCO: MEDICAMENTO -->
-            <section class="meds-form-block" aria-labelledby="block-med-title">
-              <div class="meds-form-block-header">
-                <h2 class="meds-form-block-title" id="block-med-title">Medicamento</h2>
-              </div>
+			</header>
 
-              <!-- Campo 1: Nome do Medicamento -->
-              <div class="meds-form-field">
-                <label for="input-med-name" class="meds-form-label">
-                  <span>Nome do medicamento <span class="meds-label-required" aria-hidden="true">*</span></span>
-                </label>
-                <input
-                  type="text"
-                  class="meds-form-input"
-                  id="input-med-name"
-                  name="medName"
-                  placeholder="Ex.: Losartana"
-                  autocomplete="off"
-                  required
-                />
-              </div>
+			<!-- ORIENTAÇÃO INTRODUTÓRIA -->
+			<p class="meds-form-intro" id="add-medication-intro">Cadastre as informações do medicamento para organizar sua rotina.</p>
 
-              <!-- Campos 2 e 3: Concentração e Apresentação -->
-              <div class="meds-form-row">
-                <div class="meds-form-field">
-                  <label for="input-med-concentration" class="meds-form-label">
-                    <span>Concentração</span>
-                    <span class="meds-label-optional">Opcional</span>
-                  </label>
-                  <input
-                    type="text"
-                    class="meds-form-input"
-                    id="input-med-concentration"
-                    name="concentration"
-                    placeholder="Ex.: 50 mg"
-                    autocomplete="off"
-                  />
-                </div>
+			<!-- FORMULÁRIO DE CADASTRO -->
+			<main id="main-content">
+				<form class="meds-form" id="form-add-medication" novalidate>
 
-                <div class="meds-form-field">
-                  <label for="select-med-presentation" class="meds-form-label">
-                    <span>Apresentação <span class="meds-label-required" aria-hidden="true">*</span></span>
-                  </label>
-                  <select
-                    class="meds-form-select"
-                    id="select-med-presentation"
-                    name="presentation"
-                    required
-                  >
-                    <option value="" disabled selected>Selecione</option>
-                    <option value="comprimido">Comprimido</option>
-                    <option value="capsula">Cápsula</option>
-                    <option value="gotas">Gotas</option>
-                    <option value="solucao">Solução</option>
-                    <option value="xarope">Xarope</option>
-                    <option value="pomada">Pomada</option>
-                    <option value="creme">Creme</option>
-                    <option value="spray">Spray</option>
-                    <option value="inalador">Inalador</option>
-                    <option value="injetavel">Injetável</option>
-                    <option value="outro">Outro</option>
-                  </select>
-                </div>
-              </div>
+					<!-- 1. BLOCO: MEDICAMENTO -->
+					<section class="meds-form-block" aria-labelledby="block-med-title">
+						<div class="meds-form-block-header">
+							<h2 class="meds-form-block-title" id="block-med-title">Medicamento</h2>
+						</div>
 
-              <!-- Ação Visual: Escanear código de barras (Preparação futura) -->
-              <div class="meds-barcode-action" aria-disabled="true" title="Leitura de código de barras em desenvolvimento">
-                <div class="barcode-action-left">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M3 5v14"></path>
-                    <path d="M8 5v14"></path>
-                    <path d="M12 5v14"></path>
-                    <path d="M17 5v14"></path>
-                    <path d="M21 5v14"></path>
-                  </svg>
-                  <span>Escanear código de barras</span>
-                </div>
-                <span class="barcode-badge-soon">Em breve</span>
-              </div>
-            </section>
+						<!-- Campo 1: Nome do Medicamento -->
+						<div class="meds-form-field">
+							<label for="input-med-name" class="meds-form-label">
+								<span>Nome do medicamento <span class="meds-label-required" aria-hidden="true">*</span></span>
+							</label>
+							<input type="text" class="meds-form-input" id="input-med-name" name="medName" placeholder="Ex.: Losartana" autocomplete="off" required />
+						</div>
 
-            <!-- 2. BLOCO: TRATAMENTO & TIPO DE USO -->
-            <section class="meds-form-block" aria-labelledby="block-treatment-title">
-              <div class="meds-form-block-header">
-                <h2 class="meds-form-block-title" id="block-treatment-title">Tratamento</h2>
-              </div>
+						<!-- Campos 2 e 3: Concentração e Apresentação -->
+						<div class="meds-form-row">
+							<div class="meds-form-field">
+								<label for="input-med-concentration" class="meds-form-label">
+									<span>Concentração</span>
+									<span class="meds-label-optional">Opcional</span>
+								</label>
+								<input type="text" class="meds-form-input" id="input-med-concentration" name="concentration" placeholder="Ex.: 50 mg" autocomplete="off" />
+							</div>
 
-              <div class="meds-form-field">
-                <span class="meds-form-label">
-                  <span>Tipo de uso <span class="meds-label-required" aria-hidden="true">*</span></span>
-                </span>
-                <div class="meds-usage-type-group" role="radiogroup" aria-label="Tipo de uso">
-                  <label class="meds-usage-option active" id="option-usage-continuo">
-                    <input type="radio" name="usageType" value="continuo" checked />
-                    <span>Uso contínuo</span>
-                  </label>
-                  <label class="meds-usage-option" id="option-usage-temporario">
-                    <input type="radio" name="usageType" value="temporario" />
-                    <span>Tratamento temporário</span>
-                  </label>
-                  <label class="meds-usage-option" id="option-usage-eventual">
-                    <input type="radio" name="usageType" value="eventual" />
-                    <span>Uso eventual</span>
-                  </label>
-                </div>
-              </div>
+							<div class="meds-form-field">
+								<label for="select-med-presentation" class="meds-form-label">
+									<span>Apresentação <span class="meds-label-required" aria-hidden="true">*</span></span>
+								</label>
+								<select class="meds-form-select" id="select-med-presentation" name="presentation" required>
+									<option value="" disabled selected>Selecione</option>
+									<option value="comprimido">Comprimido</option>
+									<option value="capsula">Cápsula</option>
+									<option value="gotas">Gotas</option>
+									<option value="solucao">Solução</option>
+									<option value="xarope">Xarope</option>
+									<option value="pomada">Pomada</option>
+									<option value="creme">Creme</option>
+									<option value="spray">Spray</option>
+									<option value="inalador">Inalador</option>
+									<option value="injetavel">Injetável</option>
+									<option value="outro">Outro</option>
+								</select>
+							</div>
+						</div>
 
-              <!-- Data de Início (Contínuo e Temporário) -->
-              <div class="meds-form-field" id="field-start-date">
-                <label for="input-start-date" class="meds-form-label">
-                  <span>Data de início</span>
-                  <span class="meds-label-optional">Opcional</span>
-                </label>
-                <input
-                  type="date"
-                  class="meds-form-input"
-                  id="input-start-date"
-                  name="startDate"
-                />
-              </div>
+						<!-- Ação Visual: Escanear código de barras (Preparação futura) -->
+						<div class="meds-barcode-action" aria-disabled="true" title="Leitura de código de barras em desenvolvimento">
+							<div class="barcode-action-left">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M3 5v14"></path>
+									<path d="M8 5v14"></path>
+									<path d="M12 5v14"></path>
+									<path d="M17 5v14"></path>
+									<path d="M21 5v14"></path>
+								</svg>
+								<span>Escanear código de barras</span>
+							</div>
+							<span class="barcode-badge-soon">Em breve</span>
+						</div>
+					</section>
 
-              <!-- Data de Término (Temporário) -->
-              <div class="meds-form-field" id="field-end-date" style="display: none;">
-                <label for="input-end-date" class="meds-form-label">
-                  <span>Data de término</span>
-                  <span class="meds-label-optional">Opcional</span>
-                </label>
-                <input
-                  type="date"
-                  class="meds-form-input"
-                  id="input-end-date"
-                  name="endDate"
-                />
-              </div>
+					<!-- 2. BLOCO: TRATAMENTO & TIPO DE USO -->
+					<section class="meds-form-block" aria-labelledby="block-treatment-title">
+						<div class="meds-form-block-header">
+							<h2 class="meds-form-block-title" id="block-treatment-title">Tratamento</h2>
+						</div>
 
-              <!-- Mensagem de Apoio para Uso Eventual -->
-              <div class="meds-form-helper-box" id="msg-eventual-use" style="display: none;">
-                Use esta opção para medicamentos utilizados somente quando necessário.
-              </div>
-            </section>
+						<div class="meds-form-field">
+							<span class="meds-form-label">
+								<span>Tipo de uso <span class="meds-label-required" aria-hidden="true">*</span></span>
+							</span>
+							<div class="meds-usage-type-group" role="radiogroup" aria-label="Tipo de uso">
+								<label class="meds-usage-option active" id="option-usage-continuo">
+									<input type="radio" name="usageType" value="continuo" checked />
+									<span>Uso contínuo</span>
+								</label>
+								<label class="meds-usage-option" id="option-usage-temporario">
+									<input type="radio" name="usageType" value="temporario" />
+									<span>Tratamento temporário</span>
+								</label>
+								<label class="meds-usage-option" id="option-usage-eventual">
+									<input type="radio" name="usageType" value="eventual" />
+									<span>Uso eventual</span>
+								</label>
+							</div>
+						</div>
 
-            <!-- 3. BLOCO: ROTINA -->
-            <section class="meds-form-block" id="section-routine" aria-labelledby="block-routine-title">
-              <div class="meds-form-block-header">
-                <h2 class="meds-form-block-title" id="block-routine-title">Rotina</h2>
-              </div>
+						<!-- Data de Início (Contínuo e Temporário) -->
+						<div class="meds-form-field" id="field-start-date">
+							<label for="input-start-date" class="meds-form-label">
+								<span>Data de início</span>
+								<span class="meds-label-optional">Opcional</span>
+							</label>
+							<input type="date" class="meds-form-input" id="input-start-date" name="startDate" />
+						</div>
 
-              <!-- Dose por horário -->
-              <div class="meds-form-field">
-                <label for="input-med-dose" class="meds-form-label">
-                  <span>Dose por horário</span>
-                  <span class="meds-label-optional">Opcional</span>
-                </label>
-                <input
-                  type="text"
-                  class="meds-form-input"
-                  id="input-med-dose"
-                  name="dose"
-                  placeholder="Ex.: 1 comprimido"
-                  autocomplete="off"
-                />
-              </div>
+						<!-- Data de Término (Temporário) -->
+						<div class="meds-form-field" id="field-end-date" style="display: none;">
+							<label for="input-end-date" class="meds-form-label">
+								<span>Data de término</span>
+								<span class="meds-label-optional">Opcional</span>
+							</label>
+							<input type="date" class="meds-form-input" id="input-end-date" name="endDate" />
+						</div>
 
-              <!-- Frequência -->
-              <div class="meds-form-field">
-                <label for="select-med-frequency" class="meds-form-label">
-                  <span>Frequência</span>
-                </label>
-                <select class="meds-form-select" id="select-med-frequency" name="frequency">
-                  <option value="diario" selected>Todos os dias</option>
-                  <option value="especifico">Em dias específicos</option>
-                  <option value="intervalo">A cada X horas</option>
-                </select>
-              </div>
+						<!-- Mensagem de Apoio para Uso Eventual -->
+						<div class="meds-form-helper-box" id="msg-eventual-use" style="display: none;">Use esta opção para medicamentos utilizados somente quando necessário.</div>
+					</section>
 
-              <!-- Intervalo de horas (Condicional) -->
-              <div class="meds-form-field meds-subfield-card" id="field-frequency-interval" style="display: none;">
-                <label for="input-frequency-interval" class="meds-form-label">
-                  <span>Intervalo (em horas)</span>
-                </label>
-                <input
-                  type="number"
-                  class="meds-form-input"
-                  id="input-frequency-interval"
-                  name="intervalHours"
-                  min="1"
-                  max="48"
-                  placeholder="Ex.: 8"
-                />
-              </div>
+					<!-- 3. BLOCO: ROTINA -->
+					<section class="meds-form-block" id="section-routine" aria-labelledby="block-routine-title">
+						<div class="meds-form-block-header">
+							<h2 class="meds-form-block-title" id="block-routine-title">Rotina</h2>
+						</div>
 
-              <!-- Dias específicos (Condicional) -->
-              <div class="meds-form-field meds-subfield-card" id="field-frequency-days" style="display: none;">
-                <span class="meds-form-label">
-                  <span>Dias da semana</span>
-                </span>
-                <div class="meds-weekday-grid" role="group" aria-label="Seleção de dias da semana">
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="seg" />
-                    <span>Seg</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="ter" />
-                    <span>Ter</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="qua" />
-                    <span>Qua</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="qui" />
-                    <span>Qui</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="sex" />
-                    <span>Sex</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="sab" />
-                    <span>Sáb</span>
-                  </label>
-                  <label class="meds-weekday-chip">
-                    <input type="checkbox" name="weekdays" value="dom" />
-                    <span>Dom</span>
-                  </label>
-                </div>
-              </div>
+						<!-- Dose por horário -->
+						<div class="meds-form-field">
+							<label for="input-med-dose" class="meds-form-label">
+								<span>Dose por horário</span>
+								<span class="meds-label-optional">Opcional</span>
+							</label>
+							<input type="text" class="meds-form-input" id="input-med-dose" name="dose" placeholder="Ex.: 1 comprimido" autocomplete="off" />
+						</div>
 
-              <!-- Seção de Horários -->
-              <div class="meds-form-field" id="section-times">
-                <span class="meds-form-label">
-                  <span>Horários</span>
-                </span>
+						<!-- Frequência -->
+						<div class="meds-form-field">
+							<label for="select-med-frequency" class="meds-form-label">
+								<span>Frequência</span>
+							</label>
+							<select class="meds-form-select" id="select-med-frequency" name="frequency">
+								<option value="diario" selected>Todos os dias</option>
+								<option value="especifico">Em dias específicos</option>
+								<option value="intervalo">A cada X horas</option>
+							</select>
+						</div>
 
-                <div class="meds-times-list" id="times-list">
-                  <div class="meds-time-row">
-                    <input
-                      type="time"
-                      class="meds-form-input"
-                      aria-label="Horário 1"
-                    />
-                    <button
-                      type="button"
-                      class="btn-meds-remove-time"
-                      aria-label="Remover horário"
-                      title="Remover horário"
-                      style="display: none;"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+						<!-- Intervalo de horas (Condicional) -->
+						<div class="meds-form-field meds-subfield-card" id="field-frequency-interval" style="display: none;">
+							<label for="input-frequency-interval" class="meds-form-label">
+								<span>Intervalo (em horas)</span>
+							</label>
+							<input type="number" class="meds-form-input" id="input-frequency-interval" name="intervalHours" min="1" max="48" placeholder="Ex.: 8" />
+						</div>
 
-                <button type="button" class="btn-meds-add-time" id="btn-add-time">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                  <span>Adicionar horário</span>
-                </button>
-              </div>
-            </section>
+						<!-- Dias específicos (Condicional) -->
+						<div class="meds-form-field meds-subfield-card" id="field-frequency-days" style="display: none;">
+							<span class="meds-form-label">
+								<span>Dias da semana</span>
+							</span>
+							<div class="meds-weekday-grid" role="group" aria-label="Seleção de dias da semana">
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="seg" />
+									<span>Seg</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="ter" />
+									<span>Ter</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="qua" />
+									<span>Qua</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="qui" />
+									<span>Qui</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="sex" />
+									<span>Sex</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="sab" />
+									<span>Sáb</span>
+								</label>
+								<label class="meds-weekday-chip">
+									<input type="checkbox" name="weekdays" value="dom" />
+									<span>Dom</span>
+								</label>
+							</div>
+						</div>
 
-            <!-- 4. BLOCO: ESTOQUE E VALIDADE -->
-            <section class="meds-form-block" aria-labelledby="block-stock-title">
-              <div class="meds-form-block-header">
-                <h2 class="meds-form-block-title" id="block-stock-title">Estoque e validade</h2>
-              </div>
+						<!-- Seção de Horários -->
+						<div class="meds-form-field" id="section-times">
+							<span class="meds-form-label">
+								<span>Horários</span>
+							</span>
 
-              <!-- Quantidade e Unidade de Estoque -->
-              <div class="meds-form-row">
-                <div class="meds-form-field">
-                  <label for="input-stock-qty" class="meds-form-label">
-                    <span>Quantidade disponível</span>
-                    <span class="meds-label-optional">Opcional</span>
-                  </label>
-                  <input
-                    type="number"
-                    class="meds-form-input"
-                    id="input-stock-qty"
-                    name="stockQty"
-                    min="0"
-                    placeholder="Ex.: 20"
-                  />
-                </div>
+							<div class="meds-times-list" id="times-list">
+								<div class="meds-time-row">
+									<input type="time" class="meds-form-input" aria-label="Horário 1" />
+									<button type="button" class="btn-meds-remove-time" aria-label="Remover horário" title="Remover horário" style="display: none;">
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
+											<line x1="18" y1="6" x2="6" y2="18"></line>
+											<line x1="6" y1="6" x2="18" y2="18"></line>
+										</svg>
+									</button>
+								</div>
+							</div>
 
-                <div class="meds-form-field">
-                  <label for="select-stock-unit" class="meds-form-label">
-                    <span>Unidade</span>
-                  </label>
-                  <select class="meds-form-select" id="select-stock-unit" name="stockUnit">
-                    <option value="comprimidos" selected>comprimidos</option>
-                    <option value="capsulas">cápsulas</option>
-                    <option value="ml">ml</option>
-                    <option value="gotas">gotas</option>
-                    <option value="unidades">unidades</option>
-                  </select>
-                </div>
-              </div>
+							<button type="button" class="btn-meds-add-time" id="btn-add-time">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
+									<line x1="12" y1="5" x2="12" y2="19"></line>
+									<line x1="5" y1="12" x2="19" y2="12"></line>
+								</svg>
+								<span>Adicionar horário</span>
+							</button>
+						</div>
+					</section>
 
-              <!-- Alerta de Estoque Baixo -->
-              <div class="meds-switch-row">
-                <label for="checkbox-stock-alert" class="meds-switch-info">
-                  <span class="meds-switch-title">Avisar quando estiver acabando</span>
-                  <span class="meds-switch-subtitle">Receba um lembrete para reposição</span>
-                </label>
-                <div class="meds-toggle-switch">
-                  <input type="checkbox" id="checkbox-stock-alert" name="stockAlert" />
-                  <span class="meds-toggle-slider" aria-hidden="true"></span>
-                </div>
-              </div>
+					<!-- 4. BLOCO: ESTOQUE E VALIDADE -->
+					<section class="meds-form-block" aria-labelledby="block-stock-title">
+						<div class="meds-form-block-header">
+							<h2 class="meds-form-block-title" id="block-stock-title">Estoque e validade</h2>
+						</div>
 
-              <!-- Quantidade de Aviso (Condicional) -->
-              <div class="meds-form-field meds-subfield-card" id="field-stock-alert-threshold" style="display: none;">
-                <label for="input-stock-threshold" class="meds-form-label">
-                  <span>Avisar quando restarem (unidades):</span>
-                </label>
-                <input
-                  type="number"
-                  class="meds-form-input"
-                  id="input-stock-threshold"
-                  name="stockThreshold"
-                  min="1"
-                  placeholder="Ex.: 5"
-                />
-              </div>
+						<!-- Quantidade e Unidade de Estoque -->
+						<div class="meds-form-row">
+							<div class="meds-form-field">
+								<label for="input-stock-qty" class="meds-form-label">
+									<span>Quantidade disponível</span>
+									<span class="meds-label-optional">Opcional</span>
+								</label>
+								<input type="number" class="meds-form-input" id="input-stock-qty" name="stockQty" min="0" placeholder="Ex.: 20" />
+							</div>
 
-              <!-- Data de Validade -->
-              <div class="meds-form-field">
-                <label for="input-expiration-date" class="meds-form-label">
-                  <span>Data de validade</span>
-                  <span class="meds-label-optional">Opcional</span>
-                </label>
-                <input
-                  type="date"
-                  class="meds-form-input"
-                  id="input-expiration-date"
-                  name="expirationDate"
-                />
-              </div>
-            </section>
+							<div class="meds-form-field">
+								<label for="select-stock-unit" class="meds-form-label">
+									<span>Unidade</span>
+								</label>
+								<select class="meds-form-select" id="select-stock-unit" name="stockUnit">
+									<option value="comprimidos" selected>comprimidos</option>
+									<option value="capsulas">cápsulas</option>
+									<option value="ml">ml</option>
+									<option value="gotas">gotas</option>
+									<option value="unidades">unidades</option>
+								</select>
+							</div>
+						</div>
 
-            <!-- 5. BLOCO: LEMBRETES -->
-            <section class="meds-form-block" id="section-reminders" aria-labelledby="block-reminders-title">
-              <div class="meds-form-block-header">
-                <h2 class="meds-form-block-title" id="block-reminders-title">Lembretes</h2>
-              </div>
+						<!-- Alerta de Estoque Baixo -->
+						<div class="meds-switch-row">
+							<label for="checkbox-stock-alert" class="meds-switch-info">
+								<span class="meds-switch-title">Avisar quando estiver acabando</span>
+								<span class="meds-switch-subtitle">Receba um lembrete para reposição</span>
+							</label>
+							<div class="meds-toggle-switch">
+								<input type="checkbox" id="checkbox-stock-alert" name="stockAlert" />
+								<span class="meds-toggle-slider" aria-hidden="true"></span>
+							</div>
+						</div>
 
-              <div class="meds-switch-row">
-                <label for="checkbox-reminders" class="meds-switch-info">
-                  <span class="meds-switch-title">Lembrar dos horários</span>
-                  <span class="meds-switch-subtitle">Notificações automáticas no momento da dose</span>
-                </label>
-                <div class="meds-toggle-switch">
-                  <input type="checkbox" id="checkbox-reminders" name="enableReminders" />
-                  <span class="meds-toggle-slider" aria-hidden="true"></span>
-                </div>
-              </div>
-            </section>
+						<!-- Quantidade de Aviso (Condicional) -->
+						<div class="meds-form-field meds-subfield-card" id="field-stock-alert-threshold" style="display: none;">
+							<label for="input-stock-threshold" class="meds-form-label">
+								<span>Avisar quando restarem (unidades):</span>
+							</label>
+							<input type="number" class="meds-form-input" id="input-stock-threshold" name="stockThreshold" min="1" placeholder="Ex.: 5" />
+						</div>
 
-            <!-- CTA PRINCIPAL DE SUBMISSÃO -->
-            <div class="meds-form-submit-container">
-              <button
-                type="submit"
-                class="btn-meds-submit"
-                id="btn-submit-medication"
-                disabled
-              >
-                <span>Adicionar medicamento</span>
-              </button>
+						<!-- Data de Validade -->
+						<div class="meds-form-field">
+							<label for="input-expiration-date" class="meds-form-label">
+								<span>Data de validade</span>
+								<span class="meds-label-optional">Opcional</span>
+							</label>
+							<input type="date" class="meds-form-input" id="input-expiration-date" name="expirationDate" />
+						</div>
+					</section>
 
-              <!-- Mensagem de Feedback de Desenvolvimento -->
-              <div class="meds-form-feedback" id="form-feedback-msg" role="status" aria-live="polite"></div>
-            </div>
+					<!-- 5. BLOCO: LEMBRETES -->
+					<section class="meds-form-block" id="section-reminders" aria-labelledby="block-reminders-title">
+						<div class="meds-form-block-header">
+							<h2 class="meds-form-block-title" id="block-reminders-title">Lembretes</h2>
+						</div>
 
-          </form>
-        </main>
+						<div class="meds-switch-row">
+							<label for="checkbox-reminders" class="meds-switch-info">
+								<span class="meds-switch-title">Lembrar dos horários</span>
+								<span class="meds-switch-subtitle">Notificações automáticas no momento da dose</span>
+							</label>
+							<div class="meds-toggle-switch">
+								<input type="checkbox" id="checkbox-reminders" name="enableReminders" />
+								<span class="meds-toggle-slider" aria-hidden="true"></span>
+							</div>
+						</div>
+					</section>
 
-      </div>
-    </div>
+					<!-- CTA PRINCIPAL DE SUBMISSÃO -->
+					<div class="meds-form-submit-container">
+						<button type="submit" class="btn-meds-submit" id="btn-submit-medication" disabled>
+							<span>Adicionar medicamento</span>
+						</button>
 
-    <!-- Script do Módulo Medicamentos -->
-    <script src="/shared/services/theme.js"></script>
-    <script type="module" src="/modules/medicamentos/js/script.js"></script>
-  </body>
+						<!-- Mensagem de Feedback de Desenvolvimento -->
+						<div class="meds-form-feedback" id="form-feedback-msg" role="status" aria-live="polite"></div>
+					</div>
+
+				</form>
+			</main>
+
+		</div>
+	</div>
+
+	<!-- Script do Módulo Medicamentos -->
+	<script src="/shared/services/theme.js"></script>
+	<script type="module" src="/modules/medicamentos/js/script.js"></script>
+</body>
 </html>
