@@ -1,276 +1,250 @@
 <html lang="pt-BR" data-theme="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Medicamentos • KeeperHub</title>
-		
-		<!-- Estilos Estruturais e Compartilhados -->
-		<link rel="stylesheet" href="/shared/styles/variables.css">
-		<link rel="stylesheet" href="/shared/styles/reset.css">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Medicamentos • KeeperHub</title>
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-		<!-- Essentials -->
-		<link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
-		<link rel="stylesheet" href="assets/css/essentials/layout.css">
-		<link rel="stylesheet" href="assets/css/essentials/header.css">
-		<link rel="stylesheet" href="assets/css/essentials/components.css">
+        <!-- Estilos Estruturais e Compartilhados -->
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
 
-		<!-- Main -->
-		<link rel="stylesheet" href="assets/css/home.css">
+        <!-- Essentials -->
+        <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
+        <link rel="stylesheet" href="assets/css/essentials/layout.css">
+        <link rel="stylesheet" href="assets/css/essentials/header.css">
+        <link rel="stylesheet" href="assets/css/essentials/components.css">
 
-		<!-- Implementação via fetch() da navbar entre módulos -->
-		<link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-		<script>
-			fetch('/shared/components/navbar-section.html').then(response => response.text()).then(data => {
-				document.getElementById('modules-nav-wrapper').innerHTML = data;});
-		</script>
-	</head>
-	<body>
-		<div class="app-page-wrapper">
-			<div class="app-container">
+        <!-- Main -->
+        <link rel="stylesheet" href="assets/css/home.css">
 
-				<nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+        <!-- Implementação via fetch() da navbar entre módulos -->
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <script>
+            fetch('/shared/components/navbar-section.html').then(response => response.text()).then(data => {
+                document.getElementById('modules-nav-wrapper').innerHTML = data;});
+        </script>
+    </head>
+    <body>
+        <div class="app-page-wrapper">
+            <div class="app-container">
 
-				<!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + TEMA + NOTIFICAÇÃO) -->
-				<header class="meds-header-section" id="meds-header">
-					<div class="meds-header-title-area">
-						<div class="meds-header-top-row">
-							<a href="/main/" class="meds-header-back-btn" id="btn-back-hub" aria-label="Voltar para a Home do KeeperHub" title="Voltar ao Hub">
-								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
-									<polyline points="15 18 9 12 15 6"></polyline>
-								</svg>
-							</a>
-							<h1 class="meds-header-title" id="meds-title">Medicamentos</h1>
-						</div>
-						<div class="meds-header-meta">
-							<span>Hoje, 24 de agosto</span>
-							<span class="meds-header-badge">3 doses pendentes</span>
-						</div>
-					</div>
+                <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-					<div class="meds-header-controls">
-						<!-- Alternador de Tema (Quadrado Arredondado - Dark=Lua, Light=Sol) -->
-						<button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
-							<img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
-							<img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
-						</button>
+                <!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + TEMA + NOTIFICAÇÃO) -->
+                <header class="meds-header-section" id="meds-header">
+                    <div class="meds-header-title-area">
+                        <div class="meds-header-top-row">
+                            <a href="/main/" class="meds-header-back-btn" id="btn-back-hub" aria-label="Voltar para a Home do KeeperHub" title="Voltar ao Hub">
+                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                            </a>
+                            <h1 class="meds-header-title" id="meds-title">Medicamentos</h1>
+                        </div>
+                        <div class="meds-header-meta">
+                            <span>Hoje, 24 de agosto</span>
+                            <span class="meds-header-badge">3 doses pendentes</span>
+                        </div>
+                    </div>
 
-						<!-- Sino de Notificações com Indicador -->
-						<button type="button" class="btn-app-notification-compact" id="btn-app-notifications" aria-label="Notificações de medicamentos" title="Notificações">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-								<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-							</svg>
-							<span class="notification-dot" aria-hidden="true"></span>
-						</button>
-					</div>
-				</header>
+                    <div class="meds-header-controls">
+                        <!-- Alternador de Tema (Quadrado Arredondado - Dark=Lua, Light=Sol) -->
+                        <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
+                            <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
+                            <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
+                        </button>
 
-				<!-- CONTEÚDO PRINCIPAL DA HOME DE MEDICAMENTOS -->
-				<main class="meds-main" id="main-content">
-					<div class="meds-stack">
-						<!-- 3. SEÇÃO “SUA MEDICAÇÃO” — DOSE ATRASADA (PRIORIDADE VISUAL) -->
-						<section aria-labelledby="section-delayed-title">
-							<div class="section-header-row">
-								<h2 class="meds-section-title" id="section-delayed-title">Sua medicação</h2>
-							</div>
+                        <!-- Sino de Notificações com Indicador -->
+                        <button type="button" class="btn-app-notification-compact" id="btn-app-notifications" aria-label="Notificações de medicamentos" title="Notificações">
+                            <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                            <span class="notification-dot" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </header>
 
-							<article class="meds-card-delayed" id="card-dose-delayed">
-								<div class="meds-card-delayed-header">
-									<span class="status-badge-delayed">ATRASADA (07:00)</span>
-								</div>
+                <!-- CONTEÚDO PRINCIPAL DA HOME DE MEDICAMENTOS -->
+                <main class="meds-main" id="main-content">
+                    <div class="meds-stack">
+                        <!-- 3. SEÇÃO “SUA MEDICAÇÃO” — DOSE ATRASADA (PRIORIDADE VISUAL) -->
+                        <section aria-labelledby="section-delayed-title">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-delayed-title">Sua medicação</h2>
+                            </div>
 
-								<div class="meds-delayed-content">
-									<span class="meds-delayed-name">Omega 3</span>
-									<span class="meds-delayed-dose">1 cápsula</span>
-								</div>
+                            <article class="meds-card-delayed" id="card-dose-delayed">
+                                <div class="meds-card-delayed-header">
+                                    <span class="status-badge-delayed">ATRASADA (07:00)</span>
+                                </div>
 
-								<div class="meds-delayed-actions">
-									<button type="button" class="btn-meds-take" id="btn-take-delayed">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true">
-											<polyline points="20 6 9 17 4 12"></polyline>
-										</svg>
-										Tomei
-									</button>
-									<button type="button" class="btn-meds-out" id="btn-out-delayed">Estou sem</button>
-								</div>
-							</article>
-						</section>
+                                <div class="meds-delayed-content">
+                                    <span class="meds-delayed-name">Omega 3</span>
+                                    <span class="meds-delayed-dose">1 cápsula</span>
+                                </div>
 
-						<!-- 4. SEÇÃO “PRÓXIMAS DOSES” -->
-						<section aria-labelledby="section-upcoming-title">
-							<div class="section-header-row">
-								<h2 class="meds-section-title" id="section-upcoming-title">Próximas doses</h2>
-							</div>
+                                <div class="meds-delayed-actions">
+                                    <button type="button" class="btn-meds-take" id="btn-take-delayed">
+                                        <i class="fa-solid fa-check" aria-hidden="true"></i>
+                                        Tomei
+                                    </button>
+                                    <button type="button" class="btn-meds-out" id="btn-out-delayed">Estou sem</button>
+                                </div>
+                            </article>
+                        </section>
 
-							<article class="meds-card-upcoming" id="card-doses-upcoming">
-								<div class="upcoming-header-row">
-									<span class="upcoming-time-tag">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true" style="color: var(--color-meds-primary);">
-											<circle cx="12" cy="12" r="10"></circle>
-											<polyline points="12 6 12 12 16 14"></polyline>
-										</svg>
-										08:00
-									</span>
-									<span class="upcoming-time-pill">3 medicamentos</span>
-								</div>
+                        <!-- 4. SEÇÃO “PRÓXIMAS DOSES” -->
+                        <section aria-labelledby="section-upcoming-title">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-upcoming-title">Próximas doses</h2>
+                            </div>
 
-								<ul class="upcoming-med-list" aria-label="Medicamentos das 08:00">
-									<li class="upcoming-med-item">
-										<span class="upcoming-med-bullet" aria-hidden="true"></span>
-										<span>Losartana 50 mg</span>
-									</li>
-									<li class="upcoming-med-item">
-										<span class="upcoming-med-bullet" aria-hidden="true"></span>
-										<span>Metformina 500 mg</span>
-									</li>
-									<li class="upcoming-med-item">
-										<span class="upcoming-med-bullet" aria-hidden="true"></span>
-										<span>Vitamina D</span>
-									</li>
-								</ul>
+                            <article class="meds-card-upcoming" id="card-doses-upcoming">
+                                <div class="upcoming-header-row">
+                                    <span class="upcoming-time-tag">
+                                        <i class="fa-regular fa-clock" aria-hidden="true" style="color: var(--color-meds-primary);"></i>
+                                        08:00
+                                    </span>
+                                    <span class="upcoming-time-pill">3 medicamentos</span>
+                                </div>
 
-								<div class="upcoming-footer">
-									<button type="button" class="btn-meds-secondary" id="btn-meds-routine">
-										<span>Ver rotina</span>
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
-											<line x1="5" y1="12" x2="19" y2="12"></line>
-											<polyline points="12 5 19 12 12 19"></polyline>
-										</svg>
-									</button>
-								</div>
-							</article>
-						</section>
+                                <ul class="upcoming-med-list" aria-label="Medicamentos das 08:00">
+                                    <li class="upcoming-med-item">
+                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
+                                        <span>Losartana 50 mg</span>
+                                    </li>
+                                    <li class="upcoming-med-item">
+                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
+                                        <span>Metformina 500 mg</span>
+                                    </li>
+                                    <li class="upcoming-med-item">
+                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
+                                        <span>Vitamina D</span>
+                                    </li>
+                                </ul>
 
-						<!-- 5. SEÇÃO “ATALHOS PRINCIPAIS” -->
-						<section aria-label="Atalhos rápidos de Medicamentos">
-							<div class="meds-shortcuts-grid">
-								<!-- Atalho 1: MEDICAÇÕES -->
-								<a href="/modules/medicamentos/components/medicacoes.html" class="meds-shortcut-card" id="shortcut-medicacoes" aria-label="Acessar listagem de Medicações (6 ativas)">
-									<div class="shortcut-icon-wrap" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-											<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"></path>
-											<path d="m8.5 8.5 7 7"></path>
-										</svg>
-									</div>
-									<span class="shortcut-tag">MEDICAÇÕES</span>
-									<span class="shortcut-value">6 ativas</span>
-								</a>
+                                <div class="upcoming-footer">
+                                    <button type="button" class="btn-meds-secondary" id="btn-meds-routine">
+                                        <span>Ver rotina</span>
+                                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </article>
+                        </section>
 
-								<!-- Atalho 2: ROTINA -->
-								<div class="meds-shortcut-grid" tabindex="0">
-									<a href="/modules/medicamentos/components/rotina.html" class="meds-shortcut-card" id="shortcut-medicacoes" aria-label="Acessar listagem de Medicações (6 ativas)">
-										<div class="shortcut-icon-wrap" aria-hidden="true">
-											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-												<circle cx="12" cy="12" r="10"></circle>
-												<polyline points="12 6 12 12 16 14"></polyline>
-											</svg>
-										</div>
-										<span class="shortcut-tag">ROTINA</span>
-										<span class="shortcut-value">4 hoje</span>
-									</a>
-								</div>
+                        <!-- 5. SEÇÃO “ATALHOS PRINCIPAIS” -->
+                        <section aria-label="Atalhos rápidos de Medicamentos">
+                            <div class="meds-shortcuts-grid">
+                                <!-- Atalho 1: MEDICAÇÕES -->
+                                <a href="/modules/medicamentos/components/medicacoes.html" class="meds-shortcut-card" id="shortcut-medicacoes" aria-label="Acessar listagem de Medicações (6 ativas)">
+                                    <div class="shortcut-icon-wrap" aria-hidden="true">
+                                        <i class="fa-solid fa-pills"></i>
+                                    </div>
+                                    <span class="shortcut-tag">MEDICAÇÕES</span>
+                                    <span class="shortcut-value">6 ativas</span>
+                                </a>
 
-								<!-- Atalho 3: ESTOQUE -->
-								<div class="meds-shortcut-grid" tabindex="0">
-									<a href="/modules/medicamentos/components/estoque.html" class="meds-shortcut-card" id="shortcut-medicacoes" aria-label="Acessar listagem de Medicações (6 ativas)">
-										<div class="shortcut-icon-wrap wrap-alert" aria-hidden="true">
-											<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-												<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
-												<path d="m3.3 7 8.7 5 8.7-5"></path>
-												<path d="M12 22V12"></path>
-											</svg>
-										</div>
-										<span class="shortcut-tag">ESTOQUE</span>
-										<span class="shortcut-value">1 atenção</span>
-									</a>
-								</div>
-							</div>
-						</section>
+                                <!-- Atalho 2: ROTINA -->
+                                <div class="meds-shortcut-grid" tabindex="0">
+                                    <a href="/modules/medicamentos/components/rotina.html" class="meds-shortcut-card" id="shortcut-rotina" aria-label="Acessar rotina de medicamentos (4 hoje)">
+                                        <div class="shortcut-icon-wrap" aria-hidden="true">
+                                            <i class="fa-regular fa-clock"></i>
+                                        </div>
+                                        <span class="shortcut-tag">ROTINA</span>
+                                        <span class="shortcut-value">4 hoje</span>
+                                    </a>
+                                </div>
 
-						<!-- 6. SEÇÃO “ATENÇÃO” (ESTOQUE BAIXO) -->
-						<section aria-labelledby="section-attention-title">
-							<div class="section-header-row">
-								<h2 class="meds-section-title" id="section-attention-title">Atenção</h2>
-							</div>
+                                <!-- Atalho 3: ESTOQUE -->
+                                <div class="meds-shortcut-grid" tabindex="0">
+                                    <a href="/modules/medicamentos/components/estoque.html" class="meds-shortcut-card" id="shortcut-estoque" aria-label="Acessar dashboard de estoque (1 atenção)">
+                                        <div class="shortcut-icon-wrap wrap-alert" aria-hidden="true">
+                                            <i class="fa-solid fa-box-archive"></i>
+                                        </div>
+                                        <span class="shortcut-tag">Dashboard</span>
+                                        <span class="shortcut-value">1 atenção</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
 
-							<article class="meds-card-attention" id="card-stock-attention">
-								<div class="attention-content-wrap">
-									<div class="attention-icon-circle" aria-hidden="true">
-										<img src="assets/img/task-red.png" alt="" class="attention-icon-img" width="26" height="26" loading="lazy" />
-									</div>
-									<div class="attention-info-area">
-										<span class="attention-med-name">Dipirona 500 mg</span>
-										<span class="attention-status-text">Estoque baixo • 2 comprimidos</span>
-									</div>
-								</div>
+                        <!-- 6. SEÇÃO “ATENÇÃO” (ESTOQUE BAIXO) -->
+                        <section aria-labelledby="section-attention-title">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-attention-title">Atenção</h2>
+                            </div>
 
-								<button type="button" class="btn-meds-repor" id="btn-repor-dipirona">Repor</button>
-							</article>
-						</section>
+                            <article class="meds-card-attention" id="card-stock-attention">
+                                <div class="attention-content-wrap">
+                                    <div class="attention-icon-circle" aria-hidden="true">
+                                        <img src="assets/img/task-red.png" alt="" class="attention-icon-img" width="26" height="26" loading="lazy" />
+                                    </div>
+                                    <div class="attention-info-area">
+                                        <span class="attention-med-name">Dipirona 500 mg</span>
+                                        <span class="attention-status-text">Estoque baixo • 2 comprimidos</span>
+                                    </div>
+                                </div>
 
-						<!-- 7. SEÇÃO “BONS HÁBITOS” -->
-						<section aria-labelledby="section-habits-title">
-							<div class="section-header-row">
-								<h2 class="meds-section-title" id="section-habits-title">Bons Hábitos</h2>
-								<button type="button" class="btn-meds-secondary" id="btn-habits-progress">
-									<span>Ver progresso</span>
-									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
-										<line x1="5" y1="12" x2="19" y2="12"></line>
-										<polyline points="12 5 19 12 12 19"></polyline>
-									</svg>
-								</button>
-							</div>
+                                <button type="button" class="btn-meds-repor" id="btn-repor-dipirona">Repor</button>
+                            </article>
+                        </section>
 
-							<div class="habits-scroll-wrapper" role="region" aria-label="Lista de Bons Hábitos">
-								<!-- Hábito 1: Água -->
-								<div class="habit-card">
-									<div class="habit-icon-wrap habit-icon-wrap--water" aria-hidden="true">
-										<img src="assets/img/gota.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
-									</div>
-									<span class="habit-name">Água</span>
-									<span class="habit-value">1,5 L / 2 L</span>
-								</div>
+                        <!-- 7. SEÇÃO “BONS HÁBITOS” -->
+                        <section aria-labelledby="section-habits-title">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-habits-title">Bons Hábitos</h2>
+                                <button type="button" class="btn-meds-secondary" id="btn-habits-progress">
+                                    <span>Ver progresso</span>
+                                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
 
-								<!-- Hábito 2: Caminhada -->
-								<div class="habit-card">
-									<div class="habit-icon-wrap habit-icon-wrap--walk" aria-hidden="true">
-										<img src="assets/img/icone-pessoa-verde-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
-									</div>
-									<span class="habit-name">Caminhada</span>
-									<span class="habit-value habit-done">Feito</span>
-								</div>
+                            <div class="habits-scroll-wrapper" role="region" aria-label="Lista de Bons Hábitos">
+                                <!-- Hábito 1: Água -->
+                                <div class="habit-card">
+                                    <div class="habit-icon-wrap habit-icon-wrap--water" aria-hidden="true">
+                                        <img src="assets/img/gota.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+                                    </div>
+                                    <span class="habit-name">Água</span>
+                                    <span class="habit-value">1,5 L / 2 L</span>
+                                </div>
 
-								<!-- Hábito 3: Sono -->
-								<div class="habit-card">
-									<div class="habit-icon-wrap habit-icon-wrap--sleep" aria-hidden="true">
-										<img src="/shared/img/logo-lua-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
-									</div>
-									<span class="habit-name">Sono</span>
-									<span class="habit-value">7h 30min</span>
-								</div>
-							</div>
-						</section>
-					</div>
-				</main>
+                                <!-- Hábito 2: Caminhada -->
+                                <div class="habit-card">
+                                    <div class="habit-icon-wrap habit-icon-wrap--walk" aria-hidden="true">
+                                        <img src="assets/img/icone-pessoa-verde-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+                                    </div>
+                                    <span class="habit-name">Caminhada</span>
+                                    <span class="habit-value habit-done">Feito</span>
+                                </div>
 
-				<!-- 8. FAB (BOTÃO FLUTUANTE ADICIONAR) -->
-				<a
-				href="/modules/medicamentos/components/adicionar-medicamento.html"
-				class="btn-meds-fab"
-				id="btn-meds-fab"
-				aria-label="Adicionar medicamento"
-				title="Adicionar medicamento"
-				>
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<line x1="12" y1="5" x2="12" y2="19"></line>
-						<line x1="5" y1="12" x2="19" y2="12"></line>
-					</svg>
-				</a>
-			</div>
-		</div>
+                                <!-- Hábito 3: Sono -->
+                                <div class="habit-card">
+                                    <div class="habit-icon-wrap habit-icon-wrap--sleep" aria-hidden="true">
+                                        <img src="/shared/img/logo-lua-sem-fundo.png" alt="" class="habit-icon-img" width="26" height="26" loading="lazy" />
+                                    </div>
+                                    <span class="habit-name">Sono</span>
+                                    <span class="habit-value">7h 30min</span>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </main>
 
-		<!-- Script Exclusivo do Módulo Medicamentos -->
-		<script src="/shared/services/theme.js"></script>
-		<script type="module" src="/modules/medicamentos/js/script.js"></script>
-	</body>
+                <!-- 8. FAB (BOTÃO FLUTUANTE ADICIONAR) -->
+                <a
+                href="/modules/medicamentos/components/adicionar-medicamento.html"
+                class="btn-meds-fab"
+                id="btn-meds-fab"
+                aria-label="Adicionar medicamento"
+                title="Adicionar medicamento"
+                >
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Script Exclusivo do Módulo Medicamentos -->
+        <script src="/shared/services/theme.js"></script>
+        <script type="module" src="/modules/medicamentos/js/script.js"></script>
+    </body>
 </html>

@@ -1,167 +1,149 @@
 <!doctype html>
 <html lang="pt-BR" data-theme="dark">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registrar Reposição • KeeperHub</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Registrar Reposição • KeeperHub</title>
 
-    <!-- Estilos Estruturais e Compartilhados -->
-    <link rel="stylesheet" href="/shared/styles/variables.css">
-    <link rel="stylesheet" href="/shared/styles/reset.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Essentials -->
-    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
-    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
-    <link rel="stylesheet" href="../assets/css/essentials/header.css">
-    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+        <!-- Estilos Estruturais e Compartilhados -->
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
 
-    <!-- Main -->
-    <link rel="stylesheet" href="../assets/css/med-refill.css">
-</head>
-<body>
-    <div class="app-page-wrapper">
-        <div class="app-container">
-            <!-- CABEÇALHO DA TELA REGISTRAR REPOSIÇÃO -->
-            <!-- CABEÇALHO DA TELA DETALHES DA MEDICAÇÕES -->
-			<header class="meds-header-section" id="medications-header">
-				<div class="meds-header-title-area">
-					<div class="meds-header-top-row">
-						<a href="medicacoes.html" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para a Home de Medicamentos" title="Voltar">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
-								<polyline points="15 18 9 12 15 6"></polyline>
-							</svg>
-						</a>
-						<h1 class="meds-header-title" id="medications-page-title">Reposição</h1>
-					</div>
-				</div>
+        <!-- Essentials -->
+        <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+        <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+        <link rel="stylesheet" href="../assets/css/essentials/header.css">
+        <link rel="stylesheet" href="../assets/css/essentials/components.css">
 
-				<div class="meds-header-controls">
-					<!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-					<div class="theme-bar" id="theme-bar">
-						<button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
-							<img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
-							<img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
-						</button>
-					</div>
-			</header>
+        <!-- Main -->
+        <link rel="stylesheet" href="../assets/css/med-refill.css">
+    </head>
+    <body>
+        <div class="app-page-wrapper">
+            <div class="app-container">
+                <!-- CABEÇALHO DA TELA REGISTRAR REPOSIÇÃO -->
+                <header class="meds-header-section" id="refill-header">
+                    <div class="meds-header-title-area">
+                        <a href="medicacoes.html" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para Medicações" title="Voltar">
+                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                        </a>
 
-            <!-- CONTEÚDO PRINCIPAL -->
-            <main class="meds-main" id="main-content">
-                <form class="meds-stack" id="form-register-refill" novalidate>
-                    
-                    <!-- CARD RESUMO DO MEDICAMENTO -->
-                    <section class="med-summary-card" aria-label="Medicamento selecionado">
-                        <div class="med-summary-icon-wrap" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-                                <path d="M10.5 20.4l-7.9-7.9c-1.8-1.8-1.8-4.7 0-6.5l3.5-3.5c1.8-1.8 4.7-1.8 6.5 0l7.9 7.9c1.8 1.8 1.8 4.7 0 6.5l-3.5 3.5c-1.8 1.7-4.7 1.7-6.5 0z"></path>
-                                <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"></line>
-                            </svg>
-                        </div>
-                        <div class="med-summary-info">
-                            <h1 class="med-summary-name">Dipirona 500 mg</h1>
-                            <span class="med-summary-type">Comprimido</span>
-                            <div class="med-summary-badge">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true">
-                                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
-                                    <polyline points="3.29 7 12 12 20.71 7"></polyline>
-                                    <line x1="12" y1="22" x2="12" y2="12"></line>
-                                </svg>
-                                <span>Estoque atual: 2 comprimidos</span>
-                            </div>
-                        </div>
-                    </section>
+                        <h1 class="meds-header-title" id="refill-page-title">
+                            Reposição
+                        </h1>
 
-                    <!-- CAMPO: QUANTIDADE ADQUIRIDA -->
-                    <div class="form-group">
-                        <label for="input-quantity" class="form-label">
-                            Quantidade adquirida <span class="form-asterisk">*</span>
-                        </label>
-                        <div class="input-with-suffix">
-                            <input type="number" id="input-quantity" class="form-input" value="20" min="1" required />
-                            <span class="input-suffix">comprimidos</span>
+                        <div class="theme-bar" id="theme-bar">
+                            <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
+                                <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
+                                <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
+                            </button>
                         </div>
                     </div>
+                </header>
 
-                    <!-- LINHA DUPLA: LOTE E VALIDADE -->
-                    <div class="form-row">
+                <!-- CONTEÚDO PRINCIPAL -->
+                <main class="meds-main" id="main-content">
+                    <form class="meds-stack" id="form-register-refill" novalidate>
+                        
+                        <!-- CARD RESUMO DO MEDICAMENTO -->
+                        <section class="med-summary-card" aria-label="Medicamento selecionado">
+                            <div class="med-summary-icon-wrap" aria-hidden="true">
+                                <i class="fa-solid fa-pills"></i>
+                            </div>
+                            <div class="med-summary-info">
+                                <h1 class="med-summary-name">Dipirona 500 mg</h1>
+                                <span class="med-summary-type">Comprimido</span>
+                                <div class="med-summary-badge">
+                                    <i class="fa-solid fa-box-archive" aria-hidden="true"></i>
+                                    <span>Estoque atual: 2 comprimidos</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- CAMPO: QUANTIDADE ADQUIRIDA -->
                         <div class="form-group">
-                            <label for="input-batch" class="form-label">
-                                Lote <span class="form-label-optional">(Opc)</span>
+                            <label for="input-quantity" class="form-label">
+                                Quantidade adquirida <span class="form-asterisk">*</span>
                             </label>
-                            <input type="text" id="input-batch" class="form-input" placeholder="Ex: A123" />
+                            <div class="input-with-suffix">
+                                <input type="number" id="input-quantity" class="form-input" value="20" min="1" required />
+                                <span class="input-suffix">comprimidos</span>
+                            </div>
                         </div>
 
+                        <!-- LINHA DUPLA: LOTE E VALIDADE -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="input-batch" class="form-label">
+                                    Lote <span class="form-label-optional">(Opc)</span>
+                                </label>
+                                <input type="text" id="input-batch" class="form-input" placeholder="Ex: A123" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="input-expiration" class="form-label">
+                                    Validade <span class="form-label-optional">(Opc)</span>
+                                </label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="input-expiration" class="form-input" placeholder="dd/mm/aaaa" />
+                                    <i class="fa-regular fa-calendar input-icon" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CAMPO: DATA DA COMPRA -->
                         <div class="form-group">
-                            <label for="input-expiration" class="form-label">
-                                Validade <span class="form-label-optional">(Opc)</span>
+                            <label for="input-purchase-date" class="form-label">
+                                Data da compra <span class="form-asterisk">*</span>
                             </label>
                             <div class="input-with-icon">
-                                <input type="text" id="input-expiration" class="form-input" placeholder="dd/mm/aaaa" />
-                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                                </svg>
+                                <input type="text" id="input-purchase-date" class="form-input" value="Hoje, 21 de agosto" required />
+                                <i class="fa-regular fa-calendar input-icon" aria-hidden="true"></i>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- CAMPO: DATA DA COMPRA -->
-                    <div class="form-group">
-                        <label for="input-purchase-date" class="form-label">
-                            Data da compra <span class="form-asterisk">*</span>
-                        </label>
-                        <div class="input-with-icon">
-                            <input type="text" id="input-purchase-date" class="form-input" value="Hoje, 21 de agosto" required />
-                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
+                        <!-- CAMPO: OBSERVAÇÃO -->
+                        <div class="form-group">
+                            <label for="input-notes" class="form-label">
+                                Observação <span class="form-label-optional">(Opcional)</span>
+                            </label>
+                            <textarea id="input-notes" class="form-textarea" rows="3" placeholder="Ex: Compra na farmácia"></textarea>
                         </div>
-                    </div>
 
-                    <!-- CAMPO: OBSERVAÇÃO -->
-                    <div class="form-group">
-                        <label for="input-notes" class="form-label">
-                            Observação <span class="form-label-optional">(Opcional)</span>
-                        </label>
-                        <textarea id="input-notes" class="form-textarea" rows="3" placeholder="Ex: Compra na farmácia"></textarea>
-                    </div>
+                        <!-- CARD RESUMO DOS CÁLCULOS -->
+                        <section class="med-calculation-card" aria-label="Resumo do novo estoque">
+                            <div class="calc-row">
+                                <span class="calc-label">Estoque atual</span>
+                                <span class="calc-value">2</span>
+                            </div>
+                            <div class="calc-row">
+                                <span class="calc-label">Nova entrada</span>
+                                <span class="calc-value">+20</span>
+                            </div>
+                            <div class="calc-divider"></div>
+                            <div class="calc-row calc-row--total">
+                                <span class="calc-total-label">Novo total</span>
+                                <span class="calc-total-value">22 comprimidos</span>
+                            </div>
+                        </section>
 
-                    <!-- CARD RESUMO DOS CÁLCULOS -->
-                    <section class="med-calculation-card" aria-label="Resumo do novo estoque">
-                        <div class="calc-row">
-                            <span class="calc-label">Estoque atual</span>
-                            <span class="calc-value">2</span>
+                        <!-- BOTÃO DE SUBMISSÃO -->
+                        <div class="form-submit-container">
+                            <button type="submit" class="btn-meds-submit" id="btn-submit-refill">
+                                Registrar reposição
+                            </button>
                         </div>
-                        <div class="calc-row">
-                            <span class="calc-label">Nova entrada</span>
-                            <span class="calc-value">+20</span>
-                        </div>
-                        <div class="calc-divider"></div>
-                        <div class="calc-row calc-row--total">
-                            <span class="calc-total-label">Novo total</span>
-                            <span class="calc-total-value">22 comprimidos</span>
-                        </div>
-                    </section>
 
-                    <!-- BOTÃO DE SUBMISSÃO -->
-                    <div class="form-submit-container">
-                        <button type="submit" class="btn-meds-submit" id="btn-submit-refill">
-                            Registrar reposição
-                        </button>
-                    </div>
-
-                </form>
-            </main>
+                    </form>
+                </main>
+            </div>
         </div>
-    </div>
 
-    <!-- Script do Módulo Medicamentos -->
-    <script src="/shared/services/theme.js"></script>
-    <script type="module" src="/modules/medicamentos/js/med-refill.js"></script>
-</body>
+        <!-- Scripts -->
+        <script src="/shared/services/theme.js"></script>
+        <script type="module" src="/modules/medicamentos/js/med-refill.js"></script>
+    </body>
 </html>

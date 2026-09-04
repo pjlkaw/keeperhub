@@ -9,6 +9,10 @@ Usado por: TODAS as páginas do módulo
 Mobile First: 320px a 1440px
 ================================================== */
 
+.font-awesome-icon {
+    text-align: center;
+}
+
 .app-page-wrapper {
     display: flex;
     flex-direction: column;
