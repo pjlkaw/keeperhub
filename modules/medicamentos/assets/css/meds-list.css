@@ -10,10 +10,6 @@ Depende de: shared/styles/variables.css, meds-variables.css,
 Usado por: apenas a página de listagem do módulo
 ================================================== */
 
-.meds-header-section {
-    margin-top: 12px;
-}
-
 /* Abas (Medicações / Receitas) */
 .meds-subnav-tabs {
     display: flex;
