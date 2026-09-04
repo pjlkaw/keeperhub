@@ -1,215 +1,200 @@
 <!doctype html>
 <html lang="pt-BR" data-theme="dark">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Medicações • Medicamentos • KeeperHub</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Medicações • Medicamentos • KeeperHub</title>
 
-	<!-- Estilos Estruturais e Compartilhados -->
-	<link rel="stylesheet" href="/shared/styles/variables.css">
-	<link rel="stylesheet" href="/shared/styles/reset.css">
-	<link rel="stylesheet" href="../assets/css/meds-variables.css">
-	<link rel="stylesheet" href="../assets/css/layout.css">
-	<link rel="stylesheet" href="../assets/css/header.css">
-	<link rel="stylesheet" href="../assets/css/components.css">
-	<link rel="stylesheet" href="../assets/css/meds-list.css">
-</head>
-<body>
-	<div class="app-page-wrapper">
-		<div class="app-container">
-			<!-- CABEÇALHO DA TELA MEDICAÇÕES -->
-			<header class="meds-header-section" id="medications-header">
-				<div class="meds-header-title-area">
-					<div class="meds-header-top-row">
-						<a href="/modules/medicamentos/" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para a Home de Medicamentos" title="Voltar">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true">
-								<polyline points="15 18 9 12 15 6"></polyline>
-							</svg>
-						</a>
-						<h1 class="meds-header-title" id="medications-page-title">Medicações</h1>
-					</div>
-					<div class="meds-header-meta">
-						<span>Gerenciamento de remédios</span>
-						<span class="meds-header-badge">4 cadastradas</span>
-					</div>
-				</div>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-				<div class="meds-header-controls">
-					<!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-					<div class="theme-bar" id="theme-bar">
-						<button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
-							<img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
-							<img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
-						</button>
-					</div>
+        <!-- Estilos Estruturais e Compartilhados -->
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
 
-					<!-- Sino de Notificações -->
-					<button type="button" class="btn-app-notification-compact" id="btn-app-notifications" aria-label="Notificações de medicamentos" title="Notificações">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-							<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-							<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-						</svg>
-						<span class="notification-dot" aria-hidden="true"></span>
-					</button>
-				</div>
-			</header>
+        <!-- Essentials -->
+        <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+        <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+        <link rel="stylesheet" href="../assets/css/essentials/header.css">
+        <link rel="stylesheet" href="../assets/css/essentials/components.css">
 
-			<!-- ABAS DE NAVEGAÇÃO INTERNA (MEDICAÇÕES / RECEITAS) -->
-			<nav class="meds-subnav-tabs" role="tablist" aria-label="Seções de medicações">
-				<button type="button" class="meds-tab-button active" role="tab" aria-selected="true" id="tab-medications" tabindex="0">Medicações</button>
-				<button type="button" class="meds-tab-button" role="tab" aria-selected="false" id="tab-prescriptions" tabindex="-1">Receitas</button>
-			</nav>
+        <!-- Main -->
+        <link rel="stylesheet" href="../assets/css/meds-list.css">
+    </head>
+    <body>
+        <div class="app-page-wrapper">
+            <div class="app-container">
+                <!-- CABEÇALHO DA TELA MEDICAÇÕES -->
+                <header class="meds-header-section" id="medications-header">
+                    <div class="meds-header-title-area">
+                        <div class="meds-header-top-row">
+                            <a href="/modules/medicamentos/" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para a Home de Medicamentos" title="Voltar">
+                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                            </a>
+                            <h1 class="meds-header-title" id="medications-page-title">Medicações</h1>
+                        </div>
+                        <div class="meds-header-meta">
+                            <span>Gerenciamento de remédios</span>
+                            <span class="meds-header-badge">4 cadastradas</span>
+                        </div>
+                    </div>
 
-			<!-- CONTEÚDO PRINCIPAL -->
-			<main class="meds-main" id="main-content">
-				<div class="meds-stack">
-					<!-- BARRA DE BUSCA E BOTÃO DE FILTRO -->
-					<div class="meds-search-filter-row" role="search">
-						<div class="meds-search-box">
-							<svg class="meds-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<circle cx="11" cy="11" r="8"></circle>
-								<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-							</svg>
-							<input type="search" class="meds-search-input" id="input-search-medications" placeholder="Buscar medicação" aria-label="Buscar medicação" autocomplete="off" />
-						</div>
+                    <div class="meds-header-controls">
+                        <!-- BARRA DE CONTROLE DE TEMA -->
+                        <div class="theme-bar" id="theme-bar">
+                            <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
+                                <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
+                                <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
+                            </button>
+                        </div>
 
-						<button type="button" class="btn-meds-filter" id="btn-filter-medications" aria-label="Filtrar medicações" title="Filtrar medicações">
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-								<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-							</svg>
-						</button>
-					</div>
+                        <!-- Sino de Notificações -->
+                        <button type="button" class="btn-app-notification-compact" id="btn-app-notifications" aria-label="Notificações de medicamentos" title="Notificações">
+                            <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                            <span class="notification-dot" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </header>
 
-					<!-- GRUPO 1: USO CONTÍNUO -->
-					<section class="meds-group-section" aria-labelledby="group-continuous-title">
-						<h2 class="meds-group-title" id="group-continuous-title">Uso Contínuo</h2>
+                <!-- ABAS DE NAVEGAÇÃO INTERNA -->
+                <nav class="meds-subnav-tabs" role="tablist" aria-label="Seções de medicações">
+                    <button type="button" class="meds-tab-button active" role="tab" aria-selected="true" id="tab-medications" tabindex="0">Medicações</button>
+                    <button type="button" class="meds-tab-button" role="tab" aria-selected="false" id="tab-prescriptions" tabindex="-1">Receitas</button>
+                </nav>
 
-						<div class="meds-list" role="list">
-							<!-- Item 1: Losartana 50 mg -->
-							<div class="med-card" role="listitem" tabindex="0" id="med-card-losartana">
-								<div class="med-card-left">
-									<div class="med-card-icon-wrap" aria-hidden="true">
-										<img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-									</div>
-									<div class="med-card-info">
-										<span class="med-card-name">Losartana 50 mg</span>
-										<span class="med-card-details">1 comprimido • 08:00 e 20:00</span>
-									</div>
-								</div>
-								<div class="med-card-right">
-									<span class="med-status-badge med-status-badge--active">Ativo</span>
-									<span class="med-card-arrow" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-											<polyline points="9 18 15 12 9 6"></polyline>
-										</svg>
-									</span>
-								</div>
-							</div>
+                <!-- CONTEÚDO PRINCIPAL -->
+                <main class="meds-main" id="main-content">
+                    <div class="meds-stack">
+                        <!-- BARRA DE BUSCA E FILTRO -->
+                        <div class="meds-search-filter-row" role="search">
+                            <div class="meds-search-box">
+                                <i class="fa-solid fa-magnifying-glass meds-search-icon" aria-hidden="true"></i>
+                                <input type="search" class="meds-search-input" id="input-search-medications" placeholder="Buscar medicação" aria-label="Buscar medicação" autocomplete="off" />
+                            </div>
 
-							<!-- Item 2: Vitamina D -->
-							<div class="med-card" role="listitem" tabindex="0" id="med-card-vitaminad">
-								<div class="med-card-left">
-									<div class="med-card-icon-wrap" aria-hidden="true">
-										<img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-									</div>
-									<div class="med-card-info">
-										<span class="med-card-name">Vitamina D</span>
-										<span class="med-card-details">1 cápsula • 20:00</span>
-									</div>
-								</div>
-								<div class="med-card-right">
-									<span class="med-status-badge med-status-badge--active">Ativo</span>
-									<span class="med-card-arrow" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-											<polyline points="9 18 15 12 9 6"></polyline>
-										</svg>
-									</span>
-								</div>
-							</div>
-						</div>
-					</section>
+                            <button type="button" class="btn-meds-filter" id="btn-filter-medications" aria-label="Filtrar medicações" title="Filtrar medicações">
+                                <i class="fa-solid fa-filter" aria-hidden="true"></i>
+                            </button>
+                        </div>
 
-					<!-- GRUPO 2: TRATAMENTOS TEMPORÁRIOS -->
-					<section class="meds-group-section" aria-labelledby="group-temporary-title">
-						<h2 class="meds-group-title" id="group-temporary-title">Tratamentos Temporários</h2>
+                        <!-- GRUPO 1: USO CONTÍNUO -->
+                        <section class="meds-group-section" aria-labelledby="group-continuous-title">
+                            <h2 class="meds-group-title" id="group-continuous-title">Uso Contínuo</h2>
 
-						<div class="meds-list" role="list">
-							<!-- Item 3: Amoxicilina 500 mg -->
-							<div class="med-card" role="listitem" tabindex="0" id="med-card-amoxicilina">
-								<div class="med-card-left">
-									<div class="med-card-icon-wrap" aria-hidden="true">
-										<img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-									</div>
-									<div class="med-card-info">
-										<span class="med-card-name">Amoxicilina 500 mg</span>
-										<span class="med-card-details">1 cápsula • 8/8h • Até 30 de agosto</span>
-									</div>
-								</div>
-								<div class="med-card-right">
-									<span class="med-status-badge med-status-badge--treatment">Em tratamento</span>
-									<span class="med-card-arrow" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-											<polyline points="9 18 15 12 9 6"></polyline>
-										</svg>
-									</span>
-								</div>
-							</div>
-						</div>
-					</section>
+                            <div class="meds-list" role="list">
+                                <!-- Item 1: Losartana -->
+                                <a href="detalhes-medicamento.html">
+                                    <div class="med-card" role="listitem" tabindex="0" id="med-card-losartana">
+                                        <div class="med-card-left">
+                                            <div class="med-card-icon-wrap" aria-hidden="true">
+                                                <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                            </div>
+                                            <div class="med-card-info">
+                                                <span class="med-card-name">Losartana 50 mg</span>
+                                                <span class="med-card-details">1 comprimido • 08:00 e 20:00</span>
+                                            </div>
+                                        </div>
+                                        <div class="med-card-right">
+                                            <span class="med-status-badge med-status-badge--active">Ativo</span>
+                                            <span class="med-card-arrow" aria-hidden="true">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
 
-					<!-- GRUPO 3: USO EVENTUAL -->
-					<section class="meds-group-section" aria-labelledby="group-eventual-title">
-						<h2 class="meds-group-title" id="group-eventual-title">Uso Eventual</h2>
+                                <!-- Item 2: Vitamina D -->
+                                <div class="med-card" role="listitem" tabindex="0" id="med-card-vitaminad">
+                                    <div class="med-card-left">
+                                        <div class="med-card-icon-wrap" aria-hidden="true">
+                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                        </div>
+                                        <div class="med-card-info">
+                                            <span class="med-card-name">Vitamina D</span>
+                                            <span class="med-card-details">1 cápsula • 20:00</span>
+                                        </div>
+                                    </div>
+                                    <div class="med-card-right">
+                                        <span class="med-status-badge med-status-badge--active">Ativo</span>
+                                        <span class="med-card-arrow" aria-hidden="true">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
-						<div class="meds-list" role="list">
-							<!-- Item 4: Dipirona 500 mg -->
-							<div class="med-card" role="listitem" tabindex="0" id="med-card-dipirona">
-								<div class="med-card-left">
-									<div class="med-card-icon-wrap" aria-hidden="true">
-										<img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-									</div>
-									<div class="med-card-info">
-										<span class="med-card-name">Dipirona 500 mg</span>
-										<span class="med-card-details">Uso quando necessário</span>
-									</div>
-								</div>
-								<div class="med-card-right">
-									<span class="med-status-badge med-status-badge--eventual">Eventual</span>
-									<span class="med-card-arrow" aria-hidden="true">
-										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-											<polyline points="9 18 15 12 9 6"></polyline>
-										</svg>
-									</span>
-								</div>
-							</div>
-						</div>
-					</section>
+                        <!-- GRUPO 2: TRATAMENTOS TEMPORÁRIOS -->
+                        <section class="meds-group-section" aria-labelledby="group-temporary-title">
+                            <h2 class="meds-group-title" id="group-temporary-title">Tratamentos Temporários</h2>
 
-					<!-- AÇÃO SECUNDÁRIA: HISTÓRICO DE MEDICAÇÕES -->
-					<div class="meds-history-action-row">
-						<button type="button" class="btn-meds-secondary" id="btn-medications-history">
-							<span>Histórico de medicações</span>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" aria-hidden="true">
-								<line x1="5" y1="12" x2="19" y2="12"></line>
-								<polyline points="12 5 19 12 12 19"></polyline>
-							</svg>
-						</button>
-					</div>
-				</div>
-			</main>
+                            <div class="meds-list" role="list">
+                                <!-- Item 3: Amoxicilina -->
+                                <div class="med-card" role="listitem" tabindex="0" id="med-card-amoxicilina">
+                                    <div class="med-card-left">
+                                        <div class="med-card-icon-wrap" aria-hidden="true">
+                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                        </div>
+                                        <div class="med-card-info">
+                                            <span class="med-card-name">Amoxicilina 500 mg</span>
+                                            <span class="med-card-details">1 cápsula • 8/8h • Até 30 de agosto</span>
+                                        </div>
+                                    </div>
+                                    <div class="med-card-right">
+                                        <span class="med-status-badge med-status-badge--treatment">Em tratamento</span>
+                                        <span class="med-card-arrow" aria-hidden="true">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
-			<!-- FAB (BOTÃO FLUTUANTE ADICIONAR) -->
-			<a href="/modules/medicamentos/components/adicionar-medicamento.html" class="btn-meds-fab" id="btn-meds-fab" aria-label="Adicionar medicamento" title="Adicionar medicamento">
-				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-					<line x1="12" y1="5" x2="12" y2="19"></line>
-					<line x1="5" y1="12" x2="19" y2="12"></line>
-				</svg>
-			</a>
-		</div>
-	</div>
+                        <!-- GRUPO 3: USO EVENTUAL -->
+                        <section class="meds-group-section" aria-labelledby="group-eventual-title">
+                            <h2 class="meds-group-title" id="group-eventual-title">Uso Eventual</h2>
 
-	<!-- Script do Módulo Medicamentos -->
-	<script src="/shared/services/theme.js"></script>
-	<script type="module" src="/modules/medicamentos/js/script.js"></script>
-</body>
+                            <div class="meds-list" role="list">
+                                <!-- Item 4: Dipirona -->
+                                <div class="med-card" role="listitem" tabindex="0" id="med-card-dipirona">
+                                    <div class="med-card-left">
+                                        <div class="med-card-icon-wrap" aria-hidden="true">
+                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                        </div>
+                                        <div class="med-card-info">
+                                            <span class="med-card-name">Dipirona 500 mg</span>
+                                            <span class="med-card-details">Uso quando necessário</span>
+                                        </div>
+                                    </div>
+                                    <div class="med-card-right">
+                                        <span class="med-status-badge med-status-badge--eventual">Eventual</span>
+                                        <span class="med-card-arrow" aria-hidden="true">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- AÇÃO SECUNDÁRIA: HISTÓRICO -->
+                        <div class="meds-history-action-row">
+                            <button type="button" class="btn-meds-secondary" id="btn-medications-history">
+                                <span>Histórico de medicações</span>
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- FAB (BOTÃO FLUTUANTE ADICIONAR) -->
+                <a href="/modules/medicamentos/components/adicionar-medicamento.html" class="btn-meds-fab" id="btn-meds-fab" aria-label="Adicionar medicamento" title="Adicionar medicamento">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="/shared/services/theme.js"></script>
+        <script type="module" src="/modules/medicamentos/js/script.js"></script>
+    </body>
 </html>
