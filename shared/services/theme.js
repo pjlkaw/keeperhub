@@ -18,7 +18,11 @@ function initTheme() {
     const savedTheme = localStorage.getItem('keeperhub-theme') || 'dark';
     applyTheme(savedTheme);
 
-    themeToggle?.addEventListener('click', () => {
+    document.addEventListener('click', (event) => {
+        const themeToggle = event.target.closest('#theme-toggle');
+
+        if (!themeToggle) return;
+
         const current = root.getAttribute('data-theme');
         applyTheme(current === 'dark' ? 'light' : 'dark');
     });

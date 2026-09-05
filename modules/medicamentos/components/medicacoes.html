@@ -20,35 +20,23 @@
 
         <!-- Main -->
         <link rel="stylesheet" href="../assets/css/meds-list.css">
+
+
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <script>
+            fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+                document.getElementById('headerSection').innerHTML = data;
+                document.getElementById('pageNameH1').textContent ='Estoque' //Nome da Página
+                document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
+                document.getElementById('btn-back-header').href = '../index.html' // Botão voltar
+            });
+        </script>
     </head>
     <body>
         <div class="app-page-wrapper">
             <div class="app-container">
                 <!-- CABEÇALHO DA TELA MEDICAÇÕES -->
-                <header class="meds-header-section" id="medications-header">
-                    <div class="meds-header-title-area">
-                        <div class="meds-header-top-row">
-                            <a href="/modules/medicamentos/" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para a Home de Medicamentos" title="Voltar">
-                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-                            </a>
-                            <h1 class="meds-header-title" id="medications-page-title">Medicações</h1>
-                        </div>
-                        <div class="meds-header-meta">
-                            <span>Gerenciamento de remédios</span>
-                            <span class="meds-header-badge">4 cadastradas</span>
-                        </div>
-                    </div>
-
-                    <div class="meds-header-controls">
-                        <!-- BARRA DE CONTROLE DE TEMA -->
-                        <div class="theme-bar" id="theme-bar">
-                            <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
-                                <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
-                                <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
-                            </button>
-                        </div>
-                    </div>
-                </header>
+                <header class="section-header-section" id="headerSection"></header>
 
                 <!-- ABAS DE NAVEGAÇÃO INTERNA -->
                 <nav class="meds-subnav-tabs" role="tablist" aria-label="Seções de medicações">
