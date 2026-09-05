@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0c" />
+    <title>KeeperHub — Pets</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+    <link rel="stylesheet" href="../assets/css/pets-modulo-principal.css" />
+  </head>
+  <body>
+    <header class="cabecalho-aplicacao">
+      <nav class="navegacao-principal" aria-label="Navegação principal">
+        <ul>
+          <li><a href="/modules/financas/pets-modulo-principal">Finanças</a></li>
+          <li><a href="/modules/despensa/pets-modulo-principal">Despensa</a></li>
+          <li><a href="/modules/pets/pets-modulo-principal" aria-current="page">Pets</a></li>
+          <li><a href="/modules/metas/pets-modulo-principal">Metas</a></li>
+          <li><a href="/modules/medicamentos/pets-modulo-principal">Medicamentos</a></li>
+        </ul>
+      </nav>
+
+      <button type="button" class="botao-icone cabecalho-aplicacao__busca" aria-label="Buscar">
+        <span class="icone" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <main class="painel-pets">
+      <h1 class="somente-leitor-tela">Meus pets</h1>
+
+      <ul class="lista-pets">
+        <li>
+          <article class="bloco-pet">
+            <section class="cartao-resumo-pet">
+              <figure class="cartao-resumo-pet__foto">
+                <img
+                  src="../../../shared/img/logo-pets.png"
+                  alt="Foto de Luna, cadela Golden Retriever"
+                />
+              </figure>
+
+              <div class="cartao-resumo-pet__informacoes">
+                <h2 class="cartao-resumo-pet__nome">
+                  Luna <span class="cartao-resumo-pet__idade">3 anos</span>
+                </h2>
+                <p class="cartao-resumo-pet__raca">Golden Retriever</p>
+
+                <ul class="cartao-resumo-pet__atributos">
+                  <li class="cartao-resumo-pet__atributo">
+                    <span class="icone" aria-hidden="true"></span>
+                    28kg
+                  </li>
+                  <li class="cartao-resumo-pet__atributo">
+                    <span class="icone" aria-hidden="true"></span>
+                    Fêmea
+                  </li>
+                </ul>
+              </div>
+
+              <a href="editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar">
+                <span class="icone" aria-hidden="true"></span>
+                Editar Pet
+              </a>
+            </section>
+
+            <section class="acoes-rapidas-pet" aria-label="Ações rápidas de Luna">
+              <ul>
+                <li>
+                  <a href="vacinacoes.html" class="acao-rapida acao-rapida--vacina">
+                    <span class="icone" aria-hidden="true"></span>
+                    <span class="acao-rapida__titulo">Vacinas</span>
+                    <span class="acao-rapida__status">1 pendente</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="consultas-exames.html" class="acao-rapida acao-rapida--consulta">
+                    <span class="icone" aria-hidden="true"></span>
+                    <span class="acao-rapida__titulo">Consultas</span>
+                    <span class="acao-rapida__status">Check-up em Nov</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="medicacoes.html" class="acao-rapida acao-rapida--medicacao">
+                    <span class="icone" aria-hidden="true"></span>
+                    <span class="acao-rapida__titulo">Medicamentos</span>
+                    <span class="acao-rapida__status">Simparic hoje</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="rotina-diaria.html" class="acao-rapida acao-rapida--rotina">
+                    <span class="icone" aria-hidden="true"></span>
+                    <span class="acao-rapida__titulo">Rotina</span>
+                    <span class="acao-rapida__status">Consultar</span>
+                  </a>
+                </li>
+              </ul>
+            </section>
+          </article>
+        </li>
+
+        <li>
+          <a href="cadastrar-pet.html" class="cartao-adicionar-pet">
+            <span class="icone" aria-hidden="true"></span>
+            Adicionar novo pet
+          </a>
+        </li>
+      </ul>
+
+      <section class="alertas-pet" aria-labelledby="pet-alerts-heading">
+        <header class="alertas-pet__cabecalho">
+          <h2 id="pet-alerts-heading">Próximos Alertas</h2>
+          <a href="#" class="link-editar">Personalizar lembrete</a>
+        </header>
+
+        <ul>
+          <li>
+            <article class="cartao-alerta cartao-alerta--medicacao">
+              <span class="icone" aria-hidden="true"></span>
+              <div class="cartao-alerta__informacoes">
+                <h3 class="cartao-alerta__titulo">Simparic (Antipulgas)</h3>
+                <p class="cartao-alerta__subtitulo">Luna · Hoje, 19:00</p>
+              </div>
+              <button
+                type="button"
+                class="botao-icone cartao-alerta__acao"
+                aria-label="Marcar como concluído"
+              >
+                <span class="icone" aria-hidden="true"></span>
+              </button>
+            </article>
+          </li>
+
+          <li>
+            <article class="cartao-alerta cartao-alerta--vacina">
+              <span class="icone" aria-hidden="true"></span>
+              <div class="cartao-alerta__informacoes">
+                <h3 class="cartao-alerta__titulo">Vacina V10</h3>
+                <p class="cartao-alerta__subtitulo">Luna · 15 de Outubro</p>
+              </div>
+              <button
+                type="button"
+                class="botao-icone cartao-alerta__acao"
+                aria-label="Adicionar ao calendário"
+              >
+                <span class="icone" aria-hidden="true"></span>
+              </button>
+            </article>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="../js/pets-modulo-principal.js" defer></script>
+  </body>
+</html>

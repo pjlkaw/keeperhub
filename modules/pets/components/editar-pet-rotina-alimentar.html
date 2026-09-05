@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Editar Pet (Rotina)</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="editar-pet">
+
+        <header class="cabecalho-pagina">
+            <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Editar Pet</h1>
+        </header>
+
+        <nav class="abas-pet" aria-label="Seções do pet">
+            <a href="editar-pet-informacoes.html" class="abas-pet__link">Informações</a>
+            <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Rotina Alimentar</a>
+            <a href="editar-pet-tutor.html" class="abas-pet__link">Tutor</a>
+        </nav>
+
+        <form class="formulario-editar-pet">
+
+            <section class="lista-refeicoes">
+                <header class="lista-refeicoes__cabecalho">
+                    <h2>Refeições</h2>
+                    <button type="button" class="botao-texto lista-refeicoes__adicionar">
+                        <span class="icone" aria-hidden="true"></span>
+                        Adicionar Refeição
+                    </button>
+                </header>
+
+                <ul>
+                    <li>
+                        <article class="cartao-refeicao">
+                            <span class="icone" aria-hidden="true"></span>
+                            <div class="cartao-refeicao__informacoes">
+                                <h3 id="titulo-cafe-manha" class="cartao-refeicao__titulo">Café da manhã</h3>
+                                <input type="time" id="horario-cafe-manha" name="horario_cafe_manha" class="cartao-refeicao__campo-horario" aria-labelledby="titulo-cafe-manha" value="06:00">
+                            </div>
+
+                            <fieldset class="cartao-refeicao__status">
+                                <legend class="somente-leitor-tela">Status: Café da manhã</legend>
+                                <div class="controle-segmentado">
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_cafe_manha" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_cafe_manha" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <button type="button" class="botao-icone" aria-label="Remover refeição">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </article>
+                    </li>
+
+                    <li>
+                        <article class="cartao-refeicao">
+                            <span class="icone" aria-hidden="true"></span>
+                            <div class="cartao-refeicao__informacoes">
+                                <h3 id="titulo-almoco" class="cartao-refeicao__titulo">Almoço</h3>
+                                <input type="time" id="horario-almoco" name="horario_almoco" class="cartao-refeicao__campo-horario" aria-labelledby="titulo-almoco" value="12:00">
+                            </div>
+
+                            <fieldset class="cartao-refeicao__status">
+                                <legend class="somente-leitor-tela">Status: Almoço</legend>
+                                <div class="controle-segmentado">
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_almoco" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_almoco" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <button type="button" class="botao-icone" aria-label="Remover refeição">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </article>
+                    </li>
+
+                    <li>
+                        <article class="cartao-refeicao">
+                            <span class="icone" aria-hidden="true"></span>
+                            <div class="cartao-refeicao__informacoes">
+                                <h3 id="titulo-jantar" class="cartao-refeicao__titulo">Jantar</h3>
+                                <input type="time" id="horario-jantar" name="horario_jantar" class="cartao-refeicao__campo-horario" aria-labelledby="titulo-jantar" value="19:00">
+                            </div>
+
+                            <fieldset class="cartao-refeicao__status">
+                                <legend class="somente-leitor-tela">Status: Jantar</legend>
+                                <div class="controle-segmentado">
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_jantar" value="ativa" checked>
+                                        Ativa
+                                    </label>
+                                    <label class="controle-segmentado__opcao">
+                                        <input type="radio" name="status_jantar" value="descartar">
+                                        Descartar
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <button type="button" class="botao-icone" aria-label="Remover refeição">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </article>
+                    </li>
+                </ul>
+            </section>
+
+            <div class="campo-formulario">
+                <label for="observacoes-rotina">Observações sobre a rotina</label>
+                <textarea id="observacoes-rotina" name="observacoes-rotina" placeholder="Adicione detalhes importantes sobre a rotina do pet..."></textarea>
+            </div>
+
+            <button type="submit" class="botao-principal formulario-editar-pet__enviar">
+                Salvar Alterações
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/editar-pet-rotina-alimentar.js" defer></script>
+</body>
+</html>

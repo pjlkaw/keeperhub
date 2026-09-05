@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Adicionar Vacina</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="adicionar-vacina">
+
+        <header class="cabecalho-pagina">
+            <a href="vacinacoes.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Adicionar Vacina</h1>
+        </header>
+
+        <form class="formulario-adicionar-vacina">
+
+            <fieldset class="campo-formulario">
+                <legend>Nome da Vacina</legend>
+
+                <ul class="opcoes-nome-vacina">
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="v8" required>
+                            V8
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="v10">
+                            V10
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="antirrabica">
+                            Antirrábica
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="influenza">
+                            Influenza (Gripe)
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="giardia">
+                            Giárdia
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="tetano">
+                            Tétano
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="v3">
+                            V3
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="v4">
+                            V4
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="v5">
+                            V5
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="encefalomielite">
+                            Encefalomielite 
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="garrotilho">
+                            Garrotilho
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="rinopneumonite">
+                            Rinopneumonite
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="erisipela_suina">
+                            Erisipela Suína
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="leptospirose">
+                            Leptospirose
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-nome-vacina__opcao">
+                            <input type="radio" name="nome_vacina" value="outra">
+                            Outra
+                        </label>
+                    </li>
+                </ul>
+
+                <!--
+                    Este campo é destinado a aparecer/ficar habilitado somente
+                    quando a opção "Outra" acima estiver marcada. A exibição
+                    condicional em si é responsabilidade do JS mais pra frente.
+                -->
+                <div class="campo-formulario opcoes-nome-vacina__personalizada">
+                    <label for="nome-vacina-outra">Qual vacina?</label>
+                    <input type="text" id="nome-vacina-outra" name="nome_vacina_outra" placeholder="Digite o nome da vacina">
+                </div>
+            </fieldset>
+
+            <div class="campo-formulario">
+                <label for="data-aplicacao">Data de Aplicação</label>
+                <input type="date" id="data-aplicacao" name="data_aplicacao">
+            </div>
+
+            <fieldset class="campo-formulario">
+                <legend>Frequência</legend>
+
+                <ul class="opcoes-frequencia">
+                    <li>
+                        <label class="opcoes-frequencia__opcao">
+                            <input type="radio" name="frequencia" value="reforco_anual">
+                            <span class="opcoes-frequencia__titulo">Reforço Anual</span>
+                            <span class="opcoes-frequencia__descricao">Lembrete automático 1 ano após a aplicação</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-frequencia__opcao">
+                            <input type="radio" name="frequencia" value="doses_fracionadas">
+                            <span class="opcoes-frequencia__titulo">Doses Fracionadas</span>
+                            <span class="opcoes-frequencia__descricao">Frequência personalizada — você escolhe a próxima data</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-frequencia__opcao">
+                            <input type="radio" name="frequencia" value="dose_unica">
+                            <span class="opcoes-frequencia__titulo">Dose Única</span>
+                            <span class="opcoes-frequencia__descricao">Sem renovação programada</span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+
+            <!--
+                Campo relevante apenas quando "Doses Fracionadas" estiver
+                selecionado acima — exibição condicional fica pro JS depois.
+            -->
+            <div class="campo-formulario">
+                <label for="proxima-dose">Próxima Dose</label>
+                <input type="date" id="proxima-dose" name="prox_dose">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="observacao-vacina">Observação (opcional)</label>
+                <textarea id="observacao-vacina" name="observacao_vacina" placeholder="Ex: certificado digital, reação observada, clínica onde foi aplicada..."></textarea>
+            </div>
+
+            <button type="submit" class="botao-principal formulario-adicionar-vacina__enviar">
+                Salvar Vacina
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/adicionar-vacina.js" defer></script>
+</body>
+</html>

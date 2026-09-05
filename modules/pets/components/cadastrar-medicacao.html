@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Adicionar Medicação</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="adicionar-medicacao">
+
+        <header class="cabecalho-pagina">
+            <a href="medicacoes.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Adicionar Medicação</h1>
+        </header>
+
+        <form class="formulario-adicionar-medicacao">
+
+            <div class="campo-formulario">
+                <label for="nome-medicamento">Nome do Medicamento</label>
+                <input type="text" id="nome-medicamento" name="nome_medicamento" placeholder="Ex: Simparic, Bravecto, Dipirona...">
+            </div>
+
+            <fieldset class="campo-formulario">
+                <legend>Tipo de Uso</legend>
+                <ul class="opcoes-tipo-uso">
+                    <li>
+                        <label class="opcoes-tipo-uso__opcao">
+                            <input type="radio" name="tipo_uso" value="continuo">
+                            <span class="opcoes-tipo-uso__titulo">Contínuo</span>
+                            <span class="opcoes-tipo-uso__descricao">Uso diário, sem data para parar</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-tipo-uso__opcao">
+                            <input type="radio" name="tipo_uso" value="temporario">
+                            <span class="opcoes-tipo-uso__titulo">Temporário</span>
+                            <span class="opcoes-tipo-uso__descricao">Tratamento com data para acabar</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="opcoes-tipo-uso__opcao">
+                            <input type="radio" name="tipo_uso" value="eventual">
+                            <span class="opcoes-tipo-uso__titulo">Eventual</span>
+                            <span class="opcoes-tipo-uso__descricao">Só quando necessário</span>
+                        </label>
+                    </li>
+                </ul>
+            </fieldset>
+
+            <div class="campo-formulario">
+                <label for="dosagem">Dosagem</label>
+                <input type="text" id="dosagem" name="dosagem" placeholder="Ex: 1 comprimido, 1 cápsula...">
+            </div>
+
+            <!--
+                Os três campos abaixo variam de acordo com o "Tipo de Uso"
+                selecionado acima — exibição condicional fica pro JS depois:
+                - Contínuo    → mostrar "Horário da Dose"
+                - Temporário  → mostrar "Frequência" e "Até quando"
+                - Eventual    → nenhum dos três é necessário
+            -->
+
+            <div class="campo-formulario">
+                <label for="horario-dose">Horário da Dose</label>
+                <input type="time" id="horario-dose" name="horario_dose">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="frequencia-medicamento">Frequência</label>
+                <input type="text" id="frequencia-medicamento" name="frequencia_medicamento" placeholder="Ex: a cada 8h">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="ate-quando">Até quando</label>
+                <input type="date" id="ate-quando" name="ate_quando">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="quantidade-estoque">Quantidade em Estoque</label>
+                <input type="number" id="quantidade-estoque" name="quantidade_estoque" min="0">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="observacao-medicamento">Observação (opcional)</label>
+                <textarea id="observacao-medicamento" name="observacao_medicamento" placeholder="Detalhes adicionais sobre o tratamento..."></textarea>
+            </div>
+
+            <button type="submit" class="botao-principal formulario-adicionar-medicacao__enviar">
+                Salvar Medicação
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/cadastrar-medicacao.js" defer></script>
+</body>
+</html>

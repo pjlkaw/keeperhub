@@ -1,0 +1,131 @@
+/* Formulário de cadastro de pet */
+
+.formulario-editar-pet {
+  padding: 8px 16px 0;
+}
+
+.formulario-editar-pet__foto {
+  position: relative;
+  display: grid;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 6px;
+  overflow: hidden;
+  place-items: center;
+  background: var(--pets-surface);
+  border: 1px solid transparent;
+  border-radius: var(--pets-radius-md);
+  transition:
+    border-color var(--pets-transition),
+    box-shadow var(--pets-transition),
+    transform var(--pets-transition);
+}
+
+.formulario-editar-pet__foto::before {
+  color: var(--pets-text-muted);
+  content: '+';
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.formulario-editar-pet__foto[data-has-photo='true']::before {
+  content: none;
+}
+
+.formulario-editar-pet__foto:has(+ .formulario-editar-pet__alterar-foto:hover) {
+  border-color: rgba(89, 133, 252, 0.7);
+  box-shadow: 0 0 0 4px var(--pets-primary-soft);
+  transform: translateY(-2px);
+}
+
+.formulario-editar-pet__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.formulario-editar-pet__foto img[hidden] {
+  display: none;
+}
+
+.formulario-editar-pet__alterar-foto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 44px;
+  margin: 0 auto 18px;
+  padding: 8px 6px;
+  cursor: pointer;
+  transition:
+    color var(--pets-transition),
+    transform var(--pets-transition);
+}
+
+.formulario-editar-pet__alterar-foto:hover {
+  color: #82a5ff;
+  transform: translateY(-2px);
+}
+
+.formulario-editar-pet__enviar {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 6px;
+  color: #85858c;
+  background: #2a2a2f;
+  border-radius: var(--pets-radius-pill);
+  box-shadow: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  transition:
+    color var(--pets-transition),
+    background-color var(--pets-transition),
+    box-shadow var(--pets-transition);
+}
+
+.formulario-editar-pet:valid .formulario-editar-pet__enviar {
+  color: #ffffff;
+  background: var(--pets-primary);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.formulario-editar-pet:valid .formulario-editar-pet__enviar:hover {
+  background: var(--pets-primary-hover);
+  box-shadow: 0 8px 20px rgba(89, 133, 252, 0.3);
+  animation: pet-button-bounce 480ms ease-in-out infinite alternate;
+}
+
+.formulario-editar-pet:valid .formulario-editar-pet__enviar:active {
+  background: var(--pets-primary-active);
+  animation: none;
+  transform: translateY(1px) scale(0.99);
+}
+
+.status-formulario {
+  min-height: 20px;
+  margin-top: 10px;
+  color: var(--pets-primary);
+  font-size: 12px;
+  text-align: center;
+}
+
+@keyframes pet-button-bounce {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+@media (min-width: 600px) {
+  .editar-pet .cabecalho-pagina {
+    padding: 22px 60px 10px;
+  }
+
+  .formulario-editar-pet {
+    padding: 8px 16px 0;
+  }
+}

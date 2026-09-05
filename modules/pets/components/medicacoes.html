@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Medicações</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="pagina-medicacoes"> 
+
+        <header class="cabecalho-pagina">
+            <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Medicações - Pets</h1>
+
+            <div class="cabecalho-pagina__acoes">
+                <button type="button" class="botao-icone" aria-label="Função não identificada">
+                    <span class="icone" aria-hidden="true"></span>
+                </button>
+                <a href="#" class="botao-icone cabecalho-pagina__link-modulo" aria-label="Ir para Controle de Medicamentos (humanos)">
+                    <span class="icone" aria-hidden="true"></span>
+                </a>
+            </div>
+        </header>
+
+        <nav class="abas-pet" aria-label="Tipo de registro">
+            <a href="#" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
+            <a href="#" class="abas-pet__link">Receitas</a>
+        </nav>
+
+        <div class="barra-ferramentas-medicacoes">
+            <form class="busca-medicacoes" role="search">
+                <label for="buscar-medicacao" class="somente-leitor-tela">Buscar medicação</label>
+                <span class="icone" aria-hidden="true"></span>
+                <input type="search" id="buscar-medicacao" name="buscar-medicacao" placeholder="Buscar medicação...">
+            </form>
+            <button type="button" class="botao-icone barra-ferramentas-medicacoes__filtro" aria-label="Filtrar medicações">
+                <span class="icone" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <section class="grupo-medicacoes" aria-labelledby="uso-continuo-heading">
+            <h2 id="uso-continuo-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--continuo">Uso Contínuo</h2>
+
+            <ul>
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--continuo">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Simparic</h3>
+                            <p class="cartao-medicacao__horario">Hoje às 19:00</p>
+                            <p class="cartao-medicacao__estoque">
+                                <span class="icone" aria-hidden="true"></span>
+                                12 restantes
+                            </p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--continuo">Contínuo</span>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="grupo-medicacoes" aria-labelledby="tratamentos-temporarios-heading">
+            <h2 id="tratamentos-temporarios-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--temporario">Tratamentos Temporários</h2>
+
+            <ul>
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--temporario">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Bravecto Antipulgas</h3>
+                            <p class="cartao-medicacao__dosagem">1 cápsula • a cada 8h</p>
+                            <p class="cartao-medicacao__termino">
+                                <span class="icone" aria-hidden="true"></span>
+                                Até 27 Ago
+                            </p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--temporario">Temporário</span>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--temporario cartao-medicacao--estoque-baixo">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Bravecto Antipulgas</h3>
+                            <p class="cartao-medicacao__dosagem">1 cápsula • a cada 8h</p>
+                            <p class="cartao-medicacao__alerta-estoque">
+                                <span class="somente-leitor-tela">Atenção: </span>2 restantes (estoque baixo)
+                            </p>
+                            <p class="cartao-medicacao__termino">
+                                <span class="icone" aria-hidden="true"></span>
+                                Até 27 Ago
+                            </p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--temporario">Temporário</span>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="grupo-medicacoes" aria-labelledby="uso-eventual-heading">
+            <h2 id="uso-eventual-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--eventual">Uso Eventual</h2>
+
+            <ul>
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--eventual">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
+                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--eventual">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Omeprazol</h3>
+                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="grupo-medicacoes" aria-labelledby="historico-heading">
+            <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
+
+            <ul>
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--aplicada">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
+                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-medicacao cartao-medicacao--aplicada">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-medicacao__informacoes">
+                            <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
+                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                        </div>
+                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <a href="cadastrar-medicacao.html" class="botao-flutuante" aria-label="Adicionar medicação">
+            <span class="icone" aria-hidden="true"></span>
+        </a>
+
+    </main>
+
+    <script src="../js/medicacoes.js" defer></script>
+</body>
+</html>
