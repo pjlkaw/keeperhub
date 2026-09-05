@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Pets</title>
-    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
-    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
-    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
-    <link rel="stylesheet" href="../assets/css/style-pets.css" />
-    <link rel="stylesheet" href="../assets/css/pets-modulo-principal.css" />
+    <link rel="icon" type="image/png" href="../../shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="assets/css/style-pets.css" />
+    <link rel="stylesheet" href="assets/css/pets-modulo-principal.css" />
   </head>
   <body>
     <header class="cabecalho-aplicacao">
       <nav class="navegacao-principal" aria-label="Navegação principal">
         <ul>
-          <li><a href="/modules/financas/pets-modulo-principal">Finanças</a></li>
-          <li><a href="/modules/despensa/pets-modulo-principal">Despensa</a></li>
-          <li><a href="/modules/pets/pets-modulo-principal" aria-current="page">Pets</a></li>
-          <li><a href="/modules/metas/pets-modulo-principal">Metas</a></li>
-          <li><a href="/modules/medicamentos/pets-modulo-principal">Medicamentos</a></li>
+          <li><a href="/modules/financas/">Finanças</a></li>
+          <li><a href="/modules/despensa/">Despensa</a></li>
+          <li><a href="/modules/pets/" aria-current="page">Pets</a></li>
+          <li><a href="/modules/metas/">Metas</a></li>
+          <li><a href="/modules/medicamentos/">Medicamentos</a></li>
         </ul>
       </nav>
 
@@ -37,7 +37,7 @@
             <section class="cartao-resumo-pet">
               <figure class="cartao-resumo-pet__foto">
                 <img
-                  src="../../../shared/img/logo-pets.png"
+                  src="../../shared/img/logo-pets.png"
                   alt="Foto de Luna, cadela Golden Retriever"
                 />
               </figure>
@@ -60,7 +60,7 @@
                 </ul>
               </div>
 
-              <a href="editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar">
+              <a href="components/editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar">
                 <span class="icone" aria-hidden="true"></span>
                 Editar Pet
               </a>
@@ -69,28 +69,28 @@
             <section class="acoes-rapidas-pet" aria-label="Ações rápidas de Luna">
               <ul>
                 <li>
-                  <a href="vacinacoes.html" class="acao-rapida acao-rapida--vacina">
+                  <a href="components/vacinacoes.html" class="acao-rapida acao-rapida--vacina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Vacinas</span>
                     <span class="acao-rapida__status">1 pendente</span>
                   </a>
                 </li>
                 <li>
-                  <a href="consultas-exames.html" class="acao-rapida acao-rapida--consulta">
+                  <a href="components/consultas-exames.html" class="acao-rapida acao-rapida--consulta">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Consultas</span>
                     <span class="acao-rapida__status">Check-up em Nov</span>
                   </a>
                 </li>
                 <li>
-                  <a href="medicacoes.html" class="acao-rapida acao-rapida--medicacao">
+                  <a href="components/medicacoes.html" class="acao-rapida acao-rapida--medicacao">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Medicamentos</span>
                     <span class="acao-rapida__status">Simparic hoje</span>
                   </a>
                 </li>
                 <li>
-                  <a href="rotina-diaria.html" class="acao-rapida acao-rapida--rotina">
+                  <a href="components/rotina-diaria.html" class="acao-rapida acao-rapida--rotina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Rotina</span>
                     <span class="acao-rapida__status">Consultar</span>
@@ -102,7 +102,7 @@
         </li>
 
         <li>
-          <a href="cadastrar-pet.html" class="cartao-adicionar-pet">
+          <a href="components/cadastrar-pet.html" class="cartao-adicionar-pet">
             <span class="icone" aria-hidden="true"></span>
             Adicionar novo pet
           </a>
@@ -153,6 +153,6 @@
       </section>
     </main>
 
-    <script src="../js/pets-modulo-principal.js" defer></script>
+    <script src="js/index.js" defer></script>
   </body>
 </html>
