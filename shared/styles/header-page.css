@@ -4,34 +4,37 @@ Arquivo: header.css
 Navegação horizontal entre módulos + cabeçalho da página
 (título, badge, botão de tema, sino de notificações).
 
-Depende de: shared/styles/variables.css, meds-variables.css
+Depende de: shared/styles/variables.css, section-variables.css
 Usado por: TODAS as páginas do módulo (componente fixo de topo)
 ================================================== */
 
 /* ==================================================
 2. CABEÇALHO DO MÓDULO & CONTROLES
 ================================================== */
-.meds-header-section {
+.section-header-section {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 4px;
+    margin: 20px;
 }
 
-.meds-header-title-area {
+.section-header-title-area {
     display: flex;
     flex-direction: column;
     gap: 3px;
 }
 
-.meds-header-top-row {
+.section-header-top-row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
     gap: 8px;
 }
 
-.meds-header-back-btn {
+.section-header-back-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -50,27 +53,27 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
     flex-shrink: 0;
 }
 
-.meds-header-back-btn:hover {
+.section-header-back-btn:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
 }
 
-.meds-header-back-btn:active {
+.section-header-back-btn:active {
     transform: scale(0.94);
 }
 
-[data-theme="light"] .meds-header-back-btn {
+[data-theme="light"] .section-header-back-btn {
     background-color: rgba(0, 0, 0, 0.04);
     border-color: rgba(0, 0, 0, 0.1);
     color: #374151;
 }
 
-[data-theme="light"] .meds-header-back-btn:hover {
+[data-theme="light"] .section-header-back-btn:hover {
     background-color: rgba(0, 0, 0, 0.08);
     color: #111827;
 }
 
-.meds-header-title {
+.section-header-title {
     font-size: 1.625rem;
     /* 26px */
     font-weight: 700;
@@ -80,11 +83,11 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
     margin: 0;
 }
 
-[data-theme="light"] .meds-header-title {
+[data-theme="light"] .section-header-title {
     color: #111827;
 }
 
-.meds-header-meta {
+.section-header-meta {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -95,11 +98,11 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
     line-height: 1.4;
 }
 
-.meds-header-badge {
+.section-header-badge {
     display: inline-flex;
     align-items: center;
-    background-color: var(--color-meds-bg-tint);
-    color: var(--color-meds-primary);
+    background-color: var(--color-section-bg-tint);
+    color: var(--color-section-primary);
     font-size: 0.75rem;
     /* 12px */
     font-weight: 700;
@@ -108,12 +111,12 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
     letter-spacing: 0.02em;
 }
 
-[data-theme="light"] .meds-header-badge {
+[data-theme="light"] .section-header-badge {
     color: #489b00;
     background-color: rgba(112, 222, 1, 0.14);
 }
 
-.meds-header-controls {
+.section-header-controls {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -256,7 +259,7 @@ html[data-theme="light"] .theme-icon-moon,
     right: 6px;
     width: 7px;
     height: 7px;
-    background-color: var(--color-meds-primary);
+    background-color: var(--color-section-primary);
     border-radius: 50%;
     border: 1.5px solid #101114;
 }
@@ -269,7 +272,7 @@ html[data-theme="light"] .theme-icon-moon,
 RESPONSIVIDADE (max-width: 360px)
 ================================================== */
 @media (max-width: 360px) {
-    .meds-header-title {
+    .section-header-title {
         font-size: 1.375rem;
         /* 22px */
     }
