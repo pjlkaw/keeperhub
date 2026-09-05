@@ -3349,6 +3349,35 @@ textarea {
 	min-height: 44px
 }
 
+.finance-modules-nav {
+	margin-bottom: 16px
+}
+
+.finance-modules-nav .modules-nav-item {
+	min-height: 44px;
+	color: var(--text-muted);
+	background: rgba(255, 255, 255, .04);
+	border-color: var(--border-color)
+}
+
+.finance-modules-nav .modules-nav-item.active {
+	color: var(--tool-financas);
+	background: rgba(228, 122, 0, .14);
+	border-color: rgba(228, 122, 0, .45)
+}
+
+html[data-theme=light] .finance-modules-nav .modules-nav-item {
+	color: var(--text-muted);
+	background: #ffffff;
+	border-color: var(--border-color)
+}
+
+html[data-theme=light] .finance-modules-nav .modules-nav-item.active {
+	color: var(--tool-financas);
+	background: rgba(228, 122, 0, .12);
+	border-color: rgba(228, 122, 0, .45)
+}
+
 /* Alternancia Receita/Despesa com contraste consistente. */
 body.transaction-page .transaction-form .type-toggle {
 	padding: 8px;
