@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>Keeper Hub — Pets — Editar Pet (Informações)</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/editar-pet-informacoes.css">
+</head>
+<body>
+
+    <main class="editar-pet editar-pet--informacoes">
+
+        <header class="cabecalho-pagina">
+            <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar" aria-label="Voltar ao dashboard">
+                <span aria-hidden="true">‹</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Editar Pet</h1>
+        </header>
+
+        <nav class="abas-pet" aria-label="Seções do pet">
+            <a href="editar-pet-informacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Informações</a>
+            <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link">Rotina Alimentar</a>
+            <a href="editar-pet-tutor.html" class="abas-pet__link">Tutor</a>
+        </nav>
+
+        <form class="formulario-informacoes-pet" id="formulario-informacoes-pet" data-pet-id="exemplo">
+
+            <div class="foto-pet-edicao">
+                <figure class="foto-pet-edicao__visualizacao" data-tem-foto="true">
+                    <img
+                        id="foto-pet-edicao-imagem"
+                        src="../../../shared/img/logo-pets.png"
+                        alt="Foto atual de Max"
+                    >
+                </figure>
+
+                <label for="foto-pet-edicao" class="botao-texto foto-pet-edicao__alterar">
+                    Alterar foto
+                </label>
+                <input
+                    type="file"
+                    id="foto-pet-edicao"
+                    name="foto_pet"
+                    class="somente-leitor-tela"
+                    accept="image/*"
+                >
+            </div>
+
+            <section class="painel-informacoes-pet" aria-label="Dados do pet">
+                <div class="campo-formulario">
+                    <label for="nome-edicao">Nome</label>
+                    <input type="text" id="nome-edicao" name="nome" value="Max" maxlength="60" required>
+                </div>
+
+                <fieldset class="campo-formulario">
+                    <legend>Tipo de Animal</legend>
+                    <ul class="opcoes-especies" aria-label="Selecione o tipo de animal">
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="cachorro" required checked>
+                                <span class="opcoes-especies__rotulo">Cachorro</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="gato">
+                                <span class="opcoes-especies__rotulo">Gato</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="passaro">
+                                <span class="opcoes-especies__rotulo">Pássaro</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="cavalo">
+                                <span class="opcoes-especies__rotulo">Cavalo</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="reptil">
+                                <span class="opcoes-especies__rotulo">Réptil</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="pequeno-mamifero">
+                                <span class="opcoes-especies__rotulo">Pequeno Mamífero</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="peixe">
+                                <span class="opcoes-especies__rotulo">Peixe</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="animal-fazenda">
+                                <span class="opcoes-especies__rotulo">Animal de Fazenda</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="anfibio">
+                                <span class="opcoes-especies__rotulo">Anfíbio</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-especies__opcao">
+                                <input type="radio" name="tipo_animal" value="exotico">
+                                <span class="opcoes-especies__rotulo">Exótico</span>
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <div class="campo-formulario">
+                    <label for="raca-edicao">Raça</label>
+                    <input type="text" id="raca-edicao" name="raca" value="Golden Retriever" maxlength="80" required>
+                </div>
+
+                <div class="linha-formulario">
+                    <div class="campo-formulario">
+                        <label for="idade-edicao">Idade</label>
+                        <input type="text" id="idade-edicao" name="idade" value="3 anos" maxlength="20" required>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="peso-edicao">Peso (kg)</label>
+                        <input type="number" id="peso-edicao" name="peso" value="12.5" min="0.1" step="0.1" required>
+                    </div>
+                </div>
+
+                <fieldset class="campo-formulario">
+                    <legend>Gênero</legend>
+                    <div class="controle-segmentado">
+                        <label class="controle-segmentado__opcao">
+                            <input type="radio" name="genero" value="macho" required checked>
+                            <span class="controle-segmentado__rotulo">Macho</span>
+                        </label>
+                        <label class="controle-segmentado__opcao">
+                            <input type="radio" name="genero" value="femea">
+                            <span class="controle-segmentado__rotulo">Fêmea</span>
+                        </label>
+                    </div>
+                </fieldset>
+            </section>
+
+            <footer class="acoes-informacoes-pet">
+                <button type="submit" class="botao-principal acoes-informacoes-pet__salvar">
+                    Salvar Alterações
+                </button>
+                <p class="status-formulario" id="status-informacoes-pet" aria-live="polite"></p>
+            </footer>
+
+        </form>
+
+    </main>
+
+    <script src="../js/editar-pet-informacoes.js" defer></script>
+</body>
+</html>

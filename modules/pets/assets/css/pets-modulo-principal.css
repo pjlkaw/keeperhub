@@ -1,0 +1,565 @@
+/* Cabeçalho e dashboard principal do módulo Pets */
+
+.cabecalho-aplicacao {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 62px;
+  padding: 0 14px;
+  background: rgba(8, 9, 10, 0.96);
+  border-bottom: 1px solid #18191b;
+  backdrop-filter: blur(12px);
+}
+
+.navegacao-principal {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.navegacao-principal ul {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 10px 1px;
+  scrollbar-width: none;
+}
+
+.navegacao-principal ul::-webkit-scrollbar {
+  display: none;
+}
+
+.navegacao-principal li {
+  flex: 0 0 auto;
+}
+
+.navegacao-principal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  color: var(--pets-text-muted);
+  background: #151618;
+  border: 1px solid #292a2d;
+  border-radius: var(--pets-radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    color var(--pets-transition),
+    background-color var(--pets-transition),
+    border-color var(--pets-transition),
+    transform var(--pets-transition);
+}
+
+.navegacao-principal a:hover {
+  color: var(--pets-text-soft);
+  background: #1c1d20;
+  border-color: var(--pets-border-strong);
+}
+
+.navegacao-principal a:active {
+  transform: translateY(1px);
+}
+
+.navegacao-principal a[aria-current='page'] {
+  color: #86a8ff;
+  background: var(--pets-primary-soft);
+  border-color: rgba(89, 133, 252, 0.4);
+}
+
+.cabecalho-aplicacao__busca {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+}
+
+.cabecalho-aplicacao__busca .icone {
+  width: 16px;
+  height: 16px;
+  background-image: url('../img/busca-pets.png');
+}
+
+/* Dashboard */
+.painel-pets {
+  width: min(100%, var(--pets-content-width));
+  margin: 0 auto;
+  padding: 20px 14px 36px;
+}
+
+.lista-pets {
+  display: grid;
+  gap: 14px;
+}
+
+.lista-pets > li {
+  min-width: 0;
+}
+
+.bloco-pet {
+  display: grid;
+  gap: 12px;
+}
+
+.cartao-resumo-pet {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-areas:
+    'photo info'
+    'photo edit';
+  gap: 8px 14px;
+  min-height: 124px;
+  padding: 17px 14px;
+  overflow: hidden;
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-md);
+}
+
+.cartao-resumo-pet__foto {
+  grid-area: photo;
+  align-self: start;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #34363d, #202126);
+  border-radius: var(--pets-radius-sm);
+}
+
+.cartao-resumo-pet__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 8px;
+}
+
+.cartao-resumo-pet__informacoes {
+  grid-area: info;
+  min-width: 0;
+  padding-right: 42px;
+}
+
+.cartao-resumo-pet__nome {
+  overflow: hidden;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cartao-resumo-pet__idade {
+  margin-left: 4px;
+  color: var(--pets-text-muted);
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.cartao-resumo-pet__raca {
+  margin-top: 4px;
+  color: var(--pets-text-muted);
+  font-size: 12px;
+}
+
+.cartao-resumo-pet__atributos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.cartao-resumo-pet__atributo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  padding: 4px 9px;
+  color: var(--pets-text-soft);
+  background: var(--pets-surface-raised);
+  border-radius: var(--pets-radius-pill);
+  font-size: 10px;
+  line-height: 1;
+}
+
+.cartao-resumo-pet__atributo:nth-child(1) .icone {
+  width: 12px;
+  height: 12px;
+  background-image: url('../img/peso-pets.png');
+}
+
+.cartao-resumo-pet__atributo:nth-child(2) .icone {
+  width: 10px;
+  height: 12px;
+  background-image: url('../img/genero-femea-pets.png');
+}
+
+.cartao-resumo-pet__editar {
+  grid-area: edit;
+  min-height: 30px;
+  padding-block: 7px;
+  justify-self: end;
+  align-self: end;
+}
+
+.cartao-resumo-pet__editar .icone {
+  width: 12px;
+  height: 12px;
+  background-image: url('../img/editar-pets.png');
+}
+
+/* Ações rápidas */
+.acoes-rapidas-pet > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.acao-rapida {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-areas:
+    'icon title'
+    'icon status';
+  column-gap: 10px;
+  align-items: center;
+  min-height: 79px;
+  padding: 13px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+  transition:
+    background-color var(--pets-transition),
+    border-color var(--pets-transition),
+    transform var(--pets-transition);
+}
+
+.acao-rapida:hover {
+  background: var(--pets-surface-hover);
+  border-color: var(--pets-border-strong);
+  transform: translateY(-1px);
+}
+
+.acao-rapida > .icone {
+  grid-area: icon;
+  align-self: start;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  background-color: var(--pets-primary-soft);
+  background-size: 16px 16px;
+  border-radius: 50%;
+}
+
+.acao-rapida--vacina > .icone,
+.cartao-alerta--vacina > .icone {
+  background-image: url('../img/vacinas-pets.png');
+}
+
+.acao-rapida--consulta > .icone {
+  background-color: rgba(0, 214, 143, 0.11);
+  background-image: url('../img/consultas-pets.png');
+}
+
+.acao-rapida--medicacao > .icone,
+.cartao-alerta--medicacao > .icone {
+  background-image: url('../img/medicamentos-pets.png');
+}
+
+.acao-rapida--medicacao > .icone {
+  background-color: rgba(168, 85, 247, 0.13);
+}
+
+.acao-rapida--rotina > .icone {
+  background-color: rgba(245, 158, 11, 0.12);
+  background-image: url('../img/rotina-pets.png');
+}
+
+.acao-rapida__titulo {
+  grid-area: title;
+  align-self: end;
+  min-width: 0;
+  overflow: hidden;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.acao-rapida__status {
+  grid-area: status;
+  align-self: start;
+  min-width: 0;
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--pets-text-muted);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cartao-adicionar-pet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 70px;
+  padding: 18px;
+  color: var(--pets-primary);
+  background: rgba(89, 133, 252, 0.04);
+  border: 1px dashed rgba(89, 133, 252, 0.5);
+  border-radius: var(--pets-radius-md);
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    color var(--pets-transition),
+    background-color var(--pets-transition),
+    border-color var(--pets-transition);
+}
+
+.cartao-adicionar-pet:hover {
+  color: #8dacff;
+  background: rgba(89, 133, 252, 0.09);
+  border-color: var(--pets-primary);
+}
+
+.cartao-adicionar-pet .icone {
+  width: 18px;
+  height: 18px;
+  background-image: url('../img/adicionar-pets.png');
+}
+
+/* Alertas */
+.alertas-pet {
+  margin-top: 17px;
+}
+
+.alertas-pet__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.alertas-pet__cabecalho h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.alertas-pet > ul {
+  display: grid;
+  gap: 9px;
+}
+
+.cartao-alerta {
+  display: grid;
+  grid-template-columns: 39px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 8px 10px 12px;
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+  transition:
+    background-color var(--pets-transition),
+    border-color var(--pets-transition);
+}
+
+.cartao-alerta:hover {
+  background: var(--pets-surface-hover);
+  border-color: var(--pets-border-strong);
+}
+
+.cartao-alerta > .icone {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  background-color: var(--pets-surface-raised);
+  background-size: 16px 16px;
+  border-radius: var(--pets-radius-sm);
+}
+
+.cartao-alerta__informacoes {
+  min-width: 0;
+}
+
+.cartao-alerta__titulo {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cartao-alerta__subtitulo {
+  margin-top: 2px;
+  overflow: hidden;
+  color: var(--pets-text-muted);
+  font-size: 10px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cartao-alerta__acao {
+  width: 44px;
+  height: 44px;
+  color: var(--pets-primary);
+  background: rgba(89, 133, 252, 0.1);
+}
+
+.cartao-alerta--medicacao .cartao-alerta__acao .icone {
+  width: 12px;
+  height: 9px;
+  background-image: url('../img/concluir-pets.png');
+}
+
+.cartao-alerta--vacina .cartao-alerta__acao {
+  background: var(--pets-surface-raised);
+}
+
+.cartao-alerta--vacina .cartao-alerta__acao .icone {
+  width: 13px;
+  height: 14px;
+  background-image: url('../img/calendario-pets.png');
+}
+
+@media (min-width: 600px) {
+  .cabecalho-aplicacao {
+    min-height: 68px;
+    padding-inline: 24px;
+  }
+
+  .navegacao-principal a {
+    min-height: 32px;
+    padding-inline: 12px;
+    font-size: 11px;
+  }
+
+  .painel-pets {
+    padding: 28px 24px 48px;
+  }
+
+  .cartao-resumo-pet {
+    grid-template-columns: 82px minmax(0, 1fr) auto;
+    grid-template-areas: 'photo info edit';
+    align-items: center;
+    min-height: 142px;
+    padding: 20px;
+  }
+
+  .cartao-resumo-pet__foto {
+    width: 82px;
+    height: 82px;
+  }
+
+  .cartao-resumo-pet__informacoes {
+    padding-right: 0;
+  }
+
+  .cartao-resumo-pet__editar {
+    align-self: center;
+  }
+
+  .acoes-rapidas-pet > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .acao-rapida {
+    grid-template-columns: 38px minmax(0, 1fr);
+    min-height: 88px;
+  }
+
+  .acao-rapida > .icone {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (min-width: 900px) {
+  .lista-pets:has(> li:nth-child(3)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .lista-pets > li:has(.cartao-adicionar-pet) {
+    grid-column: 1 / -1;
+  }
+
+  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet {
+    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-areas:
+      'photo info'
+      'photo edit';
+  }
+
+  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet__foto {
+    width: 72px;
+    height: 72px;
+  }
+
+  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet__editar {
+    align-self: end;
+  }
+
+  .lista-pets:has(> li:nth-child(3)) .acoes-rapidas-pet > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 370px) {
+  .cabecalho-aplicacao {
+    padding-inline: 9px;
+  }
+
+  .painel-pets {
+    padding-inline: 11px;
+  }
+
+  .cartao-resumo-pet {
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 8px 11px;
+    padding-inline: 12px;
+  }
+
+  .cartao-resumo-pet__foto {
+    width: 58px;
+    height: 58px;
+  }
+
+  .cartao-resumo-pet__nome {
+    font-size: 18px;
+  }
+
+  .acao-rapida {
+    grid-template-columns: 30px minmax(0, 1fr);
+    column-gap: 7px;
+    min-height: 76px;
+    padding: 11px 9px;
+  }
+
+  .acao-rapida > .icone {
+    width: 30px;
+    height: 30px;
+  }
+}

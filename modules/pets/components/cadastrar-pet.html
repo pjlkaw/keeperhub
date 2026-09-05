@@ -8,86 +8,87 @@
     <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
     <link rel="stylesheet" href="../../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../../shared/styles/variables.css" />
-    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+    <link rel="stylesheet" href="../assets/css/cadastrar-pet.css" />
   </head>
   <body>
-    <main class="edit-pet">
-      <header class="page-header">
-        <a href="../index.html" class="page-header__back" aria-label="Voltar ao dashboard">
+    <main class="editar-pet">
+      <header class="cabecalho-pagina">
+        <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar" aria-label="Voltar ao dashboard">
           <span aria-hidden="true">‹</span>
         </a>
-        <h1 class="page-header__title">Cadastrar Pet</h1>
+        <h1 class="cabecalho-pagina__titulo">Cadastrar Pet</h1>
       </header>
 
-      <form class="edit-pet-form" id="cadastro-pet-form">
-        <figure class="edit-pet-form__photo" id="foto-pet-preview" data-has-photo="false">
+      <form class="formulario-editar-pet" id="cadastro-pet-form">
+        <figure class="formulario-editar-pet__foto" id="foto-pet-preview" data-has-photo="false">
           <img id="foto-pet-imagem" src="" alt="Prévia da foto do pet" hidden />
         </figure>
 
-        <label for="foto-pet" class="text-button edit-pet-form__change-photo">
+        <label for="foto-pet" class="botao-texto formulario-editar-pet__alterar-foto">
           Adicionar foto
         </label>
-        <input type="file" id="foto-pet" name="foto_pet" class="sr-only" accept="image/*" />
+        <input type="file" id="foto-pet" name="foto_pet" class="somente-leitor-tela" accept="image/*" />
 
-        <div class="form-field">
+        <div class="campo-formulario">
           <label for="nome">Nome</label>
           <input type="text" id="nome" name="nome" placeholder="Nome do pet" autocomplete="off" maxlength="60" required />
         </div>
 
-        <fieldset class="form-field">
+        <fieldset class="campo-formulario">
           <legend>Tipo de Animal</legend>
-          <ul class="species-options">
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="cachorro" required /><span class="species-options__label">Cachorro</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="gato" /><span class="species-options__label">Gato</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="passaro" /><span class="species-options__label">Pássaro</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="cavalo" /><span class="species-options__label">Cavalo</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="reptil" /><span class="species-options__label">Réptil</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="pequeno-mamifero" /><span class="species-options__label">Pequeno Mamífero</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="peixe" /><span class="species-options__label">Peixe</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="animal-fazenda" /><span class="species-options__label">Animal de Fazenda</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="anfibio" /><span class="species-options__label">Anfíbio</span></label></li>
-            <li><label class="species-options__option"><input type="radio" name="tipo_animal" value="exotico" /><span class="species-options__label">Exótico</span></label></li>
+          <ul class="opcoes-especies">
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="cachorro" required /><span class="opcoes-especies__rotulo">Cachorro</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="gato" /><span class="opcoes-especies__rotulo">Gato</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="passaro" /><span class="opcoes-especies__rotulo">Pássaro</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="cavalo" /><span class="opcoes-especies__rotulo">Cavalo</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="reptil" /><span class="opcoes-especies__rotulo">Réptil</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="pequeno-mamifero" /><span class="opcoes-especies__rotulo">Pequeno Mamífero</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="peixe" /><span class="opcoes-especies__rotulo">Peixe</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="animal-fazenda" /><span class="opcoes-especies__rotulo">Animal de Fazenda</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="anfibio" /><span class="opcoes-especies__rotulo">Anfíbio</span></label></li>
+            <li><label class="opcoes-especies__opcao"><input type="radio" name="tipo_animal" value="exotico" /><span class="opcoes-especies__rotulo">Exótico</span></label></li>
           </ul>
         </fieldset>
 
-        <div class="form-field">
+        <div class="campo-formulario">
           <label for="raca">Raça</label>
           <input type="text" id="raca" name="raca" placeholder="Ex: Golden Retriever" autocomplete="off" maxlength="80" required />
         </div>
 
-        <div class="form-row">
-          <div class="form-field">
+        <div class="linha-formulario">
+          <div class="campo-formulario">
             <label for="idade">Idade</label>
             <input type="text" id="idade" name="idade" placeholder="Ex: 3 anos" autocomplete="off" maxlength="20" required />
           </div>
-          <div class="form-field">
+          <div class="campo-formulario">
             <label for="peso">Peso (kg)</label>
             <input type="number" id="peso" name="peso" min="0.1" step="0.1" inputmode="decimal" placeholder="0.0" required />
           </div>
         </div>
 
-        <fieldset class="form-field">
+        <fieldset class="campo-formulario">
           <legend>Gênero</legend>
-          <div class="segmented-control">
-            <label class="segmented-control__option">
+          <div class="controle-segmentado">
+            <label class="controle-segmentado__opcao">
               <input type="radio" name="genero" value="macho" required />
-              <span class="segmented-control__label">Macho</span>
+              <span class="controle-segmentado__rotulo">Macho</span>
             </label>
-            <label class="segmented-control__option">
+            <label class="controle-segmentado__opcao">
               <input type="radio" name="genero" value="femea" />
-              <span class="segmented-control__label">Fêmea</span>
+              <span class="controle-segmentado__rotulo">Fêmea</span>
             </label>
           </div>
         </fieldset>
 
-        <button type="submit" class="primary-button edit-pet-form__submit">
+        <button type="submit" class="botao-principal formulario-editar-pet__enviar">
           Cadastrar Pet
         </button>
 
-        <p class="form-status" id="cadastro-pet-status" aria-live="polite"></p>
+        <p class="status-formulario" id="cadastro-pet-status" aria-live="polite"></p>
       </form>
     </main>
 
-    <script src="../js/script.js" defer></script>
+    <script src="../js/cadastrar-pet.js" defer></script>
   </body>
 </html>

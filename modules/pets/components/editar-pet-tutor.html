@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Editar Pet (Tutor)</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="editar-pet">
+
+        <header class="cabecalho-pagina">
+            <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Editar Pet</h1>
+        </header>
+
+        <nav class="abas-pet" aria-label="Seções do pet">
+            <a href="editar-pet-informacoes.html" class="abas-pet__link">Informações</a>
+            <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link">Rotina Alimentar</a>
+            <a href="editar-pet-tutor.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Tutor</a>
+        </nav>
+
+        <form class="formulario-editar-pet">
+
+            <section class="aviso-informativo">
+                <span class="icone" aria-hidden="true"></span>
+                <div class="aviso-informativo__conteudo">
+                    <h2 class="aviso-informativo__titulo">Dados de Emergência</h2>
+                    <p class="aviso-informativo__descricao">
+                        Estas informações são essenciais para garantir um contato rápido e seguro em casos de necessidade ou emergência durante os cuidados com o pet.
+                    </p>
+                </div>
+            </section>
+
+            <div class="campo-formulario">
+                <label for="nome-tutor">Nome do Tutor</label>
+                <input type="text" id="nome-tutor" name="nome-tutor" value="Maria Silva">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="telefone-emergencia">Telefone de Emergência</label>
+                <input type="tel" id="telefone-emergencia" name="telefone-emergencia" value="(11) 98765-4321">
+            </div>
+
+            <button type="submit" class="botao-principal formulario-editar-pet__enviar">
+                Salvar Alterações
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/editar-pet-tutor.js" defer></script>
+</body>
+</html>

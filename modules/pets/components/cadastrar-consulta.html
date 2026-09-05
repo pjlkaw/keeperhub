@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Adicionar Consulta</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="adicionar-consulta">
+
+        <header class="cabecalho-pagina">
+            <a href="consultas-exames.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Adicionar Consulta</h1>
+        </header>
+
+        <form class="formulario-adicionar-consulta">
+
+            <div class="campo-formulario">
+                <label for="nome-medico">Nome do Médico</label>
+                <input type="text" id="nome-medico" name="nome_medico" placeholder="Ex: Dra. Amanda Silva">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="area-atuacao">Área de Atuação</label>
+                <select id="area-atuacao" name="area_atuacao">
+                    <option value="" selected disabled>Selecione uma especialidade</option>
+                    <option value="clinico_geral">Clínico Geral</option>
+                    <option value="dermatologista">Dermatologista</option>
+                    <option value="cardiologista">Cardiologista</option>
+                    <option value="oftalmologista">Oftalmologista</option>
+                    <option value="ortopedista">Ortopedista</option>
+                    <option value="odontologista">Odontologista</option>
+                    <option value="outra">Outra</option>
+                </select>
+            </div>
+
+            <!-- Aparece somente quando "Outra" é selecionada acima — JS depois -->
+            <div class="campo-formulario">
+                <label for="area-atuacao-outra">Qual especialidade?</label>
+                <input type="text" id="area-atuacao-outra" name="area_atuacao_outra" placeholder="Digite a especialidade">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="clinica">Clínica / Local</label>
+                <input type="text" id="clinica" name="clinica" placeholder="Ex: Clínica Pata Azul">
+            </div>
+
+            <div class="linha-formulario">
+                <div class="campo-formulario">
+                    <label for="data-consulta">Data</label>
+                    <input type="date" id="data-consulta" name="data_consulta">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="horario-consulta">Horário</label>
+                    <input type="time" id="horario-consulta" name="horario_consulta">
+                </div>
+            </div>
+
+            <div class="campo-formulario campo-formulario--alternancia">
+                <label for="lembrar-consulta">Lembrar</label>
+                <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
+            </div>
+
+            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar">
+                Salvar Consulta
+            </button>
+
+        </form>
+
+    </main>
+
+    <script src="../js/cadastrar-consulta.js" defer></script>
+</body>
+</html>

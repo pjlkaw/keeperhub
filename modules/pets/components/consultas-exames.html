@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Consultas e Exames</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+</head>
+<body>
+
+    <main class="painel-medico">
+
+        <header class="cabecalho-pagina">
+            <a href="pets-modulo-principal.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Consultas e Exames</h1>
+        </header>
+
+        <section class="consultas" aria-labelledby="proximas-consultas-heading">
+            <h2 id="proximas-consultas-heading">Próximas Consultas</h2>
+
+            <ul>
+                <li>
+                    <article class="cartao-consulta cartao-consulta--destaque">
+                        <h3 class="cartao-consulta__veterinario">Dra. Amanda Silva</h3>
+                        <p class="cartao-consulta__local">
+                            <span class="icone" aria-hidden="true"></span>
+                            Clínica Pata Azul
+                        </p>
+
+                        <p class="cartao-consulta__data-hora">
+                            <span class="cartao-consulta__data">
+                                <span class="icone" aria-hidden="true"></span>
+                                15 Out
+                            </span>
+                            <span class="cartao-consulta__horario">
+                                <span class="icone" aria-hidden="true"></span>
+                                14:30
+                            </span>
+                        </p>
+
+                        <div class="cartao-consulta__lembrete">
+                            <label for="lembrar-amanda">Lembrar</label>
+                            <input type="checkbox" id="lembrar-amanda" name="lembrar_amanda" checked>
+                        </div>
+
+                        <details class="confirmar-consulta">
+                            <summary class="confirmar-consulta__acionador">Confirmar Consulta</summary>
+                            <form class="confirmar-consulta__formulario">
+                                <div class="campo-formulario">
+                                    <label for="resumo-amanda">O que aconteceu na consulta?</label>
+                                    <textarea id="resumo-amanda" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
+                                </div>
+                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-consulta">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-consulta__informacoes">
+                            <h3 class="cartao-consulta__veterinario">Dr. Roberto (Dermatologista)</h3>
+                            <p class="cartao-consulta__data-hora">22 Out - 09:00</p>
+                        </div>
+
+                        <details class="confirmar-consulta">
+                            <summary class="confirmar-consulta__acionador">Confirmar Consulta</summary>
+                            <form class="confirmar-consulta__formulario">
+                                <div class="campo-formulario">
+                                    <label for="resumo-roberto">O que aconteceu na consulta?</label>
+                                    <textarea id="resumo-roberto" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
+                                </div>
+                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </article>
+                </li>
+            </ul>
+
+            <a href="cadastrar-consulta.html" class="link-editar">Adicionar</a>
+        </section> aria-labelledby="exames-heading">
+            <header class="exames-medicos__cabecalho">
+                <h2 id="exames-heading">Exames e Laudos</h2>
+
+                <label for="upload-exame" class="botao-texto">Adicionar</label>
+                <input type="file" id="upload-exame" name="upload_exame" class="somente-leitor-tela" accept=".pdf,.jpg,.jpeg,.png">
+
+                <!-- "Ver todos" revela itens além dos 3 primeiros — comportamento de JS depois -->
+                <button type="button" class="botao-texto exames-medicos__ver-todos">Ver todos</button>
+            </header>
+
+            <ul>
+                <li>
+                    <article class="cartao-exame">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-exame__informacoes">
+                            <h3 class="cartao-exame__nome">Hemograma Completo</h3>
+                            <p class="cartao-exame__data">10 Set 2023</p>
+                        </div>
+                        <a href="#" class="botao-icone" aria-label="Baixar Hemograma Completo" download>
+                            <span class="icone" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-exame">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-exame__informacoes">
+                            <h3 class="cartao-exame__nome">Raio-X Torácico</h3>
+                            <p class="cartao-exame__data">05 Ago 2023</p>
+                        </div>
+                        <a href="#" class="botao-icone" aria-label="Baixar Raio-X Torácico" download>
+                            <span class="icone" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-exame">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-exame__informacoes">
+                            <h3 class="cartao-exame__nome">Exame de Urina</h3>
+                            <p class="cartao-exame__data">15 Jun 2023</p>
+                        </div>
+                        <a href="#" class="botao-icone" aria-label="Baixar Exame de Urina" download>
+                            <span class="icone" aria-hidden="true"></span>
+                        </a>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="historico-medico" aria-labelledby="historico-medico-heading">
+            <h2 id="historico-medico-heading">Histórico Médico</h2>
+
+            <ol class="linha-tempo-medica">
+                <li>
+                    <article class="linha-tempo-medica__item">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="linha-tempo-medica__conteudo">
+                            <h3 class="linha-tempo-medica__titulo">Check-up Anual</h3>
+                            <p class="linha-tempo-medica__data">10 Set 2023</p>
+                            <p class="linha-tempo-medica__descricao">
+                                Consulta geral. Peso adequado, pelagem brilhante. Recomendação de manter a dieta atual e reforçar a vacina antirrábica no próximo mês.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="linha-tempo-medica__item">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="linha-tempo-medica__conteudo">
+                            <h3 class="linha-tempo-medica__titulo">Vacinação (V10)</h3>
+                            <p class="linha-tempo-medica__data">15 Fev 2023</p>
+                            <p class="linha-tempo-medica__descricao">
+                                Reforço anual da vacina V10 administrado sem intercorrências. Próxima dose programada para Fev 2024.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="linha-tempo-medica__item">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="linha-tempo-medica__conteudo">
+                            <h3 class="linha-tempo-medica__titulo">Consulta de Emergência - Otite</h3>
+                            <p class="linha-tempo-medica__data">05 Nov 2022</p>
+                            <p class="linha-tempo-medica__descricao">
+                                Tratamento iniciado com gotas auriculares por 7 dias. Retorno para reavaliação agendado.
+                            </p>
+                        </div>
+                    </article>
+                </li>
+            </ol>
+        </section>
+
+        <a href="cadastrar-consulta.html" class="botao-flutuante" aria-label="Adicionar consulta">
+            <span class="icone" aria-hidden="true"></span>
+        </a>
+
+    </main>
+
+    <script src="../js/consultas-exames.js" defer></script>
+</body>
+</html>
