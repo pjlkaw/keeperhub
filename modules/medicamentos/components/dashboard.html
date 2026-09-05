@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Progresso & Saúde • Medicamentos • KeeperHub</title>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- Estilos Estruturais e Compartilhados -->
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
+
+        <!-- Essentials -->
+        <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+        <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+        <link rel="stylesheet" href="../assets/css/essentials/header.css">
+        <link rel="stylesheet" href="../assets/css/essentials/components.css">
+
+        <!-- Main -->
+        <link rel="stylesheet" href="../assets/css/meds-dashboard.css">
+    </head>
+    <body>
+        <div class="app-page-wrapper">
+            <div class="app-container">
+                <!-- CABEÇALHO DA TELA PROGRESSO & SAÚDE -->
+                <header class="meds-header-section" id="progress-header">
+                    <div class="meds-header-title-area">
+                        <div class="meds-header-top-row">
+                            <a href="/modules/medicamentos/" class="meds-header-back-btn" id="btn-back-meds-home" aria-label="Voltar para a Home de Medicamentos" title="Voltar">
+                                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                            </a>
+                            <h1 class="meds-header-title" id="progress-page-title">Progresso</h1>
+                        </div>
+                        <div class="meds-header-meta">
+                            <span>Histórico e Informações</span>
+                        </div>
+                    </div>
+
+                    <div class="meds-header-controls">
+                        <!-- BARRA DE CONTROLE DE TEMA -->
+                        <div class="theme-bar" id="theme-bar">
+                            <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
+                                <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="20" height="20" />
+                                <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="20" height="20" />
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                
+                <!-- CONTEÚDO PRINCIPAL -->
+                <main class="meds-main" id="main-content">
+                    <div class="meds-stack">
+
+                        <!-- SELECT DE PERÍODO -->
+                        <div class="meds-filter-dropdown-wrap">
+                            <select class="meds-select-period" id="select-period-filter" aria-label="Selecionar período do histórico">
+                                <option value="este-mes">Semana</option>
+                                <option value="mes-passado" selected>Mês</option>
+                                <option value="mes-passado">Mês Passado</option>
+                                <option value="ultimos-30-dias">Últimos 30 dias</option>
+                            </select>
+                        </div>
+                        
+                        <!-- CARD 1: SEQUÊNCIA ATIVA -->
+                        <section class="meds-card-stat streak-card" aria-label="Sequência Ativa">
+                            <div class="meds-card-stat-header">
+                                <div class="meds-card-stat-title-group">
+                                    <span class="meds-stat-label">SEQUÊNCIA ATIVA</span>
+                                    <div class="meds-stat-main-row">
+                                        <span class="meds-stat-big-val">14 dias</span>
+                                        <span class="meds-badge-success">100% no alvo</span>
+                                    </div>
+                                </div>
+                                <div class="meds-card-stat-icon-wrap" aria-hidden="true">
+                                    <i class="fa-solid fa-fire-flame-curved icon-streak"></i>
+                                </div>
+                            </div>
+
+                            <p class="meds-stat-description">
+                                Todas as doses foram tomadas rigorosamente nos horários certos.
+                            </p>
+
+                            <!-- DIAS DA SEMANA -->
+                            <div class="meds-week-days" role="group" aria-label="Dias da semana">
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">S</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">T</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">Q</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">Q</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">S</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col">
+                                    <span class="meds-day-label">S</span>
+                                    <div class="meds-day-check active">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div class="meds-day-col current">
+                                    <span class="meds-day-label">D</span>
+                                    <div class="meds-day-check active highlight">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- CARD 2: DOSES CONCLUÍDAS -->
+                        <section class="meds-card-stat doses-card" aria-label="Doses Concluídas">
+                            <div class="meds-card-stat-header">
+                                <span class="meds-stat-title">Doses Concluídas</span>
+                                <span class="meds-status-dot active" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="meds-stat-counter-row">
+                                <span class="meds-counter-current">42</span>
+                                <span class="meds-counter-divider">/</span>
+                                <span class="meds-counter-total">45</span>
+                            </div>
+
+                            <div class="meds-progress-bar-wrap" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100">
+                                <div class="meds-progress-bar-fill" style="width: 93.3%;"></div>
+                            </div>
+                        </section>
+
+                        <!-- CARD 4: CALENDÁRIO MENSUAL -->
+                        <section class="meds-card-stat calendar-card" aria-label="Calendário de Agosto 2026">
+                            <div class="meds-calendar-header">
+                                <h2 class="meds-calendar-month-title">Agosto 2026</h2>
+                                <div class="meds-calendar-nav">
+                                    <button type="button" class="btn-cal-nav" aria-label="Mês anterior">
+                                        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn-cal-nav" aria-label="Próximo mês">
+                                        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="meds-calendar-grid">
+                                <!-- DIAS DA SEMANA -->
+                                <div class="meds-cal-head">D</div>
+                                <div class="meds-cal-head">S</div>
+                                <div class="meds-cal-head">T</div>
+                                <div class="meds-cal-head">Q</div>
+                                <div class="meds-cal-head">Q</div>
+                                <div class="meds-cal-head">S</div>
+                                <div class="meds-cal-head">S</div>
+
+                                <!-- DIAS DO MÊS -->
+                                <div class="meds-cal-day muted">27</div>
+                                <div class="meds-cal-day muted">28</div>
+                                <div class="meds-cal-day muted">29</div>
+                                <div class="meds-cal-day muted">30</div>
+                                <div class="meds-cal-day muted">31</div>
+                                <div class="meds-cal-day status-taken">1</div>
+                                <div class="meds-cal-day status-taken">2</div>
+
+                                <div class="meds-cal-day status-taken">3</div>
+                                <div class="meds-cal-day status-delayed">4</div>
+                                <div class="meds-cal-day status-taken">5</div>
+                                <div class="meds-cal-day status-taken">6</div>
+                                <div class="meds-cal-day status-missed">7</div>
+                                <div class="meds-cal-day status-taken">8</div>
+                                <div class="meds-cal-day status-taken">9</div>
+
+                                <div class="meds-cal-day status-taken">10</div>
+                                <div class="meds-cal-day status-taken">11</div>
+                                <div class="meds-cal-day status-taken">12</div>
+                                <div class="meds-cal-day status-taken">13</div>
+                                <div class="meds-cal-day status-taken">14</div>
+                                <div class="meds-cal-day status-taken">15</div>
+                                <div class="meds-cal-day status-taken">16</div>
+
+                                <div class="meds-cal-day status-taken">17</div>
+                                <div class="meds-cal-day status-taken">18</div>
+                                <div class="meds-cal-day status-taken">19</div>
+                                <div class="meds-cal-day status-taken">20</div>
+                                <div class="meds-cal-day status-taken">21</div>
+                                <div class="meds-cal-day status-taken">22</div>
+                                <div class="meds-cal-day status-taken">23</div>
+
+                                <div class="meds-cal-day status-taken selected">24</div>
+                                <div class="meds-cal-day">25</div>
+                                <div class="meds-cal-day">26</div>
+                                <div class="meds-cal-day">27</div>
+                                <div class="meds-cal-day">28</div>
+                                <div class="meds-cal-day">29</div>
+                                <div class="meds-cal-day">30</div>
+                            </div>
+
+                            <!-- LEGENDA DO CALENDÁRIO -->
+                            <div class="meds-calendar-legend">
+                                <div class="legend-item">
+                                    <span class="legend-dot legend-taken"></span>
+                                    <span>Todas tomadas</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-dot legend-delayed"></span>
+                                    <span>Atrasada</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-dot legend-missed"></span>
+                                    <span>Perdida</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- CARD 5: PRÓXIMO MARCO -->
+                        <section class="meds-card-stat milestone-card" aria-label="Próximo Marco">
+                            <div class="meds-milestone-icon-wrap" aria-hidden="true">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div class="meds-milestone-info">
+                                <h3 class="meds-milestone-title">Próximo Marco: 21 Dias de Hábito</h3>
+                                <p class="meds-milestone-desc">
+                                    Faltam apenas 7 dias para solidificar seu tratamento de forma consistente!
+                                </p>
+                            </div>
+                        </section>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="/shared/services/theme.js"></script>
+        <script type="module" src="/modules/medicamentos/js/script.js"></script>
+    </body>
+</html>

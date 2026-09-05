@@ -1,0 +1,521 @@
+/* ==========================================================================
+   meds-progress.css - Estilos da Tela Progresso & Saúde
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIÁVEIS LOCAIS DA TELA
+   -------------------------------------------------------------------------- */
+:root {
+    --meds-accent: var(--tool-medicamentos);
+    --meds-accent-subtle: rgba(0, 208, 45, 0.12);
+    --meds-accent-glow: rgba(0, 208, 45, 0.25);
+
+    --status-delayed: #f59e0b;
+    --status-delayed-subtle: rgba(245, 158, 11, 0.15);
+
+    --status-missed: #ef4444;
+    --status-missed-subtle: rgba(239, 68, 68, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   2. CONTROLES DO CABEÇALHO (SELECT DE PERÍODO)
+   -------------------------------------------------------------------------- */
+.meds-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 100;
+}
+
+.meds-filter-dropdown-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.meds-select-period {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 6px 32px 6px 14px;
+    font-size: 0.825rem;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239a9aa2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.meds-select-period:hover,
+.meds-select-period:focus {
+    border-color: var(--meds-accent);
+}
+
+/* --------------------------------------------------------------------------
+   3. ESTILOS BASE DOS CARDS DE ESTATÍSTICA
+   -------------------------------------------------------------------------- */
+.meds-card-stat {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.meds-card-stat-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.meds-card-inner-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.meds-card-inner-sub {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+}
+
+/* Badges e Pílulas de Status */
+.meds-badge-success {
+    background-color: var(--meds-accent-subtle);
+    color: var(--meds-accent);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.meds-badge-growth {
+    background-color: var(--meds-accent-subtle);
+    color: var(--meds-accent);
+    font-size: 0.725rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.meds-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.meds-status-dot.active {
+    background-color: var(--meds-accent);
+    box-shadow: 0 0 6px var(--meds-accent);
+}
+
+/* --------------------------------------------------------------------------
+   4. CARD 1: SEQUÊNCIA ATIVA
+   -------------------------------------------------------------------------- */
+.streak-card .meds-stat-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--meds-accent);
+}
+
+.streak-card .meds-stat-main-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.streak-card .meds-stat-big-val {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-color);
+    line-height: 1;
+}
+
+.streak-card .meds-card-stat-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: var(--meds-accent-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.streak-card .icon-streak {
+    font-size: 1.25rem;
+    color: var(--meds-accent);
+}
+
+.streak-card .meds-stat-description {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Dias da Semana (S T Q Q S S D) */
+.meds-week-days {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.meds-day-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.meds-day-label {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.meds-day-col.current .meds-day-label {
+    color: var(--meds-accent);
+    font-weight: 700;
+}
+
+.meds-day-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: transparent;
+}
+
+.meds-day-check.active {
+    background-color: var(--meds-accent-subtle);
+    border-color: rgba(0, 208, 45, 0.3);
+    color: var(--meds-accent);
+}
+
+.meds-day-check.active.highlight {
+    background-color: var(--meds-accent);
+    border-color: var(--meds-accent);
+    color: #000000;
+    box-shadow: 0 0 10px var(--meds-accent-glow);
+}
+
+/* --------------------------------------------------------------------------
+   5. CARD 2: DOSES CONCLUÍDAS
+   -------------------------------------------------------------------------- */
+.doses-card .meds-stat-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.doses-card .meds-stat-counter-row {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.doses-card .meds-counter-current {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+.doses-card .meds-counter-divider,
+.doses-card .meds-counter-total {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.meds-progress-bar-wrap {
+    width: 100%;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.meds-progress-bar-fill {
+    height: 100%;
+    background-color: var(--meds-accent);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   6. CARD 3: ADESÃO SEMANAL (GRÁFICO)
+   -------------------------------------------------------------------------- */
+.meds-bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    height: 120px;
+    padding-top: 16px;
+}
+
+.meds-chart-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.meds-chart-val {
+    font-size: 0.675rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.meds-chart-val.highlight {
+    color: var(--meds-accent);
+    font-weight: 700;
+}
+
+.meds-chart-bar-container {
+    flex: 1;
+    width: 100%;
+    max-width: 36px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.meds-chart-bar-fill {
+    width: 100%;
+    background-color: rgba(0, 208, 45, 0.6);
+    border-radius: 8px 8px 0 0;
+    transition: height 0.4s ease;
+}
+
+.meds-chart-bar-fill.highlight {
+    background-color: var(--meds-accent);
+    box-shadow: 0 0 8px var(--meds-accent-glow);
+}
+
+.meds-chart-label {
+    font-size: 0.725rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+.meds-chart-label.highlight {
+    color: var(--meds-accent);
+    font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   7. CARD 4: CALENDÁRIO MENSUAL
+   -------------------------------------------------------------------------- */
+.meds-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.meds-calendar-month-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.meds-calendar-nav {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-cal-nav {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.btn-cal-nav:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--text-color);
+}
+
+/* Grid do Calendário */
+.meds-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.meds-cal-head {
+    font-size: 0.725rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-bottom: 4px;
+}
+
+.meds-cal-day {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-color);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.meds-cal-day.muted {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme="light"] .meds-cal-day.muted {
+    color: rgba(0, 0, 0, 0.2);
+}
+
+/* Indicadores de Status sob a data do calendário */
+.meds-cal-day[class*="status-"]::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+}
+
+.meds-cal-day.status-taken::after {
+    background-color: var(--meds-accent);
+}
+
+.meds-cal-day.status-delayed::after {
+    background-color: var(--status-delayed);
+}
+
+.meds-cal-day.status-missed::after {
+    background-color: var(--status-missed);
+}
+
+.meds-cal-day.selected {
+    background-color: var(--meds-accent);
+    color: #000000;
+    font-weight: 700;
+}
+
+.meds-cal-day.selected::after {
+    display: none;
+}
+
+/* Legenda do Calendário */
+.meds-calendar-legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    margin-top: 4px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-dot.legend-taken {
+    background-color: var(--meds-accent);
+}
+
+.legend-dot.legend-delayed {
+    background-color: var(--status-delayed);
+}
+
+.legend-dot.legend-missed {
+    background-color: var(--status-missed);
+}
+
+/* --------------------------------------------------------------------------
+   8. CARD 5: PRÓXIMO MARCO
+   -------------------------------------------------------------------------- */
+.milestone-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--card-bg);
+}
+
+.meds-milestone-icon-wrap {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--meds-accent);
+    font-size: 1.1rem;
+}
+
+.meds-milestone-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.meds-milestone-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.meds-milestone-desc {
+    font-size: 0.775rem;
+    color: var(--text-muted);
+    line-height: 1.35;
+    margin: 0;
+}
