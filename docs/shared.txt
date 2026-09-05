@@ -1,0 +1,15 @@
+Aqui adicionem funções disponiveis na pasta /shared para que todos saibam o que pode ser economizado de código
+
+--------------- /COMPONENTS ---------------
+
+NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL)
+### /shared/components/navbar-section.html
+
+--------------- /SERVICES ---------------
+SCRIPT PARA USO DE TEMAS WHITE/DARK
+### /shared/components/theme.js
+
+--------------- /STYLES ---------------
+CSS OBRIGATÓRIO PARA DESENVOLVIMENDO
+###/shared/styles/variables.css
+###/shared/styles/reset.css
