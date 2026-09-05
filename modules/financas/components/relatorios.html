@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <title>Relatórios</title>
+  <link rel="stylesheet" href="../../../shared/styles/reset.css">
+  <link rel="stylesheet" href="../../../shared/styles/variables.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../js/preview-theme.js" defer></script>
+    <title>Relatórios — KeeperHub</title>
 </head>
-<body>
-    <section class="app-shell">
-        <section class="screen reports-screen">
-            <header class="reports-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Relatórios</h1></header>
-            <section class="reports-content">
-                <article class="report-card income-report"><header class="report-card-top"><span>Receitas Totais</span><i aria-hidden="true">↑</i></header><strong id="report-income">R$ 0,00</strong><b>Dados do banco</b></article>
-                <article class="report-card expense-report"><header class="report-card-top"><span>Despesas Totais</span><i aria-hidden="true">↓</i></header><strong id="report-expense">R$ 0,00</strong><b>Dados do banco</b></article>
-                <article class="report-card net-report"><header class="report-card-top"><span>Saldo Líquido</span><i aria-hidden="true">▣</i></header><strong id="report-balance">R$ 0,00</strong><meter class="margin-track" min="0" max="100" value="0">0%</meter><b id="report-margin">0% de margem</b></article>
-                <article class="report-card comparison-report"><header class="report-card-top"><span>Comparação mensal</span><i aria-hidden="true">↔</i></header><strong>--</strong><b>Histórico mensal será calculado pelo banco</b></article>
-                <form class="report-filters"><label for="report-period">Período</label><select id="report-period"><option>Este mês</option><option>Últimos 3 meses</option><option>Este ano</option></select><label for="report-type">Tipo</label><select id="report-type"><option>Todos</option><option>Receitas</option><option>Despesas</option></select></form>
-            </section>
-        </section>
+<body class="finance-page">
+  <main class="finance-shell reports-screen">
+    <header class="finance-header"><a class="finance-back" href="../index.html" aria-label="Voltar para finanças">‹</a><h1>Relatórios</h1><button class="finance-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">☀</button></header>
+    <nav class="finance-tabs" aria-label="Seções de finanças"><a href="../index.html">Visão geral</a><a href="transacoes.html">Transações</a><a class="active" href="relatorios.html" aria-current="page">Relatórios</a><a href="nova-transacao.html">Nova transação</a></nav>
+    <section class="finance-content">
+      <p class="report-kicker">Setembro · análise financeira</p>
+      <article class="summary-card"><header><h2>Resumo de Setembro</h2><span>Set 2026</span></header><div class="summary-values"><section class="summary-income"><small>● Receitas</small><strong id="report-income">R$ 12.450,00</strong><b>↑ +15% vs mês anterior</b></section><section class="summary-expense"><small>● Despesas</small><strong id="report-expense">R$ 4.230,00</strong><b>↑ +5% vs mês anterior</b></section></div><footer><div><small>SALDO LÍQUIDO</small><strong id="report-balance">R$ 8.220,00</strong></div><span><b id="report-margin">66%</b><small>de margem</small></span></footer></article>
+      <article class="report-section evolution-card"><header><h2>Evolução dos últimos 4 meses</h2><p>Comparativo de entradas e saídas</p></header><div class="report-chart" aria-label="Gráfico de receitas e despesas dos últimos quatro meses"><div class="report-month"><div><i class="income-bar" style="height:58px"><b>8.9k</b></i><i class="expense-bar" style="height:31px"><b>3.6k</b></i></div><span>Jun</span></div><div class="report-month"><div><i class="income-bar" style="height:79px"><b>9.8k</b></i><i class="expense-bar" style="height:34px"><b>3.9k</b></i></div><span>Jul</span></div><div class="report-month"><div><i class="income-bar" style="height:89px"><b>10.9k</b></i><i class="expense-bar" style="height:39px"><b>4.0k</b></i></div><span>Ago</span></div><div class="report-month current"><div><i class="income-bar" style="height:108px"><b>12.4k</b></i><i class="expense-bar" style="height:43px"><b>4.2k</b></i></div><span>Set</span></div></div></article>
+      <article class="report-section spending-card"><header><h2>Para onde foi seu dinheiro?</h2><strong>R$ 4.230,00</strong></header><div class="spending-list"><div style="--category-color:var(--tool-financas);--category-width:30%"><p><b>● Alimentação</b><span>R$ 1.280&nbsp;&nbsp; <strong>30%</strong></span></p><i></i></div><div style="--category-color:#5985fc;--category-width:25%"><p><b>● Moradia</b><span>R$ 1.050&nbsp;&nbsp; <strong>25%</strong></span></p><i></i></div><div style="--category-color:var(--tool-financas);--category-width:20%"><p><b>● Transporte</b><span>R$ 860&nbsp;&nbsp; <strong>20%</strong></span></p><i></i></div><div style="--category-color:#8c63e8;--category-width:12%"><p><b>● Assinaturas</b><span>R$ 490&nbsp;&nbsp; <strong>12%</strong></span></p><i></i></div><div style="--category-color:#9da5b3;--category-width:13%"><p><b>● Outros</b><span>R$ 550&nbsp;&nbsp; <strong>13%</strong></span></p><i></i></div></div></article>
+      <aside class="insight-card"><span aria-hidden="true">☼</span><div><h2>Insight do mês</h2><p>Seus gastos com alimentação aumentaram 8% em relação a agosto.</p><small>Isso representa aproximadamente R$ 95 a mais.</small></div></aside>
+      <article class="report-section comparison-card"><h2>COMPARAÇÃO COM AGOSTO</h2><dl><div><dt>Receitas</dt><dd>↑ R$ 1.550</dd></div><div><dt>Despesas</dt><dd>↑ R$ 200</dd></div><div><dt>Saldo</dt><dd>↑ R$ 1.350</dd></div></dl></article>
+      <article class="report-section largest-expense"><h2>MAIOR DESPESA DO MÊS</h2><div><span aria-hidden="true">🛒</span><p><strong>Supermercado</strong><small>Categoria: Alimentação</small></p><b>R$ 650,00</b></div></article>
     </section>
-    <script src="../js/script.js"></script>
+  </main>
+  <script src="../js/script.js"></script>
 </body>
 </html>
