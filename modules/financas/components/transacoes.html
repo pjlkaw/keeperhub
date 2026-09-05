@@ -1,22 +1,37 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../js/preview-theme.js" defer></script>
     <title>Transações</title>
 </head>
-<body>
-    <section class="app-shell">
-        <section class="screen transactions-list-screen">
-            <header class="transactions-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Transações</h1></header>
-            <section class="transactions-content">
-                <form class="transactions-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="Buscar transações..."><button type="button" aria-label="Filtros">☷</button></form>
-                <nav class="filter-chips" aria-label="Filtros de transações"><button class="filter-active" type="button">Todas</button><button type="button">Receitas</button><button type="button">Despesas</button><button type="button">▣ Este Mês</button></nav>
-                <section class="transaction-list" id="transaction-list"></section>
+
+<body class="finance-page">
+    <main class="finance-shell transactions-list-screen">
+        <header class="finance-header"><a class="finance-back" href="../index.html" aria-label="Voltar para finanças">‹</a>
+            <h1>Transações</h1><button class="finance-theme-button" type="button"
+                aria-label="Ativar modo claro" aria-pressed="false">☀</button>
+        </header>
+        <nav class="finance-tabs" aria-label="Seções de finanças"><a href="../index.html">Visão geral</a><a class="active"
+                href="transacoes.html" aria-current="page">Transações</a><a href="relatorios.html">Relatórios</a><a
+                href="nova-transacao.html">Nova transação</a></nav>
+        <section class="finance-content transactions-content">
+            <form class="transactions-search" role="search"><span aria-hidden="true">⌕</span><input type="search"
+                    placeholder="Buscar transações..." aria-label="Buscar transações"><button type="button"
+                    aria-label="Abrir filtros">☷</button></form>
+            <nav class="filter-chips" aria-label="Filtros de transações"><button class="filter-active"
+                    type="button">Todas</button><button type="button">Receitas</button><button
+                    type="button">Despesas</button><button type="button">▣ Este Mês</button></nav>
+            <section class="transaction-list" id="transaction-list" aria-live="polite">
+                <p class="empty-state">Carregando transações...</p>
             </section>
+            <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">＋</a>
         </section>
-    </section>
+    </main>
     <script src="../js/script.js"></script>
 </body>
+
 </html>

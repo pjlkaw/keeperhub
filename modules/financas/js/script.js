@@ -267,6 +267,7 @@ typeOptions.forEach((option) => {
         });
         option.classList.add('selected');
         option.setAttribute('aria-pressed', 'true');
+        document.querySelector('#summary-type')?.replaceChildren(option.dataset.transactionType === 'income' ? 'Receita' : 'Despesa');
     });
 });
 

@@ -1,38 +1,116 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>KEEPER hub</title>
+    <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
+    <link rel="stylesheet" href="../financas/assets/css/style.css">
+    <script src="js/preview-theme.js" defer></script>
+    <title>Finanças — KeeperHub</title>
 </head>
-<body>
-    <section class="app-shell">
-        <section class="screen dashboard-screen">
-            <header class="topbar">
-                <section class="brand"><span class="brand-mark" aria-hidden="true">⬡</span><strong>KEEPER hub</strong></section>
-                <aside class="topbar-actions"><button class="theme-button" type="button" aria-label="Alternar tema">☼</button><span class="avatar">AS</span></aside>
+
+<body class="landing-page">
+    <main>
+        <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
+            <nav class="preview-modules" aria-label="Módulos do KeeperHub"><a class="active" href="index.html"
+                    aria-current="page">▥&nbsp; Finanças</a><a href="../despensa/index.html">♨&nbsp; Despensa</a><a
+                    href="../pets/index.html">♙&nbsp; Pets</a><a href="../metas/index.html">⚑&nbsp; Metas</a><a
+                    href="../medicamentos/index.html">✚&nbsp; Medicamentos</a></nav>
+            <header class="preview-heading">
+                <div><a class="preview-back" href="#" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg></a>
+                    <h2>Finanças</h2>
+                </div>
+                <div class="preview-actions">
+                    <span class="notification" role="img" aria-label="Uma nova notificação">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
+                        </svg>
+                        <i></i>
+                    </span>
+                    <button class="preview-theme-button" type="button" aria-label="Ativar modo claro"
+                        aria-pressed="false">☀</button>
+                </div>
+                <p>Setembro · suas finanças organizadas</p><strong>Mês atual</strong>
             </header>
-            <main class="dashboard-content">
-                <nav class="module-nav" aria-label="Módulos">
-                    <section class="module-links">
-                        <a class="active" href="index.html">Finanças</a>
-                        <a class="inative" href="../medicamentos/index.html">Medicamentos</a>
-                        <a href="../despensa/index.html">Despensa</a>
-                        <a href="../pets/index.html">Pets</a>
-                        <a href="../metas/index.html">Metas</a>
-                    </section>
-                    <button class="search-button" type="button" aria-label="Pesquisar">⌕</button>
-                </nav>
-                <header class="page-heading"><h1>Módulo de Finanças</h1><a class="new-transaction" href="components/nova-transacao.html">+ Nova Transação</a></header>
-                <section class="dashboard-grid">
-                    <article class="balance-card"><header class="balance-label"><span class="wallet-icon" aria-hidden="true">▣</span>SALDO TOTAL</header><output class="balance-value" id="dashboard-balance">R$ 0,00</output><footer class="balance-change" id="dashboard-change">Dados do banco</footer></article>
-                    <section class="shortcut-grid"><a class="shortcut-card transactions-link" href="components/transacoes.html"><span class="shortcut-icon" aria-hidden="true">▤</span><h2>Transações</h2><p>Ver tudo</p></a><a class="shortcut-card reports-link" href="components/relatorios.html"><span class="shortcut-icon" aria-hidden="true">▥</span><h2>Relatórios</h2><p>Análise mensal</p></a><a class="shortcut-card" href="components/contas.html"><span class="shortcut-icon" aria-hidden="true">▤</span><h2>Minhas Contas</h2><p>Gerenciar contas</p></a><a class="shortcut-card" href="components/vencimentos.html"><span class="shortcut-icon" aria-hidden="true">◷</span><h2>Próximos Vencimentos</h2><p>Ver agenda</p></a></section>
-                    <article class="monthly-card"><header class="card-heading"><h2>Despesas Mensais</h2><button class="more-button" type="button" aria-label="Mais opções">⋮</button></header><section class="monthly-summary" aria-label="Resumo de despesas"><span><small>Total do mês</small><strong id="monthly-total">R$ 0,00</strong></span><span><small>Maior gasto</small><strong id="monthly-highest">R$ 0,00</strong></span></section><figure class="chart" aria-label="Gráfico de despesas mensais"><span class="chart-item"><span class="bar bar-one"></span><small>--</small></span><span class="chart-item"><span class="bar bar-two"></span><small>--</small></span><span class="chart-item"><span class="bar bar-three"></span><small>--</small></span><span class="chart-item"><span class="bar bar-four"></span><small>--</small></span></figure></article>
-                </section>
-            </main>
+            <nav class="finance-home-links" aria-label="Páginas de finanças">
+                <a href="../financas/components/transacoes.html">Transações</a>
+                <a href="../financas/components/relatorios.html">Relatórios</a>
+            </nav>
+            <section class="preview-greeting" aria-labelledby="greeting-title">
+                <h3 id="greeting-title">Olá, 👋</h3>
+                <p>Veja como estão suas finanças este mês.</p>
+            </section>
+            <article class="preview-balance">
+                <header><span>SALDO DISPONÍVEL</span><mark>⌃ +12% vs mês anterior</mark></header><output>R$
+                    4.250,00</output>
+                <hr>
+                <dl>
+                    <div>
+                        <dt>Receitas</dt>
+                        <dd>R$ 8.480,00</dd>
+                    </div>
+                    <div>
+                        <dt>Despesas</dt>
+                        <dd>R$ 4.230,00</dd>
+                    </div>
+                </dl>
+            </article>
+            <article class="cash-flow">
+                <header>
+                    <h3>Fluxo do mês</h3><span>Setembro 2026</span>
+                </header>
+                <div class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></div>
+                <div class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></div>
+            </article>
+            <article class="monthly-expenses-card">
+                <header>
+                    <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
+                </header>
+                <div class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses">
+                    <div><b>2.900</b><i style="height: 33px"></i><span>Jun</span></div>
+                    <div><b>3.350</b><i style="height: 39px"></i><span>Jul</span></div>
+                    <div><b>3.780</b><i style="height: 43px"></i><span>Ago</span></div>
+                    <div class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></div>
+                </div>
+            </article>
+            <article class="top-spending-card">
+                <header>
+                    <h3>Onde você mais gastou</h3><span>3 categorias</span>
+                </header>
+                <div class="top-spending-list">
+                    <div style="--spending-color:#e47a00;--spending-width:34%">
+                        <p><i aria-hidden="true">🍽</i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong>
+                        </p><span></span>
+                    </div>
+                    <div style="--spending-color:#5985fc;--spending-width:20%">
+                        <p><i aria-hidden="true">🚌</i><b>Transporte</b><strong>R$ 860,00 <small>20%</small></strong>
+                        </p><span></span>
+                    </div>
+                    <div style="--spending-color:#9b72f2;--spending-width:14%">
+                        <p><i aria-hidden="true">▣</i><b>Assinaturas</b><strong>R$ 490,00 <small>12%</small></strong>
+                        </p><span></span>
+                    </div>
+                </div>
+            </article>
+            <article class="recent-transactions-card">
+                <header>
+                    <h3>Transações recentes</h3><a href="../financas/components/transacoes.html">Ver todas ›</a>
+                </header>
+                <div class="recent-transactions-list">
+                    <a href="../financas/components/transacoes.html"><i aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação ·
+                                Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
+                    <a href="../financas/components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte ·
+                                Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
+                    <a href="../financas/components/transacoes.html" class="income"><i aria-hidden="true">↑</i><span><b>Salário</b><small>Renda
+                                · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
+                </div>
+            </article>
+            <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação">＋</a>
         </section>
-    </section>
-    <script src="js/script.js"></script>
+    </main>
 </body>
+
 </html>

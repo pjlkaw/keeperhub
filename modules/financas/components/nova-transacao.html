@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Registre uma nova movimentação no KeeperHub Finanças.">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <title>Nova Transação</title>
+    <script src="../js/preview-theme.js" defer></script>
+    <title>Nova transação — KeeperHub</title>
 </head>
-<body>
-    <section class="app-shell">
-        <section class="screen transaction-screen">
-            <a class="screen-back form-back" href="../index.html" aria-label="Voltar">←</a>
-            <form class="transaction-form" id="transaction-form">
-                <fieldset class="type-toggle" aria-label="Tipo de transação"><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true">Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false">Receita</button></fieldset>
-                <output class="value-input"><label for="value">VALOR</label><small class="value-help">Digite o valor do lançamento.</small><span class="currency-field"><span>R$</span><input id="value" name="value" type="text" inputmode="decimal" value="0,00" aria-label="Valor" required autofocus></span></output>
-                <label class="field-label" for="description">Descrição</label><small class="field-help">Nome curto para identificar este lançamento.</small><section class="input-wrap description-wrap"><span class="field-icon" aria-hidden="true">☷</span><input id="description" name="description" type="text" placeholder="Ex: Supermercado" required></section>
-                <label class="field-label" for="date">Data</label><small class="field-help">Dia em que a despesa ou receita aconteceu.</small><section class="input-wrap"><input id="date" name="date" type="date" aria-label="Data" required></section>
-                <label class="field-label" for="category">Categoria</label><small class="field-help">Grupo usado para organizar os relatórios.</small><section class="input-wrap category-wrap"><select id="category" name="category" aria-label="Categoria" required><option value="" selected disabled>Selecione uma categoria</option><option>Alimentação</option><option>Transporte</option><option>Renda</option><option>Lazer</option><option>Assinaturas</option><option>Transferência</option></select></section>
-                <label class="field-label" for="account">Conta</label><small class="field-help">Conta, cartão ou carteira usada no lançamento.</small><section class="input-wrap category-wrap"><select id="account" name="account" aria-label="Conta" required><option value="" selected disabled>Selecione uma conta</option><option>Conta principal</option><option>Poupança</option><option>Carteira</option></select></section>
-                <label class="field-label" for="due-date">Vencimento</label><small class="field-help">Use quando houver prazo para pagar.</small><section class="input-wrap"><input id="due-date" name="dueDate" type="date" aria-label="Vencimento"></section>
-                <label class="field-label" for="status">Status</label><small class="field-help">Pendente ainda falta pagar; pago já foi concluído.</small><section class="input-wrap category-wrap"><select id="status" name="status" aria-label="Status" required><option value="pending" selected>Pendente</option><option value="paid">Pago</option></select></section>
-                <label class="field-label notes-label" for="notes">Observações (Opcional)</label><small class="field-help">Detalhes extras, como parcelas ou comprovante.</small><textarea id="notes" name="notes" placeholder="Adicione notas adicionais aqui..."></textarea>
-                <footer class="actions"><button class="save-button" type="submit"><span aria-hidden="true">▣</span> Salvar Transação</button><button class="cancel-button" type="button">Cancelar</button></footer>
-            </form>
+<body class="landing-page transaction-page">
+<main><section class="app-preview transaction-preview" aria-labelledby="transaction-title">
+    <header class="transaction-heading">
+        <a class="preview-back" href="../index.html" aria-label="Voltar para finanças">‹</a>
+        <div><h1 id="transaction-title">Nova transação</h1><p>Registre uma movimentação</p></div>
+        <button class="finance-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">☀</button>
+    </header>
+    <form class="transaction-form" id="transaction-form">
+        <fieldset class="type-toggle"><legend class="sr-only">Tipo de transação</legend><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true"><span aria-hidden="true">↓</span> Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false"><span aria-hidden="true">↑</span> Receita</button></fieldset>
+        <section class="value-card"><label for="value">VALOR</label><div class="currency-field"><span>R$</span><input id="value" name="value" type="text" inputmode="decimal" value="150,45" aria-label="Valor da transação" required></div></section>
+        <section class="transaction-fields" aria-label="Dados da transação">
+            <div class="form-field form-field-wide"><label for="description">Descrição</label><div class="input-wrap description-wrap"><svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.4-10.4a2.1 2.1 0 0 0-3-3L5.2 16 4 20ZM13.8 7.4l2.8 2.8M9 20h11"/></svg><input id="description" name="description" type="text" value="Supermercado" required></div></div>
+            <div class="form-field"><label for="date">Data</label><div class="input-wrap"><input id="date" name="date" type="date" value="2026-09-15" required></div></div>
+            <div class="form-field"><label for="category">Categoria</label><div class="input-wrap"><select id="category" name="category" required><option selected>Alimentação</option><option>Transporte</option><option>Renda</option><option>Lazer</option><option>Assinaturas</option><option>Transferência</option></select></div></div>
+            <div class="form-field form-field-wide"><label for="account">Conta / Origem</label><div class="input-wrap"><select id="account" name="account" required><option value="1" selected>Conta principal</option><option value="2">Poupança</option><option value="3">Carteira</option></select></div></div>
+            <input name="dueDate" type="hidden"><input name="status" type="hidden" value="pending">
         </section>
-    </section>
-    <script src="../js/script.js"></script>
+        <section class="notes-card"><label for="notes">Observações</label><textarea id="notes" name="notes" placeholder="Adicione uma anotação opcional..."></textarea></section>
+        <aside class="transaction-summary" aria-labelledby="summary-title"><header><h2 id="summary-title">RESUMO</h2><span id="summary-type">Despesa</span></header><dl><div><dt>Valor</dt><dd id="summary-value">R$ 150,45</dd></div><div><dt>Categoria</dt><dd id="summary-category">Alimentação</dd></div><div><dt>Data</dt><dd id="summary-date">15/09/2026</dd></div><div><dt>Conta</dt><dd id="summary-account">Conta principal</dd></div></dl></aside>
+        <footer class="actions"><button class="save-button" type="submit"><span aria-hidden="true">✓</span> Salvar transação</button><button class="cancel-button" type="button">Cancelar</button></footer>
+    </form>
+</section></main>
+<script src="../js/script.js"></script>
 </body>
 </html>
