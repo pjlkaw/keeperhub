@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
-    <link rel="stylesheet" href="../financas/assets/css/style.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="js/preview-theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
 </head>
@@ -13,12 +15,12 @@
 <body class="landing-page">
     <main>
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
-            <nav class="preview-modules" aria-label="Módulos do KeeperHub"><a class="active" href="index.html"
+            <nav class="preview-modules" aria-label="Módulos do KeeperHub"><a class="active" href="../index.html"
                     aria-current="page">▥&nbsp; Finanças</a><a href="../despensa/index.html">♨&nbsp; Despensa</a><a
                     href="../pets/index.html">♙&nbsp; Pets</a><a href="../metas/index.html">⚑&nbsp; Metas</a><a
                     href="../medicamentos/index.html">✚&nbsp; Medicamentos</a></nav>
             <header class="preview-heading">
-                <div><a class="preview-back" href="#" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <div><a class="preview-back" href="../../main/index.html" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="m15 18-6-6 6-6" />
                         </svg></a>
                     <h2>Finanças</h2>
@@ -81,7 +83,7 @@
                     <h3>Onde você mais gastou</h3><span>3 categorias</span>
                 </header>
                 <div class="top-spending-list">
-                    <div style="--spending-color:#e47a00;--spending-width:34%">
+                    <div style="--spending-color:var(--tool-financas);--spending-width:34%">
                         <p><i aria-hidden="true">🍽</i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong>
                         </p><span></span>
                     </div>
