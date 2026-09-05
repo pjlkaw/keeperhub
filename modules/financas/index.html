@@ -7,6 +7,7 @@
     <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
     <link rel="stylesheet" href="../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="js/preview-theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
@@ -15,10 +16,35 @@
 <body class="landing-page">
     <main>
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
-            <nav class="preview-modules" aria-label="Módulos do KeeperHub"><a class="active" href="../index.html"
-                    aria-current="page">▥&nbsp; Finanças</a><a href="../despensa/index.html">♨&nbsp; Despensa</a><a
-                    href="../pets/index.html">♙&nbsp; Pets</a><a href="../metas/index.html">⚑&nbsp; Metas</a><a
-                    href="../medicamentos/index.html">✚&nbsp; Medicamentos</a></nav>
+            <nav class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos">
+                <div class="modules-nav-bar" role="tablist">
+                    <span class="modules-nav-item active" role="tab" aria-selected="true" tabindex="0">
+                        <img src="../../shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14"
+                            height="14">
+                        Finanças
+                    </span>
+                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                        <img src="../../shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14"
+                            height="14">
+                        Despensa
+                    </span>
+                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                        <img src="../../shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14"
+                            height="14">
+                        Pets
+                    </span>
+                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                        <img src="../../shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14"
+                            height="14">
+                        Metas
+                    </span>
+                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                        <img src="../../shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon"
+                            width="14" height="14">
+                        Medicamentos
+                    </span>
+                </div>
+            </nav>
             <header class="preview-heading">
                 <div><a class="preview-back" href="../../main/index.html" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="m15 18-6-6 6-6" />
@@ -38,8 +64,8 @@
                 <p>Setembro · suas finanças organizadas</p><strong>Mês atual</strong>
             </header>
             <nav class="finance-home-links" aria-label="Páginas de finanças">
-                <a href="../financas/components/transacoes.html">Transações</a>
-                <a href="../financas/components/relatorios.html">Relatórios</a>
+                <a href="components/transacoes.html">Transações</a>
+                <a href="components/relatorios.html">Relatórios</a>
             </nav>
             <section class="preview-greeting" aria-labelledby="greeting-title">
                 <h3 id="greeting-title">Olá, 👋</h3>
@@ -99,14 +125,14 @@
             </article>
             <article class="recent-transactions-card">
                 <header>
-                    <h3>Transações recentes</h3><a href="../financas/components/transacoes.html">Ver todas ›</a>
+                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas ›</a>
                 </header>
                 <div class="recent-transactions-list">
-                    <a href="../financas/components/transacoes.html"><i aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação ·
+                    <a href="components/transacoes.html"><i aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação ·
                                 Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
-                    <a href="../financas/components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte ·
+                    <a href="components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte ·
                                 Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
-                    <a href="../financas/components/transacoes.html" class="income"><i aria-hidden="true">↑</i><span><b>Salário</b><small>Renda
+                    <a href="components/transacoes.html" class="income"><i aria-hidden="true">↑</i><span><b>Salário</b><small>Renda
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
                 </div>
             </article>
