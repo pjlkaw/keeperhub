@@ -28,7 +28,6 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
 .section-header-top-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     width: 100%;
     gap: 8px;
 }
@@ -74,7 +73,6 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
 
 .section-header-title {
     font-size: 1.625rem;
-    /* 26px */
     font-weight: 700;
     color: #ffffff;
     letter-spacing: -0.025em;
@@ -92,7 +90,6 @@ Usado por: TODAS as páginas do módulo (componente fixo de topo)
     gap: 8px;
     flex-wrap: wrap;
     font-size: 0.875rem;
-    /* 14px */
     color: #8e929e;
     line-height: 1.4;
 }

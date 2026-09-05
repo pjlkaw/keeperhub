@@ -178,7 +178,7 @@ Fidelidade total à UI apresentada na imagem.
     gap: 8px;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
 .routine-completion-text svg {
