@@ -45,6 +45,7 @@
         border-color 0.15s ease;
     user-select: none;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 .modules-nav-item.active {
