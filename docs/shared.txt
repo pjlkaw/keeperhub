@@ -1,9 +1,11 @@
 Aqui adicionem funções disponiveis na pasta /shared para que todos saibam o que pode ser economizado de código
 
 --------------- /COMPONENTS ---------------
-
 NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL)
 ### /shared/components/navbar-section.html
+
+HEADER - TITÚLO DA PÁGINA + TEMA + BOTÃO VOLTAR
+### /shared/components/header-page.html
 
 --------------- /SERVICES ---------------
 SCRIPT PARA USO DE TEMAS WHITE/DARK

@@ -1,0 +1,36 @@
+<!-- TITÚLO DA PÁGINA + TEMA + BOTÃO VOLTAR -->
+<!-- Para usar no seu módulo o header PRECISA ser: 
+    <header class="section-header-section" id="headerSection"></header>
+
+    E no head precisa do script e do link css:
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Módulo' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = 'Subtítulo' // Subtítulo
+            document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+        });
+    </script>
+-->
+
+
+<div class="section-header-title-area">
+    <div class="section-header-top-row">
+        <a href="/main/" class="section-header-back-btn" id="btn-back-header">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </a>
+        <h1 id="pageNameH1" class="section-header-title">Medicamentos</h1>
+    </div>
+    <div class="section-header-meta">
+        <span id="pageSubtittleSpan">Hoje, 24 de agosto</span>
+        
+    </div>
+</div>
+<div class="section-header-controls">
+    <!-- Alternador de Tema (Quadrado Arredondado - Dark=Lua, Light=Sol) -->
+    <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
+        <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
+        <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
+    </button>
+</div>
