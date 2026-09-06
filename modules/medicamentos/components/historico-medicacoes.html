@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico de Medicações • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/meds-list.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Histórico';
+            document.getElementById('pageSubtittleSpan').textContent = 'Últimas tomas e registros';
+            document.getElementById('btn-back-header').href = 'medicacoes.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main class="meds-main" id="main-content">
+                <div class="meds-stack">
+                    <div class="meds-search-filter-row" role="search">
+                        <div class="meds-search-box">
+                            <i class="fa-solid fa-magnifying-glass meds-search-icon" aria-hidden="true"></i>
+                            <input type="search" class="meds-search-input" placeholder="Buscar no histórico" aria-label="Buscar no histórico" />
+                        </div>
+                    </div>
+
+                    <section class="meds-group-section" aria-labelledby="recent-history-title">
+                        <h2 class="meds-group-title" id="recent-history-title">Últimas tomas</h2>
+
+                        <div class="meds-list" role="list">
+                            <div class="med-card" role="listitem">
+                                <div class="med-card-left">
+                                    <div class="med-card-icon-wrap" aria-hidden="true">
+                                        <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" />
+                                    </div>
+                                    <div class="med-card-info">
+                                        <span class="med-card-name">Losartana 50 mg</span>
+                                        <span class="med-card-details">Tomado hoje • 08:12</span>
+                                    </div>
+                                </div>
+                                <div class="med-card-right">
+                                    <span class="med-status-badge med-status-badge--active">OK</span>
+                                </div>
+                            </div>
+
+                            <div class="med-card" role="listitem">
+                                <div class="med-card-left">
+                                    <div class="med-card-icon-wrap" aria-hidden="true">
+                                        <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" />
+                                    </div>
+                                    <div class="med-card-info">
+                                        <span class="med-card-name">Metformina 500 mg</span>
+                                        <span class="med-card-details">Tomado ontem • 14:05</span>
+                                    </div>
+                                </div>
+                                <div class="med-card-right">
+                                    <span class="med-status-badge med-status-badge--active">OK</span>
+                                </div>
+                            </div>
+
+                            <div class="med-card" role="listitem">
+                                <div class="med-card-left">
+                                    <div class="med-card-icon-wrap" aria-hidden="true">
+                                        <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" />
+                                    </div>
+                                    <div class="med-card-info">
+                                        <span class="med-card-name">Dipirona 500 mg</span>
+                                        <span class="med-card-details">Uso eventual • 18 Ago • 19:40</span>
+                                    </div>
+                                </div>
+                                <div class="med-card-right">
+                                    <span class="med-status-badge med-status-badge--eventual">Eventual</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="meds-history-action-row">
+                        <a href="historico-completo.html">
+                            <button type="button" class="btn-meds-secondary">
+                                <span>Ver histórico completo</span>
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

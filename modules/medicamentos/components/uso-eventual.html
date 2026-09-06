@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Uso Eventual • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/meds-form.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Uso eventual';
+            document.getElementById('pageSubtittleSpan').textContent = 'Registrar dose pontual ou de alívio';
+            document.getElementById('btn-back-header').href = 'rotina.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main id="main-content">
+                <form class="meds-form" novalidate>
+                    <section class="meds-form-block" aria-labelledby="use-occasion-title">
+                        <div class="meds-form-block-header">
+                            <h2 class="meds-form-block-title" id="use-occasion-title">Registrar uso</h2>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="select-medication" class="meds-form-label">
+                                <span>Medicamento</span>
+                            </label>
+                            <select class="meds-form-select" id="select-medication">
+                                <option value="dipirona" selected>Dipirona 500 mg</option>
+                                <option value="ibuprofeno">Ibuprofeno 600 mg</option>
+                                <option value="loratadina">Loratadina 10 mg</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-dose" class="meds-form-label">
+                                <span>Dose</span>
+                            </label>
+                            <input type="text" class="meds-form-input" id="input-dose" value="1 comprimido" placeholder="Ex.: 1 comprimido" />
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-date" class="meds-form-label">
+                                <span>Data e hora</span>
+                            </label>
+                            <input type="datetime-local" class="meds-form-input" id="input-date" value="2026-09-05T19:40" />
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-notes" class="meds-form-label">
+                                <span>Observação</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <textarea id="input-notes" class="meds-form-input" rows="3" placeholder="Ex.: Dor de cabeça após almoço"></textarea>
+                        </div>
+                    </section>
+
+                    <div class="meds-form-submit-container">
+                        <button type="submit" class="btn-meds-submit">
+                            <span>Salvar uso eventual</span>
+                        </button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

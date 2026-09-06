@@ -20,6 +20,14 @@ Usado por: apenas a página de listagem do módulo
     margin-bottom: 16px;
 }
 
+.meds-panel {
+    display: none;
+}
+
+.meds-panel.is-active {
+    display: block;
+}
+
 [data-theme="light"] .meds-subnav-tabs {
     border-bottom-color: #e5e7eb;
 }
