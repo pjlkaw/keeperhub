@@ -1,3 +1,5 @@
+
+// mudança de abas em medicacoes.html
 document.addEventListener('DOMContentLoaded', () => {
   const tabButtons = document.querySelectorAll('.meds-tab-button');
   const panels = document.querySelectorAll('.meds-panel');
