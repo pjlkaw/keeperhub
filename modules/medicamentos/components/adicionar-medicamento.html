@@ -26,7 +26,7 @@
         fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
             document.getElementById('headerSection').innerHTML = data;
             document.getElementById('pageNameH1').textContent ='Adicionar' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
+            document.getElementById('pageSubtittleSpan').textContent = 'Cadastre as informações do medicamento para organizar sua rotina.' // Subtítulo
             document.getElementById('btn-back-header').href = '../index.html' // Botão voltar
         });
     </script>
@@ -37,9 +37,6 @@
 
             <!-- CABEÇALHO DA TELA ADICIONAR MEDICAMENTO -->
             <header class="section-header-section" id="headerSection"></header>
-
-            <!-- ORIENTAÇÃO INTRODUTÓRIA -->
-            <p class="meds-form-intro" id="add-medication-intro">Cadastre as informações do medicamento para organizar sua rotina.</p>
 
             <!-- FORMULÁRIO DE CADASTRO -->
             <main id="main-content">
