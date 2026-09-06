@@ -49,10 +49,6 @@ ul {
   list-style: none;
 }
 
-button {
-  cursor: pointer;
-}
-
 :where(a, button, input):focus-visible {
   outline: 2px solid var(--pets-primary);
   outline-offset: 3px;

@@ -1,0 +1,129 @@
+/* ESTILIZAÇÃO PADRÃO DE COMPONENTS
+    Este arquivo deve ser carregado depois de reset.css e variables.css,
+    e antes do CSS específico de cada módulo.
+
+    Os seletores abaixo definem o padrão visual dos componentes comuns. Para
+    mudar apenas um detalhe em um módulo, use uma classe específica depois
+    deste arquivo:
+
+    .input-exemplo {
+        border-color: var(--color-red);
+    }
+
+    Não coloque aqui regras de negócio ou estilos exclusivos de um módulo.
+*/
+
+body {
+    background-color: var(--bg-color, #0b0b0d);
+    color: var(--text-color, #f4f4f5);
+    line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+button,
+input,
+select,
+textarea {
+    border-radius: 8px;
+}
+
+button {
+    min-height: 40px;
+    padding: 8px 16px;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+    background-color: var(--card-bg, #17171a);
+    color: var(--text-color, #f4f4f5);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease, filter 0.15s ease, transform 0.1s ease;
+}
+
+button:hover:not(:disabled) {
+    filter: brightness(1.1);
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+select,
+textarea {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+    background-color: var(--card-bg, #17171a);
+    color: var(--text-color, #f4f4f5);
+    outline: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+select {
+    cursor: pointer;
+}
+
+textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted, #9a9aa2);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: var(--color-secondary, #01ab8e);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
+select:focus,
+textarea:focus {
+    border-color: var(--color-secondary, #01ab8e);
+    box-shadow: 0 0 0 2px rgba(1, 171, 142, 0.2);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--color-secondary, #01ab8e);
+    outline-offset: 2px;
+}
+
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+textarea {
+    resize: vertical;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
