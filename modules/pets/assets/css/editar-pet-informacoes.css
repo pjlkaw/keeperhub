@@ -11,7 +11,7 @@
   justify-content: center;
   min-height: 80px;
   padding: 24px 64px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--pets-border);
 }
 
 .editar-pet--informacoes .cabecalho-pagina__voltar {
@@ -76,7 +76,7 @@
 .painel-informacoes-pet {
   margin: 0 16px;
   padding: 24px;
-  background: rgba(18, 18, 21, 0.72);
+  background: var(--pets-panel-bg);
   border: 1px solid var(--pets-border);
   border-radius: var(--pets-radius-md);
 }
@@ -87,14 +87,14 @@
 
 .painel-informacoes-pet input[type='text'],
 .painel-informacoes-pet input[type='number'] {
-  background: #09090b;
-  border-color: #2a2a2f;
+  background: var(--pets-control-bg);
+  border-color: var(--pets-border);
 }
 
 .painel-informacoes-pet .controle-segmentado {
   padding: 3px;
-  background: #09090b;
-  border-color: #2a2a2f;
+  background: var(--pets-control-bg);
+  border-color: var(--pets-border);
 }
 
 .acoes-informacoes-pet {
@@ -104,7 +104,7 @@
   bottom: 0;
   left: 0;
   padding: 16px;
-  background: rgba(10, 10, 12, 0.94);
+  background: var(--pets-fixed-bar-bg);
   border-top: 1px solid var(--pets-border);
   backdrop-filter: blur(12px);
 }
