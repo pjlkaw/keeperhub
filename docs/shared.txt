@@ -1,17 +1,63 @@
-Aqui adicionem funções disponiveis na pasta /shared para que todos saibam o que pode ser economizado de código
+RECURSOS COMPARTILHADOS DO KEEPERHUB
+=====================================
 
---------------- /COMPONENTS ---------------
-NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL)
-### /shared/components/navbar-section.html
+Os recursos de /shared podem ser usados por qualquer modulo. Antes de criar
+uma implementacao nova, verifique se existe um recurso adequado aqui.
 
-HEADER - TITÚLO DA PÁGINA + TEMA + BOTÃO VOLTAR
-### /shared/components/header-page.html
+COMPONENTES HTML
+----------------
+/shared/components/navbar-section.html
+Navegacao horizontal entre os modulos. E carregada por fetch nas paginas
+que precisam da navbar.
 
---------------- /SERVICES ---------------
-SCRIPT PARA USO DE TEMAS WHITE/DARK
-### /shared/components/theme.js
+/shared/components/header-page.html
+Cabecalho com botao de retorno, titulo, subtitulo e controle de tema.
+Pode ser carregado por fetch ou usado como referencia estrutural quando a
+pagina precisa funcionar sem carregamento dinamico.
 
---------------- /STYLES ---------------
-CSS OBRIGATÓRIO PARA DESENVOLVIMENDO
-###/shared/styles/variables.css
-###/shared/styles/reset.css
+SERVICOS
+--------
+/shared/services/theme.js
+Aplica o tema salvo em localStorage e alterna entre dark e light atraves do
+elemento com id="theme-toggle".
+
+/shared/services/auth.js
+/shared/services/db.js
+/shared/services/notifications.js
+/shared/services/user.js
+Servicos reservados ou especificos do projeto. Consulte a implementacao
+antes de assumir que autenticacao, banco, notificacoes ou usuario estao
+completamente funcionais.
+
+ESTILOS
+-------
+/shared/styles/variables.css
+Define os tokens globais de tema: --bg-color, --header-bg, --text-color,
+--text-muted, --card-bg, --border-color, --pill-bg e --pill-text, alem das
+cores de destaque dos modulos.
+
+/shared/styles/reset.css
+Normaliza os estilos basicos do navegador.
+
+/shared/styles/components.css
+Estilos compartilhados de componentes gerais.
+
+/shared/styles/header-page.css
+Estilos do header-page.html, incluindo o botao de tema.
+
+/shared/styles/navbar-modules.css
+Estilos da navbar-section.html.
+
+IMAGENS
+-------
+/shared/img/
+Logos, icones de tema e imagens reutilizadas pela interface.
+
+ORDEM RECOMENDADA NO HTML
+-------------------------
+1. /shared/styles/variables.css
+2. /shared/styles/reset.css
+3. /shared/styles/components.css
+4. Estilos especificos do header/navbar, quando usados
+5. Estilos especificos do modulo
+6. /shared/services/theme.js, quando a pagina possuir o botao de tema

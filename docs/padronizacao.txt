@@ -1,79 +1,70 @@
 KEEPERHUB - PADRONIZACAO DO PROJETO
-=====================================
+===================================
 
 1. NOMENCLATURA DE ARQUIVOS E PASTAS
--------------------------------------
-- Pastas e arquivos: sempre em minusculo, separados por hifen (kebab-case)
-  Exemplo: cadastro-medicamento.js, alerta-validade.js
-- Nao usar espacos, acentos ou maiusculas em nomes de arquivo/pasta
-- Cada modulo segue o padrao: modules/nome-do-modulo/index.html
+------------------------------------
+- Use nomes em minusculo, sem acentos ou espacos.
+- Prefira kebab-case para novos arquivos e pastas: novo-habito.html.
+- Cada modulo deve possuir modules/nome-do-modulo/index.html.
+- Preserve nomes existentes quando a alteracao nao exigir renomeacao.
 
-2. NOMENCLATURA NO CODIGO (JS)
--------------------------------------
-- Variaveis e funcoes: camelCase (ex: buscarMedicamento, listaDeItens)
-- Constantes fixas: UPPER_SNAKE_CASE (ex: URL_API, LIMITE_ESTOQUE)
-- Nomes em portugues, mantendo consistencia com o dominio do projeto
-  (o time todo entende "medicamento", nao precisa traduzir pra "medicine")
+2. NOMENCLATURA NO JAVASCRIPT
+-----------------------------
+- Variaveis e funcoes: camelCase.
+- Constantes imutaveis: UPPER_SNAKE_CASE quando isso melhorar a leitura.
+- Use nomes em portugues quando o dominio do projeto estiver em portugues.
+- Use ponto e virgula conforme o padrao predominante do arquivo.
+- Strings novas em JS devem preferir aspas simples, salvo quando o contexto
+  exigir outro formato.
 
-3. ESTRUTURA E IMPORTACAO ENTRE MODULOS
--------------------------------------
-- Um modulo NUNCA importa arquivos de dentro de outro modulo
-  (ex: modules/pets/ nao pode importar nada de modules/financas/)
-- Qualquer coisa usada por mais de um modulo deve subir para shared/
-- shared/services -> logica (auth, banco, notificacoes)
-- shared/components -> elementos visuais reutilizaveis (header, footer)
-- shared/utils -> funcoes auxiliares puras (formatacao, validacao)
+3. ESTRUTURA E DEPENDENCIAS
+---------------------------
+- Um modulo nao importa arquivos diretamente de outro modulo.
+- Recursos usados por mais de um modulo devem ficar em shared/.
+- shared/components: fragmentos visuais HTML.
+- shared/styles: tokens e estilos visuais comuns.
+- shared/services: logica e integracoes compartilhadas.
+- shared/utils: funcoes auxiliares puras.
+- Uma pagina pode ter varios arquivos CSS especificos; nao e obrigatorio
+  concentrar todo o CSS do modulo em um unico arquivo.
 
-4. PADRAO DE COMMITS
--------------------------------------
+4. TEMAS E CORES
+----------------
+- Inclua /shared/styles/variables.css antes dos estilos do modulo.
+- Use os tokens do tema em vez de repetir cores fixas:
+  --bg-color, --text-color, --text-muted, --card-bg e --border-color.
+- Use os destaques definidos para os modulos em variables.css.
+- Paginas com o botao #theme-toggle devem carregar /shared/services/theme.js.
+
+5. PADRAO VISUAL
+----------------
+- Espacamentos preferenciais: 8px, 16px e 24px.
+- Bordas de cards: entre 8px e 16px, salvo necessidade do componente.
+- Area minima de toque: 44px por 44px.
+- Garanta contraste nos temas dark e light.
+- Tipografia deve seguir o estilo visual existente do modulo; nao declare
+  uma fonte na documentacao se ela nao estiver configurada no CSS.
+
+6. COMMITS
+----------
 Formato: tipo: descricao curta no infinitivo
 
-Tipos usados no projeto:
-  feat:     nova funcionalidade
-  fix:      correcao de bug
-  refactor: mudanca de codigo sem alterar comportamento
-  style:    ajuste visual/CSS, formatacao, sem mudar logica
-  docs:     documentacao (README, docs/, comentarios)
-  chore:    tarefas de configuracao (estrutura, dependencias, etc)
+feat: nova funcionalidade
+fix: correcao de bug
+refactor: mudanca interna sem alterar comportamento
+style: ajuste visual ou formatacao
+docs: documentacao
+chore: configuracao, estrutura ou dependencias
 
 Exemplos:
-  feat: adicionar cadastro de medicamento por codigo de barras
-  fix: corrigir alerta de validade nao disparando
-  docs: atualizar estrutura de pastas no docs/estrutura.txt
+feat: adicionar cadastro de medicamento
+fix: corrigir swipe de bons habitos
+docs: atualizar estrutura do projeto
 
-5. PADRAO DE BRANCHES
--------------------------------------
-Formato: tipo/modulo-descricao-curta
-
-Exemplos:
-  feature/medicamentos-cadastro-produto
-  fix/pets-upload-foto
-  docs/estrutura-pastas
-
-- Nunca commitar direto na main
-- Toda mudanca entra via Pull Request com revisao do responsavel do modulo (CODEOWNERS)
-
-6. PADRAO VISUAL (conforme especificacao tecnica)
--------------------------------------
-Tipografia:
-  Titulos:        Verdana, Bold
-  Corpo de texto: Tahoma, Regular
-
-Cores por modulo (usar em shared/styles/variables.css):
-  Despensa      -> Bege Frances     #A67B5B
-  Metas         -> Amarelo Sol      #FFD900
-  Medicamentos  -> Verde Resideo    #00D02D
-  Financas      -> Laranja Escuro   #E47A00
-  Pets          -> Azul Periwinkle  #5985FC
-
-Espacamentos: 8px, 16px, 24px
-Bordas de card: 8px a 16px
-Area minima de toque (thumb zone): 44x44px a 48x48px
-
-7. CODIGO E FORMATACAO GERAL
--------------------------------------
-- Indentacao: 2 espacos (nao usar tab)
-- Ponto e virgula obrigatorio no fim das linhas JS
-- Aspas simples para strings em JS: 'exemplo'
-- Uma pasta CSS por modulo, nomeado igual ao modulo (ex: medicamentos.css)
-- Comentarios curtos explicando o "porque", nao o "o que" (o codigo ja diz o que faz)
+7. BRANCHES E REVISAO
+---------------------
+- Use tipo/modulo-descricao-curta.
+- Exemplos: feature/pets-upload-foto, fix/medicamentos-swipe,
+  docs/estrutura-pastas.
+- Nao trabalhe diretamente na main.
+- Envie mudancas por Pull Request e aguarde a revisao definida pelo projeto.

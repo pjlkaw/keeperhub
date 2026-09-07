@@ -216,6 +216,20 @@
   background-image: url('../img/rotina-pets.png');
 }
 
+.acao-rapida--despesas,
+.acao-rapida--lembretes {
+  width: 100%;
+  text-align: left;
+}
+
+.acao-rapida--despesas > .icone {
+  background-image: url('../img/despesas-pets.svg');
+}
+
+.acao-rapida--lembretes > .icone {
+  background-image: url('../img/lembretes-pets.svg');
+}
+
 .acao-rapida__titulo {
   grid-area: title;
   align-self: end;
