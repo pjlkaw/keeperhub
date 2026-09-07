@@ -1,58 +1,95 @@
 KEEPERHUB - ESTRUTURA DE PASTAS
-=================================
+================================
 
 keeperhub/
 |
 |-- index.html
-|   Shell principal do HUB. Tela de login, splash e redirecionamento
-|   para o modulo que o usuario escolher na navegacao inferior.
+|   Shell principal do HUB. Responsável pela tela de login, splash e
+|   redirecionamento para o módulo escolhido pelo usuário através da
+|   navegação inferior.
 |
 |-- manifest.json
-|   Arquivo de configuracao do PWA (nome, icones, cores, modo de exibicao).
+|   Arquivo de configuração do PWA. Define informações como nome,
+|   ícones, cores e modo de exibição da aplicação.
 |
 |-- service-worker.js
-|   Controla cache offline e sincronizacao com o IndexedDB. Responsavel
-|   por fazer o app funcionar sem internet.
+|   Responsável pelo funcionamento offline da aplicação, controlando
+|   o cache dos arquivos e a comunicação/sincronização com o IndexedDB.
 |
 |-- README.md
-|   Documentacao geral do projeto: como rodar, como contribuir, etc.
+|   Documentação geral do projeto, contendo informações sobre o
+|   funcionamento, execução e contribuição para o projeto.
 |
 |-- .gitignore
-|   Lista de arquivos/pastas que o Git deve ignorar.
+|   Define os arquivos e pastas que devem ser ignorados pelo Git.
 |
 |-- shared/
-|   Codigo compartilhado por TODOS os modulos. Nenhum modulo deve
-|   duplicar o que existe aqui, e nenhum modulo deve ser importado
-|   por outro modulo diretamente - se algo e comum, sobe pra shared/.
+|   Contém códigos e recursos compartilhados por TODOS os módulos.
+|   Nenhum módulo deve duplicar funcionalidades que já existam aqui,
+|   nem importar arquivos diretamente de outro módulo. Se uma
+|   funcionalidade for comum a mais de um módulo, ela deve ficar em
+|   shared/.
 |   |
 |   |-- components/
-|   |   Componentes visuais usados em todo o HUB: header, bottom-nav
-|   |   (footer), modais genericos, botoes padrao, etc.
+|   |   Componentes visuais reutilizáveis em diferentes partes do HUB,
+|   |   como header, bottom-nav, modais genéricos, botões e outros
+|   |   componentes padronizados da interface.
 |   |
 |   |-- styles/
-|   |   |-- variables.css   -> cores por modulo, tipografia (Verdana/Tahoma), espacamentos
-|   |   |-- reset.css       -> reset de estilos padrao do navegador
+|   |   Folhas de estilo compartilhadas por todo o sistema.
+|   |   |
+|   |   |-- variables.css
+|   |   |   Define variáveis globais utilizadas pela aplicação, como
+|   |   |   cores, tipografia (Verdana/Tahoma) e espaçamentos.
+|   |   |
+|   |   |-- reset.css
+|   |       Responsável por padronizar e resetar os estilos
+|   |       padrão aplicados pelos navegadores.
 |   |
 |   |-- services/
-|   |   |-- auth.js            -> login via Google
-|   |   |-- db.js              -> wrapper de acesso ao IndexedDB
-|   |   |-- notifications.js   -> push notifications e alertas
+|   |   Serviços e integrações compartilhados entre os módulos.
+|   |   |
+|   |   |-- auth.js
+|   |   |   Responsável pela autenticação através do Google.
+|   |   |
+|   |   |-- db.js
+|   |   |   Fornece uma camada de acesso e comunicação com o
+|   |   |   IndexedDB.
+|   |   |
+|   |   |-- notifications.js
+|   |       Responsável pelo gerenciamento de notificações push
+|   |       e alertas da aplicação.
 |   |
 |   |-- utils/
-|       Funcoes auxiliares genericas: formatacao de data, validacoes
-|       de formulario, helpers diversos usados por mais de um modulo.
+|       Funções auxiliares e utilitários genéricos utilizados por
+|       diferentes partes do sistema, como formatação de datas,
+|       validações de formulários e outros helpers.
 |
 |-- modules/
-|   Cada pasta aqui dentro e um modulo independente do HUB, com
-|   responsavel proprio. Um modulo NUNCA importa arquivos de dentro
-|   de outro modulo - so pode usar o que esta em shared/.
+|   Contém os módulos independentes que compõem o HUB. Cada módulo
+|   possui responsabilidade própria e deve funcionar de forma
+|   independente dos demais.
+|
+|   Um módulo NUNCA deve importar arquivos diretamente de outro módulo.
+|   Quando precisar de uma funcionalidade compartilhada, deve utilizar
+|   os recursos disponíveis em shared/.
 |   |
-|   |-- despensa/      -> controle de estoque e comparacao de precos
-|   |-- pets/          -> gerenciamento de rotina e saude dos pets
-|   |-- metas/         -> metas pessoais, financeiras e area Solitude
-|   |-- financas/      -> controle financeiro (metodo 50-30-20)
-|   |-- medicamentos/  -> controle de validade, estoque e alertas de medicamentos
+|   |-- despensa/
+|   |   Controle de estoque e comparação de preços.
+|   |
+|   |-- pets/
+|   |   Gerenciamento da rotina e dos cuidados com os pets.
+|   |
+|   |-- metas/
+|   |   Gerenciamento de metas pessoais, financeiras e da área Solitude.
+|   |
+|   |-- financas/
+|   |   Controle financeiro baseado no método 50-30-20.
+|   |
+|   |-- medicamentos/
+|       Controle de validade, estoque e alertas de medicamentos.
 |
 |-- docs/
-    Documentacao do projeto: especificacao tecnica, este arquivo de
-    estrutura, e outros materiais de referencia da equipe.
+    Documentação complementar do projeto, incluindo especificações
+    técnicas, estrutura do projeto e outros materiais de referência
+    utilizados pela equipe.

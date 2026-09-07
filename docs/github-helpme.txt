@@ -1,3 +1,8 @@
+!!!!!!!!!!! CASO SEU PROJETO ESTEJA EM UMA ESTRUTURA DIFERENTE A DO GITHUB: !!!!!!!!!!!
+git fetch origin
+git pull origin main
+
+
 # Guia de Git — KeeperHub
 
 Esse guia é o "manual mínimo" pra quem vai contribuir no repositório do KeeperHub. Não precisa saber Git de cor, só seguir esse fluxo.
