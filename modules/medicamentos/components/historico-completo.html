@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico Completo • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/med-details.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Histórico completo';
+            document.getElementById('pageSubtittleSpan').textContent = 'Registro de todas as doses';
+            document.getElementById('btn-back-header').href = 'historico-medicacoes.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main class="meds-main" id="main-content">
+                <div class="meds-stack">
+                    <section class="med-card-section" aria-labelledby="history-complete-title">
+                        <h2 class="med-card-section-title" id="history-complete-title">Últimos 30 dias</h2>
+
+                        <div class="med-timeline">
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--taken"><i class="fa-solid fa-check"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">Hoje • 08:00</span>
+                                    <span class="med-timeline-desc">Losartana 50 mg • dose tomada</span>
+                                </div>
+                            </div>
+
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--taken"><i class="fa-solid fa-check"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">Hoje • 20:00</span>
+                                    <span class="med-timeline-desc">Vitamina D • dose tomada</span>
+                                </div>
+                            </div>
+
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--cart"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">18 Ago</span>
+                                    <span class="med-timeline-desc">Compra registrada de Dipirona</span>
+                                </div>
+                            </div>
+
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--check"><i class="fa-solid fa-clock"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">17 Ago • 19:30</span>
+                                    <span class="med-timeline-desc">Uso eventual registrado</span>
+                                </div>
+                            </div>
+
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--taken"><i class="fa-solid fa-check"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">16 Ago • 08:00</span>
+                                    <span class="med-timeline-desc">Losartana 50 mg • dose tomada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

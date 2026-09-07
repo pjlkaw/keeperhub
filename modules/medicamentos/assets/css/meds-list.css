@@ -20,6 +20,14 @@ Usado por: apenas a página de listagem do módulo
     margin-bottom: 16px;
 }
 
+.meds-panel {
+    display: none;
+}
+
+.meds-panel.is-active {
+    display: block;
+}
+
 [data-theme="light"] .meds-subnav-tabs {
     border-bottom-color: #e5e7eb;
 }
@@ -76,124 +84,11 @@ Usado por: apenas a página de listagem do módulo
 [data-theme="light"] .meds-tab-button.active::after {
     background-color: #55b800;
 }
-
-/* Busca e Filtro */
-.meds-search-filter-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-
-.meds-search-box {
-    flex: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.meds-search-icon {
-    position: absolute;
-    left: 12px;
-    width: 17px;
-    height: 17px;
-    color: #6b7280;
-    pointer-events: none;
-    flex-shrink: 0;
-}
-
-.meds-search-input {
-    width: 100%;
-    height: 40px;
-    padding-left: 38px;
-    padding-right: 12px;
-    font-size: 0.875rem;
-    /* 14px */
-    background-color: #16181d;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 10px;
-    color: #ffffff;
-    outline: none;
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease;
-}
-
-.meds-search-input::placeholder {
-    color: #6b7280;
-}
-
-.meds-search-input:focus {
-    border-color: var(--color-meds-primary);
-    box-shadow: 0 0 0 2px var(--color-meds-bg-tint);
-}
-
-[data-theme="light"] .meds-search-input {
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #111827;
-}
-
-[data-theme="light"] .meds-search-input::placeholder {
-    color: #9ca3af;
-}
-
-[data-theme="light"] .meds-search-input:focus {
-    border-color: #55b800;
-    box-shadow: 0 0 0 2px rgba(112, 222, 1, 0.2);
-}
-
-.btn-meds-filter {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    background-color: #16181d;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 10px;
-    color: #9ca3af;
-    cursor: pointer;
-    transition:
-        background-color 0.15s ease,
-        border-color 0.15s ease,
-        color 0.15s ease;
-    flex-shrink: 0;
-}
-
-.btn-meds-filter:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.18);
-    color: #ffffff;
-}
-
-.btn-meds-filter:active {
-    transform: scale(0.96);
-}
-
-.btn-meds-filter svg {
-    width: 18px;
-    height: 18px;
-}
-
-[data-theme="light"] .btn-meds-filter {
-    background-color: #ffffff;
-    border-color: #d1d5db;
-    color: #4b5563;
-}
-
-[data-theme="light"] .btn-meds-filter:hover {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-    color: #111827;
-}
-
 /* Grupos de Medicamentos */
 .meds-group-section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    margin-top: 10px;
 }
 
 .meds-group-title {

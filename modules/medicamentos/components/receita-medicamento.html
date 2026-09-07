@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receita Médica • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/med-details.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Receita';
+            document.getElementById('pageSubtittleSpan').textContent = 'Prescrição vinculada';
+            document.getElementById('btn-back-header').href = 'detalhes-medicamento.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main class="meds-main" id="main-content">
+                <div class="meds-stack">
+                    <section class="med-card-section" aria-labelledby="prescription-title">
+                        <div class="med-card-section-header">
+                            <h2 class="med-card-section-title" id="prescription-title">Dra. Mariana Costa</h2>
+                        </div>
+
+                        <div class="med-inner-box">
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Especialidade</span>
+                                <span class="med-inner-value">Cardiologia</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Data</span>
+                                <span class="med-inner-value">28 Jul 2026</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Medicamento</span>
+                                <span class="med-inner-value med-inner-value--highlight">Losartana 50 mg</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Orientação</span>
+                                <span class="med-inner-value">1 comprimido, 2x ao dia, com água</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="med-card-section" aria-labelledby="attachment-title">
+                        <h2 class="med-card-section-title" id="attachment-title">Anexos</h2>
+                        <div class="med-routine-list">
+                            <div class="med-routine-item">
+                                <i class="fa-solid fa-file-pdf med-routine-icon" aria-hidden="true"></i>
+                                <span>Receita digital.pdf</span>
+                            </div>
+                            <div class="med-routine-item">
+                                <i class="fa-solid fa-paperclip med-routine-icon" aria-hidden="true"></i>
+                                <span>Orientações da consulta</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

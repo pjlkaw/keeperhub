@@ -41,131 +41,148 @@
 
                 <!-- ABAS DE NAVEGAÇÃO INTERNA -->
                 <nav class="meds-subnav-tabs" role="tablist" aria-label="Seções de medicações">
-                    <button type="button" class="meds-tab-button active" role="tab" aria-selected="true" id="tab-medications" tabindex="0">Medicações</button>
-                    <button type="button" class="meds-tab-button" role="tab" aria-selected="false" id="tab-prescriptions" tabindex="-1">Receitas</button>
+                    <button type="button" class="meds-tab-button active" role="tab" aria-selected="true" data-tab-target="medications-panel" id="tab-medications" tabindex="0">Medicações</button>
+                    <button type="button" class="meds-tab-button" role="tab" aria-selected="false" data-tab-target="recipes-panel" id="tab-prescriptions" tabindex="-1">Receitas</button>
                 </nav>
 
                 <!-- CONTEÚDO PRINCIPAL -->
                 <main class="meds-main" id="main-content">
                     <div class="meds-stack">
-                        <!-- BARRA DE BUSCA E FILTRO -->
-                        <div class="meds-search-filter-row" role="search">
-                            <div class="meds-search-box">
-                                <i class="fa-solid fa-magnifying-glass meds-search-icon" aria-hidden="true"></i>
-                                <input type="search" class="meds-search-input" id="input-search-medications" placeholder="Buscar medicação" aria-label="Buscar medicação" autocomplete="off" />
-                            </div>
+                        <section class="meds-panel is-active" id="medications-panel" aria-label="Medicações">
+                            <!-- GRUPO 1: USO CONTÍNUO -->
+                            <section class="meds-group-section" aria-labelledby="group-continuous-title">
+                                <h2 class="meds-group-title" id="group-continuous-title">Uso Contínuo</h2>
 
-                            <button type="button" class="btn-meds-filter" id="btn-filter-medications" aria-label="Filtrar medicações" title="Filtrar medicações">
-                                <i class="fa-solid fa-filter" aria-hidden="true"></i>
-                            </button>
-                        </div>
+                                <div class="meds-list" role="list">
+                                    <a href="detalhes-medicamento.html">
+                                        <div class="med-card" role="listitem" tabindex="0" id="med-card-losartana">
+                                            <div class="med-card-left">
+                                                <div class="med-card-icon-wrap" aria-hidden="true">
+                                                    <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                                </div>
+                                                <div class="med-card-info">
+                                                    <span class="med-card-name">Losartana 50 mg</span>
+                                                    <span class="med-card-details">1 comprimido • 08:00 e 20:00</span>
+                                                </div>
+                                            </div>
+                                            <div class="med-card-right">
+                                                <span class="med-status-badge med-status-badge--active">Ativo</span>
+                                                <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                            </div>
+                                        </div>
+                                    </a>
 
-                        <!-- GRUPO 1: USO CONTÍNUO -->
-                        <section class="meds-group-section" aria-labelledby="group-continuous-title">
-                            <h2 class="meds-group-title" id="group-continuous-title">Uso Contínuo</h2>
-
-                            <div class="meds-list" role="list">
-                                <!-- Item 1: Losartana -->
-                                <a href="detalhes-medicamento.html">
-                                    <div class="med-card" role="listitem" tabindex="0" id="med-card-losartana">
+                                    <div class="med-card" role="listitem" tabindex="0" id="med-card-vitaminad">
                                         <div class="med-card-left">
                                             <div class="med-card-icon-wrap" aria-hidden="true">
                                                 <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
                                             </div>
                                             <div class="med-card-info">
-                                                <span class="med-card-name">Losartana 50 mg</span>
-                                                <span class="med-card-details">1 comprimido • 08:00 e 20:00</span>
+                                                <span class="med-card-name">Vitamina D</span>
+                                                <span class="med-card-details">1 cápsula • 20:00</span>
                                             </div>
                                         </div>
                                         <div class="med-card-right">
                                             <span class="med-status-badge med-status-badge--active">Ativo</span>
-                                            <span class="med-card-arrow" aria-hidden="true">
-                                                <i class="fa-solid fa-chevron-right"></i>
-                                            </span>
+                                            <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                                         </div>
                                     </div>
+                                </div>
+                            </section>
+
+                            <section class="meds-group-section" aria-labelledby="group-temporary-title">
+                                <h2 class="meds-group-title" id="group-temporary-title">Tratamentos Temporários</h2>
+
+                                <div class="meds-list" role="list">
+                                    <div class="med-card" role="listitem" tabindex="0" id="med-card-amoxicilina">
+                                        <div class="med-card-left">
+                                            <div class="med-card-icon-wrap" aria-hidden="true">
+                                                <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                            </div>
+                                            <div class="med-card-info">
+                                                <span class="med-card-name">Amoxicilina 500 mg</span>
+                                                <span class="med-card-details">1 cápsula • 8/8h • Até 30 de agosto</span>
+                                            </div>
+                                        </div>
+                                        <div class="med-card-right">
+                                            <span class="med-status-badge med-status-badge--treatment">Em tratamento</span>
+                                            <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="meds-group-section" aria-labelledby="group-eventual-title">
+                                <h2 class="meds-group-title" id="group-eventual-title">Uso Eventual</h2>
+
+                                <div class="meds-list" role="list">
+                                    <div class="med-card" role="listitem" tabindex="0" id="med-card-dipirona">
+                                        <div class="med-card-left">
+                                            <div class="med-card-icon-wrap" aria-hidden="true">
+                                                <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                            </div>
+                                            <div class="med-card-info">
+                                                <span class="med-card-name">Dipirona 500 mg</span>
+                                                <span class="med-card-details">Uso quando necessário</span>
+                                            </div>
+                                        </div>
+                                        <div class="med-card-right">
+                                            <span class="med-status-badge med-status-badge--eventual">Eventual</span>
+                                            <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="meds-history-action-row">
+                                <a href="historico-medicacoes.html">
+                                    <button type="button" class="btn-meds-secondary" id="btn-medications-history">
+                                        <span>Histórico de medicações</span>
+                                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                    </button>
                                 </a>
-
-                                <!-- Item 2: Vitamina D -->
-                                <div class="med-card" role="listitem" tabindex="0" id="med-card-vitaminad">
-                                    <div class="med-card-left">
-                                        <div class="med-card-icon-wrap" aria-hidden="true">
-                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-                                        </div>
-                                        <div class="med-card-info">
-                                            <span class="med-card-name">Vitamina D</span>
-                                            <span class="med-card-details">1 cápsula • 20:00</span>
-                                        </div>
-                                    </div>
-                                    <div class="med-card-right">
-                                        <span class="med-status-badge med-status-badge--active">Ativo</span>
-                                        <span class="med-card-arrow" aria-hidden="true">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </span>
-                                    </div>
-                                </div>
                             </div>
                         </section>
 
-                        <!-- GRUPO 2: TRATAMENTOS TEMPORÁRIOS -->
-                        <section class="meds-group-section" aria-labelledby="group-temporary-title">
-                            <h2 class="meds-group-title" id="group-temporary-title">Tratamentos Temporários</h2>
+                        <section class="meds-panel" id="recipes-panel" aria-label="Receitas">
+                            <section class="meds-group-section" aria-labelledby="recipes-title">
+                                <h2 class="meds-group-title" id="recipes-title">Receitas</h2>
 
-                            <div class="meds-list" role="list">
-                                <!-- Item 3: Amoxicilina -->
-                                <div class="med-card" role="listitem" tabindex="0" id="med-card-amoxicilina">
-                                    <div class="med-card-left">
-                                        <div class="med-card-icon-wrap" aria-hidden="true">
-                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
+                                <div class="meds-list" role="list">
+                                    <a href="receita-medicamento.html">
+                                        <div class="med-card" role="listitem" tabindex="0">
+                                            <div class="med-card-left">
+                                                <div class="med-card-icon-wrap" aria-hidden="true">
+                                                    <i class="fa-solid fa-file-medical" style="color: var(--color-meds-primary);"></i>
+                                                </div>
+                                                <div class="med-card-info">
+                                                    <span class="med-card-name">Consulta cardiovascular</span>
+                                                    <span class="med-card-details">Dra. Mariana Costa • 28 Jul 2026</span>
+                                                </div>
+                                            </div>
+                                            <div class="med-card-right">
+                                                <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                            </div>
                                         </div>
-                                        <div class="med-card-info">
-                                            <span class="med-card-name">Amoxicilina 500 mg</span>
-                                            <span class="med-card-details">1 cápsula • 8/8h • Até 30 de agosto</span>
+                                    </a>
+
+                                    <div class="med-card" role="listitem" tabindex="0">
+                                        <div class="med-card-left">
+                                            <div class="med-card-icon-wrap" aria-hidden="true">
+                                                <i class="fa-solid fa-file-medical" style="color: var(--color-meds-primary);"></i>
+                                            </div>
+                                            <div class="med-card-info">
+                                                <span class="med-card-name">Controle de glicemia</span>
+                                                <span class="med-card-details">Dr. Renato Silva • 10 Ago 2026</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="med-card-right">
-                                        <span class="med-status-badge med-status-badge--treatment">Em tratamento</span>
-                                        <span class="med-card-arrow" aria-hidden="true">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </span>
+                                        <div class="med-card-right">
+                                            <span class="med-card-arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
                         </section>
-
-                        <!-- GRUPO 3: USO EVENTUAL -->
-                        <section class="meds-group-section" aria-labelledby="group-eventual-title">
-                            <h2 class="meds-group-title" id="group-eventual-title">Uso Eventual</h2>
-
-                            <div class="meds-list" role="list">
-                                <!-- Item 4: Dipirona -->
-                                <div class="med-card" role="listitem" tabindex="0" id="med-card-dipirona">
-                                    <div class="med-card-left">
-                                        <div class="med-card-icon-wrap" aria-hidden="true">
-                                            <img src="/shared/img/logo-medicamentos.png" alt="" class="med-card-icon-img" width="22" height="22" loading="lazy" />
-                                        </div>
-                                        <div class="med-card-info">
-                                            <span class="med-card-name">Dipirona 500 mg</span>
-                                            <span class="med-card-details">Uso quando necessário</span>
-                                        </div>
-                                    </div>
-                                    <div class="med-card-right">
-                                        <span class="med-status-badge med-status-badge--eventual">Eventual</span>
-                                        <span class="med-card-arrow" aria-hidden="true">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- AÇÃO SECUNDÁRIA: HISTÓRICO -->
-                        <div class="meds-history-action-row">
-                            <button type="button" class="btn-meds-secondary" id="btn-medications-history">
-                                <span>Histórico de medicações</span>
-                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                            </button>
-                        </div>
                     </div>
                 </main>
 

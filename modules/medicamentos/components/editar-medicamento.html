@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Medicamento • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/meds-form.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Editar medicamento';
+            document.getElementById('pageSubtittleSpan').textContent = 'Ajuste os detalhes da dose e da rotina.';
+            document.getElementById('btn-back-header').href = 'detalhes-medicamento.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main id="main-content">
+                <form class="meds-form" novalidate>
+                    <section class="meds-form-block" aria-labelledby="block-med-title">
+                        <div class="meds-form-block-header">
+                            <h2 class="meds-form-block-title" id="block-med-title">Medicamento</h2>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-med-name" class="meds-form-label">
+                                <span>Nome do medicamento <span class="meds-label-required" aria-hidden="true">*</span></span>
+                            </label>
+                            <input type="text" class="meds-form-input" id="input-med-name" value="Losartana" required />
+                        </div>
+
+                        <div class="meds-form-row">
+                            <div class="meds-form-field">
+                                <label for="input-med-concentration" class="meds-form-label">
+                                    <span>Concentração</span>
+                                    <span class="meds-label-optional">Opcional</span>
+                                </label>
+                                <input type="text" class="meds-form-input" id="input-med-concentration" value="50 mg" />
+                            </div>
+
+                            <div class="meds-form-field">
+                                <label for="select-med-presentation" class="meds-form-label">
+                                    <span>Apresentação <span class="meds-label-required" aria-hidden="true">*</span></span>
+                                </label>
+                                <select class="meds-form-select" id="select-med-presentation">
+                                    <option value="comprimido" selected>Comprimido</option>
+                                    <option value="capsula">Cápsula</option>
+                                    <option value="gotas">Gotas</option>
+                                    <option value="solucao">Solução</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="meds-form-block" aria-labelledby="block-treatment-title">
+                        <div class="meds-form-block-header">
+                            <h2 class="meds-form-block-title" id="block-treatment-title">Tratamento</h2>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <span class="meds-form-label">
+                                <span>Tipo de uso <span class="meds-label-required" aria-hidden="true">*</span></span>
+                            </span>
+                            <div class="meds-usage-type-group" role="radiogroup" aria-label="Tipo de uso">
+                                <label class="meds-usage-option active">
+                                    <input type="radio" name="usageType" value="continuo" checked />
+                                    <span>Uso contínuo</span>
+                                </label>
+                                <label class="meds-usage-option">
+                                    <input type="radio" name="usageType" value="temporario" />
+                                    <span>Tratamento temporário</span>
+                                </label>
+                                <label class="meds-usage-option">
+                                    <input type="radio" name="usageType" value="eventual" />
+                                    <span>Uso eventual</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="meds-form-field" id="field-start-date">
+                            <label for="input-start-date" class="meds-form-label">
+                                <span>Data de início</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <input type="date" class="meds-form-input" id="input-start-date" value="2026-01-12" />
+                        </div>
+                    </section>
+
+                    <section class="meds-form-block" id="section-routine" aria-labelledby="block-routine-title">
+                        <div class="meds-form-block-header">
+                            <h2 class="meds-form-block-title" id="block-routine-title">Rotina</h2>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-med-dose" class="meds-form-label">
+                                <span>Dose por horário</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <input type="text" class="meds-form-input" id="input-med-dose" value="1 comprimido" />
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="select-med-frequency" class="meds-form-label">
+                                <span>Frequência</span>
+                            </label>
+                            <select class="meds-form-select" id="select-med-frequency">
+                                <option value="diario" selected>Todos os dias</option>
+                                <option value="especifico">Em dias específicos</option>
+                                <option value="intervalo">A cada X horas</option>
+                            </select>
+                        </div>
+
+                        <div class="meds-form-field" id="section-times">
+                            <span class="meds-form-label">
+                                <span>Horários</span>
+                            </span>
+
+                            <div class="meds-times-list" id="times-list">
+                                <div class="meds-time-row">
+                                    <input type="time" class="meds-form-input" value="08:00" aria-label="Horário 1" />
+                                </div>
+                                <div class="meds-time-row">
+                                    <input type="time" class="meds-form-input" value="20:00" aria-label="Horário 2" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="meds-form-block" aria-labelledby="block-stock-title">
+                        <div class="meds-form-block-header">
+                            <h2 class="meds-form-block-title" id="block-stock-title">Estoque e validade</h2>
+                        </div>
+
+                        <div class="meds-form-row">
+                            <div class="meds-form-field">
+                                <label for="input-stock-qty" class="meds-form-label">
+                                    <span>Quantidade disponível</span>
+                                    <span class="meds-label-optional">Opcional</span>
+                                </label>
+                                <input type="number" class="meds-form-input" id="input-stock-qty" value="18" />
+                            </div>
+
+                            <div class="meds-form-field">
+                                <label for="select-stock-unit" class="meds-form-label">
+                                    <span>Unidade</span>
+                                </label>
+                                <select class="meds-form-select" id="select-stock-unit">
+                                    <option value="comprimidos" selected>comprimidos</option>
+                                    <option value="capsulas">cápsulas</option>
+                                    <option value="ml">ml</option>
+                                    <option value="gotas">gotas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="meds-form-field">
+                            <label for="input-expiration-date" class="meds-form-label">
+                                <span>Data de validade</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <input type="date" class="meds-form-input" id="input-expiration-date" value="2027-03-15" />
+                        </div>
+                    </section>
+
+                    <div class="meds-form-submit-container">
+                        <button type="submit" class="btn-meds-submit" id="btn-save-edition">
+                            <span>Salvar alterações</span>
+                        </button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lotes do Medicamento • Medicamentos • KeeperHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
+    <link rel="stylesheet" href="../assets/css/essentials/layout.css">
+    <link rel="stylesheet" href="../assets/css/essentials/header.css">
+    <link rel="stylesheet" href="../assets/css/essentials/components.css">
+    <link rel="stylesheet" href="../assets/css/med-details.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent = 'Lotes';
+            document.getElementById('pageSubtittleSpan').textContent = 'Registro e validade do estoque';
+            document.getElementById('btn-back-header').href = 'detalhes-medicamento.html';
+        });
+    </script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <div class="app-container">
+            <header class="section-header-section" id="headerSection"></header>
+
+            <main class="meds-main" id="main-content">
+                <div class="meds-stack">
+                    <section class="med-card-section" aria-labelledby="batch-title">
+                        <h2 class="med-card-section-title" id="batch-title">Lote atual</h2>
+
+                        <div class="med-inner-box">
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Lote</span>
+                                <span class="med-inner-value med-inner-value--highlight">L-2048</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Quantidade</span>
+                                <span class="med-inner-value">18 comprimidos</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Validade</span>
+                                <span class="med-inner-value">15 Mar 2027</span>
+                            </div>
+                            <div class="med-inner-box-row">
+                                <span class="med-inner-label">Compra</span>
+                                <span class="med-inner-value">07 Ago 2026</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="med-card-section" aria-labelledby="batch-history-title">
+                        <h2 class="med-card-section-title" id="batch-history-title">Histórico de lotes</h2>
+
+                        <div class="med-timeline">
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--cart"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">07 Ago 2026</span>
+                                    <span class="med-timeline-desc">Lote L-2048 • 30 comprimidos</span>
+                                </div>
+                            </div>
+
+                            <div class="med-timeline-item">
+                                <div class="med-timeline-icon med-timeline-icon--cart"><i class="fa-solid fa-cart-shopping"></i></div>
+                                <div class="med-timeline-content">
+                                    <span class="med-timeline-title">15 Jun 2026</span>
+                                    <span class="med-timeline-desc">Lote L-1988 • 40 comprimidos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>
