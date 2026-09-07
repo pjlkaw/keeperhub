@@ -486,18 +486,27 @@ Usado por: apenas a página Home do módulo
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 12px;
-    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: scroll;
     overflow-y: hidden;
     padding-top: 4px;
     padding-bottom: 8px;
-    padding-inline-end: 84px;
+    padding-inline: 2px 34px;
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    scroll-snap-type: x proximity;
+    touch-action: pan-x pinch-zoom;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 2px;
+    cursor: grab;
     scrollbar-width: none;
     /* Firefox */
     -ms-overflow-style: none;
     /* IE/Edge */
+}
+
+.habits-scroll-wrapper:active {
+    cursor: grabbing;
 }
 
 .habits-scroll-wrapper::-webkit-scrollbar {
@@ -506,8 +515,8 @@ Usado por: apenas a página Home do módulo
 }
 
 .habit-card {
-    background-color: #16181d;
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     width: 112px;
     min-width: 112px;
@@ -526,12 +535,6 @@ Usado por: apenas a página Home do módulo
     user-select: none;
     -webkit-user-select: none;
     transition: border-color 0.15s ease;
-}
-
-[data-theme="light"] .habit-card {
-    background-color: #ffffff;
-    border-color: #e5e7eb;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .habit-icon-wrap {
