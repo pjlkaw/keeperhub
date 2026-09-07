@@ -1,0 +1,85 @@
+/* Tela de cadastro das atividades e acesso à rotina alimentar. */
+
+.adicionar-rotina {
+  width: min(100%, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.adicionar-rotina .cabecalho-pagina {
+  position: relative;
+  justify-content: center;
+  min-height: 80px;
+  padding: 24px 64px 12px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.adicionar-rotina .cabecalho-pagina__voltar {
+  position: absolute;
+  left: 12px;
+}
+
+.adicionar-rotina .cabecalho-pagina__titulo {
+  text-align: center;
+}
+
+.adicionar-rotina__alimentacao,
+.adicionar-rotina__higiene {
+  margin: 22px 16px 0;
+  padding: 20px;
+  background: var(--pets-panel-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-md);
+}
+
+.adicionar-rotina__alimentacao h2,
+.adicionar-rotina__higiene h2 {
+  color: var(--pets-text);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.adicionar-rotina__alimentacao p {
+  margin-top: 8px;
+  color: var(--pets-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.acesso-alimentacao {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.acesso-alimentacao .botao-principal,
+.acesso-alimentacao .botao-texto {
+  width: 100%;
+  text-align: center;
+}
+
+.acesso-alimentacao .botao-texto {
+  min-height: 44px;
+  padding: 12px 0;
+}
+
+.adicionar-rotina__higiene .formulario-higiene {
+  margin-top: 18px;
+}
+
+@media (min-width: 600px) {
+  .adicionar-rotina .cabecalho-pagina {
+    padding: 28px 76px 14px;
+  }
+
+  .adicionar-rotina .cabecalho-pagina__voltar {
+    left: 24px;
+  }
+
+  .adicionar-rotina__alimentacao,
+  .adicionar-rotina__higiene {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}

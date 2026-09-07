@@ -1,0 +1,269 @@
+/* Estilos da rotina diária e do resumo da alimentação do pet. */
+
+.rotina-diaria {
+  width: min(100%, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.rotina-diaria .cabecalho-pagina {
+  position: relative;
+  justify-content: center;
+  min-height: 80px;
+  padding: 24px 64px 12px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.rotina-diaria .cabecalho-pagina__voltar {
+  position: absolute;
+  left: 12px;
+}
+
+.rotina-diaria .cabecalho-pagina__titulo {
+  text-align: center;
+}
+
+.rotina-diaria__hoje,
+.higiene-bem-estar,
+.rotina-alimentar,
+.anotacoes-comportamento {
+  margin: 22px 16px 0;
+  padding: 20px;
+  background: var(--pets-panel-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-md);
+}
+
+.rotina-diaria h2 {
+  color: var(--pets-text);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.linha-tempo-rotina {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.linha-tempo-rotina__item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 8px 10px;
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+}
+
+.linha-tempo-rotina__item .icone {
+  width: 18px;
+  height: 18px;
+}
+
+.linha-tempo-rotina__item--concluido .icone {
+  background-image: url('../img/concluido-pet.png');
+}
+
+.linha-tempo-rotina__item--pendente .icone {
+  background-image: url('../img/pendente-pet.png');
+}
+
+.linha-tempo-rotina__informacoes,
+.cartao-higiene__informacoes {
+  min-width: 0;
+}
+
+.linha-tempo-rotina__nome,
+.cartao-higiene__nome {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.linha-tempo-rotina__status,
+.cartao-higiene__ultimo,
+.linha-tempo-rotina__horario {
+  color: var(--pets-text-muted);
+  font-size: 11px;
+}
+
+.linha-tempo-rotina__horario {
+  font-weight: 600;
+}
+
+.rotina-diaria__hoje > .link-editar,
+.higiene-bem-estar > .link-editar {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.higiene-bem-estar > ul,
+.rotina-alimentar__lista {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.cartao-higiene,
+.rotina-alimentar .cartao-refeicao {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 54px;
+  padding: 8px 10px;
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+}
+
+.cartao-higiene > .icone {
+  width: 24px;
+  height: 24px;
+}
+
+.higiene-bem-estar li:first-child .cartao-higiene > .icone {
+  background-image: url('../img/banho-pet.png');
+}
+
+.higiene-bem-estar li:nth-child(2) .cartao-higiene > .icone {
+  background-image: url('../img/corte-unhas-pet.png');
+}
+
+.etiqueta-status {
+  color: var(--pets-primary);
+  font-size: 10px;
+  text-align: right;
+}
+
+.rotina-alimentar__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rotina-alimentar__cabecalho .link-editar {
+  font-size: 11px;
+  text-align: right;
+}
+
+.rotina-alimentar .cartao-refeicao {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.rotina-alimentar .cartao-refeicao__titulo {
+  font-size: 13px;
+}
+
+.rotina-alimentar .cartao-refeicao__horario {
+  color: var(--pets-text-soft);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.rotina-alimentar__mensagem,
+.rotina-alimentar__observacoes {
+  margin-top: 14px;
+  color: var(--pets-text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.rotina-alimentar__observacoes {
+  padding: 10px;
+  background: var(--pets-primary-soft);
+  border-radius: var(--pets-radius-sm);
+}
+
+.anotacoes-comportamento__formulario {
+  position: relative;
+  margin-top: 16px;
+}
+
+.anotacoes-comportamento textarea {
+  width: 100%;
+  min-height: 110px;
+  padding: 12px;
+  color: var(--pets-text);
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+  resize: vertical;
+}
+
+.anotacoes-comportamento__enviar {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 28px;
+  height: 28px;
+}
+
+.anotacoes-comportamento__enviar .icone {
+  width: 18px;
+  height: 18px;
+  background-image: url('../img/enviar-pet.png');
+}
+
+.anotacoes-comportamento__lista {
+  margin-top: 16px;
+}
+
+.anotacao-comportamento {
+  padding: 10px 0 10px 12px;
+  border-left: 2px solid var(--pets-primary);
+}
+
+.anotacao-comportamento__texto {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.anotacao-comportamento__data-hora {
+  margin-top: 4px;
+  color: var(--pets-text-muted);
+  font-size: 11px;
+}
+
+.botao-flutuante {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  background: var(--pets-primary);
+  border-radius: 50%;
+  box-shadow: 0 5px 14px rgb(0 0 0 / 35%);
+}
+
+.botao-flutuante .icone {
+  width: 24px;
+  height: 24px;
+  background-image: url('../img/adicionar-pets.png');
+}
+
+@media (min-width: 600px) {
+  .rotina-diaria .cabecalho-pagina {
+    padding: 28px 76px 14px;
+  }
+
+  .rotina-diaria .cabecalho-pagina__voltar {
+    left: 24px;
+  }
+
+  .rotina-diaria__hoje,
+  .higiene-bem-estar,
+  .rotina-alimentar,
+  .anotacoes-comportamento {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}
