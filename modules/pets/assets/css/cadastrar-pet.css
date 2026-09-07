@@ -63,7 +63,7 @@
 }
 
 .formulario-editar-pet__alterar-foto:hover {
-  color: #82a5ff;
+  color: var(--pets-primary-hover);
   transform: translateY(-2px);
 }
 
@@ -71,8 +71,8 @@
   width: 100%;
   min-height: 46px;
   margin-top: 6px;
-  color: #85858c;
-  background: #2a2a2f;
+  color: var(--pets-disabled-text);
+  background: var(--pets-disabled-bg);
   border-radius: var(--pets-radius-pill);
   box-shadow: none;
   cursor: not-allowed;
