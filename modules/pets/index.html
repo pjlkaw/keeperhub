@@ -20,7 +20,7 @@
         const nav = document.getElementById('modules-nav-wrapper');
         const header = document.getElementById('headerSection');
 
-        try {
+        try { 
           const [respostaNavegacao, respostaCabecalho] = await Promise.all([
             fetch('../../shared/components/navbar-section.html'),
             fetch('../../shared/components/header-page.html'),
