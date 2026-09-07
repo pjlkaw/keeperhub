@@ -17,10 +17,10 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const navegacao = document.getElementById('modules-nav-wrapper');
-        const cabecalho = document.getElementById('headerSection');
+        const nav = document.getElementById('modules-nav-wrapper');
+        const header = document.getElementById('headerSection');
 
-        try {
+        try { 
           const [respostaNavegacao, respostaCabecalho] = await Promise.all([
             fetch('../../shared/components/navbar-section.html'),
             fetch('../../shared/components/header-page.html'),
@@ -30,10 +30,10 @@
             throw new Error('Não foi possível carregar os componentes compartilhados.');
           }
 
-          navegacao.innerHTML = await respostaNavegacao.text();
-          cabecalho.innerHTML = await respostaCabecalho.text();
+          nav.innerHTML = await respostaNavegacao.text();
+          header.innerHTML = await respostaCabecalho.text();
 
-          [...navegacao.querySelectorAll('img[src^="/shared/"]'), ...cabecalho.querySelectorAll('img[src^="/shared/"]')]
+          [...nav.querySelectorAll('img[src^="/shared/"]'), ...header.querySelectorAll('img[src^="/shared/"]')]
             .forEach((imagem) => {
               imagem.setAttribute(
                 'src',
@@ -41,26 +41,24 @@
               );
             });
 
-          navegacao.querySelectorAll('.modules-nav-item').forEach((item) => {
-            const destinoOriginal = item.getAttribute('href');
-            const paginaPets = destinoOriginal === '/modules/pets/index.html';
-            const destinoRelativo = destinoOriginal.replace(
-              /^\/modules\/([^/]+)\/index\.html$/,
-              '../$1/index.html',
+          nav.querySelectorAll('.modules-nav-item').forEach((item) => {
+            const paginaPets = item.dataset.module === 'pets';
+
+            item.classList.remove('active');
+            item.setAttribute('aria-selected', 'false');
+            item.setAttribute('tabindex', '-1');
+            item.removeAttribute('aria-current');
+            item.setAttribute(
+              'href',
+              paginaPets ? 'index.html' : `../${item.dataset.module}/index.html`,
             );
-
-            item.setAttribute('href', paginaPets ? 'index.html' : destinoRelativo);
-
-            item.classList.toggle('active', paginaPets);
-            item.setAttribute('aria-selected', String(paginaPets));
-            item.setAttribute('tabindex', paginaPets ? '0' : '-1');
-
-            if (paginaPets) {
-              item.setAttribute('aria-current', 'page');
-            } else {
-              item.removeAttribute('aria-current');
-            }
           });
+
+          const moduloAtual = nav.querySelector('[data-module="pets"]');
+          moduloAtual.classList.add('active');
+          moduloAtual.setAttribute('aria-selected', 'true');
+          moduloAtual.setAttribute('aria-current', 'page');
+          moduloAtual.setAttribute('tabindex', '0');
 
           document.getElementById('pageNameH1').textContent = 'Pets';
           document.getElementById('pageSubtittleSpan').textContent =
@@ -78,54 +76,9 @@
   </head>
   <body>
     <div class="pagina-pets">
-      <nav
-        id="modules-nav-wrapper"
-        class="modules-nav-wrapper"
-        aria-label="Navegação entre módulos"
-      >
-        <div class="modules-nav-bar" role="tablist">
-          <a href="../financas/index.html" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-            <img src="../../shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-            Finanças
-          </a>
-          <a href="../despensa/index.html" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-            <img src="../../shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-            Despensa
-          </a>
-          <a href="index.html" class="modules-nav-item active" role="tab" aria-selected="true" aria-current="page" tabindex="0">
-            <img src="../../shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-            Pets
-          </a>
-          <a href="../metas/index.html" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-            <img src="../../shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-            Metas
-          </a>
-          <a href="../medicamentos/index.html" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-            <img src="../../shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-            Medicamentos
-          </a>
-        </div>
-      </nav>
+      <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-      <header class="section-header-section" id="headerSection">
-        <div class="section-header-title-area">
-          <div class="section-header-top-row">
-            <a href="../../main/index.html" class="section-header-back-btn" id="btn-back-header" aria-label="Voltar ao início">
-              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-            </a>
-            <h1 id="pageNameH1" class="section-header-title">Pets</h1>
-          </div>
-          <div class="section-header-meta">
-            <span id="pageSubtittleSpan">Cuidados e rotina dos seus pets</span>
-          </div>
-        </div>
-        <div class="section-header-controls">
-          <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
-            <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
-            <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
-          </button>
-        </div>
-      </header>
+      <header class="section-header-section" id="headerSection"></header>
 
       <main class="painel-pets" id="conteudo-principal">
       <h1 class="somente-leitor-tela">Meus pets</h1>
