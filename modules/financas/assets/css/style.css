@@ -3449,6 +3449,16 @@ body.transaction-page .transaction-form .type-option:not(.selected):focus-visibl
 	background: rgba(228, 122, 0, .12)
 }
 
+html[data-theme="dark"] body.transaction-page {
+	color-scheme: dark;
+}
+
+html[data-theme="dark"] body.transaction-page .transaction-fields select,
+html[data-theme="dark"] body.transaction-page .transaction-fields option {
+	color: #ffffff;
+	background-color: #1d2026;
+}
+
 html[data-theme=light] body.transaction-page .transaction-form .type-toggle {
 	background: #f4f0eb;
 	border-color: #ded8d1
@@ -3456,6 +3466,16 @@ html[data-theme=light] body.transaction-page .transaction-form .type-toggle {
 
 html[data-theme=light] body.transaction-page .transaction-form .type-option {
 	color: #343a45
+}
+
+html[data-theme="light"] body.transaction-page {
+	color-scheme: light;
+}
+
+html[data-theme="light"] body.transaction-page .transaction-fields select,
+html[data-theme="light"] body.transaction-page .transaction-fields option {
+	color: #202124;
+	background-color: #f7f5f2;
 }
 
 html[data-theme=light] body.transaction-page .transaction-form .type-option:not(.selected):hover,
