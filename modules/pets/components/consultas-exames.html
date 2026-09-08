@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/consultas-exames.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
 </head>
 <body>
@@ -58,7 +59,7 @@
                                     <label for="resumo-amanda">O que aconteceu na consulta?</label>
                                     <textarea id="resumo-amanda" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
                                 </div>
-                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                                <button type="button" class="botao-principal" disabled title="Salvamento disponível após a integração">Salvar no Histórico</button>
                             </form>
                         </details>
                     </article>
@@ -79,7 +80,7 @@
                                     <label for="resumo-roberto">O que aconteceu na consulta?</label>
                                     <textarea id="resumo-roberto" name="resumo_consulta" placeholder="Descreva o que foi discutido, diagnóstico, recomendações..."></textarea>
                                 </div>
-                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                                <button type="button" class="botao-principal" disabled title="Salvamento disponível após a integração">Salvar no Histórico</button>
                             </form>
                         </details>
                     </article>
@@ -87,7 +88,8 @@
             </ul>
 
             <a href="cadastrar-consulta.html" class="link-editar">Adicionar</a>
-        </section> aria-labelledby="exames-heading">
+        </section>
+        <section class="exames-medicos" aria-labelledby="exames-heading">
             <header class="exames-medicos__cabecalho">
                 <h2 id="exames-heading">Exames e Laudos</h2>
 
@@ -192,6 +194,6 @@
     </main>
 
     <script src="../../../shared/services/theme.js"></script>
-    <script src="../js/consultas-exames.js" defer></script>
+    <!-- Integração de consultas e exames pendente; ver consultas-integracao.md. -->
 </body>
 </html>

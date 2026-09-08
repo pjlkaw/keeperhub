@@ -1,0 +1,21 @@
+@import url('./consultas-base.css');
+
+.adicionar-consulta { max-width: 600px; padding-bottom: 24px; }
+.formulario-adicionar-consulta { padding: 24px 22px; }
+.formulario-adicionar-consulta .linha-formulario { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.campo-formulario--alternancia { display: flex; align-items: center; justify-content: space-between; min-height: 44px; gap: 16px; }
+.adicionar-consulta .campo-formulario--alternancia label { margin: 0; flex: 1; padding-block: 12px; cursor: pointer; }
+.formulario-adicionar-consulta__enviar { width: 100%; min-height: 44px; margin-top: 4px; border-radius: 999px; font-size: 14px; }
+.adicionar-consulta .aviso-integracao { margin-top: 12px; color: var(--consulta-muted); font-size: 12px; }
+/* Seleção nativa do select; nenhuma dependência de JavaScript. */
+@supports selector(:has(*)) {
+  .campo-formulario:has(#area-atuacao-outra) { display: none; }
+  .formulario-adicionar-consulta:has(#area-atuacao option[value=outra]:checked) .campo-formulario:has(#area-atuacao-outra) { display: block; }
+}
+@media (min-width: 640px) {
+  .adicionar-consulta { margin-block: 24px; border: 1px solid var(--consulta-border); border-radius: 16px; overflow: hidden; }
+}
+@media (max-width: 359px) {
+  .formulario-adicionar-consulta { padding-inline: 16px; }
+  .formulario-adicionar-consulta .linha-formulario { grid-template-columns: 1fr; gap: 0; }
+}

@@ -1,0 +1,46 @@
+/* Base visual exclusiva das telas de consultas. */
+:root {
+  color-scheme: dark;
+  --pets-primary: #4285f4;
+  --consulta-bg: #111111;
+  --consulta-card: #1c1c1c;
+  --consulta-border: #262626;
+  --consulta-text: #efefef;
+  --consulta-muted: #a3a3a3;
+}
+body { margin: 0; background: var(--consulta-bg); color: var(--consulta-text); font: 14px/1.5 Arial, sans-serif; }
+*, *::before, *::after { box-sizing: border-box; }
+:is(.painel-medico, .adicionar-consulta) { width: 100%; margin-inline: auto; }
+:is(.painel-medico, .adicionar-consulta) :is(h2, h3, p, ul, ol) { margin: 0; padding: 0; }
+:is(.painel-medico, .adicionar-consulta) :is(ul, ol) { list-style: none; }
+:is(.painel-medico, .adicionar-consulta) a { text-decoration: none; }
+:is(.painel-medico, .adicionar-consulta) :is(button, input, select, textarea) { font: inherit; }
+:is(.painel-medico, .adicionar-consulta) :is(a, button, input, select, textarea, summary):focus-visible { outline: 2px solid var(--pets-primary); outline-offset: 3px; }
+:is(.painel-medico, .adicionar-consulta) .icone { display: inline-block; flex-shrink: 0; width: 18px; height: 18px; background-position: center; background-repeat: no-repeat; background-size: contain; }
+:is(.painel-medico, .adicionar-consulta) .campo-formulario { min-width: 0; margin: 0 0 20px; }
+:is(.painel-medico, .adicionar-consulta) .campo-formulario label { display: block; margin-bottom: 8px; color: var(--consulta-text); font: 700 12px/1.5 Arial, sans-serif; }
+:is(.painel-medico, .adicionar-consulta) .campo-formulario :is(input:not([type=checkbox]), select, textarea) {
+  display: block; width: 100%; min-width: 0; min-height: 44px; padding: 12px;
+  color: var(--consulta-text); background: var(--consulta-card); border: 1px solid var(--consulta-border); border-radius: 8px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+:is(.painel-medico, .adicionar-consulta) .campo-formulario :is(input, select, textarea):focus {
+  border-color: var(--pets-primary); box-shadow: 0 0 0 3px rgb(66 133 244 / 15%); transform: none;
+}
+:is(.painel-medico, .adicionar-consulta) textarea { min-height: 120px; resize: vertical; }
+:is(.painel-medico, .adicionar-consulta) input::placeholder,
+:is(.painel-medico, .adicionar-consulta) textarea::placeholder { color: var(--consulta-muted); opacity: 1; }
+:is(.painel-medico, .adicionar-consulta) input[type=checkbox] {
+  appearance: none; position: relative; flex: 0 0 36px; width: 36px; height: 20px; margin: 0;
+  border: 1px solid #555; border-radius: 999px; background: #494949; cursor: pointer;
+  transition: background-color 160ms ease;
+}
+:is(.painel-medico, .adicionar-consulta) input[type=checkbox]::before {
+  content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: white; transition: transform 160ms ease;
+}
+:is(.painel-medico, .adicionar-consulta) input[type=checkbox]:checked { background: var(--pets-primary); border-color: var(--pets-primary); }
+:is(.painel-medico, .adicionar-consulta) input[type=checkbox]:checked::before { transform: translateX(16px); }
+:is(.painel-medico, .adicionar-consulta) .botao-principal:disabled { color: #a3a3a3; background: #1c1c1c; border-color: transparent; box-shadow: none; transform: none; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  :is(.painel-medico, .adicionar-consulta) *, :is(.painel-medico, .adicionar-consulta) *::before { transition: none; }
+}
