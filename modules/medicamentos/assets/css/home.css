@@ -374,10 +374,6 @@ Usado por: apenas a página Home do módulo
     line-height: 1.35;
 }
 
-[data-theme="light"] .attention-status-text {
-    color: #dc2626;
-}
-
 .btn-meds-repor {
     display: inline-flex;
     align-items: center;
