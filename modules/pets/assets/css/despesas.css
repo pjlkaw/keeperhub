@@ -1,0 +1,475 @@
+/* Apenas a tela de despesas recebe o novo fundo da referência. */
+.tema-despesas-pets[data-theme='dark'] {
+  --bg-color: #111111;
+  --header-bg: #111111;
+  --card-bg: #1c1c1c;
+  --text-color: #f5f5f5;
+  --text-muted: #a0a0a0;
+  --border-color: #272727;
+}
+
+.tema-despesas-pets {
+  --despesas-largura: 720px;
+  --despesas-raio: 14px;
+}
+
+.tema-despesas-pets body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.pagina-despesas {
+  width: min(100%, var(--despesas-largura));
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+  font-variant-numeric: tabular-nums;
+}
+
+.despesas-cabecalho {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: center;
+  min-height: 56px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.despesas-cabecalho h1 {
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+.despesas-voltar,
+.despesas-navegar,
+.nova-despesa__fechar {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  color: var(--pets-primary);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background-color var(--pets-transition), transform var(--pets-transition);
+}
+
+.despesas-conteudo {
+  display: grid;
+  gap: 24px;
+  padding-inline: 16px;
+}
+
+.resumo-despesas,
+.categoria-despesa,
+.lista-lancamentos {
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--despesas-raio);
+}
+
+.resumo-despesas {
+  padding: 12px 16px 16px;
+}
+
+.resumo-despesas__mes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  margin: 0 0 16px -12px;
+}
+
+.resumo-despesas__mes time {
+  min-width: 76px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.resumo-despesas__mes time span {
+  display: block;
+}
+
+.despesas-navegar:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.resumo-despesas__rotulo,
+.resumo-despesas__orcamento,
+.resumo-despesas__linha,
+.secao-despesas__contador,
+.categoria-despesa__percentual,
+.categoria-despesa__nome,
+.grupo-despesas__subtotal,
+.lancamento__detalhes {
+  color: var(--pets-text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.resumo-despesas__total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 6px 0 24px;
+}
+
+.resumo-despesas__valor {
+  font-size: clamp(1.625rem, 7vw, 1.875rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.resumo-despesas__linha {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.resumo-despesas__linha strong {
+  color: var(--pets-text);
+  font-weight: 500;
+}
+
+.resumo-despesas__livre strong {
+  color: var(--pets-primary);
+}
+
+.resumo-despesas__progresso {
+  display: block;
+  width: 100%;
+  height: 8px;
+  margin: 8px 0 12px;
+  overflow: hidden;
+  appearance: none;
+  color: var(--pets-primary);
+  background: var(--pets-surface-raised);
+  border: 0;
+  border-radius: var(--pets-radius-pill);
+}
+
+.resumo-despesas__progresso::-webkit-progress-bar {
+  background: var(--pets-surface-raised);
+  border-radius: inherit;
+}
+
+.resumo-despesas__progresso::-webkit-progress-value {
+  background: var(--pets-primary);
+  border-radius: inherit;
+}
+
+.resumo-despesas__progresso::-moz-progress-bar {
+  background: var(--pets-primary);
+  border-radius: inherit;
+}
+
+.secao-despesas__cabecalho,
+.grupo-despesas__cabecalho {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+
+.secao-despesas__cabecalho {
+  margin: 0 4px 12px;
+}
+
+.secao-despesas__titulo {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.secao-despesas__titulo--discreto {
+  color: var(--pets-text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.categorias-despesas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.categoria-despesa {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-content: start;
+  gap: 4px 8px;
+  min-height: 108px;
+  padding: 12px 14px;
+  transition: background-color var(--pets-transition), border-color var(--pets-transition), transform var(--pets-transition);
+}
+
+.despesa-icone {
+  display: grid;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  background: var(--pets-primary-soft);
+  border-radius: 9px;
+}
+
+.despesa-icone img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.categoria-despesa__percentual {
+  align-self: center;
+  text-align: right;
+}
+
+.categoria-despesa__nome,
+.categoria-despesa__valor {
+  grid-column: 1 / -1;
+}
+
+.categoria-despesa__nome {
+  margin-top: 4px;
+}
+
+.categoria-despesa__valor {
+  font-size: 0.9375rem;
+  line-height: 1.2;
+}
+
+.grupo-despesas {
+  scroll-margin-top: 20px;
+}
+
+.grupo-despesas + .grupo-despesas {
+  margin-top: 16px;
+}
+
+.grupo-despesas__cabecalho {
+  margin: 0 4px 8px;
+}
+
+.grupo-despesas__cabecalho h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.grupo-despesas__cabecalho img {
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.lista-lancamentos {
+  padding: 4px 16px;
+}
+
+/* Linhas discretas: a separação principal vem do espaçamento. */
+.lista-lancamentos > li + li {
+  border-top: 1px solid var(--pets-border);
+}
+
+.lancamento {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding-block: 12px;
+}
+
+.lancamento__icone {
+  background: var(--pets-neutral-hover);
+}
+
+.lancamento__informacoes {
+  min-width: 0;
+}
+
+.lancamento__titulo {
+  overflow-wrap: anywhere;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.lancamento__detalhes {
+  margin-top: 3px;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.lancamento__valor {
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+.lancamento--programado .lancamento__detalhes {
+  color: var(--pets-primary);
+}
+
+.lancamento__etiqueta {
+  padding: 4px 8px;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border: 1px solid var(--pets-primary-border);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.6875rem;
+  white-space: nowrap;
+}
+
+.despesas-adicionar {
+  position: fixed;
+  z-index: 2;
+  right: max(20px, calc((100vw - var(--despesas-largura)) / 2 + 20px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  padding: 0;
+  color: var(--pets-on-primary);
+  background: var(--pets-primary);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px var(--pets-primary-shadow);
+  transition: background-color var(--pets-transition), transform var(--pets-transition);
+}
+
+.despesas-adicionar img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* Formulário fora do fluxo: o conteúdo inicial segue o desenho enviado. */
+.nova-despesa {
+  position: fixed;
+  inset: 0;
+  width: min(560px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 24px;
+  overflow-y: auto;
+  color: var(--pets-text);
+  background: var(--pets-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--despesas-raio);
+}
+
+.nova-despesa::backdrop {
+  background: rgb(0 0 0 / 70%);
+}
+
+.nova-despesa__cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.nova-despesa__cabecalho h2 {
+  font-size: 1.125rem;
+}
+
+.formulario-despesa__salvar {
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.formulario-despesa__salvar:disabled {
+  color: var(--pets-disabled-text);
+  background: var(--pets-disabled-bg);
+  box-shadow: none;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.nova-despesa__aviso {
+  margin-top: 12px;
+  color: var(--pets-text-muted);
+  font-size: 0.75rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .despesas-voltar:hover,
+  .nova-despesa__fechar:hover {
+    background: var(--pets-primary-soft);
+  }
+
+  .categoria-despesa:hover {
+    background: var(--pets-surface-hover);
+    border-color: var(--pets-primary-border);
+    transform: translateY(-2px);
+  }
+
+  .despesas-adicionar:hover {
+    background: var(--pets-primary-hover);
+    transform: translateY(-3px);
+  }
+}
+
+.categoria-despesa:active,
+.despesas-voltar:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 600px) {
+  .despesas-conteudo {
+    padding: 16px 24px;
+  }
+
+  .resumo-despesas {
+    padding: 16px 24px 24px;
+  }
+
+  .categorias-despesas {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 359px) {
+  .despesas-conteudo {
+    padding-inline: 12px;
+  }
+
+  .categoria-despesa,
+  .lista-lancamentos {
+    padding-inline: 12px;
+  }
+
+  .lancamento {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 6px 8px;
+  }
+
+  .lancamento__icone {
+    grid-row: 1 / 3;
+    width: 28px;
+    height: 28px;
+  }
+
+  .lancamento__valor,
+  .lancamento__etiqueta {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

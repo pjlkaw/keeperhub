@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark" class="tema-despesas-pets">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111111" />
+    <title>KeeperHub — Pets — Despesas da Luna</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../../shared/styles/components.css" />
+    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+    <link rel="stylesheet" href="../assets/css/despesas.css" />
+    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css" />
+  </head>
+  <body>
+    <main class="pagina-despesas" id="conteudo-principal" data-pet-id="exemplo">
+      <header class="despesas-cabecalho cabecalho-pets">
+        <a class="despesas-voltar" href="../index.html" aria-label="Voltar aos meus pets" data-manter-pet>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg>
+        </a>
+        <h1>Despesas da Luna</h1>
+      </header>
+
+      <!-- Dados de demonstração da referência. Integração futura: despesas-integracao.md. -->
+      <div class="despesas-conteudo">
+        <section class="resumo-despesas" aria-labelledby="resumo-despesas-heading">
+          <nav class="resumo-despesas__mes" aria-label="Mês das despesas">
+            <button class="despesas-navegar" type="button" aria-label="Mês anterior" title="Troca de mês disponível após integração" data-acao="mes-anterior" disabled><span aria-hidden="true">‹</span></button>
+            <time datetime="2024-10"><span>Outubro</span><span>2024</span></time>
+            <button class="despesas-navegar" type="button" aria-label="Próximo mês" title="Troca de mês disponível após integração" data-acao="mes-seguinte" disabled><span aria-hidden="true">›</span></button>
+          </nav>
+          <h2 class="resumo-despesas__rotulo" id="resumo-despesas-heading">Total em Outubro</h2>
+          <p class="resumo-despesas__total">
+            <data class="resumo-despesas__valor" value="420.00">R$ 420,00</data>
+            <span class="resumo-despesas__orcamento">/ <data value="600.00">R$ 600,00</data> previsto</span>
+          </p>
+          <div class="resumo-despesas__linha">
+            <label for="progresso-orcamento">Compromisso do teto</label>
+            <strong>70% consumido</strong>
+          </div>
+          <progress class="resumo-despesas__progresso" id="progresso-orcamento" value="420" max="600">70%</progress>
+          <p class="resumo-despesas__linha resumo-despesas__livre">
+            <span>Disponível no mês</span>
+            <strong><data value="180.00">R$ 180,00</data> livres</strong>
+          </p>
+        </section>
+
+        <section aria-labelledby="categorias-despesas-heading">
+          <header class="secao-despesas__cabecalho">
+            <h2 class="secao-despesas__titulo secao-despesas__titulo--discreto" id="categorias-despesas-heading">Divisão por área</h2>
+            <span class="secao-despesas__contador">4 grupos ativos</span>
+          </header>
+          <ul class="categorias-despesas">
+            <li>
+              <a class="categoria-despesa" href="#despesas-alimentacao">
+                <span class="despesa-icone"><img src="../assets/img/alimentacao-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="categoria-despesa__percentual">40,5%</span>
+                <span class="categoria-despesa__nome">Alimentação</span>
+                <data class="categoria-despesa__valor" value="170.00">R$ 170,00</data>
+              </a>
+            </li>
+            <li>
+              <a class="categoria-despesa" href="#despesas-saude">
+                <span class="despesa-icone"><img src="../assets/img/saude-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="categoria-despesa__percentual">35,7%</span>
+                <span class="categoria-despesa__nome">Saúde</span>
+                <data class="categoria-despesa__valor" value="150.00">R$ 150,00</data>
+              </a>
+            </li>
+            <li>
+              <a class="categoria-despesa" href="#despesas-higiene">
+                <span class="despesa-icone"><img src="../assets/img/higiene-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="categoria-despesa__percentual">16,7%</span>
+                <span class="categoria-despesa__nome">Higiene</span>
+                <data class="categoria-despesa__valor" value="70.00">R$ 70,00</data>
+              </a>
+            </li>
+            <li>
+              <a class="categoria-despesa" href="#despesas-lazer">
+                <span class="despesa-icone"><img src="../assets/img/lazer-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="categoria-despesa__percentual">7,1%</span>
+                <span class="categoria-despesa__nome">Lazer</span>
+                <data class="categoria-despesa__valor" value="30.00">R$ 30,00</data>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="historico-despesas" aria-labelledby="historico-despesas-heading">
+          <header class="secao-despesas__cabecalho">
+            <h2 class="secao-despesas__titulo" id="historico-despesas-heading">Extrato Detalhado</h2>
+            <span class="secao-despesas__contador">6 lançamentos</span>
+          </header>
+
+          <section class="grupo-despesas" id="despesas-alimentacao" aria-labelledby="alimentacao-heading">
+            <header class="grupo-despesas__cabecalho">
+              <h3 id="alimentacao-heading"><img src="../assets/img/alimentacao-despesas-pets.png" width="14" height="14" alt="" />Alimentação</h3>
+              <p class="grupo-despesas__subtotal">Subtotal <data value="170.00">R$ 170,00</data></p>
+            </header>
+            <ul class="lista-lancamentos">
+              <li>
+                <article class="lancamento" data-categoria="alimentacao">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/racao-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Ração Golden Fórmula (15kg)</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-05">05 Out</time> · Cobasi Pet Store</p>
+                  </div>
+                  <data class="lancamento__valor" value="145.00">R$ 145,00</data>
+                </article>
+              </li>
+              <li>
+                <article class="lancamento" data-categoria="alimentacao">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/petiscos-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Petiscos Bifinhos e Sachês</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-12">12 Out</time> · PetLove Express</p>
+                  </div>
+                  <data class="lancamento__valor" value="25.00">R$ 25,00</data>
+                </article>
+              </li>
+            </ul>
+          </section>
+          <section class="grupo-despesas" id="despesas-higiene" aria-labelledby="higiene-heading">
+            <header class="grupo-despesas__cabecalho">
+              <h3 id="higiene-heading"><img src="../assets/img/higiene-despesas-pets.png" width="14" height="14" alt="" />Higiene e Estética</h3>
+              <p class="grupo-despesas__subtotal">Subtotal <data value="70.00">R$ 70,00</data></p>
+            </header>
+            <ul class="lista-lancamentos">
+              <li>
+                <article class="lancamento" data-categoria="higiene">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/banho-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Banho, Tosa Higiênica e Hidratação</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-15">15 Out</time> · Spa Pet Golden Glow</p>
+                  </div>
+                  <data class="lancamento__valor" value="70.00">R$ 70,00</data>
+                </article>
+              </li>
+            </ul>
+          </section>
+          <section class="grupo-despesas" id="despesas-lazer" aria-labelledby="lazer-heading">
+            <header class="grupo-despesas__cabecalho">
+              <h3 id="lazer-heading"><img src="../assets/img/lazer-despesas-pets.png" width="14" height="14" alt="" />Lazer e Recreação</h3>
+              <p class="grupo-despesas__subtotal">Subtotal <data value="30.00">R$ 30,00</data></p>
+            </header>
+            <ul class="lista-lancamentos">
+              <li>
+                <article class="lancamento" data-categoria="lazer">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/brinquedo-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Brinquedo Mordedor de Corda</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-02">02 Out</time> · PetZ Store</p>
+                  </div>
+                  <data class="lancamento__valor" value="30.00">R$ 30,00</data>
+                </article>
+              </li>
+            </ul>
+          </section>
+          <section class="grupo-despesas" id="despesas-saude" aria-labelledby="saude-heading">
+            <header class="grupo-despesas__cabecalho">
+              <h3 id="saude-heading"><img src="../assets/img/saude-despesas-pets.png" width="14" height="14" alt="" />Cuidados com a Saúde</h3>
+              <p class="grupo-despesas__subtotal">Subtotal <data value="150.00">R$ 150,00</data></p>
+            </header>
+            <ul class="lista-lancamentos">
+              <li>
+                <article class="lancamento" data-categoria="saude">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/antipulgas-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Antipulgas Simparic (3 comp)</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-10">10 Out</time> · Farmácia Vet</p>
+                  </div>
+                  <data class="lancamento__valor" value="85.00">R$ 85,00</data>
+                </article>
+              </li>
+              <li>
+                <article class="lancamento" data-categoria="saude">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/vacina-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Reforço Vacina V10</h4>
+                    <p class="lancamento__detalhes"><time datetime="2024-10-15">15 Out</time> · Clínica VetLife</p>
+                  </div>
+                  <data class="lancamento__valor" value="65.00">R$ 65,00</data>
+                </article>
+              </li>
+              <li>
+                <article class="lancamento lancamento--programado" data-categoria="saude" data-status="programado">
+                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/consulta-programada-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <div class="lancamento__informacoes">
+                    <h4 class="lancamento__titulo">Consulta Semestral de Rotina</h4>
+                    <p class="lancamento__detalhes">Prevista para <time datetime="2024-11">Nov</time> · Dra. Camila</p>
+                  </div>
+                  <span class="lancamento__etiqueta">Programado</span>
+                </article>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </div>
+
+      <button class="despesas-adicionar" type="button" popovertarget="nova-despesa" aria-label="Adicionar despesa" title="Adicionar despesa">
+        <img src="../assets/img/adicionar-pets.png" width="20" height="20" alt="" />
+      </button>
+
+      <!-- Popover nativo: abre e fecha sem JavaScript. Salvar depende do backend. -->
+      <section class="nova-despesa" id="nova-despesa" popover aria-labelledby="nova-despesa-heading">
+        <header class="nova-despesa__cabecalho">
+          <h2 id="nova-despesa-heading">Nova despesa</h2>
+          <button class="nova-despesa__fechar" type="button" popovertarget="nova-despesa" popovertargetaction="hide" aria-label="Fechar formulário"><span aria-hidden="true">×</span></button>
+        </header>
+        <form class="formulario-despesa" id="formulario-despesa" aria-describedby="mensagem-despesa">
+          <div class="campo-formulario">
+            <label for="descricao-despesa">Descrição</label>
+            <input type="text" id="descricao-despesa" name="descricao" maxlength="100" placeholder="Ex.: Ração da Luna" required />
+          </div>
+          <div class="campo-formulario">
+            <label for="categoria-despesa">Categoria</label>
+            <select id="categoria-despesa" name="categoria" required>
+              <option value="" disabled selected>Selecione a categoria</option>
+              <option value="alimentacao">Alimentação</option>
+              <option value="saude">Cuidados com a Saúde</option>
+              <option value="higiene">Higiene e Estética</option>
+              <option value="lazer">Lazer e Recreação</option>
+            </select>
+          </div>
+          <div class="linha-formulario">
+            <div class="campo-formulario">
+              <label for="valor-despesa">Valor (R$)</label>
+              <input type="number" id="valor-despesa" name="valor" inputmode="decimal" min="0.01" step="0.01" placeholder="0,00" required />
+            </div>
+            <div class="campo-formulario">
+              <label for="data-despesa">Data</label>
+              <input type="date" id="data-despesa" name="data" required />
+            </div>
+          </div>
+          <div class="campo-formulario">
+            <label for="estabelecimento-despesa">Estabelecimento (opcional)</label>
+            <input type="text" id="estabelecimento-despesa" name="estabelecimento" maxlength="100" placeholder="Onde foi realizada a compra?" />
+          </div>
+          <div class="campo-formulario">
+            <label for="observacoes-despesa">Observações (opcional)</label>
+            <textarea id="observacoes-despesa" name="observacoes" rows="3" maxlength="500"></textarea>
+          </div>
+          <button class="botao-principal formulario-despesa__salvar" type="button" data-acao="salvar-despesa" disabled>Salvar despesa</button>
+          <p class="nova-despesa__aviso" id="mensagem-despesa" role="status">Prévia do formulário. O salvamento estará disponível em breve.</p>
+        </form>
+      </section>
+    </main>
+    <script src="../../../shared/services/theme.js"></script>
+  </body>
+</html>
