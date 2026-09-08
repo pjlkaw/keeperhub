@@ -1561,12 +1561,16 @@ textarea {
 	bottom: 20px;
 	z-index: 5;
 	display: grid;
-	width: 48px;
-	min-width: 48px;
-	height: 48px;
-	min-height: 48px;
+	box-sizing: border-box;
+	width: 48px !important;
+	min-width: 48px !important;
+	height: 48px !important;
+	min-height: 48px !important;
+	padding: 0 !important;
 	place-items: center;
+	color: #fff !important;
 	background: var(--lorange);
+	border: 0;
 	border-radius: 50%;
 	box-shadow: 0 5px 16px #f07c004d;
 	font-size: 0
@@ -1576,7 +1580,7 @@ textarea {
 .floating-action::after {
 	position: absolute;
 	content: '';
-	background: currentColor;
+	background: #fff;
 	border-radius: 2px
 }
 
