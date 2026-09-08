@@ -10,6 +10,8 @@
         border-color: var(--color-red);
     }
 
+    Caso queira fazer um card de conteúdo, deve conter class="card" na tag
+
     Não coloque aqui regras de negócio ou estilos exclusivos de um módulo.
 */
 
@@ -17,6 +19,40 @@ body {
     background-color: var(--bg-color, #0b0b0d);
     color: var(--text-color, #f4f4f5);
     line-height: 1.5;
+}
+
+/* Card base compartilhado por todos os módulos. */
+.card {
+    display: block;
+    padding: 16px;
+    overflow: hidden;
+    background-color: var(--card-bg, #17171a);
+    border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+    border-radius: 12px;
+    color: var(--text-color, #f4f4f5);
+}
+
+.card--interactive {
+    transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        transform 160ms ease;
+}
+
+.card--interactive:hover {
+    background-color: #232326;
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.card--interactive:focus-visible {
+    outline: 2px solid var(--color-secondary, #01ab8e);
+    outline-offset: 3px;
+}
+
+html[data-theme='light'] .card--interactive:hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
 }
 
 button,

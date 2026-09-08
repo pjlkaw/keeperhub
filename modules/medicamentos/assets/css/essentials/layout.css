@@ -21,10 +21,10 @@ header, main {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--color-bg-page, #101114);
     color: var(--color-text-primary, #ffffff);
     position: relative;
     overflow-x: hidden;
+    background-color: var(--bg-color);
 }
 
 [data-theme="light"] .app-page-wrapper {
