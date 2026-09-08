@@ -1,0 +1,442 @@
+/* ==================================================
+   KEEPERHUB — CONTATO CSS (Página Institucional de Contato)
+   Padrão Arquitetural Oficial: /main/contato/css/contato.css
+   Responsabilidade: Estilização exclusiva da página /contato/
+   Mobile First — 320px a 1440px
+   Design System: Dark Mode (Padrão) + Light Mode
+   ================================================== */
+
+/* ==================================================
+   DESIGN TOKENS & MAPEAMENTO DA NOVA SHARED
+   ================================================== */
+:root {
+  --bg-main: var(--bg-color, #0b0b0d);
+  --text-primary: var(--text-color, #f4f4f5);
+  --text-secondary: var(--text-muted, #9a9aa2);
+  --color-text-secondary: var(--text-muted, #9a9aa2);
+  --color-bg-surface: var(--card-bg, #17171a);
+  --color-bg-surface-elevated: var(--card-bg, #17171a);
+  --color-border-card: var(--border-color, rgba(255, 255, 255, 0.08));
+  --border-subtle: var(--border-color, rgba(255, 255, 255, 0.08));
+  --color-brand: #01ab8e;
+  --color-secondary: #01ab8e;
+}
+
+/* ==================================================
+   LAYOUT BASE & CONTAINER
+   ================================================== */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+}
+
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin-inline: auto;
+  padding-inline: 16px;
+  box-sizing: border-box;
+}
+
+/* ==================================================
+   HEADER INSTITUCIONAL
+   ================================================== */
+.site-header {
+  width: 100%;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  background-color: var(--bg-main);
+  position: relative;
+  z-index: 10;
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo Oficial KeeperHub */
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  flex-shrink: 1;
+  min-width: 0;
+  min-height: 44px;
+}
+
+.brand-logo-img {
+  width: auto;
+  height: 40px;
+  max-height: 42px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
+.brand-wordmark {
+  width: auto;
+  height: 30px;
+  max-height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.brand-wordmark-dark {
+  display: block;
+}
+
+.brand-wordmark-light {
+  display: none;
+}
+
+[data-theme="light"] .brand-wordmark-dark {
+  display: none;
+}
+
+[data-theme="light"] .brand-wordmark-light {
+  display: block;
+}
+
+/* Grupo de Ações do Header */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* Link Voltar à Home no Header */
+.btn-header-back {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-header-back:hover {
+  color: var(--text-primary);
+  background-color: var(--color-bg-surface-elevated);
+}
+
+.btn-header-back:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+/* ==================================================
+   BARRA DE CONTROLE DE TEMA (Fluxo Normal)
+   ================================================== */
+.theme-bar {
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.theme-bar .container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-card);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .btn-theme-toggle {
+  background-color: #FFFFFF;
+  border-color: #CDD4D6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-theme-toggle:hover {
+  background-color: var(--color-bg-surface-elevated);
+  border-color: var(--color-brand);
+  transform: scale(1.05);
+}
+
+.btn-theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.btn-theme-toggle:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.theme-icon-sun {
+  display: none;
+}
+
+.theme-icon-moon {
+  display: block;
+}
+
+[data-theme="light"] .theme-icon-sun {
+  display: block;
+}
+
+[data-theme="light"] .theme-icon-moon {
+  display: none;
+}
+
+/* ==================================================
+   CONTAINER DE CONTEÚDO INSTITUCIONAL
+   ================================================== */
+.content-wrapper {
+  flex: 1 0 auto;
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 40px;
+}
+
+.institutional-article {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Cabeçalho do Artigo */
+.page-title-group {
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.page-title {
+  font-size: clamp(1.5rem, 4.5vw, 1.875rem); /* 24px a 30px */
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.page-meta {
+  font-size: 0.8125rem; /* 13px */
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==================================================
+   CORPO DE TEXTO E SEÇÕES
+   ================================================== */
+.institutional-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.doc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.doc-heading {
+  font-size: 1.0625rem; /* 17px */
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-top: 6px;
+}
+
+.doc-paragraph {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Links dentro do texto do artigo (eliminando necessidade de style inline) */
+.doc-paragraph .footer-link,
+.doc-paragraph a {
+  display: inline;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  min-height: auto;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+
+.doc-paragraph .footer-link:hover,
+.doc-paragraph a:hover {
+  color: var(--text-primary);
+}
+
+/* ==================================================
+   CARD DE CONTATO (EXCLUSIVO DE CONTATO)
+   ================================================== */
+.contact-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-card);
+  border-radius: 10px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-item-label {
+  font-size: 0.75rem; /* 12px */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.contact-item-value {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* ==================================================
+   FOOTER OFICIAL
+   ================================================== */
+.site-footer {
+  width: 100%;
+  padding-top: 26px;
+  padding-bottom: 26px;
+  margin-top: auto;
+}
+
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin-bottom: 22px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.footer-brand {
+  font-size: 0.9375rem; /* 15px */
+  font-weight: 700;
+  color: var(--color-secondary); /* #01AB8E Oficial */
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px clamp(10px, 3.5vw, 16px);
+  width: 100%;
+  max-width: 100%;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8125rem; /* 13px */
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 4px 2px;
+  min-height: 28px;
+  transition: color 0.15s ease, text-decoration 0.15s ease;
+  white-space: nowrap;
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-link[aria-current="page"] {
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.footer-copyright {
+  font-size: 0.75rem; /* 12px */
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==================================================
+   RESPONSIVIDADE MOBILE FIRST
+   ================================================== */
+@media (max-width: 359px) {
+  .site-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .brand-logo-img {
+    height: 34px;
+  }
+  .brand-wordmark {
+    height: 25px;
+  }
+  .page-title {
+    font-size: 1.375rem; /* 22px */
+  }
+  .footer-nav {
+    gap: 4px 8px;
+  }
+  .footer-link {
+    font-size: 0.6875rem; /* 11px */
+  }
+}

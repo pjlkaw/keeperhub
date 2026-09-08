@@ -133,7 +133,6 @@ FAB (FLOATING ACTION BUTTON)
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(112, 222, 1, 0.4);
     border: none;
     cursor: pointer;
     z-index: 90;
