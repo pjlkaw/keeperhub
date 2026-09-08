@@ -33,7 +33,7 @@
 }
 
 .formulario-editar-pet__foto:has(+ .formulario-editar-pet__alterar-foto:hover) {
-  border-color: rgba(89, 133, 252, 0.7);
+  border-color: color-mix(in srgb, var(--pets-primary) 70%, transparent);
   box-shadow: 0 0 0 4px var(--pets-primary-soft);
   transform: translateY(-2px);
 }
@@ -84,7 +84,7 @@
 }
 
 .formulario-editar-pet:valid .formulario-editar-pet__enviar {
-  color: #ffffff;
+  color: var(--pets-on-primary);
   background: var(--pets-primary);
   cursor: pointer;
   pointer-events: auto;
@@ -92,7 +92,7 @@
 
 .formulario-editar-pet:valid .formulario-editar-pet__enviar:hover {
   background: var(--pets-primary-hover);
-  box-shadow: 0 8px 20px rgba(89, 133, 252, 0.3);
+  box-shadow: 0 8px 20px var(--pets-primary-shadow);
   animation: pet-button-bounce 480ms ease-in-out infinite alternate;
 }
 
