@@ -1,0 +1,355 @@
+/* Layout da tela de lembretes. Carregar depois de style-pets.css e cabecalho-pets.css. */
+.pagina-lembretes {
+  background: var(--pets-bg);
+}
+
+.conteudo-lembretes {
+  width: min(100%, 720px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding-bottom: 84px;
+}
+
+.conteudo-lembretes .cabecalho-pagina {
+  min-height: 72px;
+  padding: 20px 56px 8px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.conteudo-lembretes .cabecalho-pagina__voltar {
+  position: absolute;
+  left: 12px;
+}
+
+.resumo-pet-lembretes,
+.criar-lembrete,
+.grupo-lembretes,
+.lembretes-agendados {
+  margin: 16px;
+  padding: 16px;
+  background: var(--pets-panel-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-md);
+}
+
+.resumo-pet-lembretes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-pet {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border: 1px solid var(--pets-primary-border);
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.resumo-pet-lembretes strong,
+.resumo-pet-lembretes small {
+  display: block;
+}
+
+.resumo-pet-lembretes small {
+  margin-top: 3px;
+  color: var(--pets-text-soft);
+  font-size: 12px;
+}
+
+.contador-ativos {
+  margin-left: auto;
+  padding: 7px 10px;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border-radius: var(--pets-radius-pill);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.titulo-secao {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.titulo-secao h1,
+.titulo-secao h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.titulo-secao p {
+  margin: 4px 0 0;
+  color: var(--pets-text-soft);
+  font-size: 12px;
+}
+
+.titulo-secao a {
+  color: var(--pets-primary);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.badge-texto {
+  padding: 4px 8px;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border-radius: var(--pets-radius-sm);
+  font-size: 11px;
+}
+
+.criar-lembrete form {
+  display: grid;
+  gap: 10px;
+}
+
+.criar-lembrete label {
+  display: grid;
+  gap: 5px;
+  color: var(--pets-text-soft);
+  font-size: 12px;
+}
+
+.criar-lembrete textarea,
+.criar-lembrete input,
+.criar-lembrete select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px;
+  color: var(--pets-text);
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+  font: inherit;
+}
+
+.criar-lembrete textarea {
+  min-height: 68px;
+  resize: vertical;
+}
+
+.criar-lembrete :is(textarea, input, select):focus {
+  outline: 2px solid var(--pets-primary);
+  outline-offset: 1px;
+}
+
+.campos-lembrete {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.botao-principal {
+  min-height: 42px;
+  margin-top: 2px;
+  border: 0;
+  border-radius: var(--pets-radius-pill);
+  font-weight: 700;
+}
+
+.filtros-lembretes {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.filtro-lembrete {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  color: var(--pets-text-soft);
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-pill);
+  font-size: 12px;
+}
+
+.filtro-lembrete.ativo,
+.filtro-lembrete:hover {
+  color: var(--pets-on-primary);
+  background: var(--pets-primary);
+  border-color: var(--pets-primary);
+}
+
+.grupo-lembretes {
+  margin-top: 14px;
+}
+
+.grupo-lembretes h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: var(--pets-text);
+  font-size: 13px;
+}
+
+.grupo-lembretes h3 img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.grupo-lembretes h3 small {
+  margin-left: auto;
+  color: var(--pets-text-soft);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.card-modelo-lembrete,
+.card-agendado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin-top: 8px;
+  padding: 10px;
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+}
+
+.card-modelo-lembrete > img,
+.card-agendado > img {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  background: var(--pets-surface-raised);
+  border-radius: var(--pets-radius-sm);
+  object-fit: contain;
+}
+
+.card-modelo-lembrete > div,
+.card-agendado > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-modelo-lembrete strong,
+.card-agendado strong {
+  display: block;
+  overflow: hidden;
+  color: var(--pets-text);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-modelo-lembrete p,
+.card-agendado p {
+  margin: 3px 0 0;
+  overflow: hidden;
+  color: var(--pets-text-soft);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-modelo-lembrete span {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 6px;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.card-modelo-lembrete > button,
+.card-agendado > button {
+  flex: 0 0 auto;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 4px 8px;
+  color: var(--pets-text);
+  background: var(--pets-surface-raised);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-pill);
+  font-size: 12px;
+}
+
+.card-modelo-lembrete > button:hover,
+.card-agendado > button:hover {
+  color: var(--pets-on-primary);
+  background: var(--pets-primary);
+}
+
+.grade-modelos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.grade-modelos .card-modelo-lembrete {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  margin: 0;
+}
+
+.grade-modelos .card-modelo-lembrete > img {
+  margin-bottom: 2px;
+}
+
+.grade-modelos .card-modelo-lembrete p {
+  white-space: normal;
+}
+
+.grade-modelos .card-modelo-lembrete button {
+  width: 100%;
+  margin-top: auto;
+}
+
+.chip-hoje,
+.chip-data {
+  flex: 0 0 auto;
+  padding: 4px 7px;
+  color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.botao-flutuante {
+  position: fixed;
+  right: max(18px, calc((100vw - 720px) / 2 + 18px));
+  bottom: 18px;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  color: var(--pets-on-primary);
+  background: var(--pets-primary);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px var(--pets-primary-shadow);
+  font-size: 28px;
+  line-height: 1;
+}
+
+@media (max-width: 480px) {
+  .campos-lembrete,
+  .grade-modelos {
+    grid-template-columns: 1fr;
+  }
+
+  .grupo-lembretes h3 small {
+    display: none;
+  }
+
+  .contador-ativos {
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+}

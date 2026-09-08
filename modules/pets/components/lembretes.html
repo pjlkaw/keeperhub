@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0c">
+  <title>KeeperHub — Lembretes da Luna</title>
+  <link rel="icon" href="../../../shared/img/logo-pets.png" type="image/png">
+  <link rel="stylesheet" href="../../../shared/styles/reset.css">
+  <link rel="stylesheet" href="../../../shared/styles/variables.css">
+  <link rel="stylesheet" href="../../../shared/styles/components.css">
+  <link rel="stylesheet" href="../assets/css/style-pets.css">
+  <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+  <link rel="stylesheet" href="../assets/css/lembretes.css">
+</head>
+<body class="pagina-modulo pagina-lembretes" data-modulo="pets" data-pet-id="exemplo">
+  <main id="conteudo-principal" class="conteudo-lembretes">
+    <header class="cabecalho-pagina cabecalho-pets">
+      <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar aos meus pets" data-manter-pet>
+        <span aria-hidden="true"></span>
+      </a>
+      <h1 class="cabecalho-pagina__titulo">Lembretes da Luna</h1>
+    </header>
+    
+    <section class="resumo-pet-lembretes" aria-label="Resumo do pet">
+      <div class="avatar-pet" aria-hidden="true">L</div>
+      <div>
+        <strong>Luna - Golden Retriever</strong>
+        <small>Pet selecionado</small>
+      </div>
+      <span class="contador-ativos"> 4 ativos hoje</span>
+    </section>
+
+    <section class="criar-lembrete" aria-labelledby="titulo-criar-lembrete">
+      <div class="titulo-secao">
+        <h1 id="titulo-criar-lembrete"> Criar lembrete livre</h1>
+        <span class="badge-texto">Texto</span>
+      </div>
+      <form id="formulario-lembrete" method="post" action="/api/pets/lembretes" data-endpoint="/api/pets/lembretes">
+        <label class="sr-only" for="descricao-lembrete">Descrição do lembrete</label>
+        <textarea id="descricao-lembrete" name="descricao" rows="2" maxlength="500" required placeholder="Ex.: Dar 1 comprimido de Simparic amanhã às 09:00 ou comprar ração Golden..."></textarea>
+        <div class="campos-lembrete">
+          <label for="data-hora-lembrete">
+            <span>Data e hora</span>
+            <input id="data-hora-lembrete" name="data_hora" type="datetime-local" required>
+          </label>
+          <label for="repeticao-lembrete">
+            <span>Repetir</span>
+            <select id="repeticao-lembrete" name="repeticao">
+              <option value="nao">Não repetir</option>
+              <option value="diario">Diariamente</option>
+              <option value="semanal">Semanalmente</option>
+              <option value="mensal">Mensalmente</option>
+              <option value="anual">Anualmente</option>
+            </select>
+          </label>
+        </div>
+        <label for="tipo-lembrete">
+          <span>Tipo de lembrete</span>
+          <select id="tipo-lembrete" name="tipo" required>
+            <option value="">Selecione uma funcionalidade</option>
+            <option value="vacinas">Vacinas</option>
+            <option value="medicamentos">Medicamentos e parasitas</option>
+            <option value="consultas">Consultas e check-ups</option>
+            <option value="rotina">Rotina diária e cuidados</option>
+            <option value="despesas">Despesas e compras</option>
+            <option value="higiene">Higiene, banho e tosa</option>
+          </select>
+        </label>
+        <button class="botao-principal" type="submit">Salvar lembrete</button>
+      </form>
+    </section>
+
+    <section class="modelos-lembretes" aria-labelledby="titulo-modelos">
+      <div class="titulo-secao">
+        <div>
+          <h2 id="titulo-modelos">Lembretes por funcionalidade</h2>
+          <p>Modelos completos das áreas do módulo Pets</p>
+        </div>
+        <a href="../index.html#acoes-rapidas">6 áreas integradas</a>
+      </div>
+      <div class="filtros-lembretes" role="group" aria-label="Filtrar por funcionalidade">
+        <button type="button" class="filtro-lembrete ativo" data-filtro="todos">Todos (16)</button>
+        <button type="button" class="filtro-lembrete" data-filtro="vacinas">Vacinas</button>
+        <button type="button" class="filtro-lembrete" data-filtro="medicamentos">Medicamentos</button>
+        <button type="button" class="filtro-lembrete" data-filtro="consultas">Consultas</button>
+        <button type="button" class="filtro-lembrete" data-filtro="rotina">Rotina</button>
+        <button type="button" class="filtro-lembrete" data-filtro="despesas">Despesas</button>
+        <button type="button" class="filtro-lembrete" data-filtro="higiene">Higiene</button>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="vacinas" data-cor="azul">
+        <h3><img src="../assets/img/frasco-vacina-pets.png" alt=""> Vacinas <small>Da tela de Vacinas</small></h3>
+        <article class="card-modelo-lembrete"><img src="../assets/img/frasco-vacina-pets.png" alt=""><div><strong>Reforço Anual V10 / V8</strong><p>Alertar 15 dias antes da dose anual</p><span>Ciclo anual · Recomendado pelo vet</span></div><button type="button" aria-label="Ativar Reforço Anual V10 ou V8">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/protecao-pets.png" alt=""><div><strong>Vacina Antirrábica</strong><p>Campanha anual obrigatória</p><span>Agosto 2025</span></div><button type="button" aria-label="Ativar Vacina Antirrábica">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/gripe-pets.png" alt=""><div><strong>Gripe Canina (Pneumodog)</strong><p>Reforço sazonal pré-inverno</p></div><button type="button" aria-label="Ativar Gripe Canina">+</button></article>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="medicamentos" data-cor="roxo">
+        <h3><img src="../assets/img/antiparasitario-pets.png" alt=""> Medicamentos e Parasitas <small>Da tela de Medicamentos</small></h3>
+        <article class="card-modelo-lembrete"><img src="../assets/img/antiparasitario-pets.png" alt=""><div><strong>Antipulgas e Carrapatos</strong><p>A cada 35 dias ou 90 dias</p><span>Repetição programada · Alerta às 19:00</span></div><button type="button" aria-label="Ativar Antipulgas e Carrapatos">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/medicamento-pets.png" alt=""><div><strong>Vermífugo Semestral</strong><p>Dose única com repetição em 15 dias</p><span>Semestral</span></div><button type="button" aria-label="Ativar Vermífugo Semestral">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/estoque-pets.png" alt=""><div><strong>Comprar Refil de Medicamento Contínuo</strong><p>Aviso quando o estoque atingir 5 comprimidos</p></div><button type="button" aria-label="Ativar compra de refil">+</button></article>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="consultas" data-cor="verde">
+        <h3><img src="../assets/img/consulta-pets.png" alt=""> Consultas e Check-ups <small>Da tela de Consultas</small></h3>
+        <article class="card-modelo-lembrete"><img src="../assets/img/consulta-pets.png" alt=""><div><strong>Check-up Preventivo Semestral</strong><p>Dra. Camila · Clínica VetLife</p><span>Alerta 48h antes</span></div><button type="button" aria-label="Ativar Check-up Preventivo">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/odontologia-pets.png" alt=""><div><strong>Avaliação Odontológica / Tártaro</strong><p>Inspeção anual da saúde bucal</p></div><button type="button" aria-label="Ativar Avaliação Odontológica">+</button></article>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="rotina" data-cor="amarelo">
+        <h3><img src="../assets/img/cuidado-pets.png" alt=""> Rotina Diária e Cuidados <small>Da tela de Rotina</small></h3>
+        <div class="grade-modelos">
+          <article class="card-modelo-lembrete"><img src="../assets/img/alimentacao-pets.png" alt=""><strong>Alimentação Manhã &amp; Noite</strong><p>08:00 e 19:30 (250g)</p><button type="button">+ Ativar</button></article>
+          <article class="card-modelo-lembrete"><img src="../assets/img/passeio-pets.png" alt=""><strong>Passeio &amp; Exercício</strong><p>Diário às 17:30 (45 min)</p><button type="button">+ Ativar</button></article>
+          <article class="card-modelo-lembrete"><img src="../assets/img/agua-pets.png" alt=""><strong>Trocar Água Fresca</strong><p>Higienizar bebedouro</p><button type="button">+ Ativar</button></article>
+          <article class="card-modelo-lembrete"><img src="../assets/img/higiene-pelos-pets.png" alt=""><strong>Escovação dos Pelos</strong><p>Terças e sábados</p><button type="button">+ Ativar</button></article>
+        </div>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="despesas" data-cor="verde-lima">
+        <h3><img src="../assets/img/compras-pets.png" alt=""> Despesas e Compras <small>Da tela de Despesas</small></h3>
+        <article class="card-modelo-lembrete"><img src="../assets/img/compras-pets.png" alt=""><div><strong>Repor Saco de Ração Golden (15kg)</strong><p>Lembrar todo dia 03 do mês</p><span>Estimativa R$ 145,00</span></div><button type="button" aria-label="Ativar reposição de ração">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/plano-saude-pets.png" alt=""><div><strong>Renovar Plano de Saúde Pet</strong><p>Vencimento da mensalidade dia 10</p></div><button type="button" aria-label="Ativar renovação do plano">+</button></article>
+      </div>
+
+      <div class="grupo-lembretes" data-tipo="higiene" data-cor="rosa">
+        <h3><img src="../assets/img/banho-tosa-pets.png" alt=""> Higiene, Banho e Tosa <small>Da área de Bem-estar</small></h3>
+        <article class="card-modelo-lembrete"><img src="../assets/img/banho-tosa-pets.png" alt=""><div><strong>Banho e Tosa Higiênica Quinzenal</strong><p>Spa Pet Golden Glow · Agendamento</p><span>A cada 15 dias</span></div><button type="button" aria-label="Ativar Banho e Tosa">+</button></article>
+        <article class="card-modelo-lembrete"><img src="../assets/img/corte-unhas-pets.png" alt=""><div><strong>Corte de Unhas e Limpeza de Ouvidos</strong><p>Prevenção contra otites e desconforto</p></div><button type="button" aria-label="Ativar Corte de Unhas">+</button></article>
+      </div>
+    </section>
+
+    <section id="lembretes-agendados" class="lembretes-agendados" aria-labelledby="titulo-agendados">
+      <div class="titulo-secao"><h2 id="titulo-agendados">Lembretes agendados da Luna</h2><a href="#lembretes-agendados">Ver todos (4)</a></div>
+      <article class="card-agendado"><img src="../assets/img/lembrete-calendario-pets.png" alt=""><div><strong>Simparic (Antipulgas)</strong><p>Programado para 19:00 · 1 comp mastigável</p></div><span class="chip-hoje">Hoje</span><button type="button" aria-label="Editar lembrete Simparic">Editar</button></article>
+      <article class="card-agendado"><img src="../assets/img/lembrete-agendado-pets.png" alt=""><div><strong>Consulta Semestral</strong><p>14:30 · Dra. Camila VetLife</p></div><span class="chip-data">15 Nov</span><button type="button" aria-label="Editar lembrete de consulta">Editar</button></article>
+      <article class="card-agendado"><img src="../assets/img/frasco-vacina-pets.png" alt=""><div><strong>Reforço Vacina V10</strong><p>Dose anual com aviso 7 dias antes</p></div><span class="chip-data">05 Dez</span><button type="button" aria-label="Editar lembrete da vacina">Editar</button></article>
+    </section>
+  </main>
+
+  <a class="botao-flutuante" href="#formulario-lembrete" aria-label="Criar novo lembrete">+</a>
+  <script src="../../../shared/services/theme.js"></script>
+</body>
+</html>
