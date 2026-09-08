@@ -60,10 +60,6 @@
    3. ESTILOS BASE DOS CARDS DE ESTATÍSTICA
    -------------------------------------------------------------------------- */
 .meds-card-stat {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -483,7 +479,6 @@ html[data-theme="light"] .meds-cal-day.muted {
     flex-direction: row;
     align-items: center;
     gap: 14px;
-    background-color: var(--card-bg);
 }
 
 .meds-milestone-icon-wrap {
