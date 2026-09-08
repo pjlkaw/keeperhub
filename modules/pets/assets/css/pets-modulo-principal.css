@@ -10,7 +10,7 @@
 .pagina-pets .modules-nav-item.active {
   color: var(--pets-primary);
   background-color: var(--pets-primary-soft);
-  border-color: rgba(89, 133, 252, 0.5);
+  border-color: var(--pets-primary-border);
 }
 
 /* Dashboard */
@@ -85,7 +85,7 @@
 .cartao-resumo-pet__idade {
   margin-left: 4px;
   color: var(--pets-text-muted);
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 400;
   white-space: nowrap;
@@ -194,7 +194,7 @@
 }
 
 .acao-rapida--consulta > .icone {
-  background-color: rgba(0, 214, 143, 0.11);
+  background-color: color-mix(in srgb, var(--pets-appointment) 11%, transparent);
   background-image: url('../img/consultas-pets.png');
 }
 
@@ -204,11 +204,11 @@
 }
 
 .acao-rapida--medicacao > .icone {
-  background-color: rgba(168, 85, 247, 0.13);
+  background-color: color-mix(in srgb, var(--pets-medication) 13%, transparent);
 }
 
 .acao-rapida--rotina > .icone {
-  background-color: rgba(245, 158, 11, 0.12);
+  background-color: color-mix(in srgb, var(--pets-routine) 12%, transparent);
   background-image: url('../img/rotina-pets.png');
 }
 
@@ -231,7 +231,7 @@
   align-self: end;
   min-width: 0;
   overflow: hidden;
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 700;
   text-overflow: ellipsis;
@@ -258,10 +258,10 @@
   min-height: 70px;
   padding: 18px;
   color: var(--pets-primary);
-  background: rgba(89, 133, 252, 0.04);
-  border: 1px dashed rgba(89, 133, 252, 0.5);
+  background: color-mix(in srgb, var(--pets-primary) 4%, transparent);
+  border: 1px dashed var(--pets-primary-border);
   border-radius: var(--pets-radius-md);
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
   transition:
@@ -272,14 +272,15 @@
 
 .cartao-adicionar-pet:hover {
   color: var(--pets-primary-hover);
-  background: rgba(89, 133, 252, 0.09);
+  background: color-mix(in srgb, var(--pets-primary) 9%, transparent);
   border-color: var(--pets-primary);
 }
 
 .cartao-adicionar-pet .icone {
   width: 18px;
   height: 18px;
-  background-image: url('../img/adicionar-pets.png');
+  background-color: currentColor;
+  mask: url('../img/adicionar-pets.png') center / contain no-repeat;
 }
 
 /* Alertas */
@@ -366,7 +367,7 @@
   width: 44px;
   height: 44px;
   color: var(--pets-primary);
-  background: rgba(89, 133, 252, 0.1);
+  background: color-mix(in srgb, var(--pets-primary) 10%, transparent);
 }
 
 .cartao-alerta--medicacao .cartao-alerta__acao .icone {
