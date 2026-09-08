@@ -13,7 +13,8 @@
 		buttons.forEach((button) => {
 			button.setAttribute('aria-pressed', String(isLight));
 			button.setAttribute('aria-label', isLight ? 'Ativar modo escuro' : 'Ativar modo claro');
-			button.textContent = isLight ? '☾' : '☀';
+			button.querySelector('.theme-icon-sun')?.classList.toggle('is-visible', isLight);
+			button.querySelector('.theme-icon-moon')?.classList.toggle('is-visible', !isLight);
 		});
 	};
 

@@ -1,40 +1,51 @@
+/* Base do módulo Pets.
+ * Carregar depois de reset.css, variables.css e components.css da shared.
+ * Os aliases --pets-* preservam os seletores das telas e acompanham o tema do hub.
+ * Layouts, abas, carrossel e botões de destaque são adaptações do módulo.
+ */
 :root {
-  --pets-primary: var(--tool-pets, #5985fc);
-  --pets-primary-hover: #7198ff;
-  --pets-primary-active: #4774ee;
-  --pets-primary-soft: rgba(89, 133, 252, 0.14);
-  --pets-bg: var(--bg-color, #0b0b0d);
-  --pets-header: var(--header-bg, #0b0b0d);
-  --pets-surface: var(--card-bg, #17171a);
-  --pets-surface-hover: #232326;
-  --pets-surface-raised: #29292d;
-  --pets-border: var(--border-color, rgba(255, 255, 255, 0.08));
-  --pets-border-strong: #3b3b41;
-  --pets-text: var(--text-color, #f4f4f5);
-  --pets-text-soft: #c8c8cd;
-  --pets-text-muted: var(--text-muted, #9a9aa2);
-  --pets-label: #c8c8cd;
-  --pets-neutral-hover: rgba(255, 255, 255, 0.07);
-  --pets-control-bg: #09090b;
-  --pets-panel-bg: rgba(18, 18, 21, 0.72);
-  --pets-fixed-bar-bg: rgba(11, 11, 13, 0.94);
-  --pets-disabled-bg: #2a2a2f;
-  --pets-disabled-text: #85858c;
-  --pets-photo-start: #34363d;
-  --pets-photo-end: #202126;
+  --pets-primary: var(--tool-pets);
+  --pets-primary-hover: color-mix(in srgb, var(--tool-pets) 85%, white);
+  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 85%, black);
+  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
+  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
+  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
+  --pets-bg: var(--bg-color);
+  --pets-header: var(--header-bg);
+  --pets-surface: var(--card-bg);
+  --pets-surface-hover: color-mix(in srgb, var(--card-bg) 94%, var(--text-color));
+  --pets-surface-raised: color-mix(in srgb, var(--card-bg) 90%, var(--text-color));
+  --pets-border: var(--border-color);
+  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
+  --pets-text: var(--text-color);
+  --pets-text-soft: var(--text-muted);
+  --pets-text-muted: var(--text-muted);
+  --pets-label: var(--text-color);
+  --pets-neutral-hover: color-mix(in srgb, var(--text-color) 7%, transparent);
+  --pets-control-bg: var(--card-bg);
+  --pets-panel-bg: var(--card-bg);
+  --pets-fixed-bar-bg: var(--header-bg);
+  --pets-disabled-bg: var(--card-bg);
+  --pets-disabled-text: var(--text-muted);
+  --pets-photo-start: var(--pets-surface-raised);
+  --pets-photo-end: var(--card-bg);
+  /* Cores dos ícones por categoria; não substituem as cores do tema. */
   --pets-vaccine: #2f8fff;
   --pets-appointment: #00d68f;
   --pets-medication: #a855f7;
   --pets-routine: #f59e0b;
+  /* Texto sobre o destaque azul, que é o mesmo nos dois temas. */
+  --pets-on-primary: #ffffff;
+  --pets-shadow: color-mix(in srgb, black 35%, transparent);
   --pets-radius-sm: 8px;
   --pets-radius-md: 12px;
   --pets-radius-lg: 18px;
   --pets-radius-pill: 999px;
   --pets-content-width: 980px;
   --pets-transition: 160ms ease;
-  --color-secondary: var(--tool-pets, #5985fc);
-  --color-section-primary: var(--tool-pets, #5985fc);
-  --color-section-bg-tint: rgba(89, 133, 252, 0.14);
+  --color-secondary: var(--tool-pets);
+  --color-section-primary: var(--tool-pets);
+  --color-section-bg-tint: var(--pets-primary-soft);
 }
 
 html[data-theme='dark'] {
@@ -43,47 +54,24 @@ html[data-theme='dark'] {
 
 html[data-theme='light'] {
   color-scheme: light;
-  --pets-surface-hover: #f1f5f9;
-  --pets-surface-raised: #e2e8f0;
-  --pets-border-strong: #cbd5e1;
-  --pets-text-soft: #475569;
-  --pets-label: #475569;
-  --pets-neutral-hover: rgba(26, 32, 44, 0.07);
-  --pets-control-bg: #ffffff;
-  --pets-panel-bg: var(--card-bg, #f8fafc);
-  --pets-fixed-bar-bg: rgba(255, 255, 255, 0.94);
-  --pets-disabled-bg: #e2e8f0;
-  --pets-disabled-text: #64748b;
-  --pets-photo-start: #f1f5f9;
-  --pets-photo-end: #e2e8f0;
 }
 
 body {
   min-width: 280px;
   min-height: 100vh;
-  background: var(--pets-bg);
-  color: var(--pets-text);
-  font-family: Tahoma, Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.4;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
 }
 
+/* Fonte, cores do body e entrelinha são herdadas da shared. */
 h1,
 h2,
 h3 {
   color: var(--pets-text);
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
 }
 
 ul {
   list-style: none;
-}
-
-:where(a, button, input):focus-visible {
-  outline: 2px solid var(--pets-primary);
-  outline-offset: 3px;
 }
 
 .somente-leitor-tela {
@@ -138,11 +126,11 @@ ul {
   gap: 6px;
   min-height: 44px;
   padding: 9px 16px;
-  color: #ffffff;
+  color: var(--pets-on-primary);
   background: var(--pets-primary);
   border: 1px solid transparent;
   border-radius: var(--pets-radius-pill);
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -154,7 +142,7 @@ ul {
 
 .botao-principal:hover {
   background: var(--pets-primary-hover);
-  box-shadow: 0 5px 14px rgba(89, 133, 252, 0.24);
+  box-shadow: 0 5px 14px var(--pets-primary-shadow);
 }
 
 .botao-principal:active {
@@ -261,44 +249,23 @@ ul {
   display: block;
   margin-bottom: 8px;
   color: var(--pets-label);
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 700;
 }
 
-.campo-formulario input[type='text'],
-.campo-formulario input[type='number'] {
-  width: 100%;
-  min-height: 49px;
-  padding: 12px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
-  border: 1px solid var(--pets-surface-raised);
-  border-radius: var(--pets-radius-sm);
-  outline: 0;
-  transition:
-    border-color var(--pets-transition),
-    box-shadow var(--pets-transition),
-    background-color var(--pets-transition),
-    transform var(--pets-transition);
+/* A aparência básica dos campos vem de shared/styles/components.css.
+ * Apenas a área de toque e o foco azul são ajustados para Pets.
+ */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+select {
+  min-height: 44px;
 }
 
-.campo-formulario input::placeholder {
-  color: var(--pets-text-muted);
-}
-
-.campo-formulario input[type='text']:hover,
-.campo-formulario input[type='number']:hover {
-  background: var(--pets-surface-hover);
-  border-color: var(--pets-border-strong);
-}
-
-.campo-formulario input[type='text']:focus,
-.campo-formulario input[type='number']:focus {
-  background: var(--pets-surface-hover);
-  border-color: var(--pets-primary);
-  box-shadow: 0 0 0 3px var(--pets-primary-soft);
-  transform: translateY(-1px);
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
+select:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px var(--pets-primary-soft);
 }
 
 .linha-formulario {
@@ -362,7 +329,7 @@ ul {
 .opcoes-especies__opcao:hover .opcoes-especies__rotulo {
   color: var(--pets-text);
   background: var(--pets-surface-hover);
-  border-color: rgba(89, 133, 252, 0.45);
+  border-color: var(--pets-primary-border);
   transform: translateY(-2px);
 }
 
@@ -379,10 +346,10 @@ ul {
 }
 
 .opcoes-especies__opcao input:checked + .opcoes-especies__rotulo {
-  color: #ffffff;
+  color: var(--pets-on-primary);
   background: var(--pets-primary);
   border-color: var(--pets-primary);
-  box-shadow: 0 4px 12px rgba(89, 133, 252, 0.24);
+  box-shadow: 0 4px 12px var(--pets-primary-shadow);
 }
 
 .controle-segmentado__opcao input {
@@ -444,9 +411,9 @@ ul {
 }
 
 .controle-segmentado__opcao input:checked + .controle-segmentado__rotulo {
-  color: #ffffff;
+  color: var(--pets-on-primary);
   background: var(--pets-primary);
-  box-shadow: 0 4px 14px rgba(89, 133, 252, 0.28);
+  box-shadow: 0 4px 14px var(--pets-primary-shadow);
 }
 
 @media (min-width: 600px) {
@@ -457,6 +424,11 @@ ul {
 }
 
 @media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+
   .linha-formulario {
     grid-template-columns: 1fr;
     gap: 0;
@@ -467,9 +439,6 @@ ul {
   *,
   *::before,
   *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
 }

@@ -148,7 +148,7 @@
   gap: 12px;
 }
 
-.rotina-alimentar__cabecalho .link-editar {
+.rotina-alimentar__cabecalho {
   font-size: 11px;
   text-align: right;
 }
@@ -241,7 +241,7 @@
   place-items: center;
   background: var(--pets-primary);
   border-radius: 50%;
-  box-shadow: 0 5px 14px rgb(0 0 0 / 35%);
+  box-shadow: 0 5px 14px var(--pets-shadow);
 }
 
 .botao-flutuante .icone {

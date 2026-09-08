@@ -1,0 +1,128 @@
+/* Tela de edição dos dados do tutor e do contato de emergência. */
+
+.editar-pet--tutor {
+  width: min(100%, 720px);
+  min-height: 100vh;
+  padding-bottom: 104px;
+}
+
+.editar-pet--tutor .cabecalho-pagina {
+  position: relative;
+  justify-content: center;
+  min-height: 80px;
+  padding: 24px 64px 12px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.editar-pet--tutor .cabecalho-pagina__voltar {
+  position: absolute;
+  left: 12px;
+}
+
+.editar-pet--tutor .cabecalho-pagina__titulo {
+  font-size: 20px;
+  text-align: center;
+}
+
+.formulario-editar-pet {
+  display: grid;
+  gap: 16px;
+  margin: 16px 12px 0;
+  padding: 16px;
+  background: var(--pets-panel-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-md);
+}
+
+.aviso-informativo {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.aviso-informativo > .icone {
+  width: 24px;
+  height: 24px;
+  margin-top: 1px;
+  background-image: url("../img/dados-emergencia-pets.png");
+}
+
+.aviso-informativo__conteudo {
+  min-width: 0;
+}
+
+.aviso-informativo__titulo {
+  color: var(--pets-text);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.aviso-informativo__descricao {
+  margin-top: 6px;
+  color: var(--pets-text-soft);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.formulario-editar-pet .campo-formulario {
+  margin: 0;
+}
+
+.formulario-editar-pet .campo-formulario label {
+  margin-bottom: 7px;
+  font-size: 11px;
+}
+
+.formulario-editar-pet .campo-formulario input[type="text"],
+.formulario-editar-pet .campo-formulario input[type="tel"] {
+  width: 100%;
+  min-height: 43px;
+  padding: 10px;
+  color: var(--pets-text);
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+  font-size: 12px;
+}
+
+.formulario-editar-pet .campo-formulario input:focus {
+  border-color: var(--pets-primary);
+  box-shadow: 0 0 0 3px var(--pets-primary-soft);
+}
+
+.formulario-editar-pet__enviar {
+  position: fixed;
+  z-index: 10;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: min(calc(100% - 24px), 688px);
+  min-height: 48px;
+  margin: 0 auto 12px;
+  font-size: 11px;
+}
+
+@media (min-width: 600px) {
+  .editar-pet--tutor .cabecalho-pagina {
+    padding: 28px 76px 14px;
+  }
+
+  .editar-pet--tutor .cabecalho-pagina__voltar {
+    left: 24px;
+  }
+
+  .formulario-editar-pet {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}
+
+@media (max-width: 430px) {
+  .formulario-editar-pet {
+    padding: 16px;
+  }
+}

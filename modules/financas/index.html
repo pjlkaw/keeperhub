@@ -19,31 +19,31 @@
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
             <nav class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos">
                 <div class="modules-nav-bar" role="tablist">
-                    <span class="modules-nav-item active" role="tab" aria-selected="true" tabindex="0">
+                    <a href="index.html" class="modules-nav-item active" data-module="financas" role="tab" aria-selected="true" aria-current="page">
                         <img src="../../shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14"
                             height="14">
                         Finanças
-                    </span>
-                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                    </a>
+                    <a href="../despensa/index.html" class="modules-nav-item" data-module="despensa" role="tab" aria-selected="false">
                         <img src="../../shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14"
                             height="14">
                         Despensa
-                    </span>
-                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                    </a>
+                    <a href="../pets/index.html" class="modules-nav-item" data-module="pets" role="tab" aria-selected="false">
                         <img src="../../shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14"
                             height="14">
                         Pets
-                    </span>
-                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                    </a>
+                    <a href="../metas/index.html" class="modules-nav-item" data-module="metas" role="tab" aria-selected="false">
                         <img src="../../shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14"
                             height="14">
                         Metas
-                    </span>
-                    <span class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+                    </a>
+                    <a href="../medicamentos/index.html" class="modules-nav-item" data-module="medicamentos" role="tab" aria-selected="false">
                         <img src="../../shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon"
                             width="14" height="14">
-                        Medicamentos
-                    </span>
+                        Farmácia
+                    </a>
                 </div>
             </nav>
             <header class="preview-heading">
@@ -53,21 +53,13 @@
                     <h2>Finanças</h2>
                 </div>
                 <div class="preview-actions">
-                    <span class="notification" role="img" aria-label="Uma nova notificação">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" />
-                        </svg>
-                        <i></i>
-                    </span>
-                    <button class="preview-theme-button" type="button" aria-label="Ativar modo claro"
-                        aria-pressed="false">☀</button>
+                    <button class="preview-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">
+                        <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
+                        <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
+                    </button>
                 </div>
                 <p>Setembro · suas finanças organizadas</p><strong>Mês atual</strong>
             </header>
-            <nav class="finance-home-links" aria-label="Páginas de finanças">
-                <a href="components/transacoes.html">Transações</a>
-                <a href="components/relatorios.html">Relatórios</a>
-            </nav>
             <section class="preview-greeting" aria-labelledby="greeting-title">
                 <h3 id="greeting-title">Olá, 👋</h3>
                 <p>Veja como estão suas finanças este mês.</p>
@@ -87,6 +79,18 @@
                     </div>
                 </dl>
             </article>
+            <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
+                <a class="finance-shortcut-card" href="components/transacoes.html">
+                    <span class="finance-shortcut-icon" aria-hidden="true">▤</span>
+                    <strong>Transações</strong>
+                    <span>Ver tudo</span>
+                </a>
+                <a class="finance-shortcut-card" href="components/relatorios.html">
+                    <span class="finance-shortcut-icon" aria-hidden="true">▥</span>
+                    <strong>Relatórios</strong>
+                    <span>Análise mensal</span>
+                </a>
+            </nav>
             <article class="cash-flow">
                 <header>
                     <h3>Fluxo do mês</h3><span>Setembro 2026</span>
@@ -137,7 +141,7 @@
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
                 </div>
             </article>
-            <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação">＋</a>
+            <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação"></a>
         </section>
     </main>
 </body>
