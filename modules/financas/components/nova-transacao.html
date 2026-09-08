@@ -16,7 +16,10 @@
     <header class="transaction-heading">
         <a class="preview-back" href="../index.html" aria-label="Voltar para finanças">‹</a>
         <div><h1 id="transaction-title">Nova transação</h1><p>Registre uma movimentação</p></div>
-        <button class="finance-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">☀</button>
+        <button class="finance-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">
+            <img src="../../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
+            <img src="../../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
+        </button>
     </header>
     <form class="transaction-form" id="transaction-form">
         <fieldset class="type-toggle"><legend class="sr-only">Tipo de transação</legend><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true"><span aria-hidden="true">↓</span> Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false"><span aria-hidden="true">↑</span> Receita</button></fieldset>
