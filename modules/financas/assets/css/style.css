@@ -2588,6 +2588,29 @@ html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-heade
 	outline-offset: 2px
 }
 
+.preview-theme-button .theme-icon,
+.finance-theme-button .theme-icon {
+	display: none;
+	width: 18px;
+	height: 18px;
+	object-fit: contain
+}
+
+.preview-theme-button .theme-icon.is-visible,
+.finance-theme-button .theme-icon.is-visible {
+	display: block
+}
+
+body.landing-page .preview-theme-button,
+body.finance-page .finance-theme-button,
+body.transaction-page .finance-theme-button {
+	width: 40px !important;
+	min-width: 40px !important;
+	height: 40px !important;
+	min-height: 40px !important;
+	padding: 0 !important
+}
+
 .transactions-header .finance-theme-button {
 	margin-left: -40px
 }
