@@ -24,9 +24,33 @@
         <!-- Estilo da navegação entre módulos -->
         <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
 
+        <script>
+            fetch('/shared/components/navbar-section.html')
+                .then(response => response.text())
+                .then(data => {
+                    const nav = document.getElementById('modules-nav-wrapper');
+                    nav.innerHTML = data;
+
+                    const moduloAtual = nav.querySelector('[data-module="SEU-MODULO"]');
+                    moduloAtual.classList.add('active');
+                    moduloAtual.setAttribute('aria-selected', 'true');
+                    moduloAtual.setAttribute('tabindex', '0');
+                });
+        </script>
+
         <!-- Header compartilhado -->
         <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script src="/shared/services/theme.js"></script>
+
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <script>
+            fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+                document.getElementById('headerSection').innerHTML = data;
+                document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
+                document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
+                document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+            });
+        </script>
 
     </head>
     <body>
@@ -225,22 +249,5 @@
 
         <!-- Scripts do módulo e componentes compartilhados -->
         <script type="module" src="/modules/medicamentos/js/script.js"></script>
-        <script>
-            Promise.all([
-                fetch('/shared/components/navbar-section.html').then(response => response.text()),
-                fetch('/shared/components/header-page.html').then(response => response.text())
-            ]).then(([navbar, header]) => {
-                const nav = document.getElementById('modules-nav-wrapper');
-                nav.innerHTML = navbar;
-                const moduloAtual = nav.querySelector('[data-module="medicamentos"]');
-                moduloAtual.classList.add('active');
-                moduloAtual.setAttribute('aria-selected', 'true');
-                moduloAtual.setAttribute('tabindex', '0');
-
-                document.getElementById('headerSection').innerHTML = header;
-                document.getElementById('pageNameH1').textContent = 'Medicamentos';
-                document.getElementById('pageSubtittleSpan').textContent = 'Hoje, 24 de agosto';
-            });
-        </script>
     </body>
 </html>
