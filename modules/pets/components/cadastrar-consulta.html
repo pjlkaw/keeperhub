@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/cadastrar-consulta.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
 </head>
 <body>
@@ -72,15 +73,16 @@
                 <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
             </div>
 
-            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar">
+            <button type="button" disabled class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
                 Salvar Consulta
             </button>
 
+            <p id="aviso-integracao" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
         </form>
 
     </main>
 
     <script src="../../../shared/services/theme.js"></script>
-    <script src="../js/cadastrar-consulta.js" defer></script>
+    <!-- Integração de cadastro pendente; ver consultas-integracao.md. -->
 </body>
 </html>
