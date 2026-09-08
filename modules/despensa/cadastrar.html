@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Novo produto</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+:root {
+  --marrom: #A67B5B;
+  --marrom-escuro: #5e4532;
+}
+
+
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.10);
+    font-family: "Tahoma", "Regular";
+    color: #000000;
+  }
+
+  body {
+    min-height: 120vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+    overflow: auto;
+  }
+
+.upload-btn {
+        font-family: "tahoma", "Regular";
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    .upload-btn:hover {
+        background-color: #45a049;
+    }
+    #preview {
+        margin-top: 15px;
+        max-width: 300px;
+        display: none;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+
+  /* CARD PRINCIPAL */
+  .page {
+    width: 421px;
+    height: 700px;
+    margin-top: 11px;
+    border: 1px solid #ffffff;
+    border-radius: 25px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ÁREA INTERNA COM SCROLL */
+ .content {
+    width: 100%;
+    height: 100%;
+    padding: 20px 29px 22px 18px;
+    overflow: hidden;
+}
+
+
+
+  /* CABEÇALHO */
+  .header {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    margin-bottom: 8px;
+  }
+.back-button {
+  width: 30px;
+  height: 30px;
+
+  text-decoration: none;
+
+  border: 1px solid #dce2e8;
+
+  border-radius: 7px;
+
+  background: #f7f8fa;
+
+  color: #596879;
+
+  font-size: 25px;
+
+  line-height: 20px;
+
+  cursor: pointer;
+}
+
+  .title {
+    font-family: "Verdana", Bold;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    color: var(--marrom-escuro);
+  }
+
+  .bell {
+    margin-left: auto;
+    width: 23px;
+    height: 25px;
+    position: relative;
+    color: #81858c;
+  }
+
+  .bell::before {
+    content: "♧";
+    position: absolute;
+    font-size: 24px;
+    transform: rotate(180deg);
+    top: -2px;
+    left: 0;
+  }
+
+  .notification-dot {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #ef8b1d;
+    right: 2px;
+    top: 2px;
+  }
+
+  /* SUBTÍTULO */
+  .subtitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .subtitle span:first-child {
+    font-size: 12px;
+    color: #1d55c5;
+  }
+
+  .demo {
+    height: 25px;
+    padding: 0 10px;
+    border: 1px solid #713e0b;
+    border-radius: 13px;
+    background: #251a10d3;
+    color: #ed8515;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* FOTO */
+  .photo-box {
+    height: 78px;
+    border: 1px dashed #713d0c;
+    border-radius: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #f39320;
+    margin-bottom: 14px;
+  }
+
+  .camera {
+    width: 21px;
+    height: 15px;
+    border: 2px solid #ff921f;
+    border-radius: 3px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .camera::before {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border: 2px solid #ff921f;
+    border-radius: 50%;
+    left: 5px;
+    top: 2px;
+  }
+
+  .camera::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 3px;
+    border-radius: 2px 2px 0 0;
+    background: #ff921f;
+    left: 4px;
+    top: -5px;
+  }
+
+  .photo-text {
+    color: #00000071;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* LABELS */
+  label,
+  .field-label {
+    display: block;
+    color: black;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 7px;
+  }
+
+  .field {
+    margin-bottom: 13px;
+  }
+
+  /* INPUTS */
+  input,
+  select {
+    width: 100%;
+    height: 35px;
+    border: 1px solid #33373e;
+    border-radius: 8px;
+    outline: none;
+    background: #ffffff;
+    color: var(--marrom);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0 11px;
+  }
+
+  input::placeholder {
+    color: #4010b310;
+    opacity: 1;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 11px;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-right: 1px solid #9aa0aa;
+    border-bottom: 1px solid #9aa0aa;
+    transform: rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* NOME + LEITOR */
+  .input-with-scan {
+    display: flex;
+    gap: 7px;
+  }
+
+  .input-with-scan input {
+    flex: 1;
+  }
+
+  .scan {
+    width: 40px;
+    height: 35px;
+    flex-shrink: 0;
+    border: 1px solid #82470ca2;
+    border-radius: 8px;
+    background: #f6f7f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .barcode {
+    width: 15px;
+    height: 16px;
+    background:
+      linear-gradient(
+        90deg,
+        #ef8b1c 0 2px,
+        transparent 2px 4px,
+        #ef8b1c 4px 5px,
+        transparent 5px 7px,
+        #ef8b1c 7px 9px,
+        transparent 9px 11px,
+        #ef8b1c 11px 13px,
+        transparent 13px 15px
+      );
+  }
+
+  /* QUANTIDADE / UNIDADE */
+  .two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .quantity {
+    height: 35px;
+    border: 1px solid #33373e;
+    border-radius: 8px;
+    background: #f6f7f9;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+  }
+
+  .quantity button {
+    width: 27px;
+    height: 27px;
+    border: 0;
+    border-radius: 7px;
+    background: #aeb4c0;
+    color: #000000;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .quantity-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+  }
+
+  /* DATA */
+  .optional-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .optional {
+    color: #788297;
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .date-wrap {
+    position: relative;
+  }
+
+  .date-wrap input {
+    padding-right: 36px;
+  }
+
+  .calendar {
+    position: absolute;
+    right: 12px;
+    top: 11px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #b8bec8;
+    border-radius: 2px;
+  }
+
+  .calendar::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 3px;
+    border-top: 1px solid #b8bec8;
+  }
+
+  .calendar::after {
+    content: "••";
+    position: absolute;
+    font-size: 7px;
+    letter-spacing: 2px;
+    left: 2px;
+    top: 3px;
+    color: #b8bec8;
+  }
+
+  /* MARCA */
+  .brand-field {
+    margin-top: 13px;
+  }
+
+  /* BOTÃO */
+  #salvar {
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--marrom);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(191, 98, 0, 0.20);
+  }
+
+  #salvar:hover {
+    background: #a67b5bea;;;
+  }
+
+  /* BOTÃO FLUTUANTE */
+  .floating {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--marrom);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 31px;
+    font-weight: 300;
+    line-height: 1;
+    box-shadow: 0 7px 16px rgba(206, 111, 11, 0.35);
+    z-index: 20;
+  }
+
+  /* RESPONSIVO */
+  @media (max-width: 480px) {
+    .page {
+      width: calc(100vw - 52px);
+      min-width: 390px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <section class="content">
+  
+      <header class="header">
+        <a href="inicio.html">
+        <button class="back-button" onclick="voltar()">‹</button>
+        </a>
+        
+        <div class="title">Novo produto</div>
+       
+        <div class="bell">
+          <span class="notification-dot"></span>
+        </div>
+      </header>
+
+    
+
+      <div class="photo-box">
+        <div class="camera"></div>
+        <div class="photo-text">Adicionar foto</div>
+      </div>
+
+<!-- Formulário de upload -->
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    <!-- Input escondido -->
+    <input type="file" id="fileInput" name="imagem" accept="image/*" style="display:none" required>
+
+    <!-- Botão estilizado -->
+    <label for="fileInput" class="upload-btn">Escolher Imagem</label>
+
+    <!-- Preview -->
+    <br>
+    <img id="preview" alt="Pré-visualização">
+
+    <br><br>
+
+
+    
+</form>
+
+
+
+      <form id="form-produto">
+  <label for="nome">Nome do produto</label>
+  <input id="nome" name="nome" type="text" required>
+
+  <label for="categoria">Categoria</label>
+  <select id="categoria" name="categoria" required>
+    <option value="">Selecione</option>
+    <option value="Alimentos">Alimentos</option>
+    <option value="Bebidas">Bebidas</option>
+    <option value="Higiene">Higiene</option>
+  </select>
+
+  <label for="quantidade">Quantidade</label>
+  <input
+    id="quantidade"
+    name="quantidade"
+    type="number"
+    min="1"
+    value="1"
+    required
+  >
+
+  <label for="unidade">Unidade</label>
+  <select id="unidade" name="unidade" required>
+    <option value="unidade">Unidade</option>
+    <option value="kg">kg</option>
+    <option value="g">g</option>
+    <option value="litro">Litro</option>
+  </select>
+
+  <label for="validade">Data de validade (opcional)</label>
+  <input id="validade" name="validade" type="date">
+
+  <label for="marca">Marca (opcional)</label>
+  <input id="marca" name="marca" type="text">
+
+  <button id="salvar" type="submit">SALVAR PRODUTO</button>
+</form>
+
+  </main>
+
+<script>
+  const formProduto = document.getElementById("form-produto");
+
+  formProduto.addEventListener("submit", function (evento) {
+    evento.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const quantidade = Number(
+      document.getElementById("quantidade").value
+    );
+    const unidade = document.getElementById("unidade").value;
+    const validade = document.getElementById("validade").value;
+    const marca = document.getElementById("marca").value.trim();
+
+    if (!nome || !categoria || quantidade < 1 || !unidade) {
+      alert("Preencha corretamente os campos obrigatórios.");
+      return;
+    }
+
+    const novoProduto = {
+      id: Date.now(),
+      nome,
+      categoria,
+      quantidade,
+      unidade,
+      validade,
+      marca,
+      criadoEm: new Date().toISOString()
+    };
+
+    let produtos;
+
+    try {
+      produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+      if (!Array.isArray(produtos)) {
+        produtos = [];
+      }
+    } catch (erro) {
+      produtos = [];
+    }
+
+    produtos.push(novoProduto);
+    localStorage.setItem("produtos", JSON.stringify(produtos));
+
+    window.location.href = "inicio.html";
+  });
+</script>
+
+<!-- Script para fazer upload de imagem -->
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            // Verifica se é imagem
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor, selecione um arquivo de imagem válido.');
+                this.value = '';
+                preview.style.display = 'none';
+                return;
+            }
+   
+        }
+    });
+</script>
+</body>
+</html>
