@@ -132,8 +132,6 @@ Usado por: apenas a página Home do módulo
     justify-content: center;
     height: 42px;
     padding: 0 16px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.12);
     color: #d1d5db;
     font-size: 0.875rem;
     /* 14px */
@@ -353,9 +351,6 @@ Usado por: apenas a página Home do módulo
 ================================================== */
 .meds-card-attention {
     background-color: #16181d;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-left: 4px solid var(--color-stock-alert);
-    border-radius: 16px;
     padding: 16px 18px;
     display: flex;
     align-items: center;
