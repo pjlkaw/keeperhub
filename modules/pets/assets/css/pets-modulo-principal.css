@@ -386,6 +386,19 @@
   background-image: url('../img/calendario-pets.png');
 }
 
+/* Ícones personalizados da página principal de Pets. */
+.acao-rapida--despesas > .icone {
+  background-color: transparent;
+  background-image: url('../img/despesas-icone-pet.png');
+  background-size: 100% 100%;
+}
+
+.acao-rapida--lembretes > .icone {
+  background-color: transparent;
+  background-image: url('../img/lembretes-icone-pet.png');
+  background-size: 100% 100%;
+}
+
 @media (min-width: 600px) {
   .pagina-pets {
     padding: 24px 24px 0;
