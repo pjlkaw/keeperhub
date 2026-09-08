@@ -13,14 +13,10 @@
   border-color: rgba(89, 133, 252, 0.5);
 }
 
-.pagina-pets .section-header-section {
-  margin-bottom: 20px;
-}
-
 /* Dashboard */
 .painel-pets {
   width: 100%;
-  padding: 0 0 36px;
+  padding: 16px 0 36px;
 }
 
 .lista-pets {
@@ -214,6 +210,20 @@
 .acao-rapida--rotina > .icone {
   background-color: rgba(245, 158, 11, 0.12);
   background-image: url('../img/rotina-pets.png');
+}
+
+.acao-rapida--despesas,
+.acao-rapida--lembretes {
+  width: 100%;
+  text-align: left;
+}
+
+.acao-rapida--despesas > .icone {
+  background-image: url('../img/despesas-pets.svg');
+}
+
+.acao-rapida--lembretes > .icone {
+  background-image: url('../img/lembretes-pets.svg');
 }
 
 .acao-rapida__titulo {

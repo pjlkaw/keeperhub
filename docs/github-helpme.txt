@@ -1,125 +1,91 @@
-!!!!!!!!!!! CASO SEU PROJETO ESTEJA EM UMA ESTRUTURA DIFERENTE A DO GITHUB: !!!!!!!!!!!
-git fetch origin
-git pull origin main
+GUIA DE GIT E GITHUB - KEEPERHUB
+================================
 
+1. CONFIGURACAO INICIAL
+-----------------------
+Instale o Git em https://git-scm.com/downloads.
 
-# Guia de Git — KeeperHub
+Clone o repositorio:
 
-Esse guia é o "manual mínimo" pra quem vai contribuir no repositório do KeeperHub. Não precisa saber Git de cor, só seguir esse fluxo.
-
-## 1. Antes de começar
-
-**Instalar o Git:** [git-scm.com/downloads](https://git-scm.com/downloads)
-
-**Clonar o repositório** (só precisa fazer isso uma vez):
-```
 git clone https://github.com/pjlkaw/keeperhub.git
 cd keeperhub
-```
 
-**Configurar seu nome e e-mail** (uma vez só, no seu computador):
-```
+Configure sua identidade uma vez por computador:
+
 git config --global user.name "Seu Nome"
 git config --global user.email "seu-email@exemplo.com"
-```
 
-## 2. O fluxo do dia a dia
+2. COMECO DE UMA TAREFA
+-----------------------
+Confira o estado atual e atualize a main:
 
-Toda vez que for mexer em alguma coisa, siga essa ordem:
+git status
+git switch main
+git pull origin main
 
-### Passo 1 — Atualize sua cópia local
-Antes de começar qualquer tarefa, puxe o que já foi commitado por outras pessoas:
-```
-git checkout main
-git pull
-```
+Crie uma branch para a tarefa:
 
-### Passo 2 — Crie uma branch nova
-Nunca trabalhe direto na `main`. Crie uma branch com nome descritivo:
-```
-git checkout -b feature/medicamentos-cadastro-produto
-```
+git switch -c feature/medicamentos-cadastro-produto
 
-**Padrão de nome de branch:** `tipo/modulo-descricao-curta`
-- `feature/...` → funcionalidade nova
-- `fix/...` → correção de bug
-- `docs/...` → documentação
+Use o formato tipo/modulo-descricao-curta. Tipos comuns: feature, fix e
+docs. Se o Git da maquina nao possuir switch, use checkout no lugar.
 
-Exemplos: `feature/pets-upload-foto`, `fix/financas-calculo-total`
+3. COMMIT
+--------
+Revise as alteracoes antes de salvar:
 
-### Passo 3 — Trabalhe e salve seu progresso (commit)
-Depois de mexer nos arquivos:
-```
-git add .
-git commit -m "feat: adicionar cadastro de medicamento por código de barras"
-```
+git diff
+git status
 
-**Padrão de commit** (Conventional Commits — já usado no projeto):
-| Prefixo    | Quando usar                                      |
-|------------|---------------------------------------------------|
-| `feat:`    | funcionalidade nova                                |
-| `fix:`     | correção de bug                                    |
-| `refactor:`| mudança no código sem alterar o comportamento      |
-| `style:`   | ajuste visual/CSS, sem mudar lógica                |
-| `docs:`    | documentação (README, docs/, comentários)          |
-| `chore:`   | configuração, estrutura, dependências              |
+Prepare e crie um commit pequeno:
 
-Pode fazer vários commits pequenos enquanto trabalha — não precisa ser um só gigante no final.
+git add caminho/do/arquivo
+git commit -m "feat: adicionar cadastro de medicamento"
 
-### Passo 4 — Envie sua branch pro GitHub
-```
+4. ENVIAR E ABRIR PULL REQUEST
+------------------------------
+Envie a branch pela primeira vez com:
+
 git push -u origin feature/medicamentos-cadastro-produto
-```
-(da segunda vez em diante, só `git push`)
 
-### Passo 5 — Abra um Pull Request (PR)
-No GitHub, vai aparecer um aviso pra criar o PR assim que você der push. Ou vá em **Pull requests → New pull request**.
-- Título do PR segue o mesmo padrão dos commits: `feat: adicionar cadastro de medicamento...`
-- Descreva rapidamente o que foi feito
-- Se mudou algo visual, vale colar um print
+Depois abra um Pull Request no GitHub. Descreva o que mudou, como foi
+validado e inclua uma imagem quando houver alteracao visual.
 
-### Passo 6 — Espere a revisão
-Como o repositório tem `CODEOWNERS`, o GitHub já vai pedir automaticamente a aprovação de quem é responsável por aquela pasta/módulo. Ninguém consegue mesclar (merge) na `main` sem pelo menos 1 aprovação.
+O repositorio possui .github/CODEOWNERS, portanto o GitHub pode solicitar
+a revisao dos responsaveis definidos nesse arquivo. A protecao da main e
+a exigencia de aprovacao dependem das configuracoes do repositorio remoto.
 
-### Passo 7 — Merge
-Depois de aprovado, o próprio autor do PR (ou o gerente) clica em **Merge pull request** no GitHub. Depois disso, pode apagar a branch — ela já cumpriu a função.
+5. ATUALIZAR UMA BRANCH
+-----------------------
+Com a tarefa parada ou antes do Pull Request:
 
-## 3. Mantendo sua branch atualizada
-
-Se você demorou alguns dias numa branch e a `main` recebeu novidades, atualize antes de continuar:
-```
-git checkout main
-git pull
-git checkout feature/sua-branch
+git fetch origin
+git switch main
+git pull origin main
+git switch feature/sua-branch
 git merge main
-```
-Se aparecer conflito (`CONFLICT`), o Git vai marcar no próprio arquivo onde é o choque, entre `<<<<<<<` e `>>>>>>>`. É só editar o arquivo, decidir o que fica, remover essas marcações e commitar de novo.
 
-## 4. Regras importantes
+Se houver conflito, resolva as marcas <<<<<<<, ======= e >>>>>>>, revise
+o resultado e finalize:
 
-- **Nunca** commite direto na `main` (o repositório já está protegido pra bloquear isso)
-- **Nunca** trabalhe todo mundo na mesma branch ao mesmo tempo — uma branch por tarefa/pessoa
-- Só mexa dentro da pasta do seu módulo (`modules/seu-modulo/`) e em `shared/` quando for algo realmente compartilhado
-- Se não tiver certeza se pode mudar algo em `shared/`, avise o grupo antes — afeta todo mundo
+git add caminho/do/arquivo
+git commit
 
-## 5. Cola de comandos (cheat sheet)
+6. COMANDOS RAPIDOS
+------------------
+git status              Mostra o estado da copia local.
+git diff                Mostra alteracoes ainda nao commitadas.
+git log --oneline       Mostra o historico resumido.
+git branch              Lista branches locais.
+git switch nome         Troca de branch.
+git pull                Baixa e integra alteracoes do remoto.
+git push                Envia commits da branch atual.
 
-| Comando | O que faz |
-|---|---|
-| `git status` | mostra o que mudou desde o último commit |
-| `git checkout -b nome-da-branch` | cria e já entra numa branch nova |
-| `git checkout nome-da-branch` | troca de branch |
-| `git add .` | prepara todos os arquivos modificados pro commit |
-| `git commit -m "mensagem"` | salva as mudanças preparadas |
-| `git push` | envia os commits pro GitHub |
-| `git pull` | traz as atualizações do GitHub pra sua máquina |
-| `git log --oneline` | histórico resumido de commits |
-| `git diff` | mostra exatamente o que mudou em cada arquivo |
-
-## 6. Dúvida comum: "dei push e não apareceu nada no GitHub"
-
-Confere se você:
-1. Está na branch certa (`git branch` mostra qual está ativa, com um `*`)
-2. Deu `git add .` antes do commit
-3. O commit realmente foi feito (`git log` mostra ele)
-4. Usou `git push -u origin nome-da-branch` (com `-u` na primeira vez)
+7. REGRAS DO PROJETO
+--------------------
+- Nao commite diretamente na main.
+- Trabalhe no seu modulo e altere shared/ somente quando o recurso for
+  realmente compartilhado.
+- Nao importe arquivos diretamente de outro modulo.
+- Antes de abrir o Pull Request, confira caminhos, tema claro/escuro e
+  funcionamento em um servidor local.
