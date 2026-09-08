@@ -66,12 +66,8 @@
     text-transform: uppercase;
 }
 
-.habits-week-card,
-.habit-row,
 .habits-add-form {
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    background: var(--card-bg);
+    padding: 14px;
 }
 
 .habits-week-card {
@@ -242,10 +238,6 @@
     width: 100%;
 }
 
-.habits-add-form {
-    padding: 14px;
-}
-
 .habits-add-form label {
     display: block;
     margin-bottom: 8px;
@@ -314,9 +306,6 @@
     flex-direction: column;
     gap: 9px;
     padding: 18px;
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    background: var(--card-bg);
 }
 
 .habit-create-form label {

@@ -237,14 +237,10 @@ Fidelidade total à UI apresentada na imagem.
 /* Card do Medicamento na Rotina */
 .routine-card {
     position: relative;
-    background-color: #16181d;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
     padding: 14px 16px 14px 20px;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    overflow: hidden;
     transition: background-color 0.15s ease;
 }
 
@@ -360,9 +356,6 @@ Fidelidade total à UI apresentada na imagem.
 
 /* Suporte Light Theme (Caso ativado) */
 [data-theme="light"] .routine-card {
-    background-color: #ffffff;
-    border-color: #e5e7eb;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 [data-theme="light"] .routine-card-name {

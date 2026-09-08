@@ -27,9 +27,6 @@
    2. CARD RESUMO DO MEDICAMENTO
    -------------------------------------------------------------------------- */
 .med-summary-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
   padding: 1.25rem;
   display: flex;
   align-items: flex-start;
@@ -191,9 +188,6 @@
    4. CARD RESUMO DOS CÁLCULOS
    -------------------------------------------------------------------------- */
 .med-calculation-card {
-  background-color: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
   padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
