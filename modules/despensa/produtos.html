@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Todos os Produtos</title>
+
+  <link rel="stylesheet" href="produtos.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- =========================
+             MENU SUPERIOR
+        ========================== -->
+        <nav class="top-menu">
+
+            <button class="menu-item" onclick="irPara('financas')">
+                <span class="menu-icon orange">◔</span>
+                Finanças
+            </button>
+
+            <button class="menu-item active">
+                <span class="menu-icon">♔</span>
+                Despensa
+            </button>
+
+            <button class="menu-item" onclick="irPara('pets')">
+                <span class="menu-icon blue">♧</span>
+                Pets
+            </button>
+
+            <button class="menu-item" onclick="irPara('metas')">
+                <span class="menu-icon yellow">⚑</span>
+                Metas
+            </button>
+
+            <button class="menu-item" onclick="irPara('configuracoes')">
+                <span class="menu-icon green">♙</span>
+            </button>
+
+        </nav>
+
+        </nav>
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+
+      <section class="header-left">
+        <a href="inicio.html">
+        <button class="back-button" onclick="voltar()">
+          ‹
+        </button>
+        </a>
+        <section>
+          <h1>Todos os Produtos</h1>
+
+          <section class="subtitle">
+            Controle de estoque
+          </section>
+        </section>
+      </section>
+
+    </header>
+
+
+    <!-- BUSCA -->
+    <section class="search-container">
+
+      <span class="search-icon">
+        ⌕
+      </span>
+
+      <input type="text" id="searchInput" placeholder="Buscar produtos..." oninput="filtrarProdutos()">
+
+    </section>
+
+
+    <!-- FILTROS -->
+    <nav class="filters">
+
+      <button class="filter active" data-category="Todos" onclick="selecionarFiltro(this)">
+        Todos
+      </button>
+
+      <button class="filter" data-category="Laticínios" onclick="selecionarFiltro(this)">
+        Laticínios
+      </button>
+
+      <button class="filter" data-category="Grãos" onclick="selecionarFiltro(this)">
+        Grãos
+      </button>
+
+      <button class="filter" data-category="Bebidas" onclick="selecionarFiltro(this)">
+        Bebidas
+      </button>
+
+    </nav>
+
+
+    <!-- LISTA DE PRODUTOS -->
+    <section class="products-list" id="productsList">
+
+      <!-- LEITE -->
+      <article class="product-card warning-red" data-name="Leite Integral" data-category="Laticínios" data-quantity="4">
+
+        <section class="product-info">
+
+          <section class="product-name-row">
+
+            <strong>
+              Leite Integral
+            </strong>
+
+            <span class="status danger">
+              Vence em 3 dias
+            </span>
+
+          </section>
+
+          <p>
+            1 L • Laticínios •
+            <span class="quantity-text">4</span> unidades
+          </p>
+
+        </section>
+
+
+        <section class="product-actions">
+
+          <section class="quantity-control">
+
+            <button onclick="alterarQuantidade(this, -1)">
+              −
+            </button>
+
+            <span class="quantity">
+              4
+            </span>
+
+            <button onclick="alterarQuantidade(this, 1)">
+              +
+            </button>
+
+          </section>
+          
+
+          <button class="delete-button" onclick="excluirProduto(this)" aria-label="Excluir produto">
+           <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Pro v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc.--><path d="M64 128C64 110.3 78.3 96 96 96L544 96C561.7 96 576 110.3 576 128L576 160C576 177.7 561.7 192 544 192L96 192C78.3 192 64 177.7 64 160L64 128zM96 240L544 240L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 240zM248 304C234.7 304 224 314.7 224 328C224 341.3 234.7 352 248 352L392 352C405.3 352 416 341.3 416 328C416 314.7 405.3 304 392 304L248 304z"/></svg>
+          
+          </button>
+
+        </section>
+
+      </article>
+
+
+      <!-- ARROZ -->
+      <article class="product-card stock-ok" data-name="Arroz Branco" data-category="Grãos" data-quantity="2">
+
+        <section class="product-info">
+
+          <section class="product-name-row">
+
+            <strong>
+              Arroz Branco
+            </strong>
+
+            <span class="status success">
+              Estoque OK
+            </span>
+
+          </section>
+
+          <p>
+            5 kg • Grãos •
+            <span class="quantity-text">2</span> unidades
+          </p>
+
+        </section>
+
+
+        <section class="product-actions">
+
+          <section class="quantity-control">
+
+            <button onclick="alterarQuantidade(this, -1)">
+              −
+            </button>
+
+            <span class="quantity">
+              2
+            </span>
+
+            <button onclick="alterarQuantidade(this, 1)">
+              +
+            </button>
+
+          </section>
+
+          <button class="delete-button" onclick="excluirProduto(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Pro v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc.--><path d="M64 128C64 110.3 78.3 96 96 96L544 96C561.7 96 576 110.3 576 128L576 160C576 177.7 561.7 192 544 192L96 192C78.3 192 64 177.7 64 160L64 128zM96 240L544 240L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 240zM248 304C234.7 304 224 314.7 224 328C224 341.3 234.7 352 248 352L392 352C405.3 352 416 341.3 416 328C416 314.7 405.3 304 392 304L248 304z"/></svg>
+
+          </button>
+
+        </section>
+
+      </article>
+
+
+      <!-- SUCO -->
+      <article class="product-card stock-ok" data-name="Suco de Uva" data-category="Bebidas" data-quantity="1">
+
+        <section class="product-info">
+
+          <section class="product-name-row">
+
+            <strong>
+              Suco de Uva
+            </strong>
+
+            <span class="status success">
+              Estoque OK
+            </span>
+
+          </section>
+
+          <p>
+            1,5 L • Bebidas •
+            <span class="quantity-text">1</span> unidade
+          </p>
+
+        </section>
+
+
+        <section class="product-actions">
+
+          <section class="quantity-control">
+
+            <button onclick="alterarQuantidade(this, -1)">
+              −
+            </button>
+
+            <span class="quantity">
+              1
+            </span>
+
+            <button onclick="alterarQuantidade(this, 1)">
+              +
+            </button>
+
+          </section>
+
+          <button class="delete-button" onclick="excluirProduto(this)">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Pro v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc.--><path d="M64 128C64 110.3 78.3 96 96 96L544 96C561.7 96 576 110.3 576 128L576 160C576 177.7 561.7 192 544 192L96 192C78.3 192 64 177.7 64 160L64 128zM96 240L544 240L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 240zM248 304C234.7 304 224 314.7 224 328C224 341.3 234.7 352 248 352L392 352C405.3 352 416 341.3 416 328C416 314.7 405.3 304 392 304L248 304z"/></svg>
+          </button>
+
+        </section>
+
+      </article>
+
+
+      <!-- FEIJÃO -->
+      <article class="product-card stock-ok" data-name="Feijão Carioca" data-category="Grãos" data-quantity="2">
+
+        <section class="product-info">
+
+          <section class="product-name-row">
+
+            <strong>
+              Feijão Carioca
+            </strong>
+
+            <span class="status success">
+              Estoque OK
+            </span>
+
+          </section>
+
+          <p>
+            1 kg • Grãos •
+            <span class="quantity-text">2</span> unidades
+          </p>
+
+        </section>
+
+
+        <section class="product-actions">
+
+          <section class="quantity-control">
+
+            <button onclick="alterarQuantidade(this, -1)">
+              −
+            </button>
+
+            <span class="quantity">
+              2
+            </span>
+
+            <button onclick="alterarQuantidade(this, 1)">
+              +
+            </button>
+
+          </section>
+
+          <button class="delete-button" onclick="excluirProduto(this)">
+             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Pro v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc.--><path d="M64 128C64 110.3 78.3 96 96 96L544 96C561.7 96 576 110.3 576 128L576 160C576 177.7 561.7 192 544 192L96 192C78.3 192 64 177.7 64 160L64 128zM96 240L544 240L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 240zM248 304C234.7 304 224 314.7 224 328C224 341.3 234.7 352 248 352L392 352C405.3 352 416 341.3 416 328C416 314.7 405.3 304 392 304L248 304z"/></svg>
+          </button>
+
+        </section>
+
+      </article>
+
+    </section>
+
+
+    <!-- MENSAGEM DE NENHUM PRODUTO -->
+    <section class="empty-message" id="emptyMessage">
+      <strong>Nenhum produto encontrado</strong>
+      <span>Tente outra busca ou categoria.</span>
+    </section>
+
+
+    <!-- BOTÃO FLUTUANTE -->
+    <a href="cadastrar.html">
+      <button class="floating-button" onclick="adicionarProduto()" aria-label="Adicionar produto">
+        +
+      </button>
+    </a>
+
+  </main>
+
+
+  <!-- JAVASCRIPT -->
+  <script>
+
+    let filtroAtual = "Todos";
+
+
+    /*
+     * FILTRO POR CATEGORIA
+     */
+    function selecionarFiltro(botao) {
+
+      document
+        .querySelectorAll(".filter")
+        .forEach(filter => {
+          filter.classList.remove("active");
+        });
+
+      botao.classList.add("active");
+
+      filtroAtual = botao.dataset.category;
+
+      filtrarProdutos();
+    }
+
+
+    /*
+     * BUSCA + FILTRO
+     */
+    function filtrarProdutos() {
+
+      const texto =
+        document
+          .getElementById("searchInput")
+          .value
+          .toLowerCase()
+          .trim();
+
+      const produtos =
+        document.querySelectorAll(".product-card");
+
+      let encontrados = 0;
+
+      produtos.forEach(produto => {
+
+        const nome =
+          produto.dataset.name.toLowerCase();
+
+        const categoria =
+          produto.dataset.category;
+
+        const correspondeNome =
+          nome.includes(texto);
+
+        const correspondeCategoria =
+          filtroAtual === "Todos" ||
+          categoria === filtroAtual;
+
+        if (
+          correspondeNome &&
+          correspondeCategoria
+        ) {
+
+          produto.style.display = "flex";
+
+          encontrados++;
+
+        } else {
+
+          produto.style.display = "none";
+
+        }
+
+      });
+
+
+      const mensagem =
+        document.getElementById("emptyMessage");
+
+      if (encontrados === 0) {
+        mensagem.classList.add("show");
+      } else {
+        mensagem.classList.remove("show");
+      }
+
+    }
+
+
+    /*
+     * ALTERAR QUANTIDADE
+     */
+    function alterarQuantidade(botao, valor) {
+
+      const card =
+        botao.closest(".product-card");
+
+      const quantidadeElemento =
+        card.querySelector(".quantity");
+
+      const textoQuantidade =
+        card.querySelector(".quantity-text");
+
+      let quantidade =
+        parseInt(quantidadeElemento.textContent);
+
+      quantidade += valor;
+
+      if (quantidade < 1) {
+        quantidade = 1;
+      }
+
+
+      quantidadeElemento.textContent =
+        quantidade;
+
+      textoQuantidade.textContent =
+        quantidade;
+
+      card.dataset.quantity =
+        quantidade;
+
+
+      atualizarTextoUnidades(
+        card,
+        quantidade
+      );
+
+    }
+
+
+    /*
+     * ALTERA "UNIDADE" / "UNIDADES"
+     */
+    function atualizarTextoUnidades(
+      card,
+      quantidade
+    ) {
+
+      const paragrafo =
+        card.querySelector("p");
+
+      const texto =
+        paragrafo.innerHTML;
+
+      if (quantidade === 1) {
+
+        paragrafo.innerHTML =
+          texto.replace(
+            "unidades",
+            "unidade"
+          );
+
+      } else {
+
+        paragrafo.innerHTML =
+          texto.replace(
+            "unidade",
+            "unidades"
+          );
+
+      }
+
+    }
+
+
+    /*
+     * EXCLUIR PRODUTO
+     */
+    function excluirProduto(botao) {
+
+      const card =
+        botao.closest(".product-card");
+
+      card.classList.add("removing");
+
+      setTimeout(() => {
+
+        card.remove();
+
+        atualizarContador();
+
+        filtrarProdutos();
+
+      }, 200);
+
+    }
+
+
+    /*
+     * ATUALIZA O CONTADOR
+     */
+    function atualizarContador() {
+
+      const total =
+        document.querySelectorAll(
+          ".product-card"
+        ).length;
+
+      document.getElementById(
+        "itemsBadge"
+      ).textContent =
+        total + (total === 1 ? " item" : " itens");
+
+    }
+
+    /*
+     * BOTÃO VOLTAR
+     */
+    function voltar() {
+      window.history.back();
+    }
+
+  </script>
+
+</body>
+
+</html>

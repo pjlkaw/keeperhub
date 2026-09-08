@@ -1,0 +1,768 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --marrom: #A67B5B;
+  --marrom-escuro: #5e4532;
+}
+
+body {
+  background: rgba(0, 0, 0, 0.192);
+  color: var(--text);
+
+  font-family: "Tahoma", "Regular";
+
+  min-height: 100vh;
+}
+
+
+/* =====================================================
+   APLICAÇÃO
+===================================================== */
+
+.app {
+  width: 100%;
+
+  max-width: 405px;
+
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  background: white;
+
+  position: relative;
+
+  overflow-x: hidden;
+}
+
+
+/* =====================================================
+   MENU SUPERIOR
+===================================================== */
+
+.top-menu {
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 8px 11px;
+
+  overflow: hidden;
+}
+
+.menu-item {
+  flex-shrink: 0;
+
+  height: 32px;
+
+  padding: 0 12px;
+
+  border: 1px solid #e2e7ec;
+
+  border-radius: 18px;
+
+  background: #f5f7f9;
+
+  color: #506074;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.menu-item.active {
+  background: #fff0e5;
+
+  --marrom: #A67B5B;
+
+  color: var(--marrom-escuro);
+}
+
+.menu-icon {
+  font-size: 13px;
+  color: var(--marrom);
+}
+
+.menu-icon.blue {
+  color: #269de0;
+}
+
+.menu-icon.yellow {
+  color: #e4a900;
+}
+
+.menu-icon.green {
+  color: #6cc900;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  padding: 10px 10px 14px;
+}
+
+.header-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.back-button {
+  width: 29px;
+
+  height: 30px;
+
+  border: 1px solid #dce2e8;
+
+  border-radius: 7px;
+
+  background: #f7f8fa;
+
+  color: #4d5c6d;
+
+  font-size: 25px;
+
+  line-height: 20px;
+
+  cursor: pointer;
+}
+
+h1 {
+  color: var(--marrom-escuro);
+
+  font-family: "Verdana", "Bold";
+
+  font-size: 24px;
+
+  font-weight: 900;
+
+  line-height: 27px;
+}
+
+.subtitle {
+  margin-top: 3px;
+
+  color: var(--marrom);
+
+  font-size: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.notification {
+  border: none;
+  background: 0;
+}
+
+.material-icons {
+  color: var(--marrom-escuro);
+
+  border: none;
+}
+
+
+/* =====================================================
+   RESUMO
+===================================================== */
+
+.content {
+  padding: 8px 10px 80px;
+}
+
+.section-title {
+  color: var(--marrom-escuro);
+
+  font-size: 12px;
+
+  font-weight: 900;
+
+  letter-spacing: -0.1px;
+}
+
+.summary-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 9px;
+}
+
+
+/* =====================================================
+   SÚMARIO
+===================================================== */
+
+.summary-card {
+  min-height: 114px;
+
+  padding: 12px 13px;
+
+  border: 1px solid #dfe4e9;
+
+  border-radius: 15px;
+
+  background: #fff;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, .02);
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.summary-icon {
+  width: 28px;
+
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 9px;
+
+  font-size: 16px;
+
+  margin-bottom: 6px;
+}
+
+.summary-icon.box {
+  background: #e7ffdd;
+
+  color: #00a373;
+}
+
+.summary-icon.clock {
+  background: #fff1dd;
+
+  color: rgb(247, 47, 47);
+}
+
+.summary-icon.quantity {
+  background: #ccedfc;
+
+  color: #2996d0;
+}
+
+.summary-icon.money {
+  background: #faeee2;
+
+  color: var(--marrom);
+
+  font-size: 18px;
+}
+
+.summary-label {
+  font-size: 10px;
+
+  font-weight: 800;
+
+  color: var(--marrom-escuro);
+
+  line-height: 13px;
+}
+
+.orange-text {
+  color: rgb(253, 62, 62);
+}
+
+.summary-card strong {
+  margin-top: 2px;
+
+  color: #363f49;
+
+  font-size: 18px;
+
+  line-height: 20px;
+
+  font-weight: 900;
+}
+
+.summary-card .orange-number {
+  color: rgb(253, 62, 62);
+}
+
+.summary-card .economize {
+  color: var(--marrom);
+
+  font-size: 15px;
+
+  margin-top: 3px;
+}
+
+.summary-card>span:last-child {
+  color: #66768a;
+
+  font-size: 11px;
+
+  margin-top: 1px;
+}
+
+
+/* =====================================================
+   SECTION HEADER
+===================================================== */
+
+.section-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 19px;
+
+  margin-bottom: 8px;
+}
+
+.section-header>span {
+  color: #66768a;
+
+  font-size: 11px;
+}
+
+
+/* =====================================================
+   PRODUTOS
+===================================================== */
+
+.products-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.product-card {
+  min-height: 61px;
+
+  background: #fff;
+
+  border: 1px solid #dfe4e9;
+
+  border-left-width: 3px;
+
+  border-radius: 11px;
+
+  padding: 10px 11px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .025);
+}
+
+.warning-red {
+  border-left-color: #ed2828;
+}
+
+.warning-orange {
+  border-left-color: var(--marrom);
+}
+
+.warning-brown {
+  border-left-color: var(--marrom);
+}
+
+.stock-ok {
+  border-left-color: #00a373;
+}
+
+
+/* =====================================================
+   PRODUCT INFO
+===================================================== */
+
+.product-info {
+  min-width: 0;
+
+  padding-right: 8px;
+}
+
+.product-name-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  min-width: 0;
+}
+
+.product-name-row strong {
+  color: #091d35;
+
+  font-size: 14px;
+
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+.product-info p {
+  color: #68778b;
+
+  font-size: 11px;
+
+  margin-top: 2px;
+}
+
+
+/* =====================================================
+   STATUS BADGES
+===================================================== */
+
+.status {
+  flex-shrink: 0;
+
+  padding: 3px 7px;
+
+  border-radius: 5px;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  line-height: 12px;
+
+  white-space: nowrap;
+}
+
+.status.danger {
+  color: #ed2b2b;
+
+  background: #fff0f0;
+
+  border: 1px solid #ffb1b1;
+}
+
+.status.warning {
+  color: #df6900;
+
+  background: #fff2e2;
+
+  border: 1px solid #f1b178;
+}
+
+.status.warning-light {
+  color: #bd5a0a;
+
+  background: #fff1e4;
+
+  border: 1px solid #e7bd9d;
+}
+
+.status.success {
+  color: #008e6d;
+
+  background: #e4f8f1;
+
+  border: 1px solid #7bd1b8;
+}
+
+
+/* =====================================================
+   QUANTIDADE
+===================================================== */
+
+.quantity-control {
+  flex-shrink: 0;
+
+  height: 36px;
+
+  min-width: 80px;
+
+  padding: 4px 5px;
+
+  border: 1px solid #e0e5eb;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background: #fff;
+}
+
+.quantity-control button {
+  width: 22px;
+
+  height: 22px;
+
+  border: 1px solid #d3dbe3;
+
+  border-radius: 5px;
+
+  background: white;
+
+  color: #47576b;
+
+  font-size: 17px;
+
+  line-height: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.quantity-control button:hover {
+  background: #f5f7f9;
+}
+
+.quantity-control span {
+  min-width: 15px;
+
+  text-align: center;
+
+  color: #17263a;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   PRODUTOS HEADER
+===================================================== */
+
+.products-header {
+  margin-top: 19px;
+}
+
+
+/* =====================================================
+   BOTÃO FLUTUANTE
+===================================================== */
+
+.floating-button {
+  position: fixed;
+
+  right: max(calc((100vw - 405px) / 2 + 10px), 10px);
+
+  bottom: 15px;
+
+  width: 45px;
+
+  height: 45px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: var(--marrom);
+
+  color: white;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 30px;
+
+  font-weight: 300;
+
+  line-height: 42px;
+
+  box-shadow:
+    0 4px 10px rgba(100, 48, 5, .25);
+
+  cursor: pointer;
+
+  z-index: 20;
+}
+
+.floating-button:hover {
+  background: var(--marrom-escuro);
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+
+  .menu-item {
+    padding: 0 9px;
+  }
+
+  .product-name-row {
+    gap: 4px;
+  }
+
+  .product-name-row strong {
+    font-size: 13px;
+  }
+
+  .status {
+    font-size: 8px;
+    padding: 3px 5px;
+  }
+
+  .quantity-control {
+    min-width: 75px;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Container da lista */
+#lista-produtos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Contador de produtos */
+#contador-produtos {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Mensagem de lista vazia */
+.lista-vazia {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+/* Cada produto */
+.produto-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.produto-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Informações do produto */
+.produto-item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.produto-item p {
+  margin: 0.2rem 0;
+  color: #555;
+}
+
+/* Botão de excluir */
+.botao-excluir {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.botao-excluir:hover {
+  background: #c0392b;
+}
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 360px) {
+
+  .app {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+
+  .header h1 {
+    font-size: 19px;
+  }
+
+
+  .subtitulo {
+    margin-left: 14px;
+  }
+
+
+  .total-card,
+  .economia-card,
+  .rota-card {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+
+  .precos {
+    gap: 6px;
+  }
+
+
+  .preco {
+    padding: 8px;
+  }
+
+
+  
+}

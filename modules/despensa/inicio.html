@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Despensa</title>
+
+  <link rel="stylesheet" href="inicio.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- MENU SUPERIOR -->
+    <nav class="top-menu">
+
+      <button class="menu-item" onclick="irPara('financas')">
+        <span class="menu-icon orange">◔</span>
+        Finanças
+      </button>
+
+      <button class="menu-item active">
+        <span class="menu-icon">♔</span>
+        Despensa
+      </button>
+
+      <button class="menu-item" onclick="irPara('pets')">
+        <span class="menu-icon blue">♧</span>
+        Pets
+      </button>
+
+      <button class="menu-item" onclick="irPara('metas')">
+        <span class="menu-icon yellow">⚑</span>
+        Metas
+      </button>
+
+      <button class="menu-item" onclick="irPara('configuracoes')">
+        <span class="menu-icon green">♙</span>
+      </button>
+
+    </nav>
+
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+
+      <section class="header-title">
+
+   
+
+        <section>
+
+          <h1>Despensa</h1>
+
+          <section class="subtitle">
+            Controle da sua despensa
+
+            <span
+              class="small-badge"
+              id="vencimentoBadge"
+            >
+              5 a vencer
+            </span>
+
+          </section>
+
+        </section>
+
+      </section>
+
+
+      <button
+        class="notification"
+        onclick="mostrarNotificacao()"
+        aria-label="Notificações"
+      >
+        ♧
+
+        <span></span>
+
+      </button>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <section class="content">
+
+      <h2 class="section-title">
+        RESUMO
+      </h2>
+
+
+      <!-- CARDS -->
+      <section class="summary-grid">
+
+
+        <!-- PRODUTOS -->
+        <article class="summary-card">
+
+          <section class="summary-icon box">
+            ▣
+          </section>
+
+          <a href="produtos.html"><span class="summary-label">
+            PRODUTOS
+          </span></a>
+
+          <strong id="totalProdutos">
+            24
+          </strong>
+
+          <span>
+            cadastrados
+          </span>
+
+        </article>
+
+
+        <!-- VENCIMENTOS -->
+        <article class="summary-card">
+
+          <section class="summary-icon clock">
+            ◷
+          </section>
+
+          <a href="vencimento.html"><span class="summary-label orange-text">
+            PRÓXIMOS A VENCER
+          </span></a>
+
+          <strong
+            class="orange-number"
+            id="totalVencimentos"
+          >
+            5
+          </strong>
+
+          <span>
+            precisam atenção
+          </span>
+
+        </article>
+
+
+        <!-- QUANTIDADE -->
+        <article class="summary-card">
+
+          <section class="summary-icon quantity">
+            ▣
+          </section>
+
+          <span class="summary-label">
+            QUANTIDADE
+          </span>
+
+          <strong id="totalQuantidade">
+            87
+          </strong>
+
+          <span>
+            unidades
+          </span>
+
+        </article>
+
+
+        <!-- ECONOMIZE -->
+        <article class="summary-card">
+
+          <section class="summary-icon money">
+            $
+          </section>
+
+          <span class="summary-label">
+            COMPARAÇÃO
+          </span>
+          <a href="precos.html">
+          <strong class="economize">
+            Economize
+          </strong></a>
+
+          <span>
+            nas compras
+          </span>
+
+        </article>
+
+      </section>
+
+
+      <!-- PRÓXIMOS A VENCER -->
+      <section class="section-header">
+
+        <span id="contador-produtos">0 produtos cadastrados</span>
+        <div id="lista-produtos"></div>
+        </span>
+        
+   
+
+      </section>
+
+
+      <section
+        class="products-list"
+        id="listaVencimentos"
+      >
+
+       
+
+      </section>
+
+    </section>
+
+
+    <!-- BOTÃO FLUTUANTE -->
+    <a href="cadastrar.html"><button
+      class="floating-button"
+      onclick="adicionarProduto()"
+      aria-label="Adicionar produto"
+    >
+      +
+    </button></a>
+
+  </main>
+
+  <script>
+  const listaProdutos = document.getElementById("lista-produtos");
+  const contadorProdutos = document.getElementById("contador-produtos");
+
+  function carregarProdutos() {
+    let produtos;
+
+    try {
+      produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+      if (!Array.isArray(produtos)) {
+        produtos = [];
+      }
+    } catch (erro) {
+      produtos = [];
+    }
+
+    contadorProdutos.textContent =
+      produtos.length === 1
+        ? "1 produto cadastrado"
+        : `${produtos.length} produtos cadastrados`;
+
+    listaProdutos.replaceChildren();
+
+    if (produtos.length === 0) {
+      const mensagem = document.createElement("p");
+      mensagem.className = "lista-vazia";
+      mensagem.textContent = "";
+      listaProdutos.appendChild(mensagem);
+      return;
+    }
+
+    const produtosOrdenados = [...produtos].sort(function (a, b) {
+      if (!a.validade && !b.validade) return 0;
+      if (!a.validade) return 1;
+      if (!b.validade) return -1;
+
+      return a.validade.localeCompare(b.validade);
+    });
+
+    produtosOrdenados.forEach(function (produto) {
+      const item = document.createElement("article");
+      item.className = "produto-item";
+
+      const informacoes = document.createElement("div");
+
+      const nome = document.createElement("h3");
+      nome.textContent = produto.nome;
+
+      const detalhes = document.createElement("p");
+      detalhes.textContent =
+        `${produto.quantidade} ${produto.unidade}` +
+        ` - ${produto.categoria}`;
+
+      const marca = document.createElement("p");
+      marca.textContent = produto.marca
+        ? `Marca: ${produto.marca}`
+        : "Marca não informada";
+
+      const validade = document.createElement("p");
+      validade.textContent = produto.validade
+        ? `Validade: ${formatarData(produto.validade)}`
+        : "Validade não informada";
+
+      const botaoExcluir = document.createElement("button");
+      botaoExcluir.type = "button";
+      botaoExcluir.className = "botao-excluir";
+      botaoExcluir.textContent = "Excluir";
+      botaoExcluir.addEventListener("click", function () {
+        excluirProduto(produto.id);
+      });
+
+      informacoes.append(nome, detalhes, marca, validade);
+      item.append(informacoes, botaoExcluir);
+      listaProdutos.appendChild(item);
+    });
+  }
+
+  function formatarData(data) {
+    const partes = data.split("-");
+
+    if (partes.length !== 3) {
+      return data;
+    }
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+  }
+
+  function excluirProduto(id) {
+    const produtos =
+      JSON.parse(localStorage.getItem("produtos")) || [];
+
+    const produtosAtualizados = produtos.filter(function (produto) {
+      return produto.id !== id;
+    });
+
+    localStorage.setItem(
+      "produtos",
+      JSON.stringify(produtosAtualizados)
+    );
+
+    carregarProdutos();
+  }
+
+  carregarProdutos();
+</script>
+
+
+</body>
+</html>
