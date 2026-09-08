@@ -1256,13 +1256,14 @@ textarea {
 
 .preview-back {
 	display: grid;
-	width: 33px;
-	height: 33px;
+	width: 24px;
+	height: 44px;
 	padding: 0;
 	place-items: center;
 	color: #c8cad0 !important;
-	border: 1px solid #393b42;
-	border-radius: 8px
+	border: 0;
+	border-radius: 0;
+	background: transparent
 }
 
 .preview-back svg {
@@ -1818,6 +1819,12 @@ html[data-theme=light] body.landing-page .app-preview {
 	background: #fff;
 	border-color: transparent;
 	scrollbar-color: #b2b6be transparent
+}
+
+html[data-theme=dark] body.landing-page,
+html[data-theme=dark] body.landing-page main,
+html[data-theme=dark] body.landing-page .app-preview {
+	background: #0a0a0c;
 }
 
 .preview-light .preview-modules a {
@@ -2849,7 +2856,7 @@ html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-i
 .transaction-heading {
 	position: relative;
 	display: grid;
-	grid-template-columns: 33px 1fr 24px;
+	grid-template-columns: 24px 1fr 24px;
 	align-items: start;
 	gap: 9px
 }
@@ -3397,6 +3404,19 @@ textarea {
 	color: var(--tool-financas);
 	background: rgba(228, 122, 0, .14);
 	border-color: rgba(228, 122, 0, .45)
+}
+
+body.landing-page .preview-back,
+body.transaction-page .preview-back,
+body.finance-page .finance-back {
+	width: 24px !important;
+	min-width: 24px !important;
+	height: 44px !important;
+	min-height: 44px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
 }
 
 html[data-theme=light] .finance-modules-nav .modules-nav-item {
