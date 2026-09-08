@@ -2017,6 +2017,12 @@ html[data-theme=light] body.landing-page .app-preview {
 	border-color: #e47a00
 }
 
+html[data-theme="light"] body.finance-page .finance-tabs a.active {
+	color: #b85e00;
+	background: #fff7ef;
+	border-color: #e47a00
+}
+
 .finance-content {
 	display: flex;
 	flex-direction: column;
@@ -3293,6 +3299,12 @@ html[data-theme=light] body {
 .spending-card header strong,
 .largest-expense>div>b {
 	color: var(--tool-financas)
+}
+
+html[data-theme="dark"] body.finance-page .finance-tabs a.active {
+	color: #ff970d;
+	background: #33200d;
+	border-color: #e47a00
 }
 
 .app-shell,
