@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeeperHub — Pets — Despesas</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../../shared/styles/components.css" />
+    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+  </head>
+  <body>
+    <main class="pagina-despesas" id="conteudo-principal">
+      <header class="cabecalho-pagina">
+        <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar ao painel de pets">
+          <span aria-hidden="true">‹</span>
+        </a>
+        <h1 class="cabecalho-pagina__titulo">Despesas do Pet</h1>
+      </header>
+
+      <!-- Dados demonstrativos: a integração futura preencherá o pet e o período. -->
+      <section class="despesas-pet" aria-labelledby="despesas-pet-heading">
+        <h2 id="despesas-pet-heading">Luna</h2>
+        <p class="despesas-pet__descricao">Golden Retriever · 3 anos</p>
+        <a href="#nova-despesa" class="botao-principal despesas-pet__adicionar">Adicionar despesa</a>
+      </section>
+
+      <section class="resumo-despesas" aria-labelledby="resumo-despesas-heading">
+        <header class="resumo-despesas__cabecalho">
+          <h2 id="resumo-despesas-heading">Resumo do mês</h2>
+          <p><time datetime="2026-09">Setembro de 2026</time></p>
+        </header>
+        <dl class="resumo-despesas__valores">
+          <div class="resumo-despesas__item resumo-despesas__item--total">
+            <dt>Total do mês</dt>
+            <dd><data value="420.00">R$ 420,00</data></dd>
+          </div>
+          <div class="resumo-despesas__item resumo-despesas__item--pago">
+            <dt>Pago</dt>
+            <dd><data value="320.00">R$ 320,00</data></dd>
+          </div>
+          <div class="resumo-despesas__item resumo-despesas__item--pendente">
+            <dt>Pendente</dt>
+            <dd><data value="100.00">R$ 100,00</data></dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="historico-despesas" aria-labelledby="historico-despesas-heading">
+        <h2 id="historico-despesas-heading">Despesas do mês</h2>
+        <!-- A lista e os totais acima serão preenchidos pela mesma fonte de dados. -->
+        <ul class="lista-despesas">
+          <li>
+            <article class="cartao-despesa cartao-despesa--higiene">
+              <header class="cartao-despesa__cabecalho">
+                <h3 class="cartao-despesa__titulo">Banho e tosa</h3>
+                <p class="cartao-despesa__valor"><data value="80.00">R$ 80,00</data></p>
+              </header>
+              <p class="cartao-despesa__categoria">Higiene</p>
+              <p class="cartao-despesa__data"><time datetime="2026-09-05">05 de setembro de 2026</time></p>
+              <span class="etiqueta-status etiqueta-status--pago">Pago</span>
+            </article>
+          </li>
+          <li>
+            <article class="cartao-despesa cartao-despesa--saude">
+              <header class="cartao-despesa__cabecalho">
+                <h3 class="cartao-despesa__titulo">Consulta veterinária</h3>
+                <p class="cartao-despesa__valor"><data value="100.00">R$ 100,00</data></p>
+              </header>
+              <p class="cartao-despesa__categoria">Consultas e exames</p>
+              <p class="cartao-despesa__data"><time datetime="2026-09-03">03 de setembro de 2026</time></p>
+              <span class="etiqueta-status etiqueta-status--pendente">Pendente</span>
+            </article>
+          </li>
+          <li>
+            <article class="cartao-despesa cartao-despesa--alimentacao">
+              <header class="cartao-despesa__cabecalho">
+                <h3 class="cartao-despesa__titulo">Ração</h3>
+                <p class="cartao-despesa__valor"><data value="240.00">R$ 240,00</data></p>
+              </header>
+              <p class="cartao-despesa__categoria">Alimentação</p>
+              <p class="cartao-despesa__data"><time datetime="2026-09-01">01 de setembro de 2026</time></p>
+              <span class="etiqueta-status etiqueta-status--pago">Pago</span>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="nova-despesa" id="nova-despesa" aria-labelledby="nova-despesa-heading">
+        <h2 id="nova-despesa-heading">Nova despesa</h2>
+        <!-- Sem envio ativo: habilitar Salvar após conectar validação e persistência. -->
+        <form class="formulario-despesa" id="formulario-despesa">
+          <div class="campo-formulario">
+            <label for="descricao-despesa">Descrição</label>
+            <input type="text" id="descricao-despesa" name="descricao" placeholder="Ex.: Ração, vacina, banho..." maxlength="100" required />
+          </div>
+
+          <div class="campo-formulario">
+            <label for="categoria-despesa">Categoria</label>
+            <select id="categoria-despesa" name="categoria" required>
+              <option value="" disabled selected>Selecione uma categoria</option>
+              <option value="alimentacao">Alimentação</option>
+              <option value="consultas-exames">Consultas e exames</option>
+              <option value="vacinas">Vacinas</option>
+              <option value="medicamentos">Medicamentos</option>
+              <option value="higiene">Higiene</option>
+              <option value="acessorios">Brinquedos e acessórios</option>
+              <option value="outros">Outros</option>
+            </select>
+          </div>
+
+          <div class="linha-formulario">
+            <div class="campo-formulario">
+              <label for="valor-despesa">Valor (R$)</label>
+              <input type="number" id="valor-despesa" name="valor" min="0.01" step="0.01" inputmode="decimal" placeholder="0,00" required />
+            </div>
+            <div class="campo-formulario">
+              <label for="data-despesa">Data da despesa</label>
+              <input type="date" id="data-despesa" name="data" required />
+            </div>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="status-despesa">Situação do pagamento</label>
+            <select id="status-despesa" name="status" required>
+              <option value="" disabled selected>Selecione a situação</option>
+              <option value="pago">Pago</option>
+              <option value="pendente">Pendente</option>
+            </select>
+          </div>
+
+          <div class="campo-formulario">
+            <label for="observacoes-despesa">Observações (opcional)</label>
+            <textarea id="observacoes-despesa" name="observacoes" rows="3" maxlength="500" placeholder="Detalhes sobre esta despesa..."></textarea>
+          </div>
+
+          <div class="formulario-despesa__acoes">
+            <button type="button" class="botao-principal formulario-despesa__salvar" disabled>Salvar despesa</button>
+            <a href="../index.html" class="link-editar">Voltar ao painel</a>
+          </div>
+          <p class="formulario-despesa__mensagem" id="mensagem-despesa" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="../../../shared/services/theme.js"></script>
+  </body>
+</html>
