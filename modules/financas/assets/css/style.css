@@ -761,6 +761,141 @@ textarea {
 	background: #000000;
 }
 
+
+/* Transações: search bar and actions */
+.transactions-search {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	background: var(--panel);
+ 	border: 1px solid var(--panel-border);
+ 	border-radius: 10px;
+}
+
+.transactions-search .search-field {
+	display: flex;
+ 	align-items: center;
+ 	gap: 8px;
+ 	flex: 1;
+ 	min-width: 0;
+}
+
+.transactions-search .search-icon svg {
+ 	width: 18px;
+ 	height: 18px;
+ 	color: var(--muted);
+}
+
+.transactions-search input[type='search'] {
+ 	flex: 1;
+ 	background: transparent;
+ 	border: 0;
+ 	outline: 0;
+ 	color: var(--white);
+ 	font-size: 14px;
+ 	padding: 8px 0;
+}
+
+.transactions-search .search-actions {
+ 	width: 40px;
+ 	height: 40px;
+ 	display: inline-flex;
+ 	align-items: center;
+ 	justify-content: center;
+ 	background: transparent;
+ 	border: 1px solid transparent;
+ 	border-radius: 8px;
+ 	color: var(--muted);
+}
+
+.transactions-search .search-actions:hover {
+ 	background: rgba(255,255,255,0.02);
+ 	color: var(--white);
+ 	border-color: var(--panel-border);
+}
+
+.transactions-search .dot-menu {
+	font-size: 20px;
+	line-height: 1;
+	display: inline-block;
+	color: var(--muted);
+}
+
+.transactions-search .search-actions:hover .dot-menu {
+	color: var(--white);
+}
+
+/* Filter row: chips + actions */
+.filter-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 12px;
+}
+
+.filter-chips {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: nowrap; /* keep chips on single line */
+	flex: 1;
+	overflow-x: auto; /* allow horizontal scroll if needed */
+	-webkit-overflow-scrolling: touch;
+}
+
+.filter-actions {
+	width: 40px;
+	height: 40px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	color: var(--muted);
+}
+
+.filter-actions:hover {
+	background: rgba(255,255,255,0.02);
+	color: var(--white);
+	border-color: var(--panel-border);
+}
+
+.filter-actions-wrap {
+	position: relative;
+}
+
+.filter-popup {
+	position: absolute;
+	right: 0;
+	top: 48px;
+	min-width: 180px;
+	background: var(--panel);
+	border: 1px solid var(--panel-border);
+	border-radius: 10px;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+	z-index: 40;
+}
+
+.filter-popup button {
+	text-align: left;
+	padding: 8px 10px;
+	background: transparent;
+	border: 0;
+	color: var(--muted);
+	border-radius: 6px;
+}
+
+.filter-popup button:hover {
+	background: rgba(255,255,255,0.02);
+	color: var(--white);
+}
 .dashboard-screen a {
 	color: inherit;
 	text-decoration: none;
@@ -846,6 +981,37 @@ textarea {
 	gap: 24px;
 	padding: 16px 16px 128px;
 }
+
+/* Floating + button (fix alignment and centering) */
+.transactions-add {
+	position: fixed;
+	right: 18px;
+	bottom: 22px;
+	width: 56px;
+	height: 56px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--orange);
+	color: #ffffff;
+	font-size: 32px;
+	line-height: 1;
+	text-decoration: none;
+	box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+	z-index: 60;
+}
+
+.transactions-add:active {
+	transform: scale(0.98);
+}
+
+.transactions-add svg {
+	width: 22px;
+	height: 22px;
+	display: block;
+	color: #ffffff;
+}
+
 
 .transactions-search {
 	display: flex;
@@ -3280,6 +3446,22 @@ html[data-theme=dark] body,
 html[data-theme=light] body {
 	color: var(--text-color);
 	background: var(--bg-color)
+}
+
+/* Force finance pages to use pure black background like landing page */
+html[data-theme=dark] body.finance-page,
+body.finance-page {
+	background: var(--black) !important;
+	color: var(--white);
+}
+
+/* Let finance shells/content be transparent so page background shows through */
+body.finance-page .finance-shell,
+body.finance-page .finance-content,
+body.finance-page .transactions-content,
+body.finance-page .report-section,
+body.finance-page .transaction-list {
+	background: transparent !important;
 }
 
 .app-shell,
