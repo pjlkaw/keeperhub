@@ -37,8 +37,8 @@ Ultima revisao: 2026-09-09
 
 ## 4. Padronizacao de cards
 
-- [x] Confirmar que o componente base esta definido em [shared/styles/components.css](../shared/styles/components.css).
-- [x] Confirmar que os cards de [modules/medicamentos](../modules/medicamentos) usam `class="card"` e, quando aplicavel, `card--interactive`.
+- [X] Confirmar que o componente base esta definido em [shared/styles/components.css](../shared/styles/components.css).
+- [X] Confirmar que os cards de [modules/medicamentos](../modules/medicamentos) usam `class="card"` e, quando aplicavel, `card--interactive`.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/despensa](../modules/despensa), mantendo as classes especificas de cada card.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/financas](../modules/financas), mantendo as classes especificas de cada card.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/pets](../modules/pets), mantendo as classes especificas de cada card.
@@ -72,11 +72,12 @@ Ultima revisao: 2026-09-09
 
 ## 8. Modulo Metas
 
-- [ ] Escolher entre [modules/metas/index.html](../modules/metas/index.html) e [modules/metas/metas-app/index.html](../modules/metas/metas-app/index.html) como entrada oficial.
+- [ ] Escolher entre [modules/metas/index.html](../modules/metas/index.html) como entrada oficial.
 - [ ] Mover a implementacao escolhida para a estrutura `index.html`, `assets/`, `components/` e `js/` do modulo.
 - [ ] Integrar o modulo escolhido com [shared/styles/variables.css](../shared/styles/variables.css), [shared/styles/components.css](../shared/styles/components.css), [shared/components/navbar-section.html](../shared/components/navbar-section.html) e [shared/services/theme.js](../shared/services/theme.js).
 - [ ] Corrigir referencias de navegacao que usam `dispensa` em vez de `despensa` em [modules/metas/metas-app/script.js](../modules/metas/metas-app/script.js).
 - [ ] Remover duplicacoes de imagens que ja existem em [shared/img](../shared/img).
+- [ ] Remover emojis
 
 ## 9. Modulo Pets
 
