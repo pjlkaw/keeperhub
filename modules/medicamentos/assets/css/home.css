@@ -28,7 +28,7 @@ Usado por: apenas a página Home do módulo
     gap: 5px;
     background-color: var(--color-delayed-bg);
     font-size: 0.75rem;
-    border-bottom: px solid var(--color-delayed-bg);
+    border: 1px solid var(--color-delayed-border);
     /* 12px */
     font-weight: 700;
     padding: 3px 9px;
@@ -53,18 +53,14 @@ Usado por: apenas a página Home do módulo
     font-size: 1.375rem;
     /* 22px */
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-color);
     line-height: 1.2;
-}
-
-[data-theme="light"] .meds-delayed-name {
-    color: #111827;
 }
 
 .meds-delayed-dose {
     font-size: 0.875rem;
     /* 14px */
-    color: #9ca3af;
+    color: var(--text-muted);
     font-weight: 500;
 }
 
@@ -177,26 +173,17 @@ Usado por: apenas a página Home do módulo
     font-size: 0.875rem;
     /* 14px */
     font-weight: 700;
-    color: #ffffff;
-}
-
-[data-theme="light"] .upcoming-time-tag {
-    color: #111827;
+    color: var(--text-color);
 }
 
 .upcoming-time-pill {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #d1d5db;
+    background-color: var(--border-color);
+    color: var(--text-muted);
     font-size: 0.75rem;
     /* 12px */
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 100px;
-}
-
-[data-theme="light"] .upcoming-time-pill {
-    background-color: #f3f4f6;
-    color: #4b5563;
 }
 
 .upcoming-med-list {
@@ -214,12 +201,8 @@ Usado por: apenas a página Home do módulo
     gap: 10px;
     font-size: 0.9375rem;
     /* 15px */
-    color: #e5e7eb;
+    color: var(--text-color);
     font-weight: 500;
-}
-
-[data-theme="light"] .upcoming-med-item {
-    color: #374151;
 }
 
 .upcoming-med-bullet {
@@ -297,7 +280,7 @@ Usado por: apenas a página Home do módulo
 
 .shortcut-value {
     font-size: 0.8125rem;
-    color: #ffffff;
+    color: var(--text-color);
 }
 
 /* ==================================================

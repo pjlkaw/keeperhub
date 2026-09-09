@@ -22,6 +22,7 @@
         <!-- Main -->
         <link rel="stylesheet" href="assets/css/home.css">
         
+        <!-- Navbar -->
         <script>
             fetch('/shared/components/navbar-section.html')
                 .then(response => response.text())
@@ -29,7 +30,7 @@
                     const nav = document.getElementById('modules-nav-wrapper');
                     nav.innerHTML = data;
 
-                    const moduloAtual = nav.querySelector('[data-module="SEU-MODULO"]');
+                    const moduloAtual = nav.querySelector('[data-module="medicamentos"]');
                     moduloAtual.classList.add('active');
                     moduloAtual.setAttribute('aria-selected', 'true');
                     moduloAtual.setAttribute('tabindex', '0');
@@ -40,7 +41,6 @@
         <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script src="/shared/services/theme.js"></script>
 
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script>
             fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
                 document.getElementById('headerSection').innerHTML = data;

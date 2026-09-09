@@ -21,14 +21,10 @@ header, main {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    color: var(--color-text-primary, #ffffff);
+    color: var(--text-color);
     position: relative;
     overflow-x: hidden;
     background-color: var(--bg-color);
-}
-
-[data-theme="light"] .app-page-wrapper {
-    background-color: var(--color-bg-page, #f5f7f7);
 }
 
 .app-container {
