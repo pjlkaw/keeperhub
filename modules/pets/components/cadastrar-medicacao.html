@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/cadastrar-medicacao.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
 </head>
 <body>
@@ -95,15 +96,17 @@
                 <textarea id="observacao-medicamento" name="observacao_medicamento" placeholder="Detalhes adicionais sobre o tratamento..."></textarea>
             </div>
 
-            <button type="submit" class="botao-principal formulario-adicionar-medicacao__enviar">
+            <button type="button" class="botao-principal formulario-adicionar-medicacao__enviar" disabled aria-describedby="aviso-integracao-medicacao">
                 Salvar Medicação
             </button>
+
+            <p id="aviso-integracao-medicacao" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
 
         </form>
 
     </main>
 
     <script src="../../../shared/services/theme.js"></script>
-    <script src="../js/cadastrar-medicacao.js" defer></script>
+    <!-- A persistência será integrada ao backend futuramente. -->
 </body>
 </html>
