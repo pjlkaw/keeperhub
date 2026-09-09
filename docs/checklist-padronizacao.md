@@ -65,7 +65,7 @@ Ultima revisao: 2026-09-09
 
 ## 7. Modulo Medicamentos
 
-- [ ] Manter a ordem dos imports de shared em [modules/medicamentos/index.html](../modules/medicamentos/index.html) e nos componentes.
+- [x] Manter a ordem dos imports de shared em [modules/medicamentos/index.html](../modules/medicamentos/index.html) e nos componentes.
 - [ ] Confirmar que todos os componentes usam os tokens de [shared/styles/variables.css](../shared/styles/variables.css) para cores globais.
 - [ ] Confirmar que o tema salvo e o botao de tema funcionam ao abrir a pagina em diferentes dispositivos e tamanhos de viewport.
 - [ ] Evitar duplicacao do header compartilhado nos componentes que ainda possuem markup manual.
