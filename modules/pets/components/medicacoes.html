@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/medicacoes.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
 </head>
 <body>
@@ -23,18 +24,15 @@
             <h1 class="cabecalho-pagina__titulo">Medicações - Pets</h1>
 
             <div class="cabecalho-pagina__acoes">
-                <button type="button" class="botao-icone" aria-label="Função não identificada">
+                <button type="button" class="botao-icone cabecalho-pagina__mais-opcoes" aria-label="Mais opções">
                     <span class="icone" aria-hidden="true"></span>
                 </button>
-                <a href="#" class="botao-icone cabecalho-pagina__link-modulo" aria-label="Ir para Controle de Medicamentos (humanos)">
-                    <span class="icone" aria-hidden="true"></span>
-                </a>
             </div>
         </header>
 
         <nav class="abas-pet" aria-label="Tipo de registro">
-            <a href="#" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
-            <a href="#" class="abas-pet__link">Receitas</a>
+            <a href="medicacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
+            <a href="receitas.html" class="abas-pet__link">Receitas</a>
         </nav>
 
         <div class="barra-ferramentas-medicacoes">
@@ -171,6 +169,6 @@
     </main>
 
     <script src="../../../shared/services/theme.js"></script>
-    <script src="../js/medicacoes.js" defer></script>
+    <!-- Busca, filtros, receitas e persistência serão integrados ao backend futuramente. -->
 </body>
 </html>

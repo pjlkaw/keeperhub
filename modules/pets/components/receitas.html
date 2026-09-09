@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Receitas</title>
+    <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../../shared/styles/components.css">
+    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/medicacoes.css">
+    <link rel="stylesheet" href="../assets/css/receitas.css">
+    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+</head>
+<body>
+
+    <main class="pagina-medicacoes pagina-receitas">
+
+        <header class="cabecalho-pagina cabecalho-pets">
+            <a href="../index.html" class="cabecalho-pagina__voltar">
+                <span class="icone" aria-hidden="true"></span>
+                <span class="somente-leitor-tela">Voltar</span>
+            </a>
+            <h1 class="cabecalho-pagina__titulo">Receitas - Pets</h1>
+
+            <div class="cabecalho-pagina__acoes">
+                <button type="button" class="botao-icone cabecalho-pagina__mais-opcoes" aria-label="Mais opções">
+                    <span class="icone" aria-hidden="true"></span>
+                </button>
+            </div>
+        </header>
+
+        <nav class="abas-pet" aria-label="Tipo de registro">
+            <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
+            <a href="receitas.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Receitas</a>
+        </nav>
+
+        <div class="barra-ferramentas-medicacoes">
+            <form class="busca-medicacoes" role="search">
+                <label for="buscar-receita" class="somente-leitor-tela">Buscar receita</label>
+                <span class="icone" aria-hidden="true"></span>
+                <input type="search" id="buscar-receita" name="buscar-receita" placeholder="Buscar receita...">
+            </form>
+            <button type="button" class="botao-icone barra-ferramentas-medicacoes__filtro" aria-label="Filtrar receitas">
+                <span class="icone" aria-hidden="true"></span>
+            </button>
+        </div>
+
+        <section class="receitas-lista" aria-labelledby="receitas-ativas-heading">
+            <header class="receitas-lista__cabecalho">
+                <h2 id="receitas-ativas-heading" class="receitas-lista__titulo receitas-lista__titulo--ativas">Receitas Ativas</h2>
+                <span class="receitas-lista__contagem">2 receitas</span>
+            </header>
+
+            <ul>
+                <li>
+                    <article class="cartao-receita cartao-receita--ativa">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-receita__informacoes">
+                            <h3 class="cartao-receita__nome">Bravecto Antipulgas</h3>
+                            <p class="cartao-receita__veterinario">Dra. Amanda Silva</p>
+                            <p class="cartao-receita__data">
+                                <span class="icone" aria-hidden="true"></span>
+                                Válida até 27 Ago 2026
+                            </p>
+                        </div>
+                        <div class="cartao-receita__acoes">
+                            <span class="etiqueta-receita etiqueta-receita--ativa">Ativa</span>
+                            <button type="button" class="botao-icone cartao-receita__baixar" aria-label="Baixar receita de Bravecto Antipulgas" title="Download disponível após a integração">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-receita cartao-receita--ativa">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-receita__informacoes">
+                            <h3 class="cartao-receita__nome">Dipirona 500 mg</h3>
+                            <p class="cartao-receita__veterinario">Dr. Roberto Lima</p>
+                            <p class="cartao-receita__data">
+                                <span class="icone" aria-hidden="true"></span>
+                                Válida até 15 Out 2026
+                            </p>
+                        </div>
+                        <div class="cartao-receita__acoes">
+                            <span class="etiqueta-receita etiqueta-receita--ativa">Ativa</span>
+                            <button type="button" class="botao-icone cartao-receita__baixar" aria-label="Baixar receita de Dipirona 500 mg" title="Download disponível após a integração">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <section class="receitas-lista receitas-lista--historico" aria-labelledby="historico-receitas-heading">
+            <header class="receitas-lista__cabecalho">
+                <h2 id="historico-receitas-heading" class="receitas-lista__titulo">Histórico</h2>
+                <span class="receitas-lista__contagem">2 receitas</span>
+            </header>
+
+            <ul>
+                <li>
+                    <article class="cartao-receita cartao-receita--expirada">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-receita__informacoes">
+                            <h3 class="cartao-receita__nome">Amoxicilina 250 mg</h3>
+                            <p class="cartao-receita__veterinario">Dra. Amanda Silva</p>
+                            <p class="cartao-receita__data">
+                                <span class="icone" aria-hidden="true"></span>
+                                Emitida em 10 Jan 2026
+                            </p>
+                        </div>
+                        <div class="cartao-receita__acoes">
+                            <span class="etiqueta-receita etiqueta-receita--expirada">Expirada</span>
+                            <button type="button" class="botao-icone cartao-receita__baixar" aria-label="Baixar receita de Amoxicilina 250 mg" title="Download disponível após a integração">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </article>
+                </li>
+
+                <li>
+                    <article class="cartao-receita cartao-receita--concluida">
+                        <span class="icone" aria-hidden="true"></span>
+                        <div class="cartao-receita__informacoes">
+                            <h3 class="cartao-receita__nome">Prednisona 20 mg</h3>
+                            <p class="cartao-receita__veterinario">Dr. Roberto Lima</p>
+                            <p class="cartao-receita__data">
+                                <span class="icone" aria-hidden="true"></span>
+                                Emitida em 18 Nov 2025
+                            </p>
+                        </div>
+                        <div class="cartao-receita__acoes">
+                            <span class="etiqueta-receita etiqueta-receita--concluida">Concluída</span>
+                            <button type="button" class="botao-icone cartao-receita__baixar" aria-label="Baixar receita de Prednisona 20 mg" title="Download disponível após a integração">
+                                <span class="icone" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </article>
+                </li>
+            </ul>
+        </section>
+
+        <label class="botao-flutuante receitas-upload">
+            <input type="file" accept=".pdf,.jpg,.jpeg,.png" aria-label="Adicionar arquivo de receita">
+            <span class="icone" aria-hidden="true"></span>
+        </label>
+
+    </main>
+
+    <script src="../../../shared/services/theme.js"></script>
+    <!-- Busca, filtros, download e persistência serão integrados ao backend futuramente. -->
+</body>
+</html>

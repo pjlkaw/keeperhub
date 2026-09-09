@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="../assets/css/adicionar-vacina.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
 </head>
 <body>
@@ -179,15 +180,17 @@
                 <textarea id="observacao-vacina" name="observacao_vacina" placeholder="Ex: certificado digital, reação observada, clínica onde foi aplicada..."></textarea>
             </div>
 
-            <button type="submit" class="botao-principal formulario-adicionar-vacina__enviar">
+            <button type="button" class="botao-principal formulario-adicionar-vacina__enviar" disabled aria-describedby="aviso-integracao-vacina">
                 Salvar Vacina
             </button>
+
+            <p id="aviso-integracao-vacina" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
 
         </form>
 
     </main>
 
     <script src="../../../shared/services/theme.js"></script>
-    <script src="../js/adicionar-vacina.js" defer></script>
+    <!-- A persistência será integrada ao backend futuramente. -->
 </body>
 </html>

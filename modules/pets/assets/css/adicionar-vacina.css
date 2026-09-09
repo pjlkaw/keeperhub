@@ -1,0 +1,311 @@
+:root {
+  color-scheme: dark;
+  --vacina-fundo: #111111;
+  --vacina-superficie: #1d1d1f;
+  --vacina-superficie-hover: #242427;
+  --vacina-borda: #29292d;
+  --vacina-texto: #f2f2f3;
+  --vacina-suave: #a3a3a9;
+  --vacina-azul: #4285f4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 280px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--vacina-texto);
+  background: #3d3d3d;
+  font-family: Arial, sans-serif;
+}
+
+.adicionar-vacina {
+  width: 100%;
+  max-width: 600px;
+  min-height: 100vh;
+  margin-inline: auto;
+  padding-bottom: 24px;
+  background: var(--vacina-fundo);
+}
+
+.formulario-adicionar-vacina {
+  padding: 24px 22px;
+}
+
+.formulario-adicionar-vacina .campo-formulario {
+  min-width: 0;
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+}
+
+.formulario-adicionar-vacina :is(label:not([class]), legend) {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--vacina-texto);
+  font: 700 0.875rem/1.45 Arial, sans-serif;
+}
+
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  color: var(--vacina-texto);
+  background: var(--vacina-superficie);
+  border: 1px solid var(--vacina-borda);
+  border-radius: 8px;
+  outline: 0;
+  font: 400 1rem/1.45 Arial, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.formulario-adicionar-vacina textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea)::placeholder {
+  color: var(--vacina-suave);
+  opacity: 1;
+}
+
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea):focus {
+  background: #202023;
+  border-color: var(--vacina-azul);
+  box-shadow: 0 0 0 3px rgb(66 133 244 / 15%);
+}
+
+.opcoes-nome-vacina {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 2px 2px 8px;
+  list-style: none;
+}
+
+.opcoes-nome-vacina__opcao {
+  position: relative;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  color: #c7c7cc;
+  background: var(--vacina-superficie);
+  border: 1px solid var(--vacina-borda);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.opcoes-nome-vacina__opcao input,
+.opcoes-frequencia__opcao input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opcoes-nome-vacina__opcao:has(input:checked) {
+  color: #ffffff;
+  background: var(--vacina-azul);
+  border-color: var(--vacina-azul);
+  box-shadow: 0 5px 14px rgb(66 133 244 / 22%);
+}
+
+.opcoes-nome-vacina__opcao:has(input:focus-visible),
+.opcoes-frequencia__opcao:has(input:focus-visible) {
+  outline: 2px solid var(--vacina-azul);
+  outline-offset: 3px;
+}
+
+.formulario-adicionar-vacina .opcoes-nome-vacina__personalizada {
+  display: none;
+  margin: 14px 0 0;
+}
+
+.formulario-adicionar-vacina:has(input[name='nome_vacina'][value='outra']:checked) .opcoes-nome-vacina__personalizada {
+  display: block;
+  animation: revelar-campo 180ms ease-out both;
+}
+
+.opcoes-frequencia {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.opcoes-frequencia__opcao {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 2px 10px;
+  min-height: 66px;
+  align-content: center;
+  padding: 11px 13px;
+  color: var(--vacina-texto);
+  background: var(--vacina-superficie);
+  border: 1px solid var(--vacina-borda);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.opcoes-frequencia__opcao::before {
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #66666d;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 4px var(--vacina-superficie);
+  content: '';
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.opcoes-frequencia__opcao:has(input:checked) {
+  background: rgb(66 133 244 / 11%);
+  border-color: var(--vacina-azul);
+}
+
+.opcoes-frequencia__opcao:has(input:checked)::before {
+  background: var(--vacina-azul);
+  border-color: var(--vacina-azul);
+  box-shadow: inset 0 0 0 4px #171c25;
+}
+
+.opcoes-frequencia__titulo {
+  grid-column: 2;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.opcoes-frequencia__descricao {
+  grid-column: 2;
+  color: var(--vacina-suave);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* O campo fica disponível somente para o tratamento fracionado. */
+.formulario-adicionar-vacina > .campo-formulario:has(#proxima-dose) {
+  display: none;
+}
+
+.formulario-adicionar-vacina:has(input[name='frequencia'][value='doses_fracionadas']:checked) > .campo-formulario:has(#proxima-dose) {
+  display: block;
+  animation: revelar-campo 180ms ease-out both;
+}
+
+.formulario-adicionar-vacina__enviar {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+
+.formulario-adicionar-vacina__enviar:disabled {
+  color: #a3a3a8;
+  background: var(--vacina-superficie);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.aviso-integracao {
+  margin: 12px 0 0;
+  color: var(--vacina-suave);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@keyframes revelar-campo {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opcoes-nome-vacina__opcao:hover,
+  .opcoes-frequencia__opcao:hover {
+    background-color: var(--vacina-superficie-hover);
+    border-color: #414147;
+    transform: translateY(-2px);
+  }
+
+  .opcoes-nome-vacina__opcao:has(input:checked):hover {
+    background-color: #5a95f5;
+    border-color: #5a95f5;
+  }
+
+  .opcoes-frequencia__opcao:has(input:checked):hover {
+    background-color: rgb(66 133 244 / 16%);
+    border-color: var(--vacina-azul);
+  }
+}
+
+@media (min-width: 640px) {
+  .adicionar-vacina {
+    min-height: auto;
+    margin-block: 24px;
+    overflow: hidden;
+    border: 1px solid var(--vacina-borda);
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .formulario-adicionar-vacina {
+    padding-inline: 16px;
+  }
+
+  .opcoes-nome-vacina {
+    flex-wrap: nowrap;
+    margin-inline: -16px;
+    padding: 3px 16px 10px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 16px;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: thin;
+  }
+
+  .opcoes-nome-vacina li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adicionar-vacina *,
+  .adicionar-vacina *::before,
+  .adicionar-vacina *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

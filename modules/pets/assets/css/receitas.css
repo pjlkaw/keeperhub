@@ -1,0 +1,207 @@
+.pagina-receitas .receitas-lista {
+  padding: 0 16px;
+}
+
+.pagina-receitas .receitas-lista + .receitas-lista {
+  margin-top: 22px;
+}
+
+.receitas-lista__cabecalho {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pagina-receitas .receitas-lista__titulo {
+  color: var(--medicacoes-azul);
+  font: 700 0.75rem/1.4 Arial, sans-serif;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.pagina-receitas .receitas-lista__titulo--ativas {
+  color: var(--medicacoes-verde);
+}
+
+.receitas-lista__contagem {
+  color: var(--medicacoes-suave);
+  font-size: 0.75rem;
+}
+
+.receitas-lista ul {
+  display: grid;
+  gap: 8px;
+}
+
+.cartao-receita {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 11px;
+  min-height: 108px;
+  align-items: start;
+  padding: 14px 10px;
+  background: var(--medicacoes-superficie);
+  border: 1px solid var(--medicacoes-borda);
+  border-left: 4px solid #414145;
+  border-radius: 7px;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.cartao-receita--ativa {
+  border-left-color: var(--medicacoes-verde);
+}
+
+.cartao-receita > .icone {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #343438;
+  border-radius: 8px;
+  background: #111113 url('../img/laudo-exame-pets.png') center / 16px 20px no-repeat;
+}
+
+.cartao-receita__informacoes {
+  min-width: 0;
+  align-self: center;
+}
+
+.pagina-receitas .cartao-receita__nome {
+  overflow-wrap: anywhere;
+  color: var(--medicacoes-texto);
+  font: 400 1rem/1.35 Arial, sans-serif;
+}
+
+.cartao-receita__veterinario {
+  margin-top: 3px !important;
+  color: #c0c0c4;
+  font-size: 0.75rem;
+}
+
+.cartao-receita__data {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px !important;
+  color: var(--medicacoes-suave);
+  font-size: 0.75rem;
+}
+
+.cartao-receita__data .icone {
+  width: 12px;
+  height: 12px;
+  background: url('../img/calendario-pets.png') center / contain no-repeat;
+  filter: grayscale(1) brightness(1.6);
+}
+
+.cartao-receita__acoes {
+  display: flex;
+  min-height: 80px;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.etiqueta-receita {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid #3a3a3e;
+  border-radius: 999px;
+  color: #b1b1b7;
+  background: #29292c;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.etiqueta-receita--ativa {
+  color: #9bf65f;
+  background: rgb(96 217 0 / 14%);
+  border-color: rgb(96 217 0 / 32%);
+}
+
+.etiqueta-receita--expirada {
+  color: #ff9c9c;
+  background: rgb(255 82 82 / 9%);
+  border-color: rgb(255 82 82 / 25%);
+}
+
+.etiqueta-receita--concluida {
+  color: #8eb7ff;
+  background: rgb(66 133 244 / 12%);
+  border-color: rgb(66 133 244 / 28%);
+}
+
+.pagina-receitas .cartao-receita__baixar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  padding: 0;
+  background: #171719;
+  border: 1px solid #39393d;
+  border-radius: 50%;
+}
+
+.cartao-receita__baixar .icone {
+  width: 12px;
+  height: 12px;
+  background: url('../img/baixar-exame-pets.png') center / contain no-repeat;
+}
+
+.pagina-receitas .receitas-upload {
+  cursor: pointer;
+}
+
+.receitas-upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.receitas-upload:has(input:focus-visible) {
+  outline: 2px solid var(--medicacoes-texto);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cartao-receita:hover {
+    background: var(--medicacoes-superficie-hover);
+    border-color: #3a3a3e;
+    transform: translateY(-1px);
+  }
+
+  .pagina-receitas .cartao-receita__baixar:hover {
+    background: #28282b;
+  }
+}
+
+@media (max-width: 350px) {
+  .cartao-receita {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .cartao-receita > .icone {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cartao-receita__acoes {
+    grid-column: 2;
+    min-height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,451 @@
+:root {
+  color-scheme: dark;
+  --medicacoes-fundo: #111111;
+  --medicacoes-superficie: #1d1d1f;
+  --medicacoes-superficie-hover: #242427;
+  --medicacoes-borda: #2a2a2d;
+  --medicacoes-texto: #f2f2f3;
+  --medicacoes-suave: #a2a2a8;
+  --medicacoes-azul: #4285f4;
+  --medicacoes-verde: #60d900;
+  --medicacoes-amarelo: #ffd400;
+  --medicacoes-vermelho: #ff5252;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 280px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--medicacoes-texto);
+  background: #3d3d3d;
+  font-family: Arial, sans-serif;
+}
+
+.pagina-medicacoes {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin-inline: auto;
+  padding-bottom: 96px;
+  background: var(--medicacoes-fundo);
+  box-shadow: 0 0 0 1px #4a4a4a;
+}
+
+.pagina-medicacoes :is(h2, h3, p, ul) {
+  margin: 0;
+  padding: 0;
+}
+
+.pagina-medicacoes ul {
+  list-style: none;
+}
+
+.pagina-medicacoes :is(a, button, input):focus-visible {
+  outline: 2px solid var(--medicacoes-azul);
+  outline-offset: 3px;
+}
+
+.pagina-medicacoes .cabecalho-pagina__acoes {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.pagina-medicacoes .cabecalho-pagina__acoes .botao-icone {
+  display: grid;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  color: #b8b8bc;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+}
+
+.cabecalho-pagina__mais-opcoes .icone {
+  display: none;
+}
+
+.cabecalho-pagina__mais-opcoes::before {
+  color: currentColor;
+  font-size: 1.5rem;
+  line-height: 1;
+  content: '\22EE';
+}
+
+.abas-pet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid #242426;
+}
+
+.abas-pet__link {
+  position: relative;
+  display: grid;
+  min-height: 52px;
+  place-items: center;
+  padding: 8px 12px;
+  color: #94949a;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease;
+}
+
+.abas-pet__link--ativo {
+  color: var(--medicacoes-azul);
+}
+
+.abas-pet__link--ativo::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--medicacoes-azul);
+  content: '';
+}
+
+.barra-ferramentas-medicacoes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 10px;
+  padding: 24px 16px 12px;
+}
+
+.busca-medicacoes {
+  display: flex;
+  min-width: 0;
+  height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding-inline: 12px;
+  background: #0f0f10;
+  border: 1px solid var(--medicacoes-borda);
+  border-radius: 7px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.busca-medicacoes:focus-within {
+  border-color: var(--medicacoes-azul);
+  box-shadow: 0 0 0 3px rgb(66 133 244 / 14%);
+}
+
+.busca-medicacoes > .icone {
+  width: 15px;
+  height: 15px;
+  background: url('../img/busca-pets.png') center / contain no-repeat;
+  opacity: 0.7;
+}
+
+.busca-medicacoes input {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0;
+  color: var(--medicacoes-texto);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 0.875rem;
+}
+
+.busca-medicacoes input::placeholder {
+  color: #85858b;
+  opacity: 1;
+}
+
+.barra-ferramentas-medicacoes__filtro {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  background: #151516;
+  border: 1px solid var(--medicacoes-borda);
+  border-radius: 7px;
+}
+
+.barra-ferramentas-medicacoes__filtro .icone {
+  width: 12px;
+  height: 12px;
+  background: url('../img/filtro-pets.png') center / contain no-repeat;
+}
+
+.grupo-medicacoes {
+  padding: 0 16px;
+}
+
+.grupo-medicacoes + .grupo-medicacoes {
+  margin-top: 18px;
+}
+
+.grupo-medicacoes__titulo {
+  margin-bottom: 9px !important;
+  color: var(--medicacoes-azul);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.grupo-medicacoes__titulo--continuo {
+  color: var(--medicacoes-verde);
+}
+
+.grupo-medicacoes__titulo--temporario {
+  color: var(--medicacoes-amarelo);
+}
+
+.grupo-medicacoes ul {
+  display: grid;
+  gap: 8px;
+}
+
+.cartao-medicacao {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 10px;
+  min-height: 90px;
+  align-items: start;
+  padding: 14px 10px;
+  overflow: hidden;
+  background: var(--medicacoes-superficie);
+  border: 1px solid var(--medicacoes-borda);
+  border-left: 4px solid #404044;
+  border-radius: 7px;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.cartao-medicacao--continuo {
+  border-left-color: var(--medicacoes-verde);
+}
+
+.cartao-medicacao--temporario {
+  border-left-color: var(--medicacoes-amarelo);
+}
+
+.cartao-medicacao > .icone {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #343438;
+  border-radius: 50%;
+  background-color: #111113;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 18px;
+}
+
+.cartao-medicacao--continuo > .icone {
+  background-image: url('../img/frasco-medicamento-pets.png');
+}
+
+.cartao-medicacao--temporario > .icone {
+  background-image: url('../img/medicamento-pets.png');
+  filter: grayscale(1) brightness(1.75);
+}
+
+.cartao-medicacao--eventual > .icone {
+  background-image: url('../img/gota-medicamento-pets.png');
+}
+
+.cartao-medicacao--aplicada > .icone {
+  background-image: url('../img/historico-medicamento-pets.png');
+}
+
+.cartao-medicacao__informacoes {
+  min-width: 0;
+  align-self: center;
+}
+
+.cartao-medicacao__nome {
+  overflow-wrap: anywhere;
+  color: var(--medicacoes-texto);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.cartao-medicacao__informacoes :is(.cartao-medicacao__horario, .cartao-medicacao__dosagem) {
+  margin-top: 3px;
+  color: #c0c0c4;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.cartao-medicacao__estoque,
+.cartao-medicacao__termino {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px !important;
+  color: var(--medicacoes-suave);
+  font-size: 0.75rem;
+}
+
+.cartao-medicacao__estoque .icone,
+.cartao-medicacao__termino .icone {
+  width: 12px;
+  height: 12px;
+  background: url('../img/calendario-pets.png') center / contain no-repeat;
+  filter: grayscale(1) brightness(1.6);
+}
+
+.cartao-medicacao__alerta-estoque {
+  margin-top: 5px !important;
+  color: var(--medicacoes-vermelho);
+  font-size: 0.75rem;
+}
+
+.etiqueta-status {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.etiqueta-status--continuo {
+  color: #9bf65f;
+  background: rgb(96 217 0 / 14%);
+  border: 1px solid rgb(96 217 0 / 32%);
+}
+
+.etiqueta-status--temporario {
+  color: var(--medicacoes-amarelo);
+  background: rgb(255 212 0 / 9%);
+  border: 1px solid rgb(255 212 0 / 25%);
+}
+
+.etiqueta-status--eventual {
+  color: #b1b1b7;
+  background: #29292c;
+  border: 1px solid #3a3a3e;
+}
+
+.grupo-medicacoes:last-of-type .cartao-medicacao {
+  border-left-color: #404044;
+}
+
+.pagina-medicacoes .botao-flutuante {
+  position: fixed;
+  right: max(18px, calc((100vw - 480px) / 2 + 18px));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 5;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  background: var(--medicacoes-azul);
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 45%);
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.pagina-medicacoes .botao-flutuante .icone {
+  width: 20px;
+  height: 20px;
+  background: url('../img/adicionar-pets.png') center / contain no-repeat;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pagina-medicacoes .cabecalho-pagina__acoes .botao-icone:hover,
+  .barra-ferramentas-medicacoes__filtro:hover {
+    background-color: var(--medicacoes-superficie-hover);
+  }
+
+  .abas-pet__link:hover {
+    color: #c9ddff;
+    background: rgb(66 133 244 / 6%);
+  }
+
+  .cartao-medicacao:hover {
+    background: var(--medicacoes-superficie-hover);
+    border-color: #3a3a3e;
+    transform: translateY(-1px);
+  }
+
+  .pagina-medicacoes .botao-flutuante:hover {
+    background: #6199f6;
+    transform: translateY(-3px);
+  }
+}
+
+.pagina-medicacoes .botao-flutuante:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 420px) {
+  .pagina-medicacoes .cabecalho-pagina.cabecalho-pets {
+    flex-wrap: nowrap;
+  }
+
+  .pagina-medicacoes .cabecalho-pagina.cabecalho-pets .cabecalho-pagina__acoes {
+    margin-left: auto;
+  }
+
+  .pagina-medicacoes .cabecalho-pagina__acoes .botao-icone {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .cartao-medicacao {
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .cartao-medicacao > .icone {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 340px) {
+  .pagina-medicacoes .cabecalho-pagina__titulo {
+    font-size: 1rem;
+  }
+
+  .cartao-medicacao {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .cartao-medicacao > .icone {
+    width: 36px;
+    height: 36px;
+  }
+
+  .etiqueta-status {
+    grid-column: 2;
+    width: fit-content;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pagina-medicacoes *,
+  .pagina-medicacoes *::before,
+  .pagina-medicacoes *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
