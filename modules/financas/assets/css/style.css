@@ -1012,6 +1012,54 @@ textarea {
 	color: #ffffff;
 }
 
+/* Light-theme overrides to restore normal white appearance */
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transactions-search {
+	background: var(--card-bg);
+	box-shadow: none;
+	border-color: var(--border-color);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .report-card,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	color: var(--text-color);
+	box-shadow: none;
+}
+
+html[data-theme='light'] .transaction-item {
+	background: var(--card-bg);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transaction-icon,
+html[data-theme='light'] .shortcut-icon {
+	background: transparent;
+	color: var(--tool-financas);
+}
+
+html[data-theme='light'] .filter-chips button {
+	background: transparent;
+	color: var(--text-muted);
+	border-color: var(--border-color);
+}
+
+html[data-theme='light'] .filter-chips .filter-active {
+	background: rgba(228,122,0,0.08);
+	color: var(--tool-financas);
+	border-color: rgba(228,122,0,0.12);
+}
+
+
 
 .transactions-search {
 	display: flex;
@@ -3149,6 +3197,65 @@ html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-i
 .form-field {
 	min-width: 0
 }
+
+/* Final light-theme force overrides for Finanças pages (placed at EOF to ensure precedence) */
+html[data-theme='light'] .finance-page,
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color) !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .finance-shell,
+html[data-theme='light'] .transactions-content,
+html[data-theme='light'] .reports-content {
+	background: transparent !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .transactions-search,
+html[data-theme='light'] .transactions-search span,
+html[data-theme='light'] .filter-chips button,
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .transaction-item,
+html[data-theme='light'] .report-card,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section,
+html[data-theme='light'] .reports-header {
+	background: var(--card-bg) !important;
+	border-color: var(--border-color) !important;
+	color: var(--text-color) !important;
+	box-shadow: none !important;
+}
+
+html[data-theme='light'] .transaction-icon,
+html[data-theme='light'] .shortcut-icon {
+	background: transparent !important;
+	color: var(--tool-financas) !important;
+}
+
+html[data-theme='light'] .finance-header,
+html[data-theme='light'] .finance-back,
+html[data-theme='light'] .finance-tabs a {
+	color: var(--text-color) !important;
+	border-color: var(--border-color) !important;
+	background: transparent !important;
+}
+
+html[data-theme='light'] .finance-tabs a.active {
+	color: var(--tool-financas) !important;
+	background: rgba(228,122,0,0.06) !important;
+	border-color: rgba(228,122,0,0.12) !important;
+}
+
+html[data-theme='light'] .transaction-group h2,
+html[data-theme='light'] .transaction-item strong,
+html[data-theme='light'] .transaction-item b,
+html[data-theme='light'] .transaction-item small,
+html[data-theme='light'] .insight-card small {
+	color: var(--text-muted) !important;
+}
+
 
 .form-field-wide {
 	grid-column: 1/-1
