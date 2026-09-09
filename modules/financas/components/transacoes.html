@@ -24,16 +24,45 @@
                 href="transacoes.html" aria-current="page">Transações</a><a href="relatorios.html">Relatórios</a><a
                 href="nova-transacao.html">Nova transação</a></nav>
         <section class="finance-content transactions-content">
-            <form class="transactions-search" role="search"><span aria-hidden="true">⌕</span><input type="search"
-                    placeholder="Buscar transações..." aria-label="Buscar transações"><button type="button"
-                    aria-label="Abrir filtros">☷</button></form>
-            <nav class="filter-chips" aria-label="Filtros de transações"><button class="filter-active"
-                    type="button">Todas</button><button type="button">Receitas</button><button
-                    type="button">Despesas</button><button type="button">▣ Este Mês</button></nav>
+            <form class="transactions-search" role="search">
+                <label class="search-field">
+                    <span class="search-icon" aria-hidden="true">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
+                </label>
+                <!-- removed icon button to keep search clean -->
+            </form>
+            <div class="filter-row">
+                <nav class="filter-chips" aria-label="Filtros de transações">
+                    <button class="filter-active" type="button" data-filter="all">Todas</button>
+                    <button type="button" data-filter="receitas">Receitas</button>
+                    <button type="button" data-filter="despesas">Despesas</button>
+                    <button type="button" data-filter="este-mes">▣ Este Mês</button>
+                </nav>
+                <div class="filter-actions-wrap">
+                    <button class="filter-actions" type="button" aria-label="Abrir opções de visualização" aria-expanded="false">
+                        <span aria-hidden="true">☷</span>
+                    </button>
+                    <div class="filter-popup" hidden aria-hidden="true">
+                        <button type="button" data-popup-filter="receitas">Mostrar apenas Receitas</button>
+                        <button type="button" data-popup-filter="despesas">Mostrar apenas Despesas</button>
+                        <button type="button" data-popup-filter="este-mes">Mostrar Este Mês</button>
+                        <button type="button" data-popup-filter="all">Limpar filtros</button>
+                    </div>
+                </div>
+            </div>
             <section class="transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
-            <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">＋</a>
+            <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                </svg>
+            </a>
         </section>
     </main>
     <script src="../js/script.js"></script>

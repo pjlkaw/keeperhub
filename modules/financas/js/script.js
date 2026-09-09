@@ -151,7 +151,7 @@ function bindTransactionFilters(transactions, list) {
     const filterButtons = document.querySelectorAll('.filter-chips button');
     if (!searchInput && !filterButtons.length) return;
 
-    let currentFilter = 'Todas';
+    let currentFilter = 'all';
     const applyFilters = () => {
         const searchTerm = searchInput?.value.trim().toLowerCase() || '';
         const currentMonth = new Date().getMonth();
@@ -160,8 +160,8 @@ function bindTransactionFilters(transactions, list) {
             const haystack = [transaction.descricao, transaction.categoria, transaction.conta_nome].filter(Boolean).join(' ').toLowerCase();
             const transactionDate = transaction.data ? new Date(transaction.data) : null;
             const matchesSearch = !searchTerm || haystack.includes(searchTerm);
-            const matchesType = currentFilter === 'Receitas' ? transaction.tipo === 'receita' : currentFilter === 'Despesas' ? transaction.tipo === 'despesa' : true;
-            const matchesMonth = currentFilter.includes('Este') ? transactionDate && transactionDate.getUTCMonth() === currentMonth && transactionDate.getUTCFullYear() === currentYear : true;
+            const matchesType = currentFilter === 'receitas' ? transaction.tipo === 'receita' : currentFilter === 'despesas' ? transaction.tipo === 'despesa' : true;
+            const matchesMonth = currentFilter === 'este-mes' ? transactionDate && transactionDate.getUTCMonth() === currentMonth && transactionDate.getUTCFullYear() === currentYear : true;
             return matchesSearch && matchesType && matchesMonth;
         });
         renderTransactionGroups(filtered, list);
@@ -169,13 +169,20 @@ function bindTransactionFilters(transactions, list) {
 
     searchInput?.addEventListener('input', applyFilters);
     filterButtons.forEach((button) => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
             filterButtons.forEach((item) => item.classList.remove('filter-active'));
             button.classList.add('filter-active');
-            currentFilter = button.textContent.trim();
+            currentFilter = button.dataset.filter || button.textContent.trim().toLowerCase();
             applyFilters();
         });
     });
+    // apply initial filter (show current active)
+    const active = Array.from(filterButtons).find((b) => b.classList.contains('filter-active'));
+    if (active) {
+        currentFilter = active.dataset.filter || active.textContent.trim().toLowerCase();
+        applyFilters();
+    }
 }
 
 async function loadTransactions() {
@@ -258,6 +265,64 @@ if (valueInput) {
     valueInput.addEventListener('focus', clearDefaultValue);
     valueInput.addEventListener('blur', restoreDefaultValue);
 }
+
+// Ensure filter buttons are visually interactive even if transactions fail to load
+function bindFilterButtonsOnly() {
+    const filterButtons = document.querySelectorAll('.filter-chips button');
+    if (!filterButtons.length) return;
+    filterButtons.forEach((button) => {
+        button.onclick = (e) => {
+            e.preventDefault();
+            filterButtons.forEach((item) => item.classList.remove('filter-active'));
+            button.classList.add('filter-active');
+        };
+    });
+}
+
+bindFilterButtonsOnly();
+
+// Filter actions popup behavior
+function bindFilterPopup() {
+    const popup = document.querySelector('.filter-popup');
+    const trigger = document.querySelector('.filter-actions');
+    if (!trigger || !popup) return;
+
+    const closePopup = () => {
+        popup.setAttribute('hidden', '');
+        popup.setAttribute('aria-hidden', 'true');
+        trigger.setAttribute('aria-expanded', 'false');
+    };
+
+    const openPopup = () => {
+        popup.removeAttribute('hidden');
+        popup.setAttribute('aria-hidden', 'false');
+        trigger.setAttribute('aria-expanded', 'true');
+    };
+
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (popup.hasAttribute('hidden')) openPopup();
+        else closePopup();
+    });
+
+    // clicking a popup option triggers corresponding filter button click
+    popup.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-popup-filter]');
+        if (!btn) return;
+        const key = btn.dataset.popupFilter;
+        const target = document.querySelector(`.filter-chips button[data-filter="${key}"]`)
+            || document.querySelector('.filter-chips button');
+        if (target) target.click();
+        closePopup();
+    });
+
+    // close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!popup.contains(e.target) && !trigger.contains(e.target)) closePopup();
+    });
+}
+
+bindFilterPopup();
 
 typeOptions.forEach((option) => {
     option.addEventListener('click', () => {
