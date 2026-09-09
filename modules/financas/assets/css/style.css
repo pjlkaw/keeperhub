@@ -1012,6 +1012,54 @@ textarea {
 	color: #ffffff;
 }
 
+/* Light-theme overrides to restore normal white appearance */
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transactions-search {
+	background: var(--card-bg);
+	box-shadow: none;
+	border-color: var(--border-color);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .report-card,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	color: var(--text-color);
+	box-shadow: none;
+}
+
+html[data-theme='light'] .transaction-item {
+	background: var(--card-bg);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transaction-icon,
+html[data-theme='light'] .shortcut-icon {
+	background: transparent;
+	color: var(--tool-financas);
+}
+
+html[data-theme='light'] .filter-chips button {
+	background: transparent;
+	color: var(--text-muted);
+	border-color: var(--border-color);
+}
+
+html[data-theme='light'] .filter-chips .filter-active {
+	background: rgba(228,122,0,0.08);
+	color: var(--tool-financas);
+	border-color: rgba(228,122,0,0.12);
+}
+
+
 
 .transactions-search {
 	display: flex;
