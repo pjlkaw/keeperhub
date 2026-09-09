@@ -1,0 +1,247 @@
+:root {
+  color-scheme: dark;
+  --medicacao-form-fundo: #111111;
+  --medicacao-form-superficie: #1d1d1f;
+  --medicacao-form-hover: #242427;
+  --medicacao-form-borda: #29292d;
+  --medicacao-form-texto: #f2f2f3;
+  --medicacao-form-suave: #a3a3a9;
+  --medicacao-form-azul: #4285f4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 280px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--medicacao-form-texto);
+  background: #3d3d3d;
+  font-family: Arial, sans-serif;
+}
+
+.adicionar-medicacao {
+  width: 100%;
+  max-width: 600px;
+  min-height: 100vh;
+  margin-inline: auto;
+  padding-bottom: 24px;
+  background: var(--medicacao-form-fundo);
+}
+
+.formulario-adicionar-medicacao {
+  padding: 24px 22px;
+}
+
+.formulario-adicionar-medicacao .campo-formulario {
+  min-width: 0;
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+}
+
+.formulario-adicionar-medicacao :is(label:not([class]), legend) {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--medicacao-form-texto);
+  font: 700 0.875rem/1.45 Arial, sans-serif;
+}
+
+.formulario-adicionar-medicacao :is(input[type='text'], input[type='time'], input[type='date'], input[type='number'], textarea) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  color: var(--medicacao-form-texto);
+  background: var(--medicacao-form-superficie);
+  border: 1px solid var(--medicacao-form-borda);
+  border-radius: 8px;
+  outline: 0;
+  font: 400 1rem/1.45 Arial, sans-serif;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.formulario-adicionar-medicacao textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.formulario-adicionar-medicacao :is(input, textarea)::placeholder {
+  color: var(--medicacao-form-suave);
+  opacity: 1;
+}
+
+.formulario-adicionar-medicacao :is(input[type='text'], input[type='time'], input[type='date'], input[type='number'], textarea):focus {
+  background: #202023;
+  border-color: var(--medicacao-form-azul);
+  box-shadow: 0 0 0 3px rgb(66 133 244 / 15%);
+  transform: none;
+}
+
+.opcoes-tipo-uso {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.opcoes-tipo-uso__opcao {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 2px 10px;
+  min-height: 66px;
+  align-content: center;
+  padding: 11px 13px;
+  color: var(--medicacao-form-texto);
+  background: var(--medicacao-form-superficie);
+  border: 1px solid var(--medicacao-form-borda);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.opcoes-tipo-uso__opcao input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opcoes-tipo-uso__opcao::before {
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #66666d;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 4px var(--medicacao-form-superficie);
+  content: '';
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.opcoes-tipo-uso__opcao:has(input:checked) {
+  background: rgb(66 133 244 / 11%);
+  border-color: var(--medicacao-form-azul);
+}
+
+.opcoes-tipo-uso__opcao:has(input:checked)::before {
+  background: var(--medicacao-form-azul);
+  border-color: var(--medicacao-form-azul);
+  box-shadow: inset 0 0 0 4px #171c25;
+}
+
+.opcoes-tipo-uso__opcao:has(input:focus-visible) {
+  outline: 2px solid var(--medicacao-form-azul);
+  outline-offset: 3px;
+}
+
+.opcoes-tipo-uso__titulo {
+  grid-column: 2;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.opcoes-tipo-uso__descricao {
+  grid-column: 2;
+  color: var(--medicacao-form-suave);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Os campos variáveis respondem à seleção usando somente CSS. */
+.formulario-adicionar-medicacao > .campo-formulario:has(#horario-dose),
+.formulario-adicionar-medicacao > .campo-formulario:has(#frequencia-medicamento),
+.formulario-adicionar-medicacao > .campo-formulario:has(#ate-quando) {
+  display: none;
+}
+
+.formulario-adicionar-medicacao:has(input[name='tipo_uso'][value='continuo']:checked) > .campo-formulario:has(#horario-dose),
+.formulario-adicionar-medicacao:has(input[name='tipo_uso'][value='temporario']:checked) > .campo-formulario:has(#frequencia-medicamento),
+.formulario-adicionar-medicacao:has(input[name='tipo_uso'][value='temporario']:checked) > .campo-formulario:has(#ate-quando) {
+  display: block;
+  animation: revelar-campo-medicacao 180ms ease-out both;
+}
+
+.formulario-adicionar-medicacao__enviar {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+
+.formulario-adicionar-medicacao__enviar:disabled {
+  color: #a3a3a8;
+  background: var(--medicacao-form-superficie);
+  border-color: transparent;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.aviso-integracao {
+  margin: 12px 0 0;
+  color: var(--medicacao-form-suave);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@keyframes revelar-campo-medicacao {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opcoes-tipo-uso__opcao:hover {
+    background-color: var(--medicacao-form-hover);
+    border-color: #414147;
+    transform: translateY(-2px);
+  }
+
+  .opcoes-tipo-uso__opcao:has(input:checked):hover {
+    background-color: rgb(66 133 244 / 16%);
+    border-color: var(--medicacao-form-azul);
+  }
+}
+
+@media (min-width: 640px) {
+  .adicionar-medicacao {
+    min-height: auto;
+    margin-block: 24px;
+    overflow: hidden;
+    border: 1px solid var(--medicacao-form-borda);
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .formulario-adicionar-medicacao {
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adicionar-medicacao *,
+  .adicionar-medicacao *::before,
+  .adicionar-medicacao *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
