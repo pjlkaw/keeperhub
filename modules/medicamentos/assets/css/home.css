@@ -119,7 +119,7 @@ Usado por: apenas a página Home do módulo
     justify-content: center;
     height: 42px;
     padding: 0 16px;
-    color: #d1d5db;
+    color: var(--meds-muted);
     font-size: 0.875rem;
     /* 14px */
     font-weight: 600;
@@ -135,19 +135,19 @@ Usado por: apenas a página Home do módulo
 
 .btn-meds-out:hover {
     background-color: rgba(255, 255, 255, 0.09);
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--meds-text);
+    border-color: var(--meds-border);
 }
 
 [data-theme="light"] .btn-meds-out {
     background-color: rgba(0, 0, 0, 0.04);
     border-color: rgba(0, 0, 0, 0.12);
-    color: #4b5563;
+    color: var(--meds-muted);
 }
 
 [data-theme="light"] .btn-meds-out:hover {
     background-color: rgba(0, 0, 0, 0.08);
-    color: #111827;
+    color: var(--meds-text);
 }
 
 /* ==================================================
@@ -275,12 +275,12 @@ Usado por: apenas a página Home do módulo
 }
 
 [data-theme="light"] .shortcut-tag {
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 .shortcut-value {
     font-size: 0.8125rem;
-    color: var(--text-color);
+    color: var(--meds-text);
 }
 
 /* ==================================================
@@ -340,12 +340,12 @@ Usado por: apenas a página Home do módulo
     font-size: 1rem;
     /* 16px */
     font-weight: 700;
-    color: #ffffff;
+    color: var(--meds-text);
     line-height: 1.25;
 }
 
 [data-theme="light"] .attention-med-name {
-    color: #111827;
+    color: var(--meds-text);
 }
 
 .attention-status-text {
@@ -382,7 +382,7 @@ Usado por: apenas a página Home do módulo
 
 .btn-meds-repor:hover {
     background-color: rgba(239, 68, 68, 0.28);
-    color: #ffffff;
+    color: var(--meds-pill-text);
 }
 
 .btn-meds-repor:active {
@@ -396,7 +396,7 @@ Usado por: apenas a página Home do módulo
 
 [data-theme="light"] .btn-meds-repor {
     background-color: #fee2e2;
-    color: #b91c1c;
+    color: var(--color-stock-alert);
 }
 
 [data-theme="light"] .btn-meds-repor:hover {
@@ -505,24 +505,24 @@ Usado por: apenas a página Home do módulo
     font-size: 0.875rem;
     /* 14px */
     font-weight: 700;
-    color: #ffffff;
+    color: var(--meds-text);
     line-height: 1.2;
 }
 
 [data-theme="light"] .habit-name {
-    color: #111827;
+    color: var(--meds-text);
 }
 
 .habit-value {
     font-size: 0.75rem;
     /* 12px */
     font-weight: 500;
-    color: #9ca3af;
+    color: var(--meds-muted);
     line-height: 1.2;
 }
 
 [data-theme="light"] .habit-value {
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 .habit-value.habit-done {

@@ -51,7 +51,7 @@ Fidelidade total à UI apresentada na imagem.
 .meds-header-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--meds-text);
     margin: 0;
     text-align: center;
 }
@@ -84,7 +84,7 @@ Fidelidade total à UI apresentada na imagem.
 .routine-current-date {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--meds-text);
     letter-spacing: 0.01em;
 }
 
@@ -145,8 +145,8 @@ Fidelidade total à UI apresentada na imagem.
 .routine-badge--pending,
 .routine-badge--delayed {
     background-color: rgba(255, 255, 255, 0.04);
-    color: #6b7280;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--meds-muted);
+    border: 1px solid var(--meds-border);
 }
 
 /* Banner de Conclusão de Dia */
@@ -182,7 +182,7 @@ Fidelidade total à UI apresentada na imagem.
 }
 
 .routine-completion-text svg {
-    color: #ffffff;
+    color: var(--meds-text);
 }
 
 /* Timeline (Linha do Tempo de Horários) */
@@ -221,11 +221,11 @@ Fidelidade total à UI apresentada na imagem.
     gap: 6px;
     font-size: 0.8125rem;
     font-weight: 600;
-    color: #9ca3af;
+    color: var(--meds-muted);
 }
 
 .timeline-time-header svg {
-    color: #8e929e;
+    color: var(--meds-muted);
 }
 
 .timeline-card-list {
@@ -239,13 +239,13 @@ Fidelidade total à UI apresentada na imagem.
     position: relative;
     padding: 14px 16px 14px 20px;
     text-decoration: none;
-    color: inherit;
+    color: var(--meds-text);
     cursor: pointer;
     transition: background-color 0.15s ease;
 }
 
 .routine-card:hover {
-    background-color: #1b1e24;
+    background-color: var(--meds-surface);
 }
 
 /* Faixa lateral indicadora do estado no card */
@@ -288,18 +288,18 @@ Fidelidade total à UI apresentada na imagem.
 }
 
 .routine-card-title-row .icon-check {
-    color: #8e929e;
+    color: var(--meds-muted);
 }
 
 .routine-card-name {
     font-size: 0.9375rem;
     font-weight: 600;
-    color: #d1d5db;
+    color: var(--meds-text);
 }
 
 .routine-card-time-taken {
     font-size: 0.8125rem;
-    color: #6b7280;
+    color: var(--meds-muted);
     margin-left: 20px;
 }
 
@@ -337,7 +337,7 @@ Fidelidade total à UI apresentada na imagem.
     background-color: #121418;
     border: 1px dashed rgba(255, 255, 255, 0.12);
     border-radius: 12px;
-    color: #d1d5db;
+    color: var(--meds-text);
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
@@ -347,15 +347,20 @@ Fidelidade total à UI apresentada na imagem.
 .btn-register-eventual:hover {
     background-color: #181a20;
     border-color: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
+    color: var(--meds-text);
 }
 
 .btn-register-eventual svg {
-    color: #9ca3af;
+    color: var(--meds-muted);
 }
 
 /* Suporte Light Theme (Caso ativado) */
 [data-theme="light"] .routine-card {
+}
+
+[data-theme="light"] .routine-card {
+    background-color: var(--meds-surface);
+    color: var(--meds-text);
 }
 
 [data-theme="light"] .routine-card-name {

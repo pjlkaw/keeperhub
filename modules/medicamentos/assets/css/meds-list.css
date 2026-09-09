@@ -15,7 +15,7 @@ Usado por: apenas a página de listagem do módulo
     display: flex;
     align-items: center;
     gap: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--meds-border);
     margin-top: 6px;
     margin-bottom: 16px;
 }
@@ -29,7 +29,7 @@ Usado por: apenas a página de listagem do módulo
 }
 
 [data-theme="light"] .meds-subnav-tabs {
-    border-bottom-color: #e5e7eb;
+    border-bottom-color: var(--meds-border);
 }
 
 .meds-tab-button {
@@ -42,7 +42,7 @@ Usado por: apenas a página de listagem do módulo
     font-size: 0.9375rem;
     /* 15px */
     font-weight: 600;
-    color: #9ca3af;
+    color: var(--meds-muted);
     cursor: pointer;
     position: relative;
     transition: color 0.15s ease;
@@ -50,11 +50,11 @@ Usado por: apenas a página de listagem do módulo
 }
 
 .meds-tab-button:hover {
-    color: #e5e7eb;
+    color: var(--meds-text);
 }
 
 .meds-tab-button.active {
-    color: #ffffff;
+    color: var(--meds-text);
     font-weight: 700;
 }
 
@@ -70,15 +70,15 @@ Usado por: apenas a página de listagem do módulo
 }
 
 [data-theme="light"] .meds-tab-button {
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 [data-theme="light"] .meds-tab-button:hover {
-    color: #111827;
+    color: var(--meds-text);
 }
 
 [data-theme="light"] .meds-tab-button.active {
-    color: #111827;
+    color: var(--meds-text);
 }
 
 [data-theme="light"] .meds-tab-button.active::after {
@@ -97,12 +97,12 @@ Usado por: apenas a página de listagem do módulo
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #8e929e;
+    color: var(--meds-muted);
     margin: 0 0 2px 2px;
 }
 
 [data-theme="light"] .meds-group-title {
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 .meds-list {
@@ -129,8 +129,8 @@ Usado por: apenas a página de listagem do módulo
 }
 
 .med-card:hover {
-    border-color: rgba(255, 255, 255, 0.16);
-    background-color: rgba(255, 255, 255, 0.02);
+    border-color: var(--meds-border);
+    background-color: var(--meds-surface);
 }
 
 .med-card:active {
@@ -141,8 +141,8 @@ Usado por: apenas a página de listagem do módulo
 }
 
 [data-theme="light"] .med-card:hover {
-    border-color: #d1d5db;
-    background-color: #fafafa;
+    border-color: var(--meds-border);
+    background-color: var(--meds-surface);
 }
 
 .med-card-left {
@@ -189,7 +189,7 @@ Usado por: apenas a página de listagem do módulo
     font-size: 0.9375rem;
     /* 15px */
     font-weight: 700;
-    color: #ffffff;
+    color: var(--meds-text);
     line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
@@ -197,13 +197,13 @@ Usado por: apenas a página de listagem do módulo
 }
 
 [data-theme="light"] .med-card-name {
-    color: #111827;
+    color: var(--meds-text);
 }
 
 .med-card-details {
     font-size: 0.8125rem;
     /* 13px */
-    color: #9ca3af;
+    color: var(--meds-muted);
     font-weight: 500;
     line-height: 1.3;
     white-space: nowrap;
@@ -212,7 +212,7 @@ Usado por: apenas a página de listagem do módulo
 }
 
 [data-theme="light"] .med-card-details {
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 .med-card-right {
@@ -257,30 +257,30 @@ Usado por: apenas a página de listagem do módulo
 
 .med-status-badge--eventual {
     background-color: rgba(255, 255, 255, 0.06);
-    color: #9ca3af;
+    color: var(--meds-muted);
 }
 
 [data-theme="light"] .med-status-badge--eventual {
     background-color: rgba(0, 0, 0, 0.05);
-    color: #6b7280;
+    color: var(--meds-muted);
 }
 
 .med-card-arrow {
-    color: #6b7280;
+    color: var(--meds-muted);
     display: flex;
     align-items: center;
 }
 
 .med-card:hover .med-card-arrow {
-    color: #d1d5db;
+    color: var(--meds-text);
 }
 
 [data-theme="light"] .med-card-arrow {
-    color: #9ca3af;
+    color: var(--meds-muted);
 }
 
 [data-theme="light"] .med-card:hover .med-card-arrow {
-    color: #374151;
+    color: var(--meds-text);
 }
 
 /* Linha de Ação Histórico */

@@ -24,14 +24,10 @@ TÍTULOS DE SEÇÃO PADRÃO
     font-size: 1.0625rem;
     /* 17px */
     font-weight: 700;
-    color: #ffffff;
+    color: var(--meds-text);
     letter-spacing: -0.01em;
     margin: 0;
     white-space: nowrap;
-}
-
-[data-theme="light"] .meds-section-title {
-    color: #111827;
 }
 
 /* ==================================================
@@ -101,7 +97,7 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 
 [data-theme="light"] .btn-meds-secondary,
 [data-theme="light"] .secondary-action-btn {
-    color: #3b8200;
+    color: var(--color-meds-primary);
     background-color: rgba(112, 222, 1, 0.12);
     border-color: rgba(112, 222, 1, 0.45);
 }
@@ -110,12 +106,12 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 [data-theme="light"] .secondary-action-btn:hover {
     background-color: rgba(112, 222, 1, 0.22);
     border-color: rgba(112, 222, 1, 0.65);
-    color: #2e6600;
+    color: var(--color-meds-primary-hover);
 }
 
 [data-theme="light"] .btn-meds-secondary:focus-visible,
 [data-theme="light"] .secondary-action-btn:focus-visible {
-    outline-color: #3b8200;
+    outline-color: var(--color-meds-primary);
 }
 
 /* ==================================================
@@ -129,7 +125,7 @@ FAB (FLOATING ACTION BUTTON)
     height: 56px;
     border-radius: 50%;
     background-color: var(--color-meds-primary);
-    color: #000000;
+    color: var(--meds-pill-text);
     display: flex;
     align-items: center;
     justify-content: center;

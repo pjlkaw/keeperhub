@@ -10,6 +10,14 @@ Usado por: TODAS as páginas do módulo
 ================================================== */
 
 :root {
+    --meds-bg: var(--bg-color);
+    --meds-surface: var(--card-bg);
+    --meds-text: var(--text-color);
+    --meds-muted: var(--text-muted);
+    --meds-border: var(--border-color);
+    --meds-pill-bg: var(--pill-bg);
+    --meds-pill-text: var(--pill-text);
+
     --color-meds-primary: #70de01;
     --color-meds-primary-hover: #62c500;
     --color-meds-bg-tint: rgba(112, 222, 1, 0.12);
