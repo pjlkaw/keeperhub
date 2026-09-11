@@ -1,4 +1,7 @@
-// Alternância de tema claro/escuro — compartilhado entre hub e módulos
+// theme.js
+// Responsabilidade: aplicar e alternar o tema claro/escuro da interface.
+// Usa localStorage para persistir a escolha do usuário e atua sobre o atributo data-theme
+// do documento, com suporte ao botão com id="theme-toggle".
 // Uso: <script src="shared/services/theme.js"></script>
 // Precisa de um botão com id="theme-toggle" contendo um <i> (ícone) dentro.
 

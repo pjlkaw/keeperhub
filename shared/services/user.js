@@ -1,3 +1,5 @@
-// Arquivo para consulta de usuário geral pelo ID
-// Todo banco de dados do módulo vai ter uma entidade com o id do usuário
-// Com isso, esse código serve para fazer uma requisição na tabela principal de usuário com os dados
+﻿// user.js
+// Responsabilidade: carregar e padronizar os dados do usuário atual.
+// Deve fornecer informações como perfil, nome, permissões e dados básicos do usuário,
+// para que módulos diferentes compartilhem a mesma fonte de dados do usuário.
+
