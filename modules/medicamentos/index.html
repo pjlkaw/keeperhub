@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="/shared/styles/reset.css">
         <link rel="stylesheet" href="/shared/styles/components.css">
         <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
 
         <!-- Essentials -->
         <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
@@ -38,7 +39,6 @@
         </script>
 
         <!-- Header compartilhado -->
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script src="/shared/services/theme.js"></script>
 
         <script>
@@ -46,7 +46,7 @@
                 document.getElementById('headerSection').innerHTML = data;
                 document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
                 document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
-                document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+                document.getElementById('btn-back-header').href = '/main/hub/' // Botão voltar
             });
         </script>
 
@@ -240,6 +240,6 @@
         </div>
 
         <!-- Scripts do módulo e componentes compartilhados -->
-        <script type="module" src="/modules/medicamentos/js/script.js"></script>
+        <script type="module" src="/modules/medicamentos/script.js"></script>
     </body>
 </html>

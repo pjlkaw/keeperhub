@@ -730,3 +730,112 @@ RESPONSIVIDADE (max-width: 360px)
         font-size: 0.875rem;
     }
 }
+
+/* Tokens globais para superficies, textos e bordas neutras do formulario. */
+.meds-form-intro,
+.meds-form-block-title,
+.meds-label-optional,
+.meds-form-helper,
+.barcode-action-left svg,
+.barcode-badge-soon,
+.meds-usage-option,
+.meds-weekday-chip,
+.meds-switch-subtitle {
+    color: var(--meds-muted);
+}
+
+.meds-form-block-header,
+.meds-form-helper-box,
+.meds-subfield-card,
+.meds-barcode-action,
+.meds-usage-type-group,
+.meds-weekday-chip,
+.btn-meds-remove-time,
+.btn-meds-add-time,
+.meds-toggle-slider,
+.meds-form-feedback {
+    border-color: var(--meds-border);
+}
+
+.meds-form-input,
+.meds-form-select,
+.meds-subfield-card,
+.meds-barcode-action,
+.meds-usage-type-group,
+.meds-weekday-chip,
+.btn-meds-remove-time,
+.btn-meds-add-time,
+.meds-form-feedback {
+    background-color: var(--meds-surface);
+}
+
+.meds-form-input,
+.meds-form-select,
+.meds-form-label,
+.meds-switch-title,
+.barcode-action-left,
+.meds-form-feedback {
+    color: var(--meds-text);
+}
+
+.meds-form-input::placeholder {
+    color: var(--meds-muted);
+}
+
+.meds-form-block-header,
+.meds-form-helper-box,
+.meds-subfield-card,
+.meds-barcode-action,
+.meds-usage-type-group,
+.meds-weekday-chip,
+.btn-meds-remove-time,
+.btn-meds-add-time,
+.meds-toggle-slider,
+.meds-form-feedback {
+    background-color: var(--meds-surface);
+}
+
+.meds-toggle-slider::before {
+    background-color: var(--meds-pill-text);
+}
+
+.meds-toggle-switch input:checked + .meds-toggle-slider::before,
+.btn-meds-submit {
+    color: var(--meds-pill-text);
+}
+
+[data-theme="light"] .meds-form-input,
+[data-theme="light"] .meds-form-select,
+[data-theme="light"] .meds-form-helper-box,
+[data-theme="light"] .meds-subfield-card,
+[data-theme="light"] .meds-barcode-action,
+[data-theme="light"] .meds-usage-type-group,
+[data-theme="light"] .meds-weekday-chip,
+[data-theme="light"] .btn-meds-remove-time,
+[data-theme="light"] .btn-meds-add-time,
+[data-theme="light"] .meds-form-feedback,
+[data-theme="light"] .meds-toggle-slider {
+    background-color: var(--meds-surface);
+    border-color: var(--meds-border);
+}
+
+[data-theme="light"] .meds-form-input,
+[data-theme="light"] .meds-form-select,
+[data-theme="light"] .meds-form-label,
+[data-theme="light"] .meds-switch-title,
+[data-theme="light"] .barcode-action-left,
+[data-theme="light"] .meds-form-feedback,
+[data-theme="light"] .meds-usage-option,
+[data-theme="light"] .meds-weekday-chip {
+    color: var(--meds-text);
+}
+
+[data-theme="light"] .meds-form-input::placeholder,
+[data-theme="light"] .meds-form-helper,
+[data-theme="light"] .meds-form-block-title,
+[data-theme="light"] .meds-label-optional,
+[data-theme="light"] .barcode-action-left svg,
+[data-theme="light"] .barcode-badge-soon,
+[data-theme="light"] .meds-switch-subtitle {
+    color: var(--meds-muted);
+}

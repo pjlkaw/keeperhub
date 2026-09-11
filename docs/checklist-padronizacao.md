@@ -65,8 +65,9 @@ Ultima revisao: 2026-09-09
 
 ## 7. Modulo Medicamentos
 
-- [ ] Manter a ordem dos imports de shared em [modules/medicamentos/index.html](../modules/medicamentos/index.html) e nos componentes.
+- [x] Manter a ordem dos imports de shared em [modules/medicamentos/index.html](../modules/medicamentos/index.html) e nos componentes.
 - [ ] Confirmar que todos os componentes usam os tokens de [shared/styles/variables.css](../shared/styles/variables.css) para cores globais.
+	- Auditoria em 2026-09-09: parcialmente executada. Foram adicionados aliases baseados nos tokens globais em [modules/medicamentos/assets/css/essentials/meds-variables.css](../modules/medicamentos/assets/css/essentials/meds-variables.css) e migradas cores neutras em [modules/medicamentos/assets/css/essentials/components.css](../modules/medicamentos/assets/css/essentials/components.css), [modules/medicamentos/assets/css/home.css](../modules/medicamentos/assets/css/home.css), [modules/medicamentos/assets/css/meds-list.css](../modules/medicamentos/assets/css/meds-list.css), [modules/medicamentos/assets/css/rotina.css](../modules/medicamentos/assets/css/rotina.css) e nos controles de [modules/medicamentos/assets/css/meds-form.css](../modules/medicamentos/assets/css/meds-form.css). O item permanece pendente porque ainda existem fallbacks fixos no proprio `meds-form.css` e em regras de tema claro de `rotina.css` que precisam ser substituidos na origem. Cores semanticas de alerta, erro, tratamento e destaque verde devem continuar em tokens especificos do modulo.
 - [ ] Confirmar que o tema salvo e o botao de tema funcionam ao abrir a pagina em diferentes dispositivos e tamanhos de viewport.
 - [ ] Evitar duplicacao do header compartilhado nos componentes que ainda possuem markup manual.
 
@@ -88,14 +89,6 @@ Ultima revisao: 2026-09-09
 
 ## 10. Validacao final
 
-- [ ] Verificar que todos os `modules/*/index.html` sao documentos HTML validos.
-- [ ] Verificar que todos os caminhos para `shared/` funcionam servindo o projeto pela raiz.
-- [ ] Verificar que nao existem tokens CSS usados sem declaracao.
-- [ ] Verificar que nao existem imports duplicados de CSS ou fontes.
-- [ ] Verificar navegacao entre modulos em desktop e mobile.
-- [ ] Verificar tema claro e escuro em cada modulo.
-- [ ] Executar `git diff --check`.
-- [ ] Registrar aqui a data da ultima revisao e os itens que permanecerem como excecao.
 
 ## Excecoes registradas
 

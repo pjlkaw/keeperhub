@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
 
     <!-- Essentials -->
     <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
@@ -22,7 +23,6 @@
     <!-- Main -->
     <link rel="stylesheet" href="../assets/css/meds-form.css">
 
-    <link rel="stylesheet" href="/shared/styles/header-page.css">
     <script>
         fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
             document.getElementById('headerSection').innerHTML = data;
@@ -336,6 +336,6 @@
 
     <!-- Script do Módulo Medicamentos -->
     <script src="/shared/services/theme.js"></script>
-    <script type="module" src="/modules/medicamentos/js/script.js"></script>
+    <script type="module" src="/modules/medicamentos/script.js"></script>
 </body>
 </html>

@@ -25,6 +25,9 @@ KEEPERHUB - PADRONIZACAO DO PROJETO
 - shared/styles: tokens e estilos visuais comuns.
 - shared/services: logica e integracoes compartilhadas.
 - shared/utils: funcoes auxiliares puras.
+- Cada modulo deve manter um script.js na raiz como inicializador do modulo.
+  Os arquivos auxiliares do modulo ficam em js/ e sao importados/exportados
+  por esse arquivo principal usando ES modules e async functions.
 - Uma pagina pode ter varios arquivos CSS especificos; nao e obrigatorio
   concentrar todo o CSS do modulo em um unico arquivo.
 
