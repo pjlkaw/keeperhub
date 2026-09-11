@@ -59,13 +59,19 @@ keeperhub/
 |
 |-- modules/
 |   Modulos independentes do HUB. Cada modulo possui index.html e pode
-|   ter components/, assets/ e js/ proprios.
+|   ter components/, assets/, js/ proprios e um script.js na raiz como
+|   inicializador do modulo.
 |   |
 |   |-- despensa/       Controle de estoque e comparacao de precos.
+|   |   |-- script.js   Inicializador do modulo; importa/exporta funcoes de js/.
 |   |-- financas/       Controle financeiro.
+|   |   |-- script.js   Inicializador do modulo; importa/exporta funcoes de js/.
 |   |-- medicamentos/   Medicamentos, rotina, estoque e habitos.
+|   |   |-- script.js   Inicializador do modulo; importa/exporta funcoes de js/.
 |   |-- metas/          Gerenciamento de metas.
+|   |   |-- script.js   Inicializador do modulo; importa/exporta funcoes de js/.
 |   |-- pets/           Rotina e cuidados com pets.
+|   |   |-- script.js   Inicializador do modulo; importa/exporta funcoes de js/.
 |
 |-- docs/
 |   Documentacao de estrutura, padroes, recursos compartilhados e Git.
