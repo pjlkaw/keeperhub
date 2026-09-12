@@ -143,12 +143,13 @@
 
 .rotina-alimentar__cabecalho {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.rotina-alimentar__cabecalho {
+.rotina-alimentar__cabecalho .link-editar {
   font-size: 11px;
   text-align: right;
 }
