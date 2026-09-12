@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/rotina-diaria.css">
     <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 </head>
 <body>
 
@@ -26,7 +27,7 @@
         <section class="rotina-diaria__hoje" aria-labelledby="hoje-heading">
             <h2 id="hoje-heading">Hoje</h2>
 
-            <ol class="linha-tempo-rotina" id="linha-tempo-rotina">
+            <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
                 <li>
                     <article class="linha-tempo-rotina__item linha-tempo-rotina__item--concluido">
                         <span class="icone" aria-hidden="true"></span>
@@ -88,7 +89,28 @@
                 <h2 id="rotina-alimentar-heading">Rotina Alimentar</h2>
                 <a href="editar-pet-rotina-alimentar.html?origem=rotina-diaria" class="link-editar" data-manter-pet>Editar refeições</a>
             </header>
-            <ul class="rotina-alimentar__lista" id="resumo-refeicoes"></ul>
+            <!-- Prévia estática das refeições, igual à tela de edição.
+                 A integração futura deverá preencher esta lista com os dados do pet. -->
+            <ul class="rotina-alimentar__lista" id="resumo-refeicoes">
+                <li>
+                    <article class="cartao-refeicao">
+                        <h3 class="cartao-refeicao__titulo">Café da manhã</h3>
+                        <time class="cartao-refeicao__horario" datetime="08:00">08:00</time>
+                    </article>
+                </li>
+                <li>
+                    <article class="cartao-refeicao">
+                        <h3 class="cartao-refeicao__titulo">Almoço</h3>
+                        <time class="cartao-refeicao__horario" datetime="13:00">13:00</time>
+                    </article>
+                </li>
+                <li>
+                    <article class="cartao-refeicao">
+                        <h3 class="cartao-refeicao__titulo">Jantar</h3>
+                        <time class="cartao-refeicao__horario" datetime="19:00">19:00</time>
+                    </article>
+                </li>
+            </ul>
             <p class="rotina-alimentar__mensagem" id="resumo-refeicoes-mensagem" role="status" hidden></p>
             <p class="rotina-alimentar__observacoes" id="resumo-refeicoes-observacoes" hidden></p>
         </section>

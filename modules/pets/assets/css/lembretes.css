@@ -155,6 +155,19 @@
   font-weight: 700;
 }
 
+.conteudo-lembretes .modelos-lembretes {
+  margin-inline: 16px;
+  min-width: 0;
+}
+
+.modelos-lembretes > .titulo-secao {
+  flex-wrap: wrap;
+}
+
+.modelos-lembretes > .grupo-lembretes {
+  margin-inline: 0;
+}
+
 .filtros-lembretes {
   display: flex;
   gap: 7px;

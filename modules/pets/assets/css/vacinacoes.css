@@ -1,31 +1,17 @@
 /* Tela de Vacinações. Carregar depois dos estilos compartilhados de Pets. */
-.tema-vacinacoes-pets[data-theme='dark'] {
-  --bg-color: #111111;
-  --header-bg: #111111;
-  --card-bg: #111111;
-  --text-color: #efeded;
-  --text-muted: #b5afaf;
-  --border-color: #202020;
-}
+/* Cores e fonte herdadas da shared por meio da base de Pets. */
 
 .tema-vacinacoes-pets {
-  --vacinas-largura: 760px;
-  --vacinas-raio: 6px;
+  --vacinas-largura: 720px;
+  --vacinas-raio: var(--pets-radius-sm);
   --vacinas-alerta: #c90016;
-  --vacinas-barra-neutra: #958e8e;
-  --vacinas-icone-neutro: #cac5c5;
-  --vacinas-texto-aplicada: #a39c9c;
+  --vacinas-barra-neutra: var(--pets-text-muted);
+  --vacinas-icone-neutro: var(--pets-text-soft);
+  --vacinas-texto-aplicada: var(--pets-text-muted);
 }
 
 .tema-vacinacoes-pets[data-theme='light'] {
-  --vacinas-barra-neutra: #64748b;
-  --vacinas-icone-neutro: #475569;
-  --vacinas-texto-aplicada: #64748b;
   --vacinas-filtro-neutro: brightness(0.45);
-}
-
-.tema-vacinacoes-pets body {
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .vacinacoes-pet {
@@ -82,7 +68,7 @@
 .destaques-vacinas,
 .cronograma-vacinas,
 .historico-vacinas {
-  margin-inline: 12px;
+  margin-inline: 16px;
 }
 
 .destaques-vacinas {
@@ -102,16 +88,16 @@
 .destaques-vacinas > h2,
 .cronograma-vacinas > h2,
 .historico-vacinas > h2 {
-  font-size: 1.25rem;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
   line-height: 1.4;
 }
 
 .cartao-destaque-vacina {
   position: relative;
   min-width: 0;
-  min-height: 220px;
-  padding: 24px;
+  min-height: 170px;
+  padding: 20px;
   background: var(--pets-surface);
   border: 1px solid var(--pets-border);
   border-radius: var(--vacinas-raio);
@@ -135,18 +121,18 @@
 
 .cartao-destaque-vacina__rotulo,
 .cartao-destaque-vacina__nome {
-  padding-right: 60px;
+  padding-right: 44px;
   overflow-wrap: anywhere;
 }
 
 .cartao-destaque-vacina__rotulo {
   color: var(--pets-text-soft);
-  font-size: 0.8125rem;
+  font-size: 12px;
 }
 
 .cartao-destaque-vacina__nome {
   margin-top: 4px;
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.25;
 }
@@ -154,10 +140,10 @@
 .cartao-destaque-vacina > .icone {
   --vacinas-icone: url('../img/frasco-vacina-pets.png');
   position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 48px;
-  height: 48px;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
   color: var(--vacinas-icone-neutro);
   background-color: var(--pets-surface-raised);
   border: 1px solid var(--pets-border-strong);
@@ -166,7 +152,7 @@
 
 .cartao-destaque-vacina--destaque > .icone {
   --vacinas-icone: url('../img/patinha-pets.png');
-  --vacinas-tamanho-icone: 22px;
+  --vacinas-tamanho-icone: 18px;
   --vacinas-filtro-icone: none;
   color: var(--pets-primary);
   background-color: var(--pets-primary-soft);
@@ -177,9 +163,9 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 24px;
+  margin-top: 16px;
   color: var(--pets-text-soft);
-  font-size: 0.875rem;
+  font-size: 12px;
 }
 
 .cartao-destaque-vacina__data .icone {
@@ -191,7 +177,7 @@
 
 .vacinacoes-pet .barra-progresso {
   height: 8px;
-  margin-top: 24px;
+  margin-top: 16px;
   overflow: hidden;
   background: var(--pets-surface-raised);
   border-radius: var(--pets-radius-pill);
@@ -227,7 +213,7 @@
 }
 
 .cronograma-vacinas {
-  margin-top: 40px;
+  margin-top: 22px;
 }
 
 .cronograma-vacinas > ul {
@@ -241,9 +227,9 @@
 
 .cronograma-vacinas > ul::before {
   position: absolute;
-  top: 52px;
-  bottom: 52px;
-  left: 39px;
+  top: 36px;
+  bottom: 36px;
+  left: 31px;
   width: 1px;
   background: var(--pets-border);
   content: '';
@@ -252,20 +238,20 @@
 .vacinacoes-pet .item-vacina {
   position: relative;
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
   align-content: center;
-  gap: 6px 16px;
+  gap: 4px 10px;
   min-width: 0;
-  min-height: 100px;
-  padding-block: 24px;
+  min-height: 68px;
+  padding-block: 12px;
 }
 
 .cronograma-vacinas li + li .item-vacina::after {
   position: absolute;
   top: 0;
   right: 0;
-  left: 64px;
+  left: 42px;
   height: 1px;
   background: var(--pets-border);
   content: '';
@@ -280,7 +266,7 @@
   grid-row: 1;
   align-self: center;
   min-width: 0;
-  font-size: 1rem;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -290,7 +276,7 @@
   grid-column: 2 / -1;
   grid-row: 2;
   color: var(--pets-text-soft);
-  font-size: 0.875rem;
+  font-size: 12px;
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
@@ -299,15 +285,15 @@
   grid-column: 1;
   grid-row: 1 / -1;
   align-self: center;
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   background: var(--pets-surface-raised);
   border-radius: 50%;
 }
 
 .item-vacina--atrasada > .icone {
   --vacinas-icone: url('../img/alerta-vacina-pets.png');
-  --vacinas-tamanho-icone: 24px;
+  --vacinas-tamanho-icone: 18px;
   --vacinas-filtro-icone: brightness(0) invert(1);
   color: var(--pets-on-primary);
   background: var(--vacinas-alerta);
@@ -315,7 +301,7 @@
 
 .item-vacina--agendada > .icone {
   --vacinas-icone: url('../img/vacina-despesas-pets.png');
-  --vacinas-tamanho-icone: 24px;
+  --vacinas-tamanho-icone: 18px;
   --vacinas-filtro-icone: brightness(0);
   color: #111111;
   background: var(--pets-primary);
@@ -323,7 +309,7 @@
 
 .item-vacina--antirrabica > .icone {
   --vacinas-icone: url('../img/calendario-pets.png');
-  --vacinas-tamanho-icone: 22px;
+  --vacinas-tamanho-icone: 18px;
   --vacinas-filtro-icone: var(--vacinas-filtro-neutro, none);
   color: var(--vacinas-icone-neutro);
   background: var(--pets-surface-raised);
@@ -332,7 +318,7 @@
 
 .item-vacina--aplicada > .icone {
   --vacinas-icone: url('../img/vacina-aplicada-pets.png');
-  --vacinas-tamanho-icone: 24px;
+  --vacinas-tamanho-icone: 18px;
   color: var(--vacinas-texto-aplicada);
   background: var(--pets-neutral-hover);
 }
@@ -388,7 +374,7 @@
 }
 
 .historico-vacinas {
-  margin-top: 44px;
+  margin-top: 22px;
 }
 
 .historico-vacinas > ul {
@@ -398,18 +384,18 @@
 }
 
 .historico-vacinas .item-vacina {
-  grid-template-columns: 40px minmax(0, 1fr);
-  gap: 6px 16px;
-  min-height: 98px;
-  padding: 20px 16px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 4px 10px;
+  min-height: 64px;
+  padding: 12px;
   background: var(--pets-surface);
   border: 1px solid var(--pets-border);
   border-radius: var(--vacinas-raio);
 }
 
 .historico-vacinas .item-vacina > .icone {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   color: var(--vacinas-icone-neutro);
   background: var(--pets-neutral-hover);
   border-radius: 4px;
@@ -421,11 +407,11 @@
 
 .item-vacina--certificado > .icone {
   --vacinas-icone: url('../img/certificado-vacina-pets.png');
-  --vacinas-tamanho-icone: 22px;
+  --vacinas-tamanho-icone: 18px;
 }
 
 .historico-vacinas .item-vacina__detalhe {
-  font-size: 0.8125rem;
+  font-size: 12px;
 }
 
 .vacinacoes-pet .botao-flutuante {
@@ -479,7 +465,7 @@
   }
 
   .cartao-destaque-vacina__nome {
-    font-size: 1.375rem;
+    font-size: 18px;
   }
 
   .vacinacoes-pet .item-vacina {
@@ -487,21 +473,21 @@
   }
 
   .cronograma-vacinas .item-vacina {
-    grid-template-columns: 40px minmax(0, 1fr);
+    grid-template-columns: 32px minmax(0, 1fr);
   }
 
   .cronograma-vacinas .item-vacina > .icone {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     grid-row: 1 / 4;
   }
 
   .cronograma-vacinas > ul::before {
-    left: 35px;
+    left: 31px;
   }
 
   .cronograma-vacinas li + li .item-vacina::after {
-    left: 50px;
+    left: 42px;
   }
 
   .vacinacoes-pet .etiqueta-status {

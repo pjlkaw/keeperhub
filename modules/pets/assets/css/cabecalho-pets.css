@@ -3,15 +3,10 @@
  * Preservar as classes e os destinos de navegação existentes.
  */
 :root {
-  --pets-cabecalho-fundo: #0b0b0d;
-  --pets-cabecalho-texto: #f4f4f5;
+  --pets-cabecalho-fundo: var(--header-bg);
+  --pets-cabecalho-texto: var(--text-color);
   --pets-cabecalho-titulo: 1.25rem;
   --pets-cabecalho-gap: 10px;
-}
-
-html[data-theme='light'] {
-  --pets-cabecalho-fundo: #ffffff;
-  --pets-cabecalho-texto: #1a202c;
 }
 
 .cabecalho-pets:is(.cabecalho-pagina, .despesas-cabecalho, .section-header-section) {
@@ -35,7 +30,7 @@ html[data-theme='light'] {
   margin: 0;
   padding: 0;
   color: var(--pets-cabecalho-texto);
-  font-family: Verdana, Tahoma, sans-serif;
+  font-family: inherit;
   font-size: var(--pets-cabecalho-titulo);
   font-weight: 700;
   line-height: 1.3;
