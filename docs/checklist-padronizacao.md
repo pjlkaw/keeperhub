@@ -14,8 +14,8 @@ Ultima revisao: 2026-09-09
 ## 2. Recursos compartilhados e dependencias
 
 - [ ] Garantir a ordem `variables.css`, `reset.css`, `components.css`, estilos compartilhados adicionais e estilos do modulo em todos os HTML.
-- [ ] Corrigir a ordem dos imports em [modules/financas/index.html](../modules/financas/index.html).
-- [ ] Corrigir a ordem dos imports em todos os arquivos de [modules/financas/components](../modules/financas/components).
+- [x] Corrigir a ordem dos imports em [modules/financas/index.html](../modules/financas/index.html).
+- [x] Corrigir a ordem dos imports em todos os arquivos de [modules/financas/components](../modules/financas/components).
 - [ ] Corrigir a ordem dos imports em [modules/pets/index.html](../modules/pets/index.html).
 - [ ] Corrigir a ordem dos imports em todos os arquivos de [modules/pets/components](../modules/pets/components).
 - [ ] Substituir a navbar local das paginas de [modules/despensa](../modules/despensa) por [shared/components/navbar-section.html](../shared/components/navbar-section.html).
@@ -27,10 +27,10 @@ Ultima revisao: 2026-09-09
 
 - [ ] Corrigir `var(--text)` para `var(--text-color)` em [modules/despensa/inicio.css](../modules/despensa/inicio.css).
 - [ ] Corrigir `var(--azul)` ou declarar um token valido em [modules/despensa/produtos.css](../modules/despensa/produtos.css).
-- [ ] Migrar gradualmente os tokens paralelos (`--black`, `--panel`, `--white`, `--muted` e similares) de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) para os tokens de [shared/styles/variables.css](../shared/styles/variables.css).
+- [x] Migrar gradualmente os tokens paralelos (`--black`, `--panel`, `--white`, `--muted` e similares) de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) para os tokens de [shared/styles/variables.css](../shared/styles/variables.css).
 - [ ] Migrar os tokens paralelos (`--bg`, `--surface`, `--text`, `--amber` e similares) de [modules/metas/metas-app/style.css](../modules/metas/metas-app/style.css) para os tokens compartilhados.
 - [ ] Revisar as redefinicoes locais de tokens globais em [modules/pets/assets/css/despesas.css](../modules/pets/assets/css/despesas.css) e [modules/pets/assets/css/vacinacoes.css](../modules/pets/assets/css/vacinacoes.css).
-- [ ] Padronizar o servico de tema de [modules/financas/js/preview-theme.js](../modules/financas/js/preview-theme.js) para [shared/services/theme.js](../shared/services/theme.js), ou documentar formalmente a excecao.
+- [x] Padronizar o servico de tema de [modules/financas/js/preview-theme.js](../modules/financas/js/preview-theme.js) para [shared/services/theme.js](../shared/services/theme.js), ou documentar formalmente a excecao.
 - [ ] Garantir que paginas com `#theme-toggle` carreguem [shared/services/theme.js](../shared/services/theme.js).
 - [ ] Revisar contraste nos temas claro e escuro depois da migracao dos tokens.
 - [ ] Remover a importacao duplicada da fonte Nunito em [modules/despensa/produtos.html](../modules/despensa/produtos.html).
@@ -40,11 +40,11 @@ Ultima revisao: 2026-09-09
 - [X] Confirmar que o componente base esta definido em [shared/styles/components.css](../shared/styles/components.css).
 - [X] Confirmar que os cards de [modules/medicamentos](../modules/medicamentos) usam `class="card"` e, quando aplicavel, `card--interactive`.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/despensa](../modules/despensa), mantendo as classes especificas de cada card.
-- [ ] Adicionar `class="card"` aos cards de conteudo de [modules/financas](../modules/financas), mantendo as classes especificas de cada card.
+- [x] Adicionar `class="card"` aos cards de conteudo de [modules/financas](../modules/financas), mantendo as classes especificas de cada card.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/pets](../modules/pets), mantendo as classes especificas de cada card.
 - [ ] Migrar a definicao local de `.card` em [modules/metas/metas-app/style.css](../modules/metas/metas-app/style.css) para [shared/styles/components.css](../shared/styles/components.css).
 - [ ] Revisar os cards proprios `summary-card`, `total-card`, `product-card` e `resumo-card` em [modules/despensa](../modules/despensa).
-- [ ] Revisar os cards proprios `finance-shortcut-card`, `monthly-expenses-card`, `summary-card`, `evolution-card` e `insight-card` em [modules/financas](../modules/financas).
+- [x] Revisar os cards proprios `finance-shortcut-card`, `monthly-expenses-card`, `summary-card`, `evolution-card` e `insight-card` em [modules/financas](../modules/financas).
 - [ ] Revisar `card-modelo-lembrete` e `card-agendado` em [modules/pets/components/lembretes.html](../modules/pets/components/lembretes.html).
 - [ ] Substituir cores fixas do hover de `.card--interactive` em [shared/styles/components.css](../shared/styles/components.css) por tokens ou regras específicas para os temas.
 - [ ] Validar bordas entre 8px e 16px e área mínima de toque de 44px nos cards de todos os módulos.
@@ -59,9 +59,9 @@ Ultima revisao: 2026-09-09
 
 ## 6. Modulo Financas
 
-- [ ] Substituir a convencao paralela de tema por `data-theme`, `#theme-toggle` e [shared/services/theme.js](../shared/services/theme.js), se nao houver requisito funcional para mante-la.
-- [ ] Validar o tema claro em [modules/financas/index.html](../modules/financas/index.html) e em cada pagina de [modules/financas/components](../modules/financas/components).
-- [ ] Separar estilos compartilhaveis de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) caso tambem sejam usados por outros modulos.
+- [x] Substituir a convencao paralela de tema por `data-theme`, `#theme-toggle` e [shared/services/theme.js](../shared/services/theme.js), se nao houver requisito funcional para mante-la.
+- [x] Validar o tema claro em [modules/financas/index.html](../modules/financas/index.html) e em cada pagina de [modules/financas/components](../modules/financas/components).
+- [x] Separar estilos compartilhaveis de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) caso tambem sejam usados por outros modulos.
 
 ## 7. Modulo Medicamentos
 
