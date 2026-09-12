@@ -1,20 +1,8 @@
-/* Apenas a tela de despesas recebe o novo fundo da referência. */
-.tema-despesas-pets[data-theme='dark'] {
-  --bg-color: #111111;
-  --header-bg: #111111;
-  --card-bg: #1c1c1c;
-  --text-color: #f5f5f5;
-  --text-muted: #a0a0a0;
-  --border-color: #272727;
-}
+/* Cores e fonte herdadas da shared por meio da base de Pets. */
 
 .tema-despesas-pets {
   --despesas-largura: 720px;
   --despesas-raio: 14px;
-}
-
-.tema-despesas-pets body {
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .pagina-despesas {

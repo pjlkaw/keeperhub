@@ -68,6 +68,97 @@
   margin-top: 18px;
 }
 
+/* Seleção das atividades e frequências, com as cores do tema compartilhado. */
+.adicionar-rotina :is(.opcoes-atividade, .opcoes-frequencia) {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+}
+
+.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  margin: 0;
+  padding: 12px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+  cursor: pointer;
+  transition: background-color var(--pets-transition), border-color var(--pets-transition), box-shadow var(--pets-transition), transform var(--pets-transition);
+}
+
+.adicionar-rotina input[type='radio'] {
+  box-sizing: border-box;
+  align-self: center;
+  appearance: none;
+  position: relative;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--pets-text-muted);
+  border-radius: 50%;
+  background: var(--pets-surface);
+  cursor: pointer;
+  transition: border-color var(--pets-transition);
+}
+
+.adicionar-rotina input[type='radio']::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pets-primary);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 180ms ease-out;
+}
+
+.adicionar-rotina input[type='radio']:checked {
+  border-color: var(--pets-primary);
+}
+
+.adicionar-rotina input[type='radio']:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:checked) {
+  border-color: var(--pets-primary);
+  background: var(--pets-primary-soft);
+  box-shadow: 0 4px 12px var(--pets-primary-shadow);
+}
+
+.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:focus-visible) {
+  outline: 2px solid var(--pets-primary);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):hover {
+    border-color: var(--pets-primary);
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao),
+  .adicionar-rotina input[type='radio'],
+  .adicionar-rotina input[type='radio']::before {
+    transition: none;
+  }
+}
+
 @media (min-width: 600px) {
   .adicionar-rotina .cabecalho-pagina {
     padding: 28px 76px 14px;
