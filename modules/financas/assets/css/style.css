@@ -1,10 +1,10 @@
 :root {
-	--black: #000000;
-	--panel: #26282e;
+	--black: var(--bg-color, #000000);
+	--panel: var(--card-bg, #26282e);
 	--panel-dark: #1e1f22;
-	--panel-border: #343538;
+	--panel-border: var(--border-color, #343538);
 	--white: #ffffff;
-	--muted: #a0a0a0;
+	--muted: var(--text-muted, #a0a0a0);
 	--field-border: #6b7280;
 	--orange: var(--tool-financas, #e47a00);
 }
@@ -2028,7 +2028,7 @@ html[data-theme=light] body.landing-page .app-preview {
 	min-height: 100dvh
 }
 
-.app-preview.preview-light {
+html[data-theme=light] body.landing-page .app-preview {
 	color: #1b1d21;
 	background: #fff;
 	border-color: transparent;
@@ -2041,86 +2041,86 @@ html[data-theme=dark] body.landing-page .app-preview {
 	background: #0a0a0c;
 }
 
-.preview-light .preview-modules a {
+html[data-theme=light] body.landing-page .preview-modules a {
 	color: #606672;
 	background: #eef0f3;
 	border-color: #d8dbe0
 }
 
-.preview-light .preview-modules a.active {
+html[data-theme=light] body.landing-page .preview-modules a.active {
 	color: #b85e00;
 	background: #fff0df;
 	border-color: #d66e00
 }
 
-.preview-light .preview-back {
+html[data-theme=light] body.landing-page .preview-back {
 	color: #525864 !important;
 	border-color: #d2d5db
 }
 
-.preview-light .preview-heading p,
-.preview-light .preview-greeting p,
-.preview-light .preview-balance header span,
-.preview-light .preview-balance dt,
-.preview-light .cash-flow header span,
-.preview-light .flow-row span {
+html[data-theme=light] body.landing-page .preview-heading p,
+html[data-theme=light] body.landing-page .preview-greeting p,
+html[data-theme=light] body.landing-page .preview-balance header span,
+html[data-theme=light] body.landing-page .preview-balance dt,
+html[data-theme=light] body.landing-page .cash-flow header span,
+html[data-theme=light] body.landing-page .flow-row span {
 	color: #656b76
 }
 
-.preview-light .preview-heading>strong {
+html[data-theme=light] body.landing-page .preview-heading>strong {
 	color: #b85e00;
 	background: #ffead2
 }
 
-.preview-light .notification {
+html[data-theme=light] body.landing-page .notification {
 	color: #555b65
 }
 
-.preview-light .preview-theme-button {
+html[data-theme=light] body.landing-page .preview-theme-button {
 	color: #25282e;
 	background: #f5f6f8;
 	border-color: #cfd3d9
 }
 
-.preview-light .preview-balance {
+html[data-theme=light] body.landing-page .preview-balance {
 	background: #fff;
 	border-color: #d77a1b
 }
 
-.preview-light .preview-balance hr {
+html[data-theme=light] body.landing-page .preview-balance hr {
 	background: #e0e2e6
 }
 
-.preview-light .cash-flow,
-.preview-light .monthly-expenses-card,
-.preview-light .top-spending-card,
-.preview-light .recent-transactions-card {
+html[data-theme=light] body.landing-page .cash-flow,
+html[data-theme=light] body.landing-page .monthly-expenses-card,
+html[data-theme=light] body.landing-page .top-spending-card,
+html[data-theme=light] body.landing-page .recent-transactions-card {
 	background: #fff;
 	border-color: #d9dce1
 }
 
-.preview-light .monthly-expenses-chart i {
+html[data-theme=light] body.landing-page .monthly-expenses-chart i {
 	background: #d7dae0
 }
 
-.preview-light .monthly-expenses-chart .current i {
+html[data-theme=light] body.landing-page .monthly-expenses-chart .current i {
 	background: var(--lorange)
 }
 
-.preview-light .top-spending-list p i {
+html[data-theme=light] body.landing-page .top-spending-list p i {
 	background: #f2f3f5
 }
 
-.preview-light .top-spending-list>div>span {
+html[data-theme=light] body.landing-page .top-spending-list>div>span {
 	background: linear-gradient(to right, var(--spending-color) var(--spending-width), #e5e7eb var(--spending-width))
 }
 
-.preview-light .recent-transactions-list>a {
+html[data-theme=light] body.landing-page .recent-transactions-list>a {
 	background: #fafafa;
 	border-color: #e1e3e7
 }
 
-.preview-light .recent-transactions-list>a>i {
+html[data-theme=light] body.landing-page .recent-transactions-list>a>i {
 	background: #fff;
 	border-color: #e1e3e7
 }
@@ -2810,8 +2810,8 @@ html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-heade
 	object-fit: contain
 }
 
-.preview-theme-button .theme-icon.is-visible,
-.finance-theme-button .theme-icon.is-visible {
+html[data-theme=dark] .theme-icon-sun,
+html[data-theme=light] .theme-icon-moon {
 	display: block
 }
 

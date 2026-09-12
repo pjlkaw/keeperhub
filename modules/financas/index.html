@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
-    <link rel="stylesheet" href="../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../shared/styles/components.css">
     <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="js/preview-theme.js" defer></script>
+    <script src="../../shared/services/theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
 </head>
 
@@ -53,7 +53,7 @@
                     <h2>Finanças</h2>
                 </div>
                 <div class="preview-actions">
-                    <button class="preview-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">
+                    <button class="preview-theme-button" id="theme-toggle" type="button" aria-label="Alternar tema">
                         <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
                         <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
                     </button>
@@ -64,7 +64,7 @@
                 <h3 id="greeting-title">Olá, 👋</h3>
                 <p>Veja como estão suas finanças este mês.</p>
             </section>
-            <article class="preview-balance">
+            <article class="card preview-balance">
                 <header><span>SALDO DISPONÍVEL</span><mark>⌃ +12% vs mês anterior</mark></header><output>R$
                     4.250,00</output>
                 <hr>
@@ -80,25 +80,25 @@
                 </dl>
             </article>
             <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
-                <a class="finance-shortcut-card" href="components/transacoes.html">
+                <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
                     <span class="finance-shortcut-icon" aria-hidden="true">▤</span>
                     <strong>Transações</strong>
                     <span>Ver tudo</span>
                 </a>
-                <a class="finance-shortcut-card" href="components/relatorios.html">
+                <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
                     <span class="finance-shortcut-icon" aria-hidden="true">▥</span>
                     <strong>Relatórios</strong>
                     <span>Análise mensal</span>
                 </a>
             </nav>
-            <article class="cash-flow">
+            <article class="card cash-flow">
                 <header>
                     <h3>Fluxo do mês</h3><span>Setembro 2026</span>
                 </header>
                 <div class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></div>
                 <div class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></div>
             </article>
-            <article class="monthly-expenses-card">
+            <article class="card monthly-expenses-card">
                 <header>
                     <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
                 </header>
@@ -109,7 +109,7 @@
                     <div class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></div>
                 </div>
             </article>
-            <article class="top-spending-card">
+            <article class="card top-spending-card">
                 <header>
                     <h3>Onde você mais gastou</h3><span>3 categorias</span>
                 </header>
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </article>
-            <article class="recent-transactions-card">
+            <article class="card recent-transactions-card">
                 <header>
                     <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas ›</a>
                 </header>
