@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="pt-BR" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <script src="../js/preview-theme.js" defer></script>
+    <script src="../../../shared/services/theme.js" defer></script>
     <title>Transações</title>
 </head>
 
 <body class="finance-page">
     <main class="finance-shell transactions-list-screen">
         <header class="finance-header"><a class="finance-back" href="../index.html" aria-label="Voltar para finanças">‹</a>
-            <h1>Transações</h1><button class="finance-theme-button" type="button" aria-label="Ativar modo claro" aria-pressed="false">
+            <h1>Transações</h1><button class="finance-theme-button" id="theme-toggle" type="button" aria-label="Alternar tema">
                 <img src="../../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
                 <img src="../../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
             </button>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <section class="transaction-list" id="transaction-list" aria-live="polite">
+            <section class="card transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
             <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">
