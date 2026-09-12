@@ -1,0 +1,59 @@
+/* Visual único dos botões flutuantes de adicionar, baseado em Despesas.
+ * Carregar após o CSS da página. Posição e comportamento continuam locais.
+ */
+body :is(.botao-flutuante.botao-flutuante, .despesas-adicionar.despesas-adicionar) {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0;
+  color: var(--pets-on-primary);
+  background: var(--pets-primary);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px var(--pets-primary-shadow);
+  font-size: 0;
+  text-decoration: none;
+  transition: background-color var(--pets-transition), transform var(--pets-transition);
+}
+
+/* O sinal é desenhado uma única vez, inclusive nos botões com texto "+". */
+body :is(.botao-flutuante, .despesas-adicionar)::after {
+  content: '';
+  grid-area: 1 / 1;
+  width: 20px;
+  height: 20px;
+  background: url('../img/adicionar-pets.png') center / contain no-repeat;
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+}
+
+body :is(.botao-flutuante, .despesas-adicionar) > :is(.icone, img) {
+  display: none;
+}
+
+body :is(.botao-flutuante, .despesas-adicionar):focus-visible,
+body :is(.botao-flutuante, .despesas-adicionar):has(input:focus-visible) {
+  outline: 2px solid var(--pets-primary);
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body :is(.botao-flutuante.botao-flutuante, .despesas-adicionar.despesas-adicionar):hover {
+    background: var(--pets-primary-hover);
+    transform: translateY(-2px);
+  }
+}
+
+body :is(.botao-flutuante, .despesas-adicionar):active {
+  background: var(--pets-primary-active);
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body :is(.botao-flutuante, .despesas-adicionar) {
+    transition: none;
+  }
+}
