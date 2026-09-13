@@ -137,9 +137,6 @@ Usado por: apenas a página de listagem do módulo
     transform: scale(0.99);
 }
 
-[data-theme="light"] .med-card {
-}
-
 [data-theme="light"] .med-card:hover {
     border-color: var(--meds-border);
     background-color: var(--meds-surface);
@@ -148,6 +145,7 @@ Usado por: apenas a página de listagem do módulo
 .med-card-left {
     display: flex;
     align-items: center;
+}
 .med-card-icon-wrap {
     width: 38px;
     height: 38px;
