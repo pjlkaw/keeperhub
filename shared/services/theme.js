@@ -8,13 +8,16 @@
 function initTheme() {
     const root = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = themeToggle?.querySelector('i');
+    const themeIcons = themeToggle ? themeToggle.querySelectorAll('.theme-icon') : [];
 
     function applyTheme(theme) {
         root.setAttribute('data-theme', theme);
-        if (themeIcon) {
-        themeIcon.className = theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-        }
+        themeIcons.forEach((icon) => {
+            const isSun = icon.classList.contains('theme-icon-sun');
+            const isMoon = icon.classList.contains('theme-icon-moon');
+            const shouldShow = theme === 'dark' ? isMoon : isSun;
+            icon.style.display = shouldShow ? 'block' : 'none';
+        });
         localStorage.setItem('keeperhub-theme', theme);
     }
 
