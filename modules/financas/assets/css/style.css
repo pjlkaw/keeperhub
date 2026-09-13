@@ -2807,12 +2807,29 @@ html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-heade
 	display: none;
 	width: 18px;
 	height: 18px;
-	object-fit: contain
+	object-fit: contain;
+	opacity: 1;
+	filter: none
 }
 
-html[data-theme=dark] .theme-icon-sun,
-html[data-theme=light] .theme-icon-moon {
+html[data-theme=dark] .finance-theme-button .theme-icon-moon,
+html[data-theme=dark] .theme-icon-moon {
 	display: block
+}
+
+html[data-theme=dark] .finance-theme-button .theme-icon-sun,
+html[data-theme=dark] .theme-icon-sun {
+	display: none
+}
+
+html[data-theme=light] .finance-theme-button .theme-icon-sun,
+html[data-theme=light] .theme-icon-sun {
+	display: block
+}
+
+html[data-theme=light] .finance-theme-button .theme-icon-moon,
+html[data-theme=light] .theme-icon-moon {
+	display: none
 }
 
 body.landing-page .preview-theme-button,
