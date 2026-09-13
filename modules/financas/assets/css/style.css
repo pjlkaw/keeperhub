@@ -2780,53 +2780,52 @@ html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-heade
 	color: #f4f4f5 !important
 }
 
-/* Tema compartilhado entre todas as telas de Finanças. */
-.finance-theme-button {
-	display: grid;
-	flex: 0 0 40px;
-	width: 40px;
-	height: 40px;
-	padding: 0;
-	place-items: center;
-	justify-self: end;
-	color: inherit;
-	background: transparent;
-	border: 1px solid currentColor;
+/* Alternador de tema: mesma aparência do módulo Pets, aplicado só em Finanças. */
+.finance-theme-button,
+.preview-theme-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 36px;
+	width: 36px !important;
+	min-width: 36px !important;
+	height: 36px !important;
+	min-height: 36px !important;
+	padding: 0 !important;
+	background-color: rgba(255, 255, 255, .05);
+	border: 1px solid rgba(255, 255, 255, .1);
 	border-radius: 50%;
-	font-size: 20px;
-	line-height: 1
+	color: #d1d5db;
+	cursor: pointer;
 }
 
-.finance-theme-button:focus-visible {
-	outline: 3px solid rgba(228, 122, 0, .35);
-	outline-offset: 2px
+.finance-theme-button:focus-visible,
+.preview-theme-button:focus-visible {
+	outline: 2px solid #01ab8e;
+	outline-offset: 2px;
 }
 
-.preview-theme-button .theme-icon,
-.finance-theme-button .theme-icon {
+.finance-theme-button .theme-icon,
+.preview-theme-button .theme-icon {
 	display: none;
-	width: 18px;
-	height: 18px;
-	object-fit: contain
+	width: 18px !important;
+	height: 18px !important;
+	object-fit: contain;
 }
 
-html[data-theme=dark] .theme-icon-sun,
-html[data-theme=light] .theme-icon-moon {
-	display: block
+html[data-theme=dark] .theme-icon-moon,
+html[data-theme=light] .theme-icon-sun {
+	display: block;
 }
 
-body.landing-page .preview-theme-button,
-body.finance-page .finance-theme-button,
-body.transaction-page .finance-theme-button {
-	width: 40px !important;
-	min-width: 40px !important;
-	height: 40px !important;
-	min-height: 40px !important;
-	padding: 0 !important
+html[data-theme=light] .finance-theme-button,
+html[data-theme=light] .preview-theme-button {
+	background-color: rgba(0, 0, 0, .04);
+	border-color: rgba(0, 0, 0, .1);
+	color: #4b5563;
 }
-
 .transactions-header .finance-theme-button {
-	margin-left: -40px
+	margin-left: -36px
 }
 
 .transaction-heading .finance-theme-button {
