@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/assets/css/cadastrar.css">
+
+
+<title>Novo produto</title>
+
+</head>
+
+<body>
+
+  <main class="page">
+
+    <section class="content">
+  
+      <header class="header">
+        <a href="inicio.html">
+        <button class="back-button" onclick="voltar()">‹</button>
+        </a>
+        
+        <div class="title">Novo produto</div>
+       
+        <div class="bell">
+          <span class="notification-dot"></span>
+        </div>
+      </header>
+
+    
+
+      <div class="photo-box">
+        <div class="camera"></div>
+        <div class="photo-text">Adicionar foto</div>
+      </div>
+
+<!-- Formulário de upload -->
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    <!-- Input escondido -->
+    <input type="file" id="fileInput" name="imagem" accept="image/*" style="display:none" required>
+
+    <!-- Botão estilizado -->
+    <label for="fileInput" class="upload-btn">Escolher Imagem</label>
+
+    <!-- Preview -->
+    <br>
+    <img id="preview" alt="Pré-visualização">
+
+    <br><br>
+
+
+    
+</form>
+
+
+
+      <form id="form-produto">
+  <label for="nome">Nome do produto</label>
+  <input id="nome" name="nome" type="text" required>
+
+  <label for="categoria">Categoria</label>
+  <select id="categoria" name="categoria" required>
+    <option value="">Selecione</option>
+    <option value="Alimentos">Alimentos</option>
+    <option value="Bebidas">Bebidas</option>
+    <option value="Higiene">Higiene</option>
+  </select>
+
+  <label for="quantidade">Quantidade</label>
+  <input
+    id="quantidade"
+    name="quantidade"
+    type="number"
+    min="1"
+    value="1"
+    required
+  >
+
+  <label for="unidade">Unidade</label>
+  <select id="unidade" name="unidade" required>
+    <option value="unidade">Unidade</option>
+    <option value="kg">kg</option>
+    <option value="g">g</option>
+    <option value="litro">Litro</option>
+  </select>
+
+  <label for="validade">Data de validade (opcional)</label>
+  <input id="validade" name="validade" type="date">
+
+  <label for="marca">Marca (opcional)</label>
+  <input id="marca" name="marca" type="text">
+
+  <button id="salvar" type="submit">SALVAR PRODUTO</button>
+</form>
+
+  </main>
+
+  <!--Link para o arquivo cadastrar.js-->
+  
+<script type="text/javascript" src="/js/cadastrar.js"></script>
+
+</body>
+</html>

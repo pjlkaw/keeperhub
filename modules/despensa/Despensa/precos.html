@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Comparação de preços</title>
+
+    <link rel="stylesheet" href="precos.css">
+      <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+    <main class="app">
+
+        
+         <nav class="top-menu">
+
+      <button class="menu-item" onclick="irPara('financas')">
+        <span class="menu-icon orange">◔</span>
+        Finanças
+      </button>
+
+      <button class="menu-item active">
+        <span class="menu-icon">♔</span>
+        Despensa
+      </button>
+
+      <button class="menu-item" onclick="irPara('pets')">
+        <span class="menu-icon blue">♧</span>
+        Pets
+      </button>
+
+      <button class="menu-item" onclick="irPara('metas')">
+        <span class="menu-icon yellow">⚑</span>
+        Metas
+      </button>
+
+      <button class="menu-item" onclick="irPara('configuracoes')">
+        <span class="menu-icon green">♙</span>
+      </button>
+
+    </nav>
+        <!-- =========================
+             CABEÇALHO
+        ========================== -->
+
+        <header class="header">
+            <a href="inicio.html">
+            <button class="voltar">
+                ‹
+            </button>
+            </a>
+
+            <h1>
+                Comparação de preços
+            </h1>
+
+        </header>
+
+
+        <!-- =========================
+             SUBTÍTULO
+        ========================== -->
+
+        <div class="subtitulo">
+
+            <span>
+                Economia inteligente
+            </span>
+
+        </div>
+
+
+        <!-- =========================
+             FILTROS
+        ========================== -->
+    <div class="container">
+<section class="select-container">
+    <select id="periodo">
+        <option value="semana">Últimos 30 dias</option>
+        <option value="mes">Semana atual</option>
+       
+    </select>
+</section>
+<section class="select-container">
+    <select id="periodo">
+        <option value="semana">Mercado Extra</option>
+        <option value="mes">Pão de Açúcar</option>
+       
+    </select>
+</section>
+</div>
+
+
+<script>
+    const periodo = document.getElementById("periodo");
+
+    periodo.addEventListener("change", function () {
+        console.log("Período selecionado:", this.value);
+
+    });
+</script>
+
+        <!-- =========================
+             TOTAL ESTIMADO
+        ========================== -->
+      
+        <section class="total-card">
+
+            <div class="total-top">
+
+                <span>
+                    TOTAL ESTIMADO
+                </span>
+
+                <strong>
+                    R$ 485,90
+                </strong>
+
+            </div>
+
+
+            <!-- PÃO DE AÇÚCAR -->
+
+            <div class="mercado">
+
+                <div class="mercado-info">
+                    <span>Pão de Açúcar</span>
+                    <strong>60%</strong>
+                </div>
+
+                <div class="barra">
+                    <div class="barra-pao"></div>
+                </div>
+
+            </div>
+
+
+            <!-- MERCADO EXTRA -->
+
+            <div class="mercado">
+
+                <div class="mercado-info">
+                    <span>Mercado Extra</span>
+                    <strong>40%</strong>
+                </div>
+
+                <div class="barra">
+                    <div class="barra-extra"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+      
+
+        <!-- =========================
+             ECONOMIA
+        ========================== -->
+
+       
+        <!-- =========================
+             MELHOR ROTA
+        ========================== -->
+  <section class="savings-card">
+  <span class="orange-eyebrow">
+    Economia potencial
+  </span>
+
+  <strong class="savings-value">
+    R$ 42,50
+  </strong>
+
+  <p class="savings-copy">
+    Comprando cada item onde está mais barato.
+  </p>
+
+  <button
+    class="route-toggle"
+    id="routeToggle"
+    type="button"
+    aria-expanded="false"
+  >
+    <span id="routeToggleText">
+      Ver melhor rota
+    </span>
+
+    <span id="routeToggleIcon">
+      ⌄
+    </span>
+  </button>
+</section>
+
+<section
+  class="route-panel"
+  id="routePanel"
+  aria-hidden="true"
+>
+  <section class="route-inner">
+    <section class="route-head">
+      <section>
+        <span class="orange-eyebrow">
+          Melhor rota
+        </span>
+
+        <p class="route-sub">
+          18 min · 5,4 km · Economia R$ 42,50
+        </p>
+      </section>
+
+      <button
+        class="route-close"
+        id="routeClose"
+        type="button"
+        aria-label="Fechar rota"
+      >
+        ×
+      </button>
+    </section>
+
+    <section class="route-step">
+      <span class="step-number">1</span>
+
+      <section>
+        <strong class="step-name">
+          Pão de Açúcar
+        </strong>
+
+        <small class="step-detail">
+          8 itens · R$ 120,00
+        </small>
+      </section>
+    </section>
+
+    <section class="route-step">
+      <span class="step-number">2</span>
+
+      <section>
+        <strong class="step-name">
+          Mercado Extra
+        </strong>
+
+        <small class="step-detail">
+          4 itens · R$ 85,00
+        </small>
+      </section>
+    </section>
+
+   
+    </section>
+  </section>
+</section>
+
+<script>
+  const routeToggle = document.querySelector('#routeToggle');
+  const routeToggleText = document.querySelector(
+    '#routeToggleText',
+  );
+
+  const routePanel = document.querySelector('#routePanel');
+  const routeClose = document.querySelector('#routeClose');
+
+  function openRoute() {
+    routePanel.classList.add('open');
+    routeToggle.classList.add('is-open');
+
+    routeToggle.setAttribute('aria-expanded', 'true');
+    routePanel.setAttribute('aria-hidden', 'false');
+
+    routeToggleText.textContent = 'Ocultar rota';
+  }
+
+  function closeRoute() {
+    routePanel.classList.remove('open');
+    routeToggle.classList.remove('is-open');
+
+    routeToggle.setAttribute('aria-expanded', 'false');
+    routePanel.setAttribute('aria-hidden', 'true');
+
+    routeToggleText.textContent = 'Ver melhor rota';
+  }
+
+  routeToggle.addEventListener('click', () => {
+    const routeIsOpen =
+      routePanel.classList.contains('open');
+
+    if (routeIsOpen) {
+      closeRoute();
+    } else {
+      openRoute();
+    }
+  });
+
+  routeClose.addEventListener('click', () => {
+    closeRoute();
+  });
+</script>
+
+
+        <!-- =========================
+             COMPARATIVO
+        ========================== -->
+
+        <section class="comparativo">
+
+            <div class="comparativo-header">
+
+                <h2>
+                    COMPARATIVO
+                </h2>
+
+                <span>
+                    3 produtos
+                </span>
+
+            </div>
+
+
+            <!-- =====================
+                 ARROZ
+            ====================== -->
+
+            <article class="produto">
+
+                <div class="produto-titulo">
+
+                    <h3>
+                        Arroz Branco
+                    </h3>
+
+                    <span>
+                        5 kg
+                    </span>
+
+                </div>
+
+
+                <div class="precos">
+
+                    <!-- PÃO DE AÇÚCAR -->
+
+                    <div class="preco">
+
+                        <small>
+                            Pão de Açúcar
+                        </small>
+
+                        <strong>
+                            R$ 32,90
+                        </strong>
+
+                    </div>
+
+
+                    <!-- EXTRA -->
+
+                    <div class="preco melhor">
+
+                        <small>
+                            Mercado Extra
+                        </small>
+
+                        <b>
+                            MELHOR PREÇO
+                        </b>
+
+                        <strong>
+                            R$ 29,90
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- =====================
+                 LEITE
+            ====================== -->
+
+            <article class="produto">
+
+                <div class="produto-titulo">
+
+                    <h3>
+                        Leite Integral
+                    </h3>
+
+                    <span>
+                        1 L
+                    </span>
+
+                </div>
+
+
+                <div class="precos">
+
+                    <!-- PÃO -->
+
+                    <div class="preco">
+
+                        <small>
+                            Pão de Açúcar
+                        </small>
+
+                        <strong>
+                            R$ 6,49
+                        </strong>
+
+                    </div>
+
+
+                    <!-- EXTRA -->
+
+                    <div class="preco melhor">
+
+                        <small>
+                            Mercado Extra
+                        </small>
+
+                        <b>
+                            MELHOR PREÇO
+                        </b>
+
+                        <strong>
+                            R$ 5,89
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- =====================
+                 CAFÉ
+            ====================== -->
+
+            <article class="produto">
+
+                <div class="produto-titulo">
+
+                    <h3>
+                        Café
+                    </h3>
+
+                    <span>
+                        500 g
+                    </span>
+
+                </div>
+
+
+                <div class="precos">
+
+                    <!-- PÃO -->
+
+                    <div class="preco melhor">
+
+                        <small>
+                            Pão de Açúcar
+                        </small>
+
+                        <b>
+                            MELHOR PREÇO
+                        </b>
+
+                        <strong>
+                            R$ 22,90
+                        </strong>
+
+                    </div>
+
+
+                    <!-- EXTRA -->
+
+                    <div class="preco">
+
+                        <small>
+                            Mercado Extra
+                        </small>
+
+                        <strong>
+                            R$ 24,50
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =========================
+             BOTÃO FLUTUANTE
+        ========================== -->
+
+        <button class="botao-add">
+            +
+        </button>
+
+    </main>
+
+</body>
+
+</html>
