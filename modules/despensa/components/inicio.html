@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Despensa</title>
+
+  <link rel="stylesheet" href="/assets/css/inicio.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+</head>
+
+<body>
+
+  <main class="app">
+
+    <!-- MENU SUPERIOR -->
+    <nav class="top-menu">
+
+      <button class="menu-item" onclick="irPara('financas')">
+        <span class="menu-icon orange">◔</span>
+        Finanças
+      </button>
+
+      <button class="menu-item active">
+        <span class="menu-icon">♔</span>
+        Despensa
+      </button>
+
+      <button class="menu-item" onclick="irPara('pets')">
+        <span class="menu-icon blue">♧</span>
+        Pets
+      </button>
+
+      <button class="menu-item" onclick="irPara('metas')">
+        <span class="menu-icon yellow">⚑</span>
+        Metas
+      </button>
+
+      <button class="menu-item" onclick="irPara('configuracoes')">
+        <span class="menu-icon green">♙</span>
+      </button>
+
+    </nav>
+
+
+    <!-- CABEÇALHO -->
+    <header class="header">
+
+      <section class="header-title">
+
+   
+
+        <section>
+
+          <h1>Despensa</h1>
+
+          <section class="subtitle">
+            Controle da sua despensa
+
+          </section>
+
+        </section>
+
+      </section>
+      
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <section class="content">
+
+      <h2 class="section-title">
+        RESUMO
+      </h2>
+
+
+      <!-- CARDS -->
+      <section class="summary-grid">
+
+
+        <!-- PRODUTOS -->
+        <article class="summary-card">
+
+          <section class="summary-icon box">
+            ▣
+          </section>
+
+          <a href="produtos.html"><span class="summary-label">
+            PRODUTOS
+          </span></a>
+
+          <strong id="totalProdutos">
+            24
+          </strong>
+
+          <span>
+            cadastrados
+          </span>
+
+        </article>
+
+
+        <!-- VENCIMENTOS -->
+        <article class="summary-card">
+
+          <section class="summary-icon clock">
+            ◷
+          </section>
+
+          <a href="vencimento.html"><span class="summary-label orange-text">
+            PRÓXIMOS A VENCER
+          </span></a>
+
+          <strong
+            class="orange-number"
+            id="totalVencimentos"
+          >
+            5
+          </strong>
+
+          <span>
+            precisam atenção
+          </span>
+
+        </article>
+
+
+        <!-- QUANTIDADE -->
+        <article class="summary-card">
+
+          <section class="summary-icon quantity">
+            ▣
+          </section>
+
+          <span class="summary-label">
+            QUANTIDADE
+          </span>
+
+          <strong id="totalQuantidade">
+            87
+          </strong>
+
+          <span>
+            unidades
+          </span>
+
+        </article>
+
+
+        <!-- ECONOMIZE -->
+        <article class="summary-card">
+
+          <section class="summary-icon money">
+            $
+          </section>
+
+          <span class="summary-label">
+            COMPARAÇÃO
+          </span>
+          <a href="precos.html">
+          <strong class="economize">
+            Economize
+          </strong></a>
+
+          <span>
+            nas compras
+          </span>
+
+        </article>
+
+      </section>
+
+
+      <!-- PRÓXIMOS A VENCER -->
+      <section class="section-header">
+
+        <span id="contador-produtos">0 produtos cadastrados</span>
+        <div id="lista-produtos"></div>
+        </span>
+        
+   
+
+      </section>
+
+
+      <section
+        class="products-list"
+        id="listaVencimentos"
+      >
+
+       
+
+      </section>
+
+    </section>
+
+
+    <!-- BOTÃO FLUTUANTE -->
+    <a href="cadastrar.html"><button
+      class="floating-button"
+      onclick="adicionarProduto()"
+      aria-label="Adicionar produto"
+    >
+      +
+    </button></a>
+
+  </main>
+
+<script type="text/javascript" src="/js/inicio.js"></script>
+
+
+</body>
+</html>

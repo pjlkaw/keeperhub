@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vencimentos</title>
+
+    <link rel="stylesheet" href="vencimento.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+         <nav class="top-menu">
+
+      <button class="menu-item" onclick="irPara('financas')">
+        <span class="menu-icon orange">◔</span>
+        Finanças
+      </button>
+
+      <button class="menu-item active">
+        <span class="menu-icon">♔</span>
+        Despensa
+      </button>
+
+      <button class="menu-item" onclick="irPara('pets')">
+        <span class="menu-icon blue">♧</span>
+        Pets
+      </button>
+
+      <button class="menu-item" onclick="irPara('metas')">
+        <span class="menu-icon yellow">⚑</span>
+        Metas
+      </button>
+
+      <button class="menu-item" onclick="irPara('configuracoes')">
+        <span class="menu-icon green">♙</span>
+      </button>
+
+    </nav>
+
+
+        <!-- CABEÇALHO -->
+        <header class="header">
+            <a id="voltar" href="inicio.html">
+            <button class="back">‹</button>
+            </a>
+            <h1>Vencimentos</h1>
+
+
+        </header>
+
+
+        <!-- CONTROLE DE VALIDADE -->
+        <div class="validade">
+
+            <span>Controle de validade</span>
+
+            <span class="alerta">
+                3 itens de atenção
+            </span>
+
+        </div>
+
+
+        <!-- RESUMO -->
+        <section class="resumo">
+
+            <div class="resumo-card vencido">
+
+                <div class="titulo">
+                    VENCIDOS
+                </div>
+
+                <div class="numero vermelho">
+                    12
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card sete">
+
+                <div class="titulo">
+                    VENCEM EM 7 DIAS
+                </div>
+
+                <div class="numero laranja">
+                    8
+                </div>
+
+            </div>
+
+
+            <div class="resumo-card trinta">
+
+                <div class="titulo">
+                    VENCEM EM 30 DIAS
+                </div>
+
+                <div class="numero laranja">
+                    24
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FILTROS -->
+        <div class="filtros">
+
+            <button class="filtro ativo">
+                Todos
+            </button>
+
+            <button class="filtro">
+                Críticos
+            </button>
+
+        </div>
+
+
+        <!-- TÍTULO -->
+        <div class="secao-header">
+
+            <h2>
+                ATENÇÃO NECESSÁRIA
+            </h2>
+
+            <span>
+                4 itens
+            </span>
+
+        </div>
+
+
+        <!-- PRODUTO 1 -->
+        <article class="produto">
+
+            <h3>
+                Molho de Tomate Orgânico
+            </h3>
+
+            <div class="status vencido-status">
+                Vencido há 3 dias
+            </div>
+
+            <div class="produto-info">
+                La Molisana • 400 g • 2 unidades
+            </div>
+
+
+           
+        </article>
+
+
+        <!-- PRODUTO 2 -->
+        <article class="produto atencao">
+
+            <h3>
+                Café Especial Torrado
+            </h3>
+
+            <div class="status proximo">
+                Vence em 2 dias
+            </div>
+
+            <div class="produto-info">
+                Coffee Lab • 250 g • 1 unidade
+            </div>
+
+
+        
+
+        </article>
+
+
+        <a href="cadastrar.html">
+        <button class="add">
+            +
+        </button>
+        </a>
+
+    </main>
+
+    
+
+</body>
+
+</html>
