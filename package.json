@@ -1,5 +1,26 @@
 {
-  "dependencies": {
-    "express": "^5.2.1"
-  }
+	"name": "keeperhub",
+	"version": "1.0.0",
+	"description": "Um Hub de Organização Domiciliar",
+	"homepage": "https://github.com/pjlkaw/keeperhub#readme",
+	"bugs": {
+		"url": "https://github.com/pjlkaw/keeperhub/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pjlkaw/keeperhub.git"
+	},
+	"license": "ISC",
+	"author": "",
+	"type": "commonjs",
+	"main": "service-worker.js",
+	"directories": {
+		"doc": "docs"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"express": "^5.2.1"
+	}
 }
