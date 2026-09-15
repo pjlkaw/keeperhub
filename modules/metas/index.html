@@ -1,1 +1,682 @@
-.
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metas — sua organização pessoal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="fotos.js" defer></script>
+  </head>
+  <body>
+    <!-- O HTML contém as telas. O JavaScript apenas mostra a tela escolhida. -->
+    <div class="app-shell">
+      <header>
+        <nav class="section-tabs" aria-label="Módulos">
+          <button class="section-tab section-metas active" data-modulo="Metas">
+            <img class="section-tab-logo" src="logo-metas.png" alt="">
+            Metas
+          </button>
+          <button class="section-tab section-financas" data-modulo="Finanças">
+            <img class="section-tab-logo" src="logo-financas.png" alt="">
+            Finanças
+          </button>
+          <button class="section-tab section-pets" data-modulo="Pets">
+            <img class="section-tab-logo" src="logo-pets.png" alt="">
+            Pets
+          </button>
+          <button class="section-tab section-medicamentos" data-modulo="Medicamentos">
+            <img class="section-tab-logo" src="logo-medicamentos.png" alt="">
+            Medicamentos
+          </button>
+          <button class="section-tab section-dispensa" data-modulo="Dispensa">
+            <img class="section-tab-logo" src="logo-despensa.png" alt="">
+            Dispensa
+          </button>
+        </nav>
+      </header>
+      <main>
+        <!-- 1. PÁGINA INICIAL -->
+        <section id="inicio" class="screen tela">
+          <div class="greet">
+            <div>
+              <h1>
+                Olá,
+                <span id="nome-inicio">Fulano</span>
+                ! 👋
+              </h1>
+              <p>
+              <span id="mensagem-inicio">Sua jornada está evoluindo</span>
+              </p>
+            </div>
+            <div class="header-icons">
+              <button class="icon-btn" data-tela="notificacoes" aria-label="Notificações">
+                🔔
+                <span id="aviso-notificacao" class="dot-badge">
+                </span>
+              </button>
+              <button class="streak-pill" data-tela="niveis" aria-label="Sequência">
+                <span class="fogo">🔥</span>
+                <span class="dias-sequencia">0</span>
+              </button>
+              <button class="avatar" data-tela="perfil" aria-label="Abrir perfil">
+                <img class="avatar-photo foto-perfil" alt="Foto de perfil" hidden>
+                <span class="letra-perfil">F</span>
+              </button>
+            </div>
+          </div>
+          <article class="card">
+            <h2 class="card-label">Progresso Geral</h2>
+            <p class="big-stat" id="progresso-geral">0%</p>
+            <progress id="barra-geral" max="100" value="0" aria-label="Progresso geral">
+            </progress>
+            <p class="card-foot" id="total-metas">
+            </p>
+          </article>
+          <div class="card-title-row">
+            <h2 class="section-title">Seus objetivos recentes</h2>
+            <button class="see-all" data-tela="objetivos">Ver todos ›</button>
+          </div>
+          <div id="metas-recentes" class="card">
+          </div>
+          <div class="card-title-row">
+            <h2 class="section-title">Sua Rotina de Hoje</h2>
+            <button class="see-all" data-tela="diarias">Ver mais ›</button>
+          </div>
+          <div class="routine-grid">
+            <button class="routine-chip" data-tela="diarias">
+              <span class="ic">🎯</span>
+              Metas do dia
+              <span id="resumo-tarefas" class="sub">
+              </span>
+            </button>
+            <button class="routine-chip" data-tela="livros">
+              <span class="ic">📚</span>
+              Livros
+              <span class="sub">Sua biblioteca</span>
+            </button>
+            <button class="routine-chip" data-tela="calendario">
+              <span class="ic">🗓️</span>
+              Calendário
+              <span class="sub">Seus eventos</span>
+            </button>
+          </div>
+          <button class="floating-add-goal nova-meta" aria-label="Criar nova meta">+</button>
+        </section>
+        <!-- 2. LISTA E FORMULÁRIO DE METAS -->
+        <section id="objetivos" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Seus objetivos</h2>
+          </div>
+          <div id="lista-metas" class="card">
+          </div>
+          <button class="cta-btn secondary nova-meta">＋ Criar novo objetivo</button>
+        </section>
+        <section id="formulario-meta" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2 id="titulo-formulario-meta">Novo objetivo</h2>
+          </div>
+          <form id="form-meta">
+            <div class="field">
+              <label for="meta-nome">Nome</label>
+              <input id="meta-nome" required maxlength="80" placeholder="Ex.: Viagem para o Japão">
+            </div>
+            <div class="field">
+              <label for="meta-categoria">Categoria</label>
+              <select id="meta-categoria">
+                <option>Meta financeira</option>
+                <option>Meta de experiência</option>
+                <option>Meta pessoal</option>
+                <option>Meta de saúde</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="meta-valor">Valor da meta (R$)</label>
+              <input id="meta-valor" type="number" min="0" step="0.01" required>
+            </div>
+            <div class="field">
+              <label for="meta-guardado">Quanto você já tem (R$)</label>
+              <input id="meta-guardado" type="number" min="0" step="0.01" value="0" required>
+            </div>
+            <div class="field">
+              <label for="meta-prioridade">Prioridade</label>
+              <select id="meta-prioridade">
+                <option>Baixa</option>
+                <option>Média</option>
+                <option selected>Alta</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="meta-status">Status</label>
+              <select id="meta-status">
+                <option>Sonho</option>
+                <option>Planejando</option>
+                <option>Juntando dinheiro</option>
+                <option>Quase lá</option>
+                <option>Concluído</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="meta-prazo">Prazo para concluir</label>
+              <input id="meta-prazo" type="date">
+              <p class="field-hint">Use uma data para receber mensagens sobre metas pendentes.</p>
+            </div>
+            <div class="field">
+              <label for="meta-foto">Foto da meta</label>
+              <input id="meta-foto" type="file" accept="image/jpeg,image/png,image/webp">
+              <img id="previa-meta" class="previa-foto" alt="Prévia da meta" hidden>
+              <button id="ajustar-meta" class="cta-btn ghost espaco" type="button">Ajustar imagem</button>
+              <p class="field-hint">JPG, PNG ou WebP, até 8 MB.</p>
+            </div>
+            <div class="field">
+              <label for="meta-observacoes">Observações</label>
+              <textarea id="meta-observacoes" maxlength="500" placeholder="Escreva algo sobre sua meta...">
+              </textarea>
+            </div>
+            <button class="cta-btn" type="submit">Salvar objetivo</button>
+            <button class="cta-btn ghost voltar espaco" type="button">Cancelar</button>
+          </form>
+        </section>
+        <section id="detalhes-meta" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Detalhes do objetivo</h2>
+          </div>
+          <div class="obj-hero" id="capa-meta">
+            <img id="foto-detalhe-meta" class="capa-foto" alt="Foto do objetivo" hidden>
+            <span class="badge" id="icone-meta">🎯</span>
+          </div>
+          <h2 id="nome-meta" class="titulo-espacado">
+          </h2>
+            <div class="card">
+            <div class="kv-row">
+              <span class="k">Meta</span>
+              <strong id="valor-meta">
+              </strong>
+            </div>
+            <div class="kv-row">
+              <span class="k">Guardado</span>
+              <strong id="guardado-meta">
+              </strong>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Progresso</h3>
+            <p id="percentual-meta" class="big-stat">
+            </p>
+            <progress id="barra-meta" value="0" max="100" aria-label="Progresso do objetivo">
+            </progress>
+          </div>
+          <div class="card">
+            <div class="kv-row">
+              <span class="k">Status</span>
+              <strong id="status-meta">
+              </strong>
+            </div>
+            <div class="kv-row">
+              <span class="k">Prioridade</span>
+              <strong id="prioridade-meta">
+              </strong>
+            </div>
+            <p id="prazo-meta" class="field-hint"></p>
+            <p id="observacoes-meta" class="quote-box">
+            </p>
+          </div>
+          <button id="adicionar-valor" class="cta-btn">＋ Adicionar valor</button>
+          <button id="editar-meta" class="cta-btn secondary espaco">✎ Editar meta</button>
+          <button id="concluir-meta" class="cta-btn ghost espaco">✓ Marcar como concluído</button>
+          <button id="excluir-meta" class="cta-btn ghost perigo espaco">Remover meta</button>
+        </section>
+        <!-- 3. METAS DO DIA: tarefas originais não podem ser apagadas. -->
+        <section id="diarias" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Metas do dia</h2>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Progresso de hoje</h3>
+            <p id="total-diarias" class="big-stat">
+            </p>
+            <progress id="barra-diarias" max="100" value="0" aria-label="Tarefas concluídas">
+            </progress>
+            <p class="card-foot">As cinco tarefas obrigatórias contam para o foguinho.</p>
+          </div>
+          <button class="card cartao-botao" data-tela="niveis">
+            <span class="fogo">🔥</span>
+            Sua sequência:
+            <strong class="dias-sequencia">0</strong>
+            dias
+            <span class="card-foot bloco">Complete as obrigatórias todos os dias.</span>
+          </button>
+          <div class="card-title-row">
+            <h3 class="section-title">Tarefas de hoje</h3>
+            <button id="adicionar-tarefa" class="add-task-btn">＋ Adicionar</button>
+          </div>
+          <div id="lista-tarefas" class="card">
+          </div>
+          <p class="quote-card">“Pequenas ações feitas todos os dias transformam sua vida.”</p>
+        </section>
+        <!-- 4. CALENDÁRIO -->
+        <section id="calendario" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Calendário</h2>
+          </div>
+          <div class="cal-head">
+            <button id="mes-anterior" aria-label="Mês anterior">‹</button>
+            <h3 id="mes-calendario">
+            </h3>
+            <button id="mes-seguinte" aria-label="Próximo mês">›</button>
+          </div>
+          <div class="cal-grid" aria-hidden="true">
+            <span class="cal-dow">D</span>
+            <span class="cal-dow">S</span>
+            <span class="cal-dow">T</span>
+            <span class="cal-dow">Q</span>
+            <span class="cal-dow">Q</span>
+            <span class="cal-dow">S</span>
+            <span class="cal-dow">S</span>
+          </div>
+          <div id="dias-calendario" class="cal-grid">
+          </div>
+          <h3 id="data-eventos" class="section-title titulo-espacado">
+          </h3>
+          <div id="lista-eventos" class="card">
+          </div>
+          <button id="adicionar-evento" class="cta-btn">＋ Novo evento</button>
+        </section>
+        <!-- 5. PERFIL: sem campo de e-mail. -->
+        <section id="perfil" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Perfil</h2>
+          </div>
+          <div class="profile-head">
+            <div class="profile-avatar">
+              <img class="avatar-photo foto-perfil" alt="Foto de perfil" hidden>
+              <span class="letra-perfil">F</span>
+            </div>
+            <h2 id="nome-perfil">Fulano</h2>
+            <p>Membro desde Jan 2024</p>
+            <p id="bio-perfil" class="profile-bio">
+            </p>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <p class="n dias-sequencia">0</p>
+              <p class="l">dias de sequência</p>
+            </div>
+            <div class="stat-card">
+              <p id="metas-concluidas" class="n">0</p>
+              <p class="l">metas concluídas</p>
+            </div>
+            <div class="stat-card">
+              <p id="nivel-perfil" class="n">1</p>
+              <p class="l">nível atual</p>
+            </div>
+          </div>
+          <div class="card">
+            <button id="abrir-edicao-perfil" class="option-row opcao-botao">
+              <span class="ic">✎</span>
+              <span class="t">Editar perfil</span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="option-row opcao-botao" data-tela="notificacoes">
+              <span class="ic">🔔</span>
+              <span class="t">Notificações</span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="option-row opcao-botao" data-tela="niveis">
+              <span class="ic">🔥</span>
+              <span class="t">Minha sequência</span>
+              <span class="arrow">›</span>
+            </button>
+            <button id="sair" class="option-row opcao-botao">
+              <span class="ic">🚪</span>
+              <span class="t perigo">Sair</span>
+            </button>
+          </div>
+        </section>
+        <section id="editar-perfil" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Editar perfil</h2>
+          </div>
+          <form id="form-perfil">
+            <div class="profile-avatar">
+              <img id="previa-perfil" class="avatar-photo" alt="Prévia do perfil" hidden>
+              <span id="previa-letra">F</span>
+            </div>
+            <div class="field">
+              <label for="perfil-nome">Nome</label>
+              <input id="perfil-nome" required maxlength="50" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="perfil-foto">Foto de perfil</label>
+              <input id="perfil-foto" type="file" accept="image/jpeg,image/png,image/webp">
+              <button id="ajustar-perfil" class="cta-btn ghost espaco" type="button">Ajustar foto</button>
+              <p class="field-hint">JPG, PNG ou WebP, até 8 MB.</p>
+            </div>
+            <div class="field">
+              <label for="perfil-letra">Letra ou emoji (quando não há foto)</label>
+              <input id="perfil-letra" maxlength="8">
+            </div>
+            <div class="field">
+              <label for="perfil-bio">Biografia</label>
+              <textarea id="perfil-bio" maxlength="160">
+              </textarea>
+              <p class="field-hint">Até 160 caracteres.</p>
+            </div>
+            <button class="cta-btn" type="submit">✓ Salvar alterações</button>
+            <button class="cta-btn ghost voltar espaco" type="button">Cancelar</button>
+          </form>
+        </section>
+        <!-- 6. LIVROS -->
+        <section id="livros" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Livros</h2>
+          </div>
+          <label for="busca-livros" class="card-label">Buscar livros ou autores</label>
+          <input id="busca-livros" class="search-box" type="search" placeholder="🔍 Buscar livros, autor ou tema">
+          <div class="tab-row" aria-label="Categorias de leitura">
+            <button class="tab-chip sel" data-filtro="todos">Explorar</button>
+            <button class="tab-chip" data-filtro="quero">Quero ler</button>
+            <button class="tab-chip" data-filtro="lendo">Lendo</button>
+            <button class="tab-chip" data-filtro="concluidos">Concluídos</button>
+          </div>
+          <nav class="tab-row" aria-label="Minha coleção">
+            <button class="tab-chip" data-filtro="biblioteca">📚 Biblioteca</button>
+            <button class="tab-chip" data-filtro="favoritos">❤ Favoritas</button>
+          </nav>
+          <h3 id="titulo-lista-livros" class="section-title titulo-espacado">Recomendados para você</h3>
+          <div id="lista-livros" class="card">
+          </div>
+          <button id="novo-livro" class="cta-btn">＋ Criar meta de leitura</button>
+        </section>
+        <!-- Cadastro simples de um livro que você quer ler. -->
+        <section id="formulario-livro" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2 id="titulo-formulario-livro">Nova meta de leitura</h2>
+          </div>
+          <form id="form-livro">
+            <div class="field">
+              <label for="livro-titulo">Título do livro</label>
+              <input id="livro-titulo" required maxlength="100" placeholder="Qual livro você quer ler?">
+            </div>
+            <div class="field">
+              <label for="livro-autor">Autor (opcional)</label>
+              <input id="livro-autor" maxlength="100">
+            </div>
+            <div class="field">
+              <label for="livro-prioridade">Prioridade de leitura</label>
+              <select id="livro-prioridade">
+                <option value="Alta">Alta — quero ler primeiro</option>
+                <option value="Média" selected>Média — quero ler em breve</option>
+                <option value="Baixa">Baixa — pode ficar para depois</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="livro-status">Minha leitura</label>
+              <select id="livro-status">
+                <option value="quero">Quero ler</option>
+                <option value="lendo">Lendo</option>
+                <option value="concluidos">Concluído</option>
+                <option value="explorar">Não iniciado</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="livro-foto">Imagem da capa (opcional)</label>
+              <input id="livro-foto" type="file" accept="image/jpeg,image/png,image/webp">
+              <img id="previa-livro" class="previa-foto previa-capa-livro" alt="Prévia da capa" hidden>
+              <button id="ajustar-livro" class="cta-btn ghost espaco" type="button">Ajustar capa</button>
+              <p class="field-hint">JPG, PNG ou WebP, até 8 MB.</p>
+            </div>
+            <div class="field">
+              <label for="livro-descricao">Observações (opcional)</label>
+              <textarea id="livro-descricao" maxlength="500" placeholder="Por que você quer ler este livro?"></textarea>
+            </div>
+            <button class="cta-btn" type="submit">Salvar meta de leitura</button>
+            <button class="cta-btn ghost voltar espaco" type="button">Cancelar</button>
+          </form>
+        </section>
+        <section id="detalhes-livro" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Detalhes do livro</h2>
+          </div>
+          <div class="book-hero">
+            <div id="capa-livro" class="book-hero-cover">
+              <img id="foto-detalhe-livro" class="imagem-capa" alt="Capa do livro" hidden>
+              <span id="texto-capa-livro"></span>
+            </div>
+            <div class="book-hero-info">
+              <h2 id="titulo-livro">
+              </h2>
+              <p id="autor-livro" class="auth">
+              </p>
+              <p id="nota-livro" class="destaque">
+              </p>
+              <p id="categoria-livro" class="card-foot">
+              </p>
+              <p id="prioridade-detalhe-livro" class="prioridade-leitura"></p>
+            </div>
+          </div>
+          <h3 class="section-title titulo-espacado">Sobre o livro</h3>
+          <p id="descricao-livro" class="texto-descricao">
+          </p>
+          <div class="field">
+            <label for="status-leitura">Minha leitura</label>
+            <select id="status-leitura">
+              <option value="explorar">Não iniciado</option>
+              <option value="quero">Quero ler</option>
+              <option value="lendo">Lendo</option>
+              <option value="concluidos">Concluído</option>
+            </select>
+          </div>
+          <button id="ler-livro" class="cta-btn">📖 Marcar como lendo</button>
+          <p class="field-hint">O site organiza sua leitura; não contém o texto dos livros.</p>
+          <button id="biblioteca-livro" class="cta-btn secondary espaco">Adicionar à biblioteca</button>
+          <button id="favoritar-livro" class="cta-btn ghost espaco">Favoritar</button>
+          <button id="editar-livro" class="cta-btn secondary espaco">✎ Editar meta de leitura</button>
+          <button class="cta-btn ghost espaco" data-tela="comprar-livro">Ver onde comprar</button>
+          <button id="excluir-livro" class="cta-btn ghost perigo espaco">🗑 Apagar livro</button>
+        </section>
+        <section id="comprar-livro" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Onde comprar</h2>
+          </div>
+          <p class="texto-descricao">Procure a edição desejada nas lojas. A compra é feita fora do site.</p>
+          <div class="card">
+            <a id="loja-amazon" class="kv-row" target="_blank" rel="noopener noreferrer">
+              Amazon
+              <span>Pesquisar ↗</span>
+            </a>
+            <a id="loja-estante" class="kv-row" target="_blank" rel="noopener noreferrer">
+              Estante Virtual
+              <span>Pesquisar ↗</span>
+            </a>
+          </div>
+        </section>
+        <!-- 7. SEQUÊNCIA, HISTÓRICO E NOTIFICAÇÕES -->
+        <section id="niveis" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Nível do mês</h2>
+          </div>
+          <div class="level-grid">
+            <div class="level-card">
+              <span class="level-flame">🟡</span>
+              <h3 class="ln">Nível 1</h3>
+              <p class="lc">0–29 dias</p>
+            </div>
+            <div class="level-card">
+              <span class="level-flame">🟠</span>
+              <h3 class="ln">Nível 2</h3>
+              <p class="lc">30–59 dias</p>
+            </div>
+            <div class="level-card">
+              <span class="level-flame">🟢</span>
+              <h3 class="ln">Nível 3</h3>
+              <p class="lc">60–89 dias</p>
+            </div>
+            <div class="level-card">
+              <span class="level-flame">🔵</span>
+              <h3 class="ln">Nível 4</h3>
+              <p class="lc">90+ dias</p>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="section-title titulo-espacado">Como funciona?</h3>
+            <p class="texto-descricao">Complete as cinco tarefas obrigatórias do dia para acender o foguinho. Um dia sem completar interrompe a sequência. Tarefas extras não impedem o foguinho. Os níveis mudam a cada 30 dias seguidos.</p>
+            <p>
+              Sequência atual:
+              <strong class="dias-sequencia">0</strong>
+              dias
+            </p>
+          </div>
+          <button class="cta-btn secondary" data-tela="historico">📊 Ver histórico</button>
+        </section>
+        <section id="historico" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Histórico de níveis</h2>
+          </div>
+          <div id="lista-historico" class="card">
+          </div>
+        </section>
+        <section id="notificacoes" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2>Notificações</h2>
+          </div>
+          <div class="card">
+            <article class="notif-row">
+              <span class="notif-ic">🎯</span>
+              <div class="notif-info">
+                <h3 class="t">Suas metas diárias</h3>
+                <p id="notificacao-tarefas" class="s">
+                </p>
+              </div>
+            </article>
+            <article class="notif-row">
+              <span class="notif-ic">📖</span>
+              <div class="notif-info">
+                <h3 class="t">Hora da leitura</h3>
+                <p class="s">Que tal separar um tempo para ler hoje?</p>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="em-construcao" class="screen tela" hidden>
+          <div class="screen-head">
+            <button class="back-btn voltar" aria-label="Voltar">‹</button>
+            <h2 id="titulo-modulo">
+            </h2>
+          </div>
+          <p class="empty-hint">
+            🚧 Essa área ainda está em construção.
+            <br>
+            Volte para Metas para continuar.
+          </p>
+        </section>
+      </main>
+      <p id="mensagem" role="status" class="mensagem" hidden>
+      </p>
+      <noscript>
+        <p class="card">Ative o JavaScript para salvar dados e navegar entre as telas.</p>
+      </noscript>
+    </div>
+    <!-- Ajuste de fotos: arraste a imagem ou use as setas do teclado. -->
+    <dialog id="editor-foto" aria-labelledby="titulo-editor-foto">
+      <h2 id="titulo-editor-foto">Ajustar imagem</h2>
+      <p class="texto-descricao">Arraste para posicionar. Use o zoom para aproximar.</p>
+      <canvas id="area-recorte" width="280" height="280" tabindex="0" aria-label="Enquadramento da imagem. Use as setas para mover a foto."></canvas>
+      <label for="zoom-foto">Zoom</label>
+      <input id="zoom-foto" type="range" min="1" max="3" step="0.05" value="1">
+      <button id="centralizar-foto" class="cta-btn ghost espaco" type="button">Centralizar</button>
+      <button id="aplicar-recorte" class="cta-btn espaco" type="button">Usar este enquadramento</button>
+      <button id="cancelar-recorte" class="cta-btn ghost espaco" type="button">Cancelar</button>
+    </dialog>
+
+    <!-- MODELOS: o JS copia estes pequenos blocos para cada item cadastrado.
+       O desenho dos cartões continua aqui no HTML, não dentro do JavaScript. -->
+    <template id="modelo-meta">
+      <article class="goal-row">
+        <button class="goal-thumb abrir">
+          <img class="mini-foto" alt="" hidden>
+          <span class="icone">🎯</span>
+        </button>
+        <div class="goal-info">
+          <button class="name botao-texto abrir">
+          </button>
+          <p class="cat">
+          </p>
+          <progress max="100" value="0" aria-label="Progresso da meta">
+          </progress>
+        </div>
+        <span class="goal-pct">
+        </span>
+        <details class="menu-meta">
+          <summary aria-label="Opções da meta">⋮</summary>
+          <div class="menu-pop">
+            <button class="editar">✎ Editar</button>
+            <button class="excluir danger">Remover</button>
+          </div>
+        </details>
+      </article>
+    </template>
+    <template id="modelo-tarefa">
+      <div class="task-row">
+        <input class="marcar-tarefa" type="checkbox">
+        <span class="task-ic">
+        </span>
+        <div class="task-info">
+          <label class="t">
+          </label>
+          <p class="s">
+          </p>
+        </div>
+        <button class="remove-btn" aria-label="Remover tarefa">🗑</button>
+      </div>
+    </template>
+    <template id="modelo-evento">
+      <article class="event-row">
+        <span class="evt-dot-lg">
+        </span>
+        <time class="evt-time">
+        </time>
+        <h3 class="evt-title">
+        </h3>
+        <button class="remove-btn" aria-label="Remover evento">🗑</button>
+      </article>
+    </template>
+    <template id="modelo-livro">
+      <article class="book-row">
+        <button class="book-cover abrir">
+          <img class="imagem-capa" alt="" hidden>
+          <span class="texto-capa"></span>
+        </button>
+        <div class="book-info">
+          <button class="name botao-texto abrir">
+          </button>
+          <p class="auth">
+          </p>
+          <p class="rate">
+          </p>
+          <p class="prioridade-leitura"></p>
+          <div class="book-row-actions">
+            <button class="mini-btn abrir">Ver detalhes</button>
+            <button class="fav-btn" aria-label="Alternar favorito">♡</button>
+            <button class="remove-btn apagar-livro" aria-label="Apagar livro">🗑</button>
+          </div>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>
