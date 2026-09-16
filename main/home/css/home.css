@@ -210,6 +210,13 @@
   margin-bottom: 8px;
 }
 
+button#theme-toggle {
+    position: fixed;
+    top: 100px;
+    margin: 15px 0px;
+    z-index: 10001;
+}
+
 .theme-bar .container {
   display: flex;
   justify-content: flex-end;
