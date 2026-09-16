@@ -7,12 +7,24 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#0b0b0d" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="format-detection" content="telephone=no, address=no, email=no" />
+    <meta name="format-detection" content="telephone=no, address=no, email=no"/>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <!-- Favicon e Ícones de Aplicação -->
     <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" />
+
+    <!-- Header -->
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Olá Fulano' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = 'Sua área' // Subtítulo
+            document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+        });
+    </script>
 
     <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
     <script>
@@ -54,64 +66,15 @@
               </div>
               <span class="app-header-brand-name">KeeperHub</span>
             </a>
-
-            <!-- AÇÕES À DIREITA: SINO DISCRETO -->
-            <div class="app-header-controls">
-              <button
-                type="button"
-                class="btn-app-notification-compact"
-                id="btn-app-notifications"
-                aria-label="Notificações"
-                title="Notificações"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
       </header>
-
-      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-      <div class="theme-bar" id="theme-bar">
-        <div class="app-container">
-          <button
-            type="button"
-            class="btn-theme-toggle"
-            id="theme-toggle"
-            aria-label="Ativar tema claro"
-            title="Ativar tema claro"
-          >
-            <img
-              src="../../shared/img/icon-theme-sun.png"
-              alt=""
-              aria-hidden="true"
-              class="theme-icon theme-icon-sun"
-              width="20"
-              height="20"
-            />
-            <img
-              src="../../shared/img/icon-theme-moon.png"
-              alt=""
-              aria-hidden="true"
-              class="theme-icon theme-icon-moon"
-              width="20"
-              height="20"
-            />
-          </button>
-        </div>
-      </div>
 
       <!-- CONTEÚDO PRINCIPAL / RESUMO DIÁRIO -->
       <main class="app-main" id="main-content">
         <div class="app-container">
           <!-- SEÇÃO DE SAUDAÇÃO -->
-          <section class="app-greeting-section" id="greeting-section" aria-labelledby="greeting-title">
-            <h1 class="app-greeting-title" id="greeting-title">Olá, Fulano</h1>
-            <p class="app-greeting-subtitle">Seu resumo diário.</p>
-          </section>
+          <section class="section-header-section" id="headerSection"></section>
 
           <!-- CARDS DOS 5 MÓDULOS -->
           <section class="app-modules-stack" id="modules-stack" aria-label="Resumo dos Módulos">
