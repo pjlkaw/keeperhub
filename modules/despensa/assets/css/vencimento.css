@@ -435,6 +435,80 @@ body {
     color: #777777;
 }
 
+/* ==================================================
+1. NAVEGAÇÃO HORIZONTAL ENTRE MÓDULOS
+================================================== */
+.modules-nav-wrapper {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.modules-nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.modules-nav-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.modules-nav-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    /* 13px */
+    font-weight: 500;
+    color: #9ca3af;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
+    user-select: none;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.modules-nav-item.active {
+    background-color: var(--color-meds-bg-tint);
+    border-color: var(--color-meds-border-tint);
+    color: var(--color-meds-primary);
+    font-weight: 700;
+}
+
+.modules-nav-item-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    display: block;
+}
+
+[data-theme="light"] .modules-nav-item {
+    color: #6b7280;
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+}
+
+[data-theme="light"] .modules-nav-item.active {
+    background-color: rgba(112, 222, 1, 0.12);
+    border-color: rgba(112, 222, 1, 0.5);
+    color: #4da500;
+}
+
+
+
 
 /* =========================
    CONTROLE DE QUANTIDADE
@@ -534,75 +608,16 @@ body {
 
 
 
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 380px) {
-
-  .menu-item {
-    padding: 0 9px;
-  }
-
-  .product-name-row {
-    gap: 4px;
-  }
-
-  .product-name-row strong {
-    font-size: 13px;
-  }
-
-  .status {
-    font-size: 8px;
-    padding: 3px 5px;
-  }
-
-  .quantity-control {
-    min-width: 75px;
-  }
-}
-
-a {
-  text-decoration: none;
-}
-
 /* =========================
    RESPONSIVIDADE
 ========================= */
 
-@media (max-width: 360px) {
-
-  .app {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-
-
-  .header h1 {
-    font-size: 19px;
-  }
-
-
-  .subtitulo {
-    margin-left: 14px;
-  }
-
-
-  .total-card,
-  .economia-card,
-  .rota-card {
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-
-
-  .precos {
-    gap: 6px;
-  }
-
-
-  .preco {
-    padding: 8px;
-  }
-
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
 }

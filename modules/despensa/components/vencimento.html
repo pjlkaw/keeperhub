@@ -4,50 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vencimentos</title>
+    <title>Despensa • KeeperHub</title>
 
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/assets/css/vencimento.css">
-</head>
+    
+     <!-- Header compartilhado -->
+        <script src="../../shared/services/theme.js"></script>
 
+        <script>
+            fetch('../../shared/components/header-page.html').then(response => response.text()).then(data => {
+                document.getElementById('headerSection').innerHTML = data;
+                document.getElementById('pageNameH1').textContent ='Despensa' //Nome da Página
+                document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
+                document.getElementById('btn-back-header').href = '/main/hub/' // Botão voltar
+            });
+        </script>
+
+</head>
 <body>
 
-    <main class="app">
-
-         <nav class="top-menu">
-
-      <button class="menu-item" onclick="irPara('financas')">
-        <span class="menu-icon orange">◔</span>
+        <!-- CABEÇALHO DO MÓDULO -->
+<header>
+ <div class="app-page-wrapper">
+            <div class="app-container">
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+         <div class="modules-nav-bar" role="tablist"></div>
+            
+        <div class="modules-nav-bar" role="tablist">
+    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Finanças
-      </button>
-
-      <button class="menu-item active">
-        <span class="menu-icon">♔</span>
+    </a>
+    <a href="/modules/despensa/index.html" data-module="despensa" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Despensa
-      </button>
-
-      <button class="menu-item" onclick="irPara('pets')">
-        <span class="menu-icon blue">♧</span>
+    </a>
+    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Pets
-      </button>
-
-      <button class="menu-item" onclick="irPara('metas')">
-        <span class="menu-icon yellow">⚑</span>
+    </a>
+    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Metas
-      </button>
-
-      <button class="menu-item" onclick="irPara('configuracoes')">
-        <span class="menu-icon green">♙</span>
-      </button>
-
-    </nav>
-
-
-        <!-- CABEÇALHO -->
-        <header class="header">
-            <a id="voltar" href="inicio.html">
-            <button class="back">‹</button>
-            </a>
-            <h1>Vencimentos</h1>
+    </a>
+    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
+        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Medicamentos
+    </a>
+</div>
 
 
         </header>
