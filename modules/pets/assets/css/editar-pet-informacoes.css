@@ -119,7 +119,7 @@
   width: min(100%, 688px);
   min-height: 18px;
   margin: 6px auto 0;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   font-size: 12px;
   text-align: center;
 }

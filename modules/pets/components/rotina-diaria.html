@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Rotina Diária</title>
     <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png">
-    <link rel="stylesheet" href="../../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/rotina-diaria.css">
@@ -24,7 +24,7 @@
             <h1 class="cabecalho-pagina__titulo">Rotina Diária</h1>
         </header>
 
-        <section class="rotina-diaria__hoje" aria-labelledby="hoje-heading">
+        <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading">
             <h2 id="hoje-heading">Hoje</h2>
 
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
@@ -54,12 +54,12 @@
             <a href="cadastrar-rotina.html" data-manter-pet class="link-editar">Editar</a>
         </section>
 
-        <section class="higiene-bem-estar" aria-labelledby="higiene-heading">
+        <section class="card higiene-bem-estar" aria-labelledby="higiene-heading">
             <h2 id="higiene-heading">Higiene e Bem-estar</h2>
 
             <ul>
                 <li>
-                    <article class="cartao-higiene">
+                    <article class="card cartao-higiene">
                         <span class="icone" aria-hidden="true"></span>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Banho</h3>
@@ -70,7 +70,7 @@
                 </li>
 
                 <li>
-                    <article class="cartao-higiene">
+                    <article class="card cartao-higiene">
                         <span class="icone" aria-hidden="true"></span>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Corte de Unhas</h3>
@@ -84,7 +84,7 @@
             <a href="cadastrar-rotina.html#higiene-heading" data-manter-pet class="link-editar">Editar</a>
         </section>
 
-        <section class="rotina-alimentar" aria-labelledby="rotina-alimentar-heading">
+        <section class="card rotina-alimentar" aria-labelledby="rotina-alimentar-heading">
             <header class="rotina-alimentar__cabecalho">
                 <h2 id="rotina-alimentar-heading">Rotina Alimentar</h2>
                 <a href="editar-pet-rotina-alimentar.html?origem=rotina-diaria" class="link-editar" data-manter-pet>Editar refeições</a>
@@ -93,19 +93,19 @@
                  A integração futura deverá preencher esta lista com os dados do pet. -->
             <ul class="rotina-alimentar__lista" id="resumo-refeicoes">
                 <li>
-                    <article class="cartao-refeicao">
+                    <article class="card cartao-refeicao">
                         <h3 class="cartao-refeicao__titulo">Café da manhã</h3>
                         <time class="cartao-refeicao__horario" datetime="08:00">08:00</time>
                     </article>
                 </li>
                 <li>
-                    <article class="cartao-refeicao">
+                    <article class="card cartao-refeicao">
                         <h3 class="cartao-refeicao__titulo">Almoço</h3>
                         <time class="cartao-refeicao__horario" datetime="13:00">13:00</time>
                     </article>
                 </li>
                 <li>
-                    <article class="cartao-refeicao">
+                    <article class="card cartao-refeicao">
                         <h3 class="cartao-refeicao__titulo">Jantar</h3>
                         <time class="cartao-refeicao__horario" datetime="19:00">19:00</time>
                     </article>
@@ -115,7 +115,7 @@
             <p class="rotina-alimentar__observacoes" id="resumo-refeicoes-observacoes" hidden></p>
         </section>
 
-        <section class="anotacoes-comportamento" aria-labelledby="notas-heading">
+        <section class="card anotacoes-comportamento" aria-labelledby="notas-heading">
             <h2 id="notas-heading">Notas de Comportamento</h2>
 
             <form class="anotacoes-comportamento__formulario">
@@ -128,7 +128,7 @@
 
             <ul class="anotacoes-comportamento__lista">
                 <li>
-                    <article class="anotacao-comportamento">
+                    <article class="card anotacao-comportamento">
                         <p class="anotacao-comportamento__texto">Puxando menos a guia no passeio de hoje de manhã.</p>
                         <p class="anotacao-comportamento__data-hora">Ontem, 10:15</p>
                     </article>
@@ -147,7 +147,7 @@
 
     <template id="modelo-refeicao-resumo">
         <li>
-            <article class="cartao-refeicao">
+            <article class="card cartao-refeicao">
                 <h3 class="cartao-refeicao__titulo"></h3>
                 <time class="cartao-refeicao__horario"></time>
             </article>

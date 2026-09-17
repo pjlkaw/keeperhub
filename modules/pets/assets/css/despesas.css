@@ -36,7 +36,7 @@
   height: 44px;
   place-items: center;
   padding: 0;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: transparent;
   border: 0;
   border-radius: 50%;
@@ -129,7 +129,7 @@
 }
 
 .resumo-despesas__livre strong {
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
 }
 
 .resumo-despesas__progresso {
@@ -139,7 +139,7 @@
   margin: 8px 0 12px;
   overflow: hidden;
   appearance: none;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-surface-raised);
   border: 0;
   border-radius: var(--pets-radius-pill);
@@ -309,12 +309,12 @@
 }
 
 .lancamento--programado .lancamento__detalhes {
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
 }
 
 .lancamento__etiqueta {
   padding: 4px 8px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border: 1px solid var(--pets-primary-border);
   border-radius: var(--pets-radius-pill);

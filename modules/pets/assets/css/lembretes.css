@@ -43,7 +43,7 @@
   width: 34px;
   height: 34px;
   place-items: center;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border: 1px solid var(--pets-primary-border);
   border-radius: 50%;
@@ -64,7 +64,7 @@
 .contador-ativos {
   margin-left: auto;
   padding: 7px 10px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border-radius: var(--pets-radius-pill);
   font-size: 12px;
@@ -93,14 +93,14 @@
 }
 
 .titulo-secao a {
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   font-size: 12px;
   white-space: nowrap;
 }
 
 .badge-texto {
   padding: 4px 8px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border-radius: var(--pets-radius-sm);
   font-size: 11px;
@@ -122,7 +122,7 @@
 .criar-lembrete input,
 .criar-lembrete select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   padding: 10px;
   color: var(--pets-text);
   background: var(--pets-control-bg);
@@ -148,7 +148,7 @@
 }
 
 .botao-principal {
-  min-height: 42px;
+  min-height: 44px;
   margin-top: 2px;
   border: 0;
   border-radius: var(--pets-radius-pill);
@@ -189,7 +189,7 @@
 .filtro-lembrete.ativo,
 .filtro-lembrete:hover {
   color: var(--pets-on-primary);
-  background: var(--pets-primary);
+  background: var(--pets-primary-fill);
   border-color: var(--pets-primary);
 }
 
@@ -273,7 +273,7 @@
   display: inline-block;
   margin-top: 5px;
   padding: 3px 6px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border-radius: 4px;
   font-size: 10px;
@@ -329,7 +329,7 @@
 .chip-data {
   flex: 0 0 auto;
   padding: 4px 7px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border-radius: 4px;
   font-size: 10px;

@@ -136,7 +136,7 @@
 }
 
 .etiqueta-status {
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   font-size: 10px;
   text-align: right;
 }
