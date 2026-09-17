@@ -8,11 +8,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
         <!-- Estilos Estruturais e Compartilhados -->
-        <link rel="stylesheet" href="../../shared/styles/variables.css">
-        <link rel="stylesheet" href="../../shared/styles/reset.css">
-        <link rel="stylesheet" href="../../shared/styles/components.css">
-        <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
-        <link rel="stylesheet" href="../../shared/styles/header-page.css">
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
+        <link rel="stylesheet" href="/shared/styles/components.css">
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css"> 
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <link rel="stylesheet" href="/shared/styles/interface.css">
 
         <!-- Essentials -->
         <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
@@ -25,7 +26,7 @@
         
         <!-- Navbar -->
         <script>
-            fetch('../../shared/components/navbar-section.html')
+            fetch('/shared/components/navbar-section.html')
                 .then(response => response.text())
                 .then(data => {
                     const nav = document.getElementById('modules-nav-wrapper');
@@ -39,10 +40,10 @@
         </script>
 
         <!-- Header compartilhado -->
-        <script src="../../shared/services/theme.js"></script>
+        <script src="/shared/services/theme.js"></script>
 
         <script>
-            fetch('../../shared/components/header-page.html').then(response => response.text()).then(data => {
+            fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
                 document.getElementById('headerSection').innerHTML = data;
                 document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
                 document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
@@ -50,8 +51,11 @@
             });
         </script>
 
+        <script src="/shared/services/interface.js"></script>
     </head>
     <body>
+        <section id="alertFromShared" class="alert"></section>
+        
         <div class="app-page-wrapper">
             <div class="app-container">
 
