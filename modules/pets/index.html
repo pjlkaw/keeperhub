@@ -7,8 +7,8 @@
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="../../shared/img/logo-pets.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../shared/styles/components.css" />
     <link rel="stylesheet" href="../../shared/styles/navbar-modules.css" />
     <link rel="stylesheet" href="../../shared/styles/header-page.css" />
@@ -87,7 +87,7 @@
       <ul class="lista-pets">
         <li>
           <article class="bloco-pet">
-            <section class="cartao-resumo-pet">
+            <section class="card cartao-resumo-pet">
               <figure class="cartao-resumo-pet__foto">
                 <img
                   src="../../shared/img/logo-pets.png"
@@ -119,7 +119,7 @@
               </a>
             </section>
 
-            <a href="components/cadastrar-pet.html" class="cartao-adicionar-pet">
+            <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
               <span class="icone" aria-hidden="true"></span>
               Adicionar novo pet
             </a>
@@ -127,42 +127,42 @@
             <section class="acoes-rapidas-pet" aria-label="Ações rápidas de Luna">
               <ul>
                 <li>
-                  <a href="components/vacinacoes.html" class="acao-rapida acao-rapida--vacina">
+                  <a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Vacinas</span>
                     <span class="acao-rapida__status">1 pendente</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/consultas-exames.html" class="acao-rapida acao-rapida--consulta">
+                  <a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Consultas</span>
                     <span class="acao-rapida__status">Check-up em Nov</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/medicacoes.html" class="acao-rapida acao-rapida--medicacao">
+                  <a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Medicamentos</span>
                     <span class="acao-rapida__status">Simparic hoje</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/rotina-diaria.html" class="acao-rapida acao-rapida--rotina">
+                  <a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Rotina</span>
                     <span class="acao-rapida__status">Consultar</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/despesas.html" class="acao-rapida acao-rapida--despesas" aria-label="Despesas de Luna: R$ 420 por mês" data-manter-pet>
+                  <a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas" aria-label="Despesas de Luna: R$ 420 por mês" data-manter-pet>
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Despesas</span>
                     <span class="acao-rapida__status">R$ 420 / mês</span>
                   </a>
                 </li>
                 <li>
-                  <a href="components/lembretes.html" class="acao-rapida acao-rapida--lembretes" aria-label="Personalizar lembretes de Luna" data-manter-pet>
+                  <a href="components/lembretes.html" class="card card--interactive acao-rapida acao-rapida--lembretes" aria-label="Personalizar lembretes de Luna" data-manter-pet>
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Lembretes</span>
                     <span class="acao-rapida__status">Personalizar</span>
@@ -181,7 +181,7 @@
 
         <ul>
           <li>
-            <article class="cartao-alerta cartao-alerta--medicacao">
+            <article class="card cartao-alerta cartao-alerta--medicacao">
               <span class="icone" aria-hidden="true"></span>
               <div class="cartao-alerta__informacoes">
                 <h3 class="cartao-alerta__titulo">Simparic (Antipulgas)</h3>
@@ -198,7 +198,7 @@
           </li>
 
           <li>
-            <article class="cartao-alerta cartao-alerta--vacina">
+            <article class="card cartao-alerta cartao-alerta--vacina">
               <span class="icone" aria-hidden="true"></span>
               <div class="cartao-alerta__informacoes">
                 <h3 class="cartao-alerta__titulo">Vacina V10</h3>
@@ -219,6 +219,6 @@
     </div>
 
     <script src="../../shared/services/theme.js"></script>
-    <script src="js/index.js" defer></script>
+    <!-- Integração futura: js/index.js (arquivo ainda não implementado). -->
   </body>
 </html>

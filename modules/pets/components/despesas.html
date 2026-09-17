@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#0b0b0d" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="../../../shared/img/logo-pets.png" />
-    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../../shared/styles/components.css" />
     <link rel="stylesheet" href="../assets/css/style-pets.css" />
     <link rel="stylesheet" href="../assets/css/despesas.css" />
@@ -25,7 +25,7 @@
 
       <!-- Dados de demonstração da referência. Integração futura: despesas-integracao.md. -->
       <div class="despesas-conteudo">
-        <section class="resumo-despesas" aria-labelledby="resumo-despesas-heading">
+        <section class="card resumo-despesas" aria-labelledby="resumo-despesas-heading">
           <nav class="resumo-despesas__mes" aria-label="Mês das despesas">
             <button class="despesas-navegar" type="button" aria-label="Mês anterior" title="Troca de mês disponível após integração" data-acao="mes-anterior" disabled><span aria-hidden="true">‹</span></button>
             <time datetime="2024-10"><span>Outubro</span><span>2024</span></time>
@@ -54,7 +54,7 @@
           </header>
           <ul class="categorias-despesas">
             <li>
-              <a class="categoria-despesa" href="#despesas-alimentacao">
+              <a class="card card--interactive categoria-despesa" href="#despesas-alimentacao">
                 <span class="despesa-icone"><img src="../assets/img/alimentacao-despesas-pets.png" width="16" height="16" alt="" /></span>
                 <span class="categoria-despesa__percentual">40,5%</span>
                 <span class="categoria-despesa__nome">Alimentação</span>
@@ -62,7 +62,7 @@
               </a>
             </li>
             <li>
-              <a class="categoria-despesa" href="#despesas-saude">
+              <a class="card card--interactive categoria-despesa" href="#despesas-saude">
                 <span class="despesa-icone"><img src="../assets/img/saude-despesas-pets.png" width="16" height="16" alt="" /></span>
                 <span class="categoria-despesa__percentual">35,7%</span>
                 <span class="categoria-despesa__nome">Saúde</span>
@@ -70,7 +70,7 @@
               </a>
             </li>
             <li>
-              <a class="categoria-despesa" href="#despesas-higiene">
+              <a class="card card--interactive categoria-despesa" href="#despesas-higiene">
                 <span class="despesa-icone"><img src="../assets/img/higiene-despesas-pets.png" width="16" height="16" alt="" /></span>
                 <span class="categoria-despesa__percentual">16,7%</span>
                 <span class="categoria-despesa__nome">Higiene</span>
@@ -78,7 +78,7 @@
               </a>
             </li>
             <li>
-              <a class="categoria-despesa" href="#despesas-lazer">
+              <a class="card card--interactive categoria-despesa" href="#despesas-lazer">
                 <span class="despesa-icone"><img src="../assets/img/lazer-despesas-pets.png" width="16" height="16" alt="" /></span>
                 <span class="categoria-despesa__percentual">7,1%</span>
                 <span class="categoria-despesa__nome">Lazer</span>
@@ -99,7 +99,7 @@
               <h3 id="alimentacao-heading"><img src="../assets/img/alimentacao-despesas-pets.png" width="14" height="14" alt="" />Alimentação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="170.00">R$ 170,00</data></p>
             </header>
-            <ul class="lista-lancamentos">
+            <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="alimentacao">
                   <span class="despesa-icone lancamento__icone"><img src="../assets/img/racao-despesas-pets.png" width="16" height="16" alt="" /></span>
@@ -127,7 +127,7 @@
               <h3 id="higiene-heading"><img src="../assets/img/higiene-despesas-pets.png" width="14" height="14" alt="" />Higiene e Estética</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="70.00">R$ 70,00</data></p>
             </header>
-            <ul class="lista-lancamentos">
+            <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="higiene">
                   <span class="despesa-icone lancamento__icone"><img src="../assets/img/banho-despesas-pets.png" width="16" height="16" alt="" /></span>
@@ -145,7 +145,7 @@
               <h3 id="lazer-heading"><img src="../assets/img/lazer-despesas-pets.png" width="14" height="14" alt="" />Lazer e Recreação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="30.00">R$ 30,00</data></p>
             </header>
-            <ul class="lista-lancamentos">
+            <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="lazer">
                   <span class="despesa-icone lancamento__icone"><img src="../assets/img/brinquedo-despesas-pets.png" width="16" height="16" alt="" /></span>
@@ -163,7 +163,7 @@
               <h3 id="saude-heading"><img src="../assets/img/saude-despesas-pets.png" width="14" height="14" alt="" />Cuidados com a Saúde</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="150.00">R$ 150,00</data></p>
             </header>
-            <ul class="lista-lancamentos">
+            <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="saude">
                   <span class="despesa-icone lancamento__icone"><img src="../assets/img/antipulgas-despesas-pets.png" width="16" height="16" alt="" /></span>

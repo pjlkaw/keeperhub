@@ -8,7 +8,7 @@
 }
 
 .pagina-pets .modules-nav-item.active {
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background-color: var(--pets-primary-soft);
   border-color: var(--pets-primary-border);
 }
@@ -110,7 +110,7 @@
   gap: 6px;
   min-height: 22px;
   padding: 4px 9px;
-  color: var(--pets-text-soft);
+  color: var(--text-color);
   background: var(--pets-surface-raised);
   border-radius: var(--pets-radius-pill);
   font-size: 10px;
@@ -131,7 +131,7 @@
 
 .cartao-resumo-pet__editar {
   grid-area: edit;
-  min-height: 30px;
+  min-height: 44px;
   padding-block: 7px;
   justify-self: end;
   align-self: end;
@@ -257,7 +257,7 @@
   gap: 9px;
   min-height: 70px;
   padding: 18px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: color-mix(in srgb, var(--pets-primary) 4%, transparent);
   border: 1px dashed var(--pets-primary-border);
   border-radius: var(--pets-radius-md);
@@ -366,7 +366,7 @@
 .cartao-alerta__acao {
   width: 44px;
   height: 44px;
-  color: var(--pets-primary);
+  color: var(--pets-primary-readable);
   background: color-mix(in srgb, var(--pets-primary) 10%, transparent);
 }
 
