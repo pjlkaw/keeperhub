@@ -19,51 +19,34 @@
               rel="stylesheet">
         <script src="../../shared/services/theme.js"></script>
         <!-- Header compartilhado -->
-        <script>
-            fetch('../../shared/components/header-page.html').then(response => response.text()).then(data => {
-                document.getElementById('headerSection').innerHTML = data;
-                document.getElementById('pageNameH1').textContent ='Despensa' //Nome da Página
-                document.getElementById('pageSubtittleSpan').
-                document.getElementById('btn-back-header').href = '/main/hub/' // Botão voltar
-            });
-        </script>
-
-       
         
-        
+            
+<script>
+    fetch('/shared/components/navbar-section.html')
+        .then(response => response.text())
+        .then(data => {
+            const nav = document.getElementById('modules-nav-wrapper');
+            nav.innerHTML = data;
 
-      
+            const moduloAtual = nav.querySelector('[data-module="Despensa"]');
+            moduloAtual.classList.add('active');
+            moduloAtual.setAttribute('aria-selected', 'true');
+            moduloAtual.setAttribute('tabindex', '0');
+        });
+</script>
 
         
     </head>
     <body>
      
     <!-- NAV-BAR SUPERIOR -->
-    <div class="modules-nav-bar" role="tablist">
-    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Finanças
-    </a>
-    <a href="/modules/despensa/index2.html" data-module="despensa" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Despensa
-    </a>
-    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Pets
-    </a>
-    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Metas
-    </a>
-    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item" role="tab" aria-selected="false" tabindex="-1">
-        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Medicamentos
-    </a>
-</div>
+    <header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+    </header>
 
                 <!-- CABEÇALHO DO MÓDULO  -->
-                <header class="section-header-section" id="headerSection"></header>
+                <header 
+               class="section-header-section" id="headerSection"></header>
                 
                 <!-- CONTEÚDO PRINCIPAL DA HOME -->
                         <!-- SEÇÃO CONTROLE DE DESPENSA -->
