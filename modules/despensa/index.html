@@ -1,0 +1,131 @@
+
+<html lang="pt-BR" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Despensa • KeeperHub</title>
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <!-- Estilos Estruturais e Compartilhados -->
+        <link rel="stylesheet" href="../../shared/styles/variables.css">
+        <link rel="stylesheet" href="../../shared/styles/reset.css">
+        <link rel="stylesheet" href="../../shared/styles/components.css">
+        <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
+        <link rel="stylesheet" href="../../shared/styles/header-page.css">
+        <link rel="stylesheet" href="assets/css/index.css">
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
+              rel="stylesheet">
+        <script src="../../shared/services/theme.js"></script>
+        <!-- Header compartilhado -->
+        
+            
+<script>
+    fetch('/shared/components/navbar-section.html')
+        .then(response => response.text())
+        .then(data => {
+            const nav = document.getElementById('modules-nav-wrapper');
+            nav.innerHTML = data;
+
+            const moduloAtual = nav.querySelector('[data-module="Despensa"]');
+            moduloAtual.classList.add('active');
+            moduloAtual.setAttribute('aria-selected', 'true');
+            moduloAtual.setAttribute('tabindex', '0');
+        });
+</script>
+
+        
+    </head>
+    <body>
+     
+    <!-- NAV-BAR SUPERIOR -->
+    <header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+    </header>
+
+                <!-- CABEÇALHO DO MÓDULO  -->
+                <header 
+               class="section-header-section" id="headerSection"></header>
+                
+                <!-- CONTEÚDO PRINCIPAL DA HOME -->
+                        <!-- SEÇÃO CONTROLE DE DESPENSA -->
+
+                        
+                        <section aria-labelledby="section-delayed-title">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-delayed-title">Controle sua despensa</h2>
+                            
+                            </div>
+                             <div class="meds-delayed-content">
+                                    <div class="meds-card-delayed-header">
+                                        <span class="meds-delayed-name"></span>
+
+                                    </div>
+                                    <span class="meds-delayed-dose">
+                           
+
+                        <!-- Principal -->
+                          <main class="meds-main" id="main-content">
+                    <div class="meds-stack">
+                        <section aria-label="card">
+                                <!-- Produtos -->
+                                <a href="components/produtos.html" class="card card--interactive meds-shortcut-card" id="shortcut-medicacoes" aria-label="">
+                                    <div class="shortcut-icon-wrap" aria-hidden="true">
+                                        <i class="summary-icon box">▣</i> 
+                                    </div>
+                                    <span class="">Produtos</span>
+                                </a>
+                                
+
+                                <!-- Vencimento -->
+                                <div class="meds-shortcut-grid" tabindex="0">
+                                    <a href="" class="card card--interactive meds-shortcut-card" id="">
+                                        <div class="shortcut-icon-wrap" aria-hidden="true">
+                                            <i><section class="summary-icon clock">◷</i>
+                                        </div>
+                                        <span class="shortcut-tag">Proximo a vencer</span>
+                                        <span class="shortcut-value"></span>
+                                    </a>
+                                </div>
+                                 <section aria-label="">
+                                <!-- Quantidade -->
+                                <a href="" class="card card--interactive meds-shortcut-card" id="shortcut-medicacoes" aria-label="">
+                                    <div class="shortcut-icon-wrap" aria-hidden="true">
+                                        <i class="summary-icon box">▣</i> 
+                                    </div>
+                                    <span class="">Quantidade</span>
+
+                                </a>
+                                  <!-- Comparação de preços -->
+                              
+                                <a href="" class="card card--interactive meds-shortcut-card" id="shortcut-medicacoes" aria-label="">
+                                    <div class="shortcut-icon-wrap" aria-hidden="true">
+                                        <i class="summary-icon money">$</i> 
+                                    </div>
+                                    <span class="">Comparação de preços</span>
+
+                                </a>
+
+                            
+                                </div>
+                            </div>
+                        </section>
+                        </header>
+
+         <!-- Proximo do vencimento -->
+                        <section aria-labelledby="section-precos">
+                            <div class="section-header-row">
+                                <h2 class="meds-section-title" id="section-precos">Proximos a vencer </h2>
+                            </div>
+                               <!-- Botão flutuante -->
+                <a href="" class="btn-meds-fab" id="btn-meds-fab" aria-label="" title="">
+                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </div>
+        </div>
+
+
+        <!-- Scripts do módulo e componentes compartilhados -->
+        <script type="module" src="/modules/despensa/script.js"></script>
+    </body>
+</html>
