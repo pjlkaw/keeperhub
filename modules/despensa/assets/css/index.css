@@ -289,12 +289,6 @@
     line-height: 1.2;
 }
 
-.meds-delayed-dose {
-    font-size: 0.875rem;
-    /* 14px */
-    color: var(--text-muted);
-    font-weight: 500;
-}
 
 .meds-header-badge {
     display: inline-flex;
