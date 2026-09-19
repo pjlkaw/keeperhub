@@ -18,8 +18,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap"
               rel="stylesheet">
         <script src="../../shared/services/theme.js"></script>
+
         <!-- Header compartilhado -->
-        
             
 <script>
     fetch('/shared/components/navbar-section.html')
@@ -34,7 +34,15 @@
             moduloAtual.setAttribute('tabindex', '0');
         });
 </script>
-
+         
+    <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Despensa' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = 'Controle sua despensa' // Subtítulo
+            document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+        });
+    </script>
         
     </head>
     <body>
@@ -44,17 +52,15 @@
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
     </header>
 
-                <!-- CABEÇALHO DO MÓDULO  -->
-                <header 
-               class="section-header-section" id="headerSection"></header>
-                
-                <!-- CONTEÚDO PRINCIPAL DA HOME -->
+    <!-- TITÚLO DA PÁGINA + TEMA + BOTÃO VOLTAR -->
+                <header class="section-header-section" id="headerSection"></header>
+   
                         <!-- SEÇÃO CONTROLE DE DESPENSA -->
 
                         
                         <section aria-labelledby="section-delayed-title">
                             <div class="section-header-row">
-                                <h2 class="meds-section-title" id="section-delayed-title">Controle sua despensa</h2>
+                                <h2 class="meds-section-title" id="section-delayed-title">Resumo</h2>
                             
                             </div>
                              <div class="meds-delayed-content">
