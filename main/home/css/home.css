@@ -136,11 +136,15 @@
   padding: 6px 6px;
   font-size: 0.8125rem; /* 13px */
   font-weight: 500;
-  color: var(--text-secondary);
+  width: 40px;
+  color: var(--text-color);
   white-space: nowrap;
   line-height: 1;
   text-decoration: none;
   transition: color 0.15s ease;
+  border-radius: 50%;
+  background-color: var(--border-card);
+  border: 1px solid var(--color-border-card);
 }
 
 .btn-login:hover {
