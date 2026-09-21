@@ -1,104 +1,125 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="/assets/css/cadastrar.css">
-
-
-<title>Novo produto</title>
-
-</head>
-
-<body>
-
-  <main class="page">
-
-    <section class="content">
-  
-      <header class="header">
-        <a href="inicio.html">
-        <button class="back-button" onclick="voltar()">‹</button>
-        </a>
-        
-        <div class="title">Novo produto</div>
-       
-        <div class="bell">
-          <span class="notification-dot"></span>
+<html lang="pt-BR" data-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Novo produto — KeeperHub
+        </title>
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
+        <link rel="stylesheet" href="/shared/styles/components.css">
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <link rel="stylesheet" href="/shared/styles/interface.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
+        <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
+        <link rel="stylesheet" href="/modules/despensa/assets/css/cadastrar.css">
+        <script src="/shared/services/theme.js" defer>
+        </script>
+        <script type="module" src="/modules/despensa/script.js">
+        </script>
+    </head>
+    <body class="despensa" data-pagina="cadastrar">
+        <section id="alertFromShared" class="alert" role="status" aria-live="polite">
+        </section>
+        <div class="despensa-shell">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
+                <a href="/main/hub/index.html">
+                    Voltar ao Hub
+                </a>
+            </nav>
+            <header class="section-header-section" id="headerSection">
+                <div class="section-header-title-area">
+                    <div class="section-header-top-row">
+                        <a href="/modules/despensa/index.html" aria-label="Voltar" class="section-header-back-btn" id="btn-back-header">
+                            <span aria-hidden="true">
+                                ‹
+                            </span>
+                        </a>
+                        <h1 id="pageNameH1" class="section-header-title">
+                            Novo produto
+                        </h1>
+                    </div>
+                    <div class="section-header-meta">
+                        <span id="pageSubtittleSpan">
+                            Cadastre os itens da sua despensa
+                        </span>
+                    </div>
+                </div>
+                <div class="section-header-controls">
+                    <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Alternar tema" title="Alternar tema" data-theme-bound="true">
+                        <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
+                        <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
+                    </button>
+                </div>
+            </header>
+            <main class="despensa-conteudo" id="main-content">
+                <section class="photo-box" aria-label="Prévia do produto">
+                    <label for="fileInput" class="upload-btn">
+                        Escolher imagem
+                    </label>
+                    <input type="file" id="fileInput" name="imagem" accept="image/*">
+                    <img id="preview" alt="Pré-visualização do produto" hidden>
+                </section>
+                <form id="form-produto" class="card">
+                    <p id="erro-cadastro" role="alert" hidden>
+                    </p>
+                    <label for="nome">
+                        Nome do produto
+                    </label>
+                    <input id="nome" name="nome" type="text" required>
+                    <label for="categoria">
+                        Categoria
+                    </label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="">
+                            Selecione
+                        </option>
+                        <option value="Alimentos">
+                            Alimentos
+                        </option>
+                        <option value="Bebidas">
+                            Bebidas
+                        </option>
+                        <option value="Higiene">
+                            Higiene
+                        </option>
+                    </select>
+                    <label for="quantidade">
+                        Quantidade
+                    </label>
+                    <input id="quantidade" name="quantidade" type="number" min="1" value="1" required >
+                    <label for="unidade">
+                        Unidade
+                    </label>
+                    <select id="unidade" name="unidade" required>
+                        <option value="unidade">
+                            Unidade
+                        </option>
+                        <option value="kg">
+                            kg
+                        </option>
+                        <option value="g">
+                            g
+                        </option>
+                        <option value="litro">
+                            Litro
+                        </option>
+                    </select>
+                    <label for="validade">
+                        Data de validade (opcional)
+                    </label>
+                    <input id="validade" name="validade" type="date">
+                    <label for="marca">
+                        Marca (opcional)
+                    </label>
+                    <input id="marca" name="marca" type="text">
+                    <button id="salvar" type="submit">
+                        SALVAR PRODUTO
+                    </button>
+                </form>
+            </main>
         </div>
-      </header>
-
-    
-
-      <div class="photo-box">
-        <div class="camera"></div>
-        <div class="photo-text">Adicionar foto</div>
-      </div>
-
-<!-- Formulário de upload -->
-<form action="upload.php" method="post" enctype="multipart/form-data">
-    <!-- Input escondido -->
-    <input type="file" id="fileInput" name="imagem" accept="image/*" style="display:none" required>
-
-    <!-- Botão estilizado -->
-    <label for="fileInput" class="upload-btn">Escolher Imagem</label>
-
-    <!-- Preview -->
-    <br>
-    <img id="preview" alt="Pré-visualização">
-
-    <br><br>
-
-
-    
-</form>
-
-
-
-      <form id="form-produto">
-  <label for="nome">Nome do produto</label>
-  <input id="nome" name="nome" type="text" required>
-
-  <label for="categoria">Categoria</label>
-  <select id="categoria" name="categoria" required>
-    <option value="">Selecione</option>
-    <option value="Alimentos">Alimentos</option>
-    <option value="Bebidas">Bebidas</option>
-    <option value="Higiene">Higiene</option>
-  </select>
-
-  <label for="quantidade">Quantidade</label>
-  <input
-    id="quantidade"
-    name="quantidade"
-    type="number"
-    min="1"
-    value="1"
-    required
-  >
-
-  <label for="unidade">Unidade</label>
-  <select id="unidade" name="unidade" required>
-    <option value="unidade">Unidade</option>
-    <option value="kg">kg</option>
-    <option value="g">g</option>
-    <option value="litro">Litro</option>
-  </select>
-
-  <label for="validade">Data de validade (opcional)</label>
-  <input id="validade" name="validade" type="date">
-
-  <label for="marca">Marca (opcional)</label>
-  <input id="marca" name="marca" type="text">
-
-  <button id="salvar" type="submit">SALVAR PRODUTO</button>
-</form>
-
-  </main>
-
-  <!--Link para o arquivo cadastrar.js-->
-  
-<script type="text/javascript" src="/js/cadastrar.js"></script>
-
-</body>
+    </body>
 </html>
