@@ -1,0 +1,6 @@
+colocar as logos de shared 
+arrumar os arquivos duplicados e seguir a padronização do git 
+arrumar os ícones e seguir o padrão dos ícones dos outros módulos
+arrumar a cor do batao de concluir da parte das metas
+colocar a tela de cadastro de novo evento
+
