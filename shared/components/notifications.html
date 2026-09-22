@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="/shared/services/theme.js"></script>
 
+    <!-- Script para funcionamento de filtros -->
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const modulo = new URLSearchParams(window.location.search).get('modulo');
@@ -34,17 +35,18 @@
             document.getElementById('btn-back-header').href = paginaAnterior;
             document.getElementById('btn-notifications').href = nomeModulo ? 
             `/shared/components/notifications.html?modulo=${modulo}` : '/shared/components/notifications.html';
+            document.getElementById('btn-notifications').style.display = "none"
+
         });
     </script>
 </head>
 <body>
+    <!-- Header Variável ================================================ -->
     <header class="section-header-section" id="headerSection"></header>
-
-    <main aria-labelledby="notifications-title">
-        <section aria-labelledby="notifications-list-title">
-            <h2 id="notifications-list-title">Avisos</h2>
-            <p id="notifications-empty-state">Nenhuma notificação encontrada.</p>
-        </section>
-    </main>
+    <section aria-labelledby="notifications-list-title">
+        <h2 id="notifications-list-title">Avisos</h2>
+        <p id="notifications-empty-state">Nenhuma notificação encontrada.</p>
+    </section>
+    <!-- ================================================================ -->
 </body>
 </html>
