@@ -1,0 +1,135 @@
+/* Base exclusiva da Despensa; os tokens globais vêm de shared/styles. */
+.despensa {
+    --despensa-destaque: var(--tool-despensa);
+    --despensa-texto-destaque: color-mix(in srgb, var(--tool-despensa) 55%, var(--text-color));
+    --despensa-fundo-destaque: color-mix(in srgb, var(--tool-despensa) 14%, var(--card-bg));
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+.despensa-shell {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 16px 16px 88px;
+}
+.despensa-conteudo {
+    display: grid;
+    gap: 24px;
+}
+.despensa [hidden] {
+    display: none !important;
+}
+.despensa h2 {
+    font-size: 1.125rem;
+    margin-bottom: 16px;
+}
+.despensa a {
+    text-decoration: none;
+}
+.despensa button, .despensa input, .despensa select, .despensa .modules-nav-item, .despensa .section-header-back-btn, .despensa .btn-theme-toggle {
+    min-width: 44px;
+    min-height: 44px;
+}
+.despensa input:focus, .despensa select:focus {
+    border-color: var(--despensa-destaque);
+    box-shadow: none;
+}
+.despensa :focus-visible {
+    outline: 2px solid var(--despensa-texto-destaque);
+    outline-offset: 3px;
+}
+.despensa .section-header-section {
+    margin-bottom: 24px;
+    gap: 16px;
+}
+.despensa .section-header-title {
+    color: var(--text-color);
+}
+.despensa .section-header-meta {
+    color: var(--text-muted);
+}
+.despensa .section-header-back-btn {
+    font-size: 24px;
+}
+.despensa .section-header-back-btn, .despensa .btn-theme-toggle, .despensa .modules-nav-item {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+.despensa .modules-nav-item.active, .despensa .card--interactive:hover {
+    background: var(--despensa-fundo-destaque);
+    border-color: var(--despensa-destaque);
+    color: var(--text-color);
+}
+.despensa .floating-button {
+    position: fixed;
+    right: max(16px, calc((100vw - 480px) / 2 + 16px));
+    bottom: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    z-index: 10;
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    border: 2px solid var(--despensa-destaque);
+    font-size: 28px;
+}
+.despensa .card {
+    border-radius: 12px;
+}
+.despensa svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+.despensa .filter, .despensa .filtro {
+    flex-shrink: 0;
+}
+.despensa .filter.active, .despensa .filtro.ativo {
+    background: var(--despensa-fundo-destaque);
+    border-color: var(--despensa-destaque);
+    color: var(--text-color);
+}
+.despensa .filters, .despensa .filtros {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px;
+}
+.despensa .produto, .despensa .product-card {
+    min-width: 0;
+}
+.despensa .product-name-row strong, .despensa .produto h3 {
+    overflow-wrap: anywhere;
+}
+/* Cores semânticas locais para preservar os avisos de validade. */
+.despensa {
+    --despensa-perigo: #b91c1c;
+    --despensa-sucesso: #166534;
+}
+[data-theme="dark"] .despensa {
+    --despensa-perigo: #fca5a5;
+    --despensa-sucesso: #86efac;
+}
+.despensa .warning-red, .despensa .vencido {
+    border-left-color: var(--despensa-perigo);
+}
+.despensa .stock-ok {
+    border-left-color: var(--despensa-sucesso);
+}
+.despensa .status.danger, .despensa .vencido-status, .despensa .vermelho {
+    color: var(--despensa-perigo);
+    border-color: var(--despensa-perigo);
+}
+.despensa .status.success {
+    color: var(--despensa-sucesso);
+    border-color: var(--despensa-sucesso);
+}
+
+.despensa #main-content input {
+    min-height: 44px;
+}
