@@ -10,6 +10,8 @@
             document.getElementById('pageNameH1').textContent ='Módulo' //Nome da Página
             document.getElementById('pageSubtittleSpan').textContent = 'Subtítulo' // Subtítulo
             document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
+            document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=nome-do-modulo'
         });
     </script>
 -->
@@ -29,8 +31,12 @@
 </div>
 <div class="section-header-controls">
     <!-- Alternador de Tema (Quadrado Arredondado - Dark=Lua, Light=Sol) -->
-    <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
+    <button type="button" class="btn-header" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" data-theme-bound="true">
         <img src="/shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
         <img src="/shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
     </button>
+    <!-- Módulo de Notificações -->
+    <a href="/shared/components/notifications.html" type="button" class="btn-header" id="btn-notifications" aria-label="Notificações" title="Notificações">
+        <i class="fa-solid fa-bell"></i>
+    </a>
 </div>

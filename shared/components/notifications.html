@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações | KeeperHub</title>
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="/shared/services/theme.js"></script>
+
+    <!-- Script para funcionamento de filtros -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const modulo = new URLSearchParams(window.location.search).get('modulo');
+            const nomesModulos = {
+                despensa: 'Despensa',
+                financas: 'Finanças',
+                medicamentos: 'Medicamentos',
+                metas: 'Metas',
+                pets: 'Pets',
+            };
+            const nomeModulo = nomesModulos[modulo];
+            const paginaAnterior = nomeModulo ? `/modules/${modulo}/` : '/main/hub/';
+            const resposta = await fetch('/shared/components/header-page.html');
+            document.getElementById('headerSection').innerHTML = await resposta.text();
+
+            document.getElementById('pageNameH1').textContent = nomeModulo ?
+            `Notificações de ${nomeModulo}`: 'Notificações gerais';
+            document.getElementById('pageSubtittleSpan').textContent = nomeModulo? 
+                `Avisos exclusivos de ${nomeModulo}`: 'Todas as notificações dos módulos';
+            document.getElementById('btn-back-header').href = paginaAnterior;
+            document.getElementById('btn-notifications').href = nomeModulo ? 
+            `/shared/components/notifications.html?modulo=${modulo}` : '/shared/components/notifications.html';
+            document.getElementById('btn-notifications').style.display = "none"
+
+        });
+    </script>
+</head>
+<body>
+    <!-- Header Variável ================================================ -->
+    <header class="section-header-section" id="headerSection"></header>
+    <section aria-labelledby="notifications-list-title">
+        <h2 id="notifications-list-title">Avisos</h2>
+        <p id="notifications-empty-state">Nenhuma notificação encontrada.</p>
+    </section>
+    <!-- ================================================================ -->
+</body>
+</html>
