@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20260924-3">
     <script src="../../../shared/services/theme.js" defer></script>
     <title>Transações</title>
 </head>
@@ -25,23 +25,22 @@
                 href="nova-transacao.html">Nova transação</a></nav>
         <section class="finance-content transactions-content">
             <form class="transactions-search" role="search">
-                <label class="search-field">
-                    <span class="search-icon" aria-hidden="true">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <div class="search-field">
+                    <button class="search-icon" type="submit" aria-label="Pesquisar transações">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                            <path d="M14.5 14.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                    </span>
+                    </button>
                     <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
-                </label>
-                <!-- removed icon button to keep search clean -->
+                </div>
             </form>
             <div class="filter-row">
                 <nav class="filter-chips" aria-label="Filtros de transações">
                     <button class="filter-active" type="button" data-filter="all">Todas</button>
                     <button type="button" data-filter="receitas">Receitas</button>
                     <button type="button" data-filter="despesas">Despesas</button>
-                    <button type="button" data-filter="este-mes">▣ Este Mês</button>
+                    <button type="button" data-filter="este-mes">Este Mês</button>
                 </nav>
                 <div class="filter-actions-wrap">
                     <button class="filter-actions" type="button" aria-label="Abrir opções de visualização" aria-expanded="false">
@@ -65,7 +64,7 @@
             </a>
         </section>
     </main>
-    <script src="../script.js"></script>
+    <script src="../script.js?v=20260924-2"></script>
 </body>
 
 </html>

@@ -172,6 +172,11 @@ function bindTransactionFilters(transactions, list) {
     };
 
     searchInput?.addEventListener('input', applyFilters);
+    searchInput?.form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        applyFilters();
+        searchInput.focus();
+    });
     filterButtons.forEach((button) => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
