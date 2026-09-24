@@ -1,0 +1,22 @@
+/* ==========================================================================
+   KeeperHub — Módulo Finanças: Próximos Vencimentos
+   Arquivo: vencimentos.css
+   ========================================================================== */
+
+/* Estilos específicos para a tela de Próximos Vencimentos */
+.accounts-screen #due-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  min-height: 200px;
+}
+
+.accounts-screen #due-list:empty::before {
+  content: "Nenhum vencimento pendente.";
+  display: block;
+  text-align: center;
+  color: var(--text-muted, #a0a0a0);
+  padding: 40px 16px;
+  font-size: 14px;
+}

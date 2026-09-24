@@ -1,0 +1,702 @@
+/* ==========================================================================
+   KeeperHub — Módulo Finanças: Relatórios & Gráficos
+   Arquivo: relatorios.css
+   ========================================================================== */
+
+.comparison-report::after {
+	background: rgba(255, 183, 128, .1);
+}
+
+.report-filters {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px 12px;
+	padding: 16px;
+	background: #1e1f22;
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: 12px;
+}
+
+.report-filters label {
+	color: #a0a0a0;
+	font-weight: 600; font-size: 12px;
+}
+
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color);
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .report-card,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	color: var(--text-color);
+	box-shadow: none;
+}
+
+.reports-link {
+	cursor: pointer;
+}
+
+.reports-screen {
+	min-height: 100vh;
+	color: #e3e2e6;
+	background: #121316;
+}
+
+.reports-header {
+	display: flex;
+	align-items: center;
+	height: 70px;
+	margin: 32px 16px 56px;
+	padding: 16px;
+	background: #0d0e11;
+	border-radius: 12px;
+}
+
+.reports-header h1 {
+	flex: 1;
+	margin: 0;
+	padding-right: 40px;
+	text-align: center;
+	font-size: 24px;
+	line-height: 32px;
+}
+
+.reports-content {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 0 16px 96px;
+}
+
+.report-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-height: 177px;
+	padding: 24px;
+	overflow: hidden;
+	background: rgba(30, 31, 34, .6);
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: 12px;
+	box-shadow: 0 4px 6px -4px rgba(0, 0, 0, .1), 0 10px 15px -3px rgba(0, 0, 0, .1);
+}
+
+.report-card::after {
+	position: absolute;
+	top: -31px;
+	right: -1px;
+	width: 96px;
+	height: 96px;
+	content: '';
+	border-radius: 50%;
+	filter: blur(20px);
+}
+
+.income-report::after {
+	background: rgba(131, 213, 197, .1);
+}
+
+.expense-report::after {
+	background: rgba(255, 180, 171, .1);
+}
+
+.report-card-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #dcc1af;
+	font-weight: 500; font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.report-card-top i {
+	display: grid;
+	width: 32px;
+	height: 32px;
+	place-items: center;
+	border-radius: 50%;
+	font-style: normal;
+	font-size: 25px;
+}
+
+.income-report .report-card-top i {
+	color: #83d5c5;
+	background: rgba(131, 213, 197, .2);
+}
+
+.expense-report .report-card-top i {
+	color: #ffb4ab;
+	background: rgba(255, 180, 171, .2);
+}
+
+.net-report {
+	background: #1e1f22;
+	border-color: rgba(164, 140, 124, .2);
+}
+
+.net-report .report-card-top i {
+	color: #ffb780;
+	background: rgba(255, 183, 128, .2);
+}
+
+.report-card>strong {
+	padding-top: 8px;
+	color: #e3e2e6;
+	font-size: 48px;
+	line-height: 56px;
+	letter-spacing: -.02em;
+}
+
+.income-report>b {
+	color: #83d5c5;
+}
+
+.expense-report>b {
+	color: #ffb4ab;
+}
+
+.report-card>b {
+	font-weight: 600; font-size: 12px;
+}
+
+.net-report>strong {
+	color: #ffb780;
+}
+
+.margin-track {
+	height: 4px;
+	margin-top: 8px;
+	background: #292a2d;
+	border-radius: 999px;
+}
+
+.margin-track span {
+	display: block;
+	width: 66%;
+	height: 100%;
+	background: #ffb780;
+	border-radius: inherit;
+}
+
+.net-report>b {
+	align-self: flex-end;
+	color: #dcc1af;
+}
+
+.report-kicker {
+	margin: 0;
+	color: #697386;
+	font-size: 12px
+}
+
+.reports-screen .finance-header {
+	border-bottom: 0
+}
+
+.reports-screen .finance-tabs {
+	border-bottom: 0;
+	scrollbar-width: none
+}
+
+.reports-screen .finance-tabs::-webkit-scrollbar {
+	display: none
+}
+
+.summary-card,
+.report-section {
+	border: 1px solid #e6dfd8;
+	border-radius: 16px;
+	background: #fff
+}
+
+.summary-card {
+	padding: 16px
+}
+
+.summary-card>header,
+.spending-card>header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between
+}
+
+.summary-card h2,
+.report-section h2,
+.insight-card h2 {
+	margin: 0;
+	font-weight: 700; font-size: 16px;}
+
+.summary-card>header span {
+	padding: 5px 12px;
+	color: #697386;
+	background: #f3f1ee;
+	border: 1px solid #e8e3de;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700
+}
+
+.summary-values {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+	margin-top: 17px
+}
+
+.summary-values section {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 5px
+}
+
+.summary-values small {
+	font-size: 12px
+}
+
+.summary-values strong {
+	font-weight: 700; font-size: 21px;}
+
+.summary-values b {
+	font-size: 12px
+}
+
+.summary-income small,
+.summary-income strong {
+	color: #18a64b
+}
+
+.summary-income b,
+.summary-expense small,
+.summary-expense strong,
+.summary-expense b {
+	color: #e87500
+}
+
+.summary-card>footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 16px;
+	padding: 14px 16px;
+	background: #fff4e8;
+	border-radius: 12px
+}
+
+.summary-card>footer>div {
+	display: flex;
+	flex-direction: column;
+	gap: 5px
+}
+
+.summary-card>footer>div small {
+	color: #9b6630;
+	font-size: 10px
+}
+
+.summary-card>footer>div strong {
+	color: #e87500;
+	font-weight: 700; font-size: 20px;}
+
+.summary-card>footer>span {
+	display: flex;
+	width: 79px;
+	height: 58px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: #e87500;
+	background: #ffdfbd;
+	border-radius: 10px
+}
+
+.summary-card>footer>span b {
+	font-size: 16px
+}
+
+.summary-card>footer>span small {
+	font-size: 9px
+}
+
+.report-section {
+	padding: 16px
+}
+
+.report-section header p {
+	margin: 3px 0 0;
+	color: #697386;
+	font-size: 12px
+}
+
+.report-chart {
+	display: flex;
+	height: 146px;
+	align-items: flex-end;
+	justify-content: space-around;
+	margin-top: 13px
+}
+
+.report-month {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	color: #8a91a0;
+	font-size: 12px
+}
+
+.report-month>div {
+	display: flex;
+	align-items: flex-end;
+	gap: 5px;
+	height: 116px
+}
+
+.report-month i {
+	position: relative;
+	display: block;
+	width: 13px;
+	border-radius: 4px 4px 0 0
+}
+
+.report-month i b {
+	position: absolute;
+	top: -17px;
+	left: 50%;
+	font-weight: 700; font-size: 10px;
+	transform: translateX(-50%)
+}
+
+.report-month .income-bar {
+	background: #18a64b
+}
+
+.report-month .income-bar b {
+	color: #18a64b
+}
+
+.report-month .expense-bar {
+	background: #e87500
+}
+
+.report-month .expense-bar b {
+	color: #e87500
+}
+
+.report-month.current>span {
+	color: #e87500;
+	font-weight: 700
+}
+
+.spending-card header strong {
+	color: #e87500;
+	font-size: 16px
+}
+
+.spending-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 12px
+}
+
+.spending-list p {
+	display: flex;
+	justify-content: space-between;
+	margin: 0 0 5px;
+	font-size: 14px
+}
+
+.spending-list p b {
+	font-weight: 700
+}
+
+.spending-list p b:first-letter {
+	color: var(--category-color)
+}
+
+.spending-list p span {
+	color: #697386
+}
+
+.spending-list p strong {
+	color: #202124
+}
+
+.spending-list i {
+	display: block;
+	height: 6px;
+	background: linear-gradient(to right, var(--category-color) var(--category-width), #efede9 var(--category-width));
+	border-radius: 999px
+}
+
+.insight-card {
+	display: flex;
+	gap: 12px;
+	padding: 16px;
+	background: #fff3e5;
+	border: 1px solid #f5c891;
+	border-radius: 16px
+}
+
+.insight-card>span {
+	display: grid;
+	flex: 0 0 38px;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	color: #e87500;
+	background: #ffe4c3;
+	border-radius: 9px;
+	font-size: 23px
+}
+
+.insight-card h2 {
+	color: #e87500;
+	font-size: 14px
+}
+
+.insight-card p {
+	margin: 5px 0;
+	font-size: 13px;
+	line-height: 1.5
+}
+
+.insight-card small {
+	color: #697386;
+	font-size: 11px
+}
+
+.comparison-card>h2,
+.largest-expense>h2 {
+	color: #969eac;
+	font-weight: 700; font-size: 11px;}
+
+.comparison-card dl {
+	margin: 16px 0 0
+}
+
+.comparison-card dl div {
+	display: flex;
+	justify-content: space-between;
+	padding: 9px 0;
+	border-bottom: 1px solid #e9e5e0
+}
+
+.comparison-card dl div:last-child {
+	border: 0
+}
+
+.comparison-card dt {
+	font-size: 13px
+}
+
+.comparison-card dd {
+	margin: 0;
+	color: #18a64b;
+	font-size: 14px;
+	font-weight: 700
+}
+
+.largest-expense>div {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	margin-top: 14px
+}
+
+.largest-expense>div>span {
+	display: grid;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	background: #fff4e8;
+	border-radius: 9px
+}
+
+.largest-expense p {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 3px;
+	margin: 0
+}
+
+.largest-expense p strong {
+	font-size: 14px
+}
+
+.largest-expense p small {
+	color: #697386;
+	font-size: 11px
+}
+
+.largest-expense>div>b {
+	color: #e87500;
+	font-size: 15px
+}
+
+html[data-theme=light] body.finance-page .reports-screen>.finance-header>h1,
+html[data-theme=light] body.finance-page .transactions-list-screen>.finance-header>h1 {
+	color: #1b1d21 !important
+}
+
+html[data-theme=dark] body.finance-page .reports-screen>.finance-header>h1,
+html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-header>h1 {
+	color: #f4f4f5 !important
+}
+
+html[data-theme=dark] .summary-card,
+html[data-theme=dark] .report-section {
+	background: #18191d;
+	border-color: #34363c
+}
+
+html[data-theme=dark] .summary-card>header span {
+	color: #adb3bd;
+	background: #25262b;
+	border-color: #3b3d43
+}
+
+html[data-theme=dark] .summary-card>footer {
+	background: #2e2012
+}
+
+html[data-theme=dark] .report-section header p,
+html[data-theme=dark] .report-month,
+html[data-theme=dark] .spending-list p span,
+html[data-theme=dark] .insight-card small,
+html[data-theme=dark] .largest-expense p small {
+	color: #a0a6b1
+}
+
+html[data-theme=dark] .spending-list p strong {
+	color: #f4f4f5
+}
+
+html[data-theme=dark] .spending-list i {
+	background: linear-gradient(to right, var(--category-color) var(--category-width), #303238 var(--category-width))
+}
+
+html[data-theme=dark] .insight-card {
+	background: #2e2012;
+	border-color: #75420b
+}
+
+html[data-theme=dark] .comparison-card dl div {
+	border-color: #303238
+}
+
+html[data-theme='light'] .finance-page,
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color) !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .finance-shell,
+html[data-theme='light'] .transactions-content,
+html[data-theme='light'] .reports-content {
+	background: transparent !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .transactions-search,
+html[data-theme='light'] .transactions-search span,
+html[data-theme='light'] .filter-chips button,
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .transaction-item,
+html[data-theme='light'] .report-card,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section,
+html[data-theme='light'] .reports-header {
+	background: var(--card-bg) !important;
+	border-color: var(--border-color) !important;
+	color: var(--text-color) !important;
+	box-shadow: none !important;
+}
+
+html[data-theme='light'] .transaction-group h2,
+html[data-theme='light'] .transaction-item strong,
+html[data-theme='light'] .transaction-item b,
+html[data-theme='light'] .transaction-item small,
+html[data-theme='light'] .insight-card small {
+	color: var(--text-muted) !important;
+}
+
+body.landing-page .preview-modules,
+body.landing-page .preview-actions,
+body.landing-page .finance-home-links,
+body.landing-page .top-spending-list,
+body.landing-page .recent-transactions-list,
+body.finance-page .finance-tabs,
+body.finance-page .filter-chips,
+body.finance-page .summary-values,
+body.finance-page .spending-list,
+body.transaction-page .transaction-fields,
+body.transaction-page .transaction-summary dl,
+body.transaction-page .actions {
+	gap: 8px
+}
+
+body.landing-page .preview-balance,
+body.landing-page .cash-flow,
+body.landing-page .monthly-expenses-card,
+body.landing-page .top-spending-card,
+body.landing-page .recent-transactions-card,
+body.finance-page .summary-card,
+body.finance-page .report-section,
+body.finance-page .insight-card,
+body.finance-page .transaction-list,
+body.finance-page .transaction-item,
+body.finance-page .transactions-search,
+body.transaction-page .value-card,
+body.transaction-page .transaction-fields,
+body.transaction-page .notes-card,
+body.transaction-page .transaction-summary {
+	padding: 16px;
+	border-radius: 16px
+}
+
+body.finance-page .finance-shell,
+body.finance-page .finance-content,
+body.finance-page .transactions-content,
+body.finance-page .report-section,
+body.finance-page .transaction-list {
+	background: transparent !important;
+}
+
+.module-nav a.active,
+.finance-tabs a.active,
+.wallet-icon,
+.balance-change,
+.shortcut-icon,
+.transaction-item b.expense,
+.transaction-icon,
+.summary-expense small,
+.summary-expense strong,
+.summary-expense b,
+.spending-card header strong,
+.largest-expense>div>b {
+	color: var(--tool-financas)
+}
+
+.app-shell,
+.finance-shell,
+.transaction-form,
+.transactions-content,
+.finance-content,
+.dashboard-content,
+.reports-content {
+	gap: 16px;
+	padding: 16px 16px 24px
+}

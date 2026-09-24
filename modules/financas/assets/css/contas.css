@@ -1,0 +1,171 @@
+/* ==========================================================================
+   KeeperHub — Módulo Finanças: Gerenciamento de Contas
+   Arquivo: contas.css
+   ========================================================================== */
+
+.payment-button,
+.account-edit,
+.account-delete {
+	padding: 4px 8px;
+	color: #ffb780;
+	background: #26282e;
+	border: 1px solid #343538;
+	border-radius: 6px;
+	font-size: 12px;
+}
+
+.accounts-screen .transactions-content {
+	gap: 16px;
+}
+
+.account-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 16px;
+	background: #1e1f22;
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: 12px;
+}
+
+.account-input,
+.report-filters select {
+	min-height: 44px;
+	padding: 8px 12px;
+	color: #e3e2e6;
+	background: #292a2d;
+	border: 1px solid #6b7280;
+	border-radius: 8px;
+}
+
+.account-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.account-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 16px;
+	background: #26282e;
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: 8px;
+}
+
+.account-item section {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.account-item strong {
+	color: #e3e2e6;
+	font-weight: 500;
+}
+
+.account-item small {
+	color: #9ca3af;
+}
+
+.account-item aside {
+	display: flex;
+	gap: 6px;
+}
+
+.account-edit {
+	color: #83d5c5;
+}
+
+.account-delete {
+	color: #ffb4ab;
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-form,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-list {
+	background: #fff;
+	border-color: #e6dfd8
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-input {
+	color: #202124;
+	background: #f7f5f2;
+	border-color: #ddd7d0
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item {
+	background: #faf8f5;
+	border-color: #e6dfd8
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item strong,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item strong,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item b {
+	color: #202124
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item small,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item small {
+	color: #697386
+}
+
+.balance-card,
+.shortcut-card,
+.monthly-card,
+.account-form,
+.account-item,
+.transaction-list,
+.transaction-item,
+.summary-card,
+.report-section,
+.insight-card,
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary {
+	border-color: var(--border-color)
+}
+
+.module-nav,
+.finance-tabs,
+.filter-chips,
+.account-list,
+.summary-values,
+.spending-list,
+.top-spending-list,
+.recent-transactions-list,
+.transaction-fields,
+.transaction-summary dl,
+.actions {
+	gap: 8px
+}
+
+.balance-card,
+.shortcut-card,
+.monthly-card,
+.account-form,
+.account-item,
+.transaction-list,
+.transaction-item,
+.summary-card,
+.report-section,
+.insight-card,
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary,
+.transactions-search {
+	border-radius: 16px
+}
+
+.type-toggle,
+.input-wrap,
+textarea,
+.payment-button,
+.account-edit,
+.account-delete {
+	border-radius: 8px
+}
