@@ -1,0 +1,7 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Ponto de Entrada: modules/financas/css/financas.css
+   Redirecionamento para a arquitetura modular em assets/css/
+   ================================================== */
+
+@import url("../assets/css/financas.css");

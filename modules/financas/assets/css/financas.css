@@ -1,0 +1,148 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS (MODULES)
+   Padrão Arquitetural Oficial: modules/financas/assets/css/financas.css
+   Ponto de Entrada Consolidado
+   ================================================== */
+
+/* ==================================================
+   1. MÓDULOS DE ESTILO CONSOLIDADOS POR RESPONSABILIDADE
+   ================================================== */
+@import url("./layout.css");
+@import url("./components.css");
+@import url("./views.css");
+@import url("./responsive.css");
+
+/* ==================================================
+   2. DESIGN TOKENS GLOBAIS & MAPEAMENTO DA SHARED
+   ================================================== */
+:root {
+	--black: var(--bg-color, #0b0b0d);
+	--panel: var(--card-bg, #17171a);
+	--panel-dark: #121316;
+	--panel-border: var(--border-color, rgba(255, 255, 255, 0.08));
+	--white: var(--text-color, #f4f4f5);
+	--muted: var(--text-muted, #9a9aa2);
+	--field-border: var(--border-color, rgba(255, 255, 255, 0.14));
+	--orange: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] {
+	--black: var(--bg-color, #ffffff);
+	--panel: var(--card-bg, #f8fafc);
+	--panel-dark: #f1f5f9;
+	--panel-border: var(--border-color, #e2e8f0);
+	--white: var(--text-color, #1a202c);
+	--muted: var(--text-muted, #64748b);
+	--field-border: var(--border-color, #cbd5e1);
+	--orange: var(--tool-financas, #e47a00);
+}
+
+/* ==================================================
+   3. REGRAS GLOBAIS DE CONTRASTE E INTEGRAÇÃO DO TEMA CLARO
+   ================================================== */
+html[data-theme="light"] body,
+html[data-theme="light"] .pagina-financas,
+html[data-theme="light"] .finance-shell,
+html[data-theme="light"] .app-preview,
+html[data-theme="light"] .transactions-list-screen,
+html[data-theme="light"] .reports-screen,
+html[data-theme="light"] .accounts-screen,
+html[data-theme="light"] .transaction-screen {
+	background-color: var(--bg-color, #ffffff) !important;
+	color: var(--text-color, #1a202c) !important;
+}
+
+html[data-theme="light"] .card,
+html[data-theme="light"] .account-form,
+html[data-theme="light"] .section-header-back-btn,
+html[data-theme="light"] .btn-header,
+html[data-theme="light"] .finance-shortcut-card,
+html[data-theme="light"] .finance-tabs a,
+html[data-theme="light"] .filter-chips button,
+html[data-theme="light"] .filter-actions,
+html[data-theme="light"] .filter-popup,
+html[data-theme="light"] .modules-nav-item,
+html[data-theme="light"] .input-wrap,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .search-field {
+	background-color: var(--card-bg, #ffffff) !important;
+	border-color: var(--border-color, #e2e8f0) !important;
+	color: var(--text-color, #1a202c) !important;
+}
+
+html[data-theme="light"] .section-header-title,
+html[data-theme="light"] .preview-greeting h3,
+html[data-theme="light"] .preview-balance output,
+html[data-theme="light"] #dashboard-balance,
+html[data-theme="light"] .flow-row strong,
+html[data-theme="light"] .cash-flow h3,
+html[data-theme="light"] .monthly-expenses-card h3,
+html[data-theme="light"] .top-spending-card h3,
+html[data-theme="light"] .recent-transactions-card h3,
+html[data-theme="light"] .summary-card h2,
+html[data-theme="light"] .summary-card footer strong,
+html[data-theme="light"] .evolution-card header h2,
+html[data-theme="light"] .spending-card h2,
+html[data-theme="light"] .currency-field input,
+html[data-theme="light"] .input-wrap input,
+html[data-theme="light"] .input-wrap select,
+html[data-theme="light"] textarea,
+html[data-theme="light"] .account-item strong,
+html[data-theme="light"] .transaction-item strong {
+	color: var(--text-color, #1a202c) !important;
+}
+
+html[data-theme="light"] .recent-transactions-list a,
+html[data-theme="light"] .transaction-item,
+html[data-theme="light"] .account-item,
+html[data-theme="light"] .account-input {
+	background-color: #f8fafc !important;
+	border-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .transaction-summary {
+	background-color: #f8fafc !important;
+}
+
+html[data-theme="light"] .currency-field span {
+	color: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] .type-toggle {
+	background-color: #f1f5f9;
+	border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .type-option {
+	color: #64748b;
+}
+
+html[data-theme="light"] .type-option.selected {
+	background-color: var(--tool-financas, #e47a00) !important;
+	color: #ffffff !important;
+}
+
+html[data-theme="light"] .modules-nav-item.active,
+html[data-theme="light"] .finance-tabs a.active,
+html[data-theme="light"] .filter-chips button.filter-active {
+	background-color: rgba(228, 122, 0, 0.14) !important;
+	border-color: var(--tool-financas, #e47a00) !important;
+	color: #b85e00 !important;
+}
+
+html[data-theme="light"] .section-header-badge {
+	background-color: #fef3c7 !important;
+	color: #b45309 !important;
+}
+
+html[data-theme="light"] .preview-balance mark,
+html[data-theme="light"] #dashboard-change {
+	background-color: #ecfdf5 !important;
+	border-color: #a7f3d0 !important;
+	color: #065f46 !important;
+}
+
+html[data-theme="light"] .filter-popup button:hover {
+	background-color: rgba(228, 122, 0, 0.12) !important;
+	color: var(--tool-financas, #e47a00) !important;
+}

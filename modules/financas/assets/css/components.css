@@ -1,0 +1,443 @@
+/* ==================================================
+   KEEPERHUB — FINANÇAS (MODULES): COMPONENTES
+   Padrão Arquitetural: modules/financas/assets/css/components.css
+   Responsabilidade: Cards, botões, badges, chips, abas, inputs, botão flutuante e feedback
+   ================================================== */
+
+/* ==================================================
+   CARDS BASE
+   ================================================== */
+.card {
+	background: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 16px;
+	padding: 16px;
+	box-sizing: border-box;
+}
+
+.card--interactive {
+	text-decoration: none;
+	transition: border-color 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+	cursor: pointer;
+}
+
+.card--interactive:hover {
+	border-color: var(--tool-financas, #e47a00);
+	background-color: rgba(255, 255, 255, 0.04);
+	transform: translateY(-2px);
+}
+
+.balance-card,
+.shortcut-card,
+.monthly-card,
+.account-form,
+.account-item,
+.transaction-list,
+.transaction-item,
+.summary-card,
+.report-section,
+.insight-card,
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary {
+	border-color: var(--border-color);
+}
+
+/* ==================================================
+   BOTÕES E CONTROLES DE AÇÃO
+   ================================================== */
+.type-toggle {
+	display: flex;
+	gap: 4px;
+	padding: 4px;
+	background: var(--panel);
+	border: 1px solid var(--panel-border);
+	border-radius: 8px;
+}
+
+.type-option {
+	flex: 1;
+	min-height: 44px;
+	padding: 8px 0;
+	color: var(--muted);
+	background: transparent;
+	border: none;
+	border-radius: 6px;
+	font-family: 'Inter', sans-serif;
+	font-size: 14px;
+	letter-spacing: .05em;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.type-option.selected {
+	color: #ffffff;
+	background-color: var(--tool-financas, #e47a00);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	font-weight: 700;
+}
+
+.save-button {
+	width: 100%;
+	min-height: 44px;
+	padding: 12px 20px;
+	color: #ffffff;
+	background-color: var(--tool-financas, #e47a00);
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.save-button:hover {
+	background-color: #cc6d00;
+	transform: translateY(-1px);
+}
+
+.cancel-button {
+	width: 100%;
+	min-height: 44px;
+	padding: 12px 20px;
+	color: var(--text-muted, #9a9aa2);
+	background: transparent;
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 8px;
+	font-size: 0.9375rem;
+	font-weight: 500;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.cancel-button:hover {
+	color: var(--text-color, #f4f4f5);
+	border-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(255, 255, 255, 0.04);
+}
+
+.payment-button {
+	min-height: 32px;
+	padding: 6px 12px;
+	color: #ffffff;
+	background-color: var(--tool-financas, #e47a00);
+	border: 1px solid var(--tool-financas, #e47a00);
+	border-radius: 6px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color 0.15s ease;
+}
+
+.payment-button:hover {
+	background-color: #cc6d00;
+}
+
+.payment-button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background-color: #4b5563;
+	border-color: #4b5563;
+}
+
+/* ==================================================
+   BOTÕES FLUTUANTES (FAB)
+   ================================================== */
+.floating-action,
+.transactions-add {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	width: 52px;
+	height: 52px;
+	min-width: 52px;
+	min-height: 52px;
+	border-radius: 50%;
+	background-color: var(--tool-financas, #e47a00);
+	color: #ffffff;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 16px rgba(228, 122, 0, 0.4);
+	text-decoration: none;
+	font-size: 1.25rem;
+	cursor: pointer;
+	z-index: 100;
+	transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.floating-action:hover,
+.transactions-add:hover {
+	background-color: #cc6d00;
+	transform: scale(1.08);
+	box-shadow: 0 6px 20px rgba(228, 122, 0, 0.55);
+}
+
+.floating-action:active,
+.transactions-add:active {
+	transform: scale(0.95);
+}
+
+/* ==================================================
+   ABAS E CHIPS DE FILTRO
+   ================================================== */
+.finance-tabs {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	overflow-x: auto;
+	padding: 4px 0 12px;
+	scrollbar-width: none;
+	margin-bottom: 12px;
+}
+
+.finance-tabs::-webkit-scrollbar {
+	display: none;
+}
+
+.finance-tabs a {
+	display: inline-flex;
+	align-items: center;
+	padding: 7px 14px;
+	border-radius: 999px;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--text-muted, #9a9aa2);
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	text-decoration: none;
+	white-space: nowrap;
+	min-height: 38px;
+	transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.finance-tabs a:hover {
+	color: var(--text-color, #f4f4f5);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.finance-tabs a.active {
+	background-color: rgba(228, 122, 0, 0.18) !important;
+	border-color: var(--tool-financas, #e47a00) !important;
+	color: var(--tool-financas, #e47a00) !important;
+	font-weight: 700;
+}
+
+.filter-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	margin-bottom: 14px;
+}
+
+.filter-chips {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.filter-chips::-webkit-scrollbar {
+	display: none;
+}
+
+.filter-chips button {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
+	border-radius: 999px;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--text-muted, #9a9aa2);
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	cursor: pointer;
+	white-space: nowrap;
+	min-height: 36px;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.filter-chips button:hover {
+	color: var(--text-color, #f4f4f5);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.filter-chips button.filter-active {
+	background-color: rgba(228, 122, 0, 0.18) !important;
+	border-color: var(--tool-financas, #e47a00) !important;
+	color: var(--tool-financas, #e47a00) !important;
+	font-weight: 700;
+}
+
+.filter-actions-wrap {
+	position: relative;
+}
+
+.filter-actions {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	color: var(--text-color, #f4f4f5);
+	cursor: pointer;
+	font-size: 1.1rem;
+	transition: border-color 0.15s ease;
+}
+
+.filter-actions:hover {
+	border-color: var(--tool-financas, #e47a00);
+}
+
+.filter-popup {
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 0;
+	z-index: 50;
+	min-width: 190px;
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+	border-radius: 10px;
+	padding: 6px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.filter-popup[hidden] {
+	display: none !important;
+}
+
+.filter-popup button {
+	text-align: left;
+	padding: 8px 12px;
+	border: none;
+	background: transparent;
+	color: var(--text-color, #f4f4f5);
+	font-size: 0.8125rem;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.filter-popup button:hover {
+	background-color: rgba(228, 122, 0, 0.15);
+	color: var(--tool-financas, #e47a00);
+}
+
+/* ==================================================
+   CAMPOS DE FORMULÁRIO E INPUTS
+   ================================================== */
+.form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	width: 100%;
+}
+
+.form-field-wide {
+	width: 100%;
+}
+
+.field-label,
+.value-input label {
+	color: var(--text-muted, #9a9aa2);
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+.input-wrap,
+textarea {
+	width: 100%;
+	color: var(--text-color, #f4f4f5);
+	background: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.14));
+	border-radius: 8px;
+	box-sizing: border-box;
+}
+
+.input-wrap {
+	display: flex;
+	align-items: center;
+	min-height: 48px;
+	padding: 0 14px;
+}
+
+.input-wrap input,
+.input-wrap select {
+	flex: 1;
+	min-width: 0;
+	padding: 10px 0;
+	color: var(--text-color, #f4f4f5);
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 0.9375rem;
+	font-family: inherit;
+}
+
+.input-wrap select option {
+	background-color: var(--card-bg, #17171a);
+	color: var(--text-color, #f4f4f5);
+}
+
+textarea {
+	min-height: 80px;
+	padding: 12px 14px;
+	font-family: inherit;
+	font-size: 0.9375rem;
+	resize: vertical;
+	outline: none;
+}
+
+.field-icon {
+	width: 20px;
+	height: 20px;
+	margin-right: 12px;
+	color: var(--text-muted, #9a9aa2);
+	flex-shrink: 0;
+}
+
+/* ==================================================
+   FEEDBACK E ALERTA COMPARTILHADO
+   ================================================== */
+#alertFromShared {
+	position: fixed;
+	top: -100px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1000;
+	min-width: 280px;
+	max-width: 90%;
+	padding: 12px 20px;
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--tool-financas, #e47a00);
+	border-radius: 10px;
+	color: var(--text-color, #f4f4f5);
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-align: center;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+	pointer-events: none;
+}

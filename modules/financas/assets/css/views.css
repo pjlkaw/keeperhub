@@ -1,0 +1,1052 @@
+/* ==================================================
+   KEEPERHUB — FINANÇAS (MODULES): VIEWS
+   Padrão Arquitetural: modules/financas/assets/css/views.css
+   Responsabilidade: Estilos específicos das telas (Visão Geral, Transações, Relatórios, Nova Transação, Contas e Vencimentos)
+   ================================================== */
+
+/* ==================================================
+   VIEW 1: VISÃO GERAL (DASHBOARD)
+   ================================================== */
+.preview-greeting {
+	margin-bottom: 20px;
+}
+
+.preview-greeting h3 {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--text-color, #f4f4f5);
+	margin: 0 0 4px;
+}
+
+.preview-greeting p {
+	font-size: 0.875rem;
+	color: var(--text-muted, #9a9aa2);
+	margin: 0;
+}
+
+/* Card Saldo Disponível */
+.preview-balance {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 16px;
+	border-color: rgba(228, 122, 0, 0.3) !important;
+}
+
+.preview-balance header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.preview-balance header span {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: var(--text-muted, #9a9aa2);
+	text-transform: uppercase;
+}
+
+.preview-balance mark,
+#dashboard-change {
+	background-color: rgba(16, 185, 129, 0.12);
+	color: #34d399;
+	border: 1px solid rgba(16, 185, 129, 0.25);
+	font-size: 0.6875rem;
+	font-weight: 700;
+	padding: 2px 7px;
+	border-radius: 6px;
+}
+
+.preview-balance output,
+#dashboard-balance {
+	font-size: 1.75rem;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	color: var(--text-color, #f4f4f5);
+	display: block;
+}
+
+.preview-balance hr {
+	border: none;
+	height: 1px;
+	background-color: var(--border-color, rgba(255, 255, 255, 0.08));
+	margin: 0;
+}
+
+.preview-balance dl {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+	margin: 0;
+}
+
+.preview-balance dt {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+	margin-bottom: 2px;
+}
+
+.preview-balance dd {
+	margin: 0;
+	font-size: 0.9375rem;
+	font-weight: 700;
+}
+
+#dashboard-income {
+	color: #34d399;
+}
+
+#dashboard-expense {
+	color: var(--tool-financas, #e47a00);
+}
+
+/* Atalhos Rápidos da Home */
+.finance-shortcuts {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.finance-shortcut-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 14px;
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 12px;
+	text-decoration: none;
+	color: var(--text-color, #f4f4f5);
+	transition: border-color 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.finance-shortcut-card:hover {
+	border-color: var(--tool-financas, #e47a00);
+	background-color: rgba(255, 255, 255, 0.04);
+	transform: translateY(-2px);
+}
+
+.finance-shortcut-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 8px;
+	background-color: rgba(228, 122, 0, 0.15);
+	color: var(--tool-financas, #e47a00);
+	font-size: 1rem;
+	margin-bottom: 8px;
+}
+
+.finance-shortcut-card strong {
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin-bottom: 2px;
+}
+
+.finance-shortcut-card span:last-child {
+	font-size: 0.75rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+/* Card Fluxo do Mês */
+.cash-flow {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+.cash-flow header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.cash-flow h3 {
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin: 0;
+	color: var(--text-color, #f4f4f5);
+}
+
+.cash-flow header span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.flow-row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.flow-row span {
+	font-size: 0.75rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.flow-row strong {
+	font-size: 0.875rem;
+	color: var(--text-color, #f4f4f5);
+}
+
+.income-bar,
+.expense-bar {
+	height: 6px;
+	border-radius: 999px;
+	display: block;
+}
+
+.income-bar {
+	width: 100%;
+	background-color: #10b981;
+}
+
+.expense-bar {
+	width: 50%;
+	background-color: var(--tool-financas, #e47a00);
+}
+
+/* Despesas Mensais (Gráfico) */
+.monthly-expenses-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.monthly-expenses-card header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.monthly-expenses-card h3 {
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.monthly-expenses-card header span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.monthly-expenses-chart {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	height: 100px;
+	padding: 10px 0 2px;
+	gap: 12px;
+}
+
+.monthly-expenses-chart div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	gap: 6px;
+	height: 100%;
+	justify-content: flex-end;
+}
+
+.monthly-expenses-chart b {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.monthly-expenses-chart i {
+	width: 100%;
+	max-width: 32px;
+	background-color: rgba(228, 122, 0, 0.4);
+	border-radius: 6px 6px 0 0;
+	display: block;
+}
+
+.monthly-expenses-chart div.current i {
+	background-color: var(--tool-financas, #e47a00);
+}
+
+.monthly-expenses-chart span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+/* Onde você mais gastou */
+.top-spending-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.top-spending-card header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.top-spending-card h3 {
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.top-spending-card header span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.top-spending-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.top-spending-list>div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.top-spending-list p {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	font-size: 0.8125rem;
+}
+
+.top-spending-list p b {
+	font-weight: 500;
+	margin-right: auto;
+	margin-left: 8px;
+}
+
+.top-spending-list p strong {
+	font-weight: 700;
+}
+
+.top-spending-list span {
+	height: 6px;
+	border-radius: 999px;
+	background-color: var(--spending-color, #e47a00);
+	width: var(--spending-width, 30%);
+	display: block;
+}
+
+/* Transações Recentes */
+.recent-transactions-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 24px;
+}
+
+.recent-transactions-card header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.recent-transactions-card h3 {
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.recent-transactions-card header a {
+	font-size: 0.75rem;
+	color: var(--tool-financas, #e47a00);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.recent-transactions-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.recent-transactions-list a {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: rgba(255, 255, 255, 0.02);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+	text-decoration: none;
+	color: var(--text-color, #f4f4f5);
+	transition: background-color 0.15s ease;
+}
+
+.recent-transactions-list a:hover {
+	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.recent-transactions-list i {
+	font-style: normal;
+	font-size: 1.25rem;
+}
+
+.recent-transactions-list span {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+}
+
+.recent-transactions-list span b {
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.recent-transactions-list span small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.recent-transactions-list strong {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	font-size: 0.875rem;
+	font-weight: 700;
+	color: var(--tool-financas, #e47a00);
+}
+
+.recent-transactions-list a.income strong {
+	color: #34d399;
+}
+
+.recent-transactions-list strong small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+	font-weight: normal;
+}
+
+/* ==================================================
+   VIEW 2: TRANSAÇÕES
+   ================================================== */
+.transactions-search {
+	margin-bottom: 12px;
+}
+
+.search-field {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	background-color: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+	border-radius: 10px;
+	padding: 0 12px;
+	box-sizing: border-box;
+}
+
+.search-icon {
+	color: var(--text-muted, #9a9aa2);
+	display: flex;
+	align-items: center;
+	margin-right: 8px;
+}
+
+.search-field input {
+	flex: 1;
+	min-width: 0;
+	padding: 10px 0;
+	color: var(--text-color, #f4f4f5);
+	background: transparent;
+	border: none;
+	outline: none;
+	font-size: 0.875rem;
+	font-family: inherit;
+}
+
+.transaction-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 12px;
+	min-height: 120px;
+}
+
+.transaction-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px;
+	background-color: rgba(255, 255, 255, 0.02);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+	border-radius: 10px;
+	gap: 12px;
+	transition: background-color 0.15s ease;
+}
+
+.transaction-item:hover {
+	background-color: rgba(255, 255, 255, 0.04);
+}
+
+.transaction-item section {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+}
+
+.transaction-item strong {
+	font-size: 0.875rem;
+	color: var(--text-color, #f4f4f5);
+	font-weight: 600;
+}
+
+.transaction-item small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.transaction-item aside {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.transaction-item b {
+	font-size: 0.875rem;
+	font-weight: 700;
+}
+
+.transaction-item b.expense {
+	color: var(--tool-financas, #e47a00);
+}
+
+.transaction-item b.income {
+	color: #34d399;
+}
+
+.transaction-item.is-paid {
+	opacity: 0.65;
+}
+
+.empty-state {
+	text-align: center;
+	color: var(--text-muted, #9a9aa2);
+	font-size: 0.875rem;
+	padding: 32px 0;
+	margin: 0;
+}
+
+/* ==================================================
+   VIEW 3: RELATÓRIOS
+   ================================================== */
+.report-kicker {
+	font-size: 0.75rem;
+	color: var(--text-muted, #9a9aa2);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	margin: 0 0 12px;
+}
+
+.summary-card {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	margin-bottom: 16px;
+}
+
+.summary-card header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.summary-card h2 {
+	font-size: 0.9375rem;
+	font-weight: 700;
+	margin: 0;
+}
+
+.summary-card header span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.summary-values {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+
+.summary-income,
+.summary-expense {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.summary-income small,
+.summary-expense small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.summary-income strong {
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: #34d399;
+}
+
+.summary-expense strong {
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: var(--tool-financas, #e47a00);
+}
+
+.summary-income b,
+.summary-expense b {
+	font-size: 0.6875rem;
+	color: #34d399;
+	font-weight: 600;
+}
+
+.summary-card footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 10px;
+	border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+}
+
+.summary-card footer small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.summary-card footer strong {
+	font-size: 1.125rem;
+	font-weight: 800;
+	color: var(--text-color, #f4f4f5);
+}
+
+.summary-card footer span {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.summary-card footer b {
+	color: #34d399;
+	font-weight: 700;
+}
+
+/* Gráfico de Evolução 4 meses */
+.evolution-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.evolution-card header h2 {
+	font-size: 0.875rem;
+	margin: 0 0 2px;
+}
+
+.evolution-card header p {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+	margin: 0;
+}
+
+.report-chart {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	height: 120px;
+	gap: 8px;
+	padding-top: 14px;
+}
+
+.report-month {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	flex: 1;
+	height: 100%;
+	justify-content: flex-end;
+}
+
+.report-month>div {
+	display: flex;
+	align-items: flex-end;
+	gap: 3px;
+	height: 100%;
+	justify-content: center;
+}
+
+.report-month i {
+	width: 14px;
+	border-radius: 4px 4px 0 0;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: 4px;
+	box-sizing: border-box;
+}
+
+.report-month i b {
+	font-size: 0.5625rem;
+	color: #ffffff;
+	transform: rotate(-90deg);
+}
+
+.report-month span {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+/* Distribuição de Despesas */
+.spending-card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin-bottom: 16px;
+}
+
+.spending-card header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.spending-card h2 {
+	font-size: 0.875rem;
+	margin: 0;
+}
+
+.spending-card header strong {
+	font-size: 0.875rem;
+	color: var(--tool-financas, #e47a00);
+}
+
+.spending-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.spending-list>div {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.spending-list p {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	font-size: 0.75rem;
+}
+
+.spending-list i {
+	height: 6px;
+	border-radius: 999px;
+	background-color: var(--category-color, #e47a00);
+	width: var(--category-width, 30%);
+	display: block;
+}
+
+/* Insight Card */
+.insight-card {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	background-color: rgba(228, 122, 0, 0.08);
+	border: 1px solid rgba(228, 122, 0, 0.2);
+	margin-bottom: 16px;
+}
+
+.insight-card>span {
+	font-size: 1.25rem;
+	color: var(--tool-financas, #e47a00);
+}
+
+.insight-card h2 {
+	font-size: 0.8125rem;
+	color: var(--tool-financas, #e47a00);
+	margin: 0 0 2px;
+}
+
+.insight-card p {
+	font-size: 0.75rem;
+	color: var(--text-color, #f4f4f5);
+	margin: 0 0 2px;
+}
+
+.insight-card small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+/* Comparativo e Maior Despesa */
+.comparison-card,
+.largest-expense {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.comparison-card h2,
+.largest-expense h2 {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+	letter-spacing: 0.06em;
+	margin: 0;
+	text-transform: uppercase;
+}
+
+.comparison-card dl {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+	margin: 0;
+}
+
+.comparison-card dt {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.comparison-card dd {
+	margin: 0;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	color: #34d399;
+}
+
+.largest-expense>div {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.largest-expense>div>span {
+	font-size: 1.5rem;
+}
+
+.largest-expense>div>p {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	flex: 1;
+}
+
+.largest-expense>div>p>strong {
+	font-size: 0.875rem;
+}
+
+.largest-expense>div>p>small {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.largest-expense>div>b {
+	font-size: 0.9375rem;
+	color: var(--tool-financas, #e47a00);
+}
+
+/* ==================================================
+   VIEW 4: NOVA TRANSAÇÃO
+   ================================================== */
+.transaction-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.value-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+	gap: 8px;
+}
+
+.currency-field {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+}
+
+.currency-field span {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--tool-financas, #e47a00);
+}
+
+.currency-field input {
+	font-size: 2.25rem;
+	font-weight: 800;
+	color: var(--text-color, #f4f4f5);
+	background: transparent;
+	border: none;
+	outline: none;
+	width: 180px;
+	text-align: left;
+	font-family: inherit;
+}
+
+.transaction-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.notes-card textarea {
+	min-height: 70px;
+}
+
+.transaction-summary {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 14px;
+	background-color: rgba(255, 255, 255, 0.02);
+}
+
+.transaction-summary header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.transaction-summary h2 {
+	font-size: 0.6875rem;
+	letter-spacing: 0.06em;
+	color: var(--text-muted, #9a9aa2);
+	margin: 0;
+}
+
+.transaction-summary dl {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin: 0;
+}
+
+.transaction-summary dt {
+	font-size: 0.6875rem;
+	color: var(--text-muted, #9a9aa2);
+}
+
+.transaction-summary dd {
+	margin: 0;
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+.actions {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+/* ==================================================
+   VIEW 5: CONTAS E VENCIMENTOS
+   ================================================== */
+.account-form {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 16px;
+	background: var(--card-bg, #17171a);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 12px;
+	margin-bottom: 16px;
+}
+
+.account-input {
+	min-height: 44px;
+	padding: 8px 12px;
+	color: var(--text-color, #f4f4f5);
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+	border-radius: 8px;
+	font-size: 0.875rem;
+	outline: none;
+}
+
+.account-input option {
+	background-color: var(--card-bg, #17171a);
+	color: var(--text-color, #f4f4f5);
+}
+
+.account-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.account-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 16px;
+	background: rgba(255, 255, 255, 0.02);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.06));
+	border-radius: 10px;
+}
+
+.account-item section {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.account-item strong {
+	color: var(--text-color, #f4f4f5);
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.account-item small {
+	color: var(--text-muted, #9a9aa2);
+	font-size: 0.75rem;
+}
+
+.account-item aside {
+	display: flex;
+	gap: 6px;
+}
+
+.account-edit {
+	color: #83d5c5;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 6px;
+	padding: 4px 8px;
+	font-size: 0.75rem;
+	cursor: pointer;
+}
+
+.account-delete {
+	color: #ffb4ab;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+	border-radius: 6px;
+	padding: 4px 8px;
+	font-size: 0.75rem;
+	cursor: pointer;
+}

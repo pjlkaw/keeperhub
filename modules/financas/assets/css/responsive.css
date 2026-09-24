@@ -1,0 +1,33 @@
+/* ==================================================
+   KEEPERHUB — FINANÇAS (MODULES): RESPONSIVIDADE
+   Padrão Arquitetural: modules/financas/assets/css/responsive.css
+   Responsabilidade: Adaptações responsivas específicas do módulo Finanças
+   ================================================== */
+
+@media (max-width: 460px) {
+	.transaction-preview {
+		width: 100%;
+		border-right: 0;
+		border-left: 0;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 440px) {
+	.app-preview {
+		width: 100%;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 370px) {
+	.two-cards {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (min-width: 600px) {
+	.account-item:hover {
+		border-color: rgba(255, 255, 255, .15);
+	}
+}
