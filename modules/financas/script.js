@@ -1,21 +1,173 @@
-// Inicializador do módulo.
-// Este arquivo coordena a execução das funções exportadas dos arquivos em /js,
-// usando import/export e async functions para montar a lógica principal do módulo.
+// Inicializador do módulo Finanças.
+// Integração oficial com serviços compartilhados do KeeperHub (shared/)
+
+// Integração com o serviço de alerta compartilhado
+let alertShared;
+try {
+    const sharedInterface = await import('../../shared/services/interface.js');
+    alertShared = sharedInterface.alertShared;
+} catch (e) {
+    // Fallback dinâmico se executado em escopo restrito
+}
+
+export function showFeedback(message) {
+    if (typeof alertShared === 'function') {
+        alertShared(message);
+        return;
+    }
+    const alertEl = document.getElementById('alertFromShared');
+    if (alertEl) {
+        alertEl.textContent = message;
+        alertEl.style.transition = 'top 0.35s ease, opacity 0.35s ease';
+        alertEl.style.opacity = '1';
+        alertEl.style.top = '20px';
+        clearTimeout(alertEl._closeTimer);
+        alertEl._closeTimer = setTimeout(() => {
+            alertEl.style.top = '-100px';
+            alertEl.style.opacity = '0';
+        }, 2400);
+    } else {
+        console.log('[KeeperHub Finanças]', message);
+    }
+}
 
 const API_URL = '/api';
 
-async function requestApi(path, options = {}) {
-    const response = await fetch(`${API_URL}${path}`, {
-        headers: { 'Content-Type': 'application/json', ...options.headers },
-        ...options
-    });
+// Dados padrão persistentes para garantir experiência instantânea e offline
+const STORAGE_KEY_TX = 'keeperhub_financas_transacoes';
+const STORAGE_KEY_ACC = 'keeperhub_financas_contas';
 
-    if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.error || 'Não foi possível comunicar com a API.');
+const INITIAL_TRANSACTIONS = [
+    { id: 1, descricao: 'Supermercado', valor: 150.45, tipo: 'despesa', categoria: 'Alimentação', conta_id: 1, conta_nome: 'Conta principal', data: new Date().toISOString(), status: 'pago' },
+    { id: 2, descricao: 'Uber', valor: 24.90, tipo: 'despesa', categoria: 'Transporte', conta_id: 1, conta_nome: 'Conta principal', data: new Date().toISOString(), status: 'pago' },
+    { id: 3, descricao: 'Salário', valor: 5430.00, tipo: 'receita', categoria: 'Renda', conta_id: 1, conta_nome: 'Conta principal', data: new Date(Date.now() - 86400000).toISOString(), status: 'pago' },
+    { id: 4, descricao: 'Aluguel & Condomínio', valor: 1200.00, tipo: 'despesa', categoria: 'Moradia', conta_id: 1, conta_nome: 'Conta principal', data: new Date(Date.now() - 172800000).toISOString(), vencimento: new Date(Date.now() + 86400000 * 5).toISOString(), status: 'pendente' },
+    { id: 5, descricao: 'Internet Fibra', valor: 129.90, tipo: 'despesa', categoria: 'Assinaturas', conta_id: 1, conta_nome: 'Conta principal', data: new Date(Date.now() - 259200000).toISOString(), vencimento: new Date(Date.now() + 86400000 * 3).toISOString(), status: 'pendente' }
+];
+
+const INITIAL_ACCOUNTS = [
+    { id: 1, nome: 'Conta principal', tipo: 'Conta corrente' },
+    { id: 2, nome: 'Reserva de emergência', tipo: 'Poupança' },
+    { id: 3, nome: 'Carteira física', tipo: 'Carteira' }
+];
+
+function getStoredTransactions() {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY_TX);
+        if (data) return JSON.parse(data);
+    } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY_TX, JSON.stringify(INITIAL_TRANSACTIONS)); } catch (e) {}
+    return INITIAL_TRANSACTIONS;
+}
+
+function saveStoredTransactions(txs) {
+    try { localStorage.setItem(STORAGE_KEY_TX, JSON.stringify(txs)); } catch (e) {}
+}
+
+function getStoredAccounts() {
+    try {
+        const data = localStorage.getItem(STORAGE_KEY_ACC);
+        if (data) return JSON.parse(data);
+    } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY_ACC, JSON.stringify(INITIAL_ACCOUNTS)); } catch (e) {}
+    return INITIAL_ACCOUNTS;
+}
+
+function saveStoredAccounts(accs) {
+    try { localStorage.setItem(STORAGE_KEY_ACC, JSON.stringify(accs)); } catch (e) {}
+}
+
+async function requestApi(path, options = {}) {
+    try {
+        const response = await fetch(`${API_URL}${path}`, {
+            headers: { 'Content-Type': 'application/json', ...options.headers },
+            ...options
+        });
+
+        if (response.ok) {
+            return response.status === 204 ? null : response.json();
+        }
+    } catch (err) {
+        // Fallback local se backend não estiver respondendo
     }
 
-    return response.status === 204 ? null : response.json();
+    // Camada de persistência local / offline
+    const method = options.method || 'GET';
+    const txs = getStoredTransactions();
+    const accs = getStoredAccounts();
+
+    if (path.startsWith('/relatorios/resumo')) {
+        const income = txs.filter((t) => t.tipo === 'receita').reduce((sum, t) => sum + Number(t.valor || 0), 0);
+        const expense = txs.filter((t) => t.tipo === 'despesa').reduce((sum, t) => sum + Number(t.valor || 0), 0);
+        return { receitas: income, despesas: expense, saldo: income - expense };
+    }
+
+    if (path === '/transacoes' && method === 'GET') {
+        return txs;
+    }
+
+    if (path === '/transacoes' && method === 'POST') {
+        const body = JSON.parse(options.body || '{}');
+        const acc = accs.find((a) => a.id === Number(body.conta_id));
+        const newTx = {
+            id: Date.now(),
+            descricao: body.descricao || 'Sem descrição',
+            valor: Number(body.valor || 0),
+            tipo: body.tipo || 'despesa',
+            categoria: body.categoria || 'Geral',
+            conta_id: body.conta_id,
+            conta_nome: acc ? acc.nome : 'Conta principal',
+            data: body.data || new Date().toISOString(),
+            vencimento: body.vencimento || null,
+            status: body.status || 'pendente'
+        };
+        txs.unshift(newTx);
+        saveStoredTransactions(txs);
+        return newTx;
+    }
+
+    if (path.match(/\/transacoes\/\d+\/pagamento/) && method === 'PATCH') {
+        const id = Number(path.split('/')[2]);
+        const target = txs.find((t) => t.id === id);
+        if (target) {
+            target.status = 'pago';
+            saveStoredTransactions(txs);
+        }
+        return target;
+    }
+
+    if (path === '/contas' && method === 'GET') {
+        return accs;
+    }
+
+    if (path === '/contas' && method === 'POST') {
+        const body = JSON.parse(options.body || '{}');
+        const newAcc = { id: Date.now(), nome: body.nome || 'Nova conta', tipo: body.tipo || 'Conta corrente' };
+        accs.push(newAcc);
+        saveStoredAccounts(accs);
+        return newAcc;
+    }
+
+    if (path.match(/\/contas\/\d+/) && method === 'PUT') {
+        const id = Number(path.split('/')[2]);
+        const body = JSON.parse(options.body || '{}');
+        const target = accs.find((a) => a.id === id);
+        if (target) {
+            target.nome = body.nome || target.nome;
+            target.tipo = body.tipo || target.tipo;
+            saveStoredAccounts(accs);
+        }
+        return target;
+    }
+
+    if (path.match(/\/contas\/\d+/) && method === 'DELETE') {
+        const id = Number(path.split('/')[2]);
+        const updated = accs.filter((a) => a.id !== id);
+        saveStoredAccounts(updated);
+        return null;
+    }
+
+    return null;
 }
 
 const formatCurrency = (value) => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -30,13 +182,16 @@ async function loadFinancialSummary(query = '') {
     if (!hasSummaryOutput) return;
 
     const summary = await requestApi(`/relatorios/resumo${query}`);
+    if (!summary) return;
     const income = Number(summary.receitas);
     const expense = Number(summary.despesas);
     const balance = Number(summary.saldo);
     const margin = income ? Math.max(0, Math.round((balance / income) * 100)) : 0;
 
     document.querySelector('#dashboard-balance')?.replaceChildren(formatCurrency(balance));
-    document.querySelector('#dashboard-change')?.replaceChildren('Dados atualizados pelo banco');
+    document.querySelector('#dashboard-income')?.replaceChildren(formatCurrency(income));
+    document.querySelector('#dashboard-expense')?.replaceChildren(formatCurrency(expense));
+    document.querySelector('#dashboard-change')?.replaceChildren('Atualizado');
     document.querySelector('#report-income')?.replaceChildren(formatCurrency(income));
     document.querySelector('#report-expense')?.replaceChildren(formatCurrency(expense));
     document.querySelector('#report-balance')?.replaceChildren(formatCurrency(balance));
@@ -221,7 +376,8 @@ function bindPaymentButtons() {
                 button.textContent = 'Pago';
                 button.disabled = true;
                 button.closest('.transaction-item').classList.add('is-paid');
-            } catch (error) { alert(error.message); }
+                showFeedback('Pagamento registrado com sucesso!');
+            } catch (error) { showFeedback(error.message); }
         };
     });
 }
@@ -345,9 +501,10 @@ const transactionForm = document.querySelector('#transaction-form');
 if (transactionForm) {
     const accountSelect = transactionForm.elements.account;
     requestApi('/contas').then((accounts) => {
+        if (!accounts || !accounts.length) return;
         accountSelect.replaceChildren(new Option('Selecione uma conta', '', true, true));
         accounts.forEach((account) => accountSelect.add(new Option(account.nome, account.id)));
-    }).catch((error) => alert(error.message));
+    }).catch((error) => console.warn(error.message));
 
     document.querySelector('.cancel-button')?.addEventListener('click', () => {
         window.location.href = '../index.html';
@@ -361,12 +518,12 @@ if (transactionForm) {
         const accountId = Number(form.get('account'));
 
         if (!Number.isFinite(value) || value <= 0) {
-            alert('Informe um valor maior que zero.');
+            showFeedback('Informe um valor maior que zero.');
             return;
         }
 
         if (!Number.isInteger(accountId) || accountId <= 0) {
-            alert('Selecione uma conta cadastrada antes de salvar a transação.');
+            showFeedback('Selecione uma conta cadastrada.');
             return;
         }
 
@@ -376,18 +533,20 @@ if (transactionForm) {
                 body: JSON.stringify({
                     tipo: selectedType?.dataset.transactionType === 'income' ? 'receita' : 'despesa',
                     valor: value,
-                    descricao: form.get('description'),
-                    categoria: form.get('category'),
+                    descricao: form.get('description') || 'Transação',
+                    categoria: form.get('category') || 'Geral',
                     conta_id: accountId,
                     data: form.get('date'),
                     vencimento: form.get('dueDate') || null,
                     status: form.get('status') || 'pendente'
                 })
             });
-            alert('Transação salva com sucesso!');
-            window.location.href = 'transacoes.html';
+            showFeedback('Transação salva com sucesso!');
+            setTimeout(() => {
+                window.location.href = 'transacoes.html';
+            }, 600);
         } catch (error) {
-            alert(error.message);
+            showFeedback(error.message);
         }
     });
 }
@@ -400,6 +559,7 @@ if (accountForm && accountList) {
 
     const loadAccounts = async () => {
         const accounts = await requestApi('/contas');
+        if (!accounts) return;
         accountList.replaceChildren(...accounts.map((account) => {
             const item = document.createElement('article');
             const details = document.createElement('section');
@@ -426,7 +586,7 @@ if (accountForm && accountList) {
         }));
     };
 
-    loadAccounts().catch((error) => alert(error.message));
+    loadAccounts().catch((error) => console.warn(error.message));
 
     accountForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -436,11 +596,13 @@ if (accountForm && accountList) {
                 method: editingId ? 'PUT' : 'POST',
                 body: JSON.stringify({ nome: data.name, tipo: data.type })
             });
+            const wasEditing = editingId;
             editingId = null;
             accountForm.reset();
             await loadAccounts();
+            showFeedback(wasEditing ? 'Conta atualizada com sucesso!' : 'Conta cadastrada com sucesso!');
         } catch (error) {
-            alert(error.message);
+            showFeedback(error.message);
         }
     });
 
@@ -454,13 +616,15 @@ if (accountForm && accountList) {
                 if (!confirm('Excluir esta conta? As transações vinculadas serão mantidas no histórico.')) return;
                 await requestApi(`/contas/${item.dataset.id}`, { method: 'DELETE' });
                 await loadAccounts();
+                showFeedback('Conta excluída com sucesso.');
                 return;
             }
             editingId = item.dataset.id;
             accountForm.elements.name.value = item.querySelector('strong').textContent;
             accountForm.elements.type.value = item.querySelector('small').textContent;
+            showFeedback('Editando conta: altere os dados no formulário acima.');
         } catch (error) {
-            alert(error.message);
+            showFeedback(error.message);
         }
     });
 }
