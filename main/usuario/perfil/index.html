@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeeperHub — Perfil</title>
+    <meta name="description" content="Perfil do usuário no KeeperHub." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="color-scheme" content="dark light" />
+
+    <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png" />
+
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('keeperhub-theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (error) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+      integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/perfil.css" />
+  </head>
+
+  <body>
+    <div class="perfil-app">
+      <header class="perfil-cabecalho">
+        <a class="perfil-cabecalho__voltar" href="../../hub/index.html" aria-label="Voltar ao início">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <h1 class="perfil-cabecalho__titulo">Perfil</h1>
+
+        <span class="perfil-cabecalho__usuario-discreto" aria-hidden="true">
+          <i class="fa-regular fa-user"></i>
+        </span>
+
+        <button class="perfil-cabecalho__opcoes" type="button" aria-label="Mais opções do perfil">
+          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+        </button>
+
+        <a class="perfil-cabecalho__atalho" href="index.html" aria-label="Perfil atual" aria-current="page">
+          <i class="fa-regular fa-user" aria-hidden="true"></i>
+        </a>
+      </header>
+
+      <main class="perfil-conteudo" id="conteudo-principal">
+        <section class="perfil-resumo" aria-labelledby="nome-usuario">
+          <div class="perfil-avatar" aria-hidden="true">
+          <i class="fa-regular fa-user"></i>
+
+            <span class="perfil-verificado" title="Perfil verificado">
+              <i class="fa-solid fa-certificate" aria-hidden="true"></i>
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <div class="perfil-identidade">
+            <h2 class="perfil-identidade__nome" id="nome-usuario">Gabriel Santos</h2>
+            <p class="perfil-identidade__usuario" id="usuario-perfil">@gabriel.keeper</p>
+          </div>
+        </section>
+
+        <a class="perfil-editar" id="editar-perfil" href="editar/index.html">
+          <i class="fa-solid fa-pen" aria-hidden="true"></i>
+          <span>Editar Perfil</span>
+        </a>
+      </main>
+    </div>
+
+    <script src="js/perfil.js" defer></script>
+  </body>
+</html>
+

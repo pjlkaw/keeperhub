@@ -25,7 +25,7 @@ git pull origin main
 
 Crie uma branch para a tarefa:
 
-git switch -c feature/medicamentos-cadastro-produto
+git switch -c feature/medicamentos-cadastro-
 
 Use o formato tipo/modulo-descricao-curta. Tipos comuns: feature, fix e
 docs. Se o Git da maquina nao possuir switch, use checkout no lugar.
@@ -43,7 +43,7 @@ git add caminho/do/arquivo
 git commit -m "feat: adicionar cadastro de medicamento"
 
 4. ENVIAR E ABRIR PULL REQUEST
-------------------------------
+----------------------------produto--
 Envie a branch pela primeira vez com:
 
 git push -u origin feature/medicamentos-cadastro-produto
