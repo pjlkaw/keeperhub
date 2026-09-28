@@ -31,25 +31,28 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="../../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../../../shared/styles/header-page.css" />
     <link rel="stylesheet" href="css/editar-perfil.css" />
   </head>
 
   <body>
     <div class="edicao-app">
-      <header class="edicao-cabecalho">
-        <a class="edicao-cabecalho__voltar" href="../index.html" aria-label="Voltar ao perfil">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-        </a>
-
-        <h1 class="edicao-cabecalho__titulo">Editar Perfil</h1>
-
-        <button class="edicao-cabecalho__tema" id="alternar-tema" type="button" aria-label="Alternar tema">
-          <i class="fa-solid fa-sun" aria-hidden="true"></i>
-        </button>
-
-        <a class="edicao-cabecalho__perfil" href="../index.html" aria-label="Abrir perfil">
-          <i class="fa-regular fa-user" aria-hidden="true"></i>
-        </a>
+      <header class="section-header-section edicao-cabecalho">
+        <div class="section-header-title-area">
+          <div class="section-header-top-row">
+            <a class="section-header-back-btn" href="../index.html" aria-label="Voltar ao perfil">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </a>
+            <h1 class="section-header-title">Editar Perfil</h1>
+          </div>
+        </div>
+        <div class="section-header-controls">
+          <button class="btn-header" id="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar tema">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+        </div>
       </header>
 
       <main class="edicao-conteudo" id="conteudo-principal">
@@ -67,14 +70,7 @@
             <input class="somente-leitor-tela" id="foto-perfil" name="foto_perfil" type="file" accept="image/*" />
           </div>
 
-          <h2 class="edicao-identidade__nome" id="nome-resumo">
-            Gabriel Santos
-            <i class="fa-solid fa-circle-check" aria-label="Perfil verificado" title="Perfil verificado"></i>
-          </h2>
-
-          <div class="edicao-identidade__detalhes">
-            <span id="usuario-resumo">@gabriel.keeper</span>
-          </div>
+          <h2 class="edicao-identidade__nome" id="nome-resumo">Gabriel Santos</h2>
         </section>
 
         <form class="formulario-perfil" id="formulario-perfil">
@@ -100,11 +96,8 @@
 
             <div class="campo-formulario">
               <label for="email">
-                <span>
-                  <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                  E-mail
-                </span>
-                <small><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verificado</small>
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                E-mail
               </label>
               <input id="email" name="email" type="email" value="gabriel.santos@email.com" autocomplete="email" required />
             </div>
@@ -225,7 +218,7 @@
       </main>
     </div>
 
+    <script src="../../../../shared/services/theme.js" defer></script>
     <script src="js/editar-perfil.js" defer></script>
   </body>
 </html>
-

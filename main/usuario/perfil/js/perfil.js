@@ -1,7 +1,8 @@
 /**
  * KEEPERHUB — PERFIL DO USUÁRIO
- * Carrega os dados disponíveis na sessão e mantém os valores demonstrativos
- * da referência quando ainda não houver integração com o backend.
+ * Carrega o nome disponível na sessão.
+ * PROVISÓRIO: o fallback abaixo existe somente enquanto o perfil ainda não
+ * estiver integrado ao usuário retornado pelo banco de dados/backend.
  */
 
 (function () {
@@ -10,7 +11,6 @@
   const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
   const fallbackProfile = {
     name: 'Gabriel Santos',
-    username: 'gabriel.keeper',
   };
 
   function readCurrentUser() {
@@ -22,38 +22,15 @@
     }
   }
 
-  function normalizeUsername(user) {
-    const directUsername = user && (user.username || user.userName || user.handle);
-    const emailPrefix = user && typeof user.email === 'string'
-      ? user.email.split('@')[0]
-      : '';
-    const nameBase = user && typeof user.name === 'string'
-      ? user.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      : '';
-
-    const rawValue = directUsername || emailPrefix || nameBase || fallbackProfile.username;
-
-    return rawValue
-      .toString()
-      .trim()
-      .replace(/^@+/, '')
-      .replace(/\s+/g, '.')
-      .replace(/[^a-zA-Z0-9._-]/g, '')
-      .toLowerCase() || fallbackProfile.username;
-  }
-
   function renderProfile() {
     const user = readCurrentUser();
     const nameElement = document.getElementById('nome-usuario');
-    const usernameElement = document.getElementById('usuario-perfil');
 
     const displayName = user && typeof user.name === 'string' && user.name.trim()
       ? user.name.trim()
       : fallbackProfile.name;
 
     if (nameElement) nameElement.textContent = displayName;
-    if (usernameElement) usernameElement.textContent = '@' + normalizeUsername(user);
-
     document.title = 'KeeperHub — Perfil de ' + displayName;
   }
 
@@ -63,4 +40,3 @@
     renderProfile();
   }
 })();
-

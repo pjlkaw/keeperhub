@@ -1,36 +1,28 @@
 /* ==================================================
    KEEPERHUB — PERFIL DO USUÁRIO
    Estrutura local: /main/usuario/perfil/
-   Esta página é independente da pasta shared.
+   Consome os tokens e componentes visuais de /shared.
    ================================================== */
 
 :root {
   color-scheme: dark;
-  /* Espelho local dos tokens do tema escuro em shared/styles/variables.css. */
-  --perfil-fundo: #0b0b0d;
-  --perfil-fundo-externo: #0b0b0d;
-  --perfil-texto: #f4f4f5;
-  --perfil-texto-secundario: #9a9aa2;
-  --perfil-icone: #f4f4f5;
+  --perfil-fundo: var(--bg-color);
+  --perfil-fundo-externo: var(--bg-color);
+  --perfil-texto: var(--text-color);
+  --perfil-texto-secundario: var(--text-muted);
+  --perfil-icone: var(--text-color);
   --perfil-avatar: #303030;
-  --perfil-acento: #06b39d;
+  --perfil-acento: #01ab8e;
   --perfil-acento-hover: #08c4ab;
   --perfil-sombra: rgb(0 0 0 / 28%);
-  --perfil-borda: rgb(255 255 255 / 10%);
+  --perfil-borda: var(--border-color);
   --perfil-transicao: 180ms ease;
 }
 
 html[data-theme='light'] {
   color-scheme: light;
-  /* Espelho local dos tokens do tema claro em shared/styles/variables.css. */
-  --perfil-fundo: #ffffff;
-  --perfil-fundo-externo: #ffffff;
-  --perfil-texto: #1a202c;
-  --perfil-texto-secundario: #64748b;
-  --perfil-icone: #1a202c;
   --perfil-avatar: #cbd5e1;
   --perfil-sombra: rgb(15 23 42 / 16%);
-  --perfil-borda: #e2e8f0;
 }
 
 *,
@@ -52,7 +44,7 @@ body {
   margin: 0;
   color: var(--perfil-texto);
   background: var(--perfil-fundo-externo);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Verdana, Tahoma, sans-serif;
   line-height: 1.5;
 }
 
@@ -71,7 +63,7 @@ a {
 }
 
 .perfil-app {
-  width: min(100%, 667px);
+  width: min(100%, 420px);
   min-height: 100vh;
   min-height: 100svh;
   margin-inline: auto;
@@ -81,74 +73,11 @@ a {
 }
 
 .perfil-cabecalho {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  min-height: 105px;
-  padding: 16px 24px;
-  background: var(--perfil-fundo);
-}
-
-.perfil-cabecalho__voltar,
-.perfil-cabecalho__opcoes,
-.perfil-cabecalho__atalho {
-  display: grid;
-  min-width: 44px;
-  min-height: 44px;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  cursor: pointer;
-  transition:
-    color var(--perfil-transicao),
-    background-color var(--perfil-transicao),
-    transform var(--perfil-transicao);
-}
-
-.perfil-cabecalho__voltar {
-  font-size: 1.75rem;
-}
-
-.perfil-cabecalho__titulo {
-  min-width: 0;
+  min-height: 64px;
   margin: 0;
-  font-size: 2.25rem;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.perfil-cabecalho__usuario-discreto {
-  position: absolute;
-  left: 50%;
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  color: color-mix(in srgb, var(--perfil-avatar) 88%, var(--perfil-fundo));
-  font-size: 1.25rem;
-  transform: translateX(-50%);
-}
-
-.perfil-cabecalho__opcoes {
-  position: absolute;
-  right: 122px;
-  color: var(--perfil-icone);
-  background: transparent;
-  font-size: 1.65rem;
-}
-
-.perfil-cabecalho__atalho {
-  position: absolute;
-  right: 24px;
-  width: 56px;
-  height: 56px;
-  min-width: 56px;
-  min-height: 56px;
-  color: var(--perfil-avatar);
-  background: var(--perfil-acento);
-  font-size: 1.45rem;
+  padding: 14px 20px;
+  background: var(--perfil-fundo);
+  border-bottom: 1px solid var(--perfil-borda);
 }
 
 .perfil-cabecalho :is(a, button):focus-visible,
@@ -159,10 +88,10 @@ a {
 
 .perfil-conteudo {
   display: flex;
-  min-height: calc(100svh - 105px);
+  min-height: calc(100svh - 64px);
   flex-direction: column;
   align-items: center;
-  padding: 40px 24px 56px;
+  padding: 36px 20px 48px;
 }
 
 .perfil-resumo {
@@ -175,8 +104,8 @@ a {
 .perfil-avatar {
   position: relative;
   display: grid;
-  width: 234px;
-  height: 234px;
+  width: 176px;
+  height: 176px;
   place-items: center;
   color: var(--perfil-avatar);
   border: 7px solid var(--perfil-acento);
@@ -184,78 +113,41 @@ a {
 }
 
 .perfil-avatar > .fa-user {
-  font-size: 9.75rem;
+  font-size: 7.25rem;
   line-height: 1;
   transform: translateY(-10%);
 }
 
-.perfil-verificado {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  width: 58px;
-  height: 58px;
-  place-items: center;
-  color: var(--perfil-icone);
-  background: var(--perfil-acento);
-  border: 4px solid var(--perfil-acento);
-  border-radius: 50%;
-  box-shadow: 0 4px 12px var(--perfil-sombra);
-}
-
-.perfil-verificado .fa-certificate,
-.perfil-verificado .fa-check {
-  grid-area: 1 / 1;
-}
-
-.perfil-verificado .fa-certificate {
-  font-size: 1.85rem;
-}
-
-.perfil-verificado .fa-check {
-  color: var(--perfil-acento);
-  font-size: 0.85rem;
-}
-
 .perfil-identidade {
-  margin-top: 43px;
+  margin-top: 28px;
   text-align: center;
 }
 
 .perfil-identidade__nome {
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.2;
-}
-
-.perfil-identidade__usuario {
-  margin: 10px 0 0;
-  overflow-wrap: anywhere;
-  color: var(--perfil-texto-secundario);
-  font-size: 1.55rem;
-  line-height: 1.3;
 }
 
 .perfil-editar {
   display: inline-flex;
   width: 100%;
-  max-width: 614px;
-  min-height: 84px;
+  max-width: 280px;
+  min-height: 48px;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-top: 58px;
-  padding: 16px 24px;
+  gap: 10px;
+  margin-top: 32px;
+  padding: 10px 20px;
   color: #f7f7f7;
   background: var(--perfil-acento);
   border: 0;
   border-radius: 999px;
   box-shadow: 0 8px 20px transparent;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 700;
   transition:
     background-color var(--perfil-transicao),
@@ -264,22 +156,12 @@ a {
 }
 
 .perfil-editar i {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .perfil-cabecalho__voltar:hover,
-  .perfil-cabecalho__opcoes:hover {
-    background: color-mix(in srgb, var(--perfil-texto) 8%, transparent);
-  }
-
-  .perfil-cabecalho__atalho:hover,
   .perfil-editar:hover {
     background: var(--perfil-acento-hover);
-  }
-
-  .perfil-cabecalho :is(a, button):hover {
-    transform: translateY(-2px);
   }
 
   .perfil-editar:hover {
@@ -294,51 +176,19 @@ a {
 }
 
 @media (max-width: 520px) {
-  .perfil-cabecalho {
-    gap: 12px;
-    min-height: 88px;
-    padding: 12px 16px;
-  }
-
-  .perfil-cabecalho__titulo {
-    font-size: 1.75rem;
-  }
-
-  .perfil-cabecalho__usuario-discreto {
-    display: none;
-  }
-
-  .perfil-cabecalho__atalho {
-    right: 16px;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    font-size: 1.25rem;
-  }
-
-  .perfil-cabecalho__opcoes {
-    right: 72px;
-  }
-
   .perfil-conteudo {
-    min-height: calc(100svh - 88px);
+    min-height: calc(100svh - 64px);
     padding: 32px 20px 40px;
   }
 
   .perfil-avatar {
-    width: 196px;
-    height: 196px;
+    width: 164px;
+    height: 164px;
     border-width: 6px;
   }
 
   .perfil-avatar > .fa-user {
-    font-size: 8rem;
-  }
-
-  .perfil-verificado {
-    width: 52px;
-    height: 52px;
+    font-size: 6.75rem;
   }
 
   .perfil-identidade {
@@ -346,30 +196,17 @@ a {
   }
 
   .perfil-identidade__nome {
-    font-size: 2rem;
-  }
-
-  .perfil-identidade__usuario {
-    font-size: 1.2rem;
+    font-size: 1.65rem;
   }
 
   .perfil-editar {
-    min-height: 68px;
-    margin-top: 44px;
-    font-size: 1.2rem;
+    min-height: 48px;
+    margin-top: 32px;
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 350px) {
-  .perfil-cabecalho {
-    gap: 6px;
-    padding-inline: 12px;
-  }
-
-  .perfil-cabecalho__titulo {
-    font-size: 1.5rem;
-  }
-
   .perfil-avatar {
     width: 172px;
     height: 172px;
@@ -393,4 +230,3 @@ a {
     animation-duration: 0.01ms !important;
   }
 }
-
