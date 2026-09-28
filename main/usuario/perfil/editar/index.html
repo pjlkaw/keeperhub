@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KeeperHub — Editar Perfil</title>
+    <meta name="description" content="Edite os dados do seu perfil no KeeperHub." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="color-scheme" content="dark light" />
+
+    <link rel="icon" type="image/svg+xml" href="../../../assets/img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/img/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="../../../assets/img/apple-touch-icon.png" />
+
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('keeperhub-theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (error) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+      integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/editar-perfil.css" />
+  </head>
+
+  <body>
+    <div class="edicao-app">
+      <header class="edicao-cabecalho">
+        <a class="edicao-cabecalho__voltar" href="../index.html" aria-label="Voltar ao perfil">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </a>
+
+        <h1 class="edicao-cabecalho__titulo">Editar Perfil</h1>
+
+        <button class="edicao-cabecalho__tema" id="alternar-tema" type="button" aria-label="Alternar tema">
+          <i class="fa-solid fa-sun" aria-hidden="true"></i>
+        </button>
+
+        <a class="edicao-cabecalho__perfil" href="../index.html" aria-label="Abrir perfil">
+          <i class="fa-regular fa-user" aria-hidden="true"></i>
+        </a>
+      </header>
+
+      <main class="edicao-conteudo" id="conteudo-principal">
+        <section class="edicao-identidade" aria-labelledby="nome-resumo">
+          <div class="edicao-avatar">
+            <span class="edicao-avatar__substituto" id="avatar-substituto" aria-hidden="true">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            <img class="edicao-avatar__imagem" id="avatar-imagem" alt="Prévia da foto do perfil" hidden />
+
+            <label class="edicao-avatar__alterar" for="foto-perfil" title="Alterar foto">
+              <i class="fa-solid fa-camera" aria-hidden="true"></i>
+              <span class="somente-leitor-tela">Alterar foto do perfil</span>
+            </label>
+            <input class="somente-leitor-tela" id="foto-perfil" name="foto_perfil" type="file" accept="image/*" />
+          </div>
+
+          <h2 class="edicao-identidade__nome" id="nome-resumo">
+            Gabriel Santos
+            <i class="fa-solid fa-circle-check" aria-label="Perfil verificado" title="Perfil verificado"></i>
+          </h2>
+
+          <div class="edicao-identidade__detalhes">
+            <span id="usuario-resumo">@gabriel.keeper</span>
+          </div>
+        </section>
+
+        <form class="formulario-perfil" id="formulario-perfil">
+          <section class="painel-formulario" aria-labelledby="informacoes-pessoais">
+            <header class="painel-formulario__cabecalho">
+              <div>
+                <h2 id="informacoes-pessoais">
+                  <i class="fa-regular fa-address-card" aria-hidden="true"></i>
+                  Informações Pessoais
+                </h2>
+                <p>Seus dados de contato e identificação</p>
+              </div>
+              <span>Edição direta</span>
+            </header>
+
+            <div class="campo-formulario">
+              <label for="nome-completo">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                Nome Completo
+              </label>
+              <input id="nome-completo" name="nome" type="text" value="Gabriel Santos" autocomplete="name" required />
+            </div>
+
+            <div class="campo-formulario">
+              <label for="email">
+                <span>
+                  <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                  E-mail
+                </span>
+                <small><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Verificado</small>
+              </label>
+              <input id="email" name="email" type="email" value="gabriel.santos@email.com" autocomplete="email" required />
+            </div>
+
+            <div class="campo-formulario">
+              <label for="telefone">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                Número de Telefone
+              </label>
+              <input id="telefone" name="telefone" type="tel" value="+55 (11) 98765-4321" autocomplete="tel" />
+            </div>
+
+            <div class="linha-formulario">
+              <div class="campo-formulario">
+                <label for="nascimento">
+                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                  Nascimento
+                </label>
+                <input id="nascimento" name="nascimento" type="text" value="14/08/1994" inputmode="numeric" placeholder="dd/mm/aaaa" />
+              </div>
+
+              <div class="campo-formulario">
+                <label for="genero">
+                  <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
+                  Gênero
+                </label>
+                <select id="genero" name="genero">
+                  <option value="">Selecione</option>
+                  <option value="masculino" selected>Masculino</option>
+                  <option value="feminino">Feminino</option>
+                  <option value="nao-binario">Não binário</option>
+                  <option value="nao-informar">Prefiro não informar</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="painel-formulario painel-formulario--seguranca" aria-labelledby="seguranca-senha">
+            <header class="painel-formulario__cabecalho">
+              <div>
+                <h2 id="seguranca-senha">
+                  <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                  Segurança e Senha
+                </h2>
+              </div>
+              <a href="#" aria-label="Recuperar senha">Esqueceu?</a>
+            </header>
+
+            <div class="campo-formulario campo-senha">
+              <label for="senha-atual">
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                Senha Atual
+              </label>
+              <div class="campo-senha__controle">
+                <input id="senha-atual" name="senha_atual" type="password" value="KeeperHub2025#" autocomplete="current-password" />
+                <button type="button" aria-label="Mostrar senha atual" data-alternar-senha="senha-atual">
+                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="campo-formulario campo-senha">
+              <label for="nova-senha">
+                <i class="fa-solid fa-key" aria-hidden="true"></i>
+                Nova Senha
+              </label>
+              <div class="campo-senha__controle">
+                <input id="nova-senha" name="nova_senha" type="password" value="KeeperHub2025#" autocomplete="new-password" minlength="8" />
+                <button type="button" aria-label="Mostrar nova senha" data-alternar-senha="nova-senha">
+                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="forca-senha" aria-live="polite">
+                <div class="forca-senha__barra" aria-hidden="true"><span id="barra-forca-senha"></span></div>
+                <span>Força da senha</span>
+                <strong id="texto-forca-senha">Forte</strong>
+              </div>
+            </div>
+
+            <div class="campo-formulario campo-senha">
+              <label for="confirmar-senha">
+                <i class="fa-solid fa-check" aria-hidden="true"></i>
+                Confirmar Nova Senha
+              </label>
+              <div class="campo-senha__controle">
+                <input id="confirmar-senha" name="confirmar_senha" type="password" value="KeeperHub2025#" autocomplete="new-password" minlength="8" />
+                <button type="button" aria-label="Mostrar confirmação da senha" data-alternar-senha="confirmar-senha">
+                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="painel-formulario painel-autenticacao" aria-labelledby="titulo-autenticacao">
+            <span class="painel-autenticacao__icone" aria-hidden="true">
+              <i class="fa-solid fa-mobile-screen-button"></i>
+            </span>
+            <div>
+              <h2 id="titulo-autenticacao">Autenticação em 2 etapas</h2>
+              <p>Proteção adicional à sua conta</p>
+            </div>
+            <label class="interruptor" for="autenticacao-dupla">
+              <input id="autenticacao-dupla" name="autenticacao_dupla" type="checkbox" checked />
+              <span aria-hidden="true"></span>
+              <span class="somente-leitor-tela">Ativar autenticação em duas etapas</span>
+            </label>
+          </section>
+
+          <div class="acoes-formulario">
+            <p class="mensagem-formulario" id="mensagem-formulario" role="status" aria-live="polite"></p>
+            <button class="botao-salvar" type="submit">
+              <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
+              Salvar alterações
+            </button>
+            <button class="botao-descartar" id="descartar-alteracoes" type="button">Descartar</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script src="js/editar-perfil.js" defer></script>
+  </body>
+</html>
+
