@@ -114,6 +114,17 @@
   color: inherit;
 }
 
+.app-header-profile-link {
+  display: inline-flex;
+  border-radius: 50%;
+}
+
+.app-header-profile-link:focus-visible,
+.app-header-brand-name:focus-visible {
+  outline: 2px solid var(--color-secondary, #01ab8e);
+  outline-offset: 3px;
+}
+
 /* Controles à Direita do Header (Tema + Sino) */
 .app-header-controls {
   display: inline-flex;

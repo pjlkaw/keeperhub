@@ -31,45 +31,38 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="stylesheet" href="../../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../../shared/styles/header-page.css" />
     <link rel="stylesheet" href="css/perfil.css" />
   </head>
 
   <body>
     <div class="perfil-app">
-      <header class="perfil-cabecalho">
-        <a class="perfil-cabecalho__voltar" href="../../hub/index.html" aria-label="Voltar ao início">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-        </a>
-
-        <h1 class="perfil-cabecalho__titulo">Perfil</h1>
-
-        <span class="perfil-cabecalho__usuario-discreto" aria-hidden="true">
-          <i class="fa-regular fa-user"></i>
-        </span>
-
-        <button class="perfil-cabecalho__opcoes" type="button" aria-label="Mais opções do perfil">
-          <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
-        </button>
-
-        <a class="perfil-cabecalho__atalho" href="index.html" aria-label="Perfil atual" aria-current="page">
-          <i class="fa-regular fa-user" aria-hidden="true"></i>
-        </a>
+      <header class="section-header-section perfil-cabecalho">
+        <div class="section-header-title-area">
+          <div class="section-header-top-row">
+            <a class="section-header-back-btn" href="../../hub/index.html" aria-label="Voltar ao Hub">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </a>
+            <h1 class="section-header-title">Perfil</h1>
+          </div>
+        </div>
+        <div class="section-header-controls">
+          <button class="btn-header" id="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar tema">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+        </div>
       </header>
 
       <main class="perfil-conteudo" id="conteudo-principal">
         <section class="perfil-resumo" aria-labelledby="nome-usuario">
           <div class="perfil-avatar" aria-hidden="true">
-          <i class="fa-regular fa-user"></i>
-
-            <span class="perfil-verificado" title="Perfil verificado">
-              <i class="fa-solid fa-certificate" aria-hidden="true"></i>
-              <i class="fa-solid fa-check" aria-hidden="true"></i>
-            </span>
+            <i class="fa-regular fa-user"></i>
           </div>
 
           <div class="perfil-identidade">
             <h2 class="perfil-identidade__nome" id="nome-usuario">Gabriel Santos</h2>
-            <p class="perfil-identidade__usuario" id="usuario-perfil">@gabriel.keeper</p>
           </div>
         </section>
 
@@ -80,7 +73,7 @@
       </main>
     </div>
 
+    <script src="../../../shared/services/theme.js" defer></script>
     <script src="js/perfil.js" defer></script>
   </body>
 </html>
-

@@ -1,6 +1,8 @@
 /**
  * KEEPERHUB — EDIÇÃO DO PERFIL
  * Interações locais da prévia. Senhas nunca são armazenadas no navegador.
+ * PROVISÓRIO: os dados demonstrativos e o salvamento em localStorage devem
+ * ser substituídos pela integração com o banco de dados/backend.
  */
 
 (function () {
@@ -9,7 +11,6 @@
   const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
   const FALLBACK_PROFILE = {
     name: 'Gabriel Santos',
-    username: 'gabriel.keeper',
     email: 'gabriel.santos@email.com',
     phone: '+55 (11) 98765-4321',
     birthDate: '14/08/1994',
@@ -23,11 +24,9 @@
   const birthInput = document.getElementById('nascimento');
   const genderSelect = document.getElementById('genero');
   const nameSummary = document.getElementById('nome-resumo');
-  const usernameSummary = document.getElementById('usuario-resumo');
   const photoInput = document.getElementById('foto-perfil');
   const avatarImage = document.getElementById('avatar-imagem');
   const avatarFallback = document.getElementById('avatar-substituto');
-  const themeButton = document.getElementById('alternar-tema');
   const newPasswordInput = document.getElementById('nova-senha');
   const confirmPasswordInput = document.getElementById('confirmar-senha');
   const strengthBar = document.getElementById('barra-forca-senha');
@@ -44,25 +43,10 @@
     }
   }
 
-  function normalizeUsername(user) {
-    const raw = (user && (user.username || user.userName || user.handle))
-      || (user && typeof user.email === 'string' ? user.email.split('@')[0] : '')
-      || FALLBACK_PROFILE.username;
-
-    return raw
-      .toString()
-      .trim()
-      .replace(/^@+/, '')
-      .replace(/\s+/g, '.')
-      .replace(/[^a-zA-Z0-9._-]/g, '')
-      .toLowerCase() || FALLBACK_PROFILE.username;
-  }
-
   function fillProfile() {
     const user = readSession() || {};
     const profile = {
       name: user.name || FALLBACK_PROFILE.name,
-      username: normalizeUsername(user),
       email: user.email || FALLBACK_PROFILE.email,
       phone: user.phone || user.telefone || FALLBACK_PROFILE.phone,
       birthDate: user.birthDate || user.nascimento || FALLBACK_PROFILE.birthDate,
@@ -74,26 +58,7 @@
     phoneInput.value = profile.phone;
     birthInput.value = profile.birthDate;
     genderSelect.value = profile.gender;
-    nameSummary.childNodes[0].nodeValue = profile.name + ' ';
-    usernameSummary.textContent = '@' + profile.username;
-  }
-
-  function updateThemeButton() {
-    const lightTheme = document.documentElement.dataset.theme === 'light';
-    const icon = themeButton.querySelector('i');
-    icon.className = lightTheme ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-    themeButton.setAttribute('aria-label', lightTheme ? 'Ativar tema escuro' : 'Ativar tema claro');
-
-    const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) metaTheme.content = lightTheme ? '#ffffff' : '#0b0b0d';
-  }
-
-  function toggleTheme() {
-    const current = document.documentElement.dataset.theme;
-    const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('keeperhub-theme', next);
-    updateThemeButton();
+    nameSummary.textContent = profile.name;
   }
 
   function togglePassword(button) {
@@ -174,13 +139,12 @@
       phone: phoneInput.value.trim(),
       birthDate: birthInput.value.trim(),
       gender: genderSelect.value,
-      username: normalizeUsername(current),
     };
 
     try {
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(publicProfile));
       message.textContent = 'Alterações salvas neste dispositivo.';
-      nameSummary.childNodes[0].nodeValue = publicProfile.name + ' ';
+      nameSummary.textContent = publicProfile.name;
       window.setTimeout(() => {
         window.location.href = '../index.html';
       }, 450);
@@ -194,13 +158,12 @@
   });
 
   nameInput.addEventListener('input', () => {
-    nameSummary.childNodes[0].nodeValue = (nameInput.value.trim() || FALLBACK_PROFILE.name) + ' ';
+    nameSummary.textContent = nameInput.value.trim() || FALLBACK_PROFILE.name;
   });
   birthInput.addEventListener('input', formatBirthDate);
   newPasswordInput.addEventListener('input', updatePasswordStrength);
   confirmPasswordInput.addEventListener('input', () => confirmPasswordInput.setCustomValidity(''));
   photoInput.addEventListener('change', previewPhoto);
-  themeButton.addEventListener('click', toggleTheme);
   form.addEventListener('submit', saveProfile);
   discardButton.addEventListener('click', () => {
     form.reset();
@@ -208,7 +171,5 @@
   });
 
   fillProfile();
-  updateThemeButton();
   updatePasswordStrength();
 })();
-
