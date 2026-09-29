@@ -1,3 +1,18 @@
+
+
+   fetch('/shared/components/navbar-section.html')
+        .then(response => response.text())
+        .then(data => {
+            const nav = document.getElementById('modules-nav-wrapper');
+            nav.innerHTML = data;
+
+            const moduloAtual = nav.querySelector('[data-module="despensa"]');
+            moduloAtual.classList.add('active');
+            moduloAtual.setAttribute('aria-selected', 'true');
+            moduloAtual.setAttribute('tabindex', '0');
+        });
+
+
 import { lerProdutos, salvarProdutos } from './armazenamento.js';
 import { alertShared } from '/shared/services/interface.js';
 

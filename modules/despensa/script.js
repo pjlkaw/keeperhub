@@ -1,3 +1,10 @@
+   //navbar
+   
+   
+
+
+
+
 // Inicializador: coordena as funções específicas de cada página.
 import { inicializarInterface } from './js/interface.js';
 import { inicializarResumo } from './js/index.js';
@@ -22,5 +29,6 @@ async function inicializarModulo() {
         document.getElementById('main-content').prepend(mensagem);
     }
 }
+
 
 inicializarModulo();
