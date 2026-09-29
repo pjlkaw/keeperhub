@@ -379,6 +379,8 @@
 /* ==================================================
 2. PRÓXIMAS DOSES (CARD COMPACTO)
 ================================================== */
+
+
 .meds-card-upcoming {
     padding: 16px 18px;
     display: flex;
@@ -819,3 +821,4 @@ RESPONSIVIDADE (max-width: 360px)
         padding: 12px 6px;
     }
 }
+
