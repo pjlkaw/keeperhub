@@ -1,0 +1,477 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: financas.css
+   Responsabilidade: Base compartilhada entre as páginas
+   do módulo Finanças (tokens do módulo, layout shells com
+   larguras originais, navegação interna, cabeçalho e temas).
+   
+   Depende de: 
+     - shared/styles/variables.css
+     - shared/styles/reset.css
+     - shared/styles/components.css
+     - shared/styles/navbar-modules.css
+     - shared/services/theme.js
+   Usado por: Páginas de /modules/financas/
+   ================================================== */
+
+/* --------------------------------------------------
+   1. TOKENS E CORES EXCLUSIVAS DO MÓDULO FINANÇAS
+   (Consome --tool-financas, --bg-color, etc. do /shared/)
+   -------------------------------------------------- */
+:root {
+  --financas-primary: var(--tool-financas, #e47a00);
+  --financas-primary-hover: #b85e00;
+  --financas-primary-tint: rgba(228, 122, 0, 0.14);
+  --financas-primary-border: rgba(228, 122, 0, 0.45);
+  
+  --panel: var(--card-bg, #1e1f22);
+  --panel-dark: #18191d;
+  --panel-border: var(--border-color, rgba(255, 255, 255, 0.05));
+  --field-border: #6b7280;
+}
+
+/* --------------------------------------------------
+   2. CASCA / ESTRUTURA BASE (LARGURAS ORIGINAIS PRESERVADAS)
+   -------------------------------------------------- */
+
+/* 2.0. Base tipográfica comum do módulo */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* 2.1. Container de Contas e Vencimentos (390px) */
+.app-shell {
+  width: min(390px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background: var(--bg-color, #000000);
+}
+
+/* 2.2. Container de Transações e Relatórios (420px) */
+.finance-shell {
+  width: min(420px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background: #ffffff;
+}
+
+html[data-theme="dark"] .finance-shell {
+  background: #121316;
+}
+
+/* 2.3. Container de Home e Nova Transação (440px) */
+.landing-page {
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #f8f8f9;
+  background: #101114;
+}
+
+.landing-page main {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+}
+
+.app-preview {
+  position: relative;
+  width: min(440px, 100%);
+  min-height: 100vh;
+  height: auto;
+  margin: 0 auto;
+  padding: 15px 14px 80px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  background: #111216;
+  border: 0;
+  border-radius: 19px;
+}
+
+.app-preview,
+.app-preview * {
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+
+html[data-theme="light"],
+html[data-theme="light"] body.landing-page {
+  min-height: 100%;
+  background: #ffffff;
+  color-scheme: light;
+}
+
+html[data-theme="light"] body.landing-page,
+html[data-theme="light"] body.landing-page main {
+  min-height: 100dvh;
+}
+
+html[data-theme="light"] body.landing-page .app-preview {
+  color: #1b1d21;
+  background: #ffffff;
+  border-color: transparent;
+}
+
+html[data-theme="dark"] body.landing-page,
+html[data-theme="dark"] body.landing-page main {
+  background: #0a0a0c;
+}
+
+html[data-theme="dark"] body.landing-page .app-preview {
+  background: #0a0a0c;
+}
+
+@media (max-width: 440px) {
+  .app-preview {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* 2.4. Containers estruturais de conteúdo compartilhado */
+.finance-content,
+.transactions-content,
+.reports-content,
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 15px 28px;
+}
+
+.finance-page {
+  min-width: 320px;
+  color: #202124;
+  background: #f3f3f1;
+  font-family: 'Inter', sans-serif;
+}
+
+html[data-theme="dark"] .finance-page {
+  color: #f4f4f5;
+  background: #101114;
+}
+
+/* --------------------------------------------------
+   3. NAVEGAÇÃO ENTRE MÓDULOS (CUSTOMIZAÇÃO DE FINANÇAS)
+   (Complementa shared/styles/navbar-modules.css)
+   -------------------------------------------------- */
+.finance-modules-nav {
+  margin-bottom: 16px;
+}
+
+.finance-modules-nav .modules-nav-item {
+  min-height: 44px;
+  color: var(--text-muted);
+  border-color: var(--border-color);
+}
+
+.finance-modules-nav .modules-nav-item.active {
+  color: var(--tool-financas, #e47a00);
+  background: rgba(228, 122, 0, 0.14);
+  border-color: rgba(228, 122, 0, 0.45);
+  font-weight: 700;
+}
+
+html[data-theme="light"] .finance-modules-nav .modules-nav-item.active {
+  color: var(--tool-financas, #e47a00);
+  background: rgba(228, 122, 0, 0.12);
+  border-color: rgba(228, 122, 0, 0.45);
+}
+
+/* --------------------------------------------------
+   4. NAVEGAÇÃO INTERNA ENTRE ABAS (SUB-NAV DE FINANÇAS)
+   -------------------------------------------------- */
+.finance-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 15px 12px;
+  overflow-x: auto;
+  border-bottom: 1px solid #e7e2dc;
+  scrollbar-width: thin;
+  scrollbar-color: #929292 transparent;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.finance-tabs a {
+  display: grid;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 16px;
+  place-items: center;
+  color: #687080;
+  border: 1px solid #ddd7d0;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.finance-tabs a.active {
+  color: #d86e00;
+  background: #fff7ef;
+  border-color: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="dark"] .finance-tabs {
+  border-color: #303238;
+}
+
+html[data-theme="dark"] .finance-tabs a {
+  color: #aab0bb;
+  background: #1d1f23;
+  border-color: #3a3c42;
+}
+
+html[data-theme="dark"] .finance-tabs a.active,
+html[data-theme="dark"] body.finance-page .finance-tabs a.active {
+  color: #ff970d;
+  background: #33200d;
+  border-color: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] body.finance-page .finance-tabs a.active {
+  color: #b85e00;
+  background: #fff7ef;
+  border-color: var(--tool-financas, #e47a00);
+}
+
+@media (max-width: 370px) {
+  .finance-tabs a {
+    padding: 0 13px;
+  }
+}
+
+/* --------------------------------------------------
+   5. CABEÇALHOS DAS PÁGINAS DE FINANÇAS
+   -------------------------------------------------- */
+.finance-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  height: 63px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #efede9;
+}
+
+.finance-header h1 {
+  margin: 0;
+  color: #1b1d21;
+  font: 700 24px 'Inter', sans-serif;
+}
+
+html[data-theme="dark"] .finance-header {
+  border-color: #303238;
+}
+
+html[data-theme="light"] body.finance-page .reports-screen > .finance-header > h1,
+html[data-theme="light"] body.finance-page .transactions-list-screen > .finance-header > h1 {
+  color: #1b1d21 !important;
+}
+
+html[data-theme="dark"] body.finance-page .reports-screen > .finance-header > h1,
+html[data-theme="dark"] body.finance-page .transactions-list-screen > .finance-header > h1 {
+  color: #f4f4f5 !important;
+}
+
+/* 5. CABEÇALHO OFICIAL (SHARED/COMPONENTS/HEADER-PAGE.HTML) — ESCOPO FINANÇAS */
+body.landing-page .section-header-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+body.landing-page .section-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+html[data-theme="light"] body.landing-page .section-header-title {
+  color: #111827;
+}
+
+body.landing-page .section-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: #90949e;
+  line-height: 1.4;
+}
+
+html[data-theme="light"] body.landing-page .section-header-meta {
+  color: #656b76;
+}
+
+body.landing-page .section-header-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  background-color: #33200d;
+  color: var(--tool-financas, #e47a00);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+html[data-theme="light"] body.landing-page .section-header-badge {
+  background-color: #ffead2;
+  color: #b85e00;
+}
+
+body.landing-page .section-header-back-btn:focus-visible,
+body.landing-page .btn-header:focus-visible {
+  outline: 2px solid var(--tool-financas, #e47a00);
+  outline-offset: 2px;
+}
+
+.transactions-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--panel-border, rgba(255, 255, 255, 0.05));
+}
+
+.transactions-header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* 5.1. Botões Voltar (com !important e especificidades preservadas) */
+.preview-back,
+body.landing-page .preview-back,
+body.transaction-page .preview-back {
+  display: grid;
+  place-items: center;
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #fff;
+  text-decoration: none;
+  font-size: 31px;
+  line-height: 1;
+}
+
+body.finance-page .finance-back {
+  width: 24px !important;
+  min-width: 24px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.preview-back svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+html[data-theme="light"] body.landing-page .preview-back {
+  color: #525864 !important;
+  border-color: #d2d5db;
+}
+
+.finance-back {
+  display: grid;
+  width: 40px;
+  height: 44px;
+  place-items: center;
+  margin-left: -10px;
+  color: #202124;
+  font-size: 31px;
+  text-decoration: none;
+}
+
+html[data-theme="dark"] .finance-back {
+  color: #f4f4f5;
+}
+
+.screen-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --------------------------------------------------
+   6. BOTÃO DE TEMA NOS CABEÇALHOS DE FINANÇAS
+   (Com valores exatos e !important preservados)
+   -------------------------------------------------- */
+.finance-theme-button,
+.preview-theme-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.finance-theme-button:hover,
+.preview-theme-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.finance-theme-button:focus-visible,
+.preview-theme-button:focus-visible {
+  outline: 2px solid var(--color-secondary, #01ab8e);
+  outline-offset: 2px;
+}
+
+.finance-theme-button .theme-icon,
+.preview-theme-button .theme-icon {
+  display: none;
+  width: 18px !important;
+  height: 18px !important;
+  object-fit: contain;
+}
+
+html[data-theme="dark"] .theme-icon-moon,
+html[data-theme="light"] .theme-icon-sun {
+  display: block !important;
+}
+
+html[data-theme="light"] .finance-theme-button,
+html[data-theme="light"] .preview-theme-button {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #4b5563;
+}

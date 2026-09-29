@@ -1,149 +1,308 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR" data-theme="dark">
 
+
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
+
     <link rel="stylesheet" href="../../shared/styles/variables.css">
+
     <link rel="stylesheet" href="../../shared/styles/reset.css">
+
     <link rel="stylesheet" href="../../shared/styles/components.css">
+
     <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="../../shared/styles/header-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/financas.css">
+    <link rel="stylesheet" href="assets/css/home.css">
     <script src="../../shared/services/theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
 </head>
 
+
+
 <body class="landing-page">
+
     <main>
+
+
+
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
-            <nav class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos">
-                <div class="modules-nav-bar" role="tablist">
-                    <a href="index.html" class="modules-nav-item active" data-module="financas" role="tab" aria-selected="true" aria-current="page">
-                        <img src="../../shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14"
-                            height="14">
-                        Finanças
-                    </a>
-                    <a href="../despensa/index.html" class="modules-nav-item" data-module="despensa" role="tab" aria-selected="false">
-                        <img src="../../shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14"
-                            height="14">
-                        Despensa
-                    </a>
-                    <a href="../pets/index.html" class="modules-nav-item" data-module="pets" role="tab" aria-selected="false">
-                        <img src="../../shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14"
-                            height="14">
-                        Pets
-                    </a>
-                    <a href="../metas/index.html" class="modules-nav-item" data-module="metas" role="tab" aria-selected="false">
-                        <img src="../../shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14"
-                            height="14">
-                        Metas
-                    </a>
-                    <a href="../medicamentos/index.html" class="modules-nav-item" data-module="medicamentos" role="tab" aria-selected="false">
-                        <img src="../../shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon"
-                            width="14" height="14">
-                        Farmácia
-                    </a>
-                </div>
-            </nav>
-            <header class="preview-heading">
-                <div><a class="preview-back" href="../../main/index.html" aria-label="Voltar"><svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="m15 18-6-6 6-6" />
-                        </svg></a>
-                    <h2>Finanças</h2>
-                </div>
-                <div class="preview-actions">
-                    <button class="preview-theme-button" id="theme-toggle" type="button" aria-label="Alternar tema">
-                        <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
-                        <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
-                    </button>
-                </div>
-                <p>Setembro · suas finanças organizadas</p><strong>Mês atual</strong>
-            </header>
+
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <header class="section-header-section" id="headerSection"></header>
+
             <section class="preview-greeting" aria-labelledby="greeting-title">
+
                 <h3 id="greeting-title">Olá, 👋</h3>
+
                 <p>Veja como estão suas finanças este mês.</p>
+
             </section>
+
             <article class="card preview-balance">
+
                 <header><span>SALDO DISPONÍVEL</span><mark>⌃ +12% vs mês anterior</mark></header><output>R$
+
                     4.250,00</output>
+
                 <hr>
+
                 <dl>
+
                     <div>
+
                         <dt>Receitas</dt>
+
                         <dd>R$ 8.480,00</dd>
+
                     </div>
+
                     <div>
+
                         <dt>Despesas</dt>
+
                         <dd>R$ 4.230,00</dd>
+
                     </div>
+
                 </dl>
+
             </article>
+
             <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
+
                 <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
+
                     <span class="finance-shortcut-icon" aria-hidden="true">▤</span>
+
                     <strong>Transações</strong>
+
                     <span>Ver tudo</span>
+
                 </a>
+
                 <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
+
                     <span class="finance-shortcut-icon" aria-hidden="true">▥</span>
+
                     <strong>Relatórios</strong>
+
                     <span>Análise mensal</span>
+
                 </a>
+
             </nav>
+
             <article class="card cash-flow">
+
                 <header>
+
                     <h3>Fluxo do mês</h3><span>Setembro 2026</span>
+
                 </header>
+
                 <div class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></div>
+
                 <div class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></div>
+
             </article>
+
             <article class="card monthly-expenses-card">
+
                 <header>
+
                     <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
+
                 </header>
+
                 <div class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses">
+
                     <div><b>2.900</b><i style="height: 33px"></i><span>Jun</span></div>
+
                     <div><b>3.350</b><i style="height: 39px"></i><span>Jul</span></div>
+
                     <div><b>3.780</b><i style="height: 43px"></i><span>Ago</span></div>
+
                     <div class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></div>
+
                 </div>
+
             </article>
+
             <article class="card top-spending-card">
+
                 <header>
+
                     <h3>Onde você mais gastou</h3><span>3 categorias</span>
+
                 </header>
+
                 <div class="top-spending-list">
+
                     <div style="--spending-color:var(--tool-financas);--spending-width:34%">
+
                         <p><i aria-hidden="true">🍽</i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong>
+
                         </p><span></span>
+
                     </div>
+
                     <div style="--spending-color:#5985fc;--spending-width:20%">
+
                         <p><i aria-hidden="true">🚌</i><b>Transporte</b><strong>R$ 860,00 <small>20%</small></strong>
+
                         </p><span></span>
+
                     </div>
+
                     <div style="--spending-color:#9b72f2;--spending-width:14%">
+
                         <p><i aria-hidden="true">▣</i><b>Assinaturas</b><strong>R$ 490,00 <small>12%</small></strong>
+
                         </p><span></span>
+
                     </div>
+
                 </div>
+
             </article>
+
             <article class="card recent-transactions-card">
+
                 <header>
+
                     <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas ›</a>
+
                 </header>
+
                 <div class="recent-transactions-list">
-                    <a href="components/transacoes.html"><i aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação ·
+
+                    <a href="components/transacoes.html"><i
+                            aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação ·
+
                                 Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
-                    <a href="components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte ·
+
+                    <a href="components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte
+
+                                ·
+
                                 Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
-                    <a href="components/transacoes.html" class="income"><i aria-hidden="true">↑</i><span><b>Salário</b><small>Renda
+
+                    <a href="components/transacoes.html" class="income"><i
+                            aria-hidden="true">↑</i><span><b>Salário</b><small>Renda
+
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
+
                 </div>
+
             </article>
+
             <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação"></a>
+
         </section>
+
     </main>
+
+
+    <script>
+        fetch('../../shared/components/header-page.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Header: HTTP ' + response.status);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const header = document.getElementById('headerSection');
+
+                header.innerHTML = data;
+
+                // Corrige os caminhos das imagens oficiais.
+                header.querySelectorAll('[src^="/shared/"]').forEach(img => {
+                    img.setAttribute(
+                        'src',
+                        img.getAttribute('src').replace('/shared/', '../../shared/')
+                    );
+                });
+
+                // Informações do módulo Finanças.
+                document.getElementById('pageNameH1').textContent = 'Finanças';
+
+                document.getElementById('pageSubtittleSpan').textContent =
+                    'Setembro · suas finanças organizadas';
+
+                document.getElementById('btn-back-header').href = '../../main/';
+
+                document.getElementById('btn-notifications').href =
+                    '../../shared/components/notifications.html?modulo=financas';
+
+                // Ícones de voltar e notificações.
+                // Utiliza SVG caso o Font Awesome não carregue.
+                const voltar = document.querySelector('#btn-back-header i');
+                const notificacoes = document.querySelector('#btn-notifications i');
+
+                if (voltar) {
+                    voltar.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         aria-hidden="true">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                `;
+                    voltar.className = '';
+                }
+
+                if (notificacoes) {
+                    notificacoes.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         aria-hidden="true">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                        <path d="M10 21h4"/>
+                    </svg>
+                `;
+                    notificacoes.className = '';
+                }
+            })
+            .catch(error => console.error('KeeperHub:', error));
+    </script>
+    <script>
+        fetch('../../shared/components/navbar-section.html')
+            .then(response => response.text())
+            .then(data => {
+                const nav = document.getElementById('modules-nav-wrapper');
+                nav.innerHTML = data;
+
+                const moduloAtual = nav.querySelector('[data-module="financas"]');
+                moduloAtual.classList.add('active');
+                moduloAtual.setAttribute('aria-selected', 'true');
+                moduloAtual.setAttribute('tabindex', '0');
+            });
+    </script>
+
 </body>
+
+
 
 </html>
