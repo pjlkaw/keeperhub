@@ -1,0 +1,611 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: home.css
+   Responsabilidade: Estilos exclusivos da página inicial
+   de Finanças (index.html).
+   
+   Depende de: 
+     - shared/styles/variables.css
+     - shared/styles/reset.css
+     - shared/styles/components.css
+     - shared/styles/navbar-modules.css
+     - modules/financas/assets/css/financas.css
+   Usado exclusivamente por: /modules/financas/index.html
+   ================================================== */
+
+/* --------------------------------------------------
+   1. CABEÇALHO DA HOME
+   (Estilizado no escopo oficial em financas.css)
+   -------------------------------------------------- */
+
+/* --------------------------------------------------
+   2. SAUDAÇÃO DA HOME (.preview-greeting)
+   -------------------------------------------------- */
+.preview-greeting {
+  margin-top: 14px;
+}
+
+.preview-greeting h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.preview-greeting p {
+  margin: 5px 0 0;
+  color: #9297a1;
+  font-size: 12px;
+}
+
+html[data-theme="light"] body.landing-page .preview-greeting p {
+  color: #656b76;
+}
+
+/* --------------------------------------------------
+   3. CARD DE SALDO (.preview-balance)
+   -------------------------------------------------- */
+.preview-balance {
+  margin-top: 15px;
+  padding: 16px;
+  border: 1px solid #6b3a0a;
+  border-radius: 16px;
+}
+
+.preview-balance header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preview-balance header span {
+  color: #9297a1;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.preview-balance mark {
+  padding: 3px 7px;
+  color: #18a64b;
+  background: #07372d;
+  border: 1px solid #17624f;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.preview-balance output {
+  display: block;
+  margin-top: 8px;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.preview-balance hr {
+  height: 1px;
+  margin: 11px 0;
+  background: #2e3036;
+  border: 0;
+}
+
+.preview-balance dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+}
+
+.preview-balance dl div {
+  position: relative;
+  padding-left: 9px;
+}
+
+.preview-balance dl div::before {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  content: '';
+  background: #18a64b;
+  border-radius: 50%;
+}
+
+.preview-balance dl div:last-child::before {
+  background: var(--tool-financas, #e47a00);
+}
+
+.preview-balance dt {
+  color: #969ba4;
+  font-size: 11px;
+}
+
+.preview-balance dd {
+  margin: 1px 0 0;
+  color: #18a64b;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.preview-balance dl div:last-child dd {
+  color: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] body.landing-page .preview-balance {
+  background: #ffffff;
+  border-color: #d77a1b;
+}
+
+html[data-theme="light"] body.landing-page .preview-balance header span,
+html[data-theme="light"] body.landing-page .preview-balance dt {
+  color: #656b76;
+}
+
+html[data-theme="light"] body.landing-page .preview-balance hr {
+  background: #e0e2e6;
+}
+
+/* --------------------------------------------------
+   4. ATALHOS RÁPIDOS (.finance-shortcuts)
+   -------------------------------------------------- */
+.finance-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.finance-shortcut-card {
+  display: flex;
+  min-height: 165px;
+  flex-direction: column;
+  padding: 24px;
+  color: var(--text-color, #f4f4f5);
+  background: var(--card-bg, #17171a);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border-radius: 20px;
+  text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease;
+}
+
+.finance-shortcut-card:hover,
+.finance-shortcut-card:focus-visible {
+  border-color: var(--tool-financas, #e47a00);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.finance-shortcut-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 18px;
+  place-items: center;
+  color: var(--tool-financas, #e47a00);
+  background: #fff2e4;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+.finance-shortcut-card strong {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.finance-shortcut-card > span:last-child {
+  margin-top: 5px;
+  color: #65758f;
+  font-size: 16px;
+}
+
+html[data-theme="light"] .finance-shortcut-icon {
+  background: transparent;
+  color: var(--tool-financas, #e47a00);
+}
+
+/* --------------------------------------------------
+   5. FLUXO DO MÊS (.cash-flow)
+   -------------------------------------------------- */
+.cash-flow {
+  margin-top: 12px;
+  padding: 16px;
+  background: #191a1f;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+.cash-flow header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 11px;
+}
+
+.cash-flow h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.cash-flow header span,
+.flow-row span {
+  color: #999ea8;
+  font-size: 11px;
+}
+
+.flow-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-top: 10px;
+  padding-bottom: 7px;
+}
+
+.flow-row strong {
+  font-size: 12px;
+}
+
+.flow-row i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 7px;
+  border-radius: 999px;
+}
+
+.flow-row .income-bar {
+  width: 100%;
+  background: #18a64b;
+}
+
+.flow-row .expense-bar {
+  width: 50%;
+  background: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] body.landing-page .cash-flow {
+  background: #ffffff;
+  border-color: #d9dce1;
+}
+
+html[data-theme="light"] body.landing-page .cash-flow header span,
+html[data-theme="light"] body.landing-page .flow-row span {
+  color: #656b76;
+}
+
+/* --------------------------------------------------
+   6. DESPESAS MENSAIS (.monthly-expenses-card)
+   -------------------------------------------------- */
+.monthly-expenses-card {
+  margin-top: 12px;
+  padding: 16px;
+  background: #191a1f;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+.monthly-expenses-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.monthly-expenses-card h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.monthly-expenses-card header span {
+  color: #999ea8;
+  font-size: 9px;
+}
+
+.monthly-expenses-chart {
+  display: flex;
+  height: 89px;
+  align-items: flex-end;
+  justify-content: space-around;
+  margin-top: 8px;
+}
+
+.monthly-expenses-chart > div {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.monthly-expenses-chart b {
+  color: #999ea8;
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.monthly-expenses-chart i {
+  display: block;
+  width: 25px;
+  background: #4a4d54;
+  border-radius: 6px 6px 4px 4px;
+}
+
+.monthly-expenses-chart span {
+  color: #999ea8;
+  font-size: 9px;
+}
+
+.monthly-expenses-chart .current b,
+.monthly-expenses-chart .current span {
+  color: var(--tool-financas, #e47a00);
+  font-weight: 700;
+}
+
+.monthly-expenses-chart .current i {
+  background: var(--tool-financas, #e47a00);
+}
+
+html[data-theme="light"] body.landing-page .monthly-expenses-card {
+  background: #ffffff;
+  border-color: #d9dce1;
+}
+
+html[data-theme="light"] body.landing-page .monthly-expenses-chart i {
+  background: #d7dae0;
+}
+
+html[data-theme="light"] body.landing-page .monthly-expenses-chart .current i {
+  background: var(--tool-financas, #e47a00);
+}
+
+/* --------------------------------------------------
+   7. ONDE VOCÊ MAIS GASTOU (.top-spending-card)
+   -------------------------------------------------- */
+.top-spending-card {
+  margin-top: 12px;
+  padding: 16px;
+  background: #191a1f;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+.top-spending-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-spending-card h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.top-spending-card header span {
+  color: #999ea8;
+  font-size: 9px;
+}
+
+.top-spending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.top-spending-list p {
+  display: flex;
+  align-items: center;
+  margin: 0 0 3px;
+  gap: 6px;
+}
+
+.top-spending-list p i {
+  display: grid;
+  width: 23px;
+  height: 23px;
+  place-items: center;
+  color: var(--spending-color);
+  background: #282a30;
+  border-radius: 6px;
+  font-style: normal;
+  font-size: 10px;
+}
+
+.top-spending-list p b {
+  flex: 1;
+  font-size: 10px;
+}
+
+.top-spending-list p strong {
+  font-size: 9px;
+}
+
+.top-spending-list p small {
+  color: #999ea8;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.top-spending-list > div > span {
+  display: block;
+  height: 3px;
+  background: linear-gradient(to right, var(--spending-color) var(--spending-width), #303238 var(--spending-width));
+  border-radius: 999px;
+}
+
+html[data-theme="light"] body.landing-page .top-spending-card {
+  background: #ffffff;
+  border-color: #d9dce1;
+}
+
+html[data-theme="light"] body.landing-page .top-spending-list p i {
+  background: #f2f3f5;
+}
+
+html[data-theme="light"] body.landing-page .top-spending-list > div > span {
+  background: linear-gradient(to right, var(--spending-color) var(--spending-width), #e5e7eb var(--spending-width));
+}
+
+/* --------------------------------------------------
+   8. TRANSAÇÕES RECENTES (.recent-transactions-card)
+   -------------------------------------------------- */
+.recent-transactions-card {
+  margin-top: 12px;
+  padding: 16px;
+  background: #191a1f;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+.recent-transactions-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recent-transactions-card h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.recent-transactions-card header a {
+  color: var(--tool-financas, #e47a00);
+  font-size: 9px;
+}
+
+.recent-transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.recent-transactions-list > a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: #202126;
+  border: 1px solid #303238;
+  border-radius: 9px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recent-transactions-list > a > i {
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: #8e96a3;
+  background: #282a30;
+  border: 1px solid #3b3e45;
+  border-radius: 7px;
+  font-style: normal;
+  font-size: 12px;
+}
+
+.recent-transactions-list > a > span {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recent-transactions-list b {
+  font-size: 10px;
+}
+
+.recent-transactions-list small {
+  display: block;
+  color: #999ea8;
+  font-size: 8px;
+  font-weight: 400;
+}
+
+.recent-transactions-list > a > strong {
+  color: #ef5350;
+  font-size: 10px;
+  text-align: right;
+}
+
+.recent-transactions-list > a > strong small {
+  margin-top: 2px;
+  text-align: right;
+}
+
+.recent-transactions-list > a.income > i,
+.recent-transactions-list > a.income > strong {
+  color: #18a64b;
+}
+
+.recent-transactions-list > a.income > i {
+  background: #e7f7ed;
+  border-color: #a8dfbb;
+}
+
+html[data-theme="light"] body.landing-page .recent-transactions-card {
+  background: #ffffff;
+  border-color: #d9dce1;
+}
+
+html[data-theme="light"] body.landing-page .recent-transactions-list > a {
+  background: #fafafa;
+  border-color: #e1e3e7;
+}
+
+html[data-theme="light"] body.landing-page .recent-transactions-list > a > i {
+  background: #ffffff;
+  border-color: #e1e3e7;
+}
+
+/* --------------------------------------------------
+   9. BOTÃO FLUTUANTE DA HOME (.floating-action)
+   -------------------------------------------------- */
+.floating-action {
+  position: fixed;
+  right: max(14px, calc((100vw - 440px) / 2 + 14px));
+  bottom: 20px;
+  z-index: 5;
+  display: grid;
+  box-sizing: border-box;
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 !important;
+  place-items: center;
+  color: #ffffff !important;
+  background: var(--tool-financas, #e47a00);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 5px 16px rgba(240, 124, 0, 0.3);
+  font-size: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform .15s ease, background-color .15s ease;
+}
+
+.floating-action:hover {
+  transform: scale(1.05);
+}
+
+.floating-action:active {
+  transform: scale(0.95);
+}
+
+.floating-action::before,
+.floating-action::after {
+  position: absolute;
+  content: '';
+  background: #ffffff;
+  border-radius: 2px;
+}
+
+.floating-action::before {
+  width: 18px;
+  height: 3px;
+}
+
+.floating-action::after {
+  width: 3px;
+  height: 18px;
+}
