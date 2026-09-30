@@ -37,7 +37,7 @@
 
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
 
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
             <header class="section-header-section" id="headerSection"></header>
 
             <section class="preview-greeting" aria-labelledby="greeting-title">
@@ -288,17 +288,51 @@
             .catch(error => console.error('KeeperHub:', error));
     </script>
     <script>
-        fetch('../../shared/components/navbar-section.html')
-            .then(response => response.text())
-            .then(data => {
-                const nav = document.getElementById('modules-nav-wrapper');
-                nav.innerHTML = data;
+        // Navbar entre módulos (shared/components/navbar-section.html).
+        // O componente usa caminhos absolutos (/shared/..., /modules/...), que só
+        // funcionam se o servidor estiver na raiz do repositório. Aqui eles são
+        // convertidos para relativos, como no restante desta página e no módulo Pets.
+        (async () => {
+            const nav = document.getElementById('modules-nav-wrapper');
 
+            try {
+                const response = await fetch('../../shared/components/navbar-section.html');
+
+                if (!response.ok) {
+                    throw new Error('Navbar: HTTP ' + response.status);
+                }
+
+                nav.innerHTML = await response.text();
+
+                // Logos dos módulos
+                nav.querySelectorAll('img[src^="/shared/"]').forEach(img => {
+                    img.setAttribute('src', img.getAttribute('src').replace('/shared/', '../../shared/'));
+                });
+
+                // Links entre módulos
+                nav.querySelectorAll('.modules-nav-item').forEach(item => {
+                    const modulo = item.dataset.module;
+
+                    item.classList.remove('active');
+                    item.setAttribute('aria-selected', 'false');
+                    item.setAttribute('tabindex', '-1');
+                    item.removeAttribute('aria-current');
+                    item.setAttribute('href', modulo === 'financas' ? 'index.html' : `../${modulo}/index.html`);
+                });
+
+                // Módulo atual
                 const moduloAtual = nav.querySelector('[data-module="financas"]');
-                moduloAtual.classList.add('active');
-                moduloAtual.setAttribute('aria-selected', 'true');
-                moduloAtual.setAttribute('tabindex', '0');
-            });
+
+                if (moduloAtual) {
+                    moduloAtual.classList.add('active');
+                    moduloAtual.setAttribute('aria-selected', 'true');
+                    moduloAtual.setAttribute('aria-current', 'page');
+                    moduloAtual.setAttribute('tabindex', '0');
+                }
+            } catch (error) {
+                console.error('KeeperHub:', error);
+            }
+        })();
     </script>
 
 </body>
