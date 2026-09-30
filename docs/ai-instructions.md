@@ -13,7 +13,7 @@ Estas regras valem para qualquer alteracao neste repositorio.
 ## Regras obrigatorias
 
 - Use nomes de arquivos e pastas em minusculo, sem acentos ou espacos.
-- Prefira `kebab-case` para novos arquivos e pastas.
+- Prefira `kebab-case` para novos arquivos e pastas. 
 - Use `camelCase` para variaveis e funcoes JavaScript.
 - Use nomes em portugues no dominio da aplicacao.
 - Modulos nao podem importar arquivos diretamente de outros modulos.
