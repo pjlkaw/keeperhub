@@ -16,6 +16,16 @@
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
         <script type="module" src="/modules/despensa/js/index.js"></script>
+         <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Vencimetos' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = 'Veja seu resumo:' // Subtítulo
+            document.getElementById('btn-back-header').href = '/modules/despensa' // Botão voltar
+            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
+            document.getElementById('btn-notifications').href = './shared/components/notifications.html?modulo=despensa'
+        });
+    </script>
 
     </head>
     <body class="despensa" data-pagina="vencimento">

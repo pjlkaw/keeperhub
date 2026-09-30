@@ -2,8 +2,7 @@
 .despensa {
     --despensa-destaque: var(--tool-despensa);
     --despensa-texto-destaque: color-mix(in srgb, var(--tool-despensa) 55%, var(--text-color));
-    --despensa-fundo-destaque: color-mix(in srgb, var(--tool-despensa) 14%, var(--card-bg));
-    font-family: 'Nunito', sans-serif;
+    --despensa-fundo-destaque: color-mix(f;in srgb, var(--tool-despensa) 14%, var(--card-bg));
     background: var(--bg-color);
     color: var(--text-color);
 }
@@ -73,7 +72,7 @@
     height: 48px;
     border-radius: 50%;
     z-index: 10;
-    background: var(--pill-bg);
+    background-color: var(--despensa-destaque);
     color: var(--pill-text);
     border: 2px solid var(--despensa-destaque);
     font-size: 28px;
