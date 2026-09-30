@@ -21,6 +21,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
-		"express": "^5.2.1"
+		"dotenv": "^18.0.4",
+		"mysql2": "^3.24.4"
 	}
 }

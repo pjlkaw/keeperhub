@@ -6,6 +6,16 @@
  * ==================================================
  */
 
+// TESTE ================
+// Exibe usuario no console.log()
+async function carregarUsuario() {
+    const resposta = await fetch('/api/usuario');
+    const usuarios = await resposta.json();
+    console.log(usuarios);
+}
+carregarUsuario();
+// ========================
+
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 
 /**
