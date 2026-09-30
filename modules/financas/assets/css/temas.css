@@ -1,0 +1,150 @@
+/* Variações compartilhadas dos temas claro e escuro. */
+
+/* Títulos */
+html[data-theme=light] body.finance-page .reports-screen>.finance-header>h1,
+html[data-theme=light] body.finance-page .transactions-list-screen>.finance-header>h1 {
+	color: var(--text-color) !important;
+}
+
+html[data-theme=dark] body.finance-page .reports-screen>.finance-header>h1,
+html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-header>h1 {
+	color: var(--text-color) !important;
+}
+
+/* Tema escuro */
+html[data-theme=dark] .finance-page {
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+html[data-theme=dark] .finance-shell {
+	background: var(--card-bg);
+}
+
+html[data-theme=dark] .finance-header {
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .finance-back {
+	color: var(--text-color);
+}
+
+html[data-theme=dark] .finance-tabs {
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .finance-tabs a {
+	color: var(--text-muted);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .finance-tabs a.active {
+	color: var(--tool-financas);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-color: var(--tool-financas);
+}
+
+/* Contas e vencimentos no tema claro */
+html[data-theme=light] body:not(.landing-page):not(.finance-page) {
+	color: var(--text-color);
+	background: var(--card-bg);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .app-shell,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transactions-list-screen {
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transactions-header {
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .screen-back {
+	color: var(--text-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-form,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-list {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-input {
+	color: var(--text-color);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item strong,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item strong,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item b {
+	color: var(--text-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item small,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item small {
+	color: var(--text-muted);
+}
+
+/* Tema claro das páginas financeiras */
+html[data-theme='light'] .finance-page,
+html[data-theme='light'] .transactions-list-screen,
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color) !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .finance-shell,
+html[data-theme='light'] .transactions-content {
+	background: transparent !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .transactions-search,
+html[data-theme='light'] .transactions-search span,
+html[data-theme='light'] .filter-chips button,
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .transaction-item,
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section {
+	background: var(--card-bg) !important;
+	border-color: var(--border-color) !important;
+	color: var(--text-color) !important;
+	box-shadow: none !important;
+}
+
+html[data-theme='light'] .transaction-icon,
+html[data-theme='light'] .shortcut-icon {
+	background: transparent !important;
+	color: var(--tool-financas) !important;
+}
+
+html[data-theme='light'] .finance-header,
+html[data-theme='light'] .finance-back,
+html[data-theme='light'] .finance-tabs a {
+	color: var(--text-color) !important;
+	border-color: var(--border-color) !important;
+	background: transparent !important;
+}
+
+html[data-theme='light'] .finance-tabs a.active {
+	color: var(--tool-financas) !important;
+	background: color-mix(in srgb, var(--tool-financas) 6%, transparent) !important;
+	border-color: color-mix(in srgb, var(--tool-financas) 12%, transparent) !important;
+}
+
+html[data-theme='light'] .transaction-group h2,
+html[data-theme='light'] .transaction-item strong,
+html[data-theme='light'] .transaction-item b,
+html[data-theme='light'] .transaction-item small,
+html[data-theme='light'] .insight-card small {
+	color: var(--text-muted) !important;
+}

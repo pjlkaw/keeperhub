@@ -1,0 +1,412 @@
+/* Tela de lançamento: moldura, campos, resumo e variações de tema. */
+
+/* Tema claro */
+html[data-theme=light] .transaction-page {
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+html[data-theme=light] .transaction-preview {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] .transaction-heading p {
+	color: var(--text-muted);
+}
+
+html[data-theme=light] .transaction-heading .preview-back {
+	color: var(--text-muted) !important;
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] .transaction-form .type-toggle,
+html[data-theme=light] .value-card,
+html[data-theme=light] .transaction-fields,
+html[data-theme=light] .notes-card,
+html[data-theme=light] .transaction-summary {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] .transaction-form .type-toggle {
+	background: var(--card-bg);
+}
+
+html[data-theme=light] .transaction-form .type-option {
+	color: var(--text-muted);
+}
+
+html[data-theme=light] .transaction-form .type-option.selected {
+	color: var(--pill-text);
+}
+
+html[data-theme=light] .value-card label,
+html[data-theme=light] .transaction-summary h2,
+html[data-theme=light] .form-field label,
+html[data-theme=light] .notes-card label {
+	color: var(--text-muted);
+}
+
+html[data-theme=light] .transaction-fields .input-wrap,
+html[data-theme=light] .notes-card textarea {
+	color: var(--text-color);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] .transaction-fields .input-wrap input,
+html[data-theme=light] .transaction-fields .input-wrap select,
+html[data-theme=light] .notes-card textarea {
+	color: var(--text-color);
+}
+
+html[data-theme=light] .transaction-fields input[type=date] {
+	color-scheme: light;
+}
+
+html[data-theme=light] .transaction-summary dd {
+	color: var(--text-color);
+}
+
+html[data-theme=light] .transaction-form .cancel-button {
+	color: var(--text-muted);
+	border-color: var(--border-color);
+}
+
+/* Moldura e cabeçalho */
+.transaction-page main {
+	padding: 0;
+}
+
+.transaction-preview {
+	width: min(440px, 100%);
+	height: min(606px, 100vh);
+	padding: 15px 14px 24px;
+	border-radius: 19px;
+}
+
+.transaction-heading {
+	position: relative;
+	display: grid;
+	grid-template-columns: 24px 1fr 24px;
+	align-items: start;
+	gap: 9px;
+}
+
+.transaction-heading h1 {
+	margin: 2px 0 0;
+	font-size: 24px;
+	line-height: 1.1;
+}
+
+.transaction-heading p {
+	margin: 7px 0 0;
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+.transaction-form .type-toggle {
+	margin: 0;
+	padding: 4px;
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	border-radius: 13px;
+}
+
+.transaction-form .type-option {
+	min-height: 36px;
+	padding: 7px;
+	color: var(--text-muted);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0;
+}
+
+.transaction-form .type-option span {
+	margin-right: 6px;
+	font-size: 18px;
+}
+
+.transaction-form .type-option.selected {
+	background: var(--tool-financas);
+	box-shadow: 0 3px 12px color-mix(in srgb, var(--tool-financas) 25%, transparent);
+}
+
+/* Valor e campos */
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary {
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+.value-card {
+	padding: 15px;
+}
+
+.value-card label,
+.transaction-summary h2 {
+	color: var(--text-muted);
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: .04em;
+}
+
+.value-card .currency-field {
+	width: auto;
+	height: auto;
+	margin-top: 6px;
+	gap: 6px;
+}
+
+.value-card .currency-field span {
+	color: var(--text-muted);
+	font-size: 17px;
+	font-weight: 700;
+}
+
+.value-card .currency-field input {
+	width: 100%;
+	color: var(--tool-financas);
+	font-size: 26px;
+	font-weight: 800;
+}
+
+.transaction-fields {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	padding: 14px;
+}
+
+.form-field {
+	min-width: 0;
+}
+
+/* Campos e observações */
+.form-field-wide {
+	grid-column: 1/-1;
+}
+
+.form-field label,
+.notes-card label {
+	display: block;
+	margin-bottom: 6px;
+	color: var(--text-muted);
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.transaction-fields .input-wrap {
+	min-height: 38px;
+	margin: 0;
+	padding: 8px 11px;
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	border-radius: 10px;
+}
+
+.transaction-fields .input-wrap input,
+.transaction-fields .input-wrap select {
+	color: var(--text-color);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.transaction-fields .input-wrap select {
+	appearance: auto;
+}
+
+.transaction-fields .description-wrap input {
+	font-size: 12px;
+}
+
+.transaction-fields .field-icon {
+	flex: 0 0 17px;
+	width: 17px;
+	height: 17px;
+	margin-right: 7px;
+	fill: none;
+	stroke: var(--text-muted);
+	stroke-width: 1.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.transaction-fields input[type=date] {
+	color-scheme: dark;
+}
+
+.notes-card {
+	padding: 14px;
+}
+
+.notes-card textarea {
+	min-height: 57px;
+	margin: 0;
+	padding: 12px;
+	color: var(--text-color);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	border-radius: 10px;
+	font-size: 12px;
+}
+
+/* Resumo e ações */
+.transaction-summary {
+	padding: 13px 14px;
+}
+
+.transaction-summary header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.transaction-summary h2 {
+	margin: 0;
+}
+
+.transaction-summary header span {
+	padding: 4px 9px;
+	color: var(--tool-financas);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border: 1px solid color-mix(in srgb, var(--tool-financas) 45%, transparent);
+	border-radius: 7px;
+	font-size: 10px;
+	font-weight: 700;
+}
+
+.transaction-summary section {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 11px 0 0;
+}
+
+.transaction-summary dt {
+	color: var(--text-muted);
+	font-size: 10px;
+}
+
+.transaction-summary dd {
+	margin: 2px 0 0;
+	color: var(--text-color);
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.transaction-summary section dl:first-child dd {
+	color: var(--tool-financas);
+}
+
+.transaction-form .actions {
+	gap: 7px;
+	padding: 2px 0 14px;
+}
+
+.transaction-form .save-button,
+.transaction-form .cancel-button {
+	min-height: 43px;
+	border-radius: 10px;
+	font-size: 12px;
+	letter-spacing: 0;
+}
+
+.transaction-form .save-button {
+	background: var(--tool-financas);
+	box-shadow: 0 5px 13px color-mix(in srgb, var(--tool-financas) 24%, transparent);
+}
+
+.transaction-form .save-button span {
+	margin-right: 6px;
+	font-size: 17px;
+}
+
+.transaction-form .cancel-button {
+	color: var(--text-muted);
+	background: transparent;
+	border-color: var(--border-color);
+}
+
+@media(max-width:460px) {
+	.transaction-preview {
+		border-right: 0;
+		border-left: 0;
+		border-radius: 0;
+	}
+
+}
+
+/* Tipo de transação e temas dos controles */
+body.transaction-page .transaction-form .type-toggle {
+	padding: 8px;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 16px;
+}
+
+body.transaction-page .transaction-form .type-option {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 44px;
+	color: var(--text-color);
+	background: transparent;
+	border-radius: 8px;
+	font-weight: 700;
+}
+
+body.transaction-page .transaction-form .type-option span {
+	margin-right: 0;
+	color: inherit;
+}
+
+body.transaction-page .transaction-form .type-option.selected,
+html[data-theme=light] body.transaction-page .transaction-form .type-option.selected {
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	box-shadow: 0 4px 12px color-mix(in srgb, var(--tool-financas) 35%, transparent);
+}
+
+body.transaction-page .transaction-form .type-option:not(.selected):hover,
+body.transaction-page .transaction-form .type-option:not(.selected):focus-visible {
+	color: var(--text-color);
+	background: color-mix(in srgb, var(--tool-financas) 12%, transparent);
+}
+
+html[data-theme="dark"] body.transaction-page {
+	color-scheme: dark;
+}
+
+html[data-theme="dark"] body.transaction-page .transaction-fields select,
+html[data-theme="dark"] body.transaction-page .transaction-fields option {
+	color: var(--text-color);
+	background-color: var(--card-bg);
+}
+
+html[data-theme=light] body.transaction-page .transaction-form .type-toggle {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body.transaction-page .transaction-form .type-option {
+	color: var(--text-color);
+}
+
+html[data-theme="light"] body.transaction-page {
+	color-scheme: light;
+}
+
+html[data-theme="light"] body.transaction-page .transaction-fields select,
+html[data-theme="light"] body.transaction-page .transaction-fields option {
+	color: var(--text-color);
+	background-color: var(--card-bg);
+}
+
+html[data-theme=light] body.transaction-page .transaction-form .type-option:not(.selected):hover,
+html[data-theme=light] body.transaction-page .transaction-form .type-option:not(.selected):focus-visible {
+	color: var(--text-color);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+}

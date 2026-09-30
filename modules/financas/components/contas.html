@@ -5,15 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="../../../shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../../../shared/services/theme.js" defer></script>
     <title>Minhas Contas</title>
+    <script src="../js/interface.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/shared/components/header-page.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('headerSection').innerHTML = data;
+                    document.getElementById('pageNameH1').textContent = "Minhas Contas";
+                    document.getElementById('pageSubtittleSpan').textContent = "Gerencie suas contas";
+                    document.getElementById('btn-back-header').href = "/modules/financas/";
+                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+                    const atualizarRotuloTema = () => {
+                        const botao = document.getElementById('theme-toggle');
+                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        botao.setAttribute('aria-label', rotulo);
+                        botao.title = rotulo;
+                    };
+                    atualizarRotuloTema();
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                })
+                .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
+        });
+    </script>
 </head>
 <body>
     <section class="app-shell">
         <section class="screen transactions-list-screen accounts-screen">
-            <header class="transactions-header"><a class="screen-back" href="../index.html" aria-label="Voltar">←</a><h1>Minhas Contas</h1></header>
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
+    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item active">
+        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Finanças
+    </a>
+    <a href="/modules/despensa/index.html" data-module="despensa" class="modules-nav-item">
+        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Despensa
+    </a>
+    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item">
+        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Pets
+    </a>
+    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item">
+        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Metas
+    </a>
+    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item">
+        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Medicamentos
+    </a>
+</div></nav>
+<header class="section-header-section" id="headerSection"></header>
             <main class="transactions-content">
                 <form class="card account-form" id="account-form">
                     <label class="field-label" for="account-name">Nome da conta</label>
@@ -22,10 +74,10 @@
                     <select class="account-input" id="account-type" name="type" required><option value="" selected disabled>Selecione o tipo</option><option>Conta corrente</option><option>Poupança</option><option>Carteira</option><option>Cartão</option></select>
                     <button class="save-button" type="submit">Cadastrar conta</button>
                 </form>
-                <section class="card account-list" id="account-list" aria-label="Contas cadastradas"></section>
+                <section class="card account-list" id="account-list" aria-live="polite" aria-label="Contas cadastradas"></section>
             </main>
         </section>
     </section>
-    <script src="../script.js"></script>
+    <script type="module" src="../script.js"></script>
 </body>
 </html>

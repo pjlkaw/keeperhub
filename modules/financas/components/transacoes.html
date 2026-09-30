@@ -6,26 +6,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style.css?v=20260924-3">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="../../../shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../../../shared/services/theme.js" defer></script>
     <title>Transações</title>
+    <script src="../js/interface.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/shared/components/header-page.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('headerSection').innerHTML = data;
+                    document.getElementById('pageNameH1').textContent = "Transações";
+                    document.getElementById('pageSubtittleSpan').textContent = "Consulte suas movimentações";
+                    document.getElementById('btn-back-header').href = "/modules/financas/";
+                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+                    const atualizarRotuloTema = () => {
+                        const botao = document.getElementById('theme-toggle');
+                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        botao.setAttribute('aria-label', rotulo);
+                        botao.title = rotulo;
+                    };
+                    atualizarRotuloTema();
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                })
+                .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
+        });
+    </script>
 </head>
 
 <body class="finance-page">
     <main class="finance-shell transactions-list-screen">
-        <header class="finance-header"><a class="finance-back" href="../index.html" aria-label="Voltar para finanças">‹</a>
-            <h1>Transações</h1><button class="finance-theme-button" id="theme-toggle" type="button" aria-label="Alternar tema">
-                <img src="../../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18">
-                <img src="../../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18">
-            </button>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
+    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item active">
+        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Finanças
+    </a>
+    <a href="/modules/despensa/index.html" data-module="despensa" class="modules-nav-item">
+        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Despensa
+    </a>
+    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item">
+        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Pets
+    </a>
+    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item">
+        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Metas
+    </a>
+    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item">
+        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
+        Medicamentos
+    </a>
+</div></nav>
+<header class="section-header-section" id="headerSection"></header>
         <nav class="finance-tabs" aria-label="Seções de finanças"><a href="../index.html">Visão geral</a><a class="active"
                 href="transacoes.html" aria-current="page">Transações</a><a href="relatorios.html">Relatórios</a><a
                 href="nova-transacao.html">Nova transação</a></nav>
         <section class="finance-content transactions-content">
             <form class="transactions-search" role="search">
-                <div class="search-field">
+                <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                             <path d="M14.5 14.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -33,27 +80,27 @@
                         </svg>
                     </button>
                     <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
-                </div>
+                </p>
             </form>
-            <div class="filter-row">
+            <section class="filter-row" aria-label="Filtros de transações">
                 <nav class="filter-chips" aria-label="Filtros de transações">
-                    <button class="filter-active" type="button" data-filter="all">Todas</button>
-                    <button type="button" data-filter="receitas">Receitas</button>
-                    <button type="button" data-filter="despesas">Despesas</button>
-                    <button type="button" data-filter="este-mes">Este Mês</button>
+                    <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
+                    <button type="button" data-filter="receitas" aria-pressed="false">Receitas</button>
+                    <button type="button" data-filter="despesas" aria-pressed="false">Despesas</button>
+                    <button type="button" data-filter="este-mes" aria-pressed="false">Este Mês</button>
                 </nav>
-                <div class="filter-actions-wrap">
-                    <button class="filter-actions" type="button" aria-label="Abrir opções de visualização" aria-expanded="false">
-                        <span aria-hidden="true">☷</span>
+                <section class="filter-actions-wrap" aria-label="Opções de filtragem">
+                    <button class="filter-actions" type="button" aria-controls="filter-popup" aria-label="Abrir opções de visualização" aria-expanded="false">
+                        <span aria-hidden="true"><span class="fa-solid fa-sliders" aria-hidden="true"></span></span>
                     </button>
-                    <div class="filter-popup" hidden aria-hidden="true">
+                    <nav class="filter-popup" id="filter-popup" aria-label="Opções de filtragem" hidden>
                         <button type="button" data-popup-filter="receitas">Mostrar apenas Receitas</button>
                         <button type="button" data-popup-filter="despesas">Mostrar apenas Despesas</button>
                         <button type="button" data-popup-filter="este-mes">Mostrar Este Mês</button>
                         <button type="button" data-popup-filter="all">Limpar filtros</button>
-                    </div>
-                </div>
-            </div>
+                    </nav>
+                </section>
+            </section>
             <section class="card transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
@@ -64,7 +111,7 @@
             </a>
         </section>
     </main>
-    <script src="../script.js?v=20260924-2"></script>
+    <script type="module" src="../script.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,423 @@
+/* Resumo, gráficos, categorias, comparações e responsividade dos relatórios. */
+
+/* Resumo e navegação */
+.report-kicker {
+	margin: 0;
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+/* Resumo financeiro */
+.summary-card,
+.report-section {
+	border: 1px solid var(--border-color);
+	background: var(--card-bg);
+}
+
+.summary-card {
+	padding: 16px;
+}
+
+.summary-card>header,
+.spending-card>header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.summary-card h2,
+.report-section h2,
+.insight-card h2 {
+	margin: 0;
+	font-weight: 700;
+	font-size: 16px;
+	font-family: inherit;
+}
+
+.summary-card>header span {
+	padding: 5px 12px;
+	color: var(--text-muted);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.summary-values {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-top: 17px;
+}
+
+.summary-values section {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.summary-values small {
+	font-size: 12px;
+}
+
+.summary-values strong {
+	font-weight: 700;
+	font-size: 21px;
+	font-family: inherit;
+}
+
+.summary-values b {
+	font-size: 12px;
+}
+
+.summary-income small,
+.summary-income strong {
+	color: #18a64b;
+}
+
+.summary-income b,
+.summary-expense small,
+.summary-expense strong,
+.summary-expense b {
+	color: var(--tool-financas);
+}
+
+.summary-card>footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 16px;
+	padding: 14px 16px;
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-radius: 12px;
+}
+
+.summary-card>footer>section {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.summary-card>footer>section small {
+	color: var(--tool-financas);
+	font-size: 10px;
+}
+
+.summary-card>footer>section strong {
+	color: var(--tool-financas);
+	font-weight: 700;
+	font-size: 20px;
+	font-family: inherit;
+}
+
+.summary-card>footer>span {
+	display: flex;
+	width: 79px;
+	height: 58px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--tool-financas);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-radius: 10px;
+}
+
+.summary-card>footer>span b {
+	font-size: 16px;
+}
+
+.summary-card>footer>span small {
+	font-size: 9px;
+}
+
+/* Evolução mensal */
+.report-section {
+	padding: 16px;
+}
+
+.report-section header p {
+	margin: 3px 0 0;
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+.report-chart {
+	display: flex;
+	height: 146px;
+	align-items: flex-end;
+	justify-content: space-around;
+	margin-top: 13px;
+}
+
+.report-month {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+.report-month>span:first-child {
+	display: flex;
+	align-items: flex-end;
+	gap: 5px;
+	height: 116px;
+}
+
+.report-month i {
+	position: relative;
+	display: block;
+	width: 13px;
+	border-radius: 4px 4px 0 0;
+}
+
+.report-month i b {
+	position: absolute;
+	top: -17px;
+	left: 50%;
+	font-weight: 700;
+	font-size: 10px;
+	font-family: inherit;
+	transform: translateX(-50%);
+}
+
+.report-month .income-bar {
+	background: #18a64b;
+}
+
+.report-month .income-bar b {
+	color: #18a64b;
+}
+
+.report-month .expense-bar {
+	background: var(--tool-financas);
+}
+
+.report-month .expense-bar b {
+	color: var(--tool-financas);
+}
+
+.report-month.current>span {
+	color: var(--tool-financas);
+	font-weight: 700;
+}
+
+/* Categorias e comparações */
+.spending-card header strong {
+	font-size: 16px;
+}
+
+.spending-list {
+	display: flex;
+	flex-direction: column;
+	margin-top: 12px;
+}
+
+.spending-list p {
+	display: flex;
+	justify-content: space-between;
+	margin: 0 0 5px;
+	font-size: 14px;
+}
+
+.spending-list p b {
+	font-weight: 700;
+}
+
+.spending-list p b:first-letter {
+	color: var(--category-color);
+}
+
+.spending-list p span {
+	color: var(--text-muted);
+}
+
+.spending-list p strong {
+	color: var(--text-color);
+}
+
+.spending-list i {
+	display: block;
+	height: 6px;
+	background: linear-gradient(to right, var(--category-color) var(--category-width), var(--border-color) var(--category-width));
+	border-radius: 999px;
+}
+
+.insight-card {
+	display: flex;
+	gap: 12px;
+	padding: 16px;
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border: 1px solid color-mix(in srgb, var(--tool-financas) 45%, transparent);
+}
+
+.insight-card>span {
+	display: grid;
+	flex: 0 0 38px;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	color: var(--tool-financas);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-radius: 9px;
+	font-size: 23px;
+}
+
+.insight-card h2 {
+	color: var(--tool-financas);
+	font-size: 14px;
+}
+
+.insight-card p {
+	margin: 5px 0;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.insight-card small {
+	color: var(--text-muted);
+	font-size: 11px;
+}
+
+.comparison-card>h2,
+.largest-expense>h2 {
+	color: var(--text-muted);
+	font-weight: 700;
+	font-size: 11px;
+	font-family: inherit;
+}
+
+.comparison-card section {
+	margin: 16px 0 0;
+}
+
+.comparison-card section dl {
+	display: flex;
+	justify-content: space-between;
+	padding: 9px 0;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-card section dl:last-child {
+	border: 0;
+}
+
+.comparison-card dt {
+	font-size: 13px;
+}
+
+.comparison-card dd {
+	margin: 0;
+	color: #18a64b;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.largest-expense>section {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	margin-top: 14px;
+}
+
+.largest-expense>section>span {
+	display: grid;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-radius: 9px;
+}
+
+.largest-expense p {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 3px;
+	margin: 0;
+}
+
+.largest-expense p strong {
+	font-size: 14px;
+}
+
+.largest-expense p small {
+	color: var(--text-muted);
+	font-size: 11px;
+}
+
+.largest-expense>section>b {
+	font-size: 15px;
+}
+
+/* Responsividade */
+@media(max-width:370px) {
+	.summary-values {
+		grid-template-columns: 1fr;
+	}
+
+	.summary-card>footer {
+		align-items: flex-start;
+		gap: 10px;
+	}
+
+	.finance-tabs a {
+		padding: 0 13px;
+	}
+
+	.spending-card header {
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.spending-card header strong {
+		white-space: nowrap;
+	}
+
+}
+
+/* Tema escuro */
+html[data-theme=dark] .summary-card,
+html[data-theme=dark] .report-section {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .summary-card>header span {
+	color: var(--text-muted);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .summary-card>footer {
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+}
+
+html[data-theme=dark] .report-section header p,
+html[data-theme=dark] .report-month,
+html[data-theme=dark] .spending-list p span,
+html[data-theme=dark] .insight-card small,
+html[data-theme=dark] .largest-expense p small {
+	color: var(--text-muted);
+}
+
+html[data-theme=dark] .spending-list p strong {
+	color: var(--text-color);
+}
+
+html[data-theme=dark] .spending-list i {
+	background: linear-gradient(to right, var(--category-color) var(--category-width), var(--border-color) var(--category-width));
+}
+
+html[data-theme=dark] .insight-card {
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-color: color-mix(in srgb, var(--tool-financas) 45%, transparent);
+}
+
+html[data-theme=dark] .comparison-card section dl {
+	border-color: var(--border-color);
+}
