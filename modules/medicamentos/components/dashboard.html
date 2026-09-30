@@ -27,7 +27,7 @@
             fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
                 document.getElementById('headerSection').innerHTML = data;
                 document.getElementById('pageNameH1').textContent ='Dashboard' //Nome da Página
-                document.getElementById('pageSubtittleSpan').textContent = 'Subtítulo' // Subtítulo
+                document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
                 document.getElementById('btn-back-header').href = '../index.html' // Botão voltar
             });
         </script>
