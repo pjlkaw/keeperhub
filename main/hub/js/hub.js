@@ -6,15 +6,9 @@
  * ==================================================
  */
 
-// TESTE ================
-// Exibe usuario no console.log()
-async function carregarUsuario() {
-    const resposta = await fetch('/api/usuario');
-    const usuarios = await resposta.json();
-    console.log(usuarios);
-}
-carregarUsuario();
-// ========================
+import { carregarUsuario } from '../../../shared/api/usuario.js';
+
+carregarUsuario().then((usuarios) => console.log(usuarios));
 
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 

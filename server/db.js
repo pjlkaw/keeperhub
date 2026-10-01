@@ -1,4 +1,4 @@
-﻿// db.js
+// db.js
 // Responsabilidade: encapsular o acesso ao banco de dados e às operações de persistência.
 // Deve reunir consultas, gravações, atualizações e remoções compartilhadas por vários módulos,
 // mantendo a camada de dados centralizada e reutilizável.
@@ -7,9 +7,10 @@
 // Deve reunir consultas, gravações, atualizações e remoções compartilhadas por vários módulos,
 // mantendo a camada de dados centralizada e reutilizável.
 
-require('dotenv').config({ path: '../../.env' });
+import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
 
-const mysql = require('mysql2/promise');
+dotenv.config();
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -19,5 +20,4 @@ const db = mysql.createPool({
     database: process.env.DB_NAME,
 });
 
-module.exports = db;
-
+export default db;

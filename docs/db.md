@@ -67,17 +67,17 @@ Assim, as credenciais não serão enviadas para o repositório.
 
 ## 4. Como o projeto utiliza o banco
 
-O arquivo `shared/services/db.js` é responsável pela conexão:
+O arquivo `server/db.js` configura o pool de conexão com o MySQL. As consultas ficam em `server/repositories/`, separadas da camada HTTP em `api/` e dos módulos do navegador em `shared/`.
 
 Os dados do `.env` são carregados pelo `dotenv` e utilizados para criar a conexão com o MySQL.
 
-Os outros módulos do projeto podem importar essa conexão através de:
+Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 
 ```js
-const db = require('/shared/services/db');
+import db from '../db.js';
 ```
 
-O caminho deve ser ajustado conforme a localização do arquivo que estiver fazendo a consulta.
+Mantenha o acesso ao banco restrito ao código de servidor; arquivos do navegador devem chamar os endpoints em `api/`.
 
 ## 6. Acesso ao banco
 
@@ -101,5 +101,3 @@ Isso significa que:
 * chaves ou tokens de acesso.
 
 Caso a senha seja alterada, cada integrante deverá atualizar o próprio `.env`.
-
-
