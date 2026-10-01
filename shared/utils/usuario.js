@@ -1,9 +1,7 @@
-// Busca de usuário no banco de dados
-const db = require('../services/db');
+// Consulta de usuário no banco de dados
+import db from '../services/db.js';
 
-async function buscarUsuario() {
+export async function buscarUsuario() {
     const [usuarios] = await db.query('SELECT * FROM usuario');
     return usuarios;
 }
-
-module.exports = { buscarUsuario };

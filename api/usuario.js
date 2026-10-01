@@ -1,7 +1,6 @@
-const { buscarUsuario } = require('../shared/utils/usuario');
+import { buscarUsuario } from "../shared/utils/usuario.js";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     const usuarios = await buscarUsuario();
     res.status(200).json(usuarios);
-
-};
+}
