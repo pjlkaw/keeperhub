@@ -91,6 +91,7 @@ a {
   min-height: calc(100svh - 64px);
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 36px 20px 48px;
 }
 
@@ -108,7 +109,7 @@ a {
   height: 176px;
   place-items: center;
   color: var(--perfil-avatar);
-  border: 7px solid var(--perfil-acento);
+  border: 1px solid var(--perfil-acento);
   border-radius: 50%;
 }
 
@@ -131,15 +132,21 @@ a {
   line-height: 1.2;
 }
 
+.perfil-identidade__email {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--perfil-texto-secundario);
+  margin-bottom: 10px;
+}
+
 .perfil-editar {
   display: inline-flex;
-  width: 100%;
-  max-width: 280px;
-  min-height: 48px;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 32px;
   padding: 10px 20px;
   color: #f7f7f7;
   background: var(--perfil-acento);
@@ -147,8 +154,9 @@ a {
   border-radius: 999px;
   box-shadow: 0 8px 20px transparent;
   cursor: pointer;
+  text-align: center;
   font-size: 1rem;
-  font-weight: 700;
+  transition: all 300ms ease-in-out;
   transition:
     background-color var(--perfil-transicao),
     box-shadow var(--perfil-transicao),
