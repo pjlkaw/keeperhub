@@ -8,6 +8,6 @@
 export async function carregarUsuario() {
     const resposta = await fetch('/api/usuario');
     const usuarios = await resposta.json();
-    return usuarios.nome
+    return usuarios;
 }
 // ========================
