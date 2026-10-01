@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { carregarUsuario } from '../../../shared/services/user.js';
+import { carregarUsuario } from '../../../shared/api/usuario.js';
 
 carregarUsuario().then((usuarios) => console.log(usuarios));
 

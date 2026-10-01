@@ -22,12 +22,15 @@ Aplica o tema salvo em localStorage e alterna entre dark e light atraves do
 elemento com id="theme-toggle".
 
 /shared/services/auth.js
-/shared/services/db.js
 /shared/services/notifications.js
-/shared/services/user.js
 Servicos reservados ou especificos do projeto. Consulte a implementacao
-antes de assumir que autenticacao, banco, notificacoes ou usuario estao
-completamente funcionais.
+antes de assumir que autenticacao ou notificacoes estao completamente
+funcionais. O acesso ao banco e exclusivo do servidor e fica em /server.
+
+API DO NAVEGADOR
+----------------
+/shared/api/usuario.js
+Cliente usado pelo navegador para chamar o endpoint /api/usuario.
 
 ESTILOS
 -------
