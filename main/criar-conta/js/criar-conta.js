@@ -6,6 +6,25 @@
  * ==================================================
  */
 
+
+// Post request para criar um novo usuário (exemplo de teste)
+document.getElementById('btn-submit-signup')?.addEventListener('click', async () => {
+  const resposta = await fetch('/api/usuario', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nome_usuario: 'Victor',
+      email_usuario: 'victor@example.com',
+      senha_usuario: 'troque-por-uma-senha-de-teste',
+      numero_usuario: '11999999999',
+      genero_usuario: 'masculino'
+    })
+  });
+  
+  console.log(resposta.status, await resposta.text());
+})
+
+// Validação para liberar o botão de cadastro apenas quando todos os campos estiverem preenchidos corretamente
 function setupSignupForm() {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
