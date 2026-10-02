@@ -9,7 +9,7 @@
 let nomeUsuario = '';
 let emailUsuario = '';
 let senhaUsuario = '';
-let numeroUsuario = '';
+let numeroUsuario = ''; //posteriormente adicionar hash com bycrpt 
 let generoUsuario = '';
 
 // Post request para criar um novo usuário (exemplo de teste)
