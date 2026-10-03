@@ -87,8 +87,8 @@ function atualizarMetricas(periodo) {
     if (detalheMarco) detalheMarco.textContent = sequencia >= 7
         ? "Você completou uma semana seguindo a rotina."
         : sequencia
-          ? `Faltam ${7 - sequencia} ${7 - sequencia === 1 ? "dia" : "dias"} para alcançar uma semana de rotina.`
-          : "Registre as doses da rotina para acompanhar sua sequência.";
+        ? `Faltam ${7 - sequencia} ${7 - sequencia === 1 ? "dia" : "dias"} para alcançar uma semana de rotina.`
+        : "Registre as doses da rotina para acompanhar sua sequência.";
 }
 
 function dosesEntre(inicio, fim) {
@@ -168,12 +168,12 @@ function desenharCalendario(grade, titulo, mes, ano) {
             : registros.length && concluidas === registros.length
             ? "status-taken"
             : registros.some((dose) => dose.status === "sem-estoque")
-              ? "status-missed"
-              : registros.length && chave < dataLocal()
-                ? "status-missed"
-                : registros.length
-                  ? "status-delayed"
-                : "";
+            ? "status-missed"
+            : registros.length && chave < dataLocal()
+            ? "status-missed"
+            : registros.length
+            ? "status-delayed"
+            : "";
         dia.className = `meds-cal-day${classeStatus ? ` ${classeStatus}` : ""}`;
         dia.textContent = String(numero);
         dia.tabIndex = 0;

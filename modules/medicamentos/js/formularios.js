@@ -208,7 +208,9 @@ function inicializarPreviaReposicao() {
     const valores = resumo.querySelectorAll(".calc-value");
     const estoqueAtual = Number(valores[0]?.textContent.match(/\d+/)?.[0] ?? 0);
     const novoTotal = resumo.querySelector(".calc-total-value");
-    const unidade = novoTotal?.textContent.replace(/^[\d\s+-]+/, "").trim() ?? "";
+    const unidade = resumo.querySelector(".input-suffix")?.textContent.trim() ??
+        novoTotal?.textContent.replace(/^[\d\s+-]+/, "").trim() ??
+        "";
 
     const atualizar = () => {
         const entrada = Math.max(0, Number(quantidade.value) || 0);
