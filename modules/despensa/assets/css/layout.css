@@ -27,8 +27,8 @@
     text-decoration: none;
 }
 .despensa button, .despensa input, .despensa select, .despensa .modules-nav-item, .despensa .section-header-back-btn, .despensa .btn-theme-toggle {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 36px;
+    min-height: 36px;
 }
 .despensa input:focus, .despensa select:focus {
     border-color: var(--despensa-destaque);
