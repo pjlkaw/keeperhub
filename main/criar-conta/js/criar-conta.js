@@ -6,6 +6,30 @@
  * ==================================================
  */
 
+let nomeUsuario = '';
+let emailUsuario = '';
+let senhaUsuario = '';
+let numeroUsuario = ''; //posteriormente adicionar hash com bycrpt 
+let generoUsuario = '';
+
+// Post request para criar um novo usuário (exemplo de teste)
+document.getElementById('btn-submit-signup')?.addEventListener('click', async () => {
+  const resposta = await fetch('/api/usuario', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nome_usuario: nomeUsuario || 'Victor',
+      email_usuario: emailUsuario || 'victor@example.com',
+      senha_usuario: senhaUsuario || 'troque-por-uma-senha-de-teste',
+      numero_usuario: numeroUsuario || '11999999999',
+      genero_usuario: generoUsuario || 'masculino'
+    })
+  });
+  
+  console.log(resposta.status, await resposta.text());
+})
+
+// Validação para liberar o botão de cadastro apenas quando todos os campos estiverem preenchidos corretamente
 function setupSignupForm() {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -92,6 +116,7 @@ function setupSignupForm() {
 
   if (nameInput) {
     nameInput.addEventListener('input', () => {
+      nomeUsuario = nameInput.value.trim();
       checkFormState();
       if (nameError && nameError.classList.contains('is-visible')) {
         nameError.classList.remove('is-visible');
@@ -102,6 +127,7 @@ function setupSignupForm() {
 
   if (emailInput) {
     emailInput.addEventListener('input', () => {
+      emailUsuario = emailInput.value.trim();
       checkFormState();
       if (emailError && emailError.classList.contains('is-visible')) {
         emailError.classList.remove('is-visible');
@@ -112,6 +138,7 @@ function setupSignupForm() {
 
   if (telefoneInput) {
     telefoneInput.addEventListener('input', () => {
+      numeroUsuario = telefoneInput.value.replace(/\D/g, '');
       const formatted = formatPhone(telefoneInput.value);
       telefoneInput.value = formatted;
       checkFormState();
@@ -124,6 +151,7 @@ function setupSignupForm() {
 
   if (sexoSelect) {
     sexoSelect.addEventListener('change', () => {
+      generoUsuario = sexoSelect.value;
       checkFormState();
       if (sexoError && sexoError.classList.contains('is-visible')) {
         sexoError.classList.remove('is-visible');
@@ -135,6 +163,7 @@ function setupSignupForm() {
   if (passwordInput) {
     passwordInput.addEventListener('input', () => {
       checkFormState();
+      senhaUsuario = passwordInput.value;
       if (passwordError && passwordError.classList.contains('is-visible')) {
         passwordError.classList.remove('is-visible');
         passwordInput.classList.remove('has-error');
