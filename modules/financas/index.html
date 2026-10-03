@@ -9,45 +9,65 @@
     <link rel="stylesheet" href="../../shared/styles/reset.css">
     <link rel="stylesheet" href="../../shared/styles/components.css">
     <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="../../shared/styles/header-page.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/financas.css">
-    <link rel="stylesheet" href="assets/css/home.css">
     <script src="../../shared/services/theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
+    <script src="js/interface.js" defer></script>
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/shared/components/header-page.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('headerSection').innerHTML = data;
+                    document.getElementById('pageNameH1').textContent = "Finanças";
+                    document.getElementById('pageSubtittleSpan').textContent = "Suas finanças organizadas";
+                    document.getElementById('btn-back-header').href = "/main/";
+                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+                    const atualizarRotuloTema = () => {
+                        const botao = document.getElementById('theme-toggle');
+                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        botao.setAttribute('aria-label', rotulo);
+                        botao.title = rotulo;
+                    };
+                    atualizarRotuloTema();
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                })
+                .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
+        });
+    </script>
 </head>
 
 <body class="landing-page">
     <main>
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
-            <header class="section-header-section" id="headerSection"></header>
-
-            <section class="preview-greeting" aria-labelledby="greeting-title">
-                <h3 id="greeting-title">Olá, 👋</h3>
                 <p>Veja como estão suas finanças este mês.</p>
             </section>
 
             <article class="card preview-balance">
-                <header><span>SALDO DISPONÍVEL</span><mark>⌃ +12% vs mês anterior</mark></header>
-                <output>R$ 4.250,00</output>
+                    4.250,00</output>
+
                 <hr>
-                <dl>
-                    <dt>Receitas</dt>
-                    <dd>R$ 8.480,00</dd>
-                    <dt>Despesas</dt>
-                    <dd>R$ 4.230,00</dd>
-                </dl>
+                        <dt>Receitas</dt>
+
+                        <dd>R$ 8.480,00</dd>
+                        <dt>Despesas</dt>
+
+                        <dd>R$ 4.230,00</dd>
             </article>
 
             <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
                 <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true">▤</span>
+                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list" aria-hidden="true"></span></span>
                     <strong>Transações</strong>
                     <span>Ver tudo</span>
                 </a>
                 <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true">▥</span>
+                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-chart-column" aria-hidden="true"></span></span>
                     <strong>Relatórios</strong>
                     <span>Análise mensal</span>
                 </a>
@@ -57,22 +77,20 @@
                 <header>
                     <h3>Fluxo do mês</h3><span>Setembro 2026</span>
                 </header>
-                <ul>
-                    <li class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></li>
-                    <li class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></li>
-                </ul>
+                <p class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></p>
+                <p class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></p>
             </article>
 
             <article class="card monthly-expenses-card">
                 <header>
                     <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
                 </header>
-                <ol class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses">
+                <ul class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses">
                     <li><b>2.900</b><i style="height: 33px"></i><span>Jun</span></li>
                     <li><b>3.350</b><i style="height: 39px"></i><span>Jul</span></li>
                     <li><b>3.780</b><i style="height: 43px"></i><span>Ago</span></li>
                     <li class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></li>
-                </ol>
+                </ul>
             </article>
 
             <article class="card top-spending-card">
@@ -81,35 +99,32 @@
                 </header>
                 <ul class="top-spending-list">
                     <li style="--spending-color:var(--tool-financas);--spending-width:34%">
-                        <p><i aria-hidden="true">🍽</i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong></p>
-                        <span></span>
+                        <p><i class="fa-solid fa-utensils" aria-hidden="true"></i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong>
+                        </p><span></span>
                     </li>
-                    <li style="--spending-color:#5985fc;--spending-width:20%">
-                        <p><i aria-hidden="true">🚌</i><b>Transporte</b><strong>R$ 860,00 <small>20%</small></strong></p>
-                        <span></span>
+                    <li style="--spending-color:var(--tool-pets);--spending-width:20%">
+                        <p><i class="fa-solid fa-bus" aria-hidden="true"></i><b>Transporte</b><strong>R$ 860,00 <small>20%</small></strong>
+                        </p><span></span>
                     </li>
                     <li style="--spending-color:#9b72f2;--spending-width:14%">
-                        <p><i aria-hidden="true">▣</i><b>Assinaturas</b><strong>R$ 490,00 <small>12%</small></strong></p>
-                        <span></span>
+                        <p><i class="fa-solid fa-credit-card" aria-hidden="true"></i><b>Assinaturas</b><strong>R$ 490,00 <small>12%</small></strong>
+                        </p><span></span>
                     </li>
                 </ul>
             </article>
 
             <article class="card recent-transactions-card">
                 <header>
-                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas ›</a>
+                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
                 </header>
-                <ul class="recent-transactions-list">
-                    <li>
-                        <a href="components/transacoes.html"><i aria-hidden="true">🛒</i><span><b>Supermercado</b><small>Alimentação · Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
-                    </li>
-                    <li>
-                        <a href="components/transacoes.html"><i aria-hidden="true">🚕</i><span><b>Uber</b><small>Transporte · Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
-                    </li>
-                    <li>
-                        <a href="components/transacoes.html" class="income"><i aria-hidden="true">↑</i><span><b>Salário</b><small>Renda · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
-                    </li>
-                </ul>
+                <nav class="recent-transactions-list" aria-label="Transações recentes">
+                    <a href="components/transacoes.html"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span><b>Supermercado</b><small>Alimentação ·
+                                Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
+                    <a href="components/transacoes.html"><i class="fa-solid fa-taxi" aria-hidden="true"></i><span><b>Uber</b><small>Transporte ·
+                                Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
+                    <a href="components/transacoes.html" class="income"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i><span><b>Salário</b><small>Renda
+                                · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
+                </nav>
             </article>
 
             <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação"></a>

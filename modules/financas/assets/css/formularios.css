@@ -1,0 +1,171 @@
+/* Campos, seletores de tipo, valores e ações dos formulários. */
+
+/* Estrutura e campos */
+.transaction-form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.type-toggle {
+	display: flex;
+	gap: 4px;
+	padding: 4px;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+.type-option {
+	flex: 1;
+	min-height: 38px;
+	padding: 8px 0;
+	color: var(--text-muted);
+	background: transparent;
+	border-radius: 6px;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.type-option.selected {
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	box-shadow: 0 1px 2px color-mix(in srgb, var(--pill-bg) 5%, transparent);
+}
+
+.field-label {
+	color: var(--text-muted);
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 16px;
+}
+
+.currency-field {
+	display: flex;
+	align-items: center;
+	width: 224px;
+	height: 63px;
+	gap: 8px;
+}
+
+.currency-field span {
+	color: var(--text-color);
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.currency-field input {
+	width: 192px;
+	padding: 0;
+	color: var(--text-muted);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 48px;
+	font-weight: 600;
+}
+
+.field-label {
+	margin-top: 0;
+}
+
+.input-wrap,
+textarea {
+	width: 100%;
+	margin-top: -16px;
+	color: var(--text-color);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+.input-wrap {
+	display: flex;
+	align-items: center;
+	min-height: 49px;
+	padding: 13px 16px;
+}
+
+.field-icon {
+	width: 24px;
+	margin-right: 16px;
+	color: var(--text-muted);
+	font-size: 28px;
+	line-height: 23px;
+}
+
+.input-wrap input {
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	color: var(--text-color);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+}
+
+.input-wrap select {
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	color: var(--text-color);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+}
+
+/* Datas, observações e ações */
+.input-wrap input[type='date'] {
+	color: var(--text-color);
+}
+
+.input-wrap input::placeholder,
+textarea::placeholder {
+	color: var(--text-muted);
+}
+
+.description-wrap input {
+	font-size: 24px;
+}
+
+textarea {
+	padding: 16px;
+	resize: none;
+	outline: 0;
+	font-size: 18px;
+}
+
+.actions {
+	display: flex;
+	flex-direction: column;
+	padding-top: 8px;
+}
+
+.save-button,
+.cancel-button {
+	width: 100%;
+	min-height: 52px;
+	border-radius: 8px;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.save-button {
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--pill-bg) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--pill-bg) 10%, transparent);
+}
+
+.save-button span {
+	margin-right: 8px;
+	font-size: 25px;
+}
+
+.cancel-button {
+	color: var(--text-muted);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
