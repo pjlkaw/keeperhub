@@ -3,6 +3,7 @@
 
 // Consulta de todos os usuários no banco de dados
 import db from '../db.js';
+
 export async function buscarUsuario() {
     const [usuarios] = await db.query('SELECT * FROM usuario');
     return usuarios;
@@ -11,6 +12,11 @@ export async function buscarUsuario() {
 export async function buscarUsuarioPorId(id) {
     const [usuario] = await db.query('SELECT * FROM usuario WHERE id_usuario = ?', [id]);
     return usuario[0];
+}
+
+export async function buscarUsuarioPorEmail(email) {
+    const [usuarios] = await db.query('SELECT * FROM usuario WHERE email_usuario = ? LIMIT 1', [email]);
+    return usuarios[0];
 }
 
 export async function criarUsuario(usuario) {
