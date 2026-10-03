@@ -71,6 +71,22 @@ O arquivo `server/db.js` configura o pool de conexão com o MySQL. As consultas 
 
 Os dados do `.env` são carregados pelo `dotenv` e utilizados para criar a conexão com o MySQL.
 
+## Cadastro, login e perfil
+
+O fluxo de conta usa a tabela `usuario` e os campos `nome_usuario`,
+`email_usuario`, `senha_usuario`, `numero_usuario` e `genero_usuario`.
+O cadastro é enviado por `POST /api/usuario`; o login usa `POST /api/login`.
+Depois do login, o navegador guarda somente o ID e os dados públicos da conta
+em `localStorage`. O perfil é carregado por `GET /api/usuario?id=<id>` e
+atualizado por `PUT /api/usuario?id=<id>`.
+
+As senhas novas são armazenadas com `scrypt`. Contas antigas com senha em texto
+simples continuam podendo entrar e têm a senha convertida para hash no primeiro
+login bem-sucedido. A senha atual é exigida para atualizar a senha pelo perfil.
+Data de nascimento fica apenas no dispositivo; ainda não há coluna para ela na
+tabela atual. A foto selecionada no perfil é apenas uma prévia e também não é
+enviada ao banco.
+
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 
 ```js

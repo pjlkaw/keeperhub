@@ -1,4 +1,5 @@
-import { buscarUsuarioPorEmail } from '../server/repositories/usuario.js';
+import { atualizarUsuario, buscarUsuarioPorEmail } from '../server/repositories/usuario.js';
+import { hashPassword, verificarSenha } from '../server/password.js';
 
 export default async function handler(req, res) {
   try {
@@ -12,16 +13,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ erro: 'Email e senha são obrigatórios.' });
     }
 
-    const usuario = await buscarUsuarioPorEmail(String(email).trim());
+    const usuario = await buscarUsuarioPorEmail(String(email).trim().toLowerCase());
 
     if (!usuario) {
       return res.status(401).json({ erro: 'Credenciais inválidas.' });
     }
 
-    const senhaValida = String(usuario.senha_usuario) === String(senha);
+    const senhaArmazenada = String(usuario.senha_usuario ?? '');
+    const senhaValida = await verificarSenha(String(senha), senhaArmazenada);
 
     if (!senhaValida) {
       return res.status(401).json({ erro: 'Credenciais inválidas.' });
+    }
+
+    if (!senhaArmazenada.startsWith('scrypt:')) {
+      await atualizarUsuario(usuario.id_usuario, {
+        senha_usuario: await hashPassword(String(senha))
+      });
     }
 
     return res.status(200).json({
@@ -29,7 +37,9 @@ export default async function handler(req, res) {
       usuario: {
         id_usuario: usuario.id_usuario,
         nome_usuario: usuario.nome_usuario,
-        email_usuario: usuario.email_usuario
+        email_usuario: usuario.email_usuario,
+        numero_usuario: usuario.numero_usuario,
+        genero_usuario: usuario.genero_usuario
       }
     });
   } catch (erro) {
