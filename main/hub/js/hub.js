@@ -6,9 +6,9 @@
  * ==================================================
  */
 
-import { carregarUsuario } from '../../../shared/api/usuario.js';
-
-carregarUsuario().then((usuarios) => console.log(usuarios));
+import { lerSessaoUsuario } from '../../../shared/api/usuario.js';
+const sessao = lerSessaoUsuario();
+console.log('Sessão do usuário carregada no Hub:', sessao);
 
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 

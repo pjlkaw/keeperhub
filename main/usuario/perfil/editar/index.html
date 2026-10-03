@@ -70,7 +70,7 @@
             <input class="somente-leitor-tela" id="foto-perfil" name="foto_perfil" type="file" accept="image/*" />
           </div>
 
-          <h2 class="edicao-identidade__nome" id="nome-resumo">Gabriel Santos</h2>
+          <h2 class="edicao-identidade__nome" id="nome-resumo"></h2>
         </section>
 
         <form class="formulario-perfil" id="formulario-perfil">
@@ -91,7 +91,7 @@
                 <i class="fa-regular fa-user" aria-hidden="true"></i>
                 Nome Completo
               </label>
-              <input id="nome-completo" name="nome" type="text" value="Gabriel Santos" autocomplete="name" required />
+              <input id="nome-completo" name="nome" type="text" autocomplete="name" required />
             </div>
 
             <div class="campo-formulario">
@@ -99,7 +99,7 @@
                 <i class="fa-regular fa-envelope" aria-hidden="true"></i>
                 E-mail
               </label>
-              <input id="email" name="email" type="email" value="gabriel.santos@email.com" autocomplete="email" required />
+              <input id="email" name="email" type="email" autocomplete="email" required />
             </div>
 
             <div class="campo-formulario">
@@ -107,7 +107,7 @@
                 <i class="fa-solid fa-phone" aria-hidden="true"></i>
                 Número de Telefone
               </label>
-              <input id="telefone" name="telefone" type="tel" value="+55 (11) 98765-4321" autocomplete="tel" />
+              <input id="telefone" name="telefone" type="tel" autocomplete="tel" required />
             </div>
 
             <div class="linha-formulario">
@@ -116,7 +116,8 @@
                   <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                   Nascimento
                 </label>
-                <input id="nascimento" name="nascimento" type="text" value="14/08/1994" inputmode="numeric" placeholder="dd/mm/aaaa" />
+                <input id="nascimento" name="nascimento" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" />
+                <small>Esta informação fica salva somente neste dispositivo.</small>
               </div>
 
               <div class="campo-formulario">
@@ -126,7 +127,7 @@
                 </label>
                 <select id="genero" name="genero">
                   <option value="">Selecione</option>
-                  <option value="masculino" selected>Masculino</option>
+                  <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
                   <option value="nao-binario">Não binário</option>
                   <option value="nao-informar">Prefiro não informar</option>
@@ -152,7 +153,7 @@
                 Senha Atual
               </label>
               <div class="campo-senha__controle">
-                <input id="senha-atual" name="senha_atual" type="password" value="KeeperHub2025#" autocomplete="current-password" />
+                <input id="senha-atual" name="senha_atual" type="password" autocomplete="current-password" />
                 <button type="button" aria-label="Mostrar senha atual" data-alternar-senha="senha-atual">
                   <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
                 </button>
@@ -165,7 +166,7 @@
                 Nova Senha
               </label>
               <div class="campo-senha__controle">
-                <input id="nova-senha" name="nova_senha" type="password" value="KeeperHub2025#" autocomplete="new-password" minlength="8" />
+                <input id="nova-senha" name="nova_senha" type="password" autocomplete="new-password" minlength="8" />
                 <button type="button" aria-label="Mostrar nova senha" data-alternar-senha="nova-senha">
                   <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
                 </button>
@@ -183,7 +184,7 @@
                 Confirmar Nova Senha
               </label>
               <div class="campo-senha__controle">
-                <input id="confirmar-senha" name="confirmar_senha" type="password" value="KeeperHub2025#" autocomplete="new-password" minlength="8" />
+                <input id="confirmar-senha" name="confirmar_senha" type="password" autocomplete="new-password" minlength="8" />
                 <button type="button" aria-label="Mostrar confirmação da senha" data-alternar-senha="confirmar-senha">
                   <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
                 </button>
@@ -219,6 +220,6 @@
     </div>
 
     <script src="../../../../shared/services/theme.js" defer></script>
-    <script src="js/editar-perfil.js" defer></script>
+    <script type="module" src="js/editar-perfil.js"></script>
   </body>
 </html>
