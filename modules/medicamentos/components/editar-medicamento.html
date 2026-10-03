@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
     <link rel="stylesheet" href="../assets/css/essentials/layout.css">
-    <link rel="stylesheet" href="../assets/css/essentials/header.css">
     <link rel="stylesheet" href="../assets/css/essentials/components.css">
     <link rel="stylesheet" href="../assets/css/meds-form.css">
     <script>
@@ -29,7 +28,7 @@
             <header class="section-header-section" id="headerSection"></header>
 
             <main id="main-content">
-                <form class="meds-form" novalidate>
+                <form class="meds-form" id="form-edit-medication" novalidate>
                     <section class="card meds-form-block" aria-labelledby="block-med-title">
                         <div class="meds-form-block-header">
                             <h2 class="meds-form-block-title" id="block-med-title">Medicamento</h2>
@@ -39,7 +38,7 @@
                             <label for="input-med-name" class="meds-form-label">
                                 <span>Nome do medicamento <span class="meds-label-required" aria-hidden="true">*</span></span>
                             </label>
-                            <input type="text" class="meds-form-input" id="input-med-name" value="Losartana" required />
+                            <input type="text" class="meds-form-input" id="input-med-name" required />
                         </div>
 
                         <div class="meds-form-row">
@@ -48,7 +47,7 @@
                                     <span>Concentração</span>
                                     <span class="meds-label-optional">Opcional</span>
                                 </label>
-                                <input type="text" class="meds-form-input" id="input-med-concentration" value="50 mg" />
+                                <input type="text" class="meds-form-input" id="input-med-concentration" />
                             </div>
 
                             <div class="meds-form-field">
@@ -56,7 +55,7 @@
                                     <span>Apresentação <span class="meds-label-required" aria-hidden="true">*</span></span>
                                 </label>
                                 <select class="meds-form-select" id="select-med-presentation">
-                                    <option value="comprimido" selected>Comprimido</option>
+                                    <option value="comprimido">Comprimido</option>
                                     <option value="capsula">Cápsula</option>
                                     <option value="gotas">Gotas</option>
                                     <option value="solucao">Solução</option>
@@ -77,7 +76,7 @@
                             </span>
                             <div class="meds-usage-type-group" role="radiogroup" aria-label="Tipo de uso">
                                 <label class="meds-usage-option active">
-                                    <input type="radio" name="usageType" value="continuo" checked />
+                                    <input type="radio" name="usageType" value="continuo" />
                                     <span>Uso contínuo</span>
                                 </label>
                                 <label class="meds-usage-option">
@@ -96,7 +95,7 @@
                                 <span>Data de início</span>
                                 <span class="meds-label-optional">Opcional</span>
                             </label>
-                            <input type="date" class="meds-form-input" id="input-start-date" value="2026-01-12" />
+                            <input type="date" class="meds-form-input" id="input-start-date" />
                         </div>
                     </section>
 
@@ -110,7 +109,7 @@
                                 <span>Dose por horário</span>
                                 <span class="meds-label-optional">Opcional</span>
                             </label>
-                            <input type="text" class="meds-form-input" id="input-med-dose" value="1 comprimido" />
+                            <input type="text" class="meds-form-input" id="input-med-dose" />
                         </div>
 
                         <div class="meds-form-field">
@@ -118,7 +117,7 @@
                                 <span>Frequência</span>
                             </label>
                             <select class="meds-form-select" id="select-med-frequency">
-                                <option value="diario" selected>Todos os dias</option>
+                                <option value="diario">Todos os dias</option>
                                 <option value="especifico">Em dias específicos</option>
                                 <option value="intervalo">A cada X horas</option>
                             </select>
@@ -131,10 +130,10 @@
 
                             <div class="meds-times-list" id="times-list">
                                 <div class="meds-time-row">
-                                    <input type="time" class="meds-form-input" value="08:00" aria-label="Horário 1" />
+                                    <input type="time" class="meds-form-input" aria-label="Horário 1" />
                                 </div>
                                 <div class="meds-time-row">
-                                    <input type="time" class="meds-form-input" value="20:00" aria-label="Horário 2" />
+                                    <input type="time" class="meds-form-input" aria-label="Horário 2" />
                                 </div>
                             </div>
                         </div>
@@ -151,7 +150,7 @@
                                     <span>Quantidade disponível</span>
                                     <span class="meds-label-optional">Opcional</span>
                                 </label>
-                                <input type="number" class="meds-form-input" id="input-stock-qty" value="18" />
+                                <input type="number" class="meds-form-input" id="input-stock-qty" />
                             </div>
 
                             <div class="meds-form-field">
@@ -159,7 +158,7 @@
                                     <span>Unidade</span>
                                 </label>
                                 <select class="meds-form-select" id="select-stock-unit">
-                                    <option value="comprimidos" selected>comprimidos</option>
+                                    <option value="comprimidos">comprimidos</option>
                                     <option value="capsulas">cápsulas</option>
                                     <option value="ml">ml</option>
                                     <option value="gotas">gotas</option>
@@ -172,7 +171,7 @@
                                 <span>Data de validade</span>
                                 <span class="meds-label-optional">Opcional</span>
                             </label>
-                            <input type="date" class="meds-form-input" id="input-expiration-date" value="2027-03-15" />
+                            <input type="date" class="meds-form-input" id="input-expiration-date" />
                         </div>
                     </section>
 
@@ -187,5 +186,6 @@
     </div>
 
     <script src="/shared/services/theme.js"></script>
+    <script type="module" src="/modules/medicamentos/script.js"></script>
 </body>
 </html>

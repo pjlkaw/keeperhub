@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
     <link rel="stylesheet" href="../assets/css/essentials/layout.css">
-    <link rel="stylesheet" href="../assets/css/essentials/header.css">
     <link rel="stylesheet" href="../assets/css/essentials/components.css">
     <link rel="stylesheet" href="../assets/css/meds-form.css">
     <script>
@@ -29,7 +28,7 @@
             <header class="section-header-section" id="headerSection"></header>
 
             <main id="main-content">
-                <form class="meds-form" novalidate>
+                <form class="meds-form" id="form-register-use" novalidate>
                     <section class="card meds-form-block" aria-labelledby="use-occasion-title">
                         <div class="meds-form-block-header">
                             <h2 class="meds-form-block-title" id="use-occasion-title">Registrar uso</h2>
@@ -39,11 +38,7 @@
                             <label for="select-medication" class="meds-form-label">
                                 <span>Medicamento</span>
                             </label>
-                            <select class="meds-form-select" id="select-medication">
-                                <option value="dipirona" selected>Dipirona 500 mg</option>
-                                <option value="ibuprofeno">Ibuprofeno 600 mg</option>
-                                <option value="loratadina">Loratadina 10 mg</option>
-                                <option value="outro">Outro</option>
+                            <select class="meds-form-select" id="select-medication" name="medication">
                             </select>
                         </div>
 
@@ -51,14 +46,14 @@
                             <label for="input-dose" class="meds-form-label">
                                 <span>Dose</span>
                             </label>
-                            <input type="text" class="meds-form-input" id="input-dose" value="1 comprimido" placeholder="Ex.: 1 comprimido" />
+                            <input type="text" class="meds-form-input" id="input-dose" name="dose" placeholder="Ex.: 1 comprimido" required />
                         </div>
 
                         <div class="meds-form-field">
                             <label for="input-date" class="meds-form-label">
                                 <span>Data e hora</span>
                             </label>
-                            <input type="datetime-local" class="meds-form-input" id="input-date" value="2026-09-05T19:40" />
+                            <input type="datetime-local" class="meds-form-input" id="input-date" name="date" required />
                         </div>
 
                         <div class="meds-form-field">
@@ -66,7 +61,7 @@
                                 <span>Observação</span>
                                 <span class="meds-label-optional">Opcional</span>
                             </label>
-                            <textarea id="input-notes" class="meds-form-input" rows="3" placeholder="Ex.: Dor de cabeça após almoço"></textarea>
+                            <textarea id="input-notes" class="meds-form-input" name="notes" rows="3" placeholder="Ex.: Dor de cabeça após almoço"></textarea>
                         </div>
                     </section>
 
@@ -81,5 +76,6 @@
     </div>
 
     <script src="/shared/services/theme.js"></script>
+    <script type="module" src="/modules/medicamentos/script.js"></script>
 </body>
 </html>

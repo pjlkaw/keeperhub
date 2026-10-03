@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
     <link rel="stylesheet" href="../assets/css/essentials/layout.css">
-    <link rel="stylesheet" href="../assets/css/essentials/header.css">
     <link rel="stylesheet" href="../assets/css/essentials/components.css">
     <link rel="stylesheet" href="../assets/css/meds-list.css">
     <script>
@@ -31,9 +30,15 @@
             <main class="meds-main" id="main-content">
                 <div class="meds-stack">
                     <section class="meds-group-section" aria-labelledby="prescriptions-title">
-                        <h2 class="meds-group-title" id="prescriptions-title">Receitas cadastradas</h2>
+                        <div class="section-header-row">
+                            <h2 class="meds-group-title" id="prescriptions-title">Receitas cadastradas</h2>
+                            <a class="btn-meds-secondary" href="adicionar-receita.html">
+                                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                                Adicionar receita
+                            </a>
+                        </div>
 
-                        <div class="meds-list" role="list">
+                        <div class="meds-list prescriptions-list" role="list">
                             <a href="receita-medicamento.html">
                                 <div class="card card--interactive med-card" role="listitem" tabindex="0">
                                     <div class="med-card-left">
@@ -73,5 +78,6 @@
     </div>
 
     <script src="/shared/services/theme.js"></script>
+    <script type="module" src="/modules/medicamentos/script.js"></script>
 </body>
 </html>

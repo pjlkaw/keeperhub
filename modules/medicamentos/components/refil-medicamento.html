@@ -17,7 +17,6 @@
         <!-- Essentials -->
         <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
         <link rel="stylesheet" href="../assets/css/essentials/layout.css">
-        <link rel="stylesheet" href="../assets/css/essentials/header.css">
         <link rel="stylesheet" href="../assets/css/essentials/components.css">
 
         <!-- Main -->
@@ -48,11 +47,11 @@
                                 <i class="fa-solid fa-pills"></i>
                             </div>
                             <div class="med-summary-info">
-                                <h1 class="med-summary-name">Dipirona 500 mg</h1>
-                                <span class="med-summary-type">Comprimido</span>
+                                <h1 class="med-summary-name"></h1>
+                                <span class="med-summary-type"></span>
                                 <div class="med-summary-badge">
                                     <i class="fa-solid fa-box-archive" aria-hidden="true"></i>
-                                    <span>Estoque atual: 2 comprimidos</span>
+                                    <span>Estoque atual</span>
                                 </div>
                             </div>
                         </section>
@@ -63,7 +62,7 @@
                                 Quantidade adquirida <span class="form-asterisk">*</span>
                             </label>
                             <div class="input-with-suffix">
-                                <input type="number" id="input-quantity" class="form-input" value="20" min="1" required />
+                                <input type="number" id="input-quantity" name="quantity" class="form-input" min="1" required />
                                 <span class="input-suffix">comprimidos</span>
                             </div>
                         </div>
@@ -74,7 +73,7 @@
                                 <label for="input-batch" class="form-label">
                                     Lote <span class="form-label-optional">(Opc)</span>
                                 </label>
-                                <input type="text" id="input-batch" class="form-input" placeholder="Ex: A123" />
+                                <input type="text" id="input-batch" name="batch" class="form-input" placeholder="Ex: A123" />
                             </div>
 
                             <div class="form-group">
@@ -82,7 +81,7 @@
                                     Validade <span class="form-label-optional">(Opc)</span>
                                 </label>
                                 <div class="input-with-icon">
-                                    <input type="text" id="input-expiration" class="form-input" placeholder="dd/mm/aaaa" />
+                                    <input type="date" id="input-expiration" name="expiration" class="form-input" />
                                     <i class="fa-regular fa-calendar input-icon" aria-hidden="true"></i>
                                 </div>
                             </div>
@@ -94,7 +93,7 @@
                                 Data da compra <span class="form-asterisk">*</span>
                             </label>
                             <div class="input-with-icon">
-                                <input type="text" id="input-purchase-date" class="form-input" value="Hoje, 21 de agosto" required />
+                                <input type="date" id="input-purchase-date" name="purchaseDate" class="form-input" required />
                                 <i class="fa-regular fa-calendar input-icon" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -104,23 +103,23 @@
                             <label for="input-notes" class="form-label">
                                 Observação <span class="form-label-optional">(Opcional)</span>
                             </label>
-                            <textarea id="input-notes" class="form-textarea" rows="3" placeholder="Ex: Compra na farmácia"></textarea>
+                            <textarea id="input-notes" name="notes" class="form-textarea" rows="3" placeholder="Ex: Compra na farmácia"></textarea>
                         </div>
 
                         <!-- CARD RESUMO DOS CÁLCULOS -->
                         <section class="card med-calculation-card" aria-label="Resumo do novo estoque">
                             <div class="calc-row">
                                 <span class="calc-label">Estoque atual</span>
-                                <span class="calc-value">2</span>
+                                <span class="calc-value">0</span>
                             </div>
                             <div class="calc-row">
                                 <span class="calc-label">Nova entrada</span>
-                                <span class="calc-value">+20</span>
+                                <span class="calc-value">+0</span>
                             </div>
                             <div class="calc-divider"></div>
                             <div class="calc-row calc-row--total">
                                 <span class="calc-total-label">Novo total</span>
-                                <span class="calc-total-value">22 comprimidos</span>
+                                <span class="calc-total-value">0 unidades</span>
                             </div>
                         </section>
 
@@ -138,6 +137,6 @@
 
         <!-- Scripts -->
         <script src="/shared/services/theme.js"></script>
-        <script type="module" src="/modules/medicamentos/js/med-refill.js"></script>
+        <script type="module" src="/modules/medicamentos/script.js"></script>
     </body>
 </html>
