@@ -6,6 +6,7 @@
         <title>
             Todos os produtos — KeeperHub
         </title>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         <link rel="stylesheet" href="/shared/styles/variables.css">
         <link rel="stylesheet" href="/shared/styles/reset.css">
         <link rel="stylesheet" href="/shared/styles/components.css">
@@ -16,6 +17,16 @@
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
         <script type="module" src="/modules/despensa/js/index.js"></script>
+         <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Produtos' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
+            document.getElementById('btn-back-header').href = '/modules/despensa/index.html' // Botão voltar
+            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
+            document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=nome-do-modulo'
+        });
+    </script>
 
     </head>
     <body class="despensa" data-pagina="produtos">

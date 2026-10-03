@@ -6,6 +6,10 @@
  * ==================================================
  */
 
+import { carregarUsuario } from '../../../shared/api/usuario.js';
+
+carregarUsuario().then((usuarios) => console.log(usuarios));
+
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 
 /**
