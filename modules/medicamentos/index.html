@@ -18,7 +18,6 @@
         <!-- Essentials -->
         <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
         <link rel="stylesheet" href="assets/css/essentials/layout.css">
-        <link rel="stylesheet" href="assets/css/essentials/header.css">
         <link rel="stylesheet" href="assets/css/essentials/components.css">
 
         <!-- Main -->
@@ -52,7 +51,6 @@
             });
         </script>
 
-        <script src="/shared/services/interface.js"></script>
     </head>
     <body>
         <section id="alertFromShared" class="alert"></section>
@@ -72,27 +70,10 @@
                         <section aria-labelledby="section-delayed-title">
                             <div class="section-header-row">
                                 <h2 class="meds-section-title" id="section-delayed-title">Sua medicação</h2>
-                                <span class="meds-header-badge">3 doses pendentes</span>
+                                <span class="meds-header-badge" id="home-pending-count">0 doses pendentes</span>
                             </div>
 
-                            <article class="card meds-card-delayed" id="card-dose-delayed">
-                                
-                                <div class="meds-delayed-content">
-                                    <div class="meds-card-delayed-header">
-                                        <span class="meds-delayed-name">Omega 3</span>
-                                        <span class="status-badge-delayed">ATRASADA (07:00)</span>
-                                    </div>
-                                    <span class="meds-delayed-dose">1 cápsula</span>
-                                </div>
-
-                                <div class="meds-delayed-actions">
-                                    <button type="button" class="btn-meds-take" id="btn-take-delayed">
-                                        <i class="fa-solid fa-check" aria-hidden="true"></i>
-                                        Tomei
-                                    </button>
-                                    <button type="button" class="btn-meds-out" id="btn-out-delayed">Estou sem</button>
-                                </div>
-                            </article>
+                            <div id="home-dose-priority"></div>
                         </section>
 
                         <!-- 4. SEÇÃO “PRÓXIMAS DOSES” -->
@@ -101,39 +82,7 @@
                                 <h2 class="meds-section-title" id="section-upcoming-title">Próximas doses</h2>
                             </div>
 
-                            <article class="card meds-card-upcoming" id="card-doses-upcoming">
-                                <div class="upcoming-header-row">
-                                    <span class="upcoming-time-tag">
-                                        <i class="fa-regular fa-clock" aria-hidden="true" style="color: var(--color-meds-primary);"></i>
-                                        08:00
-                                    </span>
-                                    <span class="upcoming-time-pill">3 medicamentos</span>
-                                </div>
-
-                                <ul class="upcoming-med-list" aria-label="Medicamentos das 08:00">
-                                    <li class="upcoming-med-item">
-                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
-                                        <span>Losartana 50 mg</span>
-                                    </li>
-                                    <li class="upcoming-med-item">
-                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
-                                        <span>Metformina 500 mg</span>
-                                    </li>
-                                    <li class="upcoming-med-item">
-                                        <span class="upcoming-med-bullet" aria-hidden="true"></span>
-                                        <span>Vitamina D</span>
-                                    </li>
-                                </ul>
-
-                                <div class="upcoming-footer">
-                                    <a href="components/rotina.html">
-                                        <button type="button" class="btn-meds-secondary" id="btn-meds-routine">
-                                            <span>Ver rotina</span>
-                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                                        </button>
-                                    </a>
-                                </div>
-                            </article>
+                            <div id="home-upcoming"></div>
                         </section>
 
                         <!-- 5. SEÇÃO “ATALHOS PRINCIPAIS” -->
@@ -145,7 +94,7 @@
                                         <i class="fa-solid fa-pills"></i>
                                     </div>
                                     <span class="shortcut-tag">MEDICAÇÕES</span>
-                                    <span class="shortcut-value">6 ativas</span>
+                                    <span class="shortcut-value" id="home-active-medications">0 ativas</span>
                                 </a>
 
                                 <!-- Atalho 2: ROTINA -->
@@ -155,7 +104,7 @@
                                             <i class="fa-regular fa-clock"></i>
                                         </div>
                                         <span class="shortcut-tag">ROTINA</span>
-                                        <span class="shortcut-value">4 hoje</span>
+                                        <span class="shortcut-value" id="home-today-doses">0 hoje</span>
                                     </a>
                                 </div>
 
@@ -166,9 +115,7 @@
                                             <i class="fa-solid fa-chart-simple"></i>
                                         </div>
                                         <span class="shortcut-tag">Dashboard</span>
-                                        <span class="shortcut-value">
-                                            14 streak <i class="fa-solid fa-fire-flame-curved"></i>
-                                        </span>
+                                        <span class="shortcut-value" id="home-stock-alert-count">0 alertas</span>
                                     </a>
                                 </div>
                             </div>
@@ -180,19 +127,7 @@
                                 <h2 class="meds-section-title" id="section-attention-title">Atenção</h2>
                             </div>
 
-                            <article class="card" id="card-stock-attention">
-                                <div class="attention-content-wrap">
-                                    <div class="attention-icon-circle" aria-hidden="true">
-                                        <img src="assets/img/task-red.png" alt="" class="attention-icon-img" width="26" height="26" loading="lazy" />
-                                    </div>
-                                    <div class="attention-info-area">
-                                        <span class="attention-med-name">Dipirona 500 mg</span>
-                                        <span class="attention-status-text">Estoque baixo • 2 comprimidos</span>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn-meds-repor" id="btn-repor-dipirona">Repor</button>
-                            </article>
+                            <div id="home-stock-list"></div>
                         </section>
 
                         <!-- 7. SEÇÃO “BONS HÁBITOS” -->
@@ -205,33 +140,7 @@
                                 </a>
                             </div>
 
-                            <div class="habits-scroll-wrapper" role="region" aria-label="Lista de Bons Hábitos">
-                                <!-- Hábito 1: Água -->
-                                    <article class="card habit-card" data-habit-id="water">
-                                    <div class="habit-icon-wrap habit-icon-wrap--water" aria-hidden="true">
-                                        <i class="fa-solid fa-droplet"></i>
-                                    </div>
-                                    <span class="habit-name">Água</span>
-                                    <span class="habit-value" data-habit-value="water">1,5 L / 2 L</span>
-                                </article>
-
-                                <!-- Hábito 2: Caminhada -->
-                                    <article class="card habit-card" data-habit-id="walk">
-                                    <div class="habit-icon-wrap habit-icon-wrap--walk" aria-hidden="true">
-                                        <i class="fa-solid fa-person-walking"></i>
-                                    </div>
-                                    <span class="habit-name">Caminhada</span>
-                                    <span class="habit-value habit-done" data-habit-value="walk">Feito</span>
-                                </article>
-
-                                <!-- Hábito 3: Sono -->
-                                    <article class="card habit-card" data-habit-id="sleep">
-                                    <div class="habit-icon-wrap habit-icon-wrap--sleep" aria-hidden="true">
-                                        <i class="fa-solid fa-moon"></i>
-                                    </div>
-                                    <span class="habit-name">Sono</span>
-                                    <span class="habit-value" data-habit-value="sleep">7h 30min</span>
-                                </article>
+                            <div class="habits-scroll-wrapper" id="home-habits-list" role="region" aria-label="Lista de Bons Hábitos">
                             </div>
                         </section>
                     </div>
