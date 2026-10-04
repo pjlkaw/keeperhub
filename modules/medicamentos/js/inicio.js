@@ -30,7 +30,7 @@ export function inicializarInicioMedicamentos() {
 function renderizarPrioridade(container, doses) {
     container.replaceChildren();
     if (!doses.length) {
-        container.append(mensagemVazia("Nenhuma dose atrasada. Consulte a rotina para ver os próximos horários."));
+        container.append(mensagemVazia("Tudo em ordem! Nenhuma dose atrasada."));
         return;
     }
 
@@ -56,7 +56,7 @@ function renderizarPrioridade(container, doses) {
         const acoes = document.createElement("div");
         acoes.className = "meds-delayed-actions";
         acoes.append(
-            criarBotaoDose("Tomei", "tomada", dose, () => inicializarInicioMedicamentos()),
+            criarBotaoDose("Tomei", "<i class='fas fa-check'></i>", dose, () => inicializarInicioMedicamentos()),
             criarBotaoDose("Estou sem", "sem-estoque", dose, () => inicializarInicioMedicamentos()),
         );
         card.append(conteudo, acoes);
@@ -98,6 +98,9 @@ function renderizarProximaDose(container, futuras, doses) {
         lista.append(item);
     });
 
+    const corpo = document.createElement("div");
+    corpo.className = "upcoming-body";
+
     const rodape = document.createElement("div");
     rodape.className = "upcoming-footer";
     const link = document.createElement("a");
@@ -105,7 +108,9 @@ function renderizarProximaDose(container, futuras, doses) {
     link.href = "/modules/medicamentos/components/rotina.html";
     link.textContent = "Ver rotina";
     rodape.append(link);
-    card.append(cabecalho, lista, rodape);
+
+    corpo.append(lista, rodape);
+    card.append(cabecalho, corpo);
     container.append(card);
 }
 

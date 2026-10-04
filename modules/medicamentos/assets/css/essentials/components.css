@@ -35,6 +35,13 @@ TÍTULOS DE SEÇÃO PADRÃO
     font-weight: 500;
     color: #999999;
 }
+
+.card--interactive .med-card-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 /* ==================================================
 COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 (Ver rotina →, Ver progresso →, Histórico →, etc.)
