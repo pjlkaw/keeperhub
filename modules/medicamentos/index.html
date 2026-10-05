@@ -11,19 +11,19 @@
         <link rel="stylesheet" href="/shared/styles/variables.css">
         <link rel="stylesheet" href="/shared/styles/reset.css">
         <link rel="stylesheet" href="/shared/styles/components.css">
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css"> 
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        
         <link rel="stylesheet" href="/shared/styles/interface.css">
-
+        
         <!-- Essentials -->
         <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
         <link rel="stylesheet" href="assets/css/essentials/layout.css">
         <link rel="stylesheet" href="assets/css/essentials/components.css">
-
+        
         <!-- Main -->
         <link rel="stylesheet" href="assets/css/home.css">
         
         <!-- Navbar -->
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
         <script>
             fetch('/shared/components/navbar-section.html')
                 .then(response => response.text())
@@ -38,22 +38,25 @@
                 });
         </script>
 
-        <!-- Header compartilhado -->
+        <!-- Header -->
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script src="/shared/services/theme.js"></script>
 
-        <script>
-            fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-                document.getElementById('headerSection').innerHTML = data;
-                document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
-                document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
-                document.getElementById('btn-back-header').href = '/main/hub/' // Botão voltar
-                document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=medicamentos'
-            });
-        </script>
-
+        <!-- No content -->
+         <link rel="stylesheet" href="/shared/styles/no-content.css">
+         <script>
+            fetch('/shared/components/no-content.html')
+                .then(response => response.text())
+                .then(data => {
+                    const noContentSection = document.getElementById('no-content-section');
+                    noContentSection.innerHTML = data;
+                });
+         </script>
     </head>
     <body>
         <section id="alertFromShared" class="alert"></section>
+
+        <section class="no-content-section" id="no-content-section"></section>
         
         <div class="app-page-wrapper">
             <div class="app-container">
