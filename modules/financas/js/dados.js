@@ -1,30 +1,39 @@
-const API_URL = '/api';
+const CHAVE_CONTAS = 'keeperhub-financas-contas';
+const CHAVE_TRANSACOES = 'keeperhub-financas-transacoes';
 
-export async function consultarApi(caminho, opcoes = {}) {
+const contasIniciais = [
+    { id: 1, nome: 'Conta principal', tipo: 'Conta corrente' },
+    { id: 2, nome: 'Poupança', tipo: 'Poupança' },
+    { id: 3, nome: 'Carteira', tipo: 'Carteira' }
+];
+
+function copiar(valor) {
+    return JSON.parse(JSON.stringify(valor));
+}
+
+function lerLista(chave, padrao) {
     try {
-        const resposta = await fetch(API_URL + caminho, {
-            ...opcoes,
-            headers: { 'Content-Type': 'application/json', ...opcoes.headers }
-        });
-        if (!resposta.ok) {
-            const erro = await resposta.json().catch(() => ({}));
-            throw new Error(erro.error || 'Não foi possível comunicar com a API.');
-        }
-        return resposta.status === 204 ? null : await resposta.json();
-    } catch (erro) {
-        throw new Error(erro.message || 'Não foi possível comunicar com a API.', { cause: erro });
+        const valor = JSON.parse(localStorage.getItem(chave));
+        return Array.isArray(valor) ? valor : copiar(padrao);
+    } catch {
+        return copiar(padrao);
     }
 }
+
+function salvarLista(chave, itens) {
+    try {
+        localStorage.setItem(chave, JSON.stringify(itens));
+    } catch {
+        // O módulo continua funcional durante a sessão caso o armazenamento não esteja disponível.
+    }
+}
+
+export const obterContas = () => lerLista(CHAVE_CONTAS, contasIniciais);
+export const salvarContas = (contas) => salvarLista(CHAVE_CONTAS, contas);
+export const obterTransacoes = () => lerLista(CHAVE_TRANSACOES, []);
+export const salvarTransacoes = (transacoes) => salvarLista(CHAVE_TRANSACOES, transacoes);
+export const proximoId = (itens) => Math.max(0, ...itens.map((item) => Number(item.id) || 0)) + 1;
 
 export const formatarMoeda = (valor) => Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 export const formatarData = (valor) => valor ? new Date(valor).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : '';
 export const lerMoeda = (valor) => Number(String(valor || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.'));
-
-export function mostrarErro(erro, destino) {
-    if (!destino) return window.alert(erro.message);
-    const mensagem = document.createElement('p');
-    mensagem.className = 'empty-state';
-    mensagem.setAttribute('role', 'alert');
-    mensagem.textContent = erro.message;
-    destino.replaceChildren(mensagem);
-}
