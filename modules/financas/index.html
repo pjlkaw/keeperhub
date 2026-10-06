@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Organize ganhos, gastos e contas em um só lugar com o KeeperHub Finanças.">
+    <meta name="color-scheme" content="dark light">
+
     <link rel="stylesheet" href="../../shared/styles/variables.css">
     <link rel="stylesheet" href="../../shared/styles/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -16,31 +18,47 @@
     <title>Finanças — KeeperHub</title>
     <script src="js/interface.js" defer></script>
 
-    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('/shared/components/header-page.html')
-                .then(response => {
+            fetch('../../shared/components/header-page.html')
+                .then((response) => {
                     if (!response.ok) throw new Error('HTTP ' + response.status);
                     return response.text();
                 })
-                .then(data => {
-                    document.getElementById('headerSection').innerHTML = data;
-                    document.getElementById('pageNameH1').textContent = "Finanças";
-                    document.getElementById('pageSubtittleSpan').textContent = "Suas finanças organizadas";
-                    document.getElementById('btn-back-header').href = "/main/";
+                .then((data) => {
+                    const header = document.getElementById('headerSection');
+                    header.innerHTML = data;
+
+                    header.querySelectorAll('[src^="/shared/"]').forEach((img) => {
+                        img.setAttribute(
+                            'src',
+                            img.getAttribute('src').replace('/shared/', '../../shared/'),
+                        );
+                    });
+
+                    document.getElementById('pageNameH1').textContent = 'Finanças';
+                    document.getElementById('pageSubtittleSpan').textContent = 'Suas finanças organizadas';
+                    document.getElementById('btn-back-header').href = '../../main/hub/index.html';
                     document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
-                    document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+                    document.getElementById('btn-notifications').href =
+                        '../../shared/components/notifications.html?modulo=financas';
+
                     const atualizarRotuloTema = () => {
                         const botao = document.getElementById('theme-toggle');
-                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        if (!botao) return;
+                        const rotulo = document.documentElement.dataset.theme === 'dark'
+                            ? 'Ativar tema claro'
+                            : 'Ativar tema escuro';
                         botao.setAttribute('aria-label', rotulo);
                         botao.title = rotulo;
                     };
                     atualizarRotuloTema();
-                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, {
+                        attributes: true,
+                        attributeFilter: ['data-theme'],
+                    });
                 })
-                .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
+                .catch((erro) => console.error('Nao foi possivel carregar o cabecalho.', erro));
         });
     </script>
 </head>
@@ -73,12 +91,14 @@
             </article>
             <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
                 <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list" aria-hidden="true"></span></span>
+                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list"
+                            aria-hidden="true"></span></span>
                     <strong>Transações</strong>
                     <span>Ver tudo</span>
                 </a>
                 <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-chart-column" aria-hidden="true"></span></span>
+                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-chart-column"
+                            aria-hidden="true"></span></span>
                     <strong>Relatórios</strong>
                     <span>Análise mensal</span>
                 </a>
@@ -107,29 +127,36 @@
                 </header>
                 <ul class="top-spending-list">
                     <li style="--spending-color:var(--tool-financas);--spending-width:34%">
-                        <p><i class="fa-solid fa-utensils" aria-hidden="true"></i><b>Alimentação</b><strong>R$ 1.280,00 <small>30%</small></strong>
+                        <p><i class="fa-solid fa-utensils" aria-hidden="true"></i><b>Alimentação</b><strong>R$ 1.280,00
+                                <small>30%</small></strong>
                         </p><span></span>
                     </li>
                     <li style="--spending-color:var(--tool-pets);--spending-width:20%">
-                        <p><i class="fa-solid fa-bus" aria-hidden="true"></i><b>Transporte</b><strong>R$ 860,00 <small>20%</small></strong>
+                        <p><i class="fa-solid fa-bus" aria-hidden="true"></i><b>Transporte</b><strong>R$ 860,00
+                                <small>20%</small></strong>
                         </p><span></span>
                     </li>
                     <li style="--spending-color:#9b72f2;--spending-width:14%">
-                        <p><i class="fa-solid fa-credit-card" aria-hidden="true"></i><b>Assinaturas</b><strong>R$ 490,00 <small>12%</small></strong>
+                        <p><i class="fa-solid fa-credit-card" aria-hidden="true"></i><b>Assinaturas</b><strong>R$ 490,00
+                                <small>12%</small></strong>
                         </p><span></span>
                     </li>
                 </ul>
             </article>
             <article class="card recent-transactions-card">
                 <header>
-                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
+                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span
+                            class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
                 </header>
                 <nav class="recent-transactions-list" aria-label="Transações recentes">
-                    <a href="components/transacoes.html"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span><b>Supermercado</b><small>Alimentação ·
+                    <a href="components/transacoes.html"><i class="fa-solid fa-cart-shopping"
+                            aria-hidden="true"></i><span><b>Supermercado</b><small>Alimentação ·
                                 Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
-                    <a href="components/transacoes.html"><i class="fa-solid fa-taxi" aria-hidden="true"></i><span><b>Uber</b><small>Transporte ·
+                    <a href="components/transacoes.html"><i class="fa-solid fa-taxi"
+                            aria-hidden="true"></i><span><b>Uber</b><small>Transporte ·
                                 Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
-                    <a href="components/transacoes.html" class="income"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i><span><b>Salário</b><small>Renda
+                    <a href="components/transacoes.html" class="income"><i class="fa-solid fa-arrow-up"
+                            aria-hidden="true"></i><span><b>Salário</b><small>Renda
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
                 </nav>
             </article>
