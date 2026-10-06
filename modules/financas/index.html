@@ -12,12 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../../shared/styles/components.css">
     <link rel="stylesheet" href="../../shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="../../shared/styles/header-page.css">
-    <link rel="stylesheet" href="../../shared/styles/interface.css">
-    <link rel="stylesheet" href="assets/css/financas.css">
-    <link rel="stylesheet" href="assets/css/inicio.css">
-    <link rel="stylesheet" href="assets/css/padroes.css">
-
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <script src="../../shared/services/theme.js" defer></script>
     <title>Finanças — KeeperHub</title>
     <script src="js/interface.js" defer></script>
@@ -70,20 +66,17 @@
 <body class="landing-page">
     <main>
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
+            
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav"
-                aria-label="Navegação entre módulos"></nav>
-
-            <header class="section-header-section" id="headerSection"></header>
-
+        <header class="section-header-section" id="headerSection"></header>
             <section class="preview-greeting" aria-labelledby="greeting-title">
                 <h2 id="greeting-title">Olá, <span class="fa-solid fa-hand" aria-hidden="true"></span></h2>
                 <p>Veja como estão suas finanças este mês.</p>
             </section>
-
             <article class="card preview-balance">
-                <header><span>SALDO DISPONÍVEL</span><mark> +12% vs mês anterior</mark></header>
-                <output>R$ 4.250,00</output>
+                <header><span>SALDO DISPONÍVEL</span><mark> +12% vs mês anterior</mark></header><output>R$
+                    4.250,00</output>
                 <hr>
                 <section class="definition-list">
                     <dl>
@@ -96,7 +89,6 @@
                     </dl>
                 </section>
             </article>
-
             <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
                 <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
                     <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list"
@@ -111,7 +103,6 @@
                     <span>Análise mensal</span>
                 </a>
             </nav>
-
             <article class="card cash-flow">
                 <header>
                     <h3>Fluxo do mês</h3><span>Setembro 2026</span>
@@ -119,7 +110,6 @@
                 <p class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></p>
                 <p class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></p>
             </article>
-
             <article class="card monthly-expenses-card">
                 <header>
                     <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
@@ -131,7 +121,6 @@
                     <li class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></li>
                 </ul>
             </article>
-
             <article class="card top-spending-card">
                 <header>
                     <h3>Onde você mais gastou</h3><span>3 categorias</span>
@@ -154,7 +143,6 @@
                     </li>
                 </ul>
             </article>
-
             <article class="card recent-transactions-card">
                 <header>
                     <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span
@@ -172,7 +160,6 @@
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
                 </nav>
             </article>
-
             <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação"></a>
         </section>
     </main>
