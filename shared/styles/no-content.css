@@ -1,0 +1,25 @@
+.no-content-section {
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100dvh;
+    z-index: 50;
+    position: absolute;
+    text-align: center;
+    margin-top: 90px;
+}
+
+.no-content-section div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.no-content-section i {
+    font-size: 3rem;
+    color: var(--text-muted);
+}
