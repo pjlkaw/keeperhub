@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Registre uma nova movimentação no KeeperHub Finanças.">
-    <link rel="stylesheet" href="../../../shared/styles/variables.css">
-    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <title>Nova transação • Finanças • KeeperHub</title>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../../../shared/styles/components.css">
-    <script src="../../../shared/services/theme.js" defer></script>
-    <title>Nova transação — KeeperHub</title>
+
+    <!-- Estilos Estruturais e Compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/interface.css">
+
+    <!-- Estilos do Módulo Finanças -->
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/financas.css">
+    <link rel="stylesheet" href="../assets/css/padroes.css">
+    <link rel="stylesheet" href="../assets/css/formularios.css">
+
+    <!-- Tema -->
+    <script src="/shared/services/theme.js"></script>
+
+    <!-- Interface: carrega navbar e marca módulo ativo -->
     <script src="../js/interface.js" defer></script>
+
+    <!-- Header compartilhado -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/shared/components/header-page.html')
@@ -20,64 +40,154 @@
                 })
                 .then(data => {
                     document.getElementById('headerSection').innerHTML = data;
-                    document.getElementById('pageNameH1').textContent = "Nova transação";
-                    document.getElementById('pageSubtittleSpan').textContent = "Registre uma movimentação";
-                    document.getElementById('btn-back-header').href = "/modules/financas/";
-                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    document.getElementById('pageNameH1').textContent = 'Nova transação';
+                    document.getElementById('pageSubtittleSpan').textContent = 'Registre uma movimentação';
+                    document.getElementById('btn-back-header').href = '/modules/financas/';
+                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar para Finanças');
                     document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+
                     const atualizarRotuloTema = () => {
                         const botao = document.getElementById('theme-toggle');
-                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        if (!botao) return;
+                        const rotulo = document.documentElement.dataset.theme === 'dark'
+                            ? 'Ativar tema claro'
+                            : 'Ativar tema escuro';
                         botao.setAttribute('aria-label', rotulo);
                         botao.title = rotulo;
                     };
                     atualizarRotuloTema();
-                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, {
+                        attributes: true,
+                        attributeFilter: ['data-theme'],
+                    });
                 })
                 .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
         });
     </script>
 </head>
-<body class="landing-page transaction-page">
-<main><section class="app-preview transaction-preview" aria-labelledby="pageNameH1">
-    <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
-    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item active">
-        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Finanças
-    </a>
-    <a href="/modules/despensa/index.html" data-module="despensa" class="modules-nav-item">
-        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Despensa
-    </a>
-    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item">
-        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Pets
-    </a>
-    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item">
-        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Metas
-    </a>
-    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item">
-        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Medicamentos
-    </a>
-</div></nav>
-<header class="section-header-section" id="headerSection"></header>
-    <form class="transaction-form" id="transaction-form">
-        <fieldset class="type-toggle"><legend class="sr-only">Tipo de transação</legend><button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true"><span aria-hidden="true"><span class="fa-solid fa-arrow-down" aria-hidden="true"></span></span> Despesa</button><button class="type-option" type="button" data-transaction-type="income" aria-pressed="false"><span aria-hidden="true"><span class="fa-solid fa-arrow-up" aria-hidden="true"></span></span> Receita</button></fieldset>
-        <section class="card value-card"><label for="value">VALOR</label><span class="currency-field"><span>R$</span><input id="value" name="value" type="text" inputmode="decimal" value="150,45" aria-label="Valor da transação" required></span></section>
-        <section class="transaction-fields" aria-label="Dados da transação">
-            <p class="form-field form-field-wide"><label for="description">Descrição</label><span class="input-wrap description-wrap"><svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 20 4.2-1 10.4-10.4a2.1 2.1 0 0 0-3-3L5.2 16 4 20ZM13.8 7.4l2.8 2.8M9 20h11"/></svg><input id="description" name="description" type="text" value="Supermercado" required></span></p>
-            <p class="form-field"><label for="date">Data</label><span class="input-wrap"><input id="date" name="date" type="date" value="2026-09-15" required></span></p>
-            <p class="form-field"><label for="category">Categoria</label><span class="input-wrap"><select id="category" name="category" required><option selected>Alimentação</option><option>Transporte</option><option>Renda</option><option>Lazer</option><option>Assinaturas</option><option>Transferência</option></select></span></p>
-            <p class="form-field form-field-wide"><label for="account">Conta / Origem</label><span class="input-wrap"><select id="account" name="account" required><option value="1" selected>Conta principal</option><option value="2">Poupança</option><option value="3">Carteira</option></select></span></p>
-            <input name="dueDate" type="hidden"><input name="status" type="hidden" value="pending">
+
+<body class="finance-page finance-new-transaction-page">
+    <div class="finance-shell">
+
+        <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
+
+        <!-- 2. CABEÇALHO DA PÁGINA -->
+        <header class="section-header-section" id="headerSection"></header>
+
+        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
+        <nav class="finance-tabs" aria-label="Seções de finanças">
+            <a href="/modules/financas/">Visão geral</a>
+            <a href="transacoes.html">Transações</a>
+            <a href="relatorios.html">Relatórios</a>
+            <a class="active" href="nova-transacao.html" aria-current="page">Nova transação</a>
+        </nav>
+
+        <!-- 4. CONTEÚDO PRINCIPAL -->
+        <section class="finance-content" aria-labelledby="pageNameH1">
+            <form class="transaction-form" id="transaction-form">
+
+                <!-- Tipo: Despesa / Receita -->
+                <fieldset class="type-toggle">
+                    <legend class="sr-only">Tipo de transação</legend>
+                    <button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true">
+                        <span aria-hidden="true"><span class="fa-solid fa-arrow-down" aria-hidden="true"></span></span>
+                        Despesa
+                    </button>
+                    <button class="type-option" type="button" data-transaction-type="income" aria-pressed="false">
+                        <span aria-hidden="true"><span class="fa-solid fa-arrow-up" aria-hidden="true"></span></span>
+                        Receita
+                    </button>
+                </fieldset>
+
+                <!-- Valor -->
+                <section class="card value-card">
+                    <label for="value">VALOR</label>
+                    <span class="currency-field">
+                        <span>R$</span>
+                        <input id="value" name="value" type="text" inputmode="decimal" value="0,00" aria-label="Valor da transação" required>
+                    </span>
+                </section>
+
+                <!-- Campos da transação -->
+                <section class="transaction-fields" aria-label="Dados da transação">
+                    <p class="form-field form-field-wide">
+                        <label for="description">Descrição</label>
+                        <span class="input-wrap description-wrap">
+                            <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="m4 20 4.2-1 10.4-10.4a2.1 2.1 0 0 0-3-3L5.2 16 4 20ZM13.8 7.4l2.8 2.8M9 20h11"/>
+                            </svg>
+                            <input id="description" name="description" type="text" value="Supermercado" required>
+                        </span>
+                    </p>
+                    <p class="form-field">
+                        <label for="date">Data</label>
+                        <span class="input-wrap">
+                            <input id="date" name="date" type="date" value="2026-09-15" required>
+                        </span>
+                    </p>
+                    <p class="form-field">
+                        <label for="category">Categoria</label>
+                        <span class="input-wrap">
+                            <select id="category" name="category" required>
+                                <option selected>Alimentação</option>
+                                <option>Transporte</option>
+                                <option>Renda</option>
+                                <option>Lazer</option>
+                                <option>Assinaturas</option>
+                                <option>Transferência</option>
+                            </select>
+                        </span>
+                    </p>
+                    <p class="form-field form-field-wide">
+                        <label for="account">Conta / Origem</label>
+                        <span class="input-wrap">
+                            <select id="account" name="account" required>
+                                <option value="1" selected>Conta principal</option>
+                                <option value="2">Poupança</option>
+                                <option value="3">Carteira</option>
+                            </select>
+                        </span>
+                    </p>
+                    <input name="dueDate" type="hidden">
+                    <input name="status" type="hidden" value="pending">
+                </section>
+
+                <!-- Observações -->
+                <section class="card notes-card">
+                    <label for="notes">Observações</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Adicione uma anotação opcional..."></textarea>
+                </section>
+
+                <!-- Resumo -->
+                <aside class="card transaction-summary" aria-labelledby="summary-title">
+                    <header>
+                        <h2 id="summary-title">RESUMO</h2>
+                        <span id="summary-type">Despesa</span>
+                    </header>
+                    <section class="definition-list">
+                        <dl><dt>Valor</dt><dd id="summary-value">R$ 0,00</dd></dl>
+                        <dl><dt>Categoria</dt><dd id="summary-category">Alimentação</dd></dl>
+                        <dl><dt>Data</dt><dd id="summary-date">15/09/2026</dd></dl>
+                        <dl><dt>Conta</dt><dd id="summary-account">Conta principal</dd></dl>
+                    </section>
+                </aside>
+
+                <!-- Ações -->
+                <footer class="actions">
+                    <button class="save-button" type="submit">
+                        <span aria-hidden="true"><span class="fa-solid fa-check" aria-hidden="true"></span></span>
+                        Salvar transação
+                    </button>
+                    <button class="cancel-button" type="button">Cancelar</button>
+                </footer>
+
+            </form>
         </section>
-        <section class="card notes-card"><label for="notes">Observações</label><textarea id="notes" name="notes" placeholder="Adicione uma anotação opcional..."></textarea></section>
-        <aside class="card transaction-summary" aria-labelledby="summary-title"><header><h2 id="summary-title">RESUMO</h2><span id="summary-type">Despesa</span></header><section class="definition-list"><dl><dt>Valor</dt><dd id="summary-value">R$ 150,45</dd></dl><dl><dt>Categoria</dt><dd id="summary-category">Alimentação</dd></dl><dl><dt>Data</dt><dd id="summary-date">15/09/2026</dd></dl><dl><dt>Conta</dt><dd id="summary-account">Conta principal</dd></dl></section></aside>
-        <footer class="actions"><button class="save-button" type="submit"><span aria-hidden="true"><span class="fa-solid fa-check" aria-hidden="true"></span></span> Salvar transação</button><button class="cancel-button" type="button">Cancelar</button></footer>
-    </form>
-</section></main>
-<script type="module" src="../script.js"></script>
+
+    </div>
+
+    <script type="module" src="../script.js"></script>
 </body>
+
 </html>

@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../shared/styles/variables.css">
-    <link rel="stylesheet" href="../../../shared/styles/reset.css">
+    <meta name="description" content="Consulte e filtre todas as suas movimentações financeiras no KeeperHub.">
+    <title>Transações • Finanças • KeeperHub</title>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../../../shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
@@ -14,6 +16,8 @@
     <script src="../../../shared/services/theme.js" defer></script>
     <title>Transações</title>
     <script src="../js/interface.js" defer></script>
+
+    <!-- Header compartilhado -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/shared/components/header-page.html')
@@ -23,19 +27,26 @@
                 })
                 .then(data => {
                     document.getElementById('headerSection').innerHTML = data;
-                    document.getElementById('pageNameH1').textContent = "Transações";
-                    document.getElementById('pageSubtittleSpan').textContent = "Consulte suas movimentações";
-                    document.getElementById('btn-back-header').href = "/modules/financas/";
-                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    document.getElementById('pageNameH1').textContent = 'Transações';
+                    document.getElementById('pageSubtittleSpan').textContent = 'Consulte suas movimentações';
+                    document.getElementById('btn-back-header').href = '/modules/financas/';
+                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar para Finanças');
                     document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+
                     const atualizarRotuloTema = () => {
                         const botao = document.getElementById('theme-toggle');
-                        const rotulo = document.documentElement.dataset.theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';
+                        if (!botao) return;
+                        const rotulo = document.documentElement.dataset.theme === 'dark'
+                            ? 'Ativar tema claro'
+                            : 'Ativar tema escuro';
                         botao.setAttribute('aria-label', rotulo);
                         botao.title = rotulo;
                     };
                     atualizarRotuloTema();
-                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+                    new MutationObserver(atualizarRotuloTema).observe(document.documentElement, {
+                        attributes: true,
+                        attributeFilter: ['data-theme'],
+                    });
                 })
                 .catch(erro => console.error('Nao foi possivel carregar o cabecalho.', erro));
         });
@@ -43,34 +54,26 @@
 </head>
 
 <body class="finance-page">
-    <main class="finance-shell transactions-list-screen">
-        <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
-    <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item active">
-        <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Finanças
-    </a>
-    <a href="/modules/despensa/index.html" data-module="despensa" class="modules-nav-item">
-        <img src="/shared/img/logo-despensa.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Despensa
-    </a>
-    <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item">
-        <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Pets
-    </a>
-    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item">
-        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Metas
-    </a>
-    <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item">
-        <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Medicamentos
-    </a>
-</div></nav>
-<header class="section-header-section" id="headerSection"></header>
-        <nav class="finance-tabs" aria-label="Seções de finanças"><a href="../index.html">Visão geral</a><a class="active"
-                href="transacoes.html" aria-current="page">Transações</a><a href="relatorios.html">Relatórios</a><a
-                href="nova-transacao.html">Nova transação</a></nav>
+    <div class="finance-shell transactions-list-screen">
+
+        <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
+
+        <!-- 2. CABEÇALHO DA PÁGINA -->
+        <header class="section-header-section" id="headerSection"></header>
+
+        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
+        <nav class="finance-tabs" aria-label="Seções de finanças">
+            <a href="/modules/financas/">Visão geral</a>
+            <a class="active" href="transacoes.html" aria-current="page">Transações</a>
+            <a href="relatorios.html">Relatórios</a>
+            <a href="nova-transacao.html">Nova transação</a>
+        </nav>
+
+        <!-- 4. CONTEÚDO PRINCIPAL -->
         <section class="finance-content transactions-content">
+
+            <!-- Busca -->
             <form class="transactions-search" role="search">
                 <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
@@ -82,6 +85,8 @@
                     <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
                 </p>
             </form>
+
+            <!-- Filtros -->
             <section class="filter-row" aria-label="Filtros de transações">
                 <nav class="filter-chips" aria-label="Filtros de transações">
                     <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
@@ -101,16 +106,23 @@
                     </nav>
                 </section>
             </section>
+
+            <!-- Lista de Transações -->
             <section class="card transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
-            <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">
-                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-                </svg>
-            </a>
+
         </section>
-    </main>
+
+        <!-- FAB: Nova Transação -->
+        <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">
+            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+            </svg>
+        </a>
+
+    </div>
+
     <script type="module" src="../script.js"></script>
 </body>
 

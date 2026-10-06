@@ -1,4 +1,4 @@
-import { consultarApi, formatarMoeda, formatarData, mostrarErro } from './dados.js';
+import { formatarMoeda, formatarData, obterTransacoes, salvarTransacoes } from './dados.js';
 
 function criarTransacao(transacao) {
     const item = document.createElement('article');
@@ -85,14 +85,14 @@ function inicializarPopup() {
     });
 }
 
-export async function inicializarTransacoes() {
+export function inicializarTransacoes() {
     const lista = document.querySelector('#transaction-list, #due-list');
     if (!lista) return;
     const agrupar = lista.id === 'transaction-list';
     const busca = document.querySelector('.transactions-search input');
     const filtros = document.querySelectorAll('[data-filter]');
     let transacoes = [];
-    let carregadas = false;
+    let carregadas = true;
     let filtro = document.querySelector('.filter-active')?.dataset.filter || 'all';
     const atualizar = () => {
         if (!carregadas) return;
@@ -124,26 +124,16 @@ export async function inicializarTransacoes() {
         busca.focus();
     });
     inicializarPopup();
-    lista.addEventListener('click', async (evento) => {
+    lista.addEventListener('click', (evento) => {
         const botao = evento.target.closest('.payment-button');
         if (!botao || botao.disabled) return;
         botao.disabled = true;
-        try {
-            await consultarApi('/transacoes/' + botao.dataset.id + '/pagamento', { method: 'PATCH' });
-            const transacao = transacoes.find((item) => String(item.id) === botao.dataset.id);
-            if (transacao) transacao.status = 'pago';
-            botao.textContent = 'Pago';
-            botao.closest('.transaction-item').classList.add('is-paid');
-        } catch (erro) {
-            botao.disabled = false;
-            mostrarErro(erro);
-        }
+        const transacao = transacoes.find((item) => String(item.id) === botao.dataset.id);
+        if (transacao) transacao.status = 'pago';
+        salvarTransacoes(transacoes);
+        botao.textContent = 'Pago';
+        botao.closest('.transaction-item').classList.add('is-paid');
     });
-    try {
-        transacoes = await consultarApi('/transacoes');
-        carregadas = true;
-        atualizar();
-    } catch (erro) {
-        mostrarErro(erro, lista);
-    }
+    transacoes = obterTransacoes();
+    atualizar();
 }
