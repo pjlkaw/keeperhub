@@ -1,0 +1,24 @@
+<!-- Modal sem conteúdo -->
+<!-- Para usar PRECISA ter: 
+    <section class="no-content-section" id="no-content-section"></section>
+
+    E no head precisa do script e do link css:
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
+    <script>
+    fetch('/shared/components/no-content.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('no-content-section').innerHTML = data;
+        });
+
+    </script>
+
+    Em um script type="module", importe atualizarNoContent de
+    /shared/services/no-content.js e chame atualizarNoContent(temConteudo).
+    Passe true para ocultar o no-content ou false para exibi-lo.
+-->
+
+<div>
+    <i class="fa-solid fa-info-circle"></i>
+    <p>Nenhum conteúdo disponível para esta página.</p>
+</div>

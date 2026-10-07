@@ -1,0 +1,10 @@
+.btn-add {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 51;
+    background-color: var(--btn-add-color, var(--text-muted));
+    border: solid 1px var(--btn-add-color, var(--text-muted));
+    padding: 12px;
+    border-radius: 50%;
+}

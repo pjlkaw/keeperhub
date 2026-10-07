@@ -1,0 +1,23 @@
+<!-- 8. FAB (BOTÃO FLUTUANTE ADICIONAR) -->
+<!-- Para usar no seu módulo, adicione o container do botão:
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
+
+    No head, inclua o CSS e carregue este componente com fetch:
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <script>
+        const linkAdicionar = '/caminho/para/adicionar.html';
+
+        fetch('/shared/components/btn-add.html')
+            .then(response => response.text())
+            .then(data => {
+                const btnAddSection = document.getElementById('btn-add-section');
+                btnAddSection.innerHTML = data;
+                btnAddSection.querySelector('#btn-add').href = linkAdicionar;
+            });
+    </script>
+
+    Defina --btn-add-color com a variável de cor do módulo.
+-->
+<a class="btn-add" id="btn-add">
+    <i class="fa-solid fa-plus" aria-hidden="true"></i>
+</a>

@@ -127,46 +127,6 @@ COMPONENTE REUTILIZÁVEL: BOTÃO DE AÇÃO SECUNDÁRIA
 }
 
 /* ==================================================
-FAB (FLOATING ACTION BUTTON)
-================================================== */
-.btn-meds-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--color-meds-primary);
-    color: var(--meds-pill-text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    z-index: 90;
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background-color 0.15s ease;
-}
-
-.btn-meds-fab:hover {
-    background-color: var(--color-meds-primary-hover);
-    transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(112, 222, 1, 0.5);
-}
-
-.btn-meds-fab:active {
-    transform: scale(0.94);
-}
-
-.btn-meds-fab svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 2.5;
-}
-
-/* ==================================================
 RESPONSIVIDADE (max-width: 360px)
 ================================================== */
 @media (max-width: 360px) {

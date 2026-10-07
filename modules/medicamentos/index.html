@@ -11,19 +11,19 @@
         <link rel="stylesheet" href="/shared/styles/variables.css">
         <link rel="stylesheet" href="/shared/styles/reset.css">
         <link rel="stylesheet" href="/shared/styles/components.css">
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css"> 
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        
         <link rel="stylesheet" href="/shared/styles/interface.css">
-
+        
         <!-- Essentials -->
         <link rel="stylesheet" href="assets/css/essentials/meds-variables.css">
         <link rel="stylesheet" href="assets/css/essentials/layout.css">
         <link rel="stylesheet" href="assets/css/essentials/components.css">
-
+        <script src="/shared/services/theme.js"></script>
         <!-- Main -->
         <link rel="stylesheet" href="assets/css/home.css">
         
         <!-- Navbar -->
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
         <script>
             fetch('/shared/components/navbar-section.html')
                 .then(response => response.text())
@@ -38,31 +38,61 @@
                 });
         </script>
 
-        <!-- Header compartilhado -->
-        <script src="/shared/services/theme.js"></script>
-
+        <!-- Header -->
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
         <script>
             fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
                 document.getElementById('headerSection').innerHTML = data;
                 document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
-                document.getElementById('pageSubtittleSpan').textContent = '08 de setembro /2026' // Subtítulo
-                document.getElementById('btn-back-header').href = '/main/hub/' // Botão voltar
+                document.getElementById('pageSubtittleSpan').textContent = 'Gestão de suas medicações' // Subtítulo
+                document.getElementById('btn-back-header').href = '/main/' // Botão voltar
+                // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
                 document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=medicamentos'
             });
         </script>
 
+        <!-- No content -->
+        <link rel="stylesheet" href="/shared/styles/no-content.css">
+        <script>
+        fetch('/shared/components/no-content.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('no-content-section').innerHTML = data;
+            });
+        </script>
+
+        <!-- Button + -->
+        <link rel="stylesheet" href="/shared/styles/btn-add.css">
+        <script>
+            const linkAdicionar = '/modules/medicamentos/components/adicionar-medicamento.html';
+            
+            fetch('/shared/components/btn-add.html')
+                .then(response => response.text())
+                .then(data => {
+                    const btnAddSection = document.getElementById('btn-add-section');
+                    btnAddSection.innerHTML = data;
+                    btnAddSection.querySelector('#btn-add').href = "/modules/medicamentos/components/adicionar-medicamento.html";
+                });
+        </script>
     </head>
     <body>
+        <!-- Alertas -->
         <section id="alertFromShared" class="alert"></section>
+
+        <!-- Botão de adição -->
+        <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
         
         <div class="app-page-wrapper">
             <div class="app-container">
-
+                <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
                 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-
+                
                 <!-- 2. CABEÇALHO DO MÓDULO (RETORNO + TÍTULO + TEMA) -->
                 <header class="section-header-section" id="headerSection"></header>
                 
+                <!-- 3. SEÇÃO DE CONTEÚDO VAZIO -->
+                <section class="no-content-section" id="no-content-section" hidden></section>
+
                 <!-- CONTEÚDO PRINCIPAL DA HOME DE MEDICAMENTOS -->
                 <main class="meds-main" id="main-content">
                     <div class="meds-stack">
@@ -145,11 +175,6 @@
                         </section>
                     </div>
                 </main>
-
-                <!-- 8. FAB (BOTÃO FLUTUANTE ADICIONAR) -->
-                <a href="/modules/medicamentos/components/adicionar-medicamento.html" class="btn-meds-fab" id="btn-meds-fab" aria-label="Adicionar medicamento" title="Adicionar medicamento">
-                    <i class="fa-solid fa-plus" aria-hidden="true"></i>
-                </a>
             </div>
         </div>
 
