@@ -47,7 +47,7 @@
                 document.getElementById('pageSubtittleSpan').textContent = 'Gestão de suas medicações' // Subtítulo
                 document.getElementById('btn-back-header').href = '/main/' // Botão voltar
                 // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
-                document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=nome-do-modulo'
+                document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=medicamentos'
             });
         </script>
 
@@ -71,7 +71,7 @@
                 .then(data => {
                     const btnAddSection = document.getElementById('btn-add-section');
                     btnAddSection.innerHTML = data;
-                    btnAddSection.querySelector('#btn-add').href = /modules/medicamentos/components/adicionar-medicamento.html";
+                    btnAddSection.querySelector('#btn-add').href = "/modules/medicamentos/components/adicionar-medicamento.html";
                 });
         </script>
     </head>
