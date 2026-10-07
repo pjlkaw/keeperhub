@@ -43,7 +43,7 @@ export function inicializarFormulario() {
         atualizarResumo();
     });
     formulario.querySelector('.cancel-button').addEventListener('click', () => {
-        window.location.href = '../index.html';
+        window.location.href = 'index.html';
     });
 
     formulario.addEventListener('submit', (evento) => {

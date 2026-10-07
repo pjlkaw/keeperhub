@@ -1,0 +1,534 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: nova-transacao.css
+   Responsabilidade: Estilos exclusivos da página de
+   Nova Transação (components/nova-transacao.html).
+   
+   Depende de: 
+     - shared/styles/variables.css
+     - shared/styles/reset.css
+     - shared/styles/components.css
+     - modules/financas/assets/css/financas.css
+   Usado exclusivamente por: /modules/financas/components/nova-transacao.html
+   ================================================== */
+
+/* --------------------------------------------------
+   1. CASCA E MOLDURA DE NOVA TRANSAÇÃO
+   Origem: style.css (linhas 2959–2967, 3080–3090, 3415–3421, 3454)
+   -------------------------------------------------- */
+.transaction-preview {
+  border-radius: 16px;
+}
+
+html[data-theme="light"] .transaction-page {
+  color: #202124;
+  background: #f3f3f1;
+}
+
+html[data-theme="light"] .transaction-preview {
+  background: #ffffff;
+  border-color: #d2d5da;
+}
+
+@media (max-width: 460px) {
+  .transaction-preview {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+}
+
+/* --------------------------------------------------
+   2. CABEÇALHO ESPECÍFICO (.transaction-heading)
+   Origem: style.css (linhas 2831–2835, 2969–2976, 3092–3114)
+   -------------------------------------------------- */
+.transaction-heading {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: start;
+  gap: 9px;
+}
+
+.transaction-heading h1 {
+  margin: 2px 0 0;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.transaction-heading p {
+  margin: 7px 0 0;
+  color: var(--text-muted, #a0a6b1);
+  font-size: 12px;
+}
+
+html[data-theme="light"] .transaction-heading p {
+  color: #687080;
+}
+
+.transaction-heading .finance-theme-button {
+  width: 34px;
+  height: 34px;
+  font-size: 17px;
+}
+
+/* --------------------------------------------------
+   3. FORMULÁRIO E ALTERNADOR DE TIPO (.type-toggle)
+   Origem: style.css (linhas 3116–3146, 3461, 3512, 3746–3816)
+   -------------------------------------------------- */
+.transaction-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0 24px;
+}
+
+.type-toggle {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 8px;
+  background: #14161a;
+  border: 1px solid #34363c;
+  border-radius: 16px;
+}
+
+html[data-theme="light"] body.transaction-page .transaction-form .type-toggle {
+  background: #f4f0eb;
+  border-color: #ded8d1;
+}
+
+.type-option {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 7px;
+  color: #e8edf7;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.type-option span {
+  margin-right: 0;
+  color: inherit;
+  font-size: 18px;
+}
+
+.type-option.selected {
+  color: #ffffff;
+  background: var(--tool-financas, #e47a00);
+  box-shadow: 0 4px 12px rgba(228, 122, 0, 0.35);
+}
+
+html[data-theme="light"] body.transaction-page .transaction-form .type-option.selected {
+  color: #ffffff;
+  background: var(--tool-financas, #e47a00);
+  box-shadow: 0 4px 12px rgba(228, 122, 0, 0.35);
+}
+
+.type-option:not(.selected):hover,
+.type-option:not(.selected):focus-visible {
+  color: #ffffff;
+  background: rgba(228, 122, 0, 0.12);
+}
+
+html[data-theme="light"] body.transaction-page .transaction-form .type-option {
+  color: #343a45;
+}
+
+html[data-theme="light"] body.transaction-page .transaction-form .type-option:not(.selected):hover,
+html[data-theme="light"] body.transaction-page .transaction-form .type-option:not(.selected):focus-visible {
+  color: #202124;
+  background: #fff7ef;
+}
+
+/* --------------------------------------------------
+   4. CARD DE VALOR (.value-card, .currency-field)
+   Origem: style.css (linhas 110–133, 2978–3000, 3148–3187, 3492–3498)
+   -------------------------------------------------- */
+.value-card {
+  padding: 16px;
+  background: #18191d;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+html[data-theme="light"] .value-card {
+  background: #ffffff;
+  border-color: #ddd7d0;
+}
+
+.value-card label {
+  display: block;
+  color: #9aa7bd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+html[data-theme="light"] .value-card label {
+  color: #697386;
+}
+
+.currency-field {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: auto;
+  margin-top: 6px;
+  gap: 6px;
+}
+
+.currency-field span {
+  color: #aab0bb;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .currency-field span {
+  color: #697386;
+}
+
+.currency-field input {
+  width: 100%;
+  padding: 0;
+  color: var(--tool-financas, #e47a00);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+/* --------------------------------------------------
+   5. CAMPOS DA TRANSAÇÃO (.transaction-fields, .input-wrap)
+   Origem: style.css (linhas 139–188, 2978–3020, 3189–3310,
+   3475, 3492–3504, 3787–3810)
+   -------------------------------------------------- */
+.transaction-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 9px;
+  padding: 16px;
+  background: #18191d;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+html[data-theme="light"] .transaction-fields {
+  background: #ffffff;
+  border-color: #ddd7d0;
+}
+
+.form-field {
+  min-width: 0;
+}
+
+.form-field-wide {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #9aa7bd;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+html[data-theme="light"] .form-field label {
+  color: #697386;
+}
+
+.transaction-fields .input-wrap {
+  display: flex;
+  align-items: center;
+  min-height: 38px;
+  margin: 0;
+  padding: 8px 11px;
+  background: #1d2026;
+  border: 1px solid #343741;
+  border-radius: 8px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+html[data-theme="light"] .transaction-fields .input-wrap {
+  color: #202124;
+  background: #f7f5f2;
+  border-color: #ddd7d0;
+}
+
+.transaction-fields .input-wrap input,
+.transaction-fields .input-wrap select {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  color: #ffffff;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+html[data-theme="light"] .transaction-fields .input-wrap input,
+html[data-theme="light"] .transaction-fields .input-wrap select {
+  color: #202124;
+}
+
+.transaction-fields .input-wrap select {
+  appearance: auto;
+  cursor: pointer;
+}
+
+html[data-theme="dark"] body.transaction-page .transaction-fields select,
+html[data-theme="dark"] body.transaction-page .transaction-fields option {
+  color: #ffffff;
+  background-color: #1d2026;
+}
+
+html[data-theme="light"] body.transaction-page .transaction-fields select,
+html[data-theme="light"] body.transaction-page .transaction-fields option {
+  color: #202124;
+  background-color: #f7f5f2;
+}
+
+.transaction-fields input[type="date"] {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] .transaction-fields input[type="date"] {
+  color-scheme: light;
+}
+
+.transaction-fields .field-icon {
+  flex: 0 0 17px;
+  width: 17px;
+  height: 17px;
+  margin-right: 7px;
+  fill: none;
+  stroke: #8f96a2;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* --------------------------------------------------
+   6. CARD DE OBSERVAÇÕES (.notes-card, textarea)
+   Origem: style.css (linhas 328–335, 2978–3016, 3151, 3312–3325, 3502)
+   -------------------------------------------------- */
+.notes-card {
+  padding: 16px;
+  background: #18191d;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+html[data-theme="light"] .notes-card {
+  background: #ffffff;
+  border-color: #ddd7d0;
+}
+
+.notes-card label {
+  display: block;
+  margin-bottom: 6px;
+  color: #9aa7bd;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+html[data-theme="light"] .notes-card label {
+  color: #697386;
+}
+
+.notes-card textarea {
+  width: 100%;
+  min-height: 57px;
+  margin: 0;
+  padding: 12px;
+  color: #ffffff;
+  background: #1d2026;
+  border: 1px solid #343741;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  resize: vertical;
+  outline: 0;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+html[data-theme="light"] .notes-card textarea {
+  color: #202124;
+  background: #f7f5f2;
+  border-color: #ddd7d0;
+}
+
+.notes-card textarea::placeholder {
+  color: var(--text-muted, #a0a0a0);
+}
+
+/* --------------------------------------------------
+   7. RESUMO DA TRANSAÇÃO (.transaction-summary)
+   Origem: style.css (linhas 2978–3025, 3151, 3327–3372, 3476, 3495)
+   -------------------------------------------------- */
+.transaction-summary {
+  padding: 16px;
+  background: #18191d;
+  border: 1px solid #303238;
+  border-radius: 16px;
+}
+
+html[data-theme="light"] .transaction-summary {
+  background: #ffffff;
+  border-color: #ddd7d0;
+}
+
+.transaction-summary header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.transaction-summary h2 {
+  margin: 0;
+  color: #9aa7bd;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+html[data-theme="light"] .transaction-summary h2 {
+  color: #697386;
+}
+
+.transaction-summary header span {
+  padding: 4px 9px;
+  color: #ff970d;
+  background: #3b260e;
+  border: 1px solid #89500d;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.transaction-summary dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px 24px;
+  margin: 11px 0 0;
+}
+
+.transaction-summary dt {
+  color: #8f96a3;
+  font-size: 10px;
+}
+
+.transaction-summary dd {
+  margin: 2px 0 0;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .transaction-summary dd {
+  color: #202124;
+}
+
+.transaction-summary dl div:first-child dd {
+  color: var(--tool-financas, #e47a00);
+}
+
+/* --------------------------------------------------
+   8. AÇÕES E BOTÕES (.actions, .save-button, .cancel-button)
+   Origem: style.css (linhas 347–372, 3027–3030, 3374–3401, 3477, 3513–3514)
+   -------------------------------------------------- */
+.transaction-form .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 0 14px;
+}
+
+.transaction-form .save-button,
+.transaction-form .cancel-button {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.transaction-form .save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: var(--tool-financas, #e47a00);
+  border: 0;
+  box-shadow: 0 5px 13px rgba(240, 124, 0, 0.24);
+}
+
+.transaction-form .save-button:hover {
+  background: #cf6e00;
+  filter: brightness(1.05);
+}
+
+.transaction-form .save-button:active {
+  transform: scale(0.98);
+}
+
+.transaction-form .save-button span {
+  margin-right: 6px;
+  font-size: 17px;
+}
+
+.transaction-form .cancel-button {
+  color: #aeb4c0;
+  background: transparent;
+  border: 1px solid #2d3036;
+}
+
+.transaction-form .cancel-button:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+html[data-theme="light"] .transaction-form .cancel-button {
+  color: #687080;
+  border-color: #ddd7d0;
+}
+
+html[data-theme="light"] .transaction-form .cancel-button:hover {
+  background: #f5f3f0;
+}
+
+/* --------------------------------------------------
+   9. ACESSIBILIDADE (.sr-only)
+   Origem: style.css (linhas 3403–3413)
+   -------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
