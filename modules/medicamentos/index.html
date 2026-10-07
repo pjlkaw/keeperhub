@@ -19,61 +19,29 @@
         <link rel="stylesheet" href="assets/css/essentials/layout.css">
         <link rel="stylesheet" href="assets/css/essentials/components.css">
         <script src="/shared/services/theme.js"></script>
+        <script>
+            window.keeperhubModuleConfig = {
+                module: 'medicamentos',
+                title: 'Medicamentos',
+                subtitle: 'Gestão de suas medicações',
+                backUrl: '/main/',
+                notificationsModule: 'medicamentos',
+                addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
+            };
+        </script>
+        <script src="/shared/services/load-components.js"></script>
+
         <!-- Main -->
         <link rel="stylesheet" href="assets/css/home.css">
-        
         <!-- Navbar -->
         <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <script>
-            fetch('/shared/components/navbar-section.html')
-                .then(response => response.text())
-                .then(data => {
-                    const nav = document.getElementById('modules-nav-wrapper');
-                    nav.innerHTML = data;
-
-                    const moduloAtual = nav.querySelector('[data-module="medicamentos"]');
-                    moduloAtual.classList.add('active');
-                    moduloAtual.setAttribute('aria-selected', 'true');
-                    moduloAtual.setAttribute('tabindex', '0');
-                });
-        </script>
-
         <!-- Header -->
         <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <script>
-            fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-                document.getElementById('headerSection').innerHTML = data;
-                document.getElementById('pageNameH1').textContent ='Medicamentos' //Nome da Página
-                document.getElementById('pageSubtittleSpan').textContent = 'Gestão de suas medicações' // Subtítulo
-                document.getElementById('btn-back-header').href = '/main/' // Botão voltar
-                // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
-                document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=medicamentos'
-            });
-        </script>
-
         <!-- No content -->
         <link rel="stylesheet" href="/shared/styles/no-content.css">
-        <script>
-        fetch('/shared/components/no-content.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('no-content-section').innerHTML = data;
-            });
-        </script>
-
         <!-- Button + -->
         <link rel="stylesheet" href="/shared/styles/btn-add.css">
-        <script>
-            const linkAdicionar = '/modules/medicamentos/components/adicionar-medicamento.html';
-            
-            fetch('/shared/components/btn-add.html')
-                .then(response => response.text())
-                .then(data => {
-                    const btnAddSection = document.getElementById('btn-add-section');
-                    btnAddSection.innerHTML = data;
-                    btnAddSection.querySelector('#btn-add').href = "/modules/medicamentos/components/adicionar-medicamento.html";
-                });
-        </script>
+
     </head>
     <body>
         <!-- Alertas -->

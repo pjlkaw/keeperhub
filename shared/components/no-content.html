@@ -4,14 +4,6 @@
 
     E no head precisa do script e do link css:
     <link rel="stylesheet" href="/shared/styles/no-content.css">
-    <script>
-    fetch('/shared/components/no-content.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('no-content-section').innerHTML = data;
-        });
-
-    </script>
 
     Em um script type="module", importe atualizarNoContent de
     /shared/services/no-content.js e chame atualizarNoContent(temConteudo).
