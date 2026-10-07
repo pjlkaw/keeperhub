@@ -1,6 +1,6 @@
 /* ==========================================================
-   Finanças — contas.css
-   Estilos da tela contas.html (extraídos do style.css antigo)
+   Finanças — vencimentos.css
+   Estilos da tela vencimentos.html (extraídos do style.css antigo)
    ========================================================== */
 :root {
 	--black: var(--bg-color, #000000);
@@ -29,16 +29,6 @@ body {
 	min-height: 100vh;
 	margin: 0 auto;
 	background: var(--black);
-}
-.field-label {
-	color: var(--muted);
-	font-family: 'Inter', sans-serif;
-	font-size: 12px;
-	font-weight: 600;
-	line-height: 16px;
-}
-.field-label {
-	margin-top: 0;
 }
 textarea {
 	width: 100%;
@@ -71,28 +61,6 @@ textarea {
 }
 .accounts-screen .transactions-content {
 	gap: 16px;
-}
-.account-form {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-	padding: 16px;
-	background: #1e1f22;
-	border: 1px solid rgba(255, 255, 255, .05);
-	border-radius: 12px;
-}
-.account-input {
-	min-height: 44px;
-	padding: 8px 12px;
-	color: #e3e2e6;
-	background: #292a2d;
-	border: 1px solid #6b7280;
-	border-radius: 8px;
-}
-.account-list {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
 }
 .account-item {
 	display: flex;
@@ -136,23 +104,6 @@ textarea {
 	outline: 0;
 	font-size: 18px;
 }
-.save-button {
-	width: 100%;
-	min-height: 52px;
-	border-radius: 8px;
-	font-family: 'Inter', sans-serif;
-	font-size: 14px;
-	letter-spacing: .05em;
-}
-.save-button {
-	color: var(--white);
-	background: var(--orange);
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -4px rgba(0, 0, 0, .1);
-}
-.save-button span {
-	margin-right: 8px;
-	font-size: 25px;
-}
 @media (min-width: 600px) {
   body {
 		display: flex;
@@ -195,6 +146,12 @@ html[data-theme='light'] .transactions-list-screen {
 	background: var(--bg-color);
 	color: var(--text-color);
 }
+html[data-theme='light'] .transaction-list {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+	color: var(--text-color);
+	box-shadow: none;
+}
 html[data-theme='light'] .transaction-item {
 	background: var(--card-bg);
 	color: var(--text-color);
@@ -202,6 +159,13 @@ html[data-theme='light'] .transaction-item {
 html[data-theme='light'] .transaction-icon {
 	background: transparent;
 	color: var(--tool-financas);
+}
+.transaction-list {
+	overflow: hidden;
+	background: #1e1f22;
+	border: 1px solid rgba(255, 255, 255, .05);
+	border-radius: 12px;
+	box-shadow: 0 4px 6px -4px rgba(0, 0, 0, .1), 0 10px 15px -3px rgba(0, 0, 0, .1);
 }
 .transaction-group {
 	padding: 16px 16px 8px;
@@ -299,14 +263,9 @@ html[data-theme=light] body:not(.landing-page):not(.finance-page) .transactions-
 html[data-theme=light] body:not(.landing-page):not(.finance-page) .screen-back {
 	color: #202124
 }
-html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-form {
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-list {
 	background: #fff;
 	border-color: #e6dfd8
-}
-html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-input {
-	color: #202124;
-	background: #f7f5f2;
-	border-color: #ddd7d0
 }
 html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item, html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item {
 	background: #faf8f5;
@@ -326,7 +285,7 @@ html[data-theme='light'] .transactions-content {
 	background: transparent !important;
 	color: var(--text-color) !important;
 }
-html[data-theme='light'] .transaction-item {
+html[data-theme='light'] .transaction-list, html[data-theme='light'] .transaction-item {
 	background: var(--card-bg) !important;
 	border-color: var(--border-color) !important;
 	color: var(--text-color) !important;
@@ -353,11 +312,8 @@ html[data-theme=dark] body, html[data-theme=light] body {
 .app-shell {
 	background: var(--card-bg)
 }
-.account-form, .account-item, .transaction-item {
+.account-item, .transaction-list, .transaction-item {
 	border-color: var(--border-color)
-}
-.save-button {
-	background-color: var(--tool-financas)
 }
 .transaction-icon {
 	color: var(--tool-financas)
@@ -366,10 +322,7 @@ html[data-theme=dark] body, html[data-theme=light] body {
 	gap: 16px;
 	padding: 16px 16px 24px
 }
-.account-list {
-	gap: 8px
-}
-.account-form, .account-item, .transaction-item {
+.account-item, .transaction-list, .transaction-item {
 	border-radius: 16px
 }
 textarea, .payment-button, .account-edit, .account-delete {
