@@ -1,30 +1,11 @@
-<!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS (COMPACTA / SWIPE HORIZONTAL)
+<!-- 1. NAVEGAÇÃO SUPERIOR ENTRE MÓDULOS
 
-Para usar no seu módulo:
-
-1. No header da página, adicione:
+No header da página, adicione:
 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-2. No head, adicione:
+No head, adicione:
 <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
 
-3. No script da página, carregue o navbar e informe qual é o módulo atual:
-
-<script>
-    fetch('/shared/components/navbar-section.html')
-        .then(response => response.text())
-        .then(data => {
-            const nav = document.getElementById('modules-nav-wrapper');
-            nav.innerHTML = data;
-
-            const moduloAtual = nav.querySelector('[data-module="SEU-MODULO"]');
-            moduloAtual.classList.add('active');
-            moduloAtual.setAttribute('aria-selected', 'true');
-            moduloAtual.setAttribute('tabindex', '0');
-        });
-</script>
-
-Substitua "SEU-MODULO" pelo nome do módulo.
 -->
 
 <div class="modules-nav-bar" role="tablist">

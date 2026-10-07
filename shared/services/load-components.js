@@ -1,7 +1,7 @@
 /*
  * CONFIG DO MÓDULO:
  *
- * Antes do script /shared/services/load-components.js, defina a config do módulo:
+ * Antes do script /shared/services/load-components.js, defina o módulo:
  *    window.keeperhubModuleConfig = {
  *      module: 'nome-do-modulo',
  *      title: 'Nome do módulo',
@@ -11,8 +11,8 @@
  *      addUrl: '/modules/nome-do-modulo/components/adicionar.html'
  *    };
  *
- * Para os outros módulos, basta repetir esse padrão com os dados específicos.
- * Se o módulo não tiver botão de adicionar, remova a linha "addUrl".
+ * Repita esse padrão nos demais módulos; se não houver botão de adicionar,
+ * apenas remova "addUrl". o restante continua igual.
  */
 
 const configModule = window.keeperhubModuleConfig || {
