@@ -8,10 +8,14 @@
     fetch('/shared/components/no-content.html')
         .then(response => response.text())
         .then(data => {
-            const noContentSection = document.getElementById('no-content-section');
-            noContentSection.innerHTML = data;
+            document.getElementById('no-content-section').innerHTML = data;
         });
+
     </script>
+
+    Em um script type="module", importe atualizarNoContent de
+    /shared/services/no-content.js e chame atualizarNoContent(temConteudo).
+    Passe true para ocultar o no-content ou false para exibi-lo.
 -->
 
 <div>

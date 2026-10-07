@@ -15,6 +15,8 @@ import { inicializarDetalhesMedicamento, inicializarLotesMedicamento } from "./j
 import { inicializarHabitos } from "./js/habitos.js";
 import { inicializarListaMedicamentos } from "./js/medicamentos.js";
 import { inicializarReceitas } from "./js/receitas.js";
+import { listarRegistros } from "./js/armazenamento.js";
+import { atualizarNoContent } from "/shared/services/no-content.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     mudarAbaMedicamentos();
@@ -29,14 +31,27 @@ document.addEventListener("DOMContentLoaded", () => {
     inicializarHabitos();
     inicializarListaMedicamentos();
     inicializarReceitas();
+    if (document.querySelector(".no-content-section")) {
+        atualizarNoContent(listarRegistros("medicamentos").length > 0);
+    }
 });
+
+
 
 // SHARED =======================================
 // alerts
 import { alertShared } from "/shared/services/interface.js"
 
-
 // DEV TOOL =====================================
+// adciona no-content.html para teste de desenvolvimento
+document.addEventListener('keydown', (event) => {
+    if (event.key === '8') {
+        document.body.classList.add('sem-rolagem');
+        document.querySelector('.no-content-section').hidden = false;
+    }
+});
+
+// alerta
 document.addEventListener('keydown', (event) => {
     if (event.key === '9') {
         let oi = 'oi'

@@ -1,14 +1,25 @@
+body.sem-rolagem {
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+}
+
 .no-content-section {
     background-color: var(--bg-color);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100dvh;
-    z-index: 50;
-    position: absolute;
     text-align: center;
-    margin-top: 90px;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    padding: 0 76px 88px;
+}
+
+.no-content-section[hidden] {
+    display: none;
 }
 
 .no-content-section div {
