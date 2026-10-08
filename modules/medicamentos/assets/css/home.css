@@ -16,10 +16,8 @@ Usado por: apenas a página Home do módulo
 .meds-card-delayed {
     position: relative;
     padding: 16px 18px;
-}
+    margin-top: 10px;
 
-[data-theme="light"] .meds-card-delayed {
-    border-left: 4px solid #d97706;
 }
 
 .status-badge-delayed {
@@ -271,11 +269,6 @@ Usado por: apenas a página Home do módulo
     align-items: center;
     justify-content: center;
     color: var(--color-meds-primary);
-}
-
-.shortcut-icon-wrap.wrap-alert {
-    color: #f59e0b;
-    background-color: rgba(245, 158, 11, 0.1);
 }
 
 [data-theme="light"] .shortcut-icon-wrap {

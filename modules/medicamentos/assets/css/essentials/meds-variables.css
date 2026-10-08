@@ -18,7 +18,7 @@ Usado por: TODAS as páginas do módulo
     --meds-pill-bg: var(--pill-bg);
     --meds-pill-text: var(--pill-text);
 
-    --color-meds-primary: #70de01;
+    --color-meds-primary: var(--tool-medicamentos);
     --color-meds-primary-hover: #62c500;
     --color-meds-bg-tint: rgba(112, 222, 1, 0.12);
     --color-meds-border-tint: rgba(112, 222, 1, 0.35);
