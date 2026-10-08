@@ -5,76 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Pets</title>
-    <link rel="icon" type="image/png" href="../../shared/img/logo-pets.png" />
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="../../shared/styles/variables.css" />
-    <link rel="stylesheet" href="../../shared/styles/reset.css" />
-    <link rel="stylesheet" href="../../shared/styles/components.css" />
-    <link rel="stylesheet" href="../../shared/styles/navbar-modules.css" />
-    <link rel="stylesheet" href="../../shared/styles/header-page.css" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/components.css" />
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
+    <link rel="stylesheet" href= /shared/styles/header-page.css" />
     <link rel="stylesheet" href="assets/css/style-pets.css" />
     <link rel="stylesheet" href="assets/css/pets-modulo-principal.css" />
   
 
-    <script>
-      document.addEventListener('DOMContentLoaded', async () => {
-        const nav = document.getElementById('modules-nav-wrapper');
-        const header = document.getElementById('headerSection');
+  <script>
+     window.keeperhubModuleConfig = {
+     module: 'Pets',
+       title: 'Pets',
+       subtitle: 'Administração da vida do seu pet',
+       backUrl: '/main/',
+       notificationsModule: 'nome-do-modulo',
+       addUrl: '/modules/nome-do-modulo/components/adicionar.html'
+     };
+  </script>
+  <script src="/shared/services/load-components.js"></script>
+  
+        <!-- Navbar -->
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <!-- Header -->
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <!-- No content -->
+        <link rel="stylesheet" href="/shared/styles/no-content.css">
+        <!-- Button + -->
+        <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
-        try { 
-          const [respostaNavegacao, respostaCabecalho] = await Promise.all([
-            fetch('../../shared/components/navbar-section.html'),
-            fetch('../../shared/components/header-page.html'),
-          ]);
-
-          if (!respostaNavegacao.ok || !respostaCabecalho.ok) {
-            throw new Error('Não foi possível carregar os componentes compartilhados.');
-          }
-
-          nav.innerHTML = await respostaNavegacao.text();
-          header.innerHTML = await respostaCabecalho.text();
-
-          [...nav.querySelectorAll('img[src^="/shared/"]'), ...header.querySelectorAll('img[src^="/shared/"]')]
-            .forEach((imagem) => {
-              imagem.setAttribute(
-                'src',
-                imagem.getAttribute('src').replace('/shared/', '../../shared/'),
-              );
-            });
-
-          nav.querySelectorAll('.modules-nav-item').forEach((item) => {
-            const paginaPets = item.dataset.module === 'pets';
-
-            item.classList.remove('active');
-            item.setAttribute('aria-selected', 'false');
-            item.setAttribute('tabindex', '-1');
-            item.removeAttribute('aria-current');
-            item.setAttribute(
-              'href',
-              paginaPets ? 'index.html' : `../${item.dataset.module}/index.html`,
-            );
-          });
-
-          const moduloAtual = nav.querySelector('[data-module="pets"]');
-          moduloAtual.classList.add('active');
-          moduloAtual.setAttribute('aria-selected', 'true');
-          moduloAtual.setAttribute('aria-current', 'page');
-          moduloAtual.setAttribute('tabindex', '0');
-
-          document.getElementById('pageNameH1').textContent = 'Pets';
-          document.getElementById('pageSubtittleSpan').textContent =
-            new Intl.DateTimeFormat('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-            }).format(new Date());
-          document.getElementById('btn-back-header').href = '../../main/index.html';
-            document.getElementById('btn-notifications').href = '../../shared/components/notifications.html?modulo=pets';
-        } catch (erro) {
-          console.error('Erro ao montar o cabeçalho de Pets:', erro);
-        }
-      });
-    </script>
   </head>
   <body>
     <div class="pagina-pets">
