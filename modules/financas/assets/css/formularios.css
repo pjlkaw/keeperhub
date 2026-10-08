@@ -129,6 +129,7 @@
 
 .finance-new-transaction-page .transaction-summary .definition-list {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: 6px;
 	margin-top: 12px;
 }
