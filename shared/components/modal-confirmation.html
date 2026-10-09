@@ -12,6 +12,7 @@
     const confirmBtn = document.getElementById('confirm-btn');
     confirmBtn.addEventListener('click', () => {
         // Ação a ser executada quando o usuário confirmar
+        alertShared('Ação confirmada!'); // Exemplo de alerta
         document.getElementById('confirmation-modal').style.display = 'none';
     });
     const cancelBtn = document.getElementById('cancel-btn');
