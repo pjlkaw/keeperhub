@@ -136,13 +136,14 @@ function renderizarEstoque() {
             medicamento.alertaEstoque &&
             Number(medicamento.quantidade) <= Number(medicamento.limiteEstoque),
     );
+    atencaoSection(baixos.length > 0);
+
     const contador = document.querySelector("#home-stock-alert-count");
     if (contador) contador.textContent = `${baixos.length} alertas`;
     document.querySelector("#shortcut-estoque")?.setAttribute("aria-label", `Acessar dashboard de estoque (${baixos.length} alertas)`);
     lista.replaceChildren();
 
     if (!baixos.length) {
-        lista.append(mensagemVazia("Nenhum medicamento está abaixo do limite de estoque."));
         return;
     }
 
@@ -235,4 +236,11 @@ function mostrarErro(container, erro) {
     mensagem.setAttribute("role", "alert");
     mensagem.textContent = erro.message;
     container.replaceChildren(mensagem);
+}
+
+function atencaoSection(temAtencao) {
+    const section = document.getElementById("section-attention");
+    if (section) {
+        section.hidden = !temAtencao;
+    }
 }
