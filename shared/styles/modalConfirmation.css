@@ -28,3 +28,16 @@
     font-size: 1.2rem;
     color: var(--text-color);
 }
+
+.modalConfirmatio-btn{
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.modalConfirmatio-true {
+    color: #28a745;
+}
+
+.modalConfirmatio-false {
+    color: #dc3545;
+}

@@ -48,12 +48,12 @@ document.addEventListener('keydown', (event) => {
     if (event.key === '8') {
         document.getElementById('confirmation-modal').style.display = 'flex';
         const mensagem = document.getElementById('confirmation-message');
-        mensagem.textContent = 'Deseja realmente excluir este item?'; // Exemplo de mensagem
+        mensagem.textContent = 'Deseja realmente excluir todos os itens?'; // Exemplo de mensagem
 
         const confirmBtn = document.getElementById('confirm-btn');
             confirmBtn.addEventListener('click', () => {
             // Ação a ser executada quando o usuário confirmar
-            alertShared('Item excluído com sucesso!');
+            alertShared('Itens excluídos com sucesso!');
             document.getElementById('confirmation-modal').style.display = 'none';
 
         });
