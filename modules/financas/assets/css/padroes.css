@@ -312,3 +312,9 @@ body.transaction-page .fa-solid {
 }
 #headerSection .btn-header:focus-visible,
 #headerSection .section-header-back-btn:focus-visible { outline-color: var(--tool-financas); }
+
+/* Texto e ícones do seletor Despesa/Receita. */
+.finance-new-transaction-page .transaction-form .type-toggle .type-option,
+.finance-new-transaction-page .transaction-form .type-toggle .type-option span {
+    color: #fff;
+}
