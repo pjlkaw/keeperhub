@@ -284,7 +284,6 @@
 }
 
 /* Links dentro do texto do artigo (eliminando necessidade de style inline) */
-.doc-paragraph .footer-link,
 .doc-paragraph a {
   display: inline;
   text-decoration: underline;
@@ -295,7 +294,6 @@
   transition: color 0.15s ease;
 }
 
-.doc-paragraph .footer-link:hover,
 .doc-paragraph a:hover {
   color: var(--text-primary);
 }
@@ -338,83 +336,6 @@
 /* ==================================================
    FOOTER OFICIAL
    ================================================== */
-.site-footer {
-  width: 100%;
-  padding-top: 26px;
-  padding-bottom: 26px;
-  margin-top: auto;
-}
-
-.footer-divider {
-  width: 100%;
-  height: 1px;
-  background-color: var(--border-subtle);
-  margin-bottom: 22px;
-}
-
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 18px;
-}
-
-.footer-brand {
-  font-size: 0.9375rem; /* 15px */
-  font-weight: 700;
-  color: var(--color-secondary); /* #01AB8E Oficial */
-  letter-spacing: -0.01em;
-  text-decoration: none;
-}
-
-.footer-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px clamp(10px, 3.5vw, 16px);
-  width: 100%;
-  max-width: 100%;
-}
-
-.footer-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.8125rem; /* 13px */
-  font-weight: 500;
-  color: var(--text-secondary);
-  text-decoration: none;
-  padding: 4px 2px;
-  min-height: 28px;
-  transition: color 0.15s ease, text-decoration 0.15s ease;
-  white-space: nowrap;
-}
-
-.footer-link:hover {
-  color: var(--text-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.footer-link[aria-current="page"] {
-  color: var(--color-secondary);
-  font-weight: 600;
-}
-
-.footer-link:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.footer-copyright {
-  font-size: 0.75rem; /* 12px */
-  font-weight: 400;
-  color: var(--text-muted);
-  line-height: 1.4;
-  margin: 0;
-}
 
 /* ==================================================
    RESPONSIVIDADE MOBILE FIRST
@@ -433,10 +354,5 @@
   .page-title {
     font-size: 1.375rem; /* 22px */
   }
-  .footer-nav {
-    gap: 4px 8px;
-  }
-  .footer-link {
-    font-size: 0.6875rem; /* 11px */
-  }
+
 }

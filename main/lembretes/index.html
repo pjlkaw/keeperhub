@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="description" content="Organize seus lembretes no KeeperHub." />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Lembretes | KeeperHub</title>
+
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png" />
+
+    <script>
+      (function () {
+        try {
+          document.documentElement.setAttribute(
+            'data-theme',
+            localStorage.getItem('keeperhub-theme') || 'dark'
+          );
+        } catch (error) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/components.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css" />
+    <link rel="stylesheet" href="css/notificacao.css" />
+    <link rel="stylesheet" href="/shared/styles/rodape.css" />
+  </head>
+
+  <body>
+    <div class="lembretes-app">
+      <header class="section-header-section lembretes-cabecalho">
+        <section class="section-header-title-area">
+          <section class="section-header-top-row">
+            <a class="section-header-back-btn" href="../hub/index.html" aria-label="Voltar ao Hub">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </a>
+            <h1 class="section-header-title">notificação</h1>
+          </section>
+        </section>
+
+        <section class="section-header-controls">
+          <button class="btn-header" id="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar tema">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+          </button>
+          <button class="btn-header" id="abrir-nova-lista" type="button" aria-label="Criar nova lista" title="Criar nova lista">
+            <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+          </button>
+        </section>
+      </header>
+
+      <main class="lembretes-conteudo" id="conteudo-principal">
+        <form class="busca-lembretes" role="search">
+          <label for="buscar-lembretes" class="somente-leitor-tela">Buscar lembretes</label>
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="buscar-lembretes" type="search" placeholder="Buscar lembretes" autocomplete="off" />
+        </form>
+
+        <section aria-labelledby="titulo-categorias">
+          <h2 class="somente-leitor-tela" id="titulo-categorias">Categorias de lembretes</h2>
+          <div class="grade-categorias">
+            <button class="cartao-categoria cartao-categoria--pets" type="button" data-filtro="hoje">
+              <img src="/shared/img/logo-pets-branco.png" width="30px">
+              <strong>Pets</strong>
+              <span data-contador="hoje">0</span>
+            </button>
+            <button class="cartao-categoria cartao-categoria--metas" type="button" data-filtro="programados">
+              <img src="/shared/img/logo-metas-branco.png" width="30px">
+              <strong>Metas</strong>
+              <span data-contador="programados">0</span>
+            </button>
+            <button class="cartao-categoria cartao-categoria--medicamentos" type="button" data-filtro="todos">
+              <img src="/shared/img/logo-medicamentos-branco.png" width="30px">
+              <strong> Medicamentos</strong>
+              <span data-contador="todos">0</span>
+            </button>
+            <button class="cartao-categoria cartao-categoria--financas" type="button" data-filtro="sinalizados">
+              <img src="/shared/img/logo-financas-branco.png" width="30px">
+              <strong>Finanças</strong>
+              <span data-contador="sinalizados">0</span>
+            </button>
+            <button class="cartao-categoria cartao-categoria--despensa" type="button" data-filtro="urgentes">
+              <img src="/shared/img/logo-despensa-branco.png" width="30px">
+              <strong>Despensa</strong>
+              <span data-contador="urgentes">0</span>
+            </button>
+            <button class="cartao-categoria cartao-categoria--todos" type="button" data-filtro="concluidos">
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              <strong>Todos </strong>
+              <span data-contador="concluidos">0</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="minhas-listas" aria-labelledby="titulo-listas">
+          <div class="minhas-listas__cabecalho">
+            <h2 id="titulo-listas">Minhas Listas</h2>
+            <button class="link-criar-lista" id="abrir-nova-lista-texto" type="button">Nova lista</button>
+          </div>
+
+          <div class="estado-vazio" id="estado-vazio">
+            <i class="fa-regular fa-rectangle-list" aria-hidden="true"></i>
+            <p>Nenhuma lista criada</p>
+            <span>Crie uma lista para começar a organizar seus lembretes.</span>
+          </div>
+
+          <ul class="listas-usuario" id="listas-usuario" aria-live="polite"></ul>
+        </section>
+
+        <section class="resultado-filtro" id="resultado-filtro" aria-live="polite" hidden>
+          <header>
+            <h2 id="titulo-filtro">Lembretes</h2>
+            <button class="resultado-filtro__fechar" id="fechar-filtro" type="button" aria-label="Fechar resultado">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </header>
+          <p id="mensagem-filtro">Nenhum lembrete encontrado.</p>
+        </section>
+      </main>
+
+<footer class="rodape" id="site-footer">
+  <div class="container">
+    <div class="divisoria-rodape" aria-hidden="true"></div>
+    <div class="conteudo-rodape">
+      <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+      <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+        <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
+        <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+        <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+        <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
+      </nav>
+      <p class="direitos-rodape" id="footer-copyright">
+        &copy; 2026 KeeperHub. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</footer>
+
+      <button class="botao-adicionar" id="abrir-nova-lista-fab" type="button" aria-label="Criar nova lista">
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <dialog class="modal-lista" id="modal-nova-lista" aria-labelledby="titulo-modal-lista">
+      <form method="dialog" class="modal-lista__conteudo" id="formulario-nova-lista">
+        <header>
+          <h2 id="titulo-modal-lista">Nova lista</h2>
+          <button class="modal-lista__fechar" type="button" id="fechar-modal" aria-label="Fechar">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </header>
+        <label for="nome-nova-lista">Nome da lista</label>
+        <input id="nome-nova-lista" name="nome" type="text" maxlength="50" placeholder="Ex.: Compras da semana" required />
+        <div class="modal-lista__acoes">
+          <button class="botao-secundario" type="button" id="cancelar-nova-lista">Cancelar</button>
+          <button class="botao-primario" type="submit">Criar lista</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="../../shared/services/theme.js"></script>
+    <script src="js/lembretes.js"></script>
+  </body>
+</html>

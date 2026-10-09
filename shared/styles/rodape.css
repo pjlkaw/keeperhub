@@ -1,0 +1,72 @@
+/* Rodapé padrão das páginas, baseado na home. */
+.rodape {
+  flex-shrink: 0;
+  padding: 24px 0 32px;
+  line-height: normal;
+}
+
+.rodape .container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.rodape .divisoria-rodape {
+  height: 1px;
+  background: var(--border-color);
+}
+
+.rodape .conteudo-rodape {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 24px;
+  text-align: center;
+}
+
+.rodape .marca-rodape {
+  color: #01ab8e;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.rodape .links-rodape {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+}
+
+.rodape .link-rodape,
+.rodape .direitos-rodape {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.rodape .link-rodape {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rodape .link-rodape:hover {
+  color: var(--text-color);
+}
+
+.rodape .link-rodape:focus-visible {
+  outline: 2px solid #01ab8e;
+  outline-offset: 3px;
+}
+
+.rodape .direitos-rodape {
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .rodape .container {
+    padding: 0 32px;
+  }
+}

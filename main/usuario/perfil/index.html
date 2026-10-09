@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="../../../shared/styles/variables.css" />
     <link rel="stylesheet" href="../../../shared/styles/header-page.css" />
     <link rel="stylesheet" href="css/perfil.css" />
+    <link rel="stylesheet" href="../../../shared/styles/rodape.css" />
   </head>
 
   <body>
@@ -62,13 +63,8 @@
           </div>
 
           <div class="perfil-identidade">
-            <h2 class="perfil-identidade__nome" id="nome-usuario"></h2>
+            <h2 class="perfil-identidade__nome" id="nome-usuario">Gabriel Santos</h2>
           </div>
-
-          <div class="perfil-email">
-            <p class="perfil-identidade__email" id="email-usuario"></p>
-          </div>
-          <p id="perfil-status" role="status"></p>
         </section>
 
         <a class="perfil-editar" id="editar-perfil" href="editar/index.html">
@@ -76,9 +72,27 @@
           <span>Editar Perfil</span>
         </a>
       </main>
+
+<footer class="rodape" id="site-footer">
+  <div class="container">
+    <div class="divisoria-rodape" aria-hidden="true"></div>
+    <div class="conteudo-rodape">
+      <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+      <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+        <a href="../../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
+        <a href="../../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+        <a href="../../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+        <a href="../../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
+      </nav>
+      <p class="direitos-rodape" id="footer-copyright">
+        &copy; 2026 KeeperHub. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</footer>
     </div>
 
     <script src="../../../shared/services/theme.js" defer></script>
-    <script type="module" src="js/perfil.js"></script>
+    <script src="js/perfil.js" defer></script>
   </body>
 </html>

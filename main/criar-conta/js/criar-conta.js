@@ -1,5 +1,3 @@
-import { criarUsuario } from '../../../shared/api/usuario.js';
-
 /**
  * ==================================================
  * KEEPERHUB — CRIAR CONTA JAVASCRIPT
@@ -8,7 +6,6 @@ import { criarUsuario } from '../../../shared/api/usuario.js';
  * ==================================================
  */
 
-// Validação para liberar o botão de cadastro apenas quando todos os campos estiverem preenchidos corretamente
 function setupSignupForm() {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -163,7 +160,7 @@ function setupSignupForm() {
 
   const form = document.getElementById('signup-form');
   if (form) {
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       const nameVal = nameInput ? nameInput.value.trim() : '';
       const emailVal = emailInput ? emailInput.value.trim() : '';
@@ -211,31 +208,8 @@ function setupSignupForm() {
 
       if (hasError) return;
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Criando conta...';
-      }
-
-      try {
-        await criarUsuario({
-          nome_usuario: nameVal,
-          email_usuario: emailVal,
-          numero_usuario: phoneDigits,
-          genero_usuario: sexoVal,
-          senha_usuario: passVal
-        });
-        window.location.href = '../hub/index.html';
-      } catch (error) {
-        if (emailError) {
-          emailError.textContent = error.message || 'Não foi possível criar a conta.';
-          emailError.classList.add('is-visible');
-        }
-        if (emailInput) emailInput.classList.add('has-error');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Criar conta';
-        }
-      }
+      // Redirecionamento seguro pós-cadastro para a área autenticada
+      window.location.href = '../hub/index.html';
     });
   }
 }
