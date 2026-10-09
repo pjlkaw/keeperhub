@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../shared/styles/variables.css" />
     <link rel="stylesheet" href="css/criar-conta.css" />
+    <link rel="stylesheet" href="../../shared/styles/rodape.css" />
   </head>
   <body>
     <div class="auth-page-wrapper" id="app-root">
@@ -324,15 +325,21 @@
       </main>
 
       <!-- FOOTER COMPACTO -->
-      <footer class="auth-footer" id="auth-footer">
+      <footer class="rodape" id="site-footer">
         <div class="container">
-          <nav class="auth-footer-nav" aria-label="Links institucionais">
-            <a href="../termos/index.html" class="auth-footer-link">Termos</a>
-            <a href="../privacidade/index.html" class="auth-footer-link">Privacidade</a>
-          </nav>
-          <p class="auth-footer-copyright">
-            &copy; 2026 KeeperHub. Todos os direitos reservados.
-          </p>
+          <div class="divisoria-rodape" aria-hidden="true"></div>
+          <div class="conteudo-rodape">
+            <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+            <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+              <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
+              <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+              <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+              <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
+            </nav>
+            <p class="direitos-rodape" id="footer-copyright">
+              &copy; 2026 KeeperHub. Todos os direitos reservados.
+            </p>
+          </div>
         </div>
       </footer>
     </div>

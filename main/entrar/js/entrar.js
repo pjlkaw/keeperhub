@@ -6,8 +6,6 @@
  * ==================================================
  */
 
-import { loginUsuario } from '../../../shared/api/usuario.js';
-
 function setupLoginForm() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -71,7 +69,7 @@ function setupLoginForm() {
 
   const form = document.getElementById('login-form');
   if (form) {
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const passVal = passwordInput ? passwordInput.value : '';
@@ -91,23 +89,8 @@ function setupLoginForm() {
 
       if (hasError) return;
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Entrando...';
-
-      try {
-        await loginUsuario(emailVal, passVal);
-        window.location.href = '../hub/index.html';
-      } catch (error) {
-        if (passwordError) {
-          passwordError.textContent = error.message || 'Email ou senha inválidos.';
-          passwordError.classList.add('is-visible');
-        }
-        if (passwordInput) passwordInput.classList.add('has-error');
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Entrar';
-        }
-      }
+      // Redirecionamento seguro pós-login para a área autenticada
+      window.location.href = '../hub/index.html';
     });
   }
 }

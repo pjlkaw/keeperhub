@@ -32,9 +32,8 @@
 
     <!-- Favicon e Ícones de Aplicação -->
     <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
-    <link rel="icon" type="image/svg+xml" href="/main/assets/img/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/main/assets/img/favicon-32x32.png" />
-    <link rel="apple-touch-icon" href="/main/assets/img/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" />
 
     <!-- Dados Estruturados Schema.org (JSON-LD) - SEO & GEO -->
     <script type="application/ld+json">
@@ -84,163 +83,173 @@
     </script>
 
     <!-- Estilos Estruturais e Específicos da Home -->
-    <link rel="stylesheet" href="../../shared/styles/reset.css" />
     <link rel="stylesheet" href="../../shared/styles/variables.css" />
+    <link rel="stylesheet" href="../../shared/styles/reset.css" />
+    <link rel="stylesheet" href="../../shared/styles/components.css" />
     <link rel="stylesheet" href="../../shared/styles/header-page.css" />
     <link rel="stylesheet" href="css/home.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="../../shared/styles/rodape.css" />
   </head>
   <body>
-    <div class="page-wrapper" id="app-root">
+    <div class="pagina" id="app-root">
       <!-- HEADER PÚBLICO -->
-      <header class="site-header" id="site-header">
+      <header class="cabecalho" id="site-header">
         <div class="container">
-          <a href="https://keeperhub.com.br/" class="brand-link" id="header-brand-logo" aria-label="KeeperHub - Página Inicial">
-            <img src="/main/assets/img/logo-home.png" alt="" class="brand-logo-img" width="50" height="40" />
-            <img src="/main/assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub" class="brand-wordmark brand-wordmark-dark" width="90" height="30" />
-            <img src="/main/assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="brand-wordmark brand-wordmark-light" width="90" height="30" />
+          <a href="https://keeperhub.com.br/" class="marca" id="header-brand-logo" aria-label="KeeperHub - Página Inicial">
+            <img src="../assets/img/logo-home.png" alt="" class="simbolo-marca" width="50" height="40" />
+            <img src="../assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub" class="nome-marca nome-marca-escuro" width="90" height="30" />
+            <img src="../assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="nome-marca nome-marca-claro" width="90" height="30" />
           </a>
-          <nav class="header-actions" id="header-actions" aria-label="Acesso e Cadastro">
-            <a href="../entrar/index.html" class="btn-login" id="btn-header-login"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
-            <a href="../criar-conta/index.html" class="btn-cta-primary btn-header-cta" id="btn-header-cta">Criar</a>
+          <nav class="acesso" id="header-actions" aria-label="Acesso e Cadastro">
+            <a href="../entrar/index.html" class="botao-entrar" id="btn-header-login"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            <a href="../criar-conta/index.html" class="botao-criar" id="btn-header-cta">Criar</a>
           </nav>
         </div>
       </header>
 
-      <!-- BARRA DE CONTROLE DE TEMA (Fluxo Normal) -->
-      <div class="theme-bar" id="theme-bar">
-        <div class="container">
-          <button type="button" class="btn-theme-toggle" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro">
-            <img src="../../shared/img/icon-theme-sun.png" alt="" class="theme-icon theme-icon-sun" width="20" height="20" />
-            <img src="../../shared/img/icon-theme-moon.png" alt="" class="theme-icon theme-icon-moon" width="20" height="20" />
-          </button>
-        </div>
+      <!-- CONTROLE DE TEMA -->
+      <div class="controle-tema container" id="theme-bar">
+        <button type="button" class="btn-header" id="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro" aria-pressed="false">
+          <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" class="theme-icon theme-icon-sun" width="18" height="18" />
+          <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" class="theme-icon theme-icon-moon" width="18" height="18" />
+        </button>
       </div>
 
       <!-- CONTEÚDO PRINCIPAL -->
       <main id="main-content">
-        <!-- HERO COMPACTO -->
-        <section class="hero-section" id="hero-section" aria-labelledby="hero-title">
+        <section class="apresentacao" aria-labelledby="titulo-principal">
           <div class="container">
-            <h1 class="hero-title" id="hero-title">
-              <span class="hero-title-main">KeeperHub.</span>
-              <span class="hero-title-sub">Sua rotina. Um só lugar.</span>
+            <h1 class="titulo-principal" id="titulo-principal">
+              <span>KeeperHub.</span>
+              Sua rotina. Um só lugar.
             </h1>
+            <p class="texto-principal">
+              Organize o que importa.
+            </p>
+            <form class="formulario-teste" action="../criar-conta/index.html" method="get">
+              <label for="trial-email">Teste grátis por 30 dias</label>
+              <div class="campos-teste">
+                <input id="trial-email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required />
+                <button class="botao-teste" type="submit">Experimentar por 30 dias</button>
+              </div>
+              <p class="aviso-teste">Ao continuar, você concorda com os <a href="../termos/index.html">Termos de Uso</a> e a <a href="../privacidade/index.html">Política de Privacidade</a>.</p>
+            </form>
           </div>
         </section>
 
-        <!-- GRID DOS 5 MÓDULOS (2 + 2 + 1) -->
-        <section class="modules-section" id="modules-section" aria-label="Módulos do KeeperHub">
+        <section class="modulos" aria-labelledby="titulo-modulos">
           <div class="container">
-            <div class="modules-grid" id="modules-grid">
-              <!-- Card 1: Finanças -->
-              <a href="../financas/index.html" class="module-card module-card-financas" id="module-financas">
-                <div class="module-logo-wrapper">
-                  <img src="/main/assets/img/logo-financas.png" alt="" class="module-logo" width="48" height="40" />
-                </div>
-                <h2 class="module-title">Finanças</h2>
-                <p class="module-description">Controle gastos e organize sua vida financeira.</p>
-                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
-              </a>
-
-              <!-- Card 2: Metas -->
-              <a href="../metas/index.html" class="module-card module-card-metas" id="module-metas">
-                <div class="module-logo-wrapper">
-                  <img src="/main/assets/img/logo-metas.png" alt="" class="module-logo" width="48" height="40" />
-                </div>
-                <h2 class="module-title">Metas</h2>
-                <p class="module-description">Crie objetivos e acompanhe seu progresso.</p>
-                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
-              </a>
-
-              <!-- Card 3: Despensa -->
-              <a href="../despensa/index.html" class="module-card module-card-despensa" id="module-despensa">
-                <div class="module-logo-wrapper">
-                  <img src="/main/assets/img/logo-despensa.png" alt="" class="module-logo" width="48" height="40" />
-                </div>
-                <h2 class="module-title">Despensa</h2>
-                <p class="module-description">Controle produtos, estoque e validade.</p>
-                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
-              </a>
-
-              <!-- Card 4: Pets -->
-              <a href="../pets/index.html" class="module-card module-card-pets" id="module-pets">
-                <div class="module-logo-wrapper">
-                  <img src="/main/assets/img/logo-pets.png" alt="" class="module-logo" width="48" height="40" />
-                </div>
-                <h2 class="module-title">Pets</h2>
-                <p class="module-description">Organize a rotina e os cuidados dos seus pets.</p>
-                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
-              </a>
-
-              <!-- Card 5: Medicamentos (Centralizado 2+2+1) -->
-              <a href="../medicamentos/index.html" class="module-card module-card-medicamentos" id="module-medicamentos">
-                <div class="module-logo-wrapper">
-                  <img src="/main/assets/img/logo-medicamentos.png" alt="" class="module-logo" width="48" height="40" />
-                </div>
-                <h2 class="module-title">Medicamentos</h2>
-                <p class="module-description">Organize medicamentos, horários e estoque.</p>
-                <span class="module-action">Conhecer mais <span class="arrow" aria-hidden="true">→</span></span>
-              </a>
-            </div>
+            <h2 class="titulo-secao" id="titulo-modulos">Conheça os módulos.</h2>
           </div>
+
+          <ul class="lista-modulos" aria-label="Módulos do KeeperHub">
+            <li>
+            <a class="cartao-modulo cartao-financas" href="../financas/index.html" aria-labelledby="titulo-financas">
+              <img src="../assets/img/logo-financas.png" alt="" class="icone-modulo" width="72" height="48" />
+              <h3 id="titulo-financas">Finanças</h3>
+              <p class="texto-modulo">Organize gastos e saldo.</p>
+              <span class="link-modulo">Abrir módulo →</span>
+              <img src="../assets/img/logo-financas.png" alt="" class="marca-modulo" width="72" height="48" />
+            </a>
+            </li>
+
+            <li>
+            <a class="cartao-modulo cartao-metas" href="../metas/index.html" aria-labelledby="titulo-metas">
+              <img src="../assets/img/logo-metas.png" alt="" class="icone-modulo" width="72" height="48" />
+              <h3 id="titulo-metas">Metas</h3>
+              <p class="texto-modulo">Acompanhe suas metas.</p>
+              <span class="link-modulo">Abrir módulo →</span>
+              <img src="../assets/img/logo-metas.png" alt="" class="marca-modulo" width="72" height="48" />
+            </a>
+            </li>
+
+            <li>
+            <a class="cartao-modulo cartao-despensa" href="../despensa/index.html" aria-labelledby="titulo-despensa">
+              <img src="../assets/img/logo-despensa.png" alt="" class="icone-modulo" width="72" height="48" />
+              <h3 id="titulo-despensa">Despensa</h3>
+              <p class="texto-modulo">Controle estoque e validade.</p>
+              <span class="link-modulo">Abrir módulo →</span>
+              <img src="../assets/img/logo-despensa.png" alt="" class="marca-modulo" width="72" height="48" />
+            </a>
+            </li>
+
+            <li>
+            <a class="cartao-modulo cartao-pets" href="../pets/index.html" aria-labelledby="titulo-pets">
+              <img src="../assets/img/logo-pets.png" alt="" class="icone-modulo" width="72" height="48" />
+              <h3 id="titulo-pets">Pets</h3>
+              <p class="texto-modulo">Cuide da rotina dos seus pets.</p>
+              <span class="link-modulo">Abrir módulo →</span>
+              <img src="../assets/img/logo-pets.png" alt="" class="marca-modulo" width="72" height="48" />
+            </a>
+            </li>
+
+            <li>
+            <a class="cartao-modulo cartao-medicamentos" href="../medicamentos/index.html" aria-labelledby="titulo-medicamentos">
+              <img src="../assets/img/logo-medicamentos.png" alt="" class="icone-modulo" width="72" height="48" />
+              <h3 id="titulo-medicamentos">Medicamentos</h3>
+              <p class="texto-modulo">Controle horários e doses.</p>
+              <span class="link-modulo">Abrir módulo →</span>
+              <img src="../assets/img/logo-medicamentos.png" alt="" class="marca-modulo" width="72" height="48" />
+            </a>
+            </li>
+          </ul>
         </section>
 
-        <!-- SEÇÃO CTA PRINCIPAL -->
-        <section class="cta-section" id="cta-section" aria-labelledby="cta-title">
+        <section class="duvidas" aria-labelledby="titulo-duvidas">
           <div class="container">
-            <div class="cta-card" id="cta-card">
-              <h2 class="cta-title" id="cta-title">
-                Comece pelo que importa<br />para você.
-              </h2>
-              <p class="cta-text">
-                Escolha os módulos que fazem parte<br class="cta-br-mobile" />
-                da sua rotina e deixe o KeeperHub<br class="cta-br-mobile" />
-                ajudar na organização.
-              </p>
-              <a href="../criar-conta/index.html" class="btn-cta-primary cta-btn" id="btn-cta-section">
-                Teste grátis
-              </a>
+            <p class="etiqueta-secao">Antes de começar</p>
+            <h2 class="titulo-secao" id="titulo-duvidas">Perguntas frequentes</h2>
+            <div class="lista-duvidas">
+              <details class="duvida">
+                <summary>O que é o KeeperHub?</summary>
+                <p>O KeeperHub é uma plataforma de organização pessoal que reúne diferentes áreas da rotina em um só lugar.</p>
+              </details>
+              <details class="duvida">
+                <summary>Quais módulos fazem parte do KeeperHub?</summary>
+                <p>Você pode organizar Finanças, Metas, Despensa, Pets e Medicamentos de forma integrada.</p>
+              </details>
+              <details class="duvida">
+                <summary>Preciso usar todos os módulos?</summary>
+                <p>Não. Você escolhe os módulos que fazem sentido para o seu dia a dia.</p>
+              </details>
+              <details class="duvida">
+                <summary>Posso acessar pelo celular?</summary>
+                <p>Sim. O KeeperHub foi pensado para acompanhar você no celular, tablet ou computador.</p>
+              </details>
             </div>
+            <a class="link-duvidas" href="../faq/index.html">Ver todas as perguntas <span aria-hidden="true">→</span></a>
           </div>
         </section>
 
-        <!-- SEÇÃO INSTITUCIONAL ("Tudo em um só lugar") -->
-        <section class="institutional-section" id="institutional-section" aria-labelledby="institutional-title">
+        <section class="chamada-teste" aria-labelledby="titulo-teste">
           <div class="container">
-            <div class="institutional-divider" aria-hidden="true"></div>
-            <div class="institutional-content">
-              <h2 class="institutional-title" id="institutional-title">Tudo em um só lugar</h2>
-              <p class="institutional-text">
-                O KeeperHub reúne diferentes áreas da sua rotina em uma experiência simples e integrada. Você escolhe o que deseja organizar e encontra as informações importantes sem precisar espalhá-las entre várias ferramentas.
-              </p>
-              <p class="institutional-highlight">
-                Menos ferramentas. Mais organização.
-              </p>
-            </div>
+            <h2 class="titulo-secao" id="titulo-teste">Comece pelo que importa para você.</h2>
+            <p>Experimente o KeeperHub gratuitamente por 30 dias.</p>
+            <a class="botao-teste" href="../criar-conta/index.html">Experimentar por 30 dias</a>
           </div>
         </section>
+      </main>
 
         <!-- FOOTER OFICIAL DA HOME -->
-        <footer class="site-footer" id="site-footer">
+        <footer class="rodape" id="site-footer">
           <div class="container">
-            <div class="footer-divider" aria-hidden="true"></div>
-            <div class="footer-content">
-              <span class="footer-brand" id="footer-brand">KeeperHub</span>
-              <nav class="footer-nav" id="footer-nav" aria-label="Links institucionais">
-                <a href="../privacidade/index.html" class="footer-link" id="link-footer-privacy">Política de Privacidade</a>
-                <a href="../termos/index.html" class="footer-link" id="link-footer-terms">Termos de Uso</a>
-                <a href="../contato/index.html" class="footer-link" id="link-footer-contact">Contato</a>
-                <a href="../faq/index.html" class="footer-link" id="link-footer-faq">FAQ</a>
+            <div class="divisoria-rodape" aria-hidden="true"></div>
+            <div class="conteudo-rodape">
+              <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+              <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+                <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
+                <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+                <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+                <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
               </nav>
-              <p class="footer-copyright" id="footer-copyright">
+              <p class="direitos-rodape" id="footer-copyright">
                 &copy; 2026 KeeperHub. Todos os direitos reservados.
               </p>
             </div>
           </div>
         </footer>
-      </main>
     </div>
 
     <!-- Script Compartilhado de Tema (JavaScript Clássico) -->
@@ -250,3 +259,6 @@
     <script type="module" src="js/home.js"></script>
   </body>
 </html>
+
+
+

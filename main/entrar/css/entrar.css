@@ -566,52 +566,6 @@
 /* ==================================================
    FOOTER DE AUTENTICAÇÃO
    ================================================== */
-.auth-footer {
-  width: 100%;
-  padding-top: 16px;
-  padding-bottom: 24px;
-  border-top: 1px solid var(--color-border-subtle);
-  background-color: var(--bg-main);
-  flex-shrink: 0;
-}
-
-.auth-footer .container {
-  max-width: 440px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.auth-footer-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-
-.auth-footer-link {
-  font-size: 0.8125rem; /* 13px */
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.auth-footer-link:hover {
-  color: var(--text-primary);
-}
-
-.auth-footer-link:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-.auth-footer-copyright {
-  font-size: 0.75rem; /* 12px */
-  color: var(--text-muted);
-  margin: 0;
-}
 
 /* ==================================================
    AJUSTES LIGHT MODE

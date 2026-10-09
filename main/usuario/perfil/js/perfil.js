@@ -1,24 +1,42 @@
-import { carregarUsuarioAtual, lerSessaoUsuario } from '../../../../shared/api/usuario.js';
+/**
+ * KEEPERHUB — PERFIL DO USUÁRIO
+ * Carrega o nome disponível na sessão.
+ * PROVISÓRIO: o fallback abaixo existe somente enquanto o perfil ainda não
+ * estiver integrado ao usuário retornado pelo banco de dados/backend.
+ */
 
-async function renderProfile() {
-  const session = lerSessaoUsuario();
-  if (!session) {
-    window.location.href = '../../entrar/index.html';
-    return;
+(function () {
+  'use strict';
+
+  const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
+  const fallbackProfile = {
+    name: 'Gabriel Santos',
+  };
+
+  function readCurrentUser() {
+    try {
+      const session = localStorage.getItem(AUTH_STORAGE_KEY);
+      return session ? JSON.parse(session) : null;
+    } catch (error) {
+      return null;
+    }
   }
 
-  const nameElement = document.getElementById('nome-usuario');
-  const emailElement = document.getElementById('email-usuario');
-  const statusElement = document.getElementById('perfil-status');
+  function renderProfile() {
+    const user = readCurrentUser();
+    const nameElement = document.getElementById('nome-usuario');
 
-  try {
-    const user = await carregarUsuarioAtual();
-    if (nameElement) nameElement.textContent = user.nome_usuario;
-    if (emailElement) emailElement.textContent = user.email_usuario;
-    document.title = `KeeperHub — Perfil de ${user.nome_usuario}`;
-  } catch (error) {
-    if (statusElement) statusElement.textContent = error.message;
+    const displayName = user && typeof user.name === 'string' && user.name.trim()
+      ? user.name.trim()
+      : fallbackProfile.name;
+
+    if (nameElement) nameElement.textContent = displayName;
+    document.title = 'KeeperHub — Perfil de ' + displayName;
   }
-}
 
-renderProfile();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderProfile);
+  } else {
+    renderProfile();
+  }
+})();
