@@ -1,0 +1,32 @@
+<!-- MODAL DE CONFIRMAÇÂO DE FUNÇÃO -->
+<!-- Para usar no seu módulo o <main> PRECISA ser: 
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
+
+    Quando quiser que seja exibido, basta fazer no JS da função aplicada:
+
+    document.getElementById('confirmation-modal').style.display = 'flex';
+    const mensagem = document.getElementById('confirmation-message');
+    mensagem.textContent = 'Deseja realmente excluir este item?'; // Exemplo de mensagem
+
+    Para os botões, você pode adicionar eventos de clique no JS do seu módulo:
+    const confirmBtn = document.getElementById('confirm-btn');
+    confirmBtn.addEventListener('click', () => {
+        // Ação a ser executada quando o usuário confirmar
+        document.getElementById('confirmation-modal').style.display = 'none';
+    });
+    const cancelBtn = document.getElementById('cancel-btn');
+    cancelBtn.addEventListener('click', () => {
+        // Ação a ser executada quando o usuário cancelar
+        document.getElementById('confirmation-modal').style.display = 'none';
+    });
+    
+    E no <head> precisa do script e do link css:
+
+    <link rel="stylesheet" href="/shared/styles/modal.css">
+-->
+
+<div class="modalConfirm-content">
+    <p id="confirmation-message">Deseja confirmar a ação?</p> <!-- Placeholder-->
+    <button id="cancel-btn">Cancelar</button>
+    <button id="confirm-btn">Confirmar</button>
+</div>
