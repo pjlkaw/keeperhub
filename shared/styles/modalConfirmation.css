@@ -1,0 +1,43 @@
+.modalConfirm {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.modalConfirm-content {
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    max-width: 300px;
+    width: 80%;
+}
+
+.modalConfirm-content p {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.modalConfirmatio-btn{
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.modalConfirmatio-true {
+    color: #28a745;
+}
+
+.modalConfirmatio-false {
+    color: #dc3545;
+}
