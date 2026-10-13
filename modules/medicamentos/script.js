@@ -46,8 +46,23 @@ import { alertShared } from "/shared/services/interface.js"
 // adciona no-content.html para teste de desenvolvimento
 document.addEventListener('keydown', (event) => {
     if (event.key === '8') {
-        document.body.classList.add('sem-rolagem');
-        document.querySelector('.no-content-section').hidden = false;
+        document.getElementById('confirmation-modal').style.display = 'flex';
+        const mensagem = document.getElementById('confirmation-message');
+        mensagem.textContent = 'Deseja realmente excluir todos os itens?'; // Exemplo de mensagem
+
+        const confirmBtn = document.getElementById('confirm-btn');
+            confirmBtn.addEventListener('click', () => {
+            // Ação a ser executada quando o usuário confirmar
+            alertShared('Itens excluídos com sucesso!');
+            document.getElementById('confirmation-modal').style.display = 'none';
+
+        });
+
+        const cancelBtn = document.getElementById('cancel-btn');
+        cancelBtn.addEventListener('click', () => {
+            // Ação a ser executada quando o usuário cancelar
+            document.getElementById('confirmation-modal').style.display = 'none';
+        });
     }
 });
 

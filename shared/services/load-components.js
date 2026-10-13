@@ -84,6 +84,15 @@ function carregarModulo() {
                 if (btnAdd) btnAdd.href = configModule.addUrl;
             });
     }
+
+    fetch('/shared/components/modal-confirmation.html')
+        .then(response => response.text())
+        .then(data => {
+            const modal = document.getElementById('confirmation-modal');
+            if (!modal) return;
+
+            modal.innerHTML = data;
+        });
 }
 
 carregarModulo();
