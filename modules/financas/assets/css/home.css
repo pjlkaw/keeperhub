@@ -87,18 +87,16 @@ html[data-theme="light"] body.landing-page .preview-greeting p {
 
 .preview-balance dl {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1fr;
   margin: 0;
 }
 
-.preview-balance dt,
-.preview-balance dd {
+.preview-balance dl div {
+  position: relative;
   padding-left: 9px;
 }
 
-.preview-balance dt::before {
+.preview-balance dl div::before {
   position: absolute;
   top: 5px;
   left: 0;
@@ -109,12 +107,11 @@ html[data-theme="light"] body.landing-page .preview-greeting p {
   border-radius: 50%;
 }
 
-.preview-balance dt:last-of-type::before {
+.preview-balance dl div:last-child::before {
   background: var(--tool-financas, #e47a00);
 }
 
 .preview-balance dt {
-  position: relative;
   color: #969ba4;
   font-size: 11px;
 }
@@ -126,7 +123,7 @@ html[data-theme="light"] body.landing-page .preview-greeting p {
   font-weight: 700;
 }
 
-.preview-balance dd:last-of-type {
+.preview-balance dl div:last-child dd {
   color: var(--tool-financas, #e47a00);
 }
 
@@ -225,10 +222,6 @@ html[data-theme="light"] .finance-shortcut-icon {
   font-size: 14px;
 }
 
-.cash-flow ul {
-  list-style: none;
-}
-
 .cash-flow header span,
 .flow-row span {
   color: #999ea8;
@@ -303,7 +296,6 @@ html[data-theme="light"] body.landing-page .flow-row span {
 }
 
 .monthly-expenses-chart {
-  list-style: none;
   display: flex;
   height: 89px;
   align-items: flex-end;
@@ -311,7 +303,7 @@ html[data-theme="light"] body.landing-page .flow-row span {
   margin-top: 8px;
 }
 
-.monthly-expenses-chart > li {
+.monthly-expenses-chart > div {
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -389,7 +381,6 @@ html[data-theme="light"] body.landing-page .monthly-expenses-chart .current i {
 }
 
 .top-spending-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -430,7 +421,7 @@ html[data-theme="light"] body.landing-page .monthly-expenses-chart .current i {
   font-weight: 400;
 }
 
-.top-spending-list > li > span {
+.top-spending-list > div > span {
   display: block;
   height: 3px;
   background: linear-gradient(to right, var(--spending-color) var(--spending-width), #303238 var(--spending-width));
@@ -446,7 +437,7 @@ html[data-theme="light"] body.landing-page .top-spending-list p i {
   background: #f2f3f5;
 }
 
-html[data-theme="light"] body.landing-page .top-spending-list > li > span {
+html[data-theme="light"] body.landing-page .top-spending-list > div > span {
   background: linear-gradient(to right, var(--spending-color) var(--spending-width), #e5e7eb var(--spending-width));
 }
 
@@ -478,14 +469,13 @@ html[data-theme="light"] body.landing-page .top-spending-list > li > span {
 }
 
 .recent-transactions-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 9px;
 }
 
-.recent-transactions-list > li > a {
+.recent-transactions-list > a {
   display: flex;
   min-height: 44px;
   align-items: center;
@@ -498,7 +488,7 @@ html[data-theme="light"] body.landing-page .top-spending-list > li > span {
   text-decoration: none;
 }
 
-.recent-transactions-list > li > a > i {
+.recent-transactions-list > a > i {
   display: grid;
   flex: 0 0 28px;
   width: 28px;
@@ -512,7 +502,7 @@ html[data-theme="light"] body.landing-page .top-spending-list > li > span {
   font-size: 12px;
 }
 
-.recent-transactions-list > li > a > span {
+.recent-transactions-list > a > span {
   display: flex;
   min-width: 0;
   flex: 1;
@@ -531,23 +521,23 @@ html[data-theme="light"] body.landing-page .top-spending-list > li > span {
   font-weight: 400;
 }
 
-.recent-transactions-list > li > a > strong {
+.recent-transactions-list > a > strong {
   color: #ef5350;
   font-size: 10px;
   text-align: right;
 }
 
-.recent-transactions-list > li > a > strong small {
+.recent-transactions-list > a > strong small {
   margin-top: 2px;
   text-align: right;
 }
 
-.recent-transactions-list > li > a.income > i,
-.recent-transactions-list > li > a.income > strong {
+.recent-transactions-list > a.income > i,
+.recent-transactions-list > a.income > strong {
   color: #18a64b;
 }
 
-.recent-transactions-list > li > a.income > i {
+.recent-transactions-list > a.income > i {
   background: #e7f7ed;
   border-color: #a8dfbb;
 }
@@ -557,12 +547,12 @@ html[data-theme="light"] body.landing-page .recent-transactions-card {
   border-color: #d9dce1;
 }
 
-html[data-theme="light"] body.landing-page .recent-transactions-list > li > a {
+html[data-theme="light"] body.landing-page .recent-transactions-list > a {
   background: #fafafa;
   border-color: #e1e3e7;
 }
 
-html[data-theme="light"] body.landing-page .recent-transactions-list > li > a > i {
+html[data-theme="light"] body.landing-page .recent-transactions-list > a > i {
   background: #ffffff;
   border-color: #e1e3e7;
 }
