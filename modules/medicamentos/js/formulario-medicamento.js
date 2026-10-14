@@ -29,6 +29,13 @@ export function inicializarFormularioMedicamento() {
         return;
     }
 
+    if (!medicamentoEditado) {
+        const alertaEstoque = formulario.querySelector("#checkbox-stock-alert");
+        const lembretes = formulario.querySelector("#checkbox-reminders");
+        if (alertaEstoque) alertaEstoque.checked = true;
+        if (lembretes) lembretes.checked = true;
+    }
+
     const atualizarCampos = () => {
         const tipoUso = formulario.querySelector('input[name="usageType"]:checked')?.value;
         const usoEventual = tipoUso === "eventual";
@@ -192,8 +199,8 @@ function carregarMedicamentoParaEdicao(formulario, id) {
         });
         const estoque = formulario.querySelector("#checkbox-stock-alert");
         const lembretes = formulario.querySelector("#checkbox-reminders");
-        if (estoque) estoque.checked = medicamento.alertaEstoque;
-        if (lembretes) lembretes.checked = medicamento.lembretes;
+        if (estoque) estoque.checked = medicamento.alertaEstoque ?? true;
+        if (lembretes) lembretes.checked = medicamento.lembretes ?? true;
 
         const lista = formulario.querySelector("#times-list, .meds-times-list");
         const horarios = medicamento.horarios ?? [];
