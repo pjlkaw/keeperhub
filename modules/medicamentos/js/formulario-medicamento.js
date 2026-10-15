@@ -8,6 +8,11 @@ export function inicializarFormularioMedicamento() {
     const uso = formulario?.querySelectorAll('input[name="usageType"]');
     const listaHorarios = formulario?.querySelector("#times-list");
     const botaoAdicionarHorario = formulario?.querySelector("#btn-add-time");
+    const camposTemporarios = formulario?.querySelector("#temporary-treatment-fields");
+    const conteudoOpcional = formulario?.querySelector("#section-optional-content");
+    const datasTratamento = formulario?.querySelector("#section-treatment-dates");
+    const rotina = formulario?.querySelector("#section-routine");
+    const estoqueOpcional = formulario?.querySelector("#section-stock-details");
 
     if (!formulario || (!frequencia && (!uso || uso.length === 0) && !listaHorarios)) {
         return;
@@ -39,11 +44,23 @@ export function inicializarFormularioMedicamento() {
     const atualizarCampos = () => {
         const tipoUso = formulario.querySelector('input[name="usageType"]:checked')?.value;
         const usoEventual = tipoUso === "eventual";
+        const usoTemporario = tipoUso === "temporario";
 
         definirVisibilidade(formulario.querySelector("#field-start-date"), !usoEventual);
-        definirVisibilidade(formulario.querySelector("#field-end-date"), tipoUso === "temporario");
+        definirVisibilidade(formulario.querySelector("#field-end-date"), usoTemporario);
         definirVisibilidade(formulario.querySelector("#msg-eventual-use"), usoEventual);
         definirVisibilidade(formulario.querySelector("#section-routine"), !usoEventual);
+
+        if (camposTemporarios && conteudoOpcional && datasTratamento && rotina && estoqueOpcional) {
+            if (usoTemporario) {
+                camposTemporarios.append(datasTratamento, rotina);
+                camposTemporarios.hidden = false;
+            } else {
+                conteudoOpcional.insertBefore(datasTratamento, estoqueOpcional);
+                conteudoOpcional.insertBefore(rotina, estoqueOpcional);
+                camposTemporarios.hidden = true;
+            }
+        }
 
         formulario.querySelectorAll(".meds-usage-option").forEach((opcao) => {
             opcao.classList.toggle("active", opcao.querySelector("input")?.checked ?? false);
@@ -61,10 +78,17 @@ export function inicializarFormularioMedicamento() {
         atualizarBotaoCadastro(formulario);
     };
 
-    uso?.forEach((campo) => campo.addEventListener("change", atualizarCampos));
+    uso?.forEach((campo) => campo.addEventListener("change", () => {
+        atualizarCampos();
+    }));
     frequencia?.addEventListener("change", atualizarCampos);
     formulario.querySelector("#checkbox-stock-alert")?.addEventListener("change", atualizarCampos);
-    formulario.addEventListener("input", () => atualizarBotaoCadastro(formulario));
+    formulario.addEventListener("input", (evento) => {
+        if (evento.target instanceof HTMLInputElement && evento.target.matches(".meds-time-input")) {
+            formatarEntradaHorario(evento.target);
+        }
+        atualizarBotaoCadastro(formulario);
+    });
     formulario.addEventListener("change", () => atualizarBotaoCadastro(formulario));
 
     botaoAdicionarHorario?.addEventListener("click", () => {
@@ -76,11 +100,8 @@ export function inicializarFormularioMedicamento() {
         linha.className = "meds-time-row";
 
         const campoHorario = document.createElement("input");
-        campoHorario.type = "time";
-        campoHorario.className = "meds-form-input";
+        configurarCampoHorario(campoHorario);
         campoHorario.name = "times";
-        campoHorario.lang = "pt-BR";
-        campoHorario.step = "60";
 
         const botaoRemover = document.createElement("button");
         botaoRemover.type = "button";
@@ -198,7 +219,7 @@ function carregarMedicamentoParaEdicao(formulario, id) {
 
         const lista = formulario.querySelector("#times-list, .meds-times-list");
         const horarios = medicamento.horarios ?? [];
-        const camposHorario = Array.from(lista?.querySelectorAll('input[type="time"]') ?? []);
+        const camposHorario = Array.from(lista?.querySelectorAll(".meds-time-input") ?? []);
         horarios.forEach((horario, indice) => {
             if (camposHorario[indice]) {
                 camposHorario[indice].value = horario;
@@ -234,7 +255,7 @@ function configurarNomesCampos(formulario) {
         const campo = formulario.querySelector(seletor);
         if (campo) campo.name = nome;
     });
-    formulario.querySelectorAll("#times-list input[type='time'], .meds-times-list input[type='time']").forEach((campo) => {
+    formulario.querySelectorAll("#times-list .meds-time-input, .meds-times-list .meds-time-input").forEach((campo) => {
         campo.name = "times";
     });
     const estoque = formulario.querySelector("#checkbox-stock-alert");
@@ -264,10 +285,9 @@ function adicionarHorarioEdicao(lista, valor) {
     const linha = document.createElement("div");
     linha.className = "meds-time-row";
     const campo = document.createElement("input");
-    campo.type = "time";
+    configurarCampoHorario(campo);
     campo.name = "times";
     campo.value = valor;
-    campo.className = "meds-form-input";
     linha.append(campo);
     lista.append(linha);
 }
@@ -295,7 +315,7 @@ function atualizarListaHorarios(listaHorarios) {
 
     const linhas = listaHorarios.querySelectorAll(".meds-time-row");
     linhas.forEach((linha, indice) => {
-        const campo = linha.querySelector('input[type="time"]');
+        const campo = linha.querySelector(".meds-time-input");
         const botaoRemover = linha.querySelector(".btn-meds-remove-time");
 
         if (campo) {
@@ -306,4 +326,24 @@ function atualizarListaHorarios(listaHorarios) {
             botaoRemover.style.display = linhas.length > 1 ? "" : "none";
         }
     });
+}
+
+function configurarCampoHorario(campo) {
+    campo.type = "text";
+    campo.className = "meds-form-input meds-time-input";
+    campo.inputMode = "numeric";
+    campo.placeholder = "HH:mm";
+    campo.maxLength = 5;
+    campo.pattern = "(?:[01][0-9]|2[0-3]):[0-5][0-9]";
+    campo.title = "Informe o horário no formato 24 horas, por exemplo 07:00.";
+}
+
+function formatarEntradaHorario(campo) {
+    const digitosAntesDoCursor = campo.value.slice(0, campo.selectionStart ?? campo.value.length).replace(/\D/g, "").length;
+    const digitos = campo.value.replace(/\D/g, "").slice(0, 4);
+    const horario = digitos.length > 2 ? `${digitos.slice(0, 2)}:${digitos.slice(2)}` : digitos;
+    campo.value = horario;
+
+    const posicaoCursor = digitosAntesDoCursor > 2 ? digitosAntesDoCursor + 1 : digitosAntesDoCursor;
+    campo.setSelectionRange(posicaoCursor, posicaoCursor);
 }
