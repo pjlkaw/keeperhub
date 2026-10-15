@@ -17,55 +17,12 @@ export function inicializarDetalhesMedicamento() {
         const medicamento = listarRegistros("medicamentos").find((item) => item.id === id);
         if (!medicamento) throw new Error("Este medicamento não foi encontrado no armazenamento local.");
         mostrarMedicamento(medicamento);
-        renderizarLotesDoDetalhe(medicamento);
+        renderizarValidadeDoDetalhe(medicamento);
         renderizarReceita(medicamento);
         renderizarHistorico(medicamento);
         configurarAcoes(medicamento);
     } catch (erro) {
         mostrarErroMedicamento(erro.message);
-    }
-}
-
-// Carrega os lotes associados ao medicamento e remove os exemplos do HTML.
-export function inicializarLotesMedicamento() {
-    const caixa = document.querySelector("#batch-title")?.closest(".med-card-section")?.querySelector(".med-inner-box");
-    const timeline = document.querySelector("#batch-history-title")?.closest(".med-card-section")?.querySelector(".med-timeline");
-    if (!caixa || !timeline) return;
-    caixa.replaceChildren();
-    timeline.replaceChildren();
-
-    try {
-        const id = new URLSearchParams(window.location.search).get("id");
-        const medicamento = listarRegistros("medicamentos").find((item) => item.id === id);
-        if (!medicamento) throw new Error("Selecione um medicamento para consultar os lotes.");
-        const reposicoes = listarRegistros("reposicoes")
-            .filter((item) => item.medicamentoId === id)
-            .sort((a, b) => (b.criadoEm || "").localeCompare(a.criadoEm || ""));
-
-        if (!reposicoes.length) {
-            adicionarLinhaLote(caixa, "Estoque atual", `${medicamento.quantidade ?? 0} ${medicamento.unidade || "unidades"}`, true);
-            adicionarLinhaLote(caixa, "Validade", formatarData(medicamento.validade));
-            timeline.append(mensagemVazia("O histórico de lotes está vazio."));
-            return;
-        }
-
-        reposicoes.forEach((reposicao, indice) => {
-            if (indice === 0) {
-                adicionarLinhaLote(caixa, "Lote", reposicao.lote || "Não informado", true);
-                adicionarLinhaLote(caixa, "Quantidade", `${reposicao.quantidade} ${medicamento.unidade || "unidades"}`);
-                adicionarLinhaLote(caixa, "Validade", formatarData(reposicao.validade));
-                adicionarLinhaLote(caixa, "Compra", formatarData(reposicao.dataCompra));
-            }
-            timeline.append(criarEventoTimeline(
-                formatarData(reposicao.dataCompra || reposicao.criadoEm),
-                `Lote ${reposicao.lote || "não informado"} • ${reposicao.quantidade} ${medicamento.unidade || "unidades"}`,
-                "cart-shopping",
-            ));
-        });
-    } catch (erro) {
-        const mensagem = mensagemVazia(erro.message);
-        mensagem.setAttribute("role", "alert");
-        caixa.append(mensagem);
     }
 }
 
@@ -126,8 +83,6 @@ function mostrarMedicamento(medicamento) {
     if (linkEdicao) linkEdicao.href = `editar-medicamento.html?id=${encodeURIComponent(medicamento.id)}`;
     const linkRotina = document.querySelector("#btn-edit-routine");
     if (linkRotina) linkRotina.href = `editar-medicamento.html?id=${encodeURIComponent(medicamento.id)}`;
-    const linkLotes = document.querySelector("#btn-view-batches");
-    if (linkLotes) linkLotes.href = `lotes-medicamento.html?id=${encodeURIComponent(medicamento.id)}`;
 }
 
 function estimarEstoque(medicamento) {
@@ -144,20 +99,13 @@ function estimarEstoque(medicamento) {
     return `aprox. ${dias} ${dias === 1 ? "dia" : "dias"} restantes`;
 }
 
-function renderizarLotesDoDetalhe(medicamento) {
-    const caixa = document.querySelector("#section-batches-title")?.closest(".med-card-section")?.querySelector(".med-inner-box");
+function renderizarValidadeDoDetalhe(medicamento) {
+    const caixa = document.querySelector("#section-expiration-title")?.closest(".med-card-section")?.querySelector(".med-inner-box");
     if (!caixa) return;
     const reposicoes = listarRegistros("reposicoes").filter((item) => item.medicamentoId === medicamento.id);
     caixa.replaceChildren();
-    if (!reposicoes.length) {
-        adicionarLinhaLote(caixa, "Estoque atual", `${medicamento.quantidade ?? 0} ${medicamento.unidade || "unidades"}`, true);
-        adicionarLinhaLote(caixa, "Validade", formatarData(medicamento.validade));
-        return;
-    }
-    const lote = reposicoes[0];
-    adicionarLinhaLote(caixa, "Lote atual", lote.lote || "Não informado", true);
-    adicionarLinhaLote(caixa, "Quantidade adquirida", `${lote.quantidade} ${medicamento.unidade || "unidades"}`);
-    adicionarLinhaLote(caixa, "Validade", formatarData(lote.validade));
+    const validade = reposicoes[0]?.validade || medicamento.validade;
+    adicionarLinhaDetalhe(caixa, "Validade", formatarData(validade));
 }
 
 function renderizarReceita(medicamento) {
@@ -283,14 +231,14 @@ function atualizarMedicamento(id, atualizar) {
     salvarRegistros("medicamentos", medicamentos);
 }
 
-function adicionarLinhaLote(caixa, rotulo, valor, destaque = false) {
+function adicionarLinhaDetalhe(caixa, rotulo, valor) {
     const linha = document.createElement("div");
     linha.className = "med-inner-box-row";
     const label = document.createElement("span");
     label.className = "med-inner-label";
     label.textContent = rotulo;
     const conteudo = document.createElement("span");
-    conteudo.className = `med-inner-value${destaque ? " med-inner-value--highlight" : ""}`;
+    conteudo.className = "med-inner-value";
     conteudo.textContent = valor;
     linha.append(label, conteudo);
     caixa.append(linha);

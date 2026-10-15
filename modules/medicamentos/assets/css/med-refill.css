@@ -114,8 +114,7 @@
   font-weight: 400;
 }
 
-.form-input,
-.form-textarea {
+.form-input {
   width: 100%;
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -128,21 +127,14 @@
   box-sizing: border-box;
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
+.form-input::placeholder {
   color: var(--text-muted);
   opacity: 0.6;
 }
 
-.form-input:focus,
-.form-textarea:focus {
+.form-input:focus {
   border-color: var(--tool-medicamentos);
   box-shadow: 0 0 0 1px var(--tool-medicamentos);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 80px;
 }
 
 /* Input com sufixo (comprimidos) */

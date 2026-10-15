@@ -157,9 +157,6 @@ function inicializarFormularioReposicao() {
         if (novoTotal) novoTotal.textContent = `${medicamento.quantidade} ${unidade}`;
         if (unidadeCampo) unidadeCampo.textContent = unidade;
     }
-    const dataCompra = formulario.querySelector("#input-purchase-date");
-    if (dataCompra && !dataCompra.value) dataCompra.value = dataLocal();
-
     formulario.addEventListener("submit", (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
@@ -173,10 +170,7 @@ function inicializarFormularioReposicao() {
             medicamento: formulario.querySelector(".med-summary-name")?.textContent.trim() ?? "",
             unidade: medicamento.unidade || "unidades",
             quantidade: Number(dados.get("quantity")),
-            lote: String(dados.get("batch") ?? "").trim(),
             validade: String(dados.get("expiration") ?? "").trim(),
-            dataCompra: String(dados.get("purchaseDate") ?? "").trim(),
-            observacao: String(dados.get("notes") ?? "").trim(),
             criadoEm: new Date().toISOString(),
         };
 
