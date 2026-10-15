@@ -99,6 +99,17 @@ Usado por: apenas a página de adicionar medicamento
     padding: 0 14px 14px;
 }
 
+.meds-temporary-treatment-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.meds-temporary-treatment-fields[hidden] {
+    display: none;
+}
+
 .meds-form-block {
     padding: 14px;
     display: flex;
