@@ -129,6 +129,11 @@ Fidelidade total à UI apresentada na imagem.
     white-space: nowrap;
 }
 
+.routine-dose-actions {
+    display: flex;
+    gap: 10px;
+}
+
 /* Tipos de Badges */
 .routine-badge--doses {
     background-color: rgba(114, 222, 1, 0.1);
@@ -300,7 +305,7 @@ Fidelidade total à UI apresentada na imagem.
 .routine-card-time-taken {
     font-size: 0.8125rem;
     color: var(--meds-muted);
-    margin-left: 20px;
+    margin-bottom: 10px;
 }
 
 /* Status Pill no Canto Direito do Card (Tomado / Pendente) */
