@@ -59,7 +59,7 @@ export function inicializarFormularioMedicamento() {
         }
         definirVisibilidade(
             formulario.querySelector("#field-stock-alert-threshold"),
-            formulario.querySelector("#checkbox-stock-alert")?.checked ?? false,
+            formulario.querySelector("#checkbox-stock-alert")?.checked ?? true,
         );
 
         atualizarListaHorarios(listaHorarios);
@@ -84,6 +84,8 @@ export function inicializarFormularioMedicamento() {
         campoHorario.type = "time";
         campoHorario.className = "meds-form-input";
         campoHorario.name = "times";
+        campoHorario.lang = "pt-BR";
+        campoHorario.step = "60";
 
         const botaoRemover = document.createElement("button");
         botaoRemover.type = "button";
@@ -131,14 +133,14 @@ export function inicializarFormularioMedicamento() {
             unidade: String(dados.get("stockUnit") ?? ""),
             alertaEstoque: formulario.querySelector("#checkbox-stock-alert")
                 ? dados.has("stockAlert")
-                : medicamentoEditado?.alertaEstoque ?? false,
+                : true,
             limiteEstoque: formulario.querySelector("#input-stock-threshold")
                 ? Number(dados.get("stockThreshold") || 0)
                 : medicamentoEditado?.limiteEstoque ?? 0,
             validade: String(dados.get("expirationDate") ?? ""),
             lembretes: formulario.querySelector("#checkbox-reminders")
                 ? dados.has("enableReminders")
-                : medicamentoEditado?.lembretes ?? false,
+                : true,
             status: medicamentoEditado?.status ?? "ativo",
             criadoEm: medicamentoEditado?.criadoEm ?? new Date().toISOString(),
             atualizadoEm: new Date().toISOString(),
