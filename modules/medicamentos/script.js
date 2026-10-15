@@ -11,7 +11,7 @@ import { inicializarInicioMedicamentos } from "./js/inicio.js";
 import { inicializarRotinaMedicamentos } from "./js/rotina.js";
 import { inicializarHistoricoMedicamentos } from "./js/historico.js";
 import { inicializarDashboardMedicamentos } from "./js/dashboard.js";
-import { inicializarDetalhesMedicamento, inicializarLotesMedicamento } from "./js/detalhes-medicamento.js";
+import { inicializarDetalhesMedicamento } from "./js/detalhes-medicamento.js";
 import { inicializarHabitos } from "./js/habitos.js";
 import { inicializarListaMedicamentos } from "./js/medicamentos.js";
 import { inicializarReceitas } from "./js/receitas.js";
@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
     inicializarHistoricoMedicamentos();
     inicializarDashboardMedicamentos();
     inicializarDetalhesMedicamento();
-    inicializarLotesMedicamento();
     inicializarHabitos();
     inicializarListaMedicamentos();
     inicializarReceitas();

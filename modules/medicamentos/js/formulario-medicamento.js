@@ -57,11 +57,6 @@ export function inicializarFormularioMedicamento() {
         if (intervalo) {
             intervalo.required = tipoFrequencia === "intervalo";
         }
-        definirVisibilidade(
-            formulario.querySelector("#field-stock-alert-threshold"),
-            formulario.querySelector("#checkbox-stock-alert")?.checked ?? true,
-        );
-
         atualizarListaHorarios(listaHorarios);
         atualizarBotaoCadastro(formulario);
     };
@@ -134,9 +129,7 @@ export function inicializarFormularioMedicamento() {
             alertaEstoque: formulario.querySelector("#checkbox-stock-alert")
                 ? dados.has("stockAlert")
                 : true,
-            limiteEstoque: formulario.querySelector("#input-stock-threshold")
-                ? Number(dados.get("stockThreshold") || 0)
-                : medicamentoEditado?.limiteEstoque ?? 0,
+            limiteEstoque: medicamentoEditado?.limiteEstoque ?? 0,
             validade: String(dados.get("expirationDate") ?? ""),
             lembretes: formulario.querySelector("#checkbox-reminders")
                 ? dados.has("enableReminders")
@@ -190,7 +183,6 @@ function carregarMedicamentoParaEdicao(formulario, id) {
         preencherCampo(formulario, "#input-frequency-interval", medicamento.intervaloHoras);
         preencherCampo(formulario, "#input-stock-qty", medicamento.quantidade);
         preencherCampo(formulario, "#select-stock-unit", medicamento.unidade);
-        preencherCampo(formulario, "#input-stock-threshold", medicamento.limiteEstoque);
         preencherCampo(formulario, "#input-expiration-date", medicamento.validade);
 
         formulario.querySelectorAll('input[name="usageType"]').forEach((campo) => {
@@ -236,7 +228,6 @@ function configurarNomesCampos(formulario) {
         "#input-frequency-interval": "intervalHours",
         "#input-stock-qty": "stockQty",
         "#select-stock-unit": "stockUnit",
-        "#input-stock-threshold": "stockThreshold",
         "#input-expiration-date": "expirationDate",
     };
     Object.entries(campos).forEach(([seletor, nome]) => {
