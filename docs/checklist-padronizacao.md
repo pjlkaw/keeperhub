@@ -27,10 +27,10 @@ Ultima revisao: 2026-09-09
 
 - [ ] Corrigir `var(--text)` para `var(--text-color)` em [modules/despensa/inicio.css](../modules/despensa/inicio.css).
 - [ ] Corrigir `var(--azul)` ou declarar um token valido em [modules/despensa/produtos.css](../modules/despensa/produtos.css).
-- [x] Migrar gradualmente os tokens paralelos (`--black`, `--panel`, `--white`, `--muted` e similares) de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) para os tokens de [shared/styles/variables.css](../shared/styles/variables.css).
+- [x] Migrar gradualmente os tokens paralelos (`--black`, `--panel`, `--white`, `--muted` e similares) dos estilos do módulo Finanças, incluindo [base.css](../modules/financas/assets/css/base.css) e [padroes.css](../modules/financas/assets/css/padroes.css), para os tokens de [shared/styles/variables.css](../shared/styles/variables.css).
 - [ ] Migrar os tokens paralelos (`--bg`, `--surface`, `--text`, `--amber` e similares) de [modules/metas/metas-app/style.css](../modules/metas/metas-app/style.css) para os tokens compartilhados.
 - [ ] Revisar as redefinicoes locais de tokens globais em [modules/pets/assets/css/despesas.css](../modules/pets/assets/css/despesas.css) e [modules/pets/assets/css/vacinacoes.css](../modules/pets/assets/css/vacinacoes.css).
-- [x] Padronizar o servico de tema de [modules/financas/js/preview-theme.js](../modules/financas/js/preview-theme.js) para [shared/services/theme.js](../shared/services/theme.js), ou documentar formalmente a excecao.
+- [x] Padronizar o serviço de tema do módulo Finanças para [shared/services/theme.js](../shared/services/theme.js), ou documentar formalmente a exceção.
 - [ ] Garantir que paginas com `#theme-toggle` carreguem [shared/services/theme.js](../shared/services/theme.js).
 - [ ] Revisar contraste nos temas claro e escuro depois da migracao dos tokens.
 - [ ] Remover a importacao duplicada da fonte Nunito em [modules/despensa/produtos.html](../modules/despensa/produtos.html).
@@ -61,7 +61,7 @@ Ultima revisao: 2026-09-09
 
 - [x] Substituir a convencao paralela de tema por `data-theme`, `#theme-toggle` e [shared/services/theme.js](../shared/services/theme.js), se nao houver requisito funcional para mante-la.
 - [x] Validar o tema claro em [modules/financas/index.html](../modules/financas/index.html) e em cada pagina de [modules/financas/components](../modules/financas/components).
-- [x] Separar estilos compartilhaveis de [modules/financas/assets/css/style.css](../modules/financas/assets/css/style.css) caso tambem sejam usados por outros modulos.
+- [x] Separar estilos compartilháveis de [base.css](../modules/financas/assets/css/base.css), [padroes.css](../modules/financas/assets/css/padroes.css) e dos CSS específicos de cada página; remover os arquivos CSS órfãos do módulo.
 
 ## 7. Modulo Medicamentos
 

@@ -1,5 +1,18 @@
-/* Visão geral: saldo, atalhos, fluxo, despesas e transações recentes. */
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: inicio.css
+   Página: index.html (visão geral). Carregue depois de base.css.
+   ================================================== */
 
+/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
+
+body.landing-page #headerSection {
+	min-height: 113px;
+}
+
+/* ---- Visão geral ---- */
+
+/* Visão geral: saldo, atalhos, fluxo, despesas e transações recentes. */
 /* Moldura e cabeçalho */
 .landing-page {
 	display: block;
@@ -149,21 +162,6 @@
 	font-size: 16px;
 }
 
-.preview-greeting {
-	margin-top: 14px;
-}
-
-.preview-greeting h2 {
-	margin: 0;
-	font-size: 17px;
-}
-
-.preview-greeting p {
-	margin: 5px 0 0;
-	color: var(--text-muted);
-	font-size: 12px;
-}
-
 /* Saldo e fluxo de caixa */
 .preview-balance {
 	margin-top: 15px;
@@ -295,16 +293,6 @@
 	border-radius: 999px;
 }
 
-.income-bar {
-	width: 100%;
-	background: #18a64b;
-}
-
-.expense-bar {
-	width: 50%;
-	background: var(--tool-financas);
-}
-
 /* Ação flutuante */
 .floating-action {
 	position: fixed;
@@ -407,7 +395,7 @@
 .monthly-expenses-chart i {
 	display: block;
 	width: 25px;
-	background: var(--card-bg);
+	background: color-mix(in srgb, var(--text-muted) 35%, var(--card-bg));
 	border-radius: 6px 6px 4px 4px;
 }
 
@@ -549,11 +537,9 @@
 	border-color: #a8dfbb;
 }
 
-/* Temas e responsividade */
-html[data-theme=light],
 html[data-theme=light] body.landing-page {
 	min-height: 100%;
-	background: var(--card-bg);
+	background: var(--bg-color);
 	color-scheme: light;
 }
 
@@ -565,7 +551,7 @@ html[data-theme=light] body.landing-page .app-preview {
 
 html[data-theme=light] body.landing-page .app-preview {
 	color: var(--text-color);
-	background: var(--card-bg);
+	background: var(--bg-color);
 	border-color: transparent;
 	scrollbar-color: var(--text-muted) transparent;
 }
@@ -573,7 +559,7 @@ html[data-theme=light] body.landing-page .app-preview {
 html[data-theme=dark] body.landing-page,
 html[data-theme=dark] body.landing-page main,
 html[data-theme=dark] body.landing-page .app-preview {
-	background: var(--card-bg);
+	background: var(--bg-color);
 }
 
 html[data-theme=light] body.landing-page .preview-back {
@@ -582,7 +568,6 @@ html[data-theme=light] body.landing-page .preview-back {
 }
 
 html[data-theme=light] body.landing-page .preview-heading p,
-html[data-theme=light] body.landing-page .preview-greeting p,
 html[data-theme=light] body.landing-page .preview-balance header span,
 html[data-theme=light] body.landing-page .preview-balance dt,
 html[data-theme=light] body.landing-page .cash-flow header span,
@@ -619,7 +604,7 @@ html[data-theme=light] body.landing-page .recent-transactions-card {
 }
 
 html[data-theme=light] body.landing-page .monthly-expenses-chart i {
-	background: var(--card-bg);
+	background: color-mix(in srgb, var(--text-muted) 35%, var(--card-bg));
 }
 
 html[data-theme=light] body.landing-page .monthly-expenses-chart .current i {
@@ -648,10 +633,144 @@ html[data-theme=light] body.landing-page .recent-transactions-list>a>i {
 	right: max(14px, calc((100vw - 440px)/2 + 14px));
 }
 
-@media(max-width:440px) {
+@media (max-width:440px) {
 	.app-preview {
 		width: 100%;
 		border-radius: 0;
 	}
+}
 
+/* ---- Transações, listas e pagamentos ---- */
+
+.transaction-group:last-child {
+	border-bottom: 0;
+}
+
+.transaction-item:last-child {
+	margin-bottom: 0;
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transactions-header {
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .screen-back {
+	color: var(--text-color);
+}
+
+html[data-theme='light'] .shortcut-icon {
+	background: transparent !important;
+	color: var(--tool-financas) !important;
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+body.landing-page {
+	font-weight: 400;
+}
+
+body.landing-page h1,
+body.landing-page h2,
+body.landing-page h3 {
+	font-weight: 700;
+}
+
+body.landing-page .app-preview {
+	padding: 16px 16px 24px;
+	border-radius: 16px;
+}
+
+body.landing-page .preview-actions,
+body.landing-page .top-spending-list,
+body.landing-page .recent-transactions-list {
+	gap: 8px;
+}
+
+body.landing-page .preview-balance,
+body.landing-page .cash-flow,
+body.landing-page .monthly-expenses-card,
+body.landing-page .top-spending-card,
+body.landing-page .recent-transactions-card {
+	padding: 16px;
+	border-radius: 16px;
+}
+
+body.landing-page .recent-transactions-list a {
+	min-height: 44px;
+}
+
+body.landing-page .preview-back,
+body.landing-page .preview-theme-button,
+body.transaction-page .preview-back {
+	width: 44px;
+	min-width: 44px;
+	height: 44px;
+	min-height: 44px;
+}
+
+h3 {
+	font-weight: 700;
+}
+
+.app-preview {
+	background: var(--card-bg);
+}
+
+.shortcut-card {
+	border-color: var(--border-color);
+}
+
+.floating-action {
+	background-color: var(--tool-financas);
+}
+
+.shortcut-icon {
+	color: var(--tool-financas);
+}
+
+.top-spending-list,
+.recent-transactions-list {
+	gap: 8px;
+}
+
+.shortcut-card {
+	border-radius: 16px;
+}
+
+a {
+	min-height: 44px;
+}
+
+.preview-back,
+.preview-theme-button,
+.floating-action {
+	width: 48px;
+	min-width: 48px;
+	height: 48px;
+	min-height: 48px;
+}
+
+body.landing-page .preview-back,
+body.transaction-page .preview-back {
+	width: 24px !important;
+	min-width: 24px !important;
+	height: 44px !important;
+	min-height: 44px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+}
+
+body .fa-solid,
+body.landing-page .fa-solid {
+	font-family: "Font Awesome 6 Free";
+	font-style: normal;
+	font-weight: 900;
+}
+
+body.landing-page .app-preview {
+	padding-inline: 14px;
 }

@@ -1,0 +1,67 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: vencimentos.css
+   Página: components/vencimentos.html. Carregue depois de base.css.
+   ================================================== */
+
+/* ---- Transações, listas e pagamentos ---- */
+
+.transactions-list-screen {
+	min-height: 100vh;
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+.transaction-group:last-child {
+	border-bottom: 0;
+}
+
+.transaction-item:last-child {
+	margin-bottom: 0;
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-list {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item strong,
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item b {
+	color: var(--text-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .transaction-item small {
+	color: var(--text-muted);
+}
+
+html[data-theme='light'] .transaction-list,
+html[data-theme='light'] .transaction-item {
+	background: var(--card-bg) !important;
+	border-color: var(--border-color) !important;
+	color: var(--text-color) !important;
+	box-shadow: none !important;
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+.transactions-content {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+a {
+	min-height: 44px;
+}
+
+body .fa-solid {
+	font-family: "Font Awesome 6 Free";
+	font-style: normal;
+	font-weight: 900;
+}

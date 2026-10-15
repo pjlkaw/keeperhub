@@ -1,12 +1,24 @@
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: base.css
+   Base compartilhada por todas as páginas de Finanças.
+   Carregue antes do CSS da página. Contém apenas o que é usado por mais de uma tela.
+   ================================================== */
+
+/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
+
 /* Reset global e tipografia base: shared/styles/reset.css, carregado pelos HTMLs. */
-
 /* Estrutura das páginas, cabeçalhos, navegação e utilitários. */
-
 html,
 body {
 	min-width: 320px;
 	background: var(--bg-color);
-	font-size: 17px;
+	font-family: 'Nunito', sans-serif;
+}
+
+/* Tamanho base igual ao do módulo Pets. */
+body {
+	font-size: 14px;
 }
 
 body {
@@ -28,17 +40,6 @@ body {
 	.app-shell {
 		box-shadow: none;
 	}
-
-}
-
-[hidden] {
-	display: none !important;
-}
-
-.reports-screen {
-	min-height: 100vh;
-	color: var(--text-color);
-	background: var(--bg-color);
 }
 
 .screen-back {
@@ -58,12 +59,6 @@ body {
 	color: var(--text-color);
 	background: var(--bg-color);
 	font-family: inherit;
-}
-
-.finance-shell {
-	width: min(420px, 100%);
-	min-height: 100vh;
-	margin: 0 auto;
 }
 
 .finance-header {
@@ -136,38 +131,8 @@ html[data-theme="light"] body.finance-page .finance-tabs a.active {
 	border-bottom: 0;
 }
 
-.transactions-list-screen .finance-tabs {
-	border-bottom: 0;
-	scrollbar-width: none;
-}
-
-.transactions-list-screen .finance-tabs::-webkit-scrollbar {
-	display: none;
-}
-
 .reports-screen .finance-header {
 	border-bottom: 0;
-}
-
-.reports-screen .finance-tabs {
-	border-bottom: 0;
-	scrollbar-width: none;
-}
-
-.reports-screen .finance-tabs::-webkit-scrollbar {
-	display: none;
-}
-
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
 }
 
 ul {
@@ -181,4 +146,453 @@ ul {
 
 .definition-list > dl {
 	margin: 0;
+}
+
+/* Reserva o espaço do cabeçalho compartilhado, injetado por js/cabecalho.js e
+   shared/services/load-components.js após o carregamento. Sem isso, o conteúdo
+   abaixo "pula" ao trocar de página. Alturas medidas em 390px de largura. */
+#headerSection {
+	min-height: 92px;
+}
+
+/* Mesmo motivo: a barra de módulos é preenchida por js/interface.js. */
+#modules-nav-wrapper {
+	min-height: 52px;
+}
+
+/* ---- Componentes: botões, atalhos, gráficos e botão de tema ---- */
+
+/* Botões de pagamento e edição, atalhos, gráficos e controle de tema. */
+/* Ações de listas */
+.payment-button {
+	padding: 4px 8px;
+	color: var(--tool-financas);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	font-size: 12px;
+}
+
+.payment-button:disabled {
+	color: #83d5c5;
+	cursor: default;
+}
+
+.transaction-item aside {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.transaction-item.is-paid {
+	opacity: .65;
+}
+
+/* Atalhos e gráficos */
+.shortcut-card {
+	border: 1px solid var(--border-color);
+	box-shadow: 0 1px 2px color-mix(in srgb, var(--pill-bg) 5%, transparent);
+}
+
+.shortcut-card {
+	display: flex;
+	flex-direction: column;
+	min-height: 165px;
+	padding: 24px;
+}
+
+.shortcut-icon {
+	display: grid;
+	width: 48px;
+	height: 48px;
+	margin-bottom: 18px;
+	place-items: center;
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	font-size: 25px;
+}
+
+.shortcut-card h2 {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 28px;
+}
+
+.shortcut-card p {
+	margin: 8px 0 0;
+	color: var(--text-muted);
+	font-size: 18px;
+	line-height: 24px;
+}
+
+.chart {
+	display: flex;
+	align-items: stretch;
+	justify-content: space-between;
+	gap: 24px;
+	height: 192px;
+	margin: 0;
+	padding: 16px;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+}
+
+.bar {
+	width: 100%;
+	min-height: 0;
+	border-radius: 16px 16px 0 0;
+}
+
+/* Alternador de tema */
+.preview-theme-button {
+	place-items: center;
+	background: var(--card-bg);
+	font-size: 20px;
+	line-height: 1;
+	box-shadow: 0 2px 8px color-mix(in srgb, var(--pill-bg) 18%, transparent);
+}
+
+.finance-theme-button,
+.preview-theme-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 36px;
+	width: 36px !important;
+	min-width: 36px !important;
+	height: 36px !important;
+	min-height: 36px !important;
+	padding: 0 !important;
+	background-color: color-mix(in srgb, var(--text-color) 5%, transparent);
+	border: 1px solid var(--border-color);
+	border-radius: 50%;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.finance-theme-button:focus-visible,
+.preview-theme-button:focus-visible {
+	outline: 2px solid var(--tool-financas);
+	outline-offset: 2px;
+}
+
+.finance-theme-button .theme-icon,
+.preview-theme-button .theme-icon {
+	display: none;
+	width: 18px !important;
+	height: 18px !important;
+	object-fit: contain;
+}
+
+html[data-theme=dark] .theme-icon-moon,
+html[data-theme=light] .theme-icon-sun {
+	display: block;
+}
+
+html[data-theme=light] .finance-theme-button,
+html[data-theme=light] .preview-theme-button {
+	background-color: color-mix(in srgb, var(--text-color) 4%, transparent);
+	border-color: var(--border-color);
+	color: var(--text-muted);
+}
+
+.transactions-header .finance-theme-button {
+	margin-left: -36px;
+}
+
+.transaction-heading .finance-theme-button {
+	width: 34px;
+	height: 34px;
+	font-size: 17px;
+}
+
+/* ---- Formulários: campos, seletores e botões de ação ---- */
+
+.save-button {
+	width: 100%;
+	min-height: 52px;
+	border-radius: 8px;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.save-button {
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--pill-bg) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--pill-bg) 10%, transparent);
+}
+
+/* Lista aberta dos <select>: o texto herdava a cor clara do tema escuro sobre
+   o fundo branco padrão do navegador, deixando as opções ilegíveis. */
+select option,
+select optgroup {
+	color: var(--text-color);
+	background-color: var(--card-bg);
+}
+
+/* ---- Contas ---- */
+
+.accounts-screen .transactions-content {
+	gap: 16px;
+}
+
+/* ---- Visão geral ---- */
+
+.income-bar {
+	width: 100%;
+	background: #18a64b;
+}
+
+.expense-bar {
+	width: 50%;
+	background: var(--tool-financas);
+}
+
+/* Temas e responsividade */
+html[data-theme=light] {
+	min-height: 100%;
+	background: var(--bg-color);
+	color-scheme: light;
+}
+
+/* ---- Transações, listas e pagamentos ---- */
+
+.transactions-content {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Grupos e itens */
+.transaction-list {
+	overflow: hidden;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	box-shadow: 0 4px 6px -4px color-mix(in srgb, var(--pill-bg) 10%, transparent), 0 10px 15px -3px color-mix(in srgb, var(--pill-bg) 10%, transparent);
+}
+
+.transaction-item {
+	display: flex;
+	align-items: center;
+	min-height: 64px;
+	margin-bottom: 8px;
+	padding: 12px;
+	gap: 12px;
+	background: var(--card-bg);
+}
+
+.transaction-icon {
+	display: grid;
+	flex: 0 0 48px;
+	width: 48px;
+	height: 48px;
+	place-items: center;
+	background: var(--card-bg);
+	border-radius: 50%;
+	font-size: 25px;
+}
+
+.transaction-item section {
+	display: flex;
+	flex: 1;
+	min-width: 0;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.transaction-item strong {
+	color: var(--text-color);
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.transaction-item small {
+	color: var(--text-muted);
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.transaction-item b {
+	color: var(--text-color);
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 24px;
+	text-align: right;
+}
+
+/* ---- Relatórios ---- */
+
+@media (max-width:370px) {
+	.finance-tabs a {
+		padding: 0 13px;
+	}
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+/* Tema escuro */
+html[data-theme=dark] .finance-page {
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+html[data-theme=dark] .finance-header {
+	border-color: var(--border-color);
+}
+
+html[data-theme=dark] .finance-back {
+	color: var(--text-color);
+}
+
+/* Contas e vencimentos no tema claro */
+html[data-theme=light] body:not(.landing-page):not(.finance-page) {
+	color: var(--text-color);
+	background: var(--card-bg);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .app-shell {
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+/* Tema claro das páginas financeiras */
+html[data-theme='light'] .finance-page {
+	background: var(--bg-color) !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .transactions-content {
+	background: transparent !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .finance-header,
+html[data-theme='light'] .finance-back {
+	color: var(--text-color) !important;
+	border-color: var(--border-color) !important;
+	background: transparent !important;
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+/* Padronização final: tipografia, espaçamentos, cards, cores e áreas de toque. */
+/* Tipografia e espaçamento por página */
+body.finance-page {
+	font-weight: 400;
+}
+
+body.finance-page h3 {
+	font-weight: 700;
+}
+
+body.finance-page .finance-tabs {
+	gap: 8px;
+}
+
+body.finance-page .finance-tabs a {
+	min-height: 44px;
+}
+
+body.finance-page .finance-back,
+body.finance-page .finance-theme-button {
+	width: 44px;
+	min-width: 44px;
+	height: 44px;
+	min-height: 44px;
+}
+
+body.finance-page .finance-content {
+	background: transparent !important;
+}
+
+.app-shell {
+	background: var(--card-bg);
+}
+
+/* Medidas comuns */
+.app-shell,
+.finance-shell {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+.finance-tabs {
+	gap: 8px;
+}
+
+.theme-button,
+.screen-back,
+.finance-back,
+.finance-theme-button {
+	width: 48px;
+	min-width: 48px;
+	height: 48px;
+	min-height: 48px;
+}
+
+/* Navegação entre módulos */
+.finance-modules-nav {
+	margin-bottom: 16px;
+}
+
+body.finance-page .finance-back {
+	width: 24px !important;
+	min-width: 24px !important;
+	height: 44px !important;
+	min-height: 44px !important;
+	padding: 0 !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+}
+
+/* Integracao dos componentes compartilhados em financas. */
+#headerSection {
+	flex-wrap: wrap;
+	padding-block: 12px;
+}
+
+#headerSection .section-header-title-area {
+	flex: 1 1 180px;
+	min-width: 0;
+}
+
+#headerSection .section-header-title {
+	color: var(--text-color);
+	overflow-wrap: anywhere;
+}
+
+#headerSection .section-header-meta {
+	color: var(--text-muted);
+}
+
+#headerSection .section-header-controls {
+	flex-shrink: 0;
+}
+
+#headerSection .btn-header:focus-visible,
+#headerSection .section-header-back-btn:focus-visible {
+	outline-color: var(--tool-financas);
+}
+
+/* Alinhamento com o módulo Pets: margem lateral de 14px aplicada uma única
+   vez (no contêiner da página). Antes, o contêiner e o conteúdo somavam
+   padding, deixando o conteúdo recuado em relação ao cabeçalho. */
+.app-shell,
+.finance-shell {
+	padding-inline: 14px;
+}
+
+body.finance-page .finance-tabs,
+.finance-tabs {
+	padding-inline: 0;
+}
+
+/* Fundo da página igual ao do Pets (--bg-color); só os cartões usam --card-bg. */
+.app-shell,
+html[data-theme=dark] .app-shell {
+	background: transparent;
 }

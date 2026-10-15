@@ -1,8 +1,35 @@
-/* Cadastro e listagem de contas. */
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: contas.css
+   Página: components/contas.html. Carregue depois de base.css.
+   ================================================== */
 
-.accounts-screen .transactions-content {
-	gap: 16px;
+/* ---- Componentes: botões, atalhos, gráficos e botão de tema ---- */
+
+.account-edit,
+.account-delete {
+	padding: 4px 8px;
+	color: var(--tool-financas);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	font-size: 12px;
 }
+
+/* ---- Formulários: campos, seletores e botões de ação ---- */
+
+.field-label {
+	color: var(--text-muted);
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 16px;
+}
+
+.field-label {
+	margin-top: 0;
+}
+
+/* ---- Contas ---- */
 
 .account-form {
 	display: flex;
@@ -63,4 +90,82 @@
 
 .account-delete {
 	color: #ffb4ab;
+}
+
+/* ---- Transações, listas e pagamentos ---- */
+
+.transactions-list-screen {
+	min-height: 100vh;
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+.transaction-group:last-child {
+	border-bottom: 0;
+}
+
+.transaction-item:last-child {
+	margin-bottom: 0;
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-form {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-input {
+	color: var(--text-color);
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item strong {
+	color: var(--text-color);
+}
+
+html[data-theme=light] body:not(.landing-page):not(.finance-page) .account-item small {
+	color: var(--text-muted);
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+.account-form,
+.account-item {
+	border-color: var(--border-color);
+}
+
+.transactions-content {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+.account-list {
+	gap: 8px;
+}
+
+.account-form,
+.account-item {
+	border-radius: 16px;
+}
+
+.account-edit,
+.account-delete {
+	border-radius: 8px;
+}
+
+a {
+	min-height: 44px;
+}
+
+body .fa-solid {
+	font-family: "Font Awesome 6 Free";
+	font-style: normal;
+	font-weight: 900;
 }
