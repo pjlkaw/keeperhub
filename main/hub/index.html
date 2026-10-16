@@ -18,13 +18,15 @@
     <!-- Header -->
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <script>
-        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-            document.getElementById('headerSection').innerHTML = data;
-            document.getElementById('pageNameH1').textContent ='Olá Fulano' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = 'Sua área' // Subtítulo
-            document.getElementById('btn-back-header').href = '/main/' // Botão voltar
-        });
+      window.keeperhubModuleConfig = {
+        module: 'hub',
+        title: 'Olá Fulano',
+        subtitle: 'Sua área',
+        backUrl: '/main/',
+        notificationsModule: 'hub'
+      };
     </script>
+    <script src="/shared/services/load-components.js"></script>
 
     <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
     <script>
@@ -77,6 +79,7 @@
       <!-- CONTEÚDO PRINCIPAL / RESUMO DIÁRIO -->
       <main class="app-main" id="main-content">
         <div class="app-container">
+
           <!-- SEÇÃO DE SAUDAÇÃO -->
           <section class="section-header-section" id="headerSection"></section>
 

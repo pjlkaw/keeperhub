@@ -8,8 +8,6 @@
   /* ==================================================
      DESIGN TOKENS & MAPEAMENTO DA NOVA SHARED
      ================================================== */
-  --color-bg-page: var(--bg-color, #0b0b0d);
-  --color-text-primary: var(--text-color, #f4f4f5);
   --color-text-secondary: var(--text-muted, #9a9aa2);
   --color-text-muted: var(--text-muted, #9a9aa2);
   --color-bg-surface: var(--card-bg, #17171a);
@@ -31,14 +29,14 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--color-bg-page, #101114);
-  color: var(--color-text-primary, #ffffff);
+  background-color: var(--bg-color, #101114);
+  color: var(--text-color, #ffffff);
   position: relative;
   overflow-x: hidden;
 }
 
 [data-theme="light"] .app-page-wrapper {
-  background-color: var(--color-bg-page, #F5F7F7);
+  background-color: var(--bg-color, #F5F7F7);
 }
 
 /* Container Centralizado do App (Mobile Frame) */
@@ -78,11 +76,11 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: var(--color-text-primary, #ffffff);
+  color: var(--text-color, #ffffff);
 }
 
 [data-theme="light"] .app-header-brand {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .app-header-avatar {
@@ -166,14 +164,14 @@
 .app-greeting-title {
   font-size: 1.625rem; /* 26px */
   font-weight: 700;
-  color: var(--color-text-primary, #ffffff);
+  color: var(--text-color, #ffffff);
   letter-spacing: -0.025em;
   line-height: 1.2;
   margin: 0 0 4px 0;
 }
 
 [data-theme="light"] .app-greeting-title {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .app-greeting-subtitle {
@@ -314,23 +312,23 @@ a.module-card,
 }
 
 .val-white {
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
 }
 
 [data-theme="light"] .val-white {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .module-card-val-title {
   font-size: 1.375rem; /* 22px */
   font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
 [data-theme="light"] .module-card-val-title {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .module-card-sublabel {
@@ -379,12 +377,12 @@ a.module-card,
 .module-pets-name {
   font-size: 1.125rem; /* 18px */
   font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
   line-height: 1.2;
 }
 
 [data-theme="light"] .module-pets-name {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 /* Card Específico: Medicamentos com Pill Badge de Horário */
@@ -411,11 +409,11 @@ a.module-card,
 .meds-name-text {
   font-size: 1.0625rem; /* 17px */
   font-weight: 600;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
 }
 
 [data-theme="light"] .meds-name-text {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 /* ==================================================
