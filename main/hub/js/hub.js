@@ -6,10 +6,6 @@
  * ==================================================
  */
 
-import { carregarUsuario } from '../../../shared/api/usuario.js';
-
-carregarUsuario().then((usuarios) => console.log(usuarios));
-
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 const TALL_CARD_HEIGHT = 220;
 
@@ -27,6 +23,36 @@ function observeModuleCardSizes() {
   });
 
   cards.forEach((card) => observer.observe(card));
+}
+
+function initializeChatbot() {
+  const chatbotContainer = document.getElementById('chatbot-container');
+  const toggleButton = document.getElementById('chatbot-toggle-button');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const closeButton = document.getElementById('chatbot-close-button');
+  const toggleIcon = toggleButton?.querySelector('i');
+
+  if (!chatbotContainer || !toggleButton || !chatbotWindow) return;
+
+  const toggleChatbot = (isOpen) => {
+    chatbotContainer.classList.toggle('is-open', isOpen);
+    chatbotWindow.setAttribute('aria-hidden', String(!isOpen));
+    toggleButton.setAttribute('aria-label', isOpen ? 'Fechar Chatbot' : 'Abrir Chatbot');
+    toggleIcon?.classList.toggle('fa-robot', !isOpen);
+    toggleIcon?.classList.toggle('fa-xmark', isOpen);
+  };
+
+  toggleChatbot(false);
+
+  toggleButton.addEventListener('click', () => {
+    toggleChatbot(!chatbotContainer.classList.contains('is-open'));
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener('click', () => {
+      toggleChatbot(false);
+    });
+  }
 }
 
 /**
@@ -49,6 +75,7 @@ function getCurrentUser() {
 // Carregamento amigável de sessão do usuário (se autenticado)
 document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
+  initializeChatbot();
 
   const user = getCurrentUser();
   if (user && user.name) {

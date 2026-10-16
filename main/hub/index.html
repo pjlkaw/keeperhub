@@ -53,7 +53,61 @@
     <link rel="stylesheet" href="../../shared/styles/rodape.css" />
   </head>
   <body>
-    <div class="app-page-wrapper">
+    <section class="app-page-wrapper">
+
+      <!-- Chatbot -->
+      <section class="chatbot-container" id="chatbot-container" aria-label="Chatbot de Assistência">
+        <button class="chatbot-toggle-button" id="chatbot-toggle-button" aria-label="Abrir Chatbot">
+          <i class="fas fa-robot"></i> 
+        </button>
+
+        <div class="chatbot-window" id="chatbot-window" aria-hidden="true">
+
+          <div class="chatbot-header">
+            <span class="chatbot-title">Assistente KeeperHub</span>
+            <button class="chatbot-close-button" id="chatbot-close-button" aria-label="Fechar Chatbot">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Mensagens do chatbot serão inseridas aqui -->
+            <!-- placeholder -->
+            <p class="chatbot-message bot-message">Olá! Como posso ajudá-lo hoje?</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
+            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
+          </div>
+
+          <div class="chatbot-input-container">
+            <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem"/>
+            <button class="chatbot-send-button" id="chatbot-send-button" aria-label="Enviar mensagem">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+        </section>
+
       <!-- HEADER INTERNO COMPACTO -->
       <header class="app-header" id="app-header">
         <div class="app-container">
@@ -195,7 +249,7 @@
             </a>
 
             <!-- 4. CARD MEDICAMENTOS -->
-            <!-- <a href="../../modules/medicamentos/index.html" class="module-card module-card-interactive" id="hub-card-medicamentos" aria-label="Acessar Módulo Medicamentos">
+            <a href="../../modules/medicamentos/index.html" class="module-card module-card-interactive" id="hub-card-medicamentos" aria-label="Acessar Módulo Medicamentos">
               <div class="module-card-top-accent accent-top-medicamentos" aria-hidden="true"></div>
 
               <div class="module-card-header">
@@ -228,10 +282,10 @@
                   loading="lazy"
                 />
               </div>
-            </a> -->
+            </a>
 
             <!-- 5. CARD DESPENSA -->
-            <!-- <a href="../../modules/despensa/index.html" class="module-card module-card-despensa" id="hub-card-despensa" aria-label="Acessar Módulo Despensa">
+            <a href="../../modules/despensa/index.html" class="module-card module-card-despensa" id="hub-card-despensa" aria-label="Acessar Módulo Despensa">
               <div class="module-card-top-accent accent-top-despensa" aria-hidden="true"></div>
 
               <div class="module-card-header">
@@ -261,29 +315,29 @@
                 />
               </div>
             </article>
-            </a> -->
+            </a>
           </section>
         </div>
       </main>
 
-<footer class="rodape" id="site-footer">
-  <div class="container">
-    <div class="divisoria-rodape" aria-hidden="true"></div>
-    <div class="conteudo-rodape">
-      <span class="marca-rodape" id="footer-brand">KeeperHub</span>
-      <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
-        <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
-        <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
-        <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
-        <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
-      </nav>
-      <p class="direitos-rodape" id="footer-copyright">
-        &copy; 2026 KeeperHub. Todos os direitos reservados.
-      </p>
-    </div>
-  </div>
-</footer>
-    </div>
+      <footer class="rodape" id="site-footer">
+        <div class="container">
+          <div class="divisoria-rodape" aria-hidden="true"></div>
+          <div class="conteudo-rodape">
+            <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+            <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+              <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
+              <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+              <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+              <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
+            </nav>
+            <p class="direitos-rodape" id="footer-copyright">
+              &copy; 2026 KeeperHub. Todos os direitos reservados.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </section>
 
     <!-- Script Compartilhado de Tema (JavaScript Clássico) -->
     <script src="../../shared/services/theme.js"></script>
