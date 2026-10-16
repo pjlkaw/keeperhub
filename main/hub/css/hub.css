@@ -135,9 +135,16 @@
    CONTEÚDO PRINCIPAL / SAUDAÇÃO E CARDS
    ================================================== */
 .app-main {
+  display: flex;
   flex: 1;
   padding-top: 8px;
   padding-bottom: 36px;
+}
+
+.app-main > .app-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 /* Saudação */
@@ -170,9 +177,12 @@
 
 /* Grade / Lista Vertical de Cards */
 .app-modules-stack {
+  margin-top: 10px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 14px;
+  min-height: 0;
 }
 
 /* ==================================================
@@ -180,6 +190,7 @@
    ================================================== */
 .module-card {
   position: relative;
+  flex: 1 1 0;
   background-color: var(--card-bg, #16181D);
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.07));
   border-radius: 16px;
@@ -188,6 +199,7 @@
   flex-direction: column;
   justify-content: space-between;
   min-height: 114px;
+  height: 100%;
   overflow: hidden;
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.22s ease,
