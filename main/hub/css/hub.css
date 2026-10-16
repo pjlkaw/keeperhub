@@ -188,6 +188,7 @@
 /* ==================================================
    CARD DE MÓDULO UNIFICADO
    ================================================== */
+
 .module-card {
   position: relative;
   flex: 1 1 0;
@@ -197,7 +198,7 @@
   padding: 16px 18px 18px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   min-height: 114px;
   height: 100%;
   overflow: hidden;
@@ -209,6 +210,16 @@
   text-decoration: none;
   color: inherit;
   will-change: transform;
+}
+
+/* Personalize aqui a aparência dos cards com mais de 220px de altura. */
+.module-card.module-card-tall {
+  padding: 50px;
+}
+
+.module-card.module-card-tall .module-card-watermark-img {
+  width: 220px;
+  height: 220px;
 }
 
 a.module-card,
