@@ -1,5 +1,282 @@
-/* Tela de lançamento: moldura, campos, resumo e variações de tema. */
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: nova-transacao.css
+   Página: components/nova-transacao.html. Carregue depois de base.css.
+   ================================================== */
 
+/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
+
+.finance-shell {
+	width: min(420px, 100%);
+	min-height: 100vh;
+	margin: 0 auto;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ---- Formulários: campos, seletores e botões de ação ---- */
+
+/* Campos, seletores de tipo, valores e ações dos formulários. */
+/* Estrutura e campos */
+.transaction-form {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.type-toggle {
+	display: flex;
+	gap: 4px;
+	padding: 4px;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+.type-option {
+	flex: 1;
+	min-height: 38px;
+	padding: 8px 0;
+	color: var(--text-muted);
+	background: transparent;
+	border-radius: 6px;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.type-option.selected {
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	box-shadow: 0 1px 2px color-mix(in srgb, var(--pill-bg) 5%, transparent);
+}
+
+.currency-field {
+	display: flex;
+	align-items: center;
+	width: 224px;
+	height: 63px;
+	gap: 8px;
+}
+
+.currency-field span {
+	color: var(--text-color);
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.currency-field input {
+	width: 192px;
+	padding: 0;
+	color: var(--text-muted);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 48px;
+	font-weight: 600;
+}
+
+/* Ajustes exclusivos da página de nova transação em telas menores. */
+.finance-new-transaction-page #headerSection .section-header-title {
+	font-size: 1.375rem;
+	line-height: 1.1;
+}
+
+.finance-new-transaction-page .currency-field {
+	width: 100%;
+	height: 56px;
+}
+
+.finance-new-transaction-page .currency-field span {
+	font-size: 22px;
+}
+
+.finance-new-transaction-page .currency-field input {
+	flex: 1;
+	min-width: 0;
+	width: auto;
+	font-size: 40px;
+	line-height: 1;
+}
+
+.finance-new-transaction-page .notes-card > label {
+	display: block;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.25;
+}
+
+.finance-new-transaction-page .notes-card textarea {
+	box-sizing: border-box;
+	min-height: 96px;
+	margin-top: 8px;
+	padding: 12px;
+	font-size: 16px;
+	line-height: 1.4;
+}
+
+.finance-new-transaction-page .transaction-summary {
+	font-size: 14px;
+}
+
+.finance-new-transaction-page .transaction-summary header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.finance-new-transaction-page .transaction-summary h2 {
+	margin: 0;
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.finance-new-transaction-page .transaction-summary #summary-type {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.finance-new-transaction-page .transaction-summary .definition-list {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 6px;
+	margin-top: 12px;
+}
+
+.finance-new-transaction-page .transaction-summary dl {
+	display: grid;
+	grid-template-columns: 88px minmax(0, 1fr);
+	gap: 8px;
+	line-height: 1.35;
+}
+
+.finance-new-transaction-page .transaction-summary dt {
+	color: var(--text-muted);
+	font-weight: 600;
+}
+
+.finance-new-transaction-page .transaction-summary dd {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.input-wrap,
+textarea {
+	width: 100%;
+	margin-top: -16px;
+	color: var(--text-color);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+.input-wrap {
+	display: flex;
+	align-items: center;
+	min-height: 49px;
+	padding: 13px 16px;
+}
+
+.field-icon {
+	width: 24px;
+	margin-right: 16px;
+	color: var(--text-muted);
+	font-size: 28px;
+	line-height: 23px;
+}
+
+.input-wrap input {
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	color: var(--text-color);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+}
+
+.input-wrap select {
+	flex: 1;
+	min-width: 0;
+	padding: 0;
+	color: var(--text-color);
+	background: transparent;
+	border: 0;
+	outline: 0;
+	font-size: 16px;
+}
+
+/* Datas, observações e ações */
+.input-wrap input[type='date'] {
+	color: var(--text-color);
+}
+
+.input-wrap input::placeholder,
+textarea::placeholder {
+	color: var(--text-muted);
+}
+
+.description-wrap input {
+	font-size: 24px;
+}
+
+textarea {
+	padding: 16px;
+	resize: none;
+	outline: 0;
+	font-size: 18px;
+}
+
+.actions {
+	display: flex;
+	flex-direction: column;
+	padding-top: 8px;
+}
+
+.cancel-button {
+	width: 100%;
+	min-height: 52px;
+	border-radius: 8px;
+	font-family: inherit;
+	font-size: 14px;
+	letter-spacing: .05em;
+}
+
+.save-button span {
+	margin-right: 8px;
+	font-size: 25px;
+}
+
+.cancel-button {
+	color: var(--text-muted);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+}
+
+/* ---- Transações, listas e pagamentos ---- */
+
+.transaction-group:last-child {
+	border-bottom: 0;
+}
+
+.transaction-item:last-child {
+	margin-bottom: 0;
+}
+
+/* ---- Nova transação ---- */
+
+/* Tela de lançamento: moldura, campos, resumo e variações de tema. */
 /* Tema claro */
 html[data-theme=light] .transaction-page {
 	color: var(--text-color);
@@ -329,13 +606,12 @@ html[data-theme=light] .transaction-form .cancel-button {
 	border-color: var(--border-color);
 }
 
-@media(max-width:460px) {
+@media (max-width:460px) {
 	.transaction-preview {
 		border-right: 0;
 		border-left: 0;
 		border-radius: 0;
 	}
-
 }
 
 /* Tipo de transação e temas dos controles */
@@ -409,4 +685,141 @@ html[data-theme=light] body.transaction-page .transaction-form .type-option:not(
 html[data-theme=light] body.transaction-page .transaction-form .type-option:not(.selected):focus-visible {
 	color: var(--text-color);
 	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+html[data-theme=dark] .finance-shell {
+	background: var(--card-bg);
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+body.transaction-page {
+	font-weight: 400;
+}
+
+body.transaction-page h1,
+body.transaction-page h2,
+body.transaction-page h3 {
+	font-weight: 700;
+}
+
+body.transaction-page .transaction-preview {
+	padding: 16px 16px 24px;
+	border-radius: 16px;
+}
+
+body.finance-page .finance-content,
+body.transaction-page .transaction-form {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+body.transaction-page .transaction-fields,
+body.transaction-page .transaction-summary section,
+body.transaction-page .actions {
+	gap: 8px;
+}
+
+body.transaction-page .value-card,
+body.transaction-page .transaction-fields,
+body.transaction-page .notes-card,
+body.transaction-page .transaction-summary {
+	padding: 16px;
+	border-radius: 16px;
+}
+
+body.transaction-page .input-wrap,
+body.transaction-page .notes-card textarea {
+	border-radius: 8px;
+}
+
+body.transaction-page .type-option,
+body.transaction-page .save-button,
+body.transaction-page .cancel-button {
+	min-height: 44px;
+}
+
+body.transaction-page .finance-theme-button {
+	width: 44px;
+	min-width: 44px;
+	height: 44px;
+	min-height: 44px;
+}
+
+.transaction-preview {
+	background: var(--card-bg);
+}
+
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary {
+	border-color: var(--border-color);
+}
+
+.type-option.selected {
+	background-color: var(--tool-financas);
+}
+
+.transaction-form,
+.finance-content {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+.transaction-fields,
+.transaction-summary section,
+.actions {
+	gap: 8px;
+}
+
+.value-card,
+.transaction-fields,
+.notes-card,
+.transaction-summary {
+	border-radius: 16px;
+}
+
+.type-toggle,
+.input-wrap,
+textarea {
+	border-radius: 8px;
+}
+
+a,
+textarea {
+	min-height: 44px;
+}
+
+body .fa-solid,
+body.transaction-page .fa-solid {
+	font-family: "Font Awesome 6 Free";
+	font-style: normal;
+	font-weight: 900;
+}
+
+/* Texto e ícones do seletor Despesa/Receita. */
+.finance-new-transaction-page .transaction-form .type-toggle .type-option,
+.finance-new-transaction-page .transaction-form .type-toggle .type-option span {
+	color: #fff;
+}
+
+body.transaction-page .transaction-preview {
+	padding-inline: 14px;
+}
+
+body.finance-page .finance-content,
+body.transaction-page .transaction-form,
+.transaction-form {
+	padding-inline: 0;
+}
+
+.input-wrap input,
+.transaction-fields .input-wrap input,
+.transaction-fields .description-wrap input {
+	background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
 }

@@ -1,5 +1,45 @@
-/* Resumo, gráficos, categorias, comparações e responsividade dos relatórios. */
+/* ==================================================
+   KEEPERHUB — MÓDULO FINANÇAS
+   Arquivo: relatorios.css
+   Página: components/relatorios.html. Carregue depois de base.css.
+   ================================================== */
 
+/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
+
+.reports-screen {
+	min-height: 100vh;
+	color: var(--text-color);
+	background: var(--bg-color);
+}
+
+.finance-shell {
+	width: min(420px, 100%);
+	min-height: 100vh;
+	margin: 0 auto;
+}
+
+.reports-screen .finance-tabs {
+	border-bottom: 0;
+	scrollbar-width: none;
+}
+
+.reports-screen .finance-tabs::-webkit-scrollbar {
+	display: none;
+}
+
+/* ---- Transações, listas e pagamentos ---- */
+
+.transaction-group:last-child {
+	border-bottom: 0;
+}
+
+.transaction-item:last-child {
+	margin-bottom: 0;
+}
+
+/* ---- Relatórios ---- */
+
+/* Resumo, gráficos, categorias, comparações e responsividade dos relatórios. */
 /* Resumo e navegação */
 .report-kicker {
 	margin: 0;
@@ -354,8 +394,7 @@
 	font-size: 15px;
 }
 
-/* Responsividade */
-@media(max-width:370px) {
+@media (max-width:370px) {
 	.summary-values {
 		grid-template-columns: 1fr;
 	}
@@ -363,10 +402,6 @@
 	.summary-card>footer {
 		align-items: flex-start;
 		gap: 10px;
-	}
-
-	.finance-tabs a {
-		padding: 0 13px;
 	}
 
 	.spending-card header {
@@ -377,7 +412,6 @@
 	.spending-card header strong {
 		white-space: nowrap;
 	}
-
 }
 
 /* Tema escuro */
@@ -420,4 +454,102 @@ html[data-theme=dark] .insight-card {
 
 html[data-theme=dark] .comparison-card section dl {
 	border-color: var(--border-color);
+}
+
+/* ---- Variações dos temas claro e escuro ---- */
+
+html[data-theme=light] body.finance-page .reports-screen>.finance-header>h1 {
+	color: var(--text-color) !important;
+}
+
+html[data-theme=dark] body.finance-page .reports-screen>.finance-header>h1 {
+	color: var(--text-color) !important;
+}
+
+html[data-theme=dark] .finance-shell {
+	background: var(--card-bg);
+}
+
+html[data-theme='light'] .reports-screen {
+	background: var(--bg-color) !important;
+	color: var(--text-color) !important;
+}
+
+html[data-theme='light'] .summary-card,
+html[data-theme='light'] .report-section {
+	background: var(--card-bg) !important;
+	border-color: var(--border-color) !important;
+	color: var(--text-color) !important;
+	box-shadow: none !important;
+}
+
+html[data-theme='light'] .insight-card small {
+	color: var(--text-muted) !important;
+}
+
+/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
+
+body.finance-page .finance-content {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+body.finance-page .summary-values,
+body.finance-page .spending-list {
+	gap: 8px;
+}
+
+body.finance-page .summary-card,
+body.finance-page .report-section,
+body.finance-page .insight-card {
+	padding: 16px;
+	border-radius: 16px;
+}
+
+body.finance-page .report-section {
+	background: transparent !important;
+}
+
+.summary-card,
+.report-section,
+.insight-card {
+	border-color: var(--border-color);
+}
+
+.summary-expense small,
+.summary-expense strong,
+.summary-expense b,
+.spending-card header strong,
+.largest-expense>section>b {
+	color: var(--tool-financas);
+}
+
+.finance-content {
+	gap: 16px;
+	padding: 16px 16px 24px;
+}
+
+.summary-values,
+.spending-list {
+	gap: 8px;
+}
+
+.summary-card,
+.report-section,
+.insight-card {
+	border-radius: 16px;
+}
+
+a {
+	min-height: 44px;
+}
+
+body .fa-solid {
+	font-family: "Font Awesome 6 Free";
+	font-style: normal;
+	font-weight: 900;
+}
+
+body.finance-page .finance-content {
+	padding-inline: 0;
 }
