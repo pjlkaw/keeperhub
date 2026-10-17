@@ -132,8 +132,6 @@ function getCurrentUser() {
   }
 }
 
-
-
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
 document.addEventListener('DOMContentLoaded', () => {
