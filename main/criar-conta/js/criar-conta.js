@@ -6,6 +6,19 @@
  * ==================================================
  */
 
+// Adição: reutiliza a função compartilhada que cria a conta pela API.
+import { criarUsuario } from '../../../shared/api/usuario.js';
+
+// Adição: envia os dados do formulário para a API e redireciona após o sucesso.
+async function realizarCadastro(usuario) {
+  try {
+    await criarUsuario(usuario);
+    window.location.href = '../hub/index.html';
+  } catch (erro) {
+    console.error('[Cadastro] Falha ao criar conta:', erro);
+  }
+}
+
 function setupSignupForm() {
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -160,7 +173,7 @@ function setupSignupForm() {
 
   const form = document.getElementById('signup-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const nameVal = nameInput ? nameInput.value.trim() : '';
       const emailVal = emailInput ? emailInput.value.trim() : '';
@@ -208,8 +221,14 @@ function setupSignupForm() {
 
       if (hasError) return;
 
-      // Redirecionamento seguro pós-cadastro para a área autenticada
-      window.location.href = '../hub/index.html';
+      // Adição: usa os nomes de campos esperados pela API de usuários.
+      await realizarCadastro({
+        nome_usuario: nameVal,
+        email_usuario: emailVal,
+        numero_usuario: phoneDigits,
+        genero_usuario: sexoVal,
+        senha_usuario: passVal
+      });
     });
   }
 }

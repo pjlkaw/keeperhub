@@ -132,6 +132,20 @@ function getCurrentUser() {
   }
 }
 
+
+
+// INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
+const TALL_CARD_HEIGHT = 220;
+document.addEventListener('DOMContentLoaded', () => {
+  observeModuleCardSizes();
+  initializeChatbot();
+  initializeChatbotMessaging();
+
+  const user = getCurrentUser();
+  console.log('Usuário atual:', user);
+  userLoadContent(user);
+});
+
 function userLoadContent(user) {
   if (!user) return;
 
@@ -147,18 +161,6 @@ function userLoadContent(user) {
     pageName.textContent = `Olá, ${firstName}`;
   }
 }
-
-// INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
-const TALL_CARD_HEIGHT = 220;
-document.addEventListener('DOMContentLoaded', () => {
-  observeModuleCardSizes();
-  initializeChatbot();
-  initializeChatbotMessaging();
-
-  const user = getCurrentUser();
-  console.log('Usuário atual:', user);
-  userLoadContent(user);
-});
 
 function observeModuleCardSizes() {
   const cards = document.querySelectorAll('.module-card');
