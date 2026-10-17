@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/essentials/meds-variables.css">
     <link rel="stylesheet" href="../assets/css/essentials/layout.css">
     <link rel="stylesheet" href="../assets/css/essentials/components.css">
@@ -20,18 +21,21 @@
     <link rel="stylesheet" href="../assets/css/meds-form.css">
 
     <script>
-        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-            document.getElementById('headerSection').innerHTML = data;
-            document.getElementById('pageNameH1').textContent ='Bons Hábitos' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
-            document.getElementById('btn-back-header').href = '../index.html' // Botão voltar
-        });
+        window.keeperhubModuleConfig = {
+            module: 'medicamentos',
+            title: 'Bons Hábitos',
+            subtitle: '',
+            backUrl: '/modules/medicamentos/',
+            notificationsModule: 'medicamentos'
+        };
     </script>
+    <script src="/shared/services/load-components.js"></script>
 
 </head>
 <body>
     <div class="app-page-wrapper">
         <div class="app-container">
+                <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navega&#231;&#227;o entre m&#243;dulos"></nav>
             <header class="section-header-section" id="headerSection"></header>
 
             <main class="habits-main" id="main-content">
