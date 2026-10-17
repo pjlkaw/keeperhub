@@ -115,7 +115,6 @@ function initializeChatbotMessaging() {
   });
 }
 
-
 /**
  * Retorna os dados da sessão do usuário autenticado no momento (se houver)
  * @returns {{ email?: string, name?: string } | null}
@@ -142,6 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeChatbotMessaging();
 
   const user = getCurrentUser();
+  // Adição Provisória: exibe no console os dados do usuário recuperados ao abrir o Hub.
+  console.log('Usuário atual:', user);
   if (user && user.name) {
     const greetingEl = document.getElementById('greeting-title');
     if (greetingEl) {

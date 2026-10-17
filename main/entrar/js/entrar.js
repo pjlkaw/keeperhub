@@ -6,6 +6,9 @@
  * ==================================================
  */
 
+// Adição: reutiliza a função que autentica o usuário pela API.
+import { loginUsuario } from '../../../shared/api/usuario.js';
+
 function setupLoginForm() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -69,7 +72,7 @@ function setupLoginForm() {
 
   const form = document.getElementById('login-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const passVal = passwordInput ? passwordInput.value : '';
@@ -89,8 +92,18 @@ function setupLoginForm() {
 
       if (hasError) return;
 
-      // Redirecionamento seguro pós-login para a área autenticada
-      window.location.href = '../hub/index.html';
+      // Adição: mostra no console quando a tentativa de login começa, sem expor a senha.
+      console.log('[Login] Tentativa de login:', emailVal);
+
+      try {
+        // Adição: só continua para o Hub depois que a API confirmar as credenciais.
+        await loginUsuario(emailVal, passVal);
+        console.log('[Login] Login realizado com sucesso:', emailVal);
+        window.location.href = '../hub/index.html';
+      } catch (erro) {
+        // Adição: registra no console o motivo da falha retornado pela API.
+        console.error('[Login] Falha ao realizar login:', erro);
+      }
     });
   }
 }
