@@ -132,6 +132,22 @@ function getCurrentUser() {
   }
 }
 
+function userLoadContent(user) {
+  if (!user) return;
+
+  const pageName = document.getElementById('pageNameH1');
+  // Aguarda o header compartilhado terminar de ser carregado.
+  if (!pageName) {
+    setTimeout(() => userLoadContent(user), 50);
+    return;
+  }
+
+  if (pageName && user.name) {
+    const firstName = user.name.split(' ')[0];
+    pageName.textContent = `Olá, ${firstName}`;
+  }
+}
+
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
 document.addEventListener('DOMContentLoaded', () => {
@@ -141,11 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const user = getCurrentUser();
   console.log('Usuário atual:', user);
-  if (user && user.name) {
-    const pageName = document.getElementById('pageNameH1');
-    const firstName = user.name.split(' ')[0];
-    if (pageName) pageName.textContent = `Olá, ${firstName}`;
-  }
+  userLoadContent(user);
 });
 
 function observeModuleCardSizes() {
