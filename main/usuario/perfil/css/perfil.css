@@ -5,61 +5,14 @@
    ================================================== */
 
 :root {
-  color-scheme: dark;
-  --perfil-fundo: var(--bg-color);
-  --perfil-fundo-externo: var(--bg-color);
-  --perfil-texto: var(--text-color);
-  --perfil-texto-secundario: var(--text-muted);
-  --perfil-icone: var(--text-color);
-  --perfil-avatar: #303030;
   --perfil-acento: #01ab8e;
   --perfil-acento-hover: #08c4ab;
   --perfil-sombra: rgb(0 0 0 / 28%);
-  --perfil-borda: var(--border-color);
   --perfil-transicao: 180ms ease;
 }
 
-html[data-theme='light'] {
-  color-scheme: light;
-  --perfil-avatar: #cbd5e1;
-  --perfil-sombra: rgb(15 23 42 / 16%);
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  min-width: 280px;
-  min-height: 100%;
-  background: var(--perfil-fundo-externo);
-}
-
-body {
-  min-width: 280px;
-  min-height: 100vh;
-  min-height: 100svh;
-  margin: 0;
-  color: var(--perfil-texto);
-  background: var(--perfil-fundo-externo);
-  font-family: Verdana, Tahoma, sans-serif;
-  line-height: 1.5;
-}
-
-button,
-a {
-  font: inherit;
-}
-
-button {
-  color: inherit;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+.section-header-section {
+  margin: 20px 20px 4px 20px;
 }
 
 .perfil-app {
@@ -68,21 +21,20 @@ a {
   min-height: 100svh;
   margin-inline: auto;
   overflow: hidden;
-  background: var(--perfil-fundo);
-  border: 1px solid var(--perfil-borda);
+  background: var(--bg-color);
 }
 
 .perfil-cabecalho {
   min-height: 64px;
   margin: 0;
   padding: 14px 20px;
-  background: var(--perfil-fundo);
-  border-bottom: 1px solid var(--perfil-borda);
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .perfil-cabecalho :is(a, button):focus-visible,
 .perfil-editar:focus-visible {
-  outline: 3px solid var(--perfil-texto);
+  outline: 3px solid var(--text-color);
   outline-offset: 3px;
 }
 
@@ -91,6 +43,7 @@ a {
   min-height: calc(100svh - 64px);
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 36px 20px 48px;
 }
 
@@ -99,6 +52,10 @@ a {
   width: 100%;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  border: 3px solid var(--border-color);
+  border-radius: 12px;
+  padding: 32px 20px;
 }
 
 .perfil-avatar {
@@ -107,8 +64,8 @@ a {
   width: 176px;
   height: 176px;
   place-items: center;
-  color: var(--perfil-avatar);
-  border: 7px solid var(--perfil-acento);
+  color: var(--text-muted);
+  border: 3px solid var(--text-muted);
   border-radius: 50%;
 }
 
@@ -129,50 +86,37 @@ a {
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.2;
+  color: var(--text-color)
+}
+
+.perfil-identidade__email {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-muted);
 }
 
 .perfil-editar {
   display: inline-flex;
   width: 100%;
-  max-width: 280px;
-  min-height: 48px;
+  max-width: 200px;
   align-items: center;
   justify-content: center;
   gap: 10px;
   margin-top: 32px;
-  padding: 10px 20px;
+  padding: 10px 0px;
   color: #f7f7f7;
   background: var(--perfil-acento);
   border: 0;
   border-radius: 999px;
   box-shadow: 0 8px 20px transparent;
-  cursor: pointer;
   font-size: 1rem;
   font-weight: 700;
-  transition:
-    background-color var(--perfil-transicao),
-    box-shadow var(--perfil-transicao),
-    transform var(--perfil-transicao);
 }
 
 .perfil-editar i {
   font-size: 1rem;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .perfil-editar:hover {
-    background: var(--perfil-acento-hover);
-  }
-
-  .perfil-editar:hover {
-    box-shadow: 0 10px 24px var(--perfil-sombra);
-    transform: translateY(-3px);
-  }
-}
-
-.perfil-cabecalho :is(a, button):active,
-.perfil-editar:active {
-  transform: scale(0.97);
 }
 
 @media (max-width: 520px) {
