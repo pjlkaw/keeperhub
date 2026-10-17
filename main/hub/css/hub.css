@@ -45,6 +45,32 @@
     border-radius: 12px;
     z-index: 1000;
     pointer-events: none;
+    background-color: #000;
+  }
+
+  html.chatbot-open,
+  body.chatbot-open {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body.chatbot-open .app-page-wrapper {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .chatbot-container.is-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: auto;
+  }
+
+  .chatbot-container.is-open ~ .app-header {
+    position: relative;
+    z-index: 1003;
   }
 
   .chatbot-toggle-button {
@@ -172,6 +198,7 @@
     color: var(--text-color);
     padding: 10px;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .chatbot-message {

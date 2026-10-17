@@ -31,11 +31,14 @@ function initializeChatbot() {
   const chatbotWindow = document.getElementById('chatbot-window');
   const closeButton = document.getElementById('chatbot-close-button');
   const toggleIcon = toggleButton?.querySelector('i');
+  const header = document.querySelector('.app-header');
 
   if (!chatbotContainer || !toggleButton || !chatbotWindow) return;
 
   const toggleChatbot = (isOpen) => {
     chatbotContainer.classList.toggle('is-open', isOpen);
+    document.documentElement.classList.toggle('chatbot-open', isOpen);
+    document.body.classList.toggle('chatbot-open', isOpen);
     chatbotWindow.setAttribute('aria-hidden', String(!isOpen));
     toggleButton.setAttribute('aria-label', isOpen ? 'Fechar Chatbot' : 'Abrir Chatbot');
     toggleIcon?.classList.toggle('fa-robot', !isOpen);
@@ -53,6 +56,18 @@ function initializeChatbot() {
       toggleChatbot(false);
     });
   }
+
+  document.addEventListener('click', (event) => {
+    if (
+      chatbotContainer.classList.contains('is-open') &&
+      event.target instanceof Node &&
+      !chatbotWindow.contains(event.target) &&
+      !toggleButton.contains(event.target) &&
+      (!header || !header.contains(event.target))
+    ) {
+      toggleChatbot(false);
+    }
+  });
 }
 
 /**

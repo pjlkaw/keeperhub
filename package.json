@@ -22,6 +22,7 @@
 	},
 	"dependencies": {
 		"dotenv": "^18.0.4",
+		"groq-sdk": "^1.6.0",
 		"mysql2": "^3.24.4"
 	}
 }
