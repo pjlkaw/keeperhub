@@ -134,21 +134,17 @@ function getCurrentUser() {
 
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
-// Carregamento amigável de sessão do usuário (se autenticado)
 document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
   initializeChatbot();
   initializeChatbotMessaging();
 
   const user = getCurrentUser();
-  // Adição Provisória: exibe no console os dados do usuário recuperados ao abrir o Hub.
   console.log('Usuário atual:', user);
   if (user && user.name) {
-    const greetingEl = document.getElementById('greeting-title');
-    if (greetingEl) {
-      const firstName = user.name.split(' ')[0];
-      greetingEl.textContent = `Olá, ${firstName}`;
-    }
+    const pageName = document.getElementById('pageNameH1');
+    const firstName = user.name.split(' ')[0];
+    if (pageName) pageName.textContent = `Olá, ${firstName}`;
   }
 });
 
