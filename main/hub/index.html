@@ -18,13 +18,15 @@
     <!-- Header -->
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <script>
-        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-            document.getElementById('headerSection').innerHTML = data;
-            document.getElementById('pageNameH1').textContent ='Olá Fulano' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = 'Sua área' // Subtítulo
-            document.getElementById('btn-back-header').href = '/main/' // Botão voltar
-        });
+      window.keeperhubModuleConfig = {
+        module: 'hub',
+        title: 'Olá Fulano',
+        subtitle: 'Sua área',
+        backUrl: '/main/',
+        notificationsModule: 'hub'
+      };
     </script>
+    <script src="/shared/services/load-components.js"></script>
 
     <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
     <script>
@@ -51,7 +53,42 @@
     <link rel="stylesheet" href="../../shared/styles/rodape.css" />
   </head>
   <body>
-    <div class="app-page-wrapper">
+    <section class="app-page-wrapper">
+
+      <!-- Chatbot -->
+      <section class="chatbot-container" id="chatbot-container" aria-label="Chatbot de Assistência">
+        <button class="chatbot-toggle-button" id="chatbot-toggle-button" aria-label="Abrir Chatbot">
+          <i class="fas fa-robot"></i> 
+        </button>
+
+        <div class="chatbot-window" id="chatbot-window" aria-hidden="true">
+
+          <div class="chatbot-header">
+            <span class="chatbot-title">KeeperAI</span>
+            <button class="chatbot-close-button" id="chatbot-close-button" aria-label="Fechar Chatbot">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="chatbot-messages" id="chatbot-messages">
+            <!-- Mensagens do chatbot serão inseridas aqui -->
+            <!-- placeholder -->
+            <div class="chatbot-placeholder" id="chatbot-placeholder">
+              <i class="fas fa-robot"></i><br>
+              <img class="chatbot-logo" src="/shared/img/logo-keeperhub-wordmark.png" alt="">
+              <span class="placeholder-text">Estou aqui para ajudar!</span>
+            </div>
+
+          </div>
+
+          <form class="chatbot-input-container" id="chatbot-form">
+            <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem"/>
+            <button type="submit" class="chatbot-send-button" id="chatbot-send-button" aria-label="Enviar mensagem">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+        </section>
+
       <!-- HEADER INTERNO COMPACTO -->
       <header class="app-header" id="app-header">
         <div class="app-container">
@@ -77,6 +114,7 @@
       <!-- CONTEÚDO PRINCIPAL / RESUMO DIÁRIO -->
       <main class="app-main" id="main-content">
         <div class="app-container">
+
           <!-- SEÇÃO DE SAUDAÇÃO -->
           <section class="section-header-section" id="headerSection"></section>
 
@@ -102,7 +140,7 @@
                 <span class="module-card-sublabel">Progresso Geral</span>
               </div>
   
-              <!-- Marca d'Água: Logo Oficial Discreta -->
+              
               <div class="module-card-watermark" aria-hidden="true">
                 <img
                   src="../assets/img/logo-metas.png"
@@ -115,8 +153,10 @@
               </div>
             </a>
 
-            <!-- 2. CARD FINANÇAS -->
+            <!-- 2. CARD FINANÇAS --> 
             <a href="../../modules/financas/index.html" class="module-card module-card-financas" id="hub-card-financas" aria-label="Acessar Módulo Finanças">
+              <div class="module-card-top-accent accent-top-financas" aria-hidden="true"></div>
+
               <div class="module-card-header">
                 <img
                   src="../assets/img/logo-financas.png"
@@ -132,8 +172,7 @@
                 <span class="module-card-val-title val-white">R$ 4.520,00</span>
                 <span class="module-card-sublabel">Saldo Atual</span>
               </div>
-  
-              <!-- Marca d'Água: Logo Oficial Discreta -->
+
               <div class="module-card-watermark" aria-hidden="true">
                 <img
                   src="../assets/img/logo-financas.png"
@@ -145,7 +184,6 @@
                 />
               </div>
             </a>
-
 
             <!-- 3. CARD PETS -->
             <a href="../../modules/pets/index.html" class="module-card module-card-interactive" id="hub-card-pets" aria-label="Acessar Módulo Pets">
@@ -180,7 +218,7 @@
                 </div>
               </div>
 
-              <!-- Marca d'Água: Logo Oficial Discreta -->
+              
               <div class="module-card-watermark" aria-hidden="true">
                 <img
                   src="../assets/img/logo-pets.png"
@@ -216,7 +254,7 @@
                 <span class="module-card-sublabel">Próxima dose</span>
               </div>
 
-              <!-- Marca d'Água: Logo Oficial Discreta -->
+              
               <div class="module-card-watermark" aria-hidden="true">
                 <img
                   src="../assets/img/logo-medicamentos.png"
@@ -249,7 +287,6 @@
                 <span class="module-card-sublabel">Estoque Baixo</span>
               </div>
 
-              <!-- Marca d'Água: Logo Oficial Discreta -->
               <div class="module-card-watermark" aria-hidden="true">
                 <img
                   src="../assets/img/logo-despensa.png"
@@ -265,25 +302,7 @@
           </section>
         </div>
       </main>
-
-<footer class="rodape" id="site-footer">
-  <div class="container">
-    <div class="divisoria-rodape" aria-hidden="true"></div>
-    <div class="conteudo-rodape">
-      <span class="marca-rodape" id="footer-brand">KeeperHub</span>
-      <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
-        <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de Privacidade</a>
-        <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
-        <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
-        <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
-      </nav>
-      <p class="direitos-rodape" id="footer-copyright">
-        &copy; 2026 KeeperHub. Todos os direitos reservados.
-      </p>
-    </div>
-  </div>
-</footer>
-    </div>
+    </section>
 
     <!-- Script Compartilhado de Tema (JavaScript Clássico) -->
     <script src="../../shared/services/theme.js"></script>

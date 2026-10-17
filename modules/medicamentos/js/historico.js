@@ -36,9 +36,9 @@ function carregarEventos() {
             tipo: "eventual",
         })),
         ...listarRegistros("reposicoes").map((reposicao) => ({
-            data: reposicao.criadoEm || reposicao.dataCompra,
+            data: reposicao.criadoEm,
             medicamento: medicamentos.get(reposicao.medicamentoId) || reposicao.medicamento || "Medicamento",
-            detalhe: `Reposição de ${reposicao.quantidade} ${reposicao.unidade || "unidades"}${reposicao.lote ? ` • Lote ${reposicao.lote}` : ""}`,
+            detalhe: `Reposição de ${reposicao.quantidade} ${reposicao.unidade || "unidades"}`,
             tipo: "cart",
         })),
     ].filter((evento) => evento.data).sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());

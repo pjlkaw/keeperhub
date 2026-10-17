@@ -5,40 +5,22 @@
    ================================================== */
 
 :root {
-  /* ==================================================
-     DESIGN TOKENS & MAPEAMENTO DA NOVA SHARED
-     ================================================== */
-  --color-bg-page: var(--bg-color, #0b0b0d);
-  --color-text-primary: var(--text-color, #f4f4f5);
-  --color-text-secondary: var(--text-muted, #9a9aa2);
-  --color-text-muted: var(--text-muted, #9a9aa2);
-  --color-bg-surface: var(--card-bg, #17171a);
-  --color-bg-surface-elevated: var(--card-bg, #17171a);
-  --color-border-card: var(--border-color, rgba(255, 255, 255, 0.08));
-  --color-border-subtle: var(--border-color, rgba(255, 255, 255, 0.08));
   --color-brand: #01ab8e;
   --color-secondary: #01ab8e;
-
-  /* Identidades Oficiais dos Módulos */
-  --color-metas: var(--tool-metas, #ffd900);
-  --color-financas: var(--tool-financas, #e47a00);
-  --color-pets: var(--tool-pets, #5985fc);
-  --color-medicamentos: var(--tool-medicamentos, #00d02d);
-  --color-despensa: var(--tool-despensa, #a67b5b);
 }
 
 .app-page-wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--color-bg-page, #101114);
-  color: var(--color-text-primary, #ffffff);
+  background-color: var(--bg-color, #101114);
+  color: var(--text-color, #ffffff);
   position: relative;
   overflow-x: hidden;
 }
 
 [data-theme="light"] .app-page-wrapper {
-  background-color: var(--color-bg-page, #F5F7F7);
+  background-color: var(--bg-color, #F5F7F7);
 }
 
 /* Container Centralizado do App (Mobile Frame) */
@@ -50,6 +32,215 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+
+/* ==================================================
+   CHATBOT FLUTUANTE (MOBIL)
+   ================================================== */
+  .chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    z-index: 1000;
+    pointer-events: none;
+    background-color: #000;
+  }
+
+  html.chatbot-open,
+  body.chatbot-open {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body.chatbot-open .app-page-wrapper {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .chatbot-container.is-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: auto;
+  }
+
+  .chatbot-container.is-open ~ .app-header {
+    position: relative;
+    z-index: 1003;
+  }
+
+  .chatbot-toggle-button {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    width: 80%;
+    height: 52px;
+    border: 3px solid var(--color-brand);
+    border-radius: 14px;
+    color: #ffffff;
+    background-color: var(--color-brand);
+    box-shadow: 0 6px 18px rgba(1, 171, 142, 0.28);
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 1002;
+    transform: translateX(-50%);
+    transition: width 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .chatbot-toggle-button:hover {
+    background-color: #019b81;
+    transform: translate(-50%, -2px);
+  }
+
+  .chatbot-toggle-button:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+  .chatbot-toggle-button i {
+    transition: opacity 0.15s ease, transform 0.2s ease;
+  }
+  .chatbot-container.is-open .chatbot-toggle-button {
+    width: 52px;
+    border-radius: 50%;
+    transform: translateX(-50%);
+  }
+
+  .chatbot-window {
+    position: fixed;
+    left: 50%;
+    bottom: 82px;
+    width: 90%;
+    height: min(75vh, calc(100vh - 110px));
+    max-height: calc(100vh - 110px);
+    box-sizing: border-box;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background-color: var(--card-bg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    z-index: 1001;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    transform: translate(-50%, 100%);
+  }
+
+  .chatbot-container.is-open .chatbot-window {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .chatbot-window[aria-hidden="false"] {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .chatbot-header {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .chatbot-input-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+  }
+
+  .chatbot-input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+  }
+
+  .chatbot-send-button {
+    background-color: var(--color-brand);
+    border: none;
+    padding: 8px 12px;
+    margin-left: 8px;
+    border-radius: 50px;
+    text-align: center;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  /* placeholder */
+
+  .chatbot-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  .chatbot-placeholder .chatbot-logo {
+    width: 120px;
+    height: auto;
+    margin-top: 8px;
+    margin: 0 auto;
+    filter: opacity(0.6);
+  }
+
+  /* Mensagens */
+
+  .chatbot-messages {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    padding: 10px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .chatbot-message {
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+
+  .bot-message {
+    background-color: #f0f0f0;
+    color: #000000;
+    align-self: flex-start;
+  }
+
+  .user-message {
+    background-color: var(--color-brand);
+    color: #ffffff;
+    align-self: flex-end;
+  }
 
 /* ==================================================
    HEADER INTERNO COMPACTO
@@ -78,11 +269,11 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: var(--color-text-primary, #ffffff);
+  color: var(--text-color, #ffffff);
 }
 
 [data-theme="light"] .app-header-brand {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .app-header-avatar {
@@ -108,7 +299,8 @@
 }
 
 .app-header-brand-name {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
+  /* 18px */
   font-weight: 700;
   letter-spacing: -0.02em;
   color: inherit;
@@ -152,9 +344,16 @@
    CONTEÚDO PRINCIPAL / SAUDAÇÃO E CARDS
    ================================================== */
 .app-main {
+  display: flex;
   flex: 1;
   padding-top: 8px;
   padding-bottom: 36px;
+}
+
+.app-main > .app-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 /* Saudação */
@@ -164,54 +363,72 @@
 }
 
 .app-greeting-title {
-  font-size: 1.625rem; /* 26px */
+  font-size: 1.625rem;
+  /* 26px */
   font-weight: 700;
-  color: var(--color-text-primary, #ffffff);
+  color: var(--text-color, #ffffff);
   letter-spacing: -0.025em;
   line-height: 1.2;
   margin: 0 0 4px 0;
 }
 
 [data-theme="light"] .app-greeting-title {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .app-greeting-subtitle {
-  font-size: 0.875rem; /* 14px */
-  color: var(--color-text-muted, #8E929E);
+  font-size: 0.875rem;
+  /* 14px */
+  color: var(--text-muted, #8E929E);
   margin: 0;
   line-height: 1.4;
 }
 
 /* Grade / Lista Vertical de Cards */
 .app-modules-stack {
+  margin-top: 10px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 14px;
+  min-height: 0;
 }
 
 /* ==================================================
    CARD DE MÓDULO UNIFICADO
    ================================================== */
+
 .module-card {
   position: relative;
-  background-color: var(--color-bg-surface, #16181D);
-  border: 1px solid var(--color-border-card, rgba(255, 255, 255, 0.07));
+  flex: 0 0 114px;
+  background-color: var(--card-bg, #16181D);
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.07));
   border-radius: 16px;
   padding: 16px 18px 18px 18px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   min-height: 114px;
+  height: 114px;
   overflow: hidden;
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-color 0.22s ease, 
-              box-shadow 0.22s ease, 
-              background-color 0.22s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
   cursor: default;
   text-decoration: none;
   color: inherit;
   will-change: transform;
+}
+
+/* Personalize aqui a aparência dos cards com mais de 220px de altura. */
+.module-card.module-card-tall {
+  padding: 16px 18px 18px 18px;
+}
+
+.module-card.module-card-tall .module-card-watermark-img {
+  width: 82px;
+  height: 82px;
 }
 
 a.module-card,
@@ -225,8 +442,8 @@ a.module-card,
 }
 
 [data-theme="light"] .module-card {
-  background-color: var(--color-bg-surface, #ffffff);
-  border-color: var(--color-border-subtle, #e5e7eb);
+  background-color: var(--card-bg, #ffffff);
+  border-color: var(--border-color, #e5e7eb);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -243,23 +460,23 @@ a.module-card,
 }
 
 .accent-top-metas {
-  background-color: var(--color-metas, #FFC100);
+  background-color: var(--tool-metas, #FFC100);
 }
 
 .accent-top-financas {
-  background-color: var(--color-financas, #E47A00);
+  background-color: var(--tool-financas, #E47A00);
 }
 
 .accent-top-pets {
-  background-color: var(--color-pets, #5985FC);
+  background-color: var(--tool-pets, #5985FC);
 }
 
 .accent-top-medicamentos {
-  background-color: var(--color-medicamentos, #70DE01);
+  background-color: var(--tool-medicamentos, #70DE01);
 }
 
 .accent-top-despensa {
-  background-color: var(--color-despensa, #633600);
+  background-color: var(--tool-despensa, #633600);
 }
 
 /* Topo do Card: Nome do Módulo e Logo */
@@ -282,15 +499,16 @@ a.module-card,
 }
 
 .module-card-tag {
-  font-size: 0.75rem; /* 12px */
+  font-size: 0.75rem;
+  /* 12px */
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-secondary, #D1D5DB);
+  color: var(--text-muted, #D1D5DB);
 }
 
 [data-theme="light"] .module-card-tag {
-  color: var(--color-text-secondary, #374151);
+  color: var(--text-muted, #374151);
 }
 
 /* Conteúdo Principal do Card */
@@ -303,39 +521,42 @@ a.module-card,
 }
 
 .module-card-val-huge {
-  font-size: 2.125rem; /* 34px */
+  font-size: 2.125rem;
+  /* 34px */
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
 }
 
 .val-yellow {
-  color: var(--color-metas, #FFC100);
+  color: var(--tool-metas, #FFC100);
 }
 
 .val-white {
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
 }
 
 [data-theme="light"] .val-white {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .module-card-val-title {
-  font-size: 1.375rem; /* 22px */
+  font-size: 1.375rem;
+  /* 22px */
   font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
 [data-theme="light"] .module-card-val-title {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 .module-card-sublabel {
-  font-size: 0.8125rem; /* 13px */
-  color: var(--color-text-muted, #8E929E);
+  font-size: 0.8125rem;
+  /* 13px */
+  color: var(--text-muted, #8E929E);
   font-weight: 500;
   line-height: 1.3;
 }
@@ -377,14 +598,15 @@ a.module-card,
 }
 
 .module-pets-name {
-  font-size: 1.125rem; /* 18px */
+  font-size: 1.125rem;
+  /* 18px */
   font-weight: 700;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
   line-height: 1.2;
 }
 
 [data-theme="light"] .module-pets-name {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 /* Card Específico: Medicamentos com Pill Badge de Horário */
@@ -399,8 +621,9 @@ a.module-card,
   align-items: center;
   justify-content: center;
   background-color: rgba(112, 222, 1, 0.16);
-  color: var(--color-medicamentos, #70DE01);
-  font-size: 0.8125rem; /* 13px */
+  color: var(--tool-medicamentos, #70DE01);
+  font-size: 0.8125rem;
+  /* 13px */
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 100px;
@@ -409,13 +632,14 @@ a.module-card,
 }
 
 .meds-name-text {
-  font-size: 1.0625rem; /* 17px */
+  font-size: 1.0625rem;
+  /* 17px */
   font-weight: 600;
-  color: var(--color-text-primary, #FFFFFF);
+  color: var(--text-color, #FFFFFF);
 }
 
 [data-theme="light"] .meds-name-text {
-  color: var(--color-text-primary, #111827);
+  color: var(--text-color, #111827);
 }
 
 /* ==================================================
@@ -440,10 +664,8 @@ a.module-card,
   height: 82px;
   object-fit: contain;
   opacity: 0.12;
-  transform: rotate(-4deg);
-  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              filter 0.22s ease;
+  transform: none;
+  transition: none;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -491,10 +713,11 @@ a.module-card,
    MICROINTERAÇÃO HOVER NOS CARDS DO HUB (Desktop / Mouse)
    ================================================== */
 @media (hover: hover) and (pointer: fine) {
+
   /* 1. Elevação e Sombra Base */
   .module-card:hover {
     transform: translateY(-4px);
-    background-color: var(--color-bg-surface-elevated, #1c1e24);
+    background-color: var(--card-bg, #1c1e24);
     box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.4);
   }
 
@@ -513,117 +736,101 @@ a.module-card,
   #hub-card-metas:hover {
     border-color: rgba(255, 193, 0, 0.35);
   }
+
   #hub-card-metas:hover .accent-top-metas {
     filter: brightness(1.2) drop-shadow(0 0 6px rgba(255, 193, 0, 0.5));
   }
+
   #hub-card-metas:hover .watermark-metas {
-    opacity: 0.42;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
+    transform: none;
   }
 
   /* FINANÇAS (Laranja) */
   #hub-card-financas:hover {
     border-color: rgba(228, 122, 0, 0.35);
   }
+
   #hub-card-financas:hover .accent-top-financas {
     filter: brightness(1.2) drop-shadow(0 0 6px rgba(228, 122, 0, 0.5));
   }
+
   #hub-card-financas:hover .watermark-financas {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
+    transform: none;
   }
 
   /* PETS (Azul) */
   #hub-card-pets:hover {
     border-color: rgba(89, 133, 252, 0.35);
   }
+
   #hub-card-pets:hover .accent-top-pets {
     filter: brightness(1.2) drop-shadow(0 0 6px rgba(89, 133, 252, 0.5));
   }
+
   #hub-card-pets:hover .module-pets-avatar {
     border-color: rgba(89, 133, 252, 0.7);
     box-shadow: 0 0 8px rgba(89, 133, 252, 0.25);
   }
+
   #hub-card-pets:hover .module-pets-avatar-icon {
     filter: brightness(1.12);
   }
+
   #hub-card-pets:hover .watermark-pets {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
+    transform: none;
   }
 
   /* MEDICAMENTOS (Verde) */
   #hub-card-medicamentos:hover {
     border-color: rgba(112, 222, 1, 0.35);
   }
+
   #hub-card-medicamentos:hover .accent-top-medicamentos {
     filter: brightness(1.2) drop-shadow(0 0 6px rgba(112, 222, 1, 0.5));
   }
+
   #hub-card-medicamentos:hover .meds-time-badge {
     background-color: rgba(112, 222, 1, 0.24);
   }
+
   #hub-card-medicamentos:hover .watermark-medicamentos {
-    opacity: 0.40;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
+    transform: none;
   }
 
   /* DESPENSA (Marrom / Bronze) */
   #hub-card-despensa:hover {
     border-color: rgba(201, 113, 28, 0.35);
   }
+
   #hub-card-despensa:hover .accent-top-despensa {
     filter: brightness(1.2) drop-shadow(0 0 6px rgba(201, 113, 28, 0.5));
   }
+
   #hub-card-despensa:hover .watermark-despensa {
-    opacity: 0.42;
-    filter: brightness(1.35) saturate(1.4);
-    transform: rotate(-2deg) scale(1.03);
+    transform: none;
   }
 
   /* Ajustes Específicos para Light Mode no Hover */
   [data-theme="light"] #hub-card-metas:hover {
     border-color: rgba(255, 193, 0, 0.45);
   }
-  [data-theme="light"] #hub-card-metas:hover .watermark-metas {
-    opacity: 0.30;
-    filter: brightness(1.15) saturate(1.3);
-  }
 
   [data-theme="light"] #hub-card-financas:hover {
     border-color: rgba(228, 122, 0, 0.45);
-  }
-  [data-theme="light"] #hub-card-financas:hover .watermark-financas {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
   }
 
   [data-theme="light"] #hub-card-pets:hover {
     border-color: rgba(89, 133, 252, 0.45);
   }
-  [data-theme="light"] #hub-card-pets:hover .watermark-pets {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
-  }
 
   [data-theme="light"] #hub-card-medicamentos:hover {
     border-color: rgba(112, 222, 1, 0.45);
-  }
-  [data-theme="light"] #hub-card-medicamentos:hover .watermark-medicamentos {
-    opacity: 0.28;
-    filter: brightness(1.15) saturate(1.3);
   }
 
   [data-theme="light"] #hub-card-despensa:hover {
     border-color: rgba(201, 113, 28, 0.45);
   }
-  [data-theme="light"] #hub-card-despensa:hover .watermark-despensa {
-    opacity: 0.30;
-    filter: brightness(1.15) saturate(1.3);
-  }
+
 }
 
 /* ==================================================
@@ -637,13 +844,17 @@ a.module-card,
 
   .module-card {
     padding: 14px 15px 15px 15px;
+    flex-basis: 114px;
+    height: 114px;
   }
 
   .module-card-val-huge {
-    font-size: 1.875rem; /* 30px */
+    font-size: 1.875rem;
+    /* 30px */
   }
 
   .module-card-val-title {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.25rem;
+    /* 20px */
   }
 }

@@ -125,7 +125,6 @@ function inicializarFormulario() {
                 especialidade: String(dados.get("specialty") ?? "").trim(),
                 data: String(dados.get("date")),
                 medicamentoId: String(dados.get("medication") ?? ""),
-                orientacao: String(dados.get("instructions") ?? "").trim(),
                 anexos,
                 criadoEm: new Date().toISOString(),
             };
@@ -190,8 +189,6 @@ function mostrarDetalhesReceita() {
         if (valores[0]) valores[0].textContent = receita.especialidade || "Não informada";
         if (valores[1]) valores[1].textContent = formatarData(receita.data);
         if (valores[2]) valores[2].textContent = medicamentoDaReceita(receita);
-        if (valores[3]) valores[3].textContent = receita.orientacao || "Sem orientação informada";
-
         const secaoAnexos = document.querySelector("#attachment-title")?.closest(".med-card-section");
         const listaAnexos = secaoAnexos?.querySelector(".med-routine-list");
         if (listaAnexos) {

@@ -39,6 +39,77 @@ Usado por: apenas a página de adicionar medicamento
     gap: 12px;
 }
 
+.meds-optional-section {
+    padding: 0;
+    overflow: hidden;
+}
+
+.meds-optional-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.meds-optional-summary::-webkit-details-marker {
+    display: none;
+}
+
+.meds-optional-summary::after {
+    content: "+";
+    margin-left: auto;
+    color: var(--color-meds-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.meds-optional-section[open] .meds-optional-summary::after {
+    content: "-";
+}
+
+.meds-optional-summary:focus-visible {
+    outline: 2px solid var(--color-meds-primary);
+    outline-offset: -2px;
+}
+
+.meds-optional-summary-copy {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.meds-optional-summary-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--meds-text);
+}
+
+.meds-optional-summary-description {
+    font-size: 0.75rem;
+    color: var(--meds-muted);
+}
+
+.meds-optional-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 14px 14px;
+}
+
+.meds-temporary-treatment-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.meds-temporary-treatment-fields[hidden] {
+    display: none;
+}
+
 .meds-form-block {
     padding: 14px;
     display: flex;
@@ -196,6 +267,10 @@ Usado por: apenas a página de adicionar medicamento
 
 [data-theme="light"] .meds-form-helper {
     color: #6b7280;
+}
+
+[data-theme="light"] .meds-optional-summary-title {
+    color: var(--meds-text);
 }
 
 .meds-form-helper-box {
