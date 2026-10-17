@@ -64,7 +64,7 @@
         <div class="chatbot-window" id="chatbot-window" aria-hidden="true">
 
           <div class="chatbot-header">
-            <span class="chatbot-title">Assistente KeeperHub</span>
+            <span class="chatbot-title">KeeperAI</span>
             <button class="chatbot-close-button" id="chatbot-close-button" aria-label="Fechar Chatbot">
               <i class="fas fa-times"></i>
             </button>
@@ -72,25 +72,20 @@
           <div class="chatbot-messages" id="chatbot-messages">
             <!-- Mensagens do chatbot serão inseridas aqui -->
             <!-- placeholder -->
-            <p class="chatbot-message bot-message">Olá! Como posso ajudá-lo hoje?</p>
-            <p class="chatbot-message user-message">Quais são os módulos disponíveis?</p>
-            <p class="chatbot-message bot-message">Atualmente, você pode acessar os módulos de Metas, Finanças, Pets, Medicamentos e Despensa.</p>
-            <p class="chatbot-message user-message">Como posso atualizar meu perfil?</p>
-            <p class="chatbot-message bot-message">Para atualizar seu perfil, clique no ícone do avatar no canto superior esquerdo e selecione "Editar Perfil".</p>
-            <p class="chatbot-message user-message">Onde posso encontrar meus dados financeiros?</p>
-            <p class="chatbot-message bot-message">Você pode acessar seus dados financeiros na seção "Finanças" do KeeperHub.</p>
-            <p class="chatbot-message user-message">Como posso adicionar um novo pet?</p>
-            <p class="chatbot-message bot-message">Para adicionar um novo pet, vá para o módulo "Pets" e clique em "Adicionar Pet".</p>
-            <p class="chatbot-message user-message">Como posso configurar lembretes de medicamentos?</p>
-            <p class="chatbot-message bot-message">Você não possuí o módulo de medicamentos habilitado.</p>
+            <div class="chatbot-placeholder" id="chatbot-placeholder">
+              <i class="fas fa-robot"></i><br>
+              <img class="chatbot-logo" src="/shared/img/logo-keeperhub-wordmark.png" alt="">
+              <span class="placeholder-text">Estou aqui para ajudar!</span>
+            </div>
+
           </div>
 
-          <div class="chatbot-input-container">
+          <form class="chatbot-input-container" id="chatbot-form">
             <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Digite sua mensagem..." aria-label="Digite sua mensagem"/>
-            <button class="chatbot-send-button" id="chatbot-send-button" aria-label="Enviar mensagem">
+            <button type="submit" class="chatbot-send-button" id="chatbot-send-button" aria-label="Enviar mensagem">
               <i class="fas fa-paper-plane"></i>
             </button>
-          </div>
+          </form>
         </div>
         </section>
 

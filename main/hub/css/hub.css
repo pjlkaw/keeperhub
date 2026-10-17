@@ -186,6 +186,27 @@
     cursor: pointer;
   }
 
+  /* placeholder */
+
+  .chatbot-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1rem;
+    pointer-events: none;
+  }
+
+  .chatbot-placeholder .chatbot-logo {
+    width: 120px;
+    height: auto;
+    margin-top: 8px;
+    margin: 0 auto;
+    filter: opacity(0.6);
+  }
+
   /* Mensagens */
 
   .chatbot-messages {

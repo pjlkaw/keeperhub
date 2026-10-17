@@ -7,24 +7,8 @@
  */
 
 const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
-const TALL_CARD_HEIGHT = 220;
 
-function observeModuleCardSizes() {
-  const cards = document.querySelectorAll('.module-card');
-  if (!cards.length || typeof ResizeObserver === 'undefined') return;
-
-  const observer = new ResizeObserver((entries) => {
-    entries.forEach(({ target }) => {
-      target.classList.toggle(
-        'module-card-tall',
-        target.getBoundingClientRect().height > TALL_CARD_HEIGHT
-      );
-    });
-  });
-
-  cards.forEach((card) => observer.observe(card));
-}
-
+// CHATBOT
 function initializeChatbot() {
   const chatbotContainer = document.getElementById('chatbot-container');
   const toggleButton = document.getElementById('chatbot-toggle-button');
@@ -32,6 +16,7 @@ function initializeChatbot() {
   const closeButton = document.getElementById('chatbot-close-button');
   const toggleIcon = toggleButton?.querySelector('i');
   const header = document.querySelector('.app-header');
+
 
   if (!chatbotContainer || !toggleButton || !chatbotWindow) return;
 
@@ -69,6 +54,67 @@ function initializeChatbot() {
     }
   });
 }
+function initializeChatbotMessaging() {
+  const form = document.getElementById('chatbot-form');
+  const input = document.getElementById('chatbot-input');
+  const messages = document.getElementById('chatbot-messages');
+  const placeholder = document.getElementById('chatbot-placeholder');
+
+  if (!form || !input || !messages) return;
+
+  form.addEventListener('submit', async (event) => {
+    placeholder.style.display = 'none';
+    event.preventDefault();
+
+    const mensagem = input.value.trim();
+    if (!mensagem) return;
+
+    const mensagemUsuario = document.createElement('p');
+    mensagemUsuario.className = 'chatbot-message user-message';
+    mensagemUsuario.textContent = mensagem;
+    messages.appendChild(mensagemUsuario);
+    input.value = '';
+    input.disabled = true;
+
+    // conexão com a API
+    try {
+      const resposta = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensagem })
+      });
+      const tipoResposta = resposta.headers.get('content-type') || '';
+      const dados = tipoResposta.includes('application/json')
+        ? await resposta.json()
+        : null;
+
+      if (!resposta.ok) {
+        throw new Error(
+          dados?.erro || 'A API do chatbot não está disponível neste ambiente.'
+        );
+      }
+
+      if (!dados || typeof dados.resposta !== 'string') {
+        throw new Error('A API do chatbot retornou uma resposta inválida.');
+      }
+
+      const mensagemBot = document.createElement('p');
+      mensagemBot.className = 'chatbot-message bot-message';
+      mensagemBot.textContent = dados.resposta;
+      messages.appendChild(mensagemBot);
+    } catch (erro) {
+      const mensagemErro = document.createElement('p');
+      mensagemErro.className = 'chatbot-message bot-message';
+      mensagemErro.textContent = erro.message;
+      messages.appendChild(mensagemErro);
+    } finally {
+      input.disabled = false;
+      input.focus();
+      messages.scrollTop = messages.scrollHeight;
+    }
+  });
+}
+
 
 /**
  * Retorna os dados da sessão do usuário autenticado no momento (se houver)
@@ -87,10 +133,13 @@ function getCurrentUser() {
   }
 }
 
+// INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
+const TALL_CARD_HEIGHT = 220;
 // Carregamento amigável de sessão do usuário (se autenticado)
 document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
   initializeChatbot();
+  initializeChatbotMessaging();
 
   const user = getCurrentUser();
   if (user && user.name) {
@@ -101,3 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+function observeModuleCardSizes() {
+  const cards = document.querySelectorAll('.module-card');
+  if (!cards.length || typeof ResizeObserver === 'undefined') return;
+
+  const observer = new ResizeObserver((entries) => {
+    entries.forEach(({ target }) => {
+      target.classList.toggle(
+        'module-card-tall',
+        target.getBoundingClientRect().height > TALL_CARD_HEIGHT
+      );
+    });
+  });
+
+  cards.forEach((card) => observer.observe(card));
+}
