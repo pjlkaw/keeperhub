@@ -179,3 +179,173 @@ body.finance-page .fa-solid {
 html[data-theme=dark] .finance-shell {
 	background: transparent;
 }
+
+/* ==================================================
+   AJUSTES V5 — navegação de módulos, botão "+" e Nova transação (tema claro)
+   Mantido no fim do arquivo para vencer a cascata dos estilos compartilhados
+   (shared/styles/navbar-modules.css e btn-add.css), que não são alterados.
+   ================================================== */
+
+/* ---- 0. Nova transação sem abas/bolinhas e sem a barra de rolagem ---- */
+html body.finance-new-transaction-page .finance-tabs {
+	display: none !important;
+}
+
+:root {
+	--finance-column-width: 420px;
+}
+
+body.landing-page {
+	--finance-column-width: 440px;
+}
+
+.app-shell {
+	--finance-column-width: 390px;
+}
+
+/* ---- 1. Módulo ativo na barra superior: sempre laranja (claro e escuro, em todas as páginas) ----
+   O seletor usa o id #modules-nav-wrapper para não depender da classe finance-modules-nav
+   e para vencer o verde/preto do CSS compartilhado. */
+html[data-theme] #modules-nav-wrapper .modules-nav-item {
+	min-height: 44px;
+	color: var(--text-muted);
+	background: color-mix(in srgb, var(--text-color) 4%, transparent);
+	border-color: var(--border-color);
+}
+
+html[data-theme] #modules-nav-wrapper .modules-nav-item.active {
+	color: var(--tool-financas);
+	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+	border-color: color-mix(in srgb, var(--tool-financas) 60%, transparent);
+}
+
+html[data-theme=light] #modules-nav-wrapper .modules-nav-item {
+	background: var(--card-bg);
+}
+
+html[data-theme=light] #modules-nav-wrapper .modules-nav-item.active {
+	/* um tom mais escuro do laranja para o texto ter bom contraste no fundo claro */
+	color: color-mix(in srgb, var(--tool-financas) 78%, #000);
+	background: color-mix(in srgb, var(--tool-financas) 12%, #fff);
+	border-color: color-mix(in srgb, var(--tool-financas) 55%, transparent);
+}
+
+/* ---- 2. Botão "+" (FAB): acompanha a coluna e mantém a geometria original do ícone ---- */
+html body .btn-add-section .btn-add,
+html body #btn-add {
+	position: fixed;
+	bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+	/* no desktop acompanha a coluna; no celular fica a 16px da borda */
+	right: max(16px, calc(50% - (var(--finance-column-width) / 2) + 16px));
+	z-index: 51;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	flex: none;
+	width: 48px;
+	height: 48px;
+	min-width: 48px;
+	min-height: 48px;
+	padding: 0;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+	color: #fff;
+	text-decoration: none;
+	box-shadow: 0 6px 16px color-mix(in srgb, var(--tool-financas) 35%, transparent);
+}
+
+@media (max-width: 440px) {
+	html body .btn-add-section .btn-add,
+	html body #btn-add {
+		right: max(0px, calc(16px - (100vw - 100%)));
+	}
+}
+
+/* ---- 3. Nova transação: seletor Despesa/Receita legível nos dois temas ---- */
+html[data-theme] body.finance-new-transaction-page .transaction-form .type-toggle .type-option:not(.selected),
+html[data-theme] body.finance-new-transaction-page .transaction-form .type-toggle .type-option:not(.selected) span {
+	color: var(--text-color);
+}
+
+html[data-theme] body.finance-new-transaction-page .transaction-form .type-toggle .type-option.selected,
+html[data-theme] body.finance-new-transaction-page .transaction-form .type-toggle .type-option.selected span {
+	color: #fff;
+	background-color: var(--tool-financas);
+}
+
+html[data-theme] body.finance-new-transaction-page .transaction-form .type-toggle .type-option.selected span {
+	background-color: transparent;
+}
+
+html[data-theme=light] body.finance-new-transaction-page .transaction-form .type-toggle {
+	background: var(--card-bg);
+	border-color: var(--border-color);
+}
+
+/* Campos, selects e textos de apoio com contraste garantido no tema claro */
+html[data-theme=light] body.finance-new-transaction-page .transaction-fields .input-wrap input,
+html[data-theme=light] body.finance-new-transaction-page .transaction-fields .input-wrap select,
+html[data-theme=light] body.finance-new-transaction-page .notes-card textarea {
+	color: var(--text-color);
+	-webkit-text-fill-color: var(--text-color);
+}
+
+html[data-theme=light] body.finance-new-transaction-page .cancel-button {
+	color: var(--text-color);
+}
+
+/* ---- 4. Celular (uso principal do app) ----
+   A última linha do conteúdo não pode ficar escondida atrás do botão "+". */
+html body.finance-page .finance-shell {
+	padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
+html body.landing-page .app-preview {
+	padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---- 6. Transações: nada de texto quebrando nem sobreposto no item da lista ----
+   O espaço ao lado do ícone é pequeno (~240px no celular). Título + valor na mesma linha não cabem
+   ("Supermercado" + "+ R$ 180,00" se sobrepunham) e a descrição + valor também não.
+   Por isso o texto fica empilhado e cada linha usa toda a largura disponível:
+       [ícone]  Supermercado
+                Renda · Poupança
+                + R$ 180,00
+   Não muda fonte, só a posição. Itens com o botão "Marcar como pago" mantêm o layout atual. */
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) {
+	display: grid;
+	grid-template-columns: 48px minmax(0, 1fr);
+	column-gap: 12px;
+	row-gap: 2px;
+	align-items: center;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > .transaction-icon {
+	grid-column: 1;
+	grid-row: 1 / span 3;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section {
+	display: contents;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section > strong {
+	grid-column: 2;
+	grid-row: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section > small {
+	grid-column: 2;
+	grid-row: 2;
+	min-width: 0;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > b {
+	grid-column: 2;
+	grid-row: 3;
+	text-align: left;
+	white-space: nowrap;
+}
