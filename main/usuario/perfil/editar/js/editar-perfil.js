@@ -1,23 +1,16 @@
 /**
  * KEEPERHUB — EDIÇÃO DO PERFIL
- * Interações locais da prévia. Senhas nunca são armazenadas no navegador.
- * PROVISÓRIO: os dados demonstrativos e o salvamento em localStorage devem
- * ser substituídos pela integração com o banco de dados/backend.
+ * Carrega e salva os dados do usuário pela API.
  */
 
-(function () {
-  'use strict';
+import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/api/usuario.js';
 
-  const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
-  const FALLBACK_PROFILE = {
-    name: 'Gabriel Santos',
-    email: 'gabriel.santos@email.com',
-    phone: '+55 (11) 98765-4321',
-    birthDate: '14/08/1994',
-    gender: 'masculino',
-  };
+const FALLBACK_PROFILE = {
+  name: '',
+  birthDate: '',
+};
 
-  const form = document.getElementById('formulario-perfil');
+const form = document.getElementById('formulario-perfil');
   const nameInput = document.getElementById('nome-completo');
   const emailInput = document.getElementById('email');
   const phoneInput = document.getElementById('telefone');
@@ -34,23 +27,14 @@
   const message = document.getElementById('mensagem-formulario');
   const discardButton = document.getElementById('descartar-alteracoes');
 
-  function readSession() {
-    try {
-      const data = localStorage.getItem(AUTH_STORAGE_KEY);
-      return data ? JSON.parse(data) : null;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function fillProfile() {
-    const user = readSession() || {};
+async function fillProfile() {
+    const user = await carregarUsuarioAtual();
     const profile = {
-      name: user.name || FALLBACK_PROFILE.name,
-      email: user.email || FALLBACK_PROFILE.email,
-      phone: user.phone || user.telefone || FALLBACK_PROFILE.phone,
-      birthDate: user.birthDate || user.nascimento || FALLBACK_PROFILE.birthDate,
-      gender: user.gender || user.sexo || FALLBACK_PROFILE.gender,
+      name: user.nome_usuario,
+      email: user.email_usuario,
+      phone: user.numero_usuario || '',
+      birthDate: FALLBACK_PROFILE.birthDate,
+      gender: user.genero_usuario,
     };
 
     nameInput.value = profile.name;
@@ -59,7 +43,7 @@
     birthInput.value = profile.birthDate;
     genderSelect.value = profile.gender;
     nameSummary.textContent = profile.name;
-  }
+}
 
   function togglePassword(button) {
     const input = document.getElementById(button.dataset.alternarSenha);
@@ -118,7 +102,7 @@
     event.target.value = parts.join('/');
   }
 
-  function saveProfile(event) {
+  async function saveProfile(event) {
     event.preventDefault();
 
     if (!form.reportValidity()) return;
@@ -131,25 +115,26 @@
 
     confirmPasswordInput.setCustomValidity('');
 
-    const current = readSession() || {};
-    const publicProfile = {
-      ...current,
-      name: nameInput.value.trim(),
-      email: emailInput.value.trim(),
-      phone: phoneInput.value.trim(),
-      birthDate: birthInput.value.trim(),
-      gender: genderSelect.value,
-    };
-
     try {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(publicProfile));
-      message.textContent = 'Alterações salvas neste dispositivo.';
-      nameSummary.textContent = publicProfile.name;
+      await atualizarUsuarioAtual({
+        nome_usuario: nameInput.value.trim(),
+        email_usuario: emailInput.value.trim(),
+        numero_usuario: phoneInput.value.trim(),
+        genero_usuario: genderSelect.value,
+        ...(newPasswordInput.value
+          ? {
+              senha_atual: document.getElementById('senha-atual').value,
+              senha_usuario: newPasswordInput.value,
+            }
+          : {}),
+      });
+      message.textContent = 'Alterações salvas.';
+      nameSummary.textContent = nameInput.value.trim();
       window.setTimeout(() => {
         window.location.href = '../index.html';
       }, 450);
     } catch (error) {
-      message.textContent = 'Não foi possível salvar as alterações.';
+      message.textContent = error.message || 'Não foi possível salvar as alterações.';
     }
   }
 
@@ -170,6 +155,7 @@
     window.location.href = '../index.html';
   });
 
-  fillProfile();
+  fillProfile().catch((error) => {
+    message.textContent = error.message || 'Não foi possível carregar o perfil.';
+  });
   updatePasswordStrength();
-})();

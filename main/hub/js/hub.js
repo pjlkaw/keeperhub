@@ -115,7 +115,6 @@ function initializeChatbotMessaging() {
   });
 }
 
-
 /**
  * Retorna os dados da sessão do usuário autenticado no momento (se houver)
  * @returns {{ email?: string, name?: string } | null}
@@ -135,21 +134,31 @@ function getCurrentUser() {
 
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
-// Carregamento amigável de sessão do usuário (se autenticado)
 document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
   initializeChatbot();
   initializeChatbotMessaging();
 
   const user = getCurrentUser();
-  if (user && user.name) {
-    const greetingEl = document.getElementById('greeting-title');
-    if (greetingEl) {
-      const firstName = user.name.split(' ')[0];
-      greetingEl.textContent = `Olá, ${firstName}`;
-    }
-  }
+  console.log('Usuário atual:', user);
+  userLoadContent(user);
 });
+
+function userLoadContent(user) {
+  if (!user) return;
+
+  const pageName = document.getElementById('pageNameH1');
+  // Aguarda o header compartilhado terminar de ser carregado.
+  if (!pageName) {
+    setTimeout(() => userLoadContent(user), 50);
+    return;
+  }
+
+  if (pageName && user.name) {
+    const firstName = user.name.split(' ')[0];
+    pageName.textContent = `Olá, ${firstName}`;
+  }
+}
 
 function observeModuleCardSizes() {
   const cards = document.querySelectorAll('.module-card');

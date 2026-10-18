@@ -6,6 +6,30 @@
  * ==================================================
  */
 
+import { loginUsuario } from '../../../shared/api/usuario.js';
+
+function validarInformacoesLogin(email, senha) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return {
+    emailValido: Boolean(email) && emailRegex.test(email),
+    senhaValida: Boolean(senha) && senha.length >= 6
+  };
+}
+
+async function realizarLogin(email, senha) {
+  // Provisório: mostra no console quando a tentativa de login começa, sem expor a senha.
+  console.log('[Login] Tentativa de login:', email);
+
+  // Adição: a API valida as credenciais e consulta o banco de dados.
+  try {
+    await loginUsuario(email, senha);
+    console.log('[Login] Login realizado com sucesso:', email);
+    window.location.href = '../hub/index.html';
+  } catch (erro) {
+    console.error('[Login] Falha ao realizar login:', erro);
+  }
+}
+
 function setupLoginForm() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
@@ -34,16 +58,13 @@ function setupLoginForm() {
     });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   function checkFormState() {
     const emailVal = emailInput ? emailInput.value.trim() : '';
     const passVal = passwordInput ? passwordInput.value : '';
-    const isEmailValid = emailRegex.test(emailVal);
-    const isPassValid = passVal.length >= 6;
+    const validacao = validarInformacoesLogin(emailVal, passVal);
 
     if (submitBtn) {
-      submitBtn.disabled = !(isEmailValid && isPassValid);
+      submitBtn.disabled = !(validacao.emailValido && validacao.senhaValida);
     }
   }
 
@@ -69,19 +90,20 @@ function setupLoginForm() {
 
   const form = document.getElementById('login-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const passVal = passwordInput ? passwordInput.value : '';
+      const validacao = validarInformacoesLogin(emailVal, passVal);
       let hasError = false;
 
-      if (!emailVal || !emailRegex.test(emailVal)) {
+      if (!validacao.emailValido) {
         if (emailError) emailError.classList.add('is-visible');
         if (emailInput) emailInput.classList.add('has-error');
         hasError = true;
       }
 
-      if (!passVal || passVal.length < 6) {
+      if (!validacao.senhaValida) {
         if (passwordError) passwordError.classList.add('is-visible');
         if (passwordInput) passwordInput.classList.add('has-error');
         hasError = true;
@@ -89,8 +111,8 @@ function setupLoginForm() {
 
       if (hasError) return;
 
-      // Redirecionamento seguro pós-login para a área autenticada
-      window.location.href = '../hub/index.html';
+      // Adição: depois da validação, delega a autenticação para sua função própria.
+      await realizarLogin(emailVal, passVal);
     });
   }
 }
