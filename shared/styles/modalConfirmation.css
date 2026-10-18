@@ -13,6 +13,8 @@
 }
 
 .modalConfirm-content {
+    display: grid;
+    gap: 10px;
     background-color: var(--bg-color);
     padding: 20px;
     border-radius: 8px;
@@ -30,8 +32,28 @@
 }
 
 .modalConfirmatio-btn{
-    background-color: var(--primary-color);
+    width: 100%;
+    min-height: 42px;
+    padding: 8px 12px;
+    background-color: var(--card-bg);
     color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.modalConfirmatio-btn:hover {
+    background-color: var(--border-color);
+}
+
+.modalConfirmatio-btn:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.modalConfirmatio-btn:active {
+    transform: scale(0.98);
 }
 
 .modalConfirmatio-true {

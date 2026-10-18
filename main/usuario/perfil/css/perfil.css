@@ -7,8 +7,10 @@
 :root {
   --perfil-acento: #01ab8e;
   --perfil-acento-hover: #08c4ab;
-  --perfil-sombra: rgb(0 0 0 / 28%);
-  --perfil-transicao: 180ms ease;
+  --perfil-acento-suave: rgb(6 179 157 / 16%);
+  --edicao-perigo: #350505;
+  --perfil-sombra: rgb(0 0 0 / 30%);
+  --perfil-transicao: 160ms ease;
 }
 
 .section-header-section {
@@ -16,12 +18,11 @@
 }
 
 .perfil-app {
-  width: min(100%, 420px);
   min-height: 100vh;
   min-height: 100svh;
   margin-inline: auto;
-  overflow: hidden;
   background: var(--bg-color);
+  border: 1px solid var(--border-color);
 }
 
 .perfil-cabecalho {
@@ -44,7 +45,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 36px 20px 48px;
+  gap: 12px;
+  padding: 24px 14px 40px;
 }
 
 .perfil-resumo {
@@ -52,116 +54,104 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border: 3px solid var(--border-color);
+  padding: 20px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 32px 20px;
+  box-shadow: 0 5px 18px var(--perfil-sombra);
 }
 
 .perfil-avatar {
   position: relative;
   display: grid;
-  width: 176px;
-  height: 176px;
+  width: 86px;
+  height: 86px;
   place-items: center;
   color: var(--text-muted);
-  border: 3px solid var(--text-muted);
+  background: var(--card-bg);
+  border: 3px solid var(--card-bg);
   border-radius: 50%;
+  box-shadow: 0 5px 16px var(--perfil-sombra);
 }
 
 .perfil-avatar > .fa-user {
-  font-size: 7.25rem;
+  font-size: 2.75rem;
   line-height: 1;
-  transform: translateY(-10%);
 }
 
 .perfil-identidade {
-  margin-top: 28px;
+  margin-top: 12px;
   text-align: center;
 }
 
 .perfil-identidade__nome {
   margin: 0;
   overflow-wrap: anywhere;
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.2;
-  color: var(--text-color)
+  color: var(--text-color);
 }
 
 .perfil-identidade__email {
-  margin: 4px 0 0;
-  font-size: 1rem;
+  margin: 3px 0 0;
+  overflow-wrap: anywhere;
+  color: var(--text-muted);
+  font-size: 0.72rem;
   font-weight: 400;
   line-height: 1.2;
-  color: var(--text-muted);
+}
+
+.perfil-acoes{
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 .perfil-editar {
   display: inline-flex;
   width: 100%;
-  max-width: 200px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 32px;
-  padding: 10px 0px;
-  color: #f7f7f7;
+  color: #1a202c;
   background: var(--perfil-acento);
   border: 0;
-  border-radius: 999px;
-  box-shadow: 0 8px 20px transparent;
-  font-size: 1rem;
-  font-weight: 700;
+  border-radius: 7px;
+  box-shadow: 0 5px 18px var(--perfil-sombra);
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
 .perfil-editar i {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
-@media (max-width: 520px) {
-  .perfil-conteudo {
-    min-height: calc(100svh - 64px);
-    padding: 32px 20px 40px;
-  }
-
-  .perfil-avatar {
-    width: 164px;
-    height: 164px;
-    border-width: 6px;
-  }
-
-  .perfil-avatar > .fa-user {
-    font-size: 6.75rem;
-  }
-
-  .perfil-identidade {
-    margin-top: 36px;
-  }
-
-  .perfil-identidade__nome {
-    font-size: 1.65rem;
-  }
-
-  .perfil-editar {
-    min-height: 48px;
-    margin-top: 32px;
-    font-size: 1rem;
-  }
+.perfil-sair {
+  display: inline-flex;
+  width: 50%;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 7px;
+  box-shadow: 0 5px 18px var(--perfil-sombra);
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
-@media (max-width: 350px) {
-  .perfil-avatar {
-    width: 172px;
-    height: 172px;
-  }
 
-  .perfil-avatar > .fa-user {
-    font-size: 7rem;
-  }
-
-  .perfil-identidade__nome {
-    font-size: 1.75rem;
+@media (min-width: 600px) {
+  .perfil-app {
+    margin-block: 24px;
+    border-radius: 14px;
+    box-shadow: 0 14px 40px var(--perfil-sombra);
   }
 }
 

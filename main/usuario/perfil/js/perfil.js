@@ -21,4 +21,30 @@ async function renderProfile() {
   }
 }
 
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  if (target.closest('#sair-perfil')) {
+    event.preventDefault();
+    const modal = document.getElementById('confirmation-modal');
+    const mensagem = document.getElementById('confirmation-message');
+    if (!modal || !mensagem) return;
+
+    mensagem.textContent = 'Deseja realmente sair da sua conta?';
+    modal.style.display = 'flex';
+    return;
+  }
+
+  if (target.closest('#cancel-btn')) {
+    document.getElementById('confirmation-modal').style.display = 'none';
+    return;
+  }
+
+  if (target.closest('#confirm-btn')) {
+    localStorage.removeItem('keeperhub-auth-session');
+    window.location.href = '../../entrar/index.html';
+  }
+});
+
 renderProfile();

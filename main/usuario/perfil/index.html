@@ -9,6 +9,7 @@
     <meta name="theme-color" content="#0b0b0d" />
     <meta name="color-scheme" content="dark light" />
 
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
     <link rel="icon" type="image/svg+xml" href="../../assets/img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32x32.png" />
     <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png" />
@@ -40,6 +41,7 @@
 
   <body>
     <div class="perfil-app">
+      <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
       <header class="section-header-section" id="headerSection"></header>
       
       <main class="perfil-conteudo" id="conteudo-principal">
@@ -54,10 +56,16 @@
           </div>
         </section>
 
-        <a class="perfil-editar" id="editar-perfil" href="editar/index.html">
-          <i class="fa-solid fa-pen" aria-hidden="true"></i>
-          <span>Editar Perfil</span>
-        </a>
+        <div class="perfil-acoes">
+          <a class="perfil-editar modalConfirmatio-true" id="editar-perfil" href="editar/index.html">
+            <i class="fa-solid fa-pen" aria-hidden="true"></i>
+            <span>Editar Perfil</span>
+          </a>
+          <a class="perfil-sair modalConfirmatio-false" id="sair-perfil">
+            <i class="fa-solid fa-sign-out-alt" aria-hidden="true"></i>
+            <span>Sair</span>
+          </a>
+        </div>
       </main>
     </div>
 
