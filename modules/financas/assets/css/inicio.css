@@ -294,43 +294,6 @@ body.landing-page #headerSection {
 }
 
 /* Ação flutuante */
-.floating-action {
-	position: fixed;
-	bottom: 20px;
-	z-index: 5;
-	display: grid;
-	box-sizing: border-box;
-	width: 48px !important;
-	min-width: 48px !important;
-	height: 48px !important;
-	min-height: 48px !important;
-	padding: 0 !important;
-	place-items: center;
-	color: var(--pill-text) !important;
-	background: var(--tool-financas);
-	border: 0;
-	border-radius: 50%;
-	box-shadow: 0 5px 16px color-mix(in srgb, var(--tool-financas) 30%, transparent);
-	font-size: 0;
-}
-
-.floating-action::before,
-.floating-action::after {
-	position: absolute;
-	content: '';
-	background: var(--pill-text);
-	border-radius: 2px;
-}
-
-.floating-action::before {
-	width: 18px;
-	height: 3px;
-}
-
-.floating-action::after {
-	width: 3px;
-	height: 18px;
-}
 
 .app-preview,
 .app-preview * {
@@ -629,10 +592,6 @@ html[data-theme=light] body.landing-page .recent-transactions-list>a>i {
 	border-color: var(--border-color);
 }
 
-.floating-action {
-	right: max(14px, calc((100vw - 440px)/2 + 14px));
-}
-
 @media (max-width:440px) {
 	.app-preview {
 		width: 100%;
@@ -722,10 +681,6 @@ h3 {
 	border-color: var(--border-color);
 }
 
-.floating-action {
-	background-color: var(--tool-financas);
-}
-
 .shortcut-icon {
 	color: var(--tool-financas);
 }
@@ -744,8 +699,7 @@ a {
 }
 
 .preview-back,
-.preview-theme-button,
-.floating-action {
+.preview-theme-button {
 	width: 48px;
 	min-width: 48px;
 	height: 48px;
