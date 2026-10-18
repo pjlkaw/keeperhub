@@ -8,14 +8,12 @@
     <meta name="color-scheme" content="dark light">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/inicio.css">
     <link rel="stylesheet" href="assets/css/padroes.css">
@@ -23,7 +21,16 @@
     <title>Finanças — KeeperHub</title>
     <script src="js/interface.js" defer></script>
 
-    <script src="js/config.js"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Finanças',
+            subtitle: 'Organize seus ganhos, gastos e contas em um só lugar.',
+            backUrl: '/main/',
+            notificationsModule: 'financas',
+            addUrl: '/modules/financas/components/nova-transacao.html'
+        };
+    </script>
 
     <script src="/shared/services/load-components.js"></script>
 
@@ -129,7 +136,7 @@
                                 · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
                 </nav>
             </article>
-            <a class="floating-action" href="./components/nova-transacao.html" aria-label="Nova transação"></a>
+            <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
         </section>
     </main>
 </body>

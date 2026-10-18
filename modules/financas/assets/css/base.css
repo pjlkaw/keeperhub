@@ -13,7 +13,7 @@ html,
 body {
 	min-width: 320px;
 	background: var(--bg-color);
-	font-family: 'Nunito', sans-serif;
+	font-family: Verdana, Tahoma, sans-serif;
 }
 
 /* Tamanho base igual ao do módulo Pets. */
