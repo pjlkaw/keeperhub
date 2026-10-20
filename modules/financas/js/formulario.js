@@ -43,7 +43,8 @@ export function inicializarFormulario() {
         atualizarResumo();
     });
     formulario.querySelector('.cancel-button').addEventListener('click', () => {
-        window.location.href = '../index.html';
+        const btnVoltar = document.getElementById('btn-back-header');
+        window.location.href = btnVoltar ? btnVoltar.getAttribute('href') : '../index.html';
     });
 
     formulario.addEventListener('submit', (evento) => {

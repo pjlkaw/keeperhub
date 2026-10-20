@@ -9,8 +9,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('headerSection').innerHTML = data;
                     document.getElementById('pageNameH1').textContent = configCabecalho.title;
                     document.getElementById('pageSubtittleSpan').textContent = configCabecalho.subtitle;
-                    document.getElementById('btn-back-header').href = "/modules/financas/";
-                    document.getElementById('btn-back-header').setAttribute('aria-label', 'Voltar');
+                    const btnVoltar = document.getElementById('btn-back-header');
+                    btnVoltar.href = "/modules/financas/";
+                    // data-back="anterior": volta para a página de onde a pessoa veio, desde que seja do próprio módulo.
+                    if (configCabecalho.back === 'anterior' && document.referrer) {
+                        const origem = new URL(document.referrer);
+                        const mesmaOrigem = origem.origin === window.location.origin;
+                        const doModulo = origem.pathname.startsWith('/modules/financas/');
+                        const outraPagina = origem.pathname !== window.location.pathname;
+                        if (mesmaOrigem && doModulo && outraPagina) btnVoltar.href = origem.pathname + origem.search;
+                    }
+                    btnVoltar.setAttribute('aria-label', 'Voltar');
                     document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
                     const atualizarRotuloTema = () => {
                         const botao = document.getElementById('theme-toggle');

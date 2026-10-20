@@ -8,9 +8,6 @@
     <title>Nova transação • Finanças • KeeperHub</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
@@ -25,7 +22,7 @@
     <script src="../js/interface.js" defer></script>
 
     <!-- Header compartilhado -->
-    <script src="../js/cabecalho.js" defer data-title="Nova transação" data-subtitle="Registre uma movimentação"></script>
+    <script src="../js/cabecalho.js" defer data-title="Nova transação" data-subtitle="Registre uma movimentação" data-back="anterior"></script>
 </head>
 
 <body class="finance-page finance-new-transaction-page">
@@ -37,15 +34,7 @@
         <!-- 2. CABEÇALHO DA PÁGINA -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
-        <nav class="finance-tabs" aria-label="Seções de finanças">
-            <a href="/modules/financas/">Visão geral</a>
-            <a href="transacoes.html">Transações</a>
-            <a href="relatorios.html">Relatórios</a>
-            <a class="active" href="nova-transacao.html" aria-current="page">Nova transação</a>
-        </nav>
-
-        <!-- 4. CONTEÚDO PRINCIPAL -->
+        <!-- 3. CONTEÚDO PRINCIPAL -->
         <section class="finance-content" aria-labelledby="pageNameH1">
             <form class="transaction-form" id="transaction-form">
 
