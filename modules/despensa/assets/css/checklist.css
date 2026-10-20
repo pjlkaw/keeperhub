@@ -1,0 +1,273 @@
+.checklist-page {
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+}
+
+.checklist-container {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.checklist-header {
+    margin-bottom: 24px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 28px;
+    color: #a67b5b;
+    text-decoration: none;
+}
+
+.eyebrow {
+    color: #a67b5b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.checklist-header h1 {
+    margin: 8px 0;
+    font-size: clamp(28px, 6vw, 38px);
+}
+
+.checklist-header > p:last-child {
+    opacity: .75;
+}
+
+.checklist-summary,
+.add-product,
+.shopping-list {
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid var(--border-color, #383838);
+    border-radius: 16px;
+    background: var(--card-bg, #202020);
+}
+
+.checklist-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.checklist-summary span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    opacity: .7;
+}
+
+.checklist-summary strong {
+    font-size: 23px;
+}
+
+.progress-track {
+    grid-column: 1 / -1;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #414141;
+}
+
+#progressoBarra {
+    width: 0;
+    height: 100%;
+    background: #a67b5b;
+    border-radius: inherit;
+    transition: width .2s ease;
+}
+
+.add-product h2,
+.shopping-list h2 {
+    margin: 0 0 18px;
+    font-size: 19px;
+}
+
+.checklist-page label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+}
+
+.checklist-page input,
+.checklist-page select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border-color, #444);
+    border-radius: 9px;
+    background: var(--input-bg, #171717);
+    color: inherit;
+    font: inherit;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 12px;
+}
+
+.add-button,
+.clear-button {
+    width: 100%;
+    padding: 13px;
+    border: 0;
+    border-radius: 10px;
+    background: #a67b5b;
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.list-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.text-button {
+    border: 0;
+    background: transparent;
+    color: #c99a78;
+    cursor: pointer;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 12px;
+    border: 1px solid var(--border-color, #444);
+    border-radius: 10px;
+}
+
+.search-box input {
+    margin: 0;
+    border: 0;
+}
+
+.filter-row {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0;
+    overflow-x: auto;
+}
+
+.filter {
+    padding: 8px 13px;
+    border: 1px solid var(--border-color, #444);
+    border-radius: 20px;
+    background: transparent;
+    color: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.filter.active {
+    background: #a67b5b;
+    border-color: #a67b5b;
+    color: white;
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color, #383838);
+}
+
+.shopping-item:last-child {
+    border-bottom: 0;
+}
+
+.shopping-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin: 0;
+    accent-color: #a67b5b;
+}
+
+.product-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.product-name {
+    display: block;
+    overflow-wrap: anywhere;
+    font-weight: 600;
+}
+
+.product-meta {
+    display: block;
+    margin-top: 4px;
+    font-size: 12px;
+    opacity: .7;
+}
+
+.shopping-item.done .product-name {
+    text-decoration: line-through;
+    opacity: .55;
+}
+
+.remove-item {
+    padding: 8px;
+    border: 0;
+    background: transparent;
+    color: #d77b7b;
+    cursor: pointer;
+}
+
+.empty-message {
+    padding: 20px 0;
+    text-align: center;
+    opacity: .7;
+}
+
+.clear-button {
+    background: transparent;
+    border: 1px solid var(--border-color, #444);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+    .checklist-summary {
+        gap: 8px;
+    }
+
+    .checklist-summary strong {
+        font-size: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    @media (max-width: 360px) {
+    .checklist-page{
+        flex-wrap: wrap;
+    }
+
+}
