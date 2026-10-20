@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de compras — KeeperHub</title>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+        <link rel="stylesheet" href="/shared/styles/variables.css">
+        <link rel="stylesheet" href="/shared/styles/reset.css">
+        <link rel="stylesheet" href="/shared/styles/components.css">
+        <link rel="stylesheet" href="/shared/styles/header-page.css">
+        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
+        <link rel="stylesheet" href="/modules/despensa/assets/css/precos.css">
+        <script src="/shared/services/theme.js" defer></script>
+        <script type="module" src="/modules/despensa/script.js"></script>
+            <script type="module" src="/modules/despensa/js/index.js"></script>
+             <script>
+        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
+            document.getElementById('headerSection').innerHTML = data;
+            document.getElementById('pageNameH1').textContent ='Checklist' //Nome da Página
+            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
+            document.getElementById('btn-back-header').href = '/modules/despensa/index.html' // Botão voltar
+            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
+            document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=despensa'
+        });
+    </script>
+
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+
+    <link rel="stylesheet" href="../assets/css/checklist.css">
+
+    <script src="/shared/services/theme.js" defer></script>
+    <script src="../js/checklist.js" defer></script>
+</head>   
+
+<body class="despensa" data-pagina="checklist">
+        <section id="alertFromShared" class="alert" role="status" aria-live="polite">
+        </section>
+        <div class="despensa-shell">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
+                <a href="/main/hub/index.html">
+                    Voltar ao Hub
+                </a>
+            </nav>
+            <header class="section-header-section" id="headerSection">
+                <div class="section-header-title-area">
+                    <div class="section-header-top-row">
+                        <a href="/modules/despensa/index.html" aria-label="Voltar" class="section-header-back-btn" id="btn-back-header">
+                            <span aria-hidden="true">
+                                ‹
+                            </span>
+                        </a>
+
+            <p class="eyebrow">KEEPERHUB • DESPENSA</p>
+            <h1>Lista de compras</h1>
+            <p>Organize suas compras sem esquecer nada.</p>
+        </header>
+
+        <section class="checklist-summary">
+            <div>
+                <span>Selecionados</span>
+                <strong id="totalSelecionados">0</strong>
+            </div>
+            <div>
+                <span>Comprados</span>
+                <strong id="totalComprados">0</strong>
+            </div>
+            <div>
+                <span>Progresso</span>
+                <strong id="progressoTexto">0%</strong>
+            </div>
+
+            <div class="progress-track">
+                <div id="progressoBarra"></div>
+            </div>
+        </section>
+
+        <section class="add-product">
+            <h2>Adicionar produto</h2>
+
+            <form id="formProduto">
+                <label for="nomeProduto">Nome do produto</label>
+                <input id="nomeProduto" type="text"
+                    placeholder="Ex.: Arroz, leite, detergente"
+                    maxlength="80" required>
+
+                <div class="form-row">
+                    <div>
+                        <label for="quantidadeProduto">Quantidade</label>
+                        <input id="quantidadeProduto" type="number"
+                            min="1" max="999" value="1" required>
+                    </div>
+
+                    <div>
+                        <label for="categoriaProduto">Categoria</label>
+                        <select id="categoriaProduto">
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Frutas e verduras">Frutas e verduras</option>
+                            <option value="Carnes e frios">Carnes e frios</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Higiene">Higiene</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="add-button">
+                    <i class="fa-solid fa-plus"></i> Adicionar à lista
+                </button>
+            </form>
+        </section>
+
+        <section class="shopping-list">
+            <div class="list-heading">
+                <h2>Minha lista</h2>
+                <button id="limparComprados" class="text-button" type="button">
+                    Remover comprados
+                </button>
+            </div>
+
+            <label for="buscaProduto" class="sr-only">Buscar produto</label>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input id="buscaProduto" type="search"
+                    placeholder="Buscar produto...">
+            </div>
+
+            <div class="filter-row">
+                <button class="filter active" data-filtro="todos">Todos</button>
+                <button class="filter" data-filtro="pendentes">Pendentes</button>
+                <button class="filter" data-filtro="comprados">Comprados</button>
+            </div>
+
+            <div id="listaCompras" aria-live="polite"></div>
+
+            <p id="mensagemVazia" class="empty-message">
+                Sua lista está vazia. Adicione seu primeiro produto!
+            </p>
+        </section>
+
+        <button id="limparLista" class="clear-button" type="button">
+            <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
+        </button>
+
+    </main>
+</body>
+</html>
