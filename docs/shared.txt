@@ -179,7 +179,16 @@ Rodapé reutilizável de páginas do site.
 IMAGENS
 -------
 /shared/img/
-Logos, ícones de temas e imagens compartilhadas.
+Logos, ícones de temas e imagens compatilhadas.
+
+ -ORDEM RECOMENDADA NO HTML
+---------------------------
+-1. /shared/styles/variables.css
+-2. /shared/styles/reset.css
+-3. /shared/styles/components.css
+-4. Estilos especificos do header/navbar, quando usado
+-5. Estilos especificos do modulo
+-6. /shared/services/theme.js, quando a pagi na possuir o botao de tema
 
 REGRAS DE UTILIZAÇÃO
 --------------------
