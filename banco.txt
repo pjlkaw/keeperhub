@@ -1,0 +1,709 @@
+-- Modelo de dados do KeeperHub
+-- Compatível com MySQL 8.0+
+-- As colunas *_url armazenam a URL/caminho do arquivo; o conteúdo binário
+-- deve permanecer em armazenamento de arquivos ou objeto.
+
+CREATE TABLE IF NOT EXISTS `usuario` (
+    `id_usuario` INT NOT NULL AUTO_INCREMENT,
+    `nome` VARCHAR(150) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `senha` VARCHAR(255) NOT NULL COMMENT 'Hash da senha, nunca texto puro',
+    `telefone` VARCHAR(30),
+    `data_nasc` DATE,
+    `genero` VARCHAR(40),
+    `data_cadastro` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `foto_perfil` VARCHAR(500),
+    `autenticacao_dupla_ativa` BOOLEAN NOT NULL DEFAULT 0,
+    `notificacoes_ativas` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_usuario`),
+    UNIQUE KEY `uk_usuario_email` (`email`)
+) COMMENT='Dono da conta na aplicação';
+
+CREATE TABLE IF NOT EXISTS `usuario_login_social` (
+    `id_login_social` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `provedor` ENUM('google','apple') NOT NULL,
+    `identificador_externo` VARCHAR(255) NOT NULL,
+    `email_provedor` VARCHAR(255),
+    `data_vinculo` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_login_social`),
+    UNIQUE KEY `uk_login_social` (`provedor`, `identificador_externo`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Identidades externas vinculadas ao usuário';
+
+CREATE TABLE IF NOT EXISTS `item` (
+    `id_item` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(150) NOT NULL,
+    `categoria` VARCHAR(100),
+    `marca` VARCHAR(120),
+    `codigo_barras` VARCHAR(50),
+    `imagem_url` VARCHAR(500),
+    `tipo_item` ENUM('medicamento','produto') NOT NULL,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_item`),
+    KEY `idx_item_usuario_tipo` (`usuario_id`, `tipo_item`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Supertipo de item da despensa ou de medicamentos';
+
+CREATE TABLE IF NOT EXISTS `medicamento` (
+    `id_medicamento` INT NOT NULL AUTO_INCREMENT,
+    `item_id` INT NOT NULL,
+    `concentracao` VARCHAR(80),
+    `forma_farmaceutica` VARCHAR(80),
+    `tipo_uso` ENUM('continuo','temporario','eventual') NOT NULL DEFAULT 'continuo',
+    `observacao` TEXT,
+    PRIMARY KEY (`id_medicamento`),
+    UNIQUE KEY `uk_medicamento_item` (`item_id`),
+    FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`)
+        ON DELETE CASCADE
+) COMMENT='Detalhes do subtipo medicamento';
+
+CREATE TABLE IF NOT EXISTS `produto` (
+    `id_produto` INT NOT NULL AUTO_INCREMENT,
+    `item_id` INT NOT NULL,
+    `unidade_medida` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`id_produto`),
+    UNIQUE KEY `uk_produto_item` (`item_id`),
+    FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`)
+        ON DELETE CASCADE
+) COMMENT='Detalhes do subtipo produto da despensa';
+
+CREATE TABLE IF NOT EXISTS `lote` (
+    `id_lote` INT NOT NULL AUTO_INCREMENT,
+    `item_id` INT NOT NULL,
+    `quantidade` DECIMAL(12,2) NOT NULL DEFAULT 0,
+    `unidade` VARCHAR(30),
+    `validade` DATE,
+    `data_compra` DATE,
+    `valor_compra` DECIMAL(12,2),
+    `local_compra` VARCHAR(150),
+    PRIMARY KEY (`id_lote`),
+    KEY `idx_lote_item_validade` (`item_id`, `validade`),
+    CONSTRAINT `ck_lote_quantidade` CHECK (`quantidade` >= 0),
+    FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`)
+        ON DELETE CASCADE
+) COMMENT='Estoque físico por lote';
+
+CREATE TABLE IF NOT EXISTS `movimentacao` (
+    `id_movimentacao` INT NOT NULL AUTO_INCREMENT,
+    `lote_id` INT NOT NULL,
+    `tipo` ENUM('entrada','saida','ajuste') NOT NULL,
+    `quantidade` DECIMAL(12,2) NOT NULL,
+    `data` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `observacao` VARCHAR(255),
+    PRIMARY KEY (`id_movimentacao`),
+    KEY `idx_movimentacao_lote_data` (`lote_id`, `data`),
+    CONSTRAINT `ck_movimentacao_quantidade` CHECK (`quantidade` > 0),
+    FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id_lote`)
+        ON DELETE CASCADE
+) COMMENT='Entradas, saídas e ajustes de estoque';
+
+CREATE TABLE IF NOT EXISTS `rotina` (
+    `id_rotina` INT NOT NULL AUTO_INCREMENT,
+    `medicamento_id` INT NOT NULL,
+    `quantidade_por_dose` DECIMAL(10,2),
+    `unidade_dose` VARCHAR(30),
+    `descricao_dose` VARCHAR(255),
+    `tipo_frequencia` ENUM('diaria','dias_semana','intervalo_horas','eventual') NOT NULL DEFAULT 'diaria',
+    `frequencia` VARCHAR(80),
+    `intervalo_horas` INT,
+    `data_inicio` DATE,
+    `data_fim` DATE,
+    `lembretes_ativos` BOOLEAN NOT NULL DEFAULT 1,
+    `observacao` TEXT,
+    PRIMARY KEY (`id_rotina`),
+    KEY `idx_rotina_medicamento_ativo` (`medicamento_id`, `lembretes_ativos`),
+    CONSTRAINT `ck_rotina_intervalo` CHECK (`intervalo_horas` IS NULL OR `intervalo_horas` > 0),
+    CONSTRAINT `ck_rotina_datas` CHECK (`data_fim` IS NULL OR `data_inicio` IS NULL OR `data_fim` >= `data_inicio`),
+    FOREIGN KEY (`medicamento_id`) REFERENCES `medicamento` (`id_medicamento`)
+        ON DELETE CASCADE
+) COMMENT='Rotina de uso de medicamento do usuário';
+
+CREATE TABLE IF NOT EXISTS `rotina_dia_semana` (
+    `rotina_id` INT NOT NULL,
+    `dia_semana` TINYINT NOT NULL COMMENT '1=domingo até 7=sábado',
+    PRIMARY KEY (`rotina_id`, `dia_semana`),
+    CONSTRAINT `ck_rotina_dia` CHECK (`dia_semana` BETWEEN 1 AND 7),
+    FOREIGN KEY (`rotina_id`) REFERENCES `rotina` (`id_rotina`)
+        ON DELETE CASCADE
+) COMMENT='Dias da semana de uma rotina medicamentosa';
+
+CREATE TABLE IF NOT EXISTS `horario` (
+    `id_horario` INT NOT NULL AUTO_INCREMENT,
+    `rotina_id` INT NOT NULL,
+    `hora` TIME NOT NULL,
+    PRIMARY KEY (`id_horario`),
+    UNIQUE KEY `uk_horario_rotina_hora` (`rotina_id`, `hora`),
+    FOREIGN KEY (`rotina_id`) REFERENCES `rotina` (`id_rotina`)
+        ON DELETE CASCADE
+) COMMENT='Horários previstos de uma rotina';
+
+CREATE TABLE IF NOT EXISTS `registro_uso` (
+    `id_registro` INT NOT NULL AUTO_INCREMENT,
+    `medicamento_id` INT NOT NULL,
+    `rotina_id` INT,
+    `data` DATE NOT NULL,
+    `horario_previsto` TIME,
+    `horario_realizado` TIME,
+    `data_hora_realizada` DATETIME,
+    `dose_realizada` VARCHAR(100),
+    `tipo_uso` ENUM('rotina','eventual') NOT NULL DEFAULT 'rotina',
+    `status` ENUM('pendente','tomado','perdido') NOT NULL DEFAULT 'pendente',
+    `observacao` TEXT,
+    PRIMARY KEY (`id_registro`),
+    KEY `idx_registro_uso_medicamento_data` (`medicamento_id`, `data`),
+    FOREIGN KEY (`medicamento_id`) REFERENCES `medicamento` (`id_medicamento`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`rotina_id`) REFERENCES `rotina` (`id_rotina`)
+        ON DELETE SET NULL
+) COMMENT='Adesão a tratamentos e usos eventuais';
+
+CREATE TABLE IF NOT EXISTS `receita` (
+    `id_receita` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `medico_nome` VARCHAR(150),
+    `especialidade` VARCHAR(120),
+    `data_receita` DATE,
+    `data_validade` DATE,
+    `observacoes` TEXT,
+    `status` ENUM('ativa','expirada','arquivada') NOT NULL DEFAULT 'ativa',
+    PRIMARY KEY (`id_receita`),
+    KEY `idx_receita_usuario_status` (`usuario_id`, `status`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Prescrição médica e seus metadados';
+
+CREATE TABLE IF NOT EXISTS `receita_medicamento` (
+    `receita_id` INT NOT NULL,
+    `medicamento_id` INT NOT NULL,
+    `posologia` VARCHAR(255),
+    `observacao` VARCHAR(255),
+    PRIMARY KEY (`receita_id`, `medicamento_id`),
+    FOREIGN KEY (`receita_id`) REFERENCES `receita` (`id_receita`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`medicamento_id`) REFERENCES `medicamento` (`id_medicamento`)
+        ON DELETE CASCADE
+) COMMENT='Medicamentos vinculados a uma receita';
+
+CREATE TABLE IF NOT EXISTS `arquivo` (
+    `id_arquivo` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `entidade_tipo` ENUM('usuario','item','meta','receita','pet','consulta','exame','livro') NOT NULL,
+    `entidade_id` INT NOT NULL,
+    `nome_original` VARCHAR(255) NOT NULL,
+    `nome_armazenado` VARCHAR(255),
+    `mime_type` VARCHAR(100),
+    `tamanho_bytes` BIGINT UNSIGNED,
+    `url` VARCHAR(500) NOT NULL,
+    `criado_em` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_arquivo`),
+    KEY `idx_arquivo_entidade` (`entidade_tipo`, `entidade_id`),
+    KEY `idx_arquivo_usuario` (`usuario_id`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Arquivos e anexos de qualquer módulo';
+
+CREATE TABLE IF NOT EXISTS `lista_compras` (
+    `id_lista` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(150) NOT NULL,
+    `tipo` ENUM('compras','geral') NOT NULL DEFAULT 'compras',
+    `data_criacao` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `status` ENUM('aberta','concluida','cancelada') NOT NULL DEFAULT 'aberta',
+    PRIMARY KEY (`id_lista`),
+    KEY `idx_lista_usuario_status` (`usuario_id`, `status`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Listas do usuário, incluindo listas de compras';
+
+CREATE TABLE IF NOT EXISTS `item_lista` (
+    `id_item_lista` INT NOT NULL AUTO_INCREMENT,
+    `lista_id` INT NOT NULL,
+    `item_id` INT,
+    `descricao` VARCHAR(150),
+    `quantidade` DECIMAL(12,2) NOT NULL DEFAULT 1,
+    `unidade` VARCHAR(30),
+    `comprado` BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id_item_lista`),
+    CONSTRAINT `ck_item_lista_quantidade` CHECK (`quantidade` > 0),
+    FOREIGN KEY (`lista_id`) REFERENCES `lista_compras` (`id_lista`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`)
+        ON DELETE SET NULL
+) COMMENT='Itens de uma lista, cadastrados ou livres';
+
+CREATE TABLE IF NOT EXISTS `mercado` (
+    `id_mercado` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT,
+    `nome` VARCHAR(120) NOT NULL,
+    `endereco` VARCHAR(255),
+    `latitude` DECIMAL(10,7),
+    `longitude` DECIMAL(10,7),
+    PRIMARY KEY (`id_mercado`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Mercados usados em preços e rotas';
+
+CREATE TABLE IF NOT EXISTS `preco` (
+    `id_preco` INT NOT NULL AUTO_INCREMENT,
+    `item_id` INT NOT NULL,
+    `mercado_id` INT,
+    `mercado` VARCHAR(120),
+    `valor` DECIMAL(12,2) NOT NULL,
+    `quantidade_referencia` DECIMAL(12,2),
+    `unidade_referencia` VARCHAR(30),
+    `promocional` BOOLEAN NOT NULL DEFAULT 0,
+    `data_consulta` DATE NOT NULL,
+    PRIMARY KEY (`id_preco`),
+    KEY `idx_preco_item_data` (`item_id`, `data_consulta`),
+    CONSTRAINT `ck_preco_valor` CHECK (`valor` >= 0),
+    FOREIGN KEY (`item_id`) REFERENCES `item` (`id_item`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`mercado_id`) REFERENCES `mercado` (`id_mercado`)
+        ON DELETE SET NULL
+) COMMENT='Histórico de preços por mercado';
+
+CREATE TABLE IF NOT EXISTS `pet` (
+    `id_pet` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(100) NOT NULL,
+    `especie` VARCHAR(80),
+    `raca` VARCHAR(80),
+    `sexo` VARCHAR(30),
+    `data_nasc` DATE,
+    `peso` DECIMAL(6,2),
+    `foto` VARCHAR(500),
+    `observacoes` TEXT,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_pet`),
+    KEY `idx_pet_usuario_nome` (`usuario_id`, `nome`),
+    CONSTRAINT `ck_pet_peso` CHECK (`peso` IS NULL OR `peso` >= 0),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Animais de estimação do usuário';
+
+CREATE TABLE IF NOT EXISTS `pet_contato` (
+    `id_contato` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `nome` VARCHAR(150) NOT NULL,
+    `telefone` VARCHAR(30),
+    `tipo` ENUM('tutor','emergencia','clinica','outro') NOT NULL DEFAULT 'emergencia',
+    PRIMARY KEY (`id_contato`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Tutor e contatos de emergência do pet';
+
+CREATE TABLE IF NOT EXISTS `vacina` (
+    `id_vacina` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `nome` VARCHAR(100) NOT NULL,
+    `tipo_calendario` ENUM('anual','fracionada','unica','personalizada') NOT NULL DEFAULT 'personalizada',
+    `data_aplicacao` DATE,
+    `data_proxima_dose` DATE,
+    `clinica` VARCHAR(150),
+    `observacao` TEXT,
+    PRIMARY KEY (`id_vacina`),
+    KEY `idx_vacina_pet_proxima` (`pet_id`, `data_proxima_dose`),
+    CONSTRAINT `ck_vacina_datas` CHECK (`data_proxima_dose` IS NULL OR `data_aplicacao` IS NULL OR `data_proxima_dose` >= `data_aplicacao`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Carteira de vacinação do pet';
+
+CREATE TABLE IF NOT EXISTS `consulta` (
+    `id_consulta` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `data` DATETIME NOT NULL,
+    `motivo` VARCHAR(255),
+    `veterinario` VARCHAR(150),
+    `especialidade` VARCHAR(120),
+    `clinica` VARCHAR(150),
+    `lembrete_ativo` BOOLEAN NOT NULL DEFAULT 0,
+    `observacoes` TEXT,
+    PRIMARY KEY (`id_consulta`),
+    KEY `idx_consulta_pet_data` (`pet_id`, `data`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Consultas veterinárias e histórico clínico';
+
+CREATE TABLE IF NOT EXISTS `pet_exame` (
+    `id_exame` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `consulta_id` INT,
+    `nome` VARCHAR(150) NOT NULL,
+    `data_exame` DATE,
+    `resultado` TEXT,
+    `observacao` TEXT,
+    PRIMARY KEY (`id_exame`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`consulta_id`) REFERENCES `consulta` (`id_consulta`)
+        ON DELETE SET NULL
+) COMMENT='Exames e laudos do pet';
+
+CREATE TABLE IF NOT EXISTS `pet_medicacao` (
+    `id_pet_medicacao` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `nome` VARCHAR(150) NOT NULL,
+    `tipo_uso` ENUM('continuo','temporario','eventual') NOT NULL DEFAULT 'continuo',
+    `dosagem` VARCHAR(100),
+    `horario_dose` TIME,
+    `frequencia` VARCHAR(80),
+    `data_inicio` DATE,
+    `data_fim` DATE,
+    `quantidade_estoque` DECIMAL(12,2),
+    `observacao` TEXT,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_pet_medicacao`),
+    CONSTRAINT `ck_pet_medicacao_datas` CHECK (`data_fim` IS NULL OR `data_inicio` IS NULL OR `data_fim` >= `data_inicio`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Medicações específicas de cada pet';
+
+CREATE TABLE IF NOT EXISTS `pet_rotina` (
+    `id_pet_rotina` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `tipo` ENUM('higiene','passeio','bem_estar','outro') NOT NULL,
+    `nome` VARCHAR(120) NOT NULL,
+    `frequencia` VARCHAR(80),
+    `data_inicio` DATE,
+    `horario` TIME,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_pet_rotina`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Rotinas de higiene, passeio e bem-estar';
+
+CREATE TABLE IF NOT EXISTS `pet_refeicao` (
+    `id_refeicao` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `nome` VARCHAR(120) NOT NULL,
+    `horario` TIME,
+    `observacao` TEXT,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_refeicao`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Rotina alimentar do pet';
+
+CREATE TABLE IF NOT EXISTS `pet_observacao` (
+    `id_observacao` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `data` DATE NOT NULL,
+    `texto` TEXT NOT NULL,
+    PRIMARY KEY (`id_observacao`),
+    KEY `idx_pet_observacao_data` (`pet_id`, `data`),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE
+) COMMENT='Notas de comportamento e observações diárias';
+
+CREATE TABLE IF NOT EXISTS `conta` (
+    `id_conta` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(100) NOT NULL,
+    `tipo` ENUM('corrente','poupanca','carteira','credito','investimento') NOT NULL,
+    `saldo_inicial` DECIMAL(12,2) NOT NULL DEFAULT 0,
+    `limite_credito` DECIMAL(12,2),
+    `dia_fechamento` TINYINT,
+    `dia_vencimento` TINYINT,
+    `bandeira` VARCHAR(40),
+    `ultimos_digitos` CHAR(4),
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_conta`),
+    KEY `idx_conta_usuario_ativo` (`usuario_id`, `ativo`),
+    CONSTRAINT `ck_conta_dias` CHECK (
+        (`dia_fechamento` IS NULL OR `dia_fechamento` BETWEEN 1 AND 31) AND
+        (`dia_vencimento` IS NULL OR `dia_vencimento` BETWEEN 1 AND 31)
+    ),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Contas financeiras do usuário';
+
+CREATE TABLE IF NOT EXISTS `categoria_financeira` (
+    `id_categoria` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(100) NOT NULL,
+    `tipo` ENUM('receita','despesa','ambos') NOT NULL,
+    `grupo_50_30_20` ENUM('essencial','estilo_de_vida','metas'),
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_categoria`),
+    UNIQUE KEY `uk_categoria_usuario_nome_tipo` (`usuario_id`, `nome`, `tipo`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Categorias para lançamentos e orçamentos';
+
+CREATE TABLE IF NOT EXISTS `lancamento` (
+    `id_lancamento` INT NOT NULL AUTO_INCREMENT,
+    `conta_id` INT NOT NULL,
+    `conta_destino_id` INT,
+    `categoria_id` INT,
+    `item_lista_id` INT,
+    `consulta_id` INT,
+    `pet_id` INT,
+    `valor` DECIMAL(12,2) NOT NULL,
+    `data` DATE NOT NULL,
+    `data_vencimento` DATE,
+    `data_pagamento` DATE,
+    `descricao` VARCHAR(255),
+    `observacoes` TEXT,
+    `tipo` ENUM('receita','despesa','transferencia') NOT NULL,
+    `status` ENUM('pendente','pago','cancelado','atrasado') NOT NULL DEFAULT 'pago',
+    `recorrente` BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id_lancamento`),
+    KEY `idx_lancamento_conta_data` (`conta_id`, `data`),
+    KEY `idx_lancamento_vencimento_status` (`data_vencimento`, `status`),
+    CONSTRAINT `ck_lancamento_valor` CHECK (`valor` > 0),
+    CONSTRAINT `ck_lancamento_transferencia` CHECK (
+        (`tipo` <> 'transferencia') OR (`conta_destino_id` IS NOT NULL AND `conta_destino_id` <> `conta_id`)
+    ),
+    FOREIGN KEY (`conta_id`) REFERENCES `conta` (`id_conta`)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (`conta_destino_id`) REFERENCES `conta` (`id_conta`)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (`categoria_id`) REFERENCES `categoria_financeira` (`id_categoria`)
+        ON DELETE SET NULL,
+    FOREIGN KEY (`item_lista_id`) REFERENCES `item_lista` (`id_item_lista`)
+        ON DELETE SET NULL,
+    FOREIGN KEY (`consulta_id`) REFERENCES `consulta` (`id_consulta`)
+        ON DELETE SET NULL,
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE SET NULL
+) COMMENT='Receitas, despesas, transferências e vencimentos';
+
+CREATE TABLE IF NOT EXISTS `lancamento_recorrente` (
+    `id_recorrencia` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `conta_id` INT NOT NULL,
+    `categoria_id` INT,
+    `descricao` VARCHAR(255) NOT NULL,
+    `valor` DECIMAL(12,2) NOT NULL,
+    `tipo` ENUM('receita','despesa') NOT NULL,
+    `periodicidade` ENUM('semanal','mensal','anual') NOT NULL,
+    `proxima_data` DATE NOT NULL,
+    `ativa` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_recorrencia`),
+    CONSTRAINT `ck_recorrencia_valor` CHECK (`valor` > 0),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`conta_id`) REFERENCES `conta` (`id_conta`)
+        ON DELETE RESTRICT,
+    FOREIGN KEY (`categoria_id`) REFERENCES `categoria_financeira` (`id_categoria`)
+        ON DELETE SET NULL
+) COMMENT='Regras para geração de lançamentos recorrentes';
+
+CREATE TABLE IF NOT EXISTS `orcamento` (
+    `id_orcamento` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `categoria_id` INT,
+    `mes_referencia` CHAR(7) NOT NULL COMMENT 'Formato YYYY-MM',
+    `valor_limite` DECIMAL(12,2) NOT NULL,
+    PRIMARY KEY (`id_orcamento`),
+    UNIQUE KEY `uk_orcamento_mes_categoria` (`usuario_id`, `categoria_id`, `mes_referencia`),
+    CONSTRAINT `ck_orcamento_valor` CHECK (`valor_limite` >= 0),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`categoria_id`) REFERENCES `categoria_financeira` (`id_categoria`)
+        ON DELETE SET NULL
+) COMMENT='Limite de gasto por categoria e mês';
+
+CREATE TABLE IF NOT EXISTS `cartao_fatura` (
+    `id_fatura` INT NOT NULL AUTO_INCREMENT,
+    `conta_id` INT NOT NULL,
+    `mes_referencia` CHAR(7) NOT NULL,
+    `data_fechamento` DATE,
+    `data_vencimento` DATE,
+    `valor_total` DECIMAL(12,2) NOT NULL DEFAULT 0,
+    `status` ENUM('aberta','fechada','paga','atrasada') NOT NULL DEFAULT 'aberta',
+    PRIMARY KEY (`id_fatura`),
+    UNIQUE KEY `uk_fatura_conta_mes` (`conta_id`, `mes_referencia`),
+    FOREIGN KEY (`conta_id`) REFERENCES `conta` (`id_conta`)
+        ON DELETE CASCADE
+) COMMENT='Faturas de contas do tipo cartão';
+
+CREATE TABLE IF NOT EXISTS `meta` (
+    `id_meta` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `categoria` ENUM('financeira','experiencia','pessoal','saude','outro') NOT NULL DEFAULT 'pessoal',
+    `descricao` TEXT,
+    `valor_alvo` DECIMAL(12,2),
+    `valor_atual` DECIMAL(12,2) NOT NULL DEFAULT 0,
+    `prioridade` ENUM('baixa','media','alta') NOT NULL DEFAULT 'media',
+    `data_inicio` DATE,
+    `data_fim` DATE,
+    `status` ENUM('nao_iniciada','em_andamento','concluida','cancelada') NOT NULL DEFAULT 'nao_iniciada',
+    `foto_url` VARCHAR(500),
+    PRIMARY KEY (`id_meta`),
+    KEY `idx_meta_usuario_status` (`usuario_id`, `status`),
+    CONSTRAINT `ck_meta_valores` CHECK (`valor_alvo` IS NULL OR `valor_alvo` >= 0),
+    CONSTRAINT `ck_meta_atual` CHECK (`valor_atual` >= 0),
+    CONSTRAINT `ck_meta_datas` CHECK (`data_fim` IS NULL OR `data_inicio` IS NULL OR `data_fim` >= `data_inicio`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Objetivos pessoais e financeiros';
+
+CREATE TABLE IF NOT EXISTS `etapa` (
+    `id_etapa` INT NOT NULL AUTO_INCREMENT,
+    `meta_id` INT NOT NULL,
+    `descricao` VARCHAR(255) NOT NULL,
+    `ordem` INT NOT NULL DEFAULT 0,
+    `concluida` BOOLEAN NOT NULL DEFAULT 0,
+    `data_conclusao` DATE,
+    PRIMARY KEY (`id_etapa`),
+    FOREIGN KEY (`meta_id`) REFERENCES `meta` (`id_meta`)
+        ON DELETE CASCADE
+) COMMENT='Etapas de uma meta';
+
+CREATE TABLE IF NOT EXISTS `meta_tarefa` (
+    `id_tarefa` INT NOT NULL AUTO_INCREMENT,
+    `meta_id` INT,
+    `usuario_id` INT NOT NULL,
+    `descricao` VARCHAR(255) NOT NULL,
+    `data` DATE NOT NULL,
+    `obrigatoria` BOOLEAN NOT NULL DEFAULT 0,
+    `concluida` BOOLEAN NOT NULL DEFAULT 0,
+    `data_conclusao` DATETIME,
+    PRIMARY KEY (`id_tarefa`),
+    KEY `idx_meta_tarefa_usuario_data` (`usuario_id`, `data`),
+    FOREIGN KEY (`meta_id`) REFERENCES `meta` (`id_meta`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Tarefas diárias relacionadas ou não a uma meta';
+
+CREATE TABLE IF NOT EXISTS `progresso` (
+    `id_progresso` INT NOT NULL AUTO_INCREMENT,
+    `meta_id` INT NOT NULL,
+    `data_registro` DATE NOT NULL,
+    `valor_alcancado` DECIMAL(12,2) NOT NULL,
+    `observacao` VARCHAR(255),
+    PRIMARY KEY (`id_progresso`),
+    KEY `idx_progresso_meta_data` (`meta_id`, `data_registro`),
+    CONSTRAINT `ck_progresso_valor` CHECK (`valor_alcancado` >= 0),
+    FOREIGN KEY (`meta_id`) REFERENCES `meta` (`id_meta`)
+        ON DELETE CASCADE
+) COMMENT='Histórico de progresso das metas';
+
+CREATE TABLE IF NOT EXISTS `habito` (
+    `id_habito` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `nome` VARCHAR(150) NOT NULL,
+    `frequencia` ENUM('diaria','dias_semana','fins_semana','personalizada') NOT NULL DEFAULT 'diaria',
+    `meta_valor` DECIMAL(10,2),
+    `meta_unidade` VARCHAR(50),
+    `data_inicio` DATE,
+    `data_fim` DATE,
+    `ativo` BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id_habito`),
+    CONSTRAINT `ck_habito_meta` CHECK (`meta_valor` IS NULL OR `meta_valor` > 0),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Hábitos pessoais acompanhados pelo usuário';
+
+CREATE TABLE IF NOT EXISTS `habito_dia_semana` (
+    `habito_id` INT NOT NULL,
+    `dia_semana` TINYINT NOT NULL,
+    PRIMARY KEY (`habito_id`, `dia_semana`),
+    CONSTRAINT `ck_habito_dia` CHECK (`dia_semana` BETWEEN 1 AND 7),
+    FOREIGN KEY (`habito_id`) REFERENCES `habito` (`id_habito`)
+        ON DELETE CASCADE
+) COMMENT='Dias configurados para hábitos semanais';
+
+CREATE TABLE IF NOT EXISTS `registro_habito` (
+    `id_registro_habito` INT NOT NULL AUTO_INCREMENT,
+    `habito_id` INT NOT NULL,
+    `data` DATE NOT NULL,
+    `valor_realizado` DECIMAL(10,2),
+    `concluido` BOOLEAN NOT NULL DEFAULT 0,
+    `observacao` VARCHAR(255),
+    PRIMARY KEY (`id_registro_habito`),
+    UNIQUE KEY `uk_registro_habito_data` (`habito_id`, `data`),
+    FOREIGN KEY (`habito_id`) REFERENCES `habito` (`id_habito`)
+        ON DELETE CASCADE
+) COMMENT='Execução diária de hábitos';
+
+CREATE TABLE IF NOT EXISTS `evento` (
+    `id_evento` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `descricao` TEXT,
+    `inicio` DATETIME NOT NULL,
+    `fim` DATETIME,
+    `tipo` VARCHAR(50),
+    `origem_tipo` VARCHAR(50),
+    `origem_id` INT,
+    `lembrete_ativo` BOOLEAN NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id_evento`),
+    KEY `idx_evento_usuario_inicio` (`usuario_id`, `inicio`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Eventos do calendário e compromissos';
+
+CREATE TABLE IF NOT EXISTS `livro` (
+    `id_livro` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `titulo` VARCHAR(200) NOT NULL,
+    `autor` VARCHAR(150),
+    `status` ENUM('quero_ler','lendo','concluido','abandonado') NOT NULL DEFAULT 'quero_ler',
+    `progresso_percentual` DECIMAL(5,2) NOT NULL DEFAULT 0,
+    `avaliacao` TINYINT,
+    `capa_url` VARCHAR(500),
+    `observacoes` TEXT,
+    PRIMARY KEY (`id_livro`),
+    CONSTRAINT `ck_livro_progresso` CHECK (`progresso_percentual` BETWEEN 0 AND 100),
+    CONSTRAINT `ck_livro_avaliacao` CHECK (`avaliacao` IS NULL OR `avaliacao` BETWEEN 1 AND 5),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Biblioteca pessoal do usuário';
+
+CREATE TABLE IF NOT EXISTS `livro_progresso` (
+    `id_livro_progresso` INT NOT NULL AUTO_INCREMENT,
+    `livro_id` INT NOT NULL,
+    `data_registro` DATE NOT NULL,
+    `percentual` DECIMAL(5,2) NOT NULL,
+    `observacao` VARCHAR(255),
+    PRIMARY KEY (`id_livro_progresso`),
+    CONSTRAINT `ck_livro_percentual` CHECK (`percentual` BETWEEN 0 AND 100),
+    FOREIGN KEY (`livro_id`) REFERENCES `livro` (`id_livro`)
+        ON DELETE CASCADE
+) COMMENT='Histórico de leitura';
+
+CREATE TABLE IF NOT EXISTS `lembrete` (
+    `id_lembrete` INT NOT NULL AUTO_INCREMENT,
+    `usuario_id` INT NOT NULL,
+    `titulo` VARCHAR(150) NOT NULL,
+    `data_hora` DATETIME NOT NULL,
+    `concluido` BOOLEAN NOT NULL DEFAULT 0,
+    `contexto` VARCHAR(50),
+    `origem_tipo` VARCHAR(50),
+    `origem_id` INT,
+    `repeticao` VARCHAR(50),
+    PRIMARY KEY (`id_lembrete`),
+    KEY `idx_lembrete_usuario_data` (`usuario_id`, `data_hora`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`)
+        ON DELETE CASCADE
+) COMMENT='Lembretes gerais e vinculados a módulos';
+
+CREATE TABLE IF NOT EXISTS `pet_despesa` (
+    `id_despesa` INT NOT NULL AUTO_INCREMENT,
+    `pet_id` INT NOT NULL,
+    `lancamento_id` INT,
+    `categoria` ENUM('alimentacao','saude','higiene','lazer','outra') NOT NULL,
+    `descricao` VARCHAR(255) NOT NULL,
+    `valor` DECIMAL(12,2) NOT NULL,
+    `data` DATE NOT NULL,
+    PRIMARY KEY (`id_despesa`),
+    CONSTRAINT `ck_pet_despesa_valor` CHECK (`valor` > 0),
+    FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id_pet`)
+        ON DELETE CASCADE,
+    FOREIGN KEY (`lancamento_id`) REFERENCES `lancamento` (`id_lancamento`)
+        ON DELETE SET NULL
+) COMMENT='Despesas específicas de um pet';
+
+CREATE INDEX `idx_movimentacao_data` ON `movimentacao` (`data`);
+CREATE INDEX `idx_preco_mercado_data` ON `preco` (`mercado_id`, `data_consulta`);
+CREATE INDEX `idx_lembrete_contexto` ON `lembrete` (`contexto`, `concluido`);

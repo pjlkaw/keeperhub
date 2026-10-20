@@ -1,0 +1,609 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="4300" height="3400" viewBox="0 0 4300 3400">
+<defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#64748b" flood-opacity=".18"/></filter><style> .title{font:700 30px Arial;fill:#102a43}.subtitle{font:14px Arial;fill:#627d98}.group{font:700 13px Arial;fill:#fff;letter-spacing:1px}.tbl{font:700 12px Arial;fill:#fff;letter-spacing:.4px}.field{font:10px Arial;fill:#243b53}.flag{font:700 8px Arial;fill:#627d98}.rel{font:9px Arial;fill:#627d98}.legend{font:11px Arial;fill:#486581}.legendb{font:700 11px Arial;fill:#243b53}</style></defs>
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text x="70" y="50" class="title">KeeperHub ? Modelo de dados</text>
+<text x="70" y="76" class="subtitle">Vis?o f?sica do banco ? 45 tabelas ? 59 rela??es FK ? preparado para compartilhamento com a equipe</text>
+<rect x="3140" y="27" width="1080" height="65" rx="10" fill="#ffffff" stroke="#d9e2ec"/>
+<text x="3158" y="49" class="legendb">LEGENDA</text>
+<text x="3158" y="71" class="legend">PK chave prim?ria   ?   UQ ?nico   ?   NN obrigat?rio   ?   linha: N:1</text>
+<rect x="58" y="168" width="614" height="876" rx="14" fill="#eff6ff" opacity=".72"/>
+<rect x="70" y="174" width="590" height="32" rx="8" fill="#2563eb"/>
+<text x="84" y="195" class="group">USU?RIO</text>
+<rect x="723" y="168" width="614" height="1845" rx="14" fill="#ecfeff" opacity=".72"/>
+<rect x="735" y="174" width="590" height="32" rx="8" fill="#0284c7"/>
+<text x="749" y="195" class="group">MEDICAMENTOS</text>
+<rect x="1388" y="168" width="614" height="875" rx="14" fill="#fffbeb" opacity=".72"/>
+<rect x="1400" y="174" width="590" height="32" rx="8" fill="#d97706"/>
+<text x="1414" y="195" class="group">DESPENSA</text>
+<rect x="2053" y="168" width="614" height="1935" rx="14" fill="#f5f3ff" opacity=".72"/>
+<rect x="2065" y="174" width="590" height="32" rx="8" fill="#7c3aed"/>
+<text x="2079" y="195" class="group">PETS</text>
+<rect x="2718" y="168" width="614" height="1309" rx="14" fill="#ecfdf5" opacity=".72"/>
+<rect x="2730" y="174" width="590" height="32" rx="8" fill="#059669"/>
+<text x="2744" y="195" class="group">FINAN?AS</text>
+<rect x="3383" y="168" width="614" height="1860" rx="14" fill="#fff7ed" opacity=".72"/>
+<rect x="3395" y="174" width="590" height="32" rx="8" fill="#ea580c"/>
+<text x="3409" y="195" class="group">METAS &amp; H?BITOS</text>
+<path d="M660,445.0 C365.0,445.0 365.0,206.0 70,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M735,206.0 C697.5,206.0 697.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,430.0 C1030.0,430.0 1030.0,206.0 735,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1400,206.0 C1362.5,206.0 1362.5,206.0 1325,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,594.0 C1030.0,594.0 1030.0,206.0 735,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,788.0 C1030.0,788.0 1030.0,594.0 735,594.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,952.0 C1030.0,952.0 1030.0,430.0 735,430.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1206.0 C1030.0,1206.0 1030.0,952.0 735,952.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1310.0 C1030.0,1310.0 1030.0,952.0 735,952.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1429.0 C1030.0,1429.0 1030.0,430.0 735,430.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1429.0 C1030.0,1429.0 1030.0,952.0 735,952.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M735,1668.0 C697.5,1668.0 697.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1877.0 C1030.0,1877.0 1030.0,1668.0 735,1668.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1325,1877.0 C1030.0,1877.0 1030.0,430.0 735,430.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M660,609.0 C365.0,609.0 365.0,206.0 70,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1400,325.0 C1030.0,325.0 1030.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1990,489.0 C1695.0,489.0 1695.0,325.0 1400,325.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1400,489.0 C1362.5,489.0 1362.5,206.0 1325,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1400,668.0 C1030.0,668.0 1030.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1400,832.0 C1362.5,832.0 1362.5,206.0 1325,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M1990,832.0 C1695.0,832.0 1695.0,668.0 1400,668.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2065,206.0 C1362.5,206.0 1362.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,445.0 C2360.0,445.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,594.0 C2360.0,594.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,788.0 C2360.0,788.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,997.0 C2360.0,997.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,997.0 C2360.0,997.0 2360.0,788.0 2065,788.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1176.0 C2360.0,1176.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1430.0 C2360.0,1430.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1624.0 C2360.0,1624.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1788.0 C2360.0,1788.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,206.0 C1695.0,206.0 1695.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,445.0 C1695.0,445.0 1695.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,609.0 C3025.0,609.0 3025.0,206.0 2730,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,609.0 C3025.0,609.0 3025.0,206.0 2730,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,609.0 C3025.0,609.0 3025.0,445.0 2730,445.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,609.0 C2360.0,609.0 2360.0,489.0 1990,489.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,609.0 C2692.5,609.0 2692.5,788.0 2655,788.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,609.0 C2692.5,609.0 2692.5,206.0 2655,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,923.0 C1695.0,923.0 1695.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,923.0 C3025.0,923.0 3025.0,206.0 2730,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,923.0 C3025.0,923.0 3025.0,445.0 2730,445.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2730,1147.0 C1695.0,1147.0 1695.0,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,1147.0 C3025.0,1147.0 3025.0,445.0 2730,445.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3320,1296.0 C3025.0,1296.0 3025.0,206.0 2730,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3395,206.0 C2027.5,206.0 2027.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,460.0 C3690.0,460.0 3690.0,206.0 3395,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,624.0 C3690.0,624.0 3690.0,206.0 3395,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3395,624.0 C2027.5,624.0 2027.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,818.0 C3690.0,818.0 3690.0,206.0 3395,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3395,967.0 C2027.5,967.0 2027.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,1176.0 C3690.0,1176.0 3690.0,967.0 3395,967.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,1280.0 C3690.0,1280.0 3690.0,967.0 3395,967.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3395,1444.0 C2027.5,1444.0 2027.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3395,1668.0 C2027.5,1668.0 2027.5,206.0 660,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M3985,1877.0 C3690.0,1877.0 3690.0,1668.0 3395,1668.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M660,833.0 C365.0,833.0 365.0,206.0 70,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1922.0 C2360.0,1922.0 2360.0,206.0 2065,206.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<path d="M2655,1922.0 C2692.5,1922.0 2692.5,609.0 2730,609.0" fill="none" stroke="#9fb3c8" stroke-width="1" opacity=".48"/>
+<rect x="70" y="190" width="590" height="221" rx="8" fill="#fff" stroke="#2563eb" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="70" y="190" width="590" height="32" rx="8" fill="#2563eb"/>
+<rect x="70" y="215" width="590" height="7" fill="#2563eb"/>
+<text x="82" y="211" class="tbl">USUARIO</text>
+<text x="82" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_usuario <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="251" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="82" y="266" class="field"><tspan class="flag">UQ NN  </tspan>email <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="281" class="field"><tspan class="flag">NN  </tspan>senha <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="296" class="field"><tspan class="flag"></tspan>telefone <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="82" y="311" class="field"><tspan class="flag"></tspan>data_nasc <tspan fill="#829ab1">DATE</tspan></text>
+<text x="82" y="326" class="field"><tspan class="flag"></tspan>genero <tspan fill="#829ab1">VARCHAR(40)</tspan></text>
+<text x="82" y="341" class="field"><tspan class="flag">NN  </tspan>data_cadastro <tspan fill="#829ab1">TIMESTAMP</tspan></text>
+<text x="82" y="356" class="field"><tspan class="flag"></tspan>foto_perfil <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<text x="82" y="371" class="field"><tspan class="flag">NN  </tspan>autenticacao_dupla_ativa <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="82" y="386" class="field"><tspan class="flag">NN  </tspan>notificacoes_ativas <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="70" y="429" width="590" height="146" rx="8" fill="#fff" stroke="#2563eb" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="70" y="429" width="590" height="32" rx="8" fill="#2563eb"/>
+<rect x="70" y="454" width="590" height="7" fill="#2563eb"/>
+<text x="82" y="450" class="tbl">USUARIO_LOGIN_SOCIAL</text>
+<text x="82" y="475" class="field"><tspan class="flag">PK NN  </tspan>id_login_social <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="490" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="505" class="field"><tspan class="flag">NN  </tspan>provedor <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="82" y="520" class="field"><tspan class="flag">NN  </tspan>identificador_externo <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="535" class="field"><tspan class="flag"></tspan>email_provedor <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="550" class="field"><tspan class="flag">NN  </tspan>data_vinculo <tspan fill="#829ab1">TIMESTAMP</tspan></text>
+<rect x="70" y="593" width="590" height="206" rx="8" fill="#fff" stroke="#2563eb" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="70" y="593" width="590" height="32" rx="8" fill="#2563eb"/>
+<rect x="70" y="618" width="590" height="7" fill="#2563eb"/>
+<text x="82" y="614" class="tbl">ARQUIVO</text>
+<text x="82" y="639" class="field"><tspan class="flag">PK NN  </tspan>id_arquivo <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="654" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="669" class="field"><tspan class="flag">NN  </tspan>entidade_tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="82" y="684" class="field"><tspan class="flag">NN  </tspan>entidade_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="699" class="field"><tspan class="flag">NN  </tspan>nome_original <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="714" class="field"><tspan class="flag"></tspan>nome_armazenado <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="82" y="729" class="field"><tspan class="flag"></tspan>mime_type <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="82" y="744" class="field"><tspan class="flag"></tspan>tamanho_bytes <tspan fill="#829ab1">BIGINT UNSIGNED</tspan></text>
+<text x="82" y="759" class="field"><tspan class="flag">NN  </tspan>url <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<text x="82" y="774" class="field"><tspan class="flag">NN  </tspan>criado_em <tspan fill="#829ab1">TIMESTAMP</tspan></text>
+<rect x="70" y="817" width="590" height="191" rx="8" fill="#fff" stroke="#2563eb" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="70" y="817" width="590" height="32" rx="8" fill="#2563eb"/>
+<rect x="70" y="842" width="590" height="7" fill="#2563eb"/>
+<text x="82" y="838" class="tbl">LEMBRETE</text>
+<text x="82" y="863" class="field"><tspan class="flag">PK NN  </tspan>id_lembrete <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="878" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="893" class="field"><tspan class="flag">NN  </tspan>titulo <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="82" y="908" class="field"><tspan class="flag">NN  </tspan>data_hora <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="82" y="923" class="field"><tspan class="flag">NN  </tspan>concluido <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="82" y="938" class="field"><tspan class="flag"></tspan>contexto <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="82" y="953" class="field"><tspan class="flag"></tspan>origem_tipo <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="82" y="968" class="field"><tspan class="flag"></tspan>origem_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="82" y="983" class="field"><tspan class="flag"></tspan>repeticao <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<rect x="735" y="190" width="590" height="206" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="190" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="215" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="211" class="tbl">ITEM</text>
+<text x="747" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_item <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="251" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="266" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="747" y="281" class="field"><tspan class="flag"></tspan>categoria <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="747" y="296" class="field"><tspan class="flag"></tspan>marca <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="747" y="311" class="field"><tspan class="flag"></tspan>codigo_barras <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="747" y="326" class="field"><tspan class="flag"></tspan>imagem_url <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<text x="747" y="341" class="field"><tspan class="flag">NN  </tspan>tipo_item <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="356" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="747" y="371" class="field"><tspan class="flag">NN  </tspan>criado_em <tspan fill="#829ab1">TIMESTAMP</tspan></text>
+<rect x="735" y="414" width="590" height="146" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="414" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="439" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="435" class="tbl">MEDICAMENTO</text>
+<text x="747" y="460" class="field"><tspan class="flag">PK NN  </tspan>id_medicamento <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="475" class="field"><tspan class="flag">UQ NN  </tspan>item_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="490" class="field"><tspan class="flag"></tspan>concentracao <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="747" y="505" class="field"><tspan class="flag"></tspan>forma_farmaceutica <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="747" y="520" class="field"><tspan class="flag">NN  </tspan>tipo_uso <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="535" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="735" y="578" width="590" height="176" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="578" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="603" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="599" class="tbl">LOTE</text>
+<text x="747" y="624" class="field"><tspan class="flag">PK NN  </tspan>id_lote <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="639" class="field"><tspan class="flag">NN  </tspan>item_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="654" class="field"><tspan class="flag">NN  </tspan>quantidade <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="747" y="669" class="field"><tspan class="flag"></tspan>unidade <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="747" y="684" class="field"><tspan class="flag"></tspan>validade <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="699" class="field"><tspan class="flag"></tspan>data_compra <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="714" class="field"><tspan class="flag"></tspan>valor_compra <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="747" y="729" class="field"><tspan class="flag"></tspan>local_compra <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<rect x="735" y="772" width="590" height="146" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="772" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="797" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="793" class="tbl">MOVIMENTACAO</text>
+<text x="747" y="818" class="field"><tspan class="flag">PK NN  </tspan>id_movimentacao <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="833" class="field"><tspan class="flag">NN  </tspan>lote_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="848" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="863" class="field"><tspan class="flag">NN  </tspan>quantidade <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="747" y="878" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="747" y="893" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<rect x="735" y="936" width="590" height="236" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="936" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="961" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="957" class="tbl">ROTINA</text>
+<text x="747" y="982" class="field"><tspan class="flag">PK NN  </tspan>id_rotina <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="997" class="field"><tspan class="flag">NN  </tspan>medicamento_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1012" class="field"><tspan class="flag"></tspan>quantidade_por_dose <tspan fill="#829ab1">DECIMAL(10,2)</tspan></text>
+<text x="747" y="1027" class="field"><tspan class="flag"></tspan>unidade_dose <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="747" y="1042" class="field"><tspan class="flag"></tspan>descricao_dose <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="747" y="1057" class="field"><tspan class="flag">NN  </tspan>tipo_frequencia <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="1072" class="field"><tspan class="flag"></tspan>frequencia <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="747" y="1087" class="field"><tspan class="flag"></tspan>intervalo_horas <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1102" class="field"><tspan class="flag"></tspan>data_inicio <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="1117" class="field"><tspan class="flag"></tspan>data_fim <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="1132" class="field"><tspan class="flag">NN  </tspan>lembretes_ativos <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="747" y="1147" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="735" y="1190" width="590" height="86" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="1190" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="1215" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="1211" class="tbl">ROTINA_DIA_SEMANA</text>
+<text x="747" y="1236" class="field"><tspan class="flag">NN  </tspan>rotina_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1251" class="field"><tspan class="flag">NN  </tspan>dia_semana <tspan fill="#829ab1">TINYINT</tspan></text>
+<rect x="735" y="1294" width="590" height="101" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="1294" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="1319" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="1315" class="tbl">HORARIO</text>
+<text x="747" y="1340" class="field"><tspan class="flag">PK NN  </tspan>id_horario <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1355" class="field"><tspan class="flag">NN  </tspan>rotina_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1370" class="field"><tspan class="flag">NN  </tspan>hora <tspan fill="#829ab1">TIME</tspan></text>
+<rect x="735" y="1413" width="590" height="221" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="1413" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="1438" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="1434" class="tbl">REGISTRO_USO</text>
+<text x="747" y="1459" class="field"><tspan class="flag">PK NN  </tspan>id_registro <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1474" class="field"><tspan class="flag">NN  </tspan>medicamento_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1489" class="field"><tspan class="flag"></tspan>rotina_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1504" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="1519" class="field"><tspan class="flag"></tspan>horario_previsto <tspan fill="#829ab1">TIME</tspan></text>
+<text x="747" y="1534" class="field"><tspan class="flag"></tspan>horario_realizado <tspan fill="#829ab1">TIME</tspan></text>
+<text x="747" y="1549" class="field"><tspan class="flag"></tspan>data_hora_realizada <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="747" y="1564" class="field"><tspan class="flag"></tspan>dose_realizada <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="747" y="1579" class="field"><tspan class="flag">NN  </tspan>tipo_uso <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="1594" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="747" y="1609" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="735" y="1652" width="590" height="191" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="1652" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="1677" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="1673" class="tbl">RECEITA</text>
+<text x="747" y="1698" class="field"><tspan class="flag">PK NN  </tspan>id_receita <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1713" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1728" class="field"><tspan class="flag">NN  </tspan>titulo <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="747" y="1743" class="field"><tspan class="flag"></tspan>medico_nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="747" y="1758" class="field"><tspan class="flag"></tspan>especialidade <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="747" y="1773" class="field"><tspan class="flag"></tspan>data_receita <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="1788" class="field"><tspan class="flag"></tspan>data_validade <tspan fill="#829ab1">DATE</tspan></text>
+<text x="747" y="1803" class="field"><tspan class="flag"></tspan>observacoes <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="747" y="1818" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<rect x="735" y="1861" width="590" height="116" rx="8" fill="#fff" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="735" y="1861" width="590" height="32" rx="8" fill="#0284c7"/>
+<rect x="735" y="1886" width="590" height="7" fill="#0284c7"/>
+<text x="747" y="1882" class="tbl">RECEITA_MEDICAMENTO</text>
+<text x="747" y="1907" class="field"><tspan class="flag">NN  </tspan>receita_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1922" class="field"><tspan class="flag">NN  </tspan>medicamento_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="747" y="1937" class="field"><tspan class="flag"></tspan>posologia <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="747" y="1952" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<rect x="1400" y="190" width="590" height="101" rx="8" fill="#fff" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="1400" y="190" width="590" height="32" rx="8" fill="#d97706"/>
+<rect x="1400" y="215" width="590" height="7" fill="#d97706"/>
+<text x="1412" y="211" class="tbl">PRODUTO</text>
+<text x="1412" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_produto <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="251" class="field"><tspan class="flag">UQ NN  </tspan>item_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="266" class="field"><tspan class="flag">NN  </tspan>unidade_medida <tspan fill="#829ab1">VARCHAR(20)</tspan></text>
+<rect x="1400" y="309" width="590" height="146" rx="8" fill="#fff" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="1400" y="309" width="590" height="32" rx="8" fill="#d97706"/>
+<rect x="1400" y="334" width="590" height="7" fill="#d97706"/>
+<text x="1412" y="330" class="tbl">LISTA_COMPRAS</text>
+<text x="1412" y="355" class="field"><tspan class="flag">PK NN  </tspan>id_lista <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="370" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="385" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="1412" y="400" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="1412" y="415" class="field"><tspan class="flag">NN  </tspan>data_criacao <tspan fill="#829ab1">TIMESTAMP</tspan></text>
+<text x="1412" y="430" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<rect x="1400" y="473" width="590" height="161" rx="8" fill="#fff" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="1400" y="473" width="590" height="32" rx="8" fill="#d97706"/>
+<rect x="1400" y="498" width="590" height="7" fill="#d97706"/>
+<text x="1412" y="494" class="tbl">ITEM_LISTA</text>
+<text x="1412" y="519" class="field"><tspan class="flag">PK NN  </tspan>id_item_lista <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="534" class="field"><tspan class="flag">NN  </tspan>lista_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="549" class="field"><tspan class="flag"></tspan>item_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="564" class="field"><tspan class="flag"></tspan>descricao <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="1412" y="579" class="field"><tspan class="flag">NN  </tspan>quantidade <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="1412" y="594" class="field"><tspan class="flag"></tspan>unidade <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="1412" y="609" class="field"><tspan class="flag">NN  </tspan>comprado <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="1400" y="652" width="590" height="146" rx="8" fill="#fff" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="1400" y="652" width="590" height="32" rx="8" fill="#d97706"/>
+<rect x="1400" y="677" width="590" height="7" fill="#d97706"/>
+<text x="1412" y="673" class="tbl">MERCADO</text>
+<text x="1412" y="698" class="field"><tspan class="flag">PK NN  </tspan>id_mercado <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="713" class="field"><tspan class="flag"></tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="728" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="1412" y="743" class="field"><tspan class="flag"></tspan>endereco <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="1412" y="758" class="field"><tspan class="flag"></tspan>latitude <tspan fill="#829ab1">DECIMAL(10,7)</tspan></text>
+<text x="1412" y="773" class="field"><tspan class="flag"></tspan>longitude <tspan fill="#829ab1">DECIMAL(10,7)</tspan></text>
+<rect x="1400" y="816" width="590" height="191" rx="8" fill="#fff" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="1400" y="816" width="590" height="32" rx="8" fill="#d97706"/>
+<rect x="1400" y="841" width="590" height="7" fill="#d97706"/>
+<text x="1412" y="837" class="tbl">PRECO</text>
+<text x="1412" y="862" class="field"><tspan class="flag">PK NN  </tspan>id_preco <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="877" class="field"><tspan class="flag">NN  </tspan>item_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="892" class="field"><tspan class="flag"></tspan>mercado_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="1412" y="907" class="field"><tspan class="flag"></tspan>mercado <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="1412" y="922" class="field"><tspan class="flag">NN  </tspan>valor <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="1412" y="937" class="field"><tspan class="flag"></tspan>quantidade_referencia <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="1412" y="952" class="field"><tspan class="flag"></tspan>unidade_referencia <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="1412" y="967" class="field"><tspan class="flag">NN  </tspan>promocional <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="1412" y="982" class="field"><tspan class="flag">NN  </tspan>data_consulta <tspan fill="#829ab1">DATE</tspan></text>
+<rect x="2065" y="190" width="590" height="221" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="190" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="215" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="211" class="tbl">PET</text>
+<text x="2077" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_pet <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="251" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="266" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="2077" y="281" class="field"><tspan class="flag"></tspan>especie <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="2077" y="296" class="field"><tspan class="flag"></tspan>raca <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="2077" y="311" class="field"><tspan class="flag"></tspan>sexo <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="2077" y="326" class="field"><tspan class="flag"></tspan>data_nasc <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="341" class="field"><tspan class="flag"></tspan>peso <tspan fill="#829ab1">DECIMAL(6,2)</tspan></text>
+<text x="2077" y="356" class="field"><tspan class="flag"></tspan>foto <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<text x="2077" y="371" class="field"><tspan class="flag"></tspan>observacoes <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="2077" y="386" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2065" y="429" width="590" height="131" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="429" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="454" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="450" class="tbl">PET_CONTATO</text>
+<text x="2077" y="475" class="field"><tspan class="flag">PK NN  </tspan>id_contato <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="490" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="505" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="520" class="field"><tspan class="flag"></tspan>telefone <tspan fill="#829ab1">VARCHAR(30)</tspan></text>
+<text x="2077" y="535" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<rect x="2065" y="578" width="590" height="176" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="578" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="603" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="599" class="tbl">VACINA</text>
+<text x="2077" y="624" class="field"><tspan class="flag">PK NN  </tspan>id_vacina <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="639" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="654" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="2077" y="669" class="field"><tspan class="flag">NN  </tspan>tipo_calendario <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2077" y="684" class="field"><tspan class="flag"></tspan>data_aplicacao <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="699" class="field"><tspan class="flag"></tspan>data_proxima_dose <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="714" class="field"><tspan class="flag"></tspan>clinica <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="729" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="2065" y="772" width="590" height="191" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="772" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="797" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="793" class="tbl">CONSULTA</text>
+<text x="2077" y="818" class="field"><tspan class="flag">PK NN  </tspan>id_consulta <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="833" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="848" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="2077" y="863" class="field"><tspan class="flag"></tspan>motivo <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="2077" y="878" class="field"><tspan class="flag"></tspan>veterinario <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="893" class="field"><tspan class="flag"></tspan>especialidade <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="2077" y="908" class="field"><tspan class="flag"></tspan>clinica <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="923" class="field"><tspan class="flag">NN  </tspan>lembrete_ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="2077" y="938" class="field"><tspan class="flag"></tspan>observacoes <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="2065" y="981" width="590" height="161" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="981" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1006" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1002" class="tbl">PET_EXAME</text>
+<text x="2077" y="1027" class="field"><tspan class="flag">PK NN  </tspan>id_exame <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1042" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1057" class="field"><tspan class="flag"></tspan>consulta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1072" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="1087" class="field"><tspan class="flag"></tspan>data_exame <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="1102" class="field"><tspan class="flag"></tspan>resultado <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="2077" y="1117" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="2065" y="1160" width="590" height="236" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="1160" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1185" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1181" class="tbl">PET_MEDICACAO</text>
+<text x="2077" y="1206" class="field"><tspan class="flag">PK NN  </tspan>id_pet_medicacao <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1221" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1236" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="2077" y="1251" class="field"><tspan class="flag">NN  </tspan>tipo_uso <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2077" y="1266" class="field"><tspan class="flag"></tspan>dosagem <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="2077" y="1281" class="field"><tspan class="flag"></tspan>horario_dose <tspan fill="#829ab1">TIME</tspan></text>
+<text x="2077" y="1296" class="field"><tspan class="flag"></tspan>frequencia <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="2077" y="1311" class="field"><tspan class="flag"></tspan>data_inicio <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="1326" class="field"><tspan class="flag"></tspan>data_fim <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="1341" class="field"><tspan class="flag"></tspan>quantidade_estoque <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2077" y="1356" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="2077" y="1371" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2065" y="1414" width="590" height="176" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="1414" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1439" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1435" class="tbl">PET_ROTINA</text>
+<text x="2077" y="1460" class="field"><tspan class="flag">PK NN  </tspan>id_pet_rotina <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1475" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1490" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2077" y="1505" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="2077" y="1520" class="field"><tspan class="flag"></tspan>frequencia <tspan fill="#829ab1">VARCHAR(80)</tspan></text>
+<text x="2077" y="1535" class="field"><tspan class="flag"></tspan>data_inicio <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="1550" class="field"><tspan class="flag"></tspan>horario <tspan fill="#829ab1">TIME</tspan></text>
+<text x="2077" y="1565" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2065" y="1608" width="590" height="146" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="1608" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1633" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1629" class="tbl">PET_REFEICAO</text>
+<text x="2077" y="1654" class="field"><tspan class="flag">PK NN  </tspan>id_refeicao <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1669" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1684" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(120)</tspan></text>
+<text x="2077" y="1699" class="field"><tspan class="flag"></tspan>horario <tspan fill="#829ab1">TIME</tspan></text>
+<text x="2077" y="1714" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="2077" y="1729" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2065" y="1772" width="590" height="116" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="1772" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1797" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1793" class="tbl">PET_OBSERVACAO</text>
+<text x="2077" y="1818" class="field"><tspan class="flag">PK NN  </tspan>id_observacao <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1833" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1848" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2077" y="1863" class="field"><tspan class="flag">NN  </tspan>texto <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="2065" y="1906" width="590" height="161" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2065" y="1906" width="590" height="32" rx="8" fill="#7c3aed"/>
+<rect x="2065" y="1931" width="590" height="7" fill="#7c3aed"/>
+<text x="2077" y="1927" class="tbl">PET_DESPESA</text>
+<text x="2077" y="1952" class="field"><tspan class="flag">PK NN  </tspan>id_despesa <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1967" class="field"><tspan class="flag">NN  </tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1982" class="field"><tspan class="flag"></tspan>lancamento_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2077" y="1997" class="field"><tspan class="flag">NN  </tspan>categoria <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2077" y="2012" class="field"><tspan class="flag">NN  </tspan>descricao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="2077" y="2027" class="field"><tspan class="flag">NN  </tspan>valor <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2077" y="2042" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<rect x="2730" y="190" width="590" height="221" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="190" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="215" width="590" height="7" fill="#059669"/>
+<text x="2742" y="211" class="tbl">CONTA</text>
+<text x="2742" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_conta <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="251" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="266" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="2742" y="281" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="296" class="field"><tspan class="flag">NN  </tspan>saldo_inicial <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2742" y="311" class="field"><tspan class="flag"></tspan>limite_credito <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2742" y="326" class="field"><tspan class="flag"></tspan>dia_fechamento <tspan fill="#829ab1">TINYINT</tspan></text>
+<text x="2742" y="341" class="field"><tspan class="flag"></tspan>dia_vencimento <tspan fill="#829ab1">TINYINT</tspan></text>
+<text x="2742" y="356" class="field"><tspan class="flag"></tspan>bandeira <tspan fill="#829ab1">VARCHAR(40)</tspan></text>
+<text x="2742" y="371" class="field"><tspan class="flag"></tspan>ultimos_digitos <tspan fill="#829ab1">CHAR(4)</tspan></text>
+<text x="2742" y="386" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2730" y="429" width="590" height="146" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="429" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="454" width="590" height="7" fill="#059669"/>
+<text x="2742" y="450" class="tbl">CATEGORIA_FINANCEIRA</text>
+<text x="2742" y="475" class="field"><tspan class="flag">PK NN  </tspan>id_categoria <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="490" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="505" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(100)</tspan></text>
+<text x="2742" y="520" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="535" class="field"><tspan class="flag"></tspan>grupo_50_30_20 <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="550" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2730" y="593" width="590" height="296" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="593" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="618" width="590" height="7" fill="#059669"/>
+<text x="2742" y="614" class="tbl">LANCAMENTO</text>
+<text x="2742" y="639" class="field"><tspan class="flag">PK NN  </tspan>id_lancamento <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="654" class="field"><tspan class="flag">NN  </tspan>conta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="669" class="field"><tspan class="flag"></tspan>conta_destino_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="684" class="field"><tspan class="flag"></tspan>categoria_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="699" class="field"><tspan class="flag"></tspan>item_lista_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="714" class="field"><tspan class="flag"></tspan>consulta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="729" class="field"><tspan class="flag"></tspan>pet_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="744" class="field"><tspan class="flag">NN  </tspan>valor <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2742" y="759" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="774" class="field"><tspan class="flag"></tspan>data_vencimento <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="789" class="field"><tspan class="flag"></tspan>data_pagamento <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="804" class="field"><tspan class="flag"></tspan>descricao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="2742" y="819" class="field"><tspan class="flag"></tspan>observacoes <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="2742" y="834" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="849" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="864" class="field"><tspan class="flag">NN  </tspan>recorrente <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2730" y="907" width="590" height="206" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="907" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="932" width="590" height="7" fill="#059669"/>
+<text x="2742" y="928" class="tbl">LANCAMENTO_RECORRENTE</text>
+<text x="2742" y="953" class="field"><tspan class="flag">PK NN  </tspan>id_recorrencia <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="968" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="983" class="field"><tspan class="flag">NN  </tspan>conta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="998" class="field"><tspan class="flag"></tspan>categoria_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1013" class="field"><tspan class="flag">NN  </tspan>descricao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="2742" y="1028" class="field"><tspan class="flag">NN  </tspan>valor <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2742" y="1043" class="field"><tspan class="flag">NN  </tspan>tipo <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="1058" class="field"><tspan class="flag">NN  </tspan>periodicidade <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="2742" y="1073" class="field"><tspan class="flag">NN  </tspan>proxima_data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="1088" class="field"><tspan class="flag">NN  </tspan>ativa <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="2730" y="1131" width="590" height="131" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="1131" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="1156" width="590" height="7" fill="#059669"/>
+<text x="2742" y="1152" class="tbl">ORCAMENTO</text>
+<text x="2742" y="1177" class="field"><tspan class="flag">PK NN  </tspan>id_orcamento <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1192" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1207" class="field"><tspan class="flag"></tspan>categoria_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1222" class="field"><tspan class="flag">NN  </tspan>mes_referencia <tspan fill="#829ab1">CHAR(7)</tspan></text>
+<text x="2742" y="1237" class="field"><tspan class="flag">NN  </tspan>valor_limite <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<rect x="2730" y="1280" width="590" height="161" rx="8" fill="#fff" stroke="#059669" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="2730" y="1280" width="590" height="32" rx="8" fill="#059669"/>
+<rect x="2730" y="1305" width="590" height="7" fill="#059669"/>
+<text x="2742" y="1301" class="tbl">CARTAO_FATURA</text>
+<text x="2742" y="1326" class="field"><tspan class="flag">PK NN  </tspan>id_fatura <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1341" class="field"><tspan class="flag">NN  </tspan>conta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="2742" y="1356" class="field"><tspan class="flag">NN  </tspan>mes_referencia <tspan fill="#829ab1">CHAR(7)</tspan></text>
+<text x="2742" y="1371" class="field"><tspan class="flag"></tspan>data_fechamento <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="1386" class="field"><tspan class="flag"></tspan>data_vencimento <tspan fill="#829ab1">DATE</tspan></text>
+<text x="2742" y="1401" class="field"><tspan class="flag">NN  </tspan>valor_total <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="2742" y="1416" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<rect x="3395" y="190" width="590" height="236" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="190" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="215" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="211" class="tbl">META</text>
+<text x="3407" y="236" class="field"><tspan class="flag">PK NN  </tspan>id_meta <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="251" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="266" class="field"><tspan class="flag">NN  </tspan>titulo <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="3407" y="281" class="field"><tspan class="flag">NN  </tspan>categoria <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="3407" y="296" class="field"><tspan class="flag"></tspan>descricao <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="3407" y="311" class="field"><tspan class="flag"></tspan>valor_alvo <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="3407" y="326" class="field"><tspan class="flag">NN  </tspan>valor_atual <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="3407" y="341" class="field"><tspan class="flag">NN  </tspan>prioridade <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="3407" y="356" class="field"><tspan class="flag"></tspan>data_inicio <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="371" class="field"><tspan class="flag"></tspan>data_fim <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="386" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="3407" y="401" class="field"><tspan class="flag"></tspan>foto_url <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<rect x="3395" y="444" width="590" height="146" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="444" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="469" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="465" class="tbl">ETAPA</text>
+<text x="3407" y="490" class="field"><tspan class="flag">PK NN  </tspan>id_etapa <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="505" class="field"><tspan class="flag">NN  </tspan>meta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="520" class="field"><tspan class="flag">NN  </tspan>descricao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="3407" y="535" class="field"><tspan class="flag">NN  </tspan>ordem <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="550" class="field"><tspan class="flag">NN  </tspan>concluida <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="3407" y="565" class="field"><tspan class="flag"></tspan>data_conclusao <tspan fill="#829ab1">DATE</tspan></text>
+<rect x="3395" y="608" width="590" height="176" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="608" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="633" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="629" class="tbl">META_TAREFA</text>
+<text x="3407" y="654" class="field"><tspan class="flag">PK NN  </tspan>id_tarefa <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="669" class="field"><tspan class="flag"></tspan>meta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="684" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="699" class="field"><tspan class="flag">NN  </tspan>descricao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="3407" y="714" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="729" class="field"><tspan class="flag">NN  </tspan>obrigatoria <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="3407" y="744" class="field"><tspan class="flag">NN  </tspan>concluida <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="3407" y="759" class="field"><tspan class="flag"></tspan>data_conclusao <tspan fill="#829ab1">DATETIME</tspan></text>
+<rect x="3395" y="802" width="590" height="131" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="802" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="827" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="823" class="tbl">PROGRESSO</text>
+<text x="3407" y="848" class="field"><tspan class="flag">PK NN  </tspan>id_progresso <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="863" class="field"><tspan class="flag">NN  </tspan>meta_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="878" class="field"><tspan class="flag">NN  </tspan>data_registro <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="893" class="field"><tspan class="flag">NN  </tspan>valor_alcancado <tspan fill="#829ab1">DECIMAL(12,2)</tspan></text>
+<text x="3407" y="908" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<rect x="3395" y="951" width="590" height="191" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="951" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="976" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="972" class="tbl">HABITO</text>
+<text x="3407" y="997" class="field"><tspan class="flag">PK NN  </tspan>id_habito <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1012" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1027" class="field"><tspan class="flag">NN  </tspan>nome <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="3407" y="1042" class="field"><tspan class="flag">NN  </tspan>frequencia <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="3407" y="1057" class="field"><tspan class="flag"></tspan>meta_valor <tspan fill="#829ab1">DECIMAL(10,2)</tspan></text>
+<text x="3407" y="1072" class="field"><tspan class="flag"></tspan>meta_unidade <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="3407" y="1087" class="field"><tspan class="flag"></tspan>data_inicio <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="1102" class="field"><tspan class="flag"></tspan>data_fim <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="1117" class="field"><tspan class="flag">NN  </tspan>ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="3395" y="1160" width="590" height="86" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="1160" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="1185" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="1181" class="tbl">HABITO_DIA_SEMANA</text>
+<text x="3407" y="1206" class="field"><tspan class="flag">NN  </tspan>habito_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1221" class="field"><tspan class="flag">NN  </tspan>dia_semana <tspan fill="#829ab1">TINYINT</tspan></text>
+<rect x="3395" y="1264" width="590" height="146" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="1264" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="1289" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="1285" class="tbl">REGISTRO_HABITO</text>
+<text x="3407" y="1310" class="field"><tspan class="flag">PK NN  </tspan>id_registro_habito <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1325" class="field"><tspan class="flag">NN  </tspan>habito_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1340" class="field"><tspan class="flag">NN  </tspan>data <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="1355" class="field"><tspan class="flag"></tspan>valor_realizado <tspan fill="#829ab1">DECIMAL(10,2)</tspan></text>
+<text x="3407" y="1370" class="field"><tspan class="flag">NN  </tspan>concluido <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<text x="3407" y="1385" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<rect x="3395" y="1428" width="590" height="206" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="1428" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="1453" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="1449" class="tbl">EVENTO</text>
+<text x="3407" y="1474" class="field"><tspan class="flag">PK NN  </tspan>id_evento <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1489" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1504" class="field"><tspan class="flag">NN  </tspan>titulo <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="3407" y="1519" class="field"><tspan class="flag"></tspan>descricao <tspan fill="#829ab1">TEXT</tspan></text>
+<text x="3407" y="1534" class="field"><tspan class="flag">NN  </tspan>inicio <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="3407" y="1549" class="field"><tspan class="flag"></tspan>fim <tspan fill="#829ab1">DATETIME</tspan></text>
+<text x="3407" y="1564" class="field"><tspan class="flag"></tspan>tipo <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="3407" y="1579" class="field"><tspan class="flag"></tspan>origem_tipo <tspan fill="#829ab1">VARCHAR(50)</tspan></text>
+<text x="3407" y="1594" class="field"><tspan class="flag"></tspan>origem_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1609" class="field"><tspan class="flag">NN  </tspan>lembrete_ativo <tspan fill="#829ab1">BOOLEAN</tspan></text>
+<rect x="3395" y="1652" width="590" height="191" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="1652" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="1677" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="1673" class="tbl">LIVRO</text>
+<text x="3407" y="1698" class="field"><tspan class="flag">PK NN  </tspan>id_livro <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1713" class="field"><tspan class="flag">NN  </tspan>usuario_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1728" class="field"><tspan class="flag">NN  </tspan>titulo <tspan fill="#829ab1">VARCHAR(200)</tspan></text>
+<text x="3407" y="1743" class="field"><tspan class="flag"></tspan>autor <tspan fill="#829ab1">VARCHAR(150)</tspan></text>
+<text x="3407" y="1758" class="field"><tspan class="flag">NN  </tspan>status <tspan fill="#829ab1">varchar(50)</tspan></text>
+<text x="3407" y="1773" class="field"><tspan class="flag">NN  </tspan>progresso_percentual <tspan fill="#829ab1">DECIMAL(5,2)</tspan></text>
+<text x="3407" y="1788" class="field"><tspan class="flag"></tspan>avaliacao <tspan fill="#829ab1">TINYINT</tspan></text>
+<text x="3407" y="1803" class="field"><tspan class="flag"></tspan>capa_url <tspan fill="#829ab1">VARCHAR(500)</tspan></text>
+<text x="3407" y="1818" class="field"><tspan class="flag"></tspan>observacoes <tspan fill="#829ab1">TEXT</tspan></text>
+<rect x="3395" y="1861" width="590" height="131" rx="8" fill="#fff" stroke="#ea580c" stroke-width="1.5" filter="url(#shadow)"/>
+<rect x="3395" y="1861" width="590" height="32" rx="8" fill="#ea580c"/>
+<rect x="3395" y="1886" width="590" height="7" fill="#ea580c"/>
+<text x="3407" y="1882" class="tbl">LIVRO_PROGRESSO</text>
+<text x="3407" y="1907" class="field"><tspan class="flag">PK NN  </tspan>id_livro_progresso <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1922" class="field"><tspan class="flag">NN  </tspan>livro_id <tspan fill="#829ab1">INT</tspan></text>
+<text x="3407" y="1937" class="field"><tspan class="flag">NN  </tspan>data_registro <tspan fill="#829ab1">DATE</tspan></text>
+<text x="3407" y="1952" class="field"><tspan class="flag">NN  </tspan>percentual <tspan fill="#829ab1">DECIMAL(5,2)</tspan></text>
+<text x="3407" y="1967" class="field"><tspan class="flag"></tspan>observacao <tspan fill="#829ab1">VARCHAR(255)</tspan></text>
+<text x="70" y="3365" class="subtitle">Fonte: banco.dbml ? As rela??es indicam a tabela filha (N) apontando para a tabela pai (1). Abreviar tipos ENUM para visualiza??o n?o altera o schema MySQL.</text>
+</svg>

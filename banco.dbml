@@ -1,0 +1,590 @@
+Table usuario {
+  Note: 'Dono da conta na aplicação'
+  id_usuario INT [pk, not null]
+  nome VARCHAR(150) [not null]
+  email VARCHAR(255) [unique, not null]
+  senha VARCHAR(255) [not null]
+  telefone VARCHAR(30)
+  data_nasc DATE
+  genero VARCHAR(40)
+  data_cadastro TIMESTAMP [not null]
+  foto_perfil VARCHAR(500)
+  autenticacao_dupla_ativa BOOLEAN [not null]
+  notificacoes_ativas BOOLEAN [not null]
+}
+
+Table usuario_login_social {
+  Note: 'Identidades externas vinculadas ao usuário'
+  id_login_social INT [pk, not null]
+  usuario_id INT [not null]
+  provedor varchar(50) [not null]
+  identificador_externo VARCHAR(255) [not null]
+  email_provedor VARCHAR(255)
+  data_vinculo TIMESTAMP [not null]
+  Indexes { (provedor, identificador_externo) [unique] }
+}
+
+Table item {
+  Note: 'Supertipo de item da despensa ou de medicamentos'
+  id_item INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(150) [not null]
+  categoria VARCHAR(100)
+  marca VARCHAR(120)
+  codigo_barras VARCHAR(50)
+  imagem_url VARCHAR(500)
+  tipo_item varchar(50) [not null]
+  ativo BOOLEAN [not null]
+  criado_em TIMESTAMP [not null]
+}
+
+Table medicamento {
+  Note: 'Detalhes do subtipo medicamento'
+  id_medicamento INT [pk, not null]
+  item_id INT [unique, not null]
+  concentracao VARCHAR(80)
+  forma_farmaceutica VARCHAR(80)
+  tipo_uso varchar(50) [not null]
+  observacao TEXT
+}
+
+Table produto {
+  Note: 'Detalhes do subtipo produto da despensa'
+  id_produto INT [pk, not null]
+  item_id INT [unique, not null]
+  unidade_medida VARCHAR(20) [not null]
+}
+
+Table lote {
+  Note: 'Estoque físico por lote'
+  id_lote INT [pk, not null]
+  item_id INT [not null]
+  quantidade DECIMAL(12,2) [not null]
+  unidade VARCHAR(30)
+  validade DATE
+  data_compra DATE
+  valor_compra DECIMAL(12,2)
+  local_compra VARCHAR(150)
+}
+
+Table movimentacao {
+  Note: 'Entradas, saídas e ajustes de estoque'
+  id_movimentacao INT [pk, not null]
+  lote_id INT [not null]
+  tipo varchar(50) [not null]
+  quantidade DECIMAL(12,2) [not null]
+  data DATETIME [not null]
+  observacao VARCHAR(255)
+}
+
+Table rotina {
+  Note: 'Rotina de uso de medicamento do usuário'
+  id_rotina INT [pk, not null]
+  medicamento_id INT [not null]
+  quantidade_por_dose DECIMAL(10,2)
+  unidade_dose VARCHAR(30)
+  descricao_dose VARCHAR(255)
+  tipo_frequencia varchar(50) [not null]
+  frequencia VARCHAR(80)
+  intervalo_horas INT
+  data_inicio DATE
+  data_fim DATE
+  lembretes_ativos BOOLEAN [not null]
+  observacao TEXT
+}
+
+Table rotina_dia_semana {
+  Note: 'Dias da semana de uma rotina medicamentosa'
+  rotina_id INT [not null]
+  dia_semana TINYINT [not null]
+  Indexes { (rotina_id, dia_semana) [pk] }
+}
+
+Table horario {
+  Note: 'Horários previstos de uma rotina'
+  id_horario INT [pk, not null]
+  rotina_id INT [not null]
+  hora TIME [not null]
+  Indexes { (rotina_id, hora) [unique] }
+}
+
+Table registro_uso {
+  Note: 'Adesão a tratamentos e usos eventuais'
+  id_registro INT [pk, not null]
+  medicamento_id INT [not null]
+  rotina_id INT
+  data DATE [not null]
+  horario_previsto TIME
+  horario_realizado TIME
+  data_hora_realizada DATETIME
+  dose_realizada VARCHAR(100)
+  tipo_uso varchar(50) [not null]
+  status varchar(50) [not null]
+  observacao TEXT
+}
+
+Table receita {
+  Note: 'Prescrição médica e seus metadados'
+  id_receita INT [pk, not null]
+  usuario_id INT [not null]
+  titulo VARCHAR(150) [not null]
+  medico_nome VARCHAR(150)
+  especialidade VARCHAR(120)
+  data_receita DATE
+  data_validade DATE
+  observacoes TEXT
+  status varchar(50) [not null]
+}
+
+Table receita_medicamento {
+  Note: 'Medicamentos vinculados a uma receita'
+  receita_id INT [not null]
+  medicamento_id INT [not null]
+  posologia VARCHAR(255)
+  observacao VARCHAR(255)
+  Indexes { (receita_id, medicamento_id) [pk] }
+}
+
+Table arquivo {
+  Note: 'Arquivos e anexos de qualquer módulo'
+  id_arquivo INT [pk, not null]
+  usuario_id INT [not null]
+  entidade_tipo varchar(50) [not null]
+  entidade_id INT [not null]
+  nome_original VARCHAR(255) [not null]
+  nome_armazenado VARCHAR(255)
+  mime_type VARCHAR(100)
+  tamanho_bytes BIGINT UNSIGNED
+  url VARCHAR(500) [not null]
+  criado_em TIMESTAMP [not null]
+}
+
+Table lista_compras {
+  Note: 'Listas do usuário, incluindo listas de compras'
+  id_lista INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(150) [not null]
+  tipo varchar(50) [not null]
+  data_criacao TIMESTAMP [not null]
+  status varchar(50) [not null]
+}
+
+Table item_lista {
+  Note: 'Itens de uma lista, cadastrados ou livres'
+  id_item_lista INT [pk, not null]
+  lista_id INT [not null]
+  item_id INT
+  descricao VARCHAR(150)
+  quantidade DECIMAL(12,2) [not null]
+  unidade VARCHAR(30)
+  comprado BOOLEAN [not null]
+}
+
+Table mercado {
+  Note: 'Mercados usados em preços e rotas'
+  id_mercado INT [pk, not null]
+  usuario_id INT
+  nome VARCHAR(120) [not null]
+  endereco VARCHAR(255)
+  latitude DECIMAL(10,7)
+  longitude DECIMAL(10,7)
+}
+
+Table preco {
+  Note: 'Histórico de preços por mercado'
+  id_preco INT [pk, not null]
+  item_id INT [not null]
+  mercado_id INT
+  mercado VARCHAR(120)
+  valor DECIMAL(12,2) [not null]
+  quantidade_referencia DECIMAL(12,2)
+  unidade_referencia VARCHAR(30)
+  promocional BOOLEAN [not null]
+  data_consulta DATE [not null]
+}
+
+Table pet {
+  Note: 'Animais de estimação do usuário'
+  id_pet INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(100) [not null]
+  especie VARCHAR(80)
+  raca VARCHAR(80)
+  sexo VARCHAR(30)
+  data_nasc DATE
+  peso DECIMAL(6,2)
+  foto VARCHAR(500)
+  observacoes TEXT
+  ativo BOOLEAN [not null]
+}
+
+Table pet_contato {
+  Note: 'Tutor e contatos de emergência do pet'
+  id_contato INT [pk, not null]
+  pet_id INT [not null]
+  nome VARCHAR(150) [not null]
+  telefone VARCHAR(30)
+  tipo varchar(50) [not null]
+}
+
+Table vacina {
+  Note: 'Carteira de vacinação do pet'
+  id_vacina INT [pk, not null]
+  pet_id INT [not null]
+  nome VARCHAR(100) [not null]
+  tipo_calendario varchar(50) [not null]
+  data_aplicacao DATE
+  data_proxima_dose DATE
+  clinica VARCHAR(150)
+  observacao TEXT
+}
+
+Table consulta {
+  Note: 'Consultas veterinárias e histórico clínico'
+  id_consulta INT [pk, not null]
+  pet_id INT [not null]
+  data DATETIME [not null]
+  motivo VARCHAR(255)
+  veterinario VARCHAR(150)
+  especialidade VARCHAR(120)
+  clinica VARCHAR(150)
+  lembrete_ativo BOOLEAN [not null]
+  observacoes TEXT
+}
+
+Table pet_exame {
+  Note: 'Exames e laudos do pet'
+  id_exame INT [pk, not null]
+  pet_id INT [not null]
+  consulta_id INT
+  nome VARCHAR(150) [not null]
+  data_exame DATE
+  resultado TEXT
+  observacao TEXT
+}
+
+Table pet_medicacao {
+  Note: 'Medicações específicas de cada pet'
+  id_pet_medicacao INT [pk, not null]
+  pet_id INT [not null]
+  nome VARCHAR(150) [not null]
+  tipo_uso varchar(50) [not null]
+  dosagem VARCHAR(100)
+  horario_dose TIME
+  frequencia VARCHAR(80)
+  data_inicio DATE
+  data_fim DATE
+  quantidade_estoque DECIMAL(12,2)
+  observacao TEXT
+  ativo BOOLEAN [not null]
+}
+
+Table pet_rotina {
+  Note: 'Rotinas de higiene, passeio e bem-estar'
+  id_pet_rotina INT [pk, not null]
+  pet_id INT [not null]
+  tipo varchar(50) [not null]
+  nome VARCHAR(120) [not null]
+  frequencia VARCHAR(80)
+  data_inicio DATE
+  horario TIME
+  ativo BOOLEAN [not null]
+}
+
+Table pet_refeicao {
+  Note: 'Rotina alimentar do pet'
+  id_refeicao INT [pk, not null]
+  pet_id INT [not null]
+  nome VARCHAR(120) [not null]
+  horario TIME
+  observacao TEXT
+  ativo BOOLEAN [not null]
+}
+
+Table pet_observacao {
+  Note: 'Notas de comportamento e observações diárias'
+  id_observacao INT [pk, not null]
+  pet_id INT [not null]
+  data DATE [not null]
+  texto TEXT [not null]
+}
+
+Table conta {
+  Note: 'Contas financeiras do usuário'
+  id_conta INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(100) [not null]
+  tipo varchar(50) [not null]
+  saldo_inicial DECIMAL(12,2) [not null]
+  limite_credito DECIMAL(12,2)
+  dia_fechamento TINYINT
+  dia_vencimento TINYINT
+  bandeira VARCHAR(40)
+  ultimos_digitos CHAR(4)
+  ativo BOOLEAN [not null]
+}
+
+Table categoria_financeira {
+  Note: 'Categorias para lançamentos e orçamentos'
+  id_categoria INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(100) [not null]
+  tipo varchar(50) [not null]
+  grupo_50_30_20 varchar(50)
+  ativo BOOLEAN [not null]
+  Indexes { (usuario_id, nome, tipo) [unique] }
+}
+
+Table lancamento {
+  Note: 'Receitas, despesas, transferências e vencimentos'
+  id_lancamento INT [pk, not null]
+  conta_id INT [not null]
+  conta_destino_id INT
+  categoria_id INT
+  item_lista_id INT
+  consulta_id INT
+  pet_id INT
+  valor DECIMAL(12,2) [not null]
+  data DATE [not null]
+  data_vencimento DATE
+  data_pagamento DATE
+  descricao VARCHAR(255)
+  observacoes TEXT
+  tipo varchar(50) [not null]
+  status varchar(50) [not null]
+  recorrente BOOLEAN [not null]
+}
+
+Table lancamento_recorrente {
+  Note: 'Regras para geração de lançamentos recorrentes'
+  id_recorrencia INT [pk, not null]
+  usuario_id INT [not null]
+  conta_id INT [not null]
+  categoria_id INT
+  descricao VARCHAR(255) [not null]
+  valor DECIMAL(12,2) [not null]
+  tipo varchar(50) [not null]
+  periodicidade varchar(50) [not null]
+  proxima_data DATE [not null]
+  ativa BOOLEAN [not null]
+}
+
+Table orcamento {
+  Note: 'Limite de gasto por categoria e mês'
+  id_orcamento INT [pk, not null]
+  usuario_id INT [not null]
+  categoria_id INT
+  mes_referencia CHAR(7) [not null]
+  valor_limite DECIMAL(12,2) [not null]
+  Indexes { (usuario_id, categoria_id, mes_referencia) [unique] }
+}
+
+Table cartao_fatura {
+  Note: 'Faturas de contas do tipo cartão'
+  id_fatura INT [pk, not null]
+  conta_id INT [not null]
+  mes_referencia CHAR(7) [not null]
+  data_fechamento DATE
+  data_vencimento DATE
+  valor_total DECIMAL(12,2) [not null]
+  status varchar(50) [not null]
+  Indexes { (conta_id, mes_referencia) [unique] }
+}
+
+Table meta {
+  Note: 'Objetivos pessoais e financeiros'
+  id_meta INT [pk, not null]
+  usuario_id INT [not null]
+  titulo VARCHAR(150) [not null]
+  categoria varchar(50) [not null]
+  descricao TEXT
+  valor_alvo DECIMAL(12,2)
+  valor_atual DECIMAL(12,2) [not null]
+  prioridade varchar(50) [not null]
+  data_inicio DATE
+  data_fim DATE
+  status varchar(50) [not null]
+  foto_url VARCHAR(500)
+}
+
+Table etapa {
+  Note: 'Etapas de uma meta'
+  id_etapa INT [pk, not null]
+  meta_id INT [not null]
+  descricao VARCHAR(255) [not null]
+  ordem INT [not null]
+  concluida BOOLEAN [not null]
+  data_conclusao DATE
+}
+
+Table meta_tarefa {
+  Note: 'Tarefas diárias relacionadas ou não a uma meta'
+  id_tarefa INT [pk, not null]
+  meta_id INT
+  usuario_id INT [not null]
+  descricao VARCHAR(255) [not null]
+  data DATE [not null]
+  obrigatoria BOOLEAN [not null]
+  concluida BOOLEAN [not null]
+  data_conclusao DATETIME
+}
+
+Table progresso {
+  Note: 'Histórico de progresso das metas'
+  id_progresso INT [pk, not null]
+  meta_id INT [not null]
+  data_registro DATE [not null]
+  valor_alcancado DECIMAL(12,2) [not null]
+  observacao VARCHAR(255)
+}
+
+Table habito {
+  Note: 'Hábitos pessoais acompanhados pelo usuário'
+  id_habito INT [pk, not null]
+  usuario_id INT [not null]
+  nome VARCHAR(150) [not null]
+  frequencia varchar(50) [not null]
+  meta_valor DECIMAL(10,2)
+  meta_unidade VARCHAR(50)
+  data_inicio DATE
+  data_fim DATE
+  ativo BOOLEAN [not null]
+}
+
+Table habito_dia_semana {
+  Note: 'Dias configurados para hábitos semanais'
+  habito_id INT [not null]
+  dia_semana TINYINT [not null]
+  Indexes { (habito_id, dia_semana) [pk] }
+}
+
+Table registro_habito {
+  Note: 'Execução diária de hábitos'
+  id_registro_habito INT [pk, not null]
+  habito_id INT [not null]
+  data DATE [not null]
+  valor_realizado DECIMAL(10,2)
+  concluido BOOLEAN [not null]
+  observacao VARCHAR(255)
+  Indexes { (habito_id, data) [unique] }
+}
+
+Table evento {
+  Note: 'Eventos do calendário e compromissos'
+  id_evento INT [pk, not null]
+  usuario_id INT [not null]
+  titulo VARCHAR(150) [not null]
+  descricao TEXT
+  inicio DATETIME [not null]
+  fim DATETIME
+  tipo VARCHAR(50)
+  origem_tipo VARCHAR(50)
+  origem_id INT
+  lembrete_ativo BOOLEAN [not null]
+}
+
+Table livro {
+  Note: 'Biblioteca pessoal do usuário'
+  id_livro INT [pk, not null]
+  usuario_id INT [not null]
+  titulo VARCHAR(200) [not null]
+  autor VARCHAR(150)
+  status varchar(50) [not null]
+  progresso_percentual DECIMAL(5,2) [not null]
+  avaliacao TINYINT
+  capa_url VARCHAR(500)
+  observacoes TEXT
+}
+
+Table livro_progresso {
+  Note: 'Histórico de leitura'
+  id_livro_progresso INT [pk, not null]
+  livro_id INT [not null]
+  data_registro DATE [not null]
+  percentual DECIMAL(5,2) [not null]
+  observacao VARCHAR(255)
+}
+
+Table lembrete {
+  Note: 'Lembretes gerais e vinculados a módulos'
+  id_lembrete INT [pk, not null]
+  usuario_id INT [not null]
+  titulo VARCHAR(150) [not null]
+  data_hora DATETIME [not null]
+  concluido BOOLEAN [not null]
+  contexto VARCHAR(50)
+  origem_tipo VARCHAR(50)
+  origem_id INT
+  repeticao VARCHAR(50)
+}
+
+Table pet_despesa {
+  Note: 'Despesas específicas de um pet'
+  id_despesa INT [pk, not null]
+  pet_id INT [not null]
+  lancamento_id INT
+  categoria varchar(50) [not null]
+  descricao VARCHAR(255) [not null]
+  valor DECIMAL(12,2) [not null]
+  data DATE [not null]
+}
+
+Ref: usuario_login_social.usuario_id > usuario.id_usuario
+Ref: item.usuario_id > usuario.id_usuario
+Ref: medicamento.item_id > item.id_item
+Ref: produto.item_id > item.id_item
+Ref: lote.item_id > item.id_item
+Ref: movimentacao.lote_id > lote.id_lote
+Ref: rotina.medicamento_id > medicamento.id_medicamento
+Ref: rotina_dia_semana.rotina_id > rotina.id_rotina
+Ref: horario.rotina_id > rotina.id_rotina
+Ref: registro_uso.medicamento_id > medicamento.id_medicamento
+Ref: registro_uso.rotina_id > rotina.id_rotina
+Ref: receita.usuario_id > usuario.id_usuario
+Ref: receita_medicamento.receita_id > receita.id_receita
+Ref: receita_medicamento.medicamento_id > medicamento.id_medicamento
+Ref: arquivo.usuario_id > usuario.id_usuario
+Ref: lista_compras.usuario_id > usuario.id_usuario
+Ref: item_lista.lista_id > lista_compras.id_lista
+Ref: item_lista.item_id > item.id_item
+Ref: mercado.usuario_id > usuario.id_usuario
+Ref: preco.item_id > item.id_item
+Ref: preco.mercado_id > mercado.id_mercado
+Ref: pet.usuario_id > usuario.id_usuario
+Ref: pet_contato.pet_id > pet.id_pet
+Ref: vacina.pet_id > pet.id_pet
+Ref: consulta.pet_id > pet.id_pet
+Ref: pet_exame.pet_id > pet.id_pet
+Ref: pet_exame.consulta_id > consulta.id_consulta
+Ref: pet_medicacao.pet_id > pet.id_pet
+Ref: pet_rotina.pet_id > pet.id_pet
+Ref: pet_refeicao.pet_id > pet.id_pet
+Ref: pet_observacao.pet_id > pet.id_pet
+Ref: conta.usuario_id > usuario.id_usuario
+Ref: categoria_financeira.usuario_id > usuario.id_usuario
+Ref: lancamento.conta_id > conta.id_conta
+Ref: lancamento.conta_destino_id > conta.id_conta
+Ref: lancamento.categoria_id > categoria_financeira.id_categoria
+Ref: lancamento.item_lista_id > item_lista.id_item_lista
+Ref: lancamento.consulta_id > consulta.id_consulta
+Ref: lancamento.pet_id > pet.id_pet
+Ref: lancamento_recorrente.usuario_id > usuario.id_usuario
+Ref: lancamento_recorrente.conta_id > conta.id_conta
+Ref: lancamento_recorrente.categoria_id > categoria_financeira.id_categoria
+Ref: orcamento.usuario_id > usuario.id_usuario
+Ref: orcamento.categoria_id > categoria_financeira.id_categoria
+Ref: cartao_fatura.conta_id > conta.id_conta
+Ref: meta.usuario_id > usuario.id_usuario
+Ref: etapa.meta_id > meta.id_meta
+Ref: meta_tarefa.meta_id > meta.id_meta
+Ref: meta_tarefa.usuario_id > usuario.id_usuario
+Ref: progresso.meta_id > meta.id_meta
+Ref: habito.usuario_id > usuario.id_usuario
+Ref: habito_dia_semana.habito_id > habito.id_habito
+Ref: registro_habito.habito_id > habito.id_habito
+Ref: evento.usuario_id > usuario.id_usuario
+Ref: livro.usuario_id > usuario.id_usuario
+Ref: livro_progresso.livro_id > livro.id_livro
+Ref: lembrete.usuario_id > usuario.id_usuario
+Ref: pet_despesa.pet_id > pet.id_pet
+Ref: pet_despesa.lancamento_id > lancamento.id_lancamento
