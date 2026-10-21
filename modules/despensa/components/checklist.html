@@ -35,6 +35,19 @@
 
     <script src="/shared/services/theme.js" defer></script>
     <script src="../js/checklist.js" defer></script>
+
+    <script>
+    const configModule = window.keeperhubModuleConfig || {
+    module: 'despensa',
+    title: 'Despensa',
+    subtitle: 'Gestão do seu mercado',
+    backUrl: '/main/',
+    notificationsModule: 'Despensa',
+    addUrl: '/modules/despensa/components/cadastrar.html'
+};
+    </script>
+    <script src="/shared/services/load-components.js"></script>
+    
 </head>   
 
 <body class="despensa" data-pagina="checklist">
