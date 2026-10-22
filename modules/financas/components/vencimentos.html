@@ -15,7 +15,16 @@
     <script src="/shared/services/theme.js" defer></script>
     <title>Próximos Vencimentos</title>
     <script src="../js/interface.js" defer></script>
-    <script src="../js/cabecalho.js" defer data-title="Próximos Vencimentos" data-subtitle="Acompanhe os pagamentos pendentes"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Próximos Vencimentos',
+            subtitle: 'Acompanhe os pagamentos pendentes',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
     <section class="app-shell">

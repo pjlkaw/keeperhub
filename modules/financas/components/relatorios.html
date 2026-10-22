@@ -15,7 +15,16 @@
   <script src="/shared/services/theme.js" defer></script>
     <title>Relatórios — KeeperHub</title>
     <script src="../js/interface.js" defer></script>
-    <script src="../js/cabecalho.js" defer data-title="Relatórios" data-subtitle="Análise financeira"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Relatórios',
+            subtitle: 'Análise financeira',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body class="finance-page">
   <main class="finance-shell reports-screen">

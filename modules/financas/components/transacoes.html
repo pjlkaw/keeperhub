@@ -21,9 +21,16 @@
     <script src="/shared/services/theme.js" defer></script>
     <title>Transações</title>
     <script src="../js/interface.js" defer></script>
-
-    <!-- Header compartilhado -->
-    <script src="../js/cabecalho.js" defer data-title="Transações" data-subtitle="Consulte suas movimentações"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Transações',
+            subtitle: 'Consulte suas movimentações',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 
 <body class="finance-page">
@@ -37,7 +44,7 @@
 
         <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
         <nav class="finance-tabs" aria-label="Seções de finanças">
-            <a href="/modules/financas/">Visão geral</a>
+            <a href="/modules/financas/index.html">Visão geral</a>
             <a class="active" href="transacoes.html" aria-current="page">Transações</a>
             <a href="relatorios.html">Relatórios</a>
             <a href="nova-transacao.html">Nova transação</a>
