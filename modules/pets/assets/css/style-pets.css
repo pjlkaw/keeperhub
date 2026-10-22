@@ -8,7 +8,7 @@
   /* Derivação para texto pequeno legível, sem criar outra paleta de tema. */
   --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
   --pets-status-continuo: var(--tool-medicamentos);
-  --pets-status-temporario: var(--tool-metas);
+  --pets-status-temporario: var(--tool-pets);
   --pets-status-alerta: #c90016;
   --pets-neutral-icon-filter: none;
   --pets-primary-hover: color-mix(in srgb, var(--tool-pets) 85%, white);
