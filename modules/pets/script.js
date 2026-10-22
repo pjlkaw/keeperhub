@@ -16,3 +16,6 @@
  * O carrossel mobile e a seleção visual de tipo e gênero funcionam
  * atualmente apenas com HTML e CSS, sem JavaScript ativo.
  */
+
+// localstorage da adição de dados
+
