@@ -15,7 +15,16 @@
     <script src="/shared/services/theme.js" defer></script>
     <title>Minhas Contas</title>
     <script src="../js/interface.js" defer></script>
-    <script src="../js/cabecalho.js" defer data-title="Minhas Contas" data-subtitle="Gerencie suas contas"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Minhas Contas',
+            subtitle: 'Gerencie suas contas',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
     <section class="app-shell">

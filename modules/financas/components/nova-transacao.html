@@ -21,8 +21,16 @@
     <title>Nova transação — KeeperHub</title>
     <script src="../js/interface.js" defer></script>
 
-    <!-- Header compartilhado -->
-    <script src="../js/cabecalho.js" defer data-title="Nova transação" data-subtitle="Registre uma movimentação" data-back="anterior"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Nova transação',
+            subtitle: 'Registre uma movimentação',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 
 <body class="finance-page finance-new-transaction-page">
