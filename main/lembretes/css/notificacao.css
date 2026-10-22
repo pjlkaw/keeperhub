@@ -135,7 +135,6 @@ button {
 }
 
 .cartao-categoria--pets { background-color: var(--tool-pets); }
-.cartao-categoria--metas { background-color: var(--tool-metas); }
 .cartao-categoria--medicamentos { background-color: var(--tool-medicamentos); }
 .cartao-categoria--financas { background-color:var(--tool-financas); }
 .cartao-categoria--despensa { background-color: var(--tool-despensa); }

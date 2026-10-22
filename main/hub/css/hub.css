@@ -459,10 +459,6 @@ a.module-card,
   transition: filter 0.22s ease, box-shadow 0.22s ease;
 }
 
-.accent-top-metas {
-  background-color: var(--tool-metas, #FFC100);
-}
-
 .accent-top-financas {
   background-color: var(--tool-financas, #E47A00);
 }
@@ -526,10 +522,6 @@ a.module-card,
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.03em;
-}
-
-.val-yellow {
-  color: var(--tool-metas, #FFC100);
 }
 
 .val-white {
@@ -671,12 +663,6 @@ a.module-card,
 }
 
 /* Refinamento de proporção e peso visual de cada logo oficial */
-.watermark-metas {
-  width: 78px;
-  height: 78px;
-  opacity: 0.13;
-}
-
 .watermark-financas {
   width: 82px;
   height: 82px;
@@ -732,19 +718,6 @@ a.module-card,
   }
 
   /* 3. Realce de Borda, Top Accent e Marca d'Água por Módulo */
-  /* METAS (Amarelo) */
-  #hub-card-metas:hover {
-    border-color: rgba(255, 193, 0, 0.35);
-  }
-
-  #hub-card-metas:hover .accent-top-metas {
-    filter: brightness(1.2) drop-shadow(0 0 6px rgba(255, 193, 0, 0.5));
-  }
-
-  #hub-card-metas:hover .watermark-metas {
-    transform: none;
-  }
-
   /* FINANÇAS (Laranja) */
   #hub-card-financas:hover {
     border-color: rgba(228, 122, 0, 0.35);
@@ -811,10 +784,6 @@ a.module-card,
   }
 
   /* Ajustes Específicos para Light Mode no Hover */
-  [data-theme="light"] #hub-card-metas:hover {
-    border-color: rgba(255, 193, 0, 0.45);
-  }
-
   [data-theme="light"] #hub-card-financas:hover {
     border-color: rgba(228, 122, 0, 0.45);
   }

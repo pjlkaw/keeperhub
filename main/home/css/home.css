@@ -228,7 +228,6 @@ body {
 }
 
 .cartao-financas { --cor-modulo: var(--tool-financas); }
-.cartao-metas { --cor-modulo: var(--tool-metas); }
 .cartao-despensa { --cor-modulo: var(--tool-despensa); }
 .cartao-pets { --cor-modulo: var(--tool-pets); }
 .cartao-medicamentos { --cor-modulo: var(--tool-medicamentos); }
@@ -475,4 +474,3 @@ summary:focus-visible {
     scroll-snap-type: none;
   }
 }
-

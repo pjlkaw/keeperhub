@@ -189,7 +189,7 @@
 .med-stock-number {
     font-size: 1.75rem;
     font-weight: 700;
-    color: var(--tool-metas);
+    color: var(--tool-medicamentos);
     line-height: 1;
 }
 
@@ -252,7 +252,7 @@
 .med-inner-value--highlight {
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--tool-metas);
+    color: var(--tool-medicamentos);
 }
 
 /* --------------------------------------------------------------------------

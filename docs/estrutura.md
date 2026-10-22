@@ -9,7 +9,7 @@ por mais de uma parte do projeto.
 | Pasta | O que fica aqui | Quando abrir |
 | --- | --- | --- |
 | `main/` | Páginas do site: início, entrar, criar conta, hub e páginas institucionais | Ao mudar uma página do site |
-| `modules/` | Ferramentas do hub: finanças, metas, despensa, pets e medicamentos | Ao mudar uma ferramenta |
+| `modules/` | Ferramentas do hub: finanças, despensa, pets e medicamentos | Ao mudar uma ferramenta |
 | `shared/` | Componentes, estilos, serviços e chamadas reutilizadas | Quando a mudança serve a mais de uma página |
 | `api/` | Rotas do servidor no formato de funções da Vercel | Ao receber ou responder um pedido HTTP |
 | `server/` | Conexão com o banco e consultas SQL | Ao ler ou gravar dados no banco |

@@ -198,7 +198,6 @@ main {
 }
 
 /* Cor de destaque por módulo, via atributo em vez de classe */
-[data-name="metas"]        { --accent-color: var(--tool-metas); }
 [data-name="financas"]     { --accent-color: var(--tool-financas); }
 [data-name="pets"]         { --accent-color: var(--tool-pets); }
 [data-name="despensa"]     { --accent-color: var(--tool-despensa); }
