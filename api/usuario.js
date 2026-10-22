@@ -7,6 +7,8 @@ import { hashPassword, verificarSenha } from '../server/password.js';
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar'];
 const GENEROS_CADASTRO = GENEROS_VALIDOS.slice(0, 2);
+const TIPOS_IMAGEM_VALIDOS = ['image/jpeg', 'image/png', 'image/webp'];
+const TAMANHO_MAXIMO_IMAGEM = 5 * 1024 * 1024;
 
 function idValido(value) {
   const id = Number(value);
@@ -61,6 +63,28 @@ function validarFormularioUsuario(body, { cadastro = false } = {}) {
       return { erro: 'Informe a senha atual para alterá-la.' };
     }
     dados.senha_usuario = body.senha_usuario;
+  }
+
+  // A imagem chega como Base64 e fica salva na coluna foto_usuario.
+  if (Object.prototype.hasOwnProperty.call(body, 'foto_usuario')) {
+    if (body.foto_usuario === null || body.foto_usuario === '') {
+      dados.foto_usuario = null;
+    } else if (typeof body.foto_usuario !== 'string') {
+      return { erro: 'A imagem do perfil é inválida.' };
+    } else {
+      const tipoImagem = body.foto_usuario.match(/^data:(image\/(?:jpeg|png|webp));base64,/i)?.[1];
+      const conteudoBase64 = body.foto_usuario.split(',')[1] || '';
+      const tamanhoImagem = Math.floor((conteudoBase64.length * 3) / 4);
+
+      if (!tipoImagem || !TIPOS_IMAGEM_VALIDOS.includes(tipoImagem.toLowerCase())) {
+        return { erro: 'Use uma imagem JPG, PNG ou WebP.' };
+      }
+      if (tamanhoImagem > TAMANHO_MAXIMO_IMAGEM) {
+        return { erro: 'A imagem deve ter no máximo 5 MB.' };
+      }
+
+      dados.foto_usuario = body.foto_usuario;
+    }
   }
 
   return { dados };

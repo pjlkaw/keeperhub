@@ -12,9 +12,16 @@ async function renderProfile() {
     const displayEmail = String(user.email_usuario || '').trim();
     const nameElement = document.getElementById('nome-usuario');
     const emailElement = document.getElementById('email-usuario');
+    const avatarElement = document.querySelector('.perfil-avatar');
 
     if (nameElement) nameElement.textContent = displayName;
     if (emailElement) emailElement.textContent = displayEmail || 'Email não disponível';
+    if (avatarElement && user.foto_usuario) {
+      const avatarImage = document.createElement('img');
+      avatarImage.src = user.foto_usuario;
+      avatarImage.alt = `Foto de perfil de ${displayName}`;
+      avatarElement.replaceChildren(avatarImage);
+    }
     document.title = 'KeeperHub — Perfil de ' + displayName;
   } catch (error) {
     console.error('[Perfil] Não foi possível carregar o usuário:', error);

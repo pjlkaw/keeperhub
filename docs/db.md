@@ -74,7 +74,8 @@ Os dados do `.env` são carregados pelo `dotenv` e utilizados para criar a conex
 ## Cadastro, login e perfil
 
 O fluxo de conta usa a tabela `usuario` e os campos `nome_usuario`,
-`email_usuario`, `senha_usuario`, `numero_usuario` e `genero_usuario`.
+`email_usuario`, `senha_usuario`, `telefone`, `foto_usuario` e
+`genero_usuario`.
 O cadastro é enviado por `POST /api/usuario`; o login usa `POST /api/login`.
 Depois do login, o navegador guarda somente o ID e os dados públicos da conta
 em `localStorage`. O perfil é carregado por `GET /api/usuario?id=<id>` e
@@ -84,8 +85,21 @@ As senhas novas são armazenadas com `scrypt`. Contas antigas com senha em texto
 simples continuam podendo entrar e têm a senha convertida para hash no primeiro
 login bem-sucedido. A senha atual é exigida para atualizar a senha pelo perfil.
 Data de nascimento fica apenas no dispositivo; ainda não há coluna para ela na
-tabela atual. A foto selecionada no perfil é apenas uma prévia e também não é
-enviada ao banco.
+tabela atual.
+
+Caso o banco ainda não tenha as colunas de telefone e foto, execute uma vez no
+MySQL Workbench:
+
+```sql
+ALTER TABLE usuario
+  ADD COLUMN telefone VARCHAR(20) NULL,
+  MODIFY COLUMN foto_usuario LONGTEXT NULL;
+```
+
+O cadastro requer `telefone`. A aplicação envia a imagem como Base64 e salva o
+conteúdo em `foto_usuario`. Isso é adequado apenas para o protótipo; em uma
+versão maior, a imagem deve ficar em um armazenamento de arquivos e o banco
+deve guardar somente o caminho.
 
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 

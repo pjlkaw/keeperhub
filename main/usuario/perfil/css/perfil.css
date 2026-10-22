@@ -74,6 +74,13 @@
   box-shadow: 0 5px 16px var(--perfil-sombra);
 }
 
+.perfil-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
 .perfil-avatar > .fa-user {
   font-size: 2.75rem;
   line-height: 1;
