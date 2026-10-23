@@ -39,7 +39,8 @@ export default async function handler(req, res) {
         nome_usuario: usuario.nome_usuario,
         email_usuario: usuario.email_usuario,
         numero_usuario: usuario.numero_usuario,
-        genero_usuario: usuario.genero_usuario
+        genero_usuario: usuario.genero_usuario,
+        foto_usuario: usuario.foto_usuario
       }
     });
   } catch (erro) {

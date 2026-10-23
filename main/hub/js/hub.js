@@ -148,6 +148,7 @@ function userLoadContent(user) {
   if (!user) return;
 
   const pageName = document.getElementById('pageNameH1');
+  const userImage = document.getElementById('userImage');
   // Aguarda o header compartilhado terminar de ser carregado.
   if (!pageName) {
     setTimeout(() => userLoadContent(user), 50);
@@ -158,6 +159,8 @@ function userLoadContent(user) {
     const firstName = user.name.split(' ')[0];
     pageName.textContent = `Olá, ${firstName}`;
   }
+
+  
 }
 
 function observeModuleCardSizes() {
