@@ -276,11 +276,9 @@
   color: var(--text-color, #111827);
 }
 
-.app-header-avatar {
+.app-header-avatar, .app-header-avatar-img {
   width: 36px;
   height: 36px;
-  min-width: 36px;
-  min-height: 36px;
   border-radius: 50%;
   border: 1.5px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
@@ -292,8 +290,8 @@
 }
 
 .app-header-avatar-img {
-  width: 100%;
-  height: 100%;
+  width: 36px;
+  height: 36px;
   object-fit: cover;
   display: block;
 }
