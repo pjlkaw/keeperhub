@@ -47,7 +47,6 @@ async function fillProfile() {
     genderSelect.value = profile.gender;
     nameSummary.textContent = profile.name;
     if (user.foto_usuario) {
-      photoData = user.foto_usuario;
       avatarImage.src = user.foto_usuario;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
@@ -118,7 +117,7 @@ async function fillProfile() {
       avatarImage.src = reader.result;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
-      message.textContent = 'Imagem validada localmente. A moderação de conteúdo ainda será adicionada.';
+      message.textContent = 'Imagem carregada. A validação de conteúdo será feita ao salvar.';
     });
     reader.readAsDataURL(file);
   }

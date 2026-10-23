@@ -93,13 +93,27 @@ MySQL Workbench:
 ```sql
 ALTER TABLE usuario
   ADD COLUMN telefone VARCHAR(20) NULL,
-  MODIFY COLUMN foto_usuario LONGTEXT NULL;
+  MODIFY COLUMN foto_usuario VARCHAR(500) NULL;
 ```
 
-O cadastro requer `telefone`. A aplicação envia a imagem como Base64 e salva o
-conteúdo em `foto_usuario`. Isso é adequado apenas para o protótipo; em uma
-versão maior, a imagem deve ficar em um armazenamento de arquivos e o banco
-deve guardar somente o caminho.
+O cadastro requer `telefone`. A imagem é validada no backend, enviada ao Vercel
+Blob e somente a URL pública é salva em `foto_usuario`.
+
+Configure a conexão OIDC do Blob Store nos ambientes Development, Preview e
+Production. O Vercel fornece `BLOB_STORE_ID` e `VERCEL_OIDC_TOKEN`; não é
+necessário configurar `BLOB_READ_WRITE_TOKEN`. Fotos antigas que ainda estejam
+em Base64 precisam ser migradas depois que a conexão estiver configurada:
+
+```bash
+npm run migrate:photos
+```
+
+Depois da migração, altere a coluna para `VARCHAR(500)`. Não faça essa
+alteração antes, pois os registros Base64 serão truncados.
+
+As imagens são validadas no backend com `sharp` quanto ao formato, tamanho e
+dimensões. O `nsfwjs` classifica o conteúdo localmente e rejeita imagens com
+probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 

@@ -3,19 +3,18 @@ import {
   buscarUsuarioPorEmail, criarUsuario
 } from '../server/repositories/usuario.js';
 import { hashPassword, verificarSenha } from '../server/password.js';
+import { validarFoto } from '../server/image-validation.js';
+import { armazenarFoto } from '../server/image-storage.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar'];
 const GENEROS_CADASTRO = GENEROS_VALIDOS.slice(0, 2);
-const TIPOS_IMAGEM_VALIDOS = ['image/jpeg', 'image/png', 'image/webp'];
-const TAMANHO_MAXIMO_IMAGEM = 5 * 1024 * 1024;
-
 function idValido(value) {
   const id = Number(value);
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
-function validarFormularioUsuario(body, { cadastro = false } = {}) {
+async function validarFormularioUsuario(body, { cadastro = false } = {}) {
   const dados = {};
   const temCampo = (campo) => Object.prototype.hasOwnProperty.call(body, campo);
 
@@ -69,21 +68,12 @@ function validarFormularioUsuario(body, { cadastro = false } = {}) {
   if (Object.prototype.hasOwnProperty.call(body, 'foto_usuario')) {
     if (body.foto_usuario === null || body.foto_usuario === '') {
       dados.foto_usuario = null;
-    } else if (typeof body.foto_usuario !== 'string') {
-      return { erro: 'A imagem do perfil é inválida.' };
     } else {
-      const tipoImagem = body.foto_usuario.match(/^data:(image\/(?:jpeg|png|webp));base64,/i)?.[1];
-      const conteudoBase64 = body.foto_usuario.split(',')[1] || '';
-      const tamanhoImagem = Math.floor((conteudoBase64.length * 3) / 4);
-
-      if (!tipoImagem || !TIPOS_IMAGEM_VALIDOS.includes(tipoImagem.toLowerCase())) {
-        return { erro: 'Use uma imagem JPG, PNG ou WebP.' };
+      const resultadoImagem = await validarFoto(body.foto_usuario);
+      if (resultadoImagem.erro) {
+        return resultadoImagem;
       }
-      if (tamanhoImagem > TAMANHO_MAXIMO_IMAGEM) {
-        return { erro: 'A imagem deve ter no máximo 5 MB.' };
-      }
-
-      dados.foto_usuario = body.foto_usuario;
+      dados.foto_usuario = await armazenarFoto(resultadoImagem);
     }
   }
 
@@ -91,7 +81,7 @@ function validarFormularioUsuario(body, { cadastro = false } = {}) {
 }
 
 async function criarConta(body, res) {
-  const validacao = validarFormularioUsuario(body, { cadastro: true });
+  const validacao = await validarFormularioUsuario(body, { cadastro: true });
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
@@ -127,7 +117,7 @@ async function atualizarPerfil(query, body, res) {
     return res.status(400).json({ erro: 'Informe um ID de usuário válido.' });
   }
 
-  const validacao = validarFormularioUsuario(body);
+  const validacao = await validarFormularioUsuario(body);
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
