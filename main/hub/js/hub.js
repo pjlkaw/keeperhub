@@ -155,6 +155,10 @@ function userLoadContent(user) {
     return;
   }
 
+  if (userImage) {
+    userImage.style.display = 'none'; // Oculta a imagem do usuário se não estiver disponível
+  }
+
   if (pageName && user.name) {
     const firstName = user.name.split(' ')[0]; // Extrai o primeiro nome do usuário
     pageName.textContent = `Olá, ${firstName}`; // Atualiza o conteúdo do elemento <h1> com o nome
@@ -162,6 +166,7 @@ function userLoadContent(user) {
 
   if (userImage && user.foto_usuario) {
     document.getElementById('userIcon').style.display = 'none'; //remove ícone de usuário padrão
+    userImage.style.display = 'flex'; // exibe a imagem do usuário
     userImage.src = user.foto_usuario; // aplica imagem do usuário
   }
 
