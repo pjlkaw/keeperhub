@@ -8,6 +8,7 @@
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
 import { criarUsuario } from '../../../shared/api/usuario.js';
+import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
 async function realizarCadastro(usuario) {
@@ -16,7 +17,10 @@ async function realizarCadastro(usuario) {
     window.location.href = '../hub/index.html';
   } catch (erro) {
     console.error('[Cadastro] Falha ao criar conta:', erro);
+    alertShared(erro.message || 'Não foi possível criar a conta. Tente novamente.');
+    return false;
   }
+  return true;
 }
 
 function setupSignupForm() {
@@ -28,6 +32,7 @@ function setupSignupForm() {
   const passwordConfirmInput = document.getElementById('password-confirm');
   const submitBtn = document.getElementById('btn-submit-signup');
   const completionStatus = document.getElementById('signup-completion-status');
+  let isSubmitting = false;
 
   const nameError = document.getElementById('name-error');
   const emailError = document.getElementById('email-error');
@@ -123,9 +128,6 @@ function setupSignupForm() {
       }
     }
 
-    if (submitBtn) {
-      submitBtn.disabled = !isFormComplete;
-    }
   }
 
   checkFormState();
@@ -202,6 +204,7 @@ function setupSignupForm() {
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isSubmitting) return;
       const nameVal = nameInput ? nameInput.value.trim() : '';
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const phoneDigits = telefoneInput ? telefoneInput.value.replace(/\D/g, '') : '';
@@ -249,13 +252,26 @@ function setupSignupForm() {
       if (hasError) return;
 
       // Adição: usa os nomes de campos esperados pela API de usuários.
-      await realizarCadastro({
-        nome_usuario: nameVal,
-        email_usuario: emailVal,
-        numero_usuario: phoneDigits,
-        genero_usuario: sexoVal,
-        senha_usuario: passVal
-      });
+      isSubmitting = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Criando conta...';
+      }
+      try {
+        await realizarCadastro({
+          nome_usuario: nameVal,
+          email_usuario: emailVal,
+          numero_usuario: phoneDigits,
+          genero_usuario: sexoVal,
+          senha_usuario: passVal
+        });
+      } finally {
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Criar conta';
+        }
+      }
     });
   }
 }

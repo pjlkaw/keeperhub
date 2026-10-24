@@ -51,9 +51,8 @@
 
             <label class="edicao-avatar__alterar" for="foto-perfil" title="Alterar foto">
               <i class="fa-solid fa-camera" aria-hidden="true"></i>
-              <span class="somente-leitor-tela">Alterar foto do perfil</span>
             </label>
-            <input class="somente-leitor-tela" id="foto-perfil" name="foto_perfil" type="file" accept="image/jpeg,image/png,image/webp" />
+            <input class="edicao-avatar__input" id="foto-perfil" name="foto_perfil" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Alterar foto do perfil" />
           </div>
 
           <h2 class="edicao-identidade__nome" id="nome-resumo">...</h2>
@@ -177,26 +176,11 @@
             </div>
           </section>
 
-          <section class="painel-formulario painel-autenticacao" aria-labelledby="titulo-autenticacao">
-            <span class="painel-autenticacao__icone" aria-hidden="true">
-              <i class="fa-solid fa-mobile-screen-button"></i>
-            </span>
-            <div>
-              <h2 id="titulo-autenticacao">Autenticação em 2 etapas</h2>
-              <p>Proteção adicional à sua conta</p>
-            </div>
-            <label class="interruptor" for="autenticacao-dupla">
-              <input id="autenticacao-dupla" name="autenticacao_dupla" type="checkbox" checked />
-              <span aria-hidden="true"></span>
-              <span class="somente-leitor-tela">Ativar autenticação em duas etapas</span>
-            </label>
-          </section>
-
           <div class="acoes-formulario">
             <p class="mensagem-formulario" id="mensagem-formulario" role="status" aria-live="polite"></p>
             <button class="botao-salvar" type="submit">
               <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
-              Salvar alterações
+              <span class="botao-salvar__texto">Salvar alterações</span>
             </button>
             <button class="botao-descartar" id="descartar-alteracoes" type="button">Descartar</button>
           </div>
