@@ -29,6 +29,9 @@ const form = document.getElementById('formulario-perfil');
   const strengthText = document.getElementById('texto-forca-senha');
   const message = document.getElementById('mensagem-formulario');
   const discardButton = document.getElementById('descartar-alteracoes');
+  const saveButton = form.querySelector('.botao-salvar');
+  const saveButtonText = saveButton?.querySelector('.botao-salvar__texto');
+  let isSaving = false;
 
 async function fillProfile() {
     const user = await carregarUsuarioAtual();
@@ -130,6 +133,7 @@ async function fillProfile() {
 
   async function saveProfile(event) {
     event.preventDefault();
+    if (isSaving) return;
 
     if (!form.reportValidity()) return;
 
@@ -140,6 +144,12 @@ async function fillProfile() {
     }
 
     confirmPasswordInput.setCustomValidity('');
+    isSaving = true;
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.setAttribute('aria-busy', 'true');
+    }
+    if (saveButtonText) saveButtonText.textContent = 'Salvando...';
 
     try {
       await atualizarUsuarioAtual({
@@ -156,12 +166,19 @@ async function fillProfile() {
           : {}),
       });
       message.textContent = 'Alterações salvas.';
+      if (saveButtonText) saveButtonText.textContent = 'Salvo!';
       nameSummary.textContent = nameInput.value.trim();
       window.setTimeout(() => {
         window.location.href = '../index.html';
       }, 450);
     } catch (error) {
       message.textContent = error.message || 'Não foi possível salvar as alterações.';
+      isSaving = false;
+      if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.removeAttribute('aria-busy');
+      }
+      if (saveButtonText) saveButtonText.textContent = 'Salvar alterações';
     }
   }
 

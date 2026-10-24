@@ -86,6 +86,15 @@
 
 .edicao-avatar__alterar {
   position: absolute;
+  inset: 0;
+  display: block;
+  z-index: 1;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.edicao-avatar__alterar i {
+  position: absolute;
   right: -2px;
   bottom: 2px;
   display: grid;
@@ -101,6 +110,18 @@
   transition:
     background-color var(--edicao-transicao),
     transform var(--edicao-transicao);
+  pointer-events: none;
+}
+
+.edicao-avatar__input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .edicao-identidade__nome {
@@ -112,14 +133,6 @@
 .formulario-perfil {
   display: grid;
   gap: 12px;
-}
-
-.painel-formulario {
-  padding: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 5px 18px var(--edicao-sombra);
 }
 
 .painel-formulario__cabecalho {
@@ -277,84 +290,6 @@
   font-weight: 500;
 }
 
-.painel-autenticacao {
-  display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-}
-
-.painel-autenticacao__icone {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  place-items: center;
-  color: var(--text-muted);
-  background: var(--card-bg);
-  border-radius: 8px;
-}
-
-.painel-autenticacao h2 {
-  margin: 0;
-  font-size: 0.78rem;
-  font-weight: 500;
-}
-
-.painel-autenticacao p {
-  margin: 3px 0 0;
-  color: var(--text-muted);
-  font-size: 0.65rem;
-}
-
-.interruptor {
-  position: relative;
-  display: inline-grid;
-  width: 48px;
-  height: 28px;
-  cursor: pointer;
-}
-
-.interruptor input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
-.interruptor > span:not(.somente-leitor-tela) {
-  position: relative;
-  display: block;
-  background: var(--text-muted);
-  border-radius: 999px;
-  transition: background-color var(--edicao-transicao);
-}
-
-.interruptor > span:not(.somente-leitor-tela)::before {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 22px;
-  height: 22px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px var(--edicao-sombra);
-  transition: transform var(--edicao-transicao);
-  content: '';
-}
-
-.interruptor input:checked + span {
-  background: var(--edicao-acento);
-}
-
-.interruptor input:checked + span::before {
-  transform: translateX(20px);
-}
-
-.interruptor input:focus-visible + span {
-  outline: 2px solid var(--edicao-acento);
-  outline-offset: 3px;
-}
-
 .acoes-formulario {
   display: grid;
   gap: 8px;
@@ -371,9 +306,44 @@
 }
 
 .botao-salvar {
-  color: #1a202c;
-  background: var(--edicao-acento);
-  border: 0;
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background-color: var(--edicao-acento);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.botao-salvar:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.botao-salvar:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.botao-salvar:focus-visible {
+  outline: 2px solid var(--edicao-acento);
+  outline-offset: 2px;
+}
+
+.botao-salvar:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .botao-salvar i {
@@ -398,19 +368,6 @@
   display: none;
 }
 
-.somente-leitor-tela {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  white-space: nowrap;
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  clip-path: inset(50%);
-}
-
 :is(a, button, input, select):focus-visible {
   outline: 2px solid var(--edicao-acento);
   outline-offset: 2px;
@@ -422,12 +379,12 @@
     background-color: color-mix(in srgb, var(--edicao-texto) 8%, transparent);
   }
 
-  .edicao-avatar__alterar:hover {
+  .edicao-avatar__alterar:hover i {
     background: var(--edicao-acento);
     transform: scale(1.08);
   }
 
-  .acoes-formulario button:hover {
+  .acoes-formulario button:not(.botao-salvar):hover {
     filter: brightness(1.08);
     transform: translateY(-2px);
   }
@@ -448,10 +405,6 @@
 @media (max-width: 350px) {
   .edicao-conteudo {
     padding-inline: 10px;
-  }
-
-  .painel-formulario {
-    padding: 13px;
   }
 
   .edicao-cabecalho {
