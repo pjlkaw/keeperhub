@@ -43,6 +43,7 @@
   </head>
   <body>
     <div class="auth-page-wrapper" id="app-root">
+      <section id="alertFromShared" class="alert"></section>
       <!-- HEADER COMPACTO -->
       <header class="auth-header" id="auth-header">
         <div class="container">
@@ -93,6 +94,9 @@
 
             <!-- FORMULÁRIO DE CADASTRO -->
             <form class="auth-form" id="signup-form" novalidate>
+              <p class="form-completion-status" id="signup-completion-status" role="status" aria-live="polite">
+                Preencha todos os campos obrigatórios para criar sua conta.
+              </p>
               <!-- Campo Nome completo -->
               <div class="form-group">
                 <label for="name" class="form-label">Nome completo</label>
@@ -302,8 +306,7 @@
                   <img src="../assets/img/logo-financas.png" alt="" class="auth-module-icon" width="16" height="16" />
                   Finanças
                 </span>
-                <span class="auth-module-pill">
-                </span>
+
                 <span class="auth-module-pill">
                   <img src="../assets/img/logo-despensa.png" alt="" class="auth-module-icon" width="16" height="16" />
                   Despensa

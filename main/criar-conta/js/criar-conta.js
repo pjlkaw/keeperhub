@@ -27,6 +27,7 @@ function setupSignupForm() {
   const passwordInput = document.getElementById('password');
   const passwordConfirmInput = document.getElementById('password-confirm');
   const submitBtn = document.getElementById('btn-submit-signup');
+  const completionStatus = document.getElementById('signup-completion-status');
 
   const nameError = document.getElementById('name-error');
   const emailError = document.getElementById('email-error');
@@ -37,6 +38,7 @@ function setupSignupForm() {
 
   const togglePasswordBtn = document.getElementById('btn-toggle-password');
   const togglePasswordConfirmBtn = document.getElementById('btn-toggle-password-confirm');
+  let completionStatusTimer;
 
   function formatPhone(value) {
     const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -75,7 +77,7 @@ function setupSignupForm() {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  function checkFormState() {
+  function checkFormState(userChangedForm = false) {
     const nameVal = nameInput ? nameInput.value.trim() : '';
     const emailVal = emailInput ? emailInput.value.trim() : '';
     const phoneDigits = telefoneInput ? telefoneInput.value.replace(/\D/g, '') : '';
@@ -98,14 +100,39 @@ function setupSignupForm() {
       isPassValid &&
       isPassConfirmValid;
 
+    const missingFields = [];
+    if (!isNameValid) missingFields.push('nome');
+    if (!isEmailValid) missingFields.push('e-mail válido');
+    if (!isPhoneValid) missingFields.push('telefone com DDD');
+    if (!isSexoValid) missingFields.push('sexo');
+    if (!isPassValid) missingFields.push('senha com pelo menos 8 caracteres');
+    if (!isPassConfirmValid) missingFields.push('confirmação de senha');
+
+    if (completionStatus) {
+      clearTimeout(completionStatusTimer);
+      completionStatus.classList.remove('is-visible');
+      completionStatus.classList.toggle('is-complete', isFormComplete);
+      completionStatus.textContent = isFormComplete
+        ? 'Tudo certo! Você já pode criar sua conta.'
+        : `Ainda falta preencher: ${missingFields.join(', ')}.`;
+
+      if (userChangedForm) {
+        completionStatusTimer = setTimeout(() => {
+          completionStatus.classList.add('is-visible');
+        }, 4000);
+      }
+    }
+
     if (submitBtn) {
       submitBtn.disabled = !isFormComplete;
     }
   }
 
+  checkFormState();
+
   if (nameInput) {
     nameInput.addEventListener('input', () => {
-      checkFormState();
+      checkFormState(true);
       if (nameError && nameError.classList.contains('is-visible')) {
         nameError.classList.remove('is-visible');
         nameInput.classList.remove('has-error');
@@ -115,7 +142,7 @@ function setupSignupForm() {
 
   if (emailInput) {
     emailInput.addEventListener('input', () => {
-      checkFormState();
+      checkFormState(true);
       if (emailError && emailError.classList.contains('is-visible')) {
         emailError.classList.remove('is-visible');
         emailInput.classList.remove('has-error');
@@ -127,7 +154,7 @@ function setupSignupForm() {
     telefoneInput.addEventListener('input', () => {
       const formatted = formatPhone(telefoneInput.value);
       telefoneInput.value = formatted;
-      checkFormState();
+      checkFormState(true);
       if (telefoneError && telefoneError.classList.contains('is-visible')) {
         telefoneError.classList.remove('is-visible');
         telefoneInput.classList.remove('has-error');
@@ -137,7 +164,7 @@ function setupSignupForm() {
 
   if (sexoSelect) {
     sexoSelect.addEventListener('change', () => {
-      checkFormState();
+      checkFormState(true);
       if (sexoError && sexoError.classList.contains('is-visible')) {
         sexoError.classList.remove('is-visible');
         sexoSelect.classList.remove('has-error');
@@ -147,7 +174,7 @@ function setupSignupForm() {
 
   if (passwordInput) {
     passwordInput.addEventListener('input', () => {
-      checkFormState();
+      checkFormState(true);
       if (passwordError && passwordError.classList.contains('is-visible')) {
         passwordError.classList.remove('is-visible');
         passwordInput.classList.remove('has-error');
@@ -163,7 +190,7 @@ function setupSignupForm() {
 
   if (passwordConfirmInput) {
     passwordConfirmInput.addEventListener('input', () => {
-      checkFormState();
+      checkFormState(true);
       if (passwordConfirmError && passwordConfirmError.classList.contains('is-visible')) {
         passwordConfirmError.classList.remove('is-visible');
         passwordConfirmInput.classList.remove('has-error');
