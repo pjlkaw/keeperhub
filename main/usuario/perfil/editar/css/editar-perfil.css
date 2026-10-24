@@ -69,6 +69,10 @@
   font-size: 2.75rem;
 }
 
+.edicao-avatar__substituto[hidden] {
+  display: none;
+}
+
 .edicao-avatar__imagem {
   display: block;
   object-fit: cover;

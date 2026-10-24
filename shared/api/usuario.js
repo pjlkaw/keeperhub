@@ -15,7 +15,8 @@ function criarSessao(usuario) {
         email: usuario.email_usuario,
         phone: usuario.numero_usuario || '',
         dt_nascimento: usuario.dt_nascimento_usuario || '',
-        gender: usuario.genero_usuario || ''
+        gender: usuario.genero_usuario || '',
+        foto_usuario: usuario.foto_usuario || ''
     };
     localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(sessao));
     return sessao;

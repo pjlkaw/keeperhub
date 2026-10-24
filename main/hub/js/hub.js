@@ -148,16 +148,28 @@ function userLoadContent(user) {
   if (!user) return;
 
   const pageName = document.getElementById('pageNameH1');
+  const userImage = document.getElementById('userImage');
   // Aguarda o header compartilhado terminar de ser carregado.
   if (!pageName) {
     setTimeout(() => userLoadContent(user), 50);
     return;
   }
 
-  if (pageName && user.name) {
-    const firstName = user.name.split(' ')[0];
-    pageName.textContent = `Olá, ${firstName}`;
+  if (userImage) {
+    userImage.style.display = 'none'; // Oculta a imagem do usuário se não estiver disponível
   }
+
+  if (pageName && user.name) {
+    const firstName = user.name.split(' ')[0]; // Extrai o primeiro nome do usuário
+    pageName.textContent = `Olá, ${firstName}`; // Atualiza o conteúdo do elemento <h1> com o nome
+  }
+
+  if (userImage && user.foto_usuario) {
+    document.getElementById('userIcon').style.display = 'none'; //remove ícone de usuário padrão
+    userImage.style.display = 'flex'; // exibe a imagem do usuário
+    userImage.src = user.foto_usuario; // aplica imagem do usuário
+  }
+
 }
 
 function observeModuleCardSizes() {

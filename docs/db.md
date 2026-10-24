@@ -74,7 +74,8 @@ Os dados do `.env` são carregados pelo `dotenv` e utilizados para criar a conex
 ## Cadastro, login e perfil
 
 O fluxo de conta usa a tabela `usuario` e os campos `nome_usuario`,
-`email_usuario`, `senha_usuario`, `numero_usuario` e `genero_usuario`.
+`email_usuario`, `senha_usuario`, `telefone`, `foto_usuario` e
+`genero_usuario`.
 O cadastro é enviado por `POST /api/usuario`; o login usa `POST /api/login`.
 Depois do login, o navegador guarda somente o ID e os dados públicos da conta
 em `localStorage`. O perfil é carregado por `GET /api/usuario?id=<id>` e
@@ -84,8 +85,35 @@ As senhas novas são armazenadas com `scrypt`. Contas antigas com senha em texto
 simples continuam podendo entrar e têm a senha convertida para hash no primeiro
 login bem-sucedido. A senha atual é exigida para atualizar a senha pelo perfil.
 Data de nascimento fica apenas no dispositivo; ainda não há coluna para ela na
-tabela atual. A foto selecionada no perfil é apenas uma prévia e também não é
-enviada ao banco.
+tabela atual.
+
+Caso o banco ainda não tenha as colunas de telefone e foto, execute uma vez no
+MySQL Workbench:
+
+```sql
+ALTER TABLE usuario
+  ADD COLUMN telefone VARCHAR(20) NULL,
+  MODIFY COLUMN foto_usuario VARCHAR(500) NULL;
+```
+
+O cadastro requer `telefone`. A imagem é validada no backend, enviada ao Vercel
+Blob e somente a URL pública é salva em `foto_usuario`.
+
+Configure a conexão OIDC do Blob Store nos ambientes Development, Preview e
+Production. O Vercel fornece `BLOB_STORE_ID` e `VERCEL_OIDC_TOKEN`; não é
+necessário configurar `BLOB_READ_WRITE_TOKEN`. Fotos antigas que ainda estejam
+em Base64 precisam ser migradas depois que a conexão estiver configurada:
+
+```bash
+npm run migrate:photos
+```
+
+Depois da migração, altere a coluna para `VARCHAR(500)`. Não faça essa
+alteração antes, pois os registros Base64 serão truncados.
+
+As imagens são validadas no backend com `sharp` quanto ao formato, tamanho e
+dimensões. O `nsfwjs` classifica o conteúdo localmente e rejeita imagens com
+probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 

@@ -9,6 +9,9 @@ const FALLBACK_PROFILE = {
   name: '',
   birthDate: '',
 };
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+let photoData = '';
 
 const form = document.getElementById('formulario-perfil');
   const nameInput = document.getElementById('nome-completo');
@@ -19,7 +22,7 @@ const form = document.getElementById('formulario-perfil');
   const nameSummary = document.getElementById('nome-resumo');
   const photoInput = document.getElementById('foto-perfil');
   const avatarImage = document.getElementById('avatar-imagem');
-  const avatarFallback = document.getElementById('avatar-substituto');
+  const avatarFallback = document.getElementById('userIcon');
   const newPasswordInput = document.getElementById('nova-senha');
   const confirmPasswordInput = document.getElementById('confirmar-senha');
   const strengthBar = document.getElementById('barra-forca-senha');
@@ -43,6 +46,11 @@ async function fillProfile() {
     birthInput.value = profile.birthDate;
     genderSelect.value = profile.gender;
     nameSummary.textContent = profile.name;
+    if (user.foto_usuario) {
+      avatarImage.src = user.foto_usuario;
+      avatarImage.hidden = false;
+      avatarFallback.hidden = true;
+    }
 }
 
   function togglePassword(button) {
@@ -85,13 +93,31 @@ async function fillProfile() {
 
   function previewPhoto(event) {
     const file = event.target.files && event.target.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
+    if (!file) return;
+
+    if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      message.textContent = 'Escolha uma imagem JPG, PNG ou WebP.';
+      return;
+    }
+
+    if (file.size > MAX_PHOTO_SIZE) {
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      message.textContent = 'A imagem deve ter no máximo 5 MB.';
+      return;
+    }
 
     const reader = new FileReader();
     reader.addEventListener('load', () => {
+      photoData = reader.result;
       avatarImage.src = reader.result;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
+      message.textContent = 'Imagem carregada. A validação de conteúdo será feita ao salvar.';
     });
     reader.readAsDataURL(file);
   }
@@ -121,6 +147,7 @@ async function fillProfile() {
         email_usuario: emailInput.value.trim(),
         numero_usuario: phoneInput.value.trim(),
         genero_usuario: genderSelect.value,
+        ...(photoData ? { foto_usuario: photoData } : {}),
         ...(newPasswordInput.value
           ? {
               senha_atual: document.getElementById('senha-atual').value,

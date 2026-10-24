@@ -3,17 +3,18 @@ import {
   buscarUsuarioPorEmail, criarUsuario
 } from '../server/repositories/usuario.js';
 import { hashPassword, verificarSenha } from '../server/password.js';
+import { validarFoto } from '../server/image-validation.js';
+import { armazenarFoto } from '../server/image-storage.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar'];
 const GENEROS_CADASTRO = GENEROS_VALIDOS.slice(0, 2);
-
 function idValido(value) {
   const id = Number(value);
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
-function validarFormularioUsuario(body, { cadastro = false } = {}) {
+async function validarFormularioUsuario(body, { cadastro = false } = {}) {
   const dados = {};
   const temCampo = (campo) => Object.prototype.hasOwnProperty.call(body, campo);
 
@@ -63,11 +64,24 @@ function validarFormularioUsuario(body, { cadastro = false } = {}) {
     dados.senha_usuario = body.senha_usuario;
   }
 
+  // A imagem chega como Base64 e fica salva na coluna foto_usuario.
+  if (Object.prototype.hasOwnProperty.call(body, 'foto_usuario')) {
+    if (body.foto_usuario === null || body.foto_usuario === '') {
+      dados.foto_usuario = null;
+    } else {
+      const resultadoImagem = await validarFoto(body.foto_usuario);
+      if (resultadoImagem.erro) {
+        return resultadoImagem;
+      }
+      dados.foto_usuario = await armazenarFoto(resultadoImagem);
+    }
+  }
+
   return { dados };
 }
 
 async function criarConta(body, res) {
-  const validacao = validarFormularioUsuario(body, { cadastro: true });
+  const validacao = await validarFormularioUsuario(body, { cadastro: true });
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
@@ -103,7 +117,7 @@ async function atualizarPerfil(query, body, res) {
     return res.status(400).json({ erro: 'Informe um ID de usuário válido.' });
   }
 
-  const validacao = validarFormularioUsuario(body);
+  const validacao = await validarFormularioUsuario(body);
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
