@@ -24,9 +24,11 @@ async function renderProfile() {
       avatarImage.alt = `Foto de perfil de ${displayName}`;
       avatarElement.replaceChildren(avatarImage);
     }
+    alertShared('Foto de perfil carregada com sucesso.');
     document.title = 'KeeperHub — Perfil de ' + displayName;
   } catch (error) {
     console.error('[Perfil] Não foi possível carregar o usuário:', error);
+    alertShared('Não foi possível carregar o perfil do usuário.');
   }
 }
 
