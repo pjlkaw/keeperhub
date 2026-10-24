@@ -5,32 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Receitas</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/medicacoes.css">
     <link rel="stylesheet" href="../assets/css/receitas.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Receitas - Pets',
+        subtitle: 'Consulte as receitas do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="pagina-medicacoes pagina-receitas">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar">
-                <span class="icone" aria-hidden="true"></span>
-                <span class="somente-leitor-tela">Voltar</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Receitas - Pets</h1>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-            <div class="cabecalho-pagina__acoes">
-                <button type="button" class="botao-icone cabecalho-pagina__mais-opcoes" aria-label="Mais opções">
-                    <span class="icone" aria-hidden="true"></span>
-                </button>
-            </div>
-        </header>
+        <header class="section-header-section" id="headerSection"></header>
 
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
@@ -153,7 +159,7 @@
 
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
-    <!-- Busca, filtros, download e persistência serão integrados ao backend futuramente. -->
+    <script src="/shared/services/theme.js"></script>
+<!-- Busca, filtros, download e persistência serão integrados ao backend futuramente. -->
 </body>
 </html>

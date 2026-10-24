@@ -7,26 +7,6 @@
   padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
-.pagina-medicacoes .cabecalho-pagina__acoes {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
-}
-
-.pagina-medicacoes .cabecalho-pagina__acoes .botao-icone {
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-}
-
-.cabecalho-pagina__mais-opcoes .icone { display: none; }
-.cabecalho-pagina__mais-opcoes::before {
-  font-size: 1.5rem;
-  line-height: 1;
-  content: '\22EE';
-}
-
 .pagina-medicacoes .abas-pet {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding-inline: 0;
@@ -222,12 +202,6 @@
 }
 .pagina-medicacoes .botao-flutuante:active { transform: scale(0.96); }
 
-@media (max-width: 420px) {
-  .pagina-medicacoes .cabecalho-pagina.cabecalho-pets { flex-wrap: nowrap; }
-  .pagina-medicacoes .cabecalho-pagina.cabecalho-pets .cabecalho-pagina__acoes {
-    margin-left: auto;
-  }
-}
 @media (max-width: 359px) {
   .cartao-medicacao { grid-template-columns: 40px minmax(0, 1fr); }
   .cartao-medicacao .etiqueta-status { grid-column: 2; width: fit-content; }

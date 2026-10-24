@@ -6,24 +6,6 @@
   padding-bottom: 104px;
 }
 
-.editar-pet--informacoes .cabecalho-pagina {
-  position: relative;
-  justify-content: center;
-  min-height: 80px;
-  padding: 24px 64px 12px;
-  border-bottom: 1px solid var(--pets-border);
-}
-
-.editar-pet--informacoes .cabecalho-pagina__voltar {
-  position: absolute;
-  left: 12px;
-}
-
-.editar-pet--informacoes .cabecalho-pagina__titulo {
-  font-size: 20px;
-  text-align: center;
-}
-
 .formulario-informacoes-pet {
   padding-top: 26px;
 }
@@ -129,14 +111,6 @@
 }
 
 @media (min-width: 600px) {
-  .editar-pet--informacoes .cabecalho-pagina {
-    padding: 28px 76px 14px;
-  }
-
-  .editar-pet--informacoes .cabecalho-pagina__voltar {
-    left: 24px;
-  }
-
   .painel-informacoes-pet {
     margin-inline: 24px;
     padding: 28px;

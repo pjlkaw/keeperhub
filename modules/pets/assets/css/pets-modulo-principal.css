@@ -1,4 +1,4 @@
-/* Estrutura e dashboard principal do módulo Pets */
+/* Estrutura da página inicial do módulo Pets */
 
 .pagina-pets {
   width: min(100%, calc(var(--pets-content-width) + 48px));
@@ -7,13 +7,7 @@
   padding: 16px 14px 0;
 }
 
-.pagina-pets .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
-}
-
-/* Dashboard */
+/* Conteúdo principal */
 .painel-pets {
   width: 100%;
   padding: 16px 0 36px;
@@ -38,8 +32,8 @@
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
   grid-template-areas:
-    'photo info'
-    'photo edit';
+    'foto informacoes'
+    'foto editar';
   gap: 8px 14px;
   min-height: 124px;
   padding: 17px 14px;
@@ -50,7 +44,7 @@
 }
 
 .cartao-resumo-pet__foto {
-  grid-area: photo;
+  grid-area: foto;
   align-self: start;
   width: 64px;
   height: 64px;
@@ -68,7 +62,7 @@
 }
 
 .cartao-resumo-pet__informacoes {
-  grid-area: info;
+  grid-area: informacoes;
   min-width: 0;
   padding-right: 42px;
 }
@@ -130,7 +124,7 @@
 }
 
 .cartao-resumo-pet__editar {
-  grid-area: edit;
+  grid-area: editar;
   min-height: 44px;
   padding-block: 7px;
   justify-self: end;
@@ -150,12 +144,16 @@
   gap: 10px;
 }
 
+.acoes-rapidas-pet__despesas {
+  grid-column: 1 / -1;
+}
+
 .acao-rapida {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
   grid-template-areas:
-    'icon title'
-    'icon status';
+    'icone titulo'
+    'icone descricao';
   column-gap: 10px;
   align-items: center;
   min-height: 79px;
@@ -177,7 +175,7 @@
 }
 
 .acao-rapida > .icone {
-  grid-area: icon;
+  grid-area: icone;
   align-self: start;
   display: grid;
   width: 34px;
@@ -212,22 +210,14 @@
   background-image: url('../img/rotina-pets.png');
 }
 
-.acao-rapida--despesas,
-.acao-rapida--lembretes {
-  width: 100%;
-  text-align: left;
-}
-
 .acao-rapida--despesas > .icone {
-  background-image: url('../img/despesas-pets.svg');
-}
-
-.acao-rapida--lembretes > .icone {
-  background-image: url('../img/lembretes-pets.svg');
+  background-color: transparent;
+  background-image: url('../img/despesas-icone-pet.png');
+  background-size: 100% 100%;
 }
 
 .acao-rapida__titulo {
-  grid-area: title;
+  grid-area: titulo;
   align-self: end;
   min-width: 0;
   overflow: hidden;
@@ -238,8 +228,8 @@
   white-space: nowrap;
 }
 
-.acao-rapida__status {
-  grid-area: status;
+.acao-rapida__descricao {
+  grid-area: descricao;
   align-self: start;
   min-width: 0;
   margin-top: 2px;
@@ -386,19 +376,6 @@
   background-image: url('../img/calendario-pets.png');
 }
 
-/* Ícones personalizados da página principal de Pets. */
-.acao-rapida--despesas > .icone {
-  background-color: transparent;
-  background-image: url('../img/despesas-icone-pet.png');
-  background-size: 100% 100%;
-}
-
-.acao-rapida--lembretes > .icone {
-  background-color: transparent;
-  background-image: url('../img/lembretes-icone-pet.png');
-  background-size: 100% 100%;
-}
-
 @media (min-width: 600px) {
   .pagina-pets {
     padding: 24px 24px 0;
@@ -410,7 +387,7 @@
 
   .cartao-resumo-pet {
     grid-template-columns: 82px minmax(0, 1fr) auto;
-    grid-template-areas: 'photo info edit';
+    grid-template-areas: 'foto informacoes editar';
     align-items: center;
     min-height: 142px;
     padding: 20px;
@@ -457,8 +434,8 @@
   .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet {
     grid-template-columns: 72px minmax(0, 1fr);
     grid-template-areas:
-      'photo info'
-      'photo edit';
+      'foto informacoes'
+      'foto editar';
   }
 
   .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet__foto {

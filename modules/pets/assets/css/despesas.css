@@ -13,22 +13,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.despesas-cabecalho {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
-  align-items: center;
-  min-height: 56px;
-  padding: 4px 8px;
-  border-bottom: 1px solid var(--pets-border);
-}
-
-.despesas-cabecalho h1 {
-  font-size: 1rem;
-  font-weight: 400;
-  text-align: center;
-}
-
-.despesas-voltar,
 .despesas-navegar,
 .nova-despesa__fechar {
   display: grid;
@@ -397,7 +381,6 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .despesas-voltar:hover,
   .nova-despesa__fechar:hover {
     background: var(--pets-primary-soft);
   }
@@ -414,8 +397,7 @@
   }
 }
 
-.categoria-despesa:active,
-.despesas-voltar:active {
+.categoria-despesa:active {
   transform: scale(0.98);
 }
 

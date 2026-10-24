@@ -4,24 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Adicionar Rotina</title>
-    <link rel="icon" type="image/png" href=/shared/img/logo-pets.png">
-    <link rel="stylesheet" href=/shared/styles/variables.css">
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/cadastrar-rotina.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Adicionar Rotina',
+        subtitle: 'Organize os cuidados diários do seu pet',
+        backUrl: '/modules/pets/components/rotina-diaria.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="adicionar-rotina" data-pet-id="exemplo">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="rotina-diaria.html" class="cabecalho-pagina__voltar" aria-label="Voltar à rotina diária" data-manter-pet>
-                <span aria-hidden="true">‹</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Adicionar Rotina</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <section class="adicionar-rotina__alimentacao" aria-labelledby="alimentacao-heading">
             <h2 id="alimentacao-heading">Alimentação</h2>
@@ -123,6 +136,6 @@
 
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>

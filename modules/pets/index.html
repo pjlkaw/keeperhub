@@ -6,46 +6,37 @@
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="/shared/components/no-content.html">
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
-    <link rel="stylesheet" href= /shared/styles/header-page.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css" />
+
     <link rel="stylesheet" href="assets/css/style-pets.css" />
     <link rel="stylesheet" href="assets/css/pets-modulo-principal.css" />
-  
 
-  <script>
-     window.keeperhubModuleConfig = {
-     module: 'Pets',
-       title: 'Pets',
-       subtitle: 'Administração da vida do seu pet',
-       backUrl: '/main/hub/index.html',
-       notificationsModule: 'pets',
-       addUrl: '/modules/pets/components/cadastrar-pet.html'
-     };
-  </script>
-  <script src="/shared/services/load-components.js"></script>
   
-        <!-- Navbar -->
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <!-- Header -->
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <!-- No content -->
-        <link rel="stylesheet" href="/shared/styles/no-content.css">
-        <!-- Button + -->
-        <link rel="stylesheet" href="/shared/styles/btn-add.css">
-
-  </head>
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Pets',
+        subtitle: 'Administração da vida do seu pet',
+        backUrl: '/main/hub/index.html',
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-pet.html'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
+</head>
   <body>
     <div class="pagina-pets">
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-      <header class="section-header-section cabecalho-pets" id="headerSection"></header>
-
-      <!-- <section class="no-content-section" id="no-content-section"></section> -->
+      <header class="section-header-section" id="headerSection"></header>
 
       <main class="painel-pets" id="conteudo-principal">
       <h1 class="somente-leitor-tela">Meus pets</h1>
@@ -96,42 +87,35 @@
                   <a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Vacinas</span>
-                    <span class="acao-rapida__status">1 pendente</span>
+                    <span class="acao-rapida__descricao">1 pendente</span>
                   </a>
                 </li>
                 <li>
                   <a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Consultas</span>
-                    <span class="acao-rapida__status">Check-up em Nov</span>
+                    <span class="acao-rapida__descricao">Check-up em Nov</span>
                   </a>
                 </li>
                 <li>
                   <a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Medicamentos</span>
-                    <span class="acao-rapida__status">Simparic hoje</span>
+                    <span class="acao-rapida__descricao">Simparic hoje</span>
                   </a>
                 </li>
                 <li>
                   <a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina">
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Rotina</span>
-                    <span class="acao-rapida__status">Consultar</span>
+                    <span class="acao-rapida__descricao">Consultar</span>
                   </a>
                 </li>
-                <li>
+                <li class="acoes-rapidas-pet__despesas">
                   <a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas" aria-label="Despesas de Luna: R$ 420 por mês" data-manter-pet>
                     <span class="icone" aria-hidden="true"></span>
                     <span class="acao-rapida__titulo">Despesas</span>
-                    <span class="acao-rapida__status">R$ 420 / mês</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/lembretes.html" class="card card--interactive acao-rapida acao-rapida--lembretes" aria-label="Personalizar lembretes de Luna" data-manter-pet>
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Lembretes</span>
-                    <span class="acao-rapida__status">Personalizar</span>
+                    <span class="acao-rapida__descricao">R$ 420 / mês</span>
                   </a>
                 </li>
               </ul>
@@ -140,9 +124,9 @@
         </li>
       </ul>
 
-      <section class="alertas-pet" aria-labelledby="pet-alerts-heading">
+      <section class="alertas-pet" aria-labelledby="titulo-alertas-pet">
         <header class="alertas-pet__cabecalho">
-          <h2 id="pet-alerts-heading">Próximos Alertas</h2>
+          <h2 id="titulo-alertas-pet">Próximos Alertas</h2>
         </header>
 
         <ul>
@@ -184,7 +168,7 @@
       </main>
     </div>
 
-    <script src="../../shared/services/theme.js"></script>
-    <!-- Integração futura: js/index.js (arquivo ainda não implementado). -->
+    <script src="/shared/services/theme.js"></script>
+<!-- Integração futura: js/index.js (arquivo ainda não implementado). -->
   </body>
 </html>
