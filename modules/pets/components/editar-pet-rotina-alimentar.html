@@ -4,22 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KeeperHub — Editar Pet — Rotina Alimentar</title>
-    <link rel="icon" type="image/png" href=/shared/img/logo-pets.png">
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/editar-pet-rotina-alimentar.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Editar Pet',
+        subtitle: 'Organize a alimentação do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
     <main class="editar-pet editar-pet--rotina-alimentar" data-pet-id="exemplo">
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar aos meus pets" data-manter-pet>
-                <span aria-hidden="true">‹</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Editar Pet</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link" data-manter-pet>Informações</a>
@@ -169,6 +182,6 @@
         </fieldset>
     </template>
 
-    <script src="../../../shared/services/theme.js"></script>
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>

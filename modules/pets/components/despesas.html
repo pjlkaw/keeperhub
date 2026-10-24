@@ -6,22 +6,35 @@
     <meta name="theme-color" content="#0b0b0d" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css" />
     <link rel="stylesheet" href="../assets/css/despesas.css" />
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css" />
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Despesas',
+        subtitle: 'Acompanhe os gastos com o seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
   <body>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="exemplo">
-      <header class="despesas-cabecalho cabecalho-pets">
-        <a class="despesas-voltar" href="../index.html" aria-label="Voltar aos meus pets" data-manter-pet>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg>
-        </a>
-        <h1>Despesas</h1>
-      </header>
+      <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+      <header class="section-header-section" id="headerSection"></header>
 
       <!-- Dados de demonstração da referência. Integração futura: despesas-integracao.md. -->
       <div class="despesas-conteudo">
@@ -247,6 +260,6 @@
         </form>
       </section>
     </main>
-    <script src="../../../shared/services/theme.js"></script>
-  </body>
+    <script src="/shared/services/theme.js"></script>
+</body>
 </html>

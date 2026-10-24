@@ -21,27 +21,6 @@
   padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
 }
 
-.vacinacoes-pet .cabecalho-pagina {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
-  gap: 8px;
-  min-height: 62px;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--pets-primary);
-}
-
-.vacinacoes-pet .cabecalho-pagina__titulo {
-  grid-column: 2;
-  font-size: 1.25rem;
-  font-weight: 400;
-  text-align: center;
-}
-
-.vacinacoes-pet .cabecalho-pagina__voltar {
-  color: var(--pets-text-soft);
-  transition: background-color var(--pets-transition), transform var(--pets-transition);
-}
-
 /* PNGs originais como fundos: funcionam também ao abrir o HTML localmente. */
 .vacinacoes-pet .icone {
   display: inline-grid;
@@ -59,10 +38,6 @@
   background: var(--vacinas-icone) center / contain no-repeat;
   filter: var(--vacinas-filtro-icone, var(--vacinas-filtro-neutro, none));
   content: '';
-}
-
-.cabecalho-pagina__voltar .icone {
-  --vacinas-icone: url('../img/voltar-pets.png');
 }
 
 .destaques-vacinas,
@@ -442,8 +417,7 @@
   }
 }
 
-.vacinacoes-pet .botao-flutuante:active,
-.vacinacoes-pet .cabecalho-pagina__voltar:active {
+.vacinacoes-pet .botao-flutuante:active {
   transform: scale(0.96);
 }
 

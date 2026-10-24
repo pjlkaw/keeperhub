@@ -189,32 +189,35 @@ ul {
   padding-bottom: 32px;
 }
 
-.cabecalho-pagina {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 68px;
-  padding: 20px 16px 8px;
+/* Navegação compartilhada com os recuos e a cor do módulo Pets. */
+main > .modules-nav-wrapper {
+  margin-inline: 16px;
+  padding-top: 16px;
 }
 
-.cabecalho-pagina__voltar {
-  display: grid;
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  place-items: center;
+.modules-nav-wrapper .modules-nav-item.active {
   color: var(--pets-primary-readable);
-  border-radius: 50%;
-  font-size: 34px;
-  line-height: 1;
+  background-color: var(--pets-primary-soft);
+  border-color: var(--pets-primary-border);
 }
 
-.cabecalho-pagina__voltar:hover {
-  background: var(--pets-primary-soft);
+/* Posicionamento do header compartilhado dentro das telas de Pets. */
+main > .section-header-section {
+  margin: 20px 16px 8px;
 }
 
-.cabecalho-pagina__titulo {
-  font-size: 20px;
+.section-header-section {
+  flex-wrap: wrap;
+  font-size: 1rem;
+}
+
+.section-header-title-area {
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.section-header-title {
+  overflow-wrap: anywhere;
 }
 
 .abas-pet {

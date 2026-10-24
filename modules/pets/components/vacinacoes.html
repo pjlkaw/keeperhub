@@ -6,25 +6,36 @@
     <meta name="theme-color" content="#0b0b0d">
     <title>Keeper Hub — Pets — Vacinações</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/style-pets.css">
     <link rel="stylesheet" href="../assets/css/vacinacoes.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+    <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Vacinações',
+        subtitle: 'Acompanhe as vacinas do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="vacinacoes-pet" id="conteudo-principal" data-pet-id="exemplo">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar" data-manter-pet>
-                <span class="icone" aria-hidden="true"></span>
-                <span class="somente-leitor-tela">Voltar</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Vacinações</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <!-- Datas, status e contagens são demonstrativos da referência de 2024.
              A consulta por pet e os cálculos serão integrados ao Node.js depois. -->
@@ -152,7 +163,7 @@
 
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
-    <!-- JavaScript de vacinação será incluído quando a integração estiver pronta. -->
+    <script src="/shared/services/theme.js"></script>
+<!-- JavaScript de vacinação será incluído quando a integração estiver pronta. -->
 </body>
 </html>
