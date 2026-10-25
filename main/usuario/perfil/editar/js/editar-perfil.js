@@ -10,9 +10,15 @@ const FALLBACK_PROFILE = {
   name: '',
   birthDate: '',
 };
-const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+const MAX_PHOTO_SIZE = 15 * 1024 * 1024;
+// A foto vai em JSON como Base64; manter o resultado abaixo de 2.5 MB deixa
+// margem para a expansao Base64 dentro do limite de requisicao da Vercel.
+const MAX_COMPRESSED_PHOTO_SIZE = 2.5 * 1024 * 1024;
+const MAX_PHOTO_DIMENSION = 1800;
+const MAX_SOURCE_DIMENSION = 6000;
 const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 let photoData = '';
+let isProcessingPhoto = false;
 
 const form = document.getElementById('formulario-perfil');
   const nameInput = document.getElementById('nome-completo');
@@ -95,7 +101,41 @@ async function fillProfile() {
     strengthText.textContent = level.label;
   }
 
-  function previewPhoto(event) {
+  function lerComoDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(reader.result), { once: true });
+      reader.addEventListener('error', () => reject(new Error('Não foi possível ler a imagem.')), { once: true });
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function prepararFoto(file) {
+    const bitmap = await createImageBitmap(file);
+    try {
+      if (bitmap.width > MAX_SOURCE_DIMENSION || bitmap.height > MAX_SOURCE_DIMENSION) {
+        throw new Error('A foto nao pode ultrapassar 6000x6000 pixels.');
+      }
+      const escala = Math.min(1, MAX_PHOTO_DIMENSION / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(bitmap.width * escala));
+      canvas.height = Math.max(1, Math.round(bitmap.height * escala));
+      const contexto = canvas.getContext('2d');
+      if (!contexto) throw new Error('Não foi possível preparar a imagem.');
+      contexto.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.82));
+      if (!blob) throw new Error('Este navegador não conseguiu comprimir a imagem.');
+      if (blob.size > MAX_COMPRESSED_PHOTO_SIZE) {
+        throw new Error('A imagem continua muito grande após a compressão. Escolha outra foto.');
+      }
+      return await lerComoDataUrl(blob);
+    } finally {
+      bitmap.close?.();
+    }
+  }
+
+  async function previewPhoto(event) {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
@@ -103,6 +143,7 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
+      photoData = '';
       alertShared('Escolha uma imagem JPG, PNG ou WebP.');
       return;
     }
@@ -111,19 +152,30 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
-     alertShared('A imagem deve ter no máximo 5 MB.');
+      photoData = '';
+      alertShared('A imagem original deve ter no máximo 15 MB.');
       return;
     }
 
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      photoData = reader.result;
-      avatarImage.src = reader.result;
+    isProcessingPhoto = true;
+    if (saveButton) saveButton.disabled = true;
+    message.textContent = 'Preparando imagem...';
+    try {
+      photoData = await prepararFoto(file);
+      avatarImage.src = photoData;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
-      message.textContent = 'Imagem carregada';
-    });
-    reader.readAsDataURL(file);
+      message.textContent = 'Imagem pronta para salvar.';
+    } catch (error) {
+      photoData = '';
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      message.textContent = error.message || 'Não foi possível preparar a imagem.';
+    } finally {
+      isProcessingPhoto = false;
+      if (saveButton) saveButton.disabled = false;
+    }
   }
 
   function formatBirthDate(event) {
@@ -134,7 +186,7 @@ async function fillProfile() {
 
   async function saveProfile(event) {
     event.preventDefault();
-    if (isSaving) return;
+    if (isSaving || isProcessingPhoto) return;
 
     if (!form.reportValidity()) return;
 
@@ -201,6 +253,10 @@ async function fillProfile() {
   });
 
   fillProfile().catch((error) => {
+    if (error.status === 401) {
+      window.location.replace('../../../entrar/index.html');
+      return;
+    }
     message.textContent = error.message || 'Não foi possível carregar o perfil.';
   });
   updatePasswordStrength();

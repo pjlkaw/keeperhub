@@ -3,7 +3,8 @@
  * Carrega os dados do usuário pela API.
  */
 
-import { carregarUsuarioAtual } from '../../../../shared/api/usuario.js';
+import { carregarUsuarioAtual, encerrarSessaoUsuario } from '../../../../shared/api/usuario.js';
+import { alertShared } from '../../../../shared/services/interface.js';
 
 async function renderProfile() {
   try {
@@ -28,6 +29,10 @@ async function renderProfile() {
     document.title = 'KeeperHub — Perfil de ' + displayName;
   } catch (error) {
     console.error('[Perfil] Não foi possível carregar o usuário:', error);
+    if (error.status === 401) {
+      window.location.replace('../../entrar/index.html');
+      return;
+    }
     alertShared('Não foi possível carregar o perfil do usuário.');
   }
 }
@@ -53,8 +58,12 @@ document.addEventListener('click', (event) => {
   }
 
   if (target.closest('#confirm-btn')) {
-    localStorage.removeItem('keeperhub-auth-session');
-    window.location.href = '../../entrar/index.html';
+    encerrarSessaoUsuario()
+      .then(() => { window.location.href = '../../entrar/index.html'; })
+      .catch((error) => {
+        console.error('[Perfil] Nao foi possivel encerrar a sessao:', error);
+        alertShared('Nao foi possivel concluir a saida. Tente novamente.');
+      });
   }
 });
 
