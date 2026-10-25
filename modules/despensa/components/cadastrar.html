@@ -16,15 +16,6 @@
         <link rel="stylesheet" href="/modules/despensa/assets/css/cadastrar.css">
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
-         <script>
-        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-            document.getElementById('headerSection').innerHTML = data;
-            document.getElementById('pageNameH1').textContent ='Cadastrar' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
-            document.getElementById('btn-back-header').href = '/modules/despensa/index.html' // Botão voltar
-            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
-            document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=nome-do-modulo'
-        });
     </script>
 
     <script>
@@ -47,7 +38,6 @@
         <div class="despensa-shell">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
                 <a href="/main/hub/index.html">
-                    Voltar ao Hub
                 </a>
             </nav>
             <header class="section-header-section" id="headerSection">

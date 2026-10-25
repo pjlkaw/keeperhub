@@ -17,19 +17,19 @@
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
         <script type="module" src="/modules/despensa/js/index.js"></script>
+        <script>
+            window.keeperhubModuleConfig = {
+                module: 'despensa',
+                title: 'Despensa',
+                subtitle: 'Gestão do seu mercado',
+                backUrl: '/main/hub/index.html',
+                notificationsModule: 'despensa',
+                addUrl: '/modules/despensa/components/cadastrar.html'
+            };
+        </script>
+        <script src="/shared/services/load-components.js"></script>
 
-<script>
-    const configModule = window.keeperhubModuleConfig || {
-    module: 'despensa',
-    title: 'Despensa',
-    subtitle: 'Gestão do seu mercado',
-    backUrl: '/main/',
-    notificationsModule: 'Despensa',
-    addUrl: '/modules/despensa/components/cadastrar.html'
-};
-    </script>
-    <script src="/shared/services/load-components.js"></script>
-    
+
     </head>
     <body class="despensa" data-pagina="index">
         <section id="alertFromShared" class="alert" role="status" aria-live="polite">
@@ -44,14 +44,12 @@
                             Despensa
                         </h1>
                     </div>
-                    <div class="section-header-meta">
+                    <div class="section-header-despensa">
                         <span id="pageSubtittleSpan">
                             Controle sua despensa
                         </span>
                     </div>
                 </div>
-
-
 
             </header>
             <main class="despensa-conteudo" id="main-content">

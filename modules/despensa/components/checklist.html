@@ -16,16 +16,7 @@
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
             <script type="module" src="/modules/despensa/js/index.js"></script>
-             <script>
-        fetch('/shared/components/header-page.html').then(response => response.text()).then(data => {
-            document.getElementById('headerSection').innerHTML = data;
-            document.getElementById('pageNameH1').textContent ='Checklist' //Nome da Página
-            document.getElementById('pageSubtittleSpan').textContent = '' // Subtítulo
-            document.getElementById('btn-back-header').href = '/modules/despensa/index.html' // Botão voltar
-            // Use '?modulo=nome-do-modulo' para abrir as notificações exclusivas.
-            document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=despensa'
-        });
-    </script>
+          
 
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
@@ -39,7 +30,7 @@
     <script>
     const configModule = window.keeperhubModuleConfig || {
     module: 'despensa',
-    title: 'Despensa',
+    title: 'Checklist',
     subtitle: 'Gestão do seu mercado',
     backUrl: '/main/',
     notificationsModule: 'Despensa',
@@ -68,9 +59,9 @@
                             </span>
                         </a>
 
-            <p class="eyebrow">KEEPERHUB • DESPENSA</p>
-            <h1>Lista de compras</h1>
-            <p>Organize suas compras sem esquecer nada.</p>
+            
+            <h1>Checklist</h1>
+           
         </header>
 
         <section class="checklist-summary">
@@ -157,6 +148,7 @@
         </section>
 
         <button id="limparLista" class="clear-button" type="button">
+            
             <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
         </button>
 
