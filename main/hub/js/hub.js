@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
+import { carregarUsuarioAtual } from '../../../shared/api/usuario.js';
 
 // CHATBOT
 function initializeChatbot() {
@@ -115,23 +115,6 @@ function initializeChatbotMessaging() {
   });
 }
 
-/**
- * Retorna os dados da sessão do usuário autenticado no momento (se houver)
- * @returns {{ email?: string, name?: string } | null}
- */
-function getCurrentUser() {
-  try {
-    if (typeof window !== 'undefined' && window.KeeperHubAuth && typeof window.KeeperHubAuth.getCurrentUser === 'function') {
-      return window.KeeperHubAuth.getCurrentUser();
-    }
-    const session = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (!session) return null;
-    return JSON.parse(session);
-  } catch {
-    return null;
-  }
-}
-
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
 document.addEventListener('DOMContentLoaded', () => {
@@ -139,9 +122,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeChatbot();
   initializeChatbotMessaging();
 
-  const user = getCurrentUser();
-  console.log('Usuário atual:', user);
-  userLoadContent(user);
+  // A API valida o cookie no servidor; o cache local nao concede acesso.
+  carregarUsuarioAtual()
+    .then((usuario) => userLoadContent({
+      name: usuario.nome_usuario,
+      foto_usuario: usuario.foto_usuario
+    }))
+    .catch((error) => {
+      if (error.status === 401) {
+        window.location.replace('../entrar/index.html');
+      } else {
+        console.error('[Hub] Nao foi possivel validar a sessao:', error);
+      }
+    });
 });
 
 function userLoadContent(user) {
