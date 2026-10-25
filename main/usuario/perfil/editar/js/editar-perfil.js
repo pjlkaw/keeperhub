@@ -4,6 +4,7 @@
  */
 
 import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/api/usuario.js';
+import { alertShared } from '../../../../../shared/services/interface.js';
 
 const FALLBACK_PROFILE = {
   name: '',
@@ -99,7 +100,7 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
-      message.textContent = 'Escolha uma imagem JPG, PNG ou WebP.';
+      alertShared('Escolha uma imagem JPG, PNG ou WebP.');
       return;
     }
 
@@ -107,7 +108,7 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
-      message.textContent = 'A imagem deve ter no máximo 5 MB.';
+     alertShared('A imagem deve ter no máximo 5 MB.');
       return;
     }
 
@@ -117,7 +118,7 @@ async function fillProfile() {
       avatarImage.src = reader.result;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
-      message.textContent = 'Imagem carregada. A validação de conteúdo será feita ao salvar.';
+      message.textContent = 'Imagem carregada';
     });
     reader.readAsDataURL(file);
   }
