@@ -7,6 +7,7 @@
  */
 
 import { loginUsuario } from '../../../shared/api/usuario.js';
+import { alertShared } from '../../../shared/services/interface.js';
 
 function validarInformacoesLogin(email, senha) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,13 +28,17 @@ async function realizarLogin(email, senha) {
     window.location.href = '../hub/index.html';
   } catch (erro) {
     console.error('[Login] Falha ao realizar login:', erro);
+    alertShared(erro.message || 'Não foi possível entrar. Tente novamente.');
+    return false;
   }
+  return true;
 }
 
 function setupLoginForm() {
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const submitBtn = document.getElementById('btn-submit-login');
+  let isSubmitting = false;
   const emailError = document.getElementById('email-error');
   const passwordError = document.getElementById('password-error');
   const togglePasswordBtn = document.getElementById('btn-toggle-password');
@@ -58,19 +63,8 @@ function setupLoginForm() {
     });
   }
 
-  function checkFormState() {
-    const emailVal = emailInput ? emailInput.value.trim() : '';
-    const passVal = passwordInput ? passwordInput.value : '';
-    const validacao = validarInformacoesLogin(emailVal, passVal);
-
-    if (submitBtn) {
-      submitBtn.disabled = !(validacao.emailValido && validacao.senhaValida);
-    }
-  }
-
   if (emailInput) {
     emailInput.addEventListener('input', () => {
-      checkFormState();
       if (emailError && emailError.classList.contains('is-visible')) {
         emailError.classList.remove('is-visible');
         emailInput.classList.remove('has-error');
@@ -80,7 +74,6 @@ function setupLoginForm() {
 
   if (passwordInput) {
     passwordInput.addEventListener('input', () => {
-      checkFormState();
       if (passwordError && passwordError.classList.contains('is-visible')) {
         passwordError.classList.remove('is-visible');
         passwordInput.classList.remove('has-error');
@@ -92,6 +85,8 @@ function setupLoginForm() {
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isSubmitting) return;
+
       const emailVal = emailInput ? emailInput.value.trim() : '';
       const passVal = passwordInput ? passwordInput.value : '';
       const validacao = validarInformacoesLogin(emailVal, passVal);
@@ -111,8 +106,20 @@ function setupLoginForm() {
 
       if (hasError) return;
 
-      // Adição: depois da validação, delega a autenticação para sua função própria.
-      await realizarLogin(emailVal, passVal);
+      isSubmitting = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Entrando...';
+      }
+      try {
+        await realizarLogin(emailVal, passVal);
+      } finally {
+        isSubmitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Entrar';
+        }
+      }
     });
   }
 }
