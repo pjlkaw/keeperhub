@@ -47,6 +47,24 @@
 	font-size: 12px;
 }
 
+.report-month-filter {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 8px 0 12px;
+	color: var(--text-muted);
+	font-size: 11px;
+}
+
+.report-month-filter select {
+	min-height: 36px;
+	padding: 6px 10px;
+	color: var(--text-color);
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+}
+
 /* Resumo financeiro */
 .summary-card,
 .report-section {
