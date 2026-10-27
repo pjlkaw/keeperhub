@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
@@ -160,9 +160,12 @@
                   required
                   aria-describedby="sexo-error"
                 >
-                  <option value="">Selecione</option>
+                  <option value="" disabled selected>Selecione</option>
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
+                  <option value="nao-binario">Não binário</option>
+                  <option value="outro">Outro</option>
+                  <option value="nao-informar">Prefiro não informar</option>
                 </select>
                 <span class="form-field-error" id="sexo-error" role="alert">
                   Selecione o sexo
