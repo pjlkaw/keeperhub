@@ -5,39 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist de compras — KeeperHub</title>
 
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
         <link rel="stylesheet" href="/shared/styles/variables.css">
         <link rel="stylesheet" href="/shared/styles/reset.css">
         <link rel="stylesheet" href="/shared/styles/components.css">
         <link rel="stylesheet" href="/shared/styles/header-page.css">
         <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
         <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
-        <link rel="stylesheet" href="/modules/despensa/assets/css/precos.css">
+        <link rel="stylesheet" href="/modules/despensa/assets/css/index.css">
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
-            <script type="module" src="/modules/despensa/js/index.js"></script>
-          
-
-    <link rel="stylesheet" href="/shared/styles/variables.css">
-    <link rel="stylesheet" href="/shared/styles/reset.css">
-    <link rel="stylesheet" href="/shared/styles/components.css">
-
-    <link rel="stylesheet" href="../assets/css/checklist.css">
-
-    <script src="/shared/services/theme.js" defer></script>
-    <script src="../js/checklist.js" defer></script>
-
-    <script>
-    const configModule = window.keeperhubModuleConfig || {
-    module: 'despensa',
-    title: 'Checklist',
-    subtitle: 'Gestão do seu mercado',
-    backUrl: '/main/',
-    notificationsModule: 'Despensa',
-    addUrl: '/modules/despensa/components/cadastrar.html'
-};
-    </script>
-    <script src="/shared/services/load-components.js"></script>
+        <script type="module" src="/modules/despensa/js/index.js"></script>
+        <link rel="stylesheet" href="../assets/css/checklist.css">
+        <script>
+            window.keeperhubModuleConfig = {
+                module: 'despensa',
+                title: 'Checklist',
+                subtitle: 'Gerencie suas compras',
+                backUrl: '/modules/despensa/index.html',
+                notificationsModule: 'despensa',
+            };
+        </script>
+        <script src="/shared/services/load-components.js"></script>
     
 </head>   
 
@@ -46,22 +35,14 @@
         </section>
         <div class="despensa-shell">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
-                <a href="/main/hub/index.html">
-                    Voltar ao Hub
+            </nav>
+             <a href="/main/hub/index.html">   
                 </a>
             </nav>
             <header class="section-header-section" id="headerSection">
                 <div class="section-header-title-area">
-                    <div class="section-header-top-row">
-                        <a href="/modules/despensa/index.html" aria-label="Voltar" class="section-header-back-btn" id="btn-back-header">
-                            <span aria-hidden="true">
-                                ‹
-                            </span>
-                        </a>
-
-            
-            <h1>Checklist</h1>
-           
+                        </span>
+                </div>
         </header>
 
         <section class="checklist-summary">
