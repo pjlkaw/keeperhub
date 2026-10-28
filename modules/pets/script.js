@@ -1,4 +1,4 @@
-import { listarPets, PETS_STORAGE_KEY } from './js/armazenamento.js';
+﻿import { listarPets, PETS_STORAGE_KEY } from './js/armazenamento.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 
 const lista = document.getElementById('lista-pets');
@@ -21,6 +21,8 @@ function criarCartao(pet) {
     cartao.querySelector('[data-pet-raca]').textContent = pet.raca;
     cartao.querySelector('[data-pet-peso]').textContent = `${Number(pet.peso).toLocaleString('pt-BR', { maximumFractionDigits: 6 })} kg`;
     cartao.querySelector('[data-pet-genero]').textContent = pet.genero === 'femea' ? 'Fêmea' : 'Macho';
+    const generoIcone = cartao.querySelector('.cartao-resumo-pet__atributo:nth-child(2) .icone');
+    generoIcone.classList.replace('fa-venus', pet.genero === 'femea' ? 'fa-venus' : 'fa-mars');
     const figura = cartao.querySelector('figure');
     const imagem = figura.querySelector('img');
     if (typeof pet.foto === 'string' && (/^https:\/\//.test(pet.foto) || /^data:image\/(?:jpeg|png|webp);base64,/.test(pet.foto))) {
@@ -82,3 +84,4 @@ window.addEventListener('storage', event => {
 window.addEventListener('pageshow', carregarPainel);
 window.addEventListener('focus', carregarPainel);
 carregarPainel();
+

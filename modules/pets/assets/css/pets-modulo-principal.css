@@ -292,17 +292,17 @@ ul {
 .cartao-resumo-pet__atributo:nth-child(1) .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/peso-pets.png');
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
 }
 
 .cartao-resumo-pet__atributo:nth-child(2) .icone {
   width: 10px;
   height: 12px;
-  background-image: url('../img/genero-femea-pets.png');
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
 }
 
 .bloco-pet[data-genero='macho'] .cartao-resumo-pet__atributo:nth-child(2) .icone {
-  background-image: url('../img/genero-macho-pets.png');
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
 }
 
 .cartao-resumo-pet__editar {
@@ -316,7 +316,9 @@ ul {
 .cartao-resumo-pet__editar .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/editar-pets.png');
+  color: inherit;
+  font-size: 12px;
+  line-height: 1;
 }
 
 /* Ações rápidas */
@@ -374,17 +376,17 @@ ul {
 
 .acao-rapida--vacina > .icone,
 .cartao-alerta--vacina > .icone {
-  background-image: url('../img/vacinas-pets.png');
+  color: #4285F4; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--consulta > .icone {
   background-color: color-mix(in srgb, var(--pets-appointment) 11%, transparent);
-  background-image: url('../img/consultas-pets.png');
+  color: #10B981; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--medicacao > .icone,
 .cartao-alerta--medicacao > .icone {
-  background-image: url('../img/medicamentos-pets.png');
+  color: #C084FC; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--medicacao > .icone {
@@ -393,13 +395,12 @@ ul {
 
 .acao-rapida--rotina > .icone {
   background-color: color-mix(in srgb, var(--pets-routine) 12%, transparent);
-  background-image: url('../img/rotina-pets.png');
+  color: #FB923C; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--despesas > .icone {
   background-color: transparent;
-  background-image: url('../img/despesas-icone-pet.png');
-  background-size: 100% 100%;
+  color: #EEF442; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida__titulo {
@@ -455,8 +456,9 @@ ul {
 .cartao-adicionar-pet .icone {
   width: 18px;
   height: 18px;
-  background-color: currentColor;
-  mask: url('../img/adicionar-pets.png') center / contain no-repeat;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1;
 }
 
 /* Alertas */
@@ -549,7 +551,7 @@ ul {
 .cartao-alerta--medicacao .cartao-alerta__acao .icone {
   width: 12px;
   height: 9px;
-  background-image: url('../img/concluir-pets.png');
+  color: #4184F2; font-size: 12px; line-height: 1;
 }
 
 .cartao-alerta--vacina .cartao-alerta__acao {
@@ -559,7 +561,7 @@ ul {
 .cartao-alerta--vacina .cartao-alerta__acao .icone {
   width: 13px;
   height: 14px;
-  background-image: url('../img/calendario-pets.png');
+  color: var(--pets-text-muted); font-size: 13px; line-height: 1;
 }
 
 @media (min-width: 600px) {
@@ -639,3 +641,14 @@ ul {
     height: 30px;
   }
 }
+
+
+.acao-rapida--vacina > .icone { color: #4285F4; }
+.acao-rapida--consulta > .icone { color: #10B981; }
+.acao-rapida--medicacao > .icone { color: #C084FC; }
+.acao-rapida--rotina > .icone { color: #FB923C; }
+.acao-rapida--despesas > .icone { color: #EEF442; }
+.cartao-alerta--vacina > .icone { color: #4285F4; }
+.cartao-alerta--medicacao > .icone { color: #C084FC; }
+.cartao-alerta--medicacao .cartao-alerta__acao .icone { color: #4184F2; }
+.cartao-alerta--vacina .cartao-alerta__acao .icone { color: var(--pets-text-muted); }

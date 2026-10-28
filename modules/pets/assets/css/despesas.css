@@ -371,11 +371,7 @@ textarea:focus {
   border-radius: 9px;
 }
 
-.despesa-icone img {
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-}
+.despesa-icone .despesa-glyph { font-size: 16px; line-height: 1; color: var(--pets-text-muted); }
 
 .categoria-despesa__percentual {
   align-self: center;
@@ -416,12 +412,7 @@ textarea:focus {
   font-weight: 400;
 }
 
-.grupo-despesas__cabecalho img {
-  flex: 0 0 14px;
-  width: 14px;
-  height: 14px;
-  object-fit: contain;
-}
+.grupo-despesas__cabecalho .despesa-glyph { flex: 0 0 14px; width: 14px; font-size: 14px; line-height: 1; color: #4285F4; }
 
 .lista-lancamentos {
   padding: 4px 16px;
@@ -497,12 +488,6 @@ textarea:focus {
   border-radius: 50%;
   box-shadow: 0 5px 20px var(--pets-primary-shadow);
   transition: background-color var(--pets-transition), transform var(--pets-transition);
-}
-
-.despesas-adicionar img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
 }
 
 /* Formulário fora do fluxo: o conteúdo inicial segue o desenho enviado. */
