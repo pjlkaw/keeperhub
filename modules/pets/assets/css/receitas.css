@@ -230,8 +230,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   left: 12px;
   width: 16px;
   height: 16px;
-  background-image: url("../img/busca-pets.png");
-  filter: var(--pets-neutral-icon-filter);
+  color: var(--pets-text-muted);
+  font-size: 14px;
+  line-height: 1;
   pointer-events: none;
 }
 
@@ -251,8 +252,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .barra-ferramentas-medicacoes__filtro .icone {
   width: 16px;
   height: 16px;
-  background-image: url("../img/filtro-pets.png");
-  filter: var(--pets-neutral-icon-filter);
+  color: var(--pets-text-muted);
+  font-size: 14px;
+  line-height: 1;
 }
 
 .cartao-medicacao__dosagem) {
@@ -279,7 +281,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .pagina-medicacoes .botao-flutuante .icone {
   width: 20px;
   height: 20px;
-  background-image: url("../img/adicionar-pets.png");
+  background-image: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -329,7 +331,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-receita > .icone {
   width: 40px;
   height: 40px;
-  background: var(--pets-neutral-hover) url('../img/laudo-exame-pets.png') center / 16px 20px no-repeat;
+  background: var(--pets-neutral-hover);
   border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
 }
@@ -352,8 +354,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-receita__data .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/calendario-pets.png');
-  filter: var(--pets-neutral-icon-filter);
+  color: var(--pets-text-muted);
+  font-size: 12px;
+  line-height: 1;
 }
 .cartao-receita__acoes {
   display: flex;
@@ -400,7 +403,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-receita__baixar .icone {
   width: 16px;
   height: 16px;
-  background-image: url('../img/baixar-exame-pets.png');
+  background-image: none;
   filter: var(--pets-neutral-icon-filter);
 }
 .receitas-upload { cursor: pointer; }
@@ -426,3 +429,8 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
     justify-content: space-between;
   }
 }
+
+
+.cartao-receita > .icone { display: grid; place-items: center; color: #4285F4; font-size: 16px; line-height: 1; }
+.cartao-receita__baixar .icone { color: var(--pets-text-muted); font-size: 16px; line-height: 1; }
+

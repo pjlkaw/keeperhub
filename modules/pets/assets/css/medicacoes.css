@@ -230,8 +230,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   left: 12px;
   width: 16px;
   height: 16px;
-  background-image: url('../img/busca-pets.png');
-  filter: var(--pets-neutral-icon-filter);
+  color: var(--pets-text-muted);
+  font-size: 14px;
+  line-height: 1;
   pointer-events: none;
 }
 
@@ -252,8 +253,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .barra-ferramentas-medicacoes__filtro .icone {
   width: 16px;
   height: 16px;
-  background-image: url('../img/filtro-pets.png');
-  filter: var(--pets-neutral-icon-filter);
+  color: var(--pets-text-muted);
+  font-size: 14px;
+  line-height: 1;
 }
 
 .grupo-medicacoes { padding-inline: 16px; }
@@ -295,17 +297,6 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   border: 1px solid var(--border-color);
   border-radius: 50%;
 }
-.cartao-medicacao > .icone::before {
-  position: absolute;
-  inset: 0;
-  background: var(--medicacoes-glifo) center / 18px no-repeat;
-  filter: var(--pets-neutral-icon-filter);
-  content: '';
-}
-.cartao-medicacao--continuo { --medicacoes-glifo: url('../img/frasco-medicamento-pets.png'); }
-.cartao-medicacao--temporario { --medicacoes-glifo: url('../img/medicamento-pets.png'); }
-.cartao-medicacao--eventual { --medicacoes-glifo: url('../img/gota-medicamento-pets.png'); }
-.cartao-medicacao--aplicada { --medicacoes-glifo: url('../img/historico-medicamento-pets.png'); }
 
 .cartao-medicacao__informacoes { min-width: 0; align-self: center; }
 .cartao-medicacao__nome {
@@ -332,7 +323,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-medicacao__termino .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/calendario-pets.png');
+  background-image: none;
   filter: var(--pets-neutral-icon-filter);
 }
 .cartao-medicacao__alerta-estoque {
@@ -382,7 +373,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .pagina-medicacoes .botao-flutuante .icone {
   width: 20px;
   height: 20px;
-  background-image: url('../img/adicionar-pets.png');
+  background-image: none;
 }
 @media (hover: hover) and (pointer: fine) {
   .pagina-medicacoes .botao-flutuante:hover {
@@ -396,3 +387,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   .cartao-medicacao { grid-template-columns: 40px minmax(0, 1fr); }
   .cartao-medicacao .etiqueta-status { grid-column: 2; width: fit-content; }
 }
+
+
+.cartao-medicacao > .icone { display: grid; place-items: center; color: var(--pets-text-muted); font-size: 18px; line-height: 1; }
+.cartao-medicacao--temporario > .icone { color: #C084FC; }
+.cartao-medicacao__estoque .icone, .cartao-medicacao__termino .icone { color: var(--pets-text-muted); font-size: 12px; line-height: 1; }
+.pagina-medicacoes .botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }
