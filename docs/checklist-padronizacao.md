@@ -8,8 +8,6 @@ Ultima revisao: 2026-09-09
 ## 1. Bloqueios de entrada
 
 - [ ] Criar uma pagina HTML valida em [modules/despensa/index.html](../modules/despensa/index.html).
-- [ ] Criar uma pagina HTML valida em [modules/metas/index.html](../modules/metas/index.html).
-- [ ] Decidir se [modules/metas/metas-app](../modules/metas/metas-app) sera incorporado ao modulo principal ou removido como aplicacao paralela.
 
 ## 2. Recursos compartilhados e dependencias
 
@@ -20,7 +18,7 @@ Ultima revisao: 2026-09-09
 - [ ] Corrigir a ordem dos imports em todos os arquivos de [modules/pets/components](../modules/pets/components).
 - [ ] Substituir a navbar local das paginas de [modules/despensa](../modules/despensa) por [shared/components/navbar-section.html](../shared/components/navbar-section.html).
 - [ ] Avaliar a substituicao dos headers duplicados em [modules/medicamentos/components/adicionar-habito.html](../modules/medicamentos/components/adicionar-habito.html) e [modules/medicamentos/components/bons-habitos.html](../modules/medicamentos/components/bons-habitos.html) por [shared/components/header-page.html](../shared/components/header-page.html).
-- [ ] Remover ou preencher os componentes vazios [modules/despensa/components/pagina.html](../modules/despensa/components/pagina.html) e [modules/metas/components/pagina.html](../modules/metas/components/pagina.html).
+- [ ] Remover ou preencher o componente vazio [modules/despensa/components/pagina.html](../modules/despensa/components/pagina.html).
 - [ ] Confirmar que nenhum modulo importa arquivos diretamente de outro modulo.
 
 ## 3. Padronizacao de tema e CSS
@@ -28,7 +26,6 @@ Ultima revisao: 2026-09-09
 - [ ] Corrigir `var(--text)` para `var(--text-color)` em [modules/despensa/inicio.css](../modules/despensa/inicio.css).
 - [ ] Corrigir `var(--azul)` ou declarar um token valido em [modules/despensa/produtos.css](../modules/despensa/produtos.css).
 - [x] Migrar gradualmente os tokens paralelos (`--black`, `--panel`, `--white`, `--muted` e similares) dos estilos do módulo Finanças, incluindo [base.css](../modules/financas/assets/css/base.css) e [padroes.css](../modules/financas/assets/css/padroes.css), para os tokens de [shared/styles/variables.css](../shared/styles/variables.css).
-- [ ] Migrar os tokens paralelos (`--bg`, `--surface`, `--text`, `--amber` e similares) de [modules/metas/metas-app/style.css](../modules/metas/metas-app/style.css) para os tokens compartilhados.
 - [ ] Revisar as redefinicoes locais de tokens globais em [modules/pets/assets/css/despesas.css](../modules/pets/assets/css/despesas.css) e [modules/pets/assets/css/vacinacoes.css](../modules/pets/assets/css/vacinacoes.css).
 - [x] Padronizar o serviço de tema do módulo Finanças para [shared/services/theme.js](../shared/services/theme.js), ou documentar formalmente a exceção.
 - [ ] Garantir que paginas com `#theme-toggle` carreguem [shared/services/theme.js](../shared/services/theme.js).
@@ -42,7 +39,6 @@ Ultima revisao: 2026-09-09
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/despensa](../modules/despensa), mantendo as classes especificas de cada card.
 - [x] Adicionar `class="card"` aos cards de conteudo de [modules/financas](../modules/financas), mantendo as classes especificas de cada card.
 - [ ] Adicionar `class="card"` aos cards de conteudo de [modules/pets](../modules/pets), mantendo as classes especificas de cada card.
-- [ ] Migrar a definicao local de `.card` em [modules/metas/metas-app/style.css](../modules/metas/metas-app/style.css) para [shared/styles/components.css](../shared/styles/components.css).
 - [ ] Revisar os cards proprios `summary-card`, `total-card`, `product-card` e `resumo-card` em [modules/despensa](../modules/despensa).
 - [x] Revisar os cards proprios `finance-shortcut-card`, `monthly-expenses-card`, `summary-card`, `evolution-card` e `insight-card` em [modules/financas](../modules/financas).
 - [ ] Revisar `card-modelo-lembrete` e `card-agendado` em [modules/pets/components/lembretes.html](../modules/pets/components/lembretes.html).
@@ -70,15 +66,6 @@ Ultima revisao: 2026-09-09
 	- Auditoria em 2026-09-09: parcialmente executada. Foram adicionados aliases baseados nos tokens globais em [modules/medicamentos/assets/css/essentials/meds-variables.css](../modules/medicamentos/assets/css/essentials/meds-variables.css) e migradas cores neutras em [modules/medicamentos/assets/css/essentials/components.css](../modules/medicamentos/assets/css/essentials/components.css), [modules/medicamentos/assets/css/home.css](../modules/medicamentos/assets/css/home.css), [modules/medicamentos/assets/css/meds-list.css](../modules/medicamentos/assets/css/meds-list.css), [modules/medicamentos/assets/css/rotina.css](../modules/medicamentos/assets/css/rotina.css) e nos controles de [modules/medicamentos/assets/css/meds-form.css](../modules/medicamentos/assets/css/meds-form.css). O item permanece pendente porque ainda existem fallbacks fixos no proprio `meds-form.css` e em regras de tema claro de `rotina.css` que precisam ser substituidos na origem. Cores semanticas de alerta, erro, tratamento e destaque verde devem continuar em tokens especificos do modulo.
 - [ ] Confirmar que o tema salvo e o botao de tema funcionam ao abrir a pagina em diferentes dispositivos e tamanhos de viewport.
 - [ ] Evitar duplicacao do header compartilhado nos componentes que ainda possuem markup manual.
-
-## 8. Modulo Metas
-
-- [ ] Escolher entre [modules/metas/index.html](../modules/metas/index.html) como entrada oficial.
-- [ ] Mover a implementacao escolhida para a estrutura `index.html`, `assets/`, `components/` e `js/` do modulo.
-- [ ] Integrar o modulo escolhido com [shared/styles/variables.css](../shared/styles/variables.css), [shared/styles/components.css](../shared/styles/components.css), [shared/components/navbar-section.html](../shared/components/navbar-section.html) e [shared/services/theme.js](../shared/services/theme.js).
-- [ ] Corrigir referencias de navegacao que usam `dispensa` em vez de `despensa` em [modules/metas/metas-app/script.js](../modules/metas/metas-app/script.js).
-- [ ] Remover duplicacoes de imagens que ja existem em [shared/img](../shared/img).
-- [ ] Remover emojis
 
 ## 9. Modulo Pets
 

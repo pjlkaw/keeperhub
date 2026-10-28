@@ -3,17 +3,17 @@ import {
   buscarUsuarioPorEmail, criarUsuario
 } from '../server/repositories/usuario.js';
 import { hashPassword, verificarSenha } from '../server/password.js';
+import { validarFoto } from '../server/image-validation.js';
+import { armazenarFoto } from '../server/image-storage.js';
+import {
+  criarCookieSessao, origemDaRequisicaoValida, usuarioDaSessao,
+  validarConfiguracaoSessao
+} from '../server/auth-session.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar'];
-const GENEROS_CADASTRO = GENEROS_VALIDOS.slice(0, 2);
-
-function idValido(value) {
-  const id = Number(value);
-  return Number.isInteger(id) && id > 0 ? id : null;
-}
-
-function validarFormularioUsuario(body, { cadastro = false } = {}) {
+const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar', 'outro'];
+const GENEROS_CADASTRO = GENEROS_VALIDOS;
+async function validarFormularioUsuario(body, { cadastro = false } = {}) {
   const dados = {};
   const temCampo = (campo) => Object.prototype.hasOwnProperty.call(body, campo);
 
@@ -63,11 +63,24 @@ function validarFormularioUsuario(body, { cadastro = false } = {}) {
     dados.senha_usuario = body.senha_usuario;
   }
 
+  // A imagem chega como Base64 e fica salva na coluna foto_usuario.
+  if (Object.prototype.hasOwnProperty.call(body, 'foto_usuario')) {
+    if (body.foto_usuario === null || body.foto_usuario === '') {
+      dados.foto_usuario = null;
+    } else {
+      const resultadoImagem = await validarFoto(body.foto_usuario);
+      if (resultadoImagem.erro) {
+        return resultadoImagem;
+      }
+      dados.foto_usuario = await armazenarFoto(resultadoImagem);
+    }
+  }
+
   return { dados };
 }
 
 async function criarConta(body, res) {
-  const validacao = validarFormularioUsuario(body, { cadastro: true });
+  const validacao = await validarFormularioUsuario(body, { cadastro: true });
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
@@ -82,13 +95,16 @@ async function criarConta(body, res) {
     senha_usuario: await hashPassword(dados.senha_usuario)
   });
   const usuario = await buscarUsuario(resultado.insertId);
+  // O cadastro inicia a sessão sem expor uma credencial ao JavaScript da página.
+  criarCookieSessao(res, usuario.id_usuario);
   return res.status(201).json({ usuario });
 }
 
-async function obterUsuario(query, res) {
-  const usuarioId = idValido(query?.id);
+async function obterUsuario(req, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  const usuarioId = usuarioDaSessao(req);
   if (!usuarioId) {
-    return res.status(400).json({ erro: 'Informe um ID de usuário válido.' });
+    return res.status(401).json({ erro: 'Entre na sua conta para continuar.' });
   }
 
   const usuario = await buscarUsuario(usuarioId);
@@ -97,13 +113,18 @@ async function obterUsuario(query, res) {
     : res.status(404).json({ erro: 'Usuário não encontrado.' });
 }
 
-async function atualizarPerfil(query, body, res) {
-  const usuarioId = idValido(query?.id);
-  if (!usuarioId) {
-    return res.status(400).json({ erro: 'Informe um ID de usuário válido.' });
+async function atualizarPerfil(req, body, res) {
+  res.setHeader('Cache-Control', 'no-store');
+  if (!origemDaRequisicaoValida(req)) {
+    return res.status(403).json({ erro: 'Origem da requisição não permitida.' });
   }
 
-  const validacao = validarFormularioUsuario(body);
+  const usuarioId = usuarioDaSessao(req);
+  if (!usuarioId) {
+    return res.status(401).json({ erro: 'Entre na sua conta para continuar.' });
+  }
+
+  const validacao = await validarFormularioUsuario(body);
   if (validacao.erro) {
     return res.status(400).json({ erro: validacao.erro });
   }
@@ -148,11 +169,15 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case 'POST':
+        if (!origemDaRequisicaoValida(req)) {
+          return res.status(403).json({ erro: 'Request origin not allowed.' });
+        }
+        validarConfiguracaoSessao();
         return await criarConta(body, res);
       case 'GET':
-        return await obterUsuario(req.query, res);
+        return await obterUsuario(req, res);
       case 'PUT':
-        return await atualizarPerfil(req.query, body, res);
+        return await atualizarPerfil(req, body, res);
       default:
         return res.status(405).json({ erro: 'Método não permitido' });
     }

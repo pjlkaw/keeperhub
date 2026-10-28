@@ -6,182 +6,97 @@
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
-    <link rel="stylesheet" href= /shared/styles/header-page.css" />
-    <link rel="stylesheet" href="assets/css/style-pets.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css" />
+    <link rel="stylesheet" href="/shared/styles/no-content.css" />
+    <link rel="stylesheet" href="/shared/styles/btn-add.css" />
+
     <link rel="stylesheet" href="assets/css/pets-modulo-principal.css" />
-  
 
-  <script>
-     window.keeperhubModuleConfig = {
-     module: 'Pets',
-       title: 'Pets',
-       subtitle: 'Administração da vida do seu pet',
-       backUrl: '/main/',
-       notificationsModule: 'nome-do-modulo',
-       addUrl: '/modules/nome-do-modulo/components/adicionar.html'
-     };
-  </script>
-  <script src="/shared/services/load-components.js"></script>
   
-        <!-- Navbar -->
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <!-- Header -->
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <!-- No content -->
-        <link rel="stylesheet" href="/shared/styles/no-content.css">
-        <!-- Button + -->
-        <link rel="stylesheet" href="/shared/styles/btn-add.css">
-
-  </head>
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Pets',
+        subtitle: 'Administração da vida do seu pet',
+        backUrl: '/main/hub/index.html',
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-pet.html'
+      };
+    </script>
+    <script defer src="/shared/services/load-components.js"></script>
+</head>
   <body>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar novo pet"></section>
     <div class="pagina-pets">
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-      <header class="section-header-section cabecalho-pets" id="headerSection"></header>
+      <header class="section-header-section" id="headerSection"></header>
 
-      <main class="painel-pets" id="conteudo-principal">
-      <h1 class="somente-leitor-tela">Meus pets</h1>
+      <section class="no-content-section" id="no-content-section" aria-label="Nenhum pet cadastrado" hidden></section>
 
-      <ul class="lista-pets">
+      <main class="painel-pets" id="conteudo-principal" hidden>
+        <h1 class="somente-leitor-tela">Meus pets</h1>
+        <p id="painel-pets-status" class="painel-pets-status" role="status" aria-live="polite"></p>
+        <button type="button" id="recarregar-pets" class="botao-principal" hidden>Tentar novamente</button>
+        <ul class="lista-pets" id="lista-pets"></ul>
+
+        <section class="adicionar-pet-section" id="adicionar-pet-section" hidden aria-label="Adicionar outro pet">
+          <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
+            <i class="fa-solid fa-plus icone" aria-hidden="true"></i>
+            Adicionar novo pet
+          </a>
+        </section>
+
+            <section class="acoes-rapidas-pet" id="acoes-rapidas-pets" aria-label="Cuidados dos pets" hidden>
+              <ul>
+                <li><a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina"><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Vacinas</span><span class="acao-rapida__descricao">Consultar vacinas</span></a></li>
+                <li><a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Consultas</span><span class="acao-rapida__descricao">Consultar agendamentos</span></a></li>
+                <li><a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao"><i class="fa-solid fa-pills icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Medicamentos</span><span class="acao-rapida__descricao">Consultar medicações</span></a></li>
+                <li><a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina"><i class="fa-solid fa-clipboard-list icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Rotina</span><span class="acao-rapida__descricao">Consultar rotina</span></a></li>
+                <li class="acoes-rapidas-pet__despesas"><a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas"><i class="fa-solid fa-receipt icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Despesas</span><span class="acao-rapida__descricao">Consultar despesas</span></a></li>
+              </ul>
+            </section>
+
+        <noscript>Ative o JavaScript para cadastrar e visualizar seus pets.</noscript>
+      </main>
+
+      <template id="cartao-pet-template">
         <li>
           <article class="bloco-pet">
             <section class="card cartao-resumo-pet">
               <figure class="cartao-resumo-pet__foto">
-                <img
-                  src="../../shared/img/logo-pets.png"
-                  alt="Foto de Luna, cadela Golden Retriever"
-                />
+                <img src="/shared/img/logo-pets.png" alt="" />
               </figure>
-
               <div class="cartao-resumo-pet__informacoes">
-                <h2 class="cartao-resumo-pet__nome">
-                  Luna <span class="cartao-resumo-pet__idade">3 anos</span>
-                </h2>
-                <p class="cartao-resumo-pet__raca">Golden Retriever</p>
-
+                <h2 class="cartao-resumo-pet__nome"><span data-pet-nome></span> <span class="cartao-resumo-pet__idade" data-pet-idade></span></h2>
+                <p class="cartao-resumo-pet__raca" data-pet-raca></p>
                 <ul class="cartao-resumo-pet__atributos">
-                  <li class="cartao-resumo-pet__atributo">
-                    <span class="icone" aria-hidden="true"></span>
-                    28kg
-                  </li>
-                  <li class="cartao-resumo-pet__atributo">
-                    <span class="icone" aria-hidden="true"></span>
-                    Fêmea
-                  </li>
+                  <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-weight-scale icone" aria-hidden="true"></i><span data-pet-peso></span></li>
+                  <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-venus icone" aria-hidden="true"></i><span data-pet-genero></span></li>
                 </ul>
               </div>
-              
-              <a href="components/editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar">
-                <span class="icone" aria-hidden="true"></span>
-                Editar Pet
+              <a href="components/editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar" data-link-pet>
+                <i class="fa-solid fa-pen-to-square icone" aria-hidden="true"></i>Editar Pet
               </a>
             </section>
 
-            <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
-              <span class="icone" aria-hidden="true"></span>
-              Adicionar novo pet
-            </a>
-
-            <section class="acoes-rapidas-pet" aria-label="Ações rápidas de Luna">
-              <ul>
-                <li>
-                  <a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina">
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Vacinas</span>
-                    <span class="acao-rapida__status">1 pendente</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta">
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Consultas</span>
-                    <span class="acao-rapida__status">Check-up em Nov</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao">
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Medicamentos</span>
-                    <span class="acao-rapida__status">Simparic hoje</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina">
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Rotina</span>
-                    <span class="acao-rapida__status">Consultar</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas" aria-label="Despesas de Luna: R$ 420 por mês" data-manter-pet>
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Despesas</span>
-                    <span class="acao-rapida__status">R$ 420 / mês</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="components/lembretes.html" class="card card--interactive acao-rapida acao-rapida--lembretes" aria-label="Personalizar lembretes de Luna" data-manter-pet>
-                    <span class="icone" aria-hidden="true"></span>
-                    <span class="acao-rapida__titulo">Lembretes</span>
-                    <span class="acao-rapida__status">Personalizar</span>
-                  </a>
-                </li>
-              </ul>
-            </section>
           </article>
         </li>
-      </ul>
-
-      <section class="alertas-pet" aria-labelledby="pet-alerts-heading">
-        <header class="alertas-pet__cabecalho">
-          <h2 id="pet-alerts-heading">Próximos Alertas</h2>
-        </header>
-
-        <ul>
-          <li>
-            <article class="card cartao-alerta cartao-alerta--medicacao">
-              <span class="icone" aria-hidden="true"></span>
-              <div class="cartao-alerta__informacoes">
-                <h3 class="cartao-alerta__titulo">Simparic (Antipulgas)</h3>
-                <p class="cartao-alerta__subtitulo">Luna · Hoje, 19:00</p>
-              </div>
-              <button
-                type="button"
-                class="botao-icone cartao-alerta__acao"
-                aria-label="Marcar como concluído"
-              >
-                <span class="icone" aria-hidden="true"></span>
-              </button>
-            </article>
-          </li>
-
-          <li>
-            <article class="card cartao-alerta cartao-alerta--vacina">
-              <span class="icone" aria-hidden="true"></span>
-              <div class="cartao-alerta__informacoes">
-                <h3 class="cartao-alerta__titulo">Vacina V10</h3>
-                <p class="cartao-alerta__subtitulo">Luna · 15 de Outubro</p>
-              </div>
-              <button
-                type="button"
-                class="botao-icone cartao-alerta__acao"
-                aria-label="Adicionar ao calendário"
-              >
-                <span class="icone" aria-hidden="true"></span>
-              </button>
-            </article>
-          </li>
-        </ul>
-      </section>
-      </main>
+      </template>
     </div>
 
-    <script src="../../shared/services/theme.js"></script>
-    <!-- Integração futura: js/index.js (arquivo ainda não implementado). -->
+    <script type="module" src="../pets/script.js"></script>
+    <script src="/shared/services/theme.js"></script>
   </body>
 </html>
+
+
+

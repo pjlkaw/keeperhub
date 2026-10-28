@@ -21,18 +21,16 @@ body :is(.botao-flutuante.botao-flutuante, .despesas-adicionar.despesas-adiciona
 
 /* O sinal é desenhado uma única vez, inclusive nos botões com texto "+". */
 body :is(.botao-flutuante, .despesas-adicionar)::after {
-  content: '';
-  grid-area: 1 / 1;
-  width: 20px;
-  height: 20px;
-  background: url('../img/adicionar-pets.png') center / contain no-repeat;
-  filter: brightness(0) invert(1);
+  content: "\f067";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 1;
+  color: currentColor;
   pointer-events: none;
 }
 
-body :is(.botao-flutuante, .despesas-adicionar) > :is(.icone, img) {
-  display: none;
-}
+body :is(.botao-flutuante, .despesas-adicionar) > :is(.icone, img, i) { display: none; }
 
 body :is(.botao-flutuante, .despesas-adicionar):focus-visible,
 body :is(.botao-flutuante, .despesas-adicionar):has(input:focus-visible) {

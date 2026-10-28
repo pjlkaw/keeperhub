@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
+import { carregarUsuarioAtual } from '../../../shared/api/usuario.js';
 
 // CHATBOT
 function initializeChatbot() {
@@ -115,41 +115,55 @@ function initializeChatbotMessaging() {
   });
 }
 
-
-/**
- * Retorna os dados da sessão do usuário autenticado no momento (se houver)
- * @returns {{ email?: string, name?: string } | null}
- */
-function getCurrentUser() {
-  try {
-    if (typeof window !== 'undefined' && window.KeeperHubAuth && typeof window.KeeperHubAuth.getCurrentUser === 'function') {
-      return window.KeeperHubAuth.getCurrentUser();
-    }
-    const session = localStorage.getItem(AUTH_STORAGE_KEY);
-    if (!session) return null;
-    return JSON.parse(session);
-  } catch {
-    return null;
-  }
-}
-
 // INTERFACE DE USUÁRIO (UI) E INTERAÇÕES
 const TALL_CARD_HEIGHT = 220;
-// Carregamento amigável de sessão do usuário (se autenticado)
 document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
   initializeChatbot();
   initializeChatbotMessaging();
 
-  const user = getCurrentUser();
-  if (user && user.name) {
-    const greetingEl = document.getElementById('greeting-title');
-    if (greetingEl) {
-      const firstName = user.name.split(' ')[0];
-      greetingEl.textContent = `Olá, ${firstName}`;
-    }
-  }
+  // A API valida o cookie no servidor; o cache local nao concede acesso.
+  carregarUsuarioAtual()
+    .then((usuario) => userLoadContent({
+      name: usuario.nome_usuario,
+      foto_usuario: usuario.foto_usuario
+    }))
+    .catch((error) => {
+      if (error.status === 401) {
+        window.location.replace('../entrar/index.html');
+      } else {
+        console.error('[Hub] Nao foi possivel validar a sessao:', error);
+      }
+    });
 });
+
+function userLoadContent(user) {
+  if (!user) return;
+
+  const pageName = document.getElementById('pageNameH1');
+  const userImage = document.getElementById('userImage');
+  // Aguarda o header compartilhado terminar de ser carregado.
+  if (!pageName) {
+    setTimeout(() => userLoadContent(user), 50);
+    return;
+  }
+
+  if (userImage) {
+    userImage.style.display = 'none'; // Oculta a imagem do usuário se não estiver disponível
+  }
+
+  if (pageName && user.name) {
+    const firstName = user.name.split(' ')[0]; // Extrai o primeiro nome do usuário
+    pageName.textContent = `Olá, ${firstName}`; // Atualiza o conteúdo do elemento <h1> com o nome
+  }
+
+  if (userImage && user.foto_usuario) {
+    document.getElementById('userIcon').style.display = 'none'; //remove ícone de usuário padrão
+    userImage.style.display = 'flex'; // exibe a imagem do usuário
+    userImage.src = user.foto_usuario; // aplica imagem do usuário
+  }
+
+}
 
 function observeModuleCardSizes() {
   const cards = document.querySelectorAll('.module-card');

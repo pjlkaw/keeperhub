@@ -6,31 +6,44 @@
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Cadastrar Pet</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
-    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/cadastrar-pet.css" />
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css" />
-  </head>
+  
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Cadastrar Pet',
+        subtitle: 'Adicione um novo pet à sua família',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script defer src="/shared/services/load-components.js"></script>
+</head>
   <body>
     <main class="editar-pet">
-      <header class="cabecalho-pagina cabecalho-pets">
-        <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar ao dashboard">
-          <span aria-hidden="true">‹</span>
-        </a>
-        <h1 class="cabecalho-pagina__titulo">Cadastrar Pet</h1>
-      </header>
+      <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+      <header class="section-header-section" id="headerSection"></header>
 
       <form class="formulario-editar-pet" id="cadastro-pet-form">
         <figure class="formulario-editar-pet__foto" id="foto-pet-preview" data-has-photo="false">
           <img id="foto-pet-imagem" src="" alt="Prévia da foto do pet" hidden />
         </figure>
 
-        <label for="foto-pet" class="botao-texto formulario-editar-pet__alterar-foto">
+        <label for="foto-pet" class="botao-texto formulario-editar-pet__alterar-foto" aria-disabled="true">
           Adicionar foto
         </label>
-        <input type="file" id="foto-pet" name="foto_pet" class="somente-leitor-tela" accept="image/*" />
+        <input type="file" id="foto-pet" name="foto_pet" class="somente-leitor-tela" accept="image/jpeg,image/png,image/webp" aria-describedby="foto-pet-ajuda cadastro-pet-status" disabled />
+        <p class="foto-pet-ajuda" id="foto-pet-ajuda">Foto opcional. Envio de fotos indisponível no momento.</p>
 
         <div class="campo-formulario">
           <label for="nome">Nome</label>
@@ -65,7 +78,7 @@
           </div>
           <div class="campo-formulario">
             <label for="peso">Peso (kg)</label>
-            <input type="number" id="peso" name="peso" min="0.1" step="0.1" inputmode="decimal" placeholder="0.0" required />
+            <input type="number" id="peso" name="peso" min="0" step="any" inputmode="decimal" placeholder="0.0" required />
           </div>
         </div>
 
@@ -83,15 +96,16 @@
           </div>
         </fieldset>
 
-        <button type="submit" class="botao-principal formulario-editar-pet__enviar">
+        <button id="btnCadastro" type="submit" class="botao-principal formulario-editar-pet__enviar">
           Cadastrar Pet
         </button>
 
         <p class="status-formulario" id="cadastro-pet-status" aria-live="polite"></p>
       </form>
+
+    <script type="module" src="../js/cadastroPet.js"></script>
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
-    <!-- Integração futura: ../js/cadastrar-pet.js (arquivo ainda não implementado). -->
+    <script src="/shared/services/theme.js"></script>
   </body>
 </html>

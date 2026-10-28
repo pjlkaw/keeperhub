@@ -1,66 +1,214 @@
 RECURSOS COMPARTILHADOS DO KEEPERHUB
 =====================================
 
-Os recursos de /shared podem ser usados por qualquer modulo. Antes de criar
-uma implementacao nova, verifique se existe um recurso adequado aqui.
+OBJETIVO
+--------
+A pasta /shared reúne componentes visuais, estilos,
+serviços e clientes de API que podem ser reutilizados
+em diferentes áreas do KeeperHub.
+
+Antes de implementar um componente, verifique se
+já existe uma solução equivalente nesta pasta.
 
 COMPONENTES HTML
 ----------------
-/shared/components/navbar-section.html
-Navegacao horizontal entre os modulos. E carregada por fetch nas paginas
-que precisam da navbar.
 
 /shared/components/header-page.html
-Cabecalho com botao de retorno, titulo, subtitulo e controle de tema.
-Pode ser carregado por fetch ou usado como referencia estrutural quando a
-pagina precisa funcionar sem carregamento dinamico.
+Cabeçalho reutilizável com botão de retorno,
+título, subtítulo, alternador de tema e acesso
+à página de notificações.
 
-SERVICOS
---------
+/shared/components/navbar-section.html
+Barra horizontal de navegação entre os cinco
+módulos do KeeperHub. O módulo ativo pode ser
+identificado pelo atributo data-module.
+
+/shared/components/btn-add.html
+Botão flutuante de adicionar (FAB).
+Seu destino é definido pela propriedade addUrl
+da configuração do módulo. A cor é controlada
+pela variável CSS --btn-add-color.
+
+/shared/components/modal-confirmation.html
+Modal visual de confirmação com mensagem,
+botão de confirmar e botão de cancelar.
+A ação de confirmação é implementada pelo
+JavaScript da página que utiliza o modal.
+
+/shared/components/no-content.html
+Componente visual exibido quando uma página
+não possui conteúdo disponível.
+
+/shared/components/notifications.html
+Página de notificações gerais ou filtradas
+pelo parâmetro de URL ?modulo=.
+Atualmente possui estrutura visual e estado
+vazio, mas não integra uma base de notificações.
+
+CARREGAMENTO DE COMPONENTES
+----------------------------
+
+/shared/services/load-components.js
+Serviço responsável por buscar e inserir
+componentes HTML compartilhados na página.
+
+A configuração deve ser definida antes de
+carregar o serviço:
+
+window.keeperhubModuleConfig = {
+    module: 'financas',
+    title: 'Finanças',
+    subtitle: 'Controle financeiro',
+    backUrl: '/main/hub/',
+    notificationsModule: 'financas',
+    addUrl:
+      '/modules/financas/components/nova-transacao.html'
+};
+
+Propriedades:
+- module: identificador do módulo na navbar.
+- title: título exibido no cabeçalho.
+- subtitle: subtítulo da página.
+- backUrl: destino do botão de retorno.
+- notificationsModule: filtro de notificações.
+- addUrl: destino opcional do botão adicionar.
+
+Containers reconhecidos:
+- #modules-nav-wrapper
+- #headerSection
+- #no-content-section
+- #btn-add-section
+- #confirmation-modal
+
+O carregamento utiliza fetch e é assíncrono.
+Scripts que manipulam os elementos inseridos
+precisam considerar esse comportamento.
+
+A configuração deve ser específica de cada
+módulo. Não reutilize os valores padrão de
+Medicamentos em outras páginas.
+
+SERVIÇOS JAVASCRIPT
+-------------------
+
 /shared/services/theme.js
-Aplica o tema salvo em localStorage e alterna entre dark e light atraves do
-elemento com id="theme-toggle".
+Controla os temas dark e light por meio do
+atributo data-theme no elemento html.
+Utiliza a chave keeperhub-theme no localStorage.
+Reconhece cliques no elemento #theme-toggle,
+inclusive quando inserido dinamicamente.
+
+/shared/services/interface.js
+Disponibiliza alertShared(mensagem).
+Requer o container #alertFromShared e os
+estilos de /shared/styles/interface.css.
+
+/shared/services/no-content.js
+Exporta atualizarNoContent(temConteudo).
+Controla a visibilidade de .no-content-section
+e a classe sem-rolagem aplicada ao body.
 
 /shared/services/auth.js
+Arquivo reservado para uma futura
+centralização da autenticação.
+Ainda não fornece um serviço completo.
+
 /shared/services/notifications.js
-Servicos reservados ou especificos do projeto. Consulte a implementacao
-antes de assumir que autenticacao ou notificacoes estao completamente
-funcionais. O acesso ao banco e exclusivo do servidor e fica em /server.
+Arquivo reservado para futuros recursos de
+notificação e feedback.
+Não deve ser considerado funcional.
 
-API DO NAVEGADOR
-----------------
+/shared/services/groq.js
+Integração do chatbot com o SDK Groq.
+Utiliza GROQ_API_KEY no ambiente do servidor.
+É código de execução Node.js, não um serviço
+que deve ser importado pelo navegador.
+
+CLIENTES DE API
+---------------
+
 /shared/api/usuario.js
-Cliente usado pelo navegador para chamar o endpoint /api/usuario.
+Cliente HTTP usado no navegador para cadastro,
+login, leitura e edição do usuário.
+Também gerencia dados locais da sessão pela
+chave keeperhub-auth-session.
 
-ESTILOS
--------
+A autenticação atual ainda necessita de
+mecanismos de autorização e proteção de sessão
+adequados para produção.
+
+/shared/api/chatbot.js
+Existe uma implementação adicional que precisa
+ser revisada. A rota HTTP utilizada pelo Hub
+está em /api/chatbot.js.
+
+ESTILOS COMPARTILHADOS
+----------------------
+
 /shared/styles/variables.css
-Define os tokens globais de tema: --bg-color, --header-bg, --text-color,
---text-muted, --card-bg, --border-color, --pill-bg e --pill-text, alem das
-cores de destaque dos modulos.
+Tokens globais dos temas dark e light e
+cores de identificação dos módulos.
 
 /shared/styles/reset.css
-Normaliza os estilos basicos do navegador.
+Normalização básica do navegador.
 
 /shared/styles/components.css
-Estilos compartilhados de componentes gerais.
+Padrões de cards, botões, campos e controles.
 
 /shared/styles/header-page.css
-Estilos do header-page.html, incluindo o botao de tema.
+Estilos do cabeçalho compartilhado.
 
 /shared/styles/navbar-modules.css
-Estilos da navbar-section.html.
+Estilos da navegação entre os módulos.
+
+/shared/styles/btn-add.css
+Estilos do botão flutuante de adicionar.
+
+/shared/styles/modalConfirmation.css
+Estilos do modal de confirmação.
+
+/shared/styles/no-content.css
+Estilos da tela sem conteúdo.
+
+/shared/styles/interface.css
+Estilos dos alertas visuais.
+
+/shared/styles/rodape.css
+Rodapé reutilizável de páginas do site.
 
 IMAGENS
 -------
 /shared/img/
-Logos, icones de tema e imagens reutilizadas pela interface.
+Logos, ícones de temas e imagens compatilhadas.
 
-ORDEM RECOMENDADA NO HTML
--------------------------
-1. /shared/styles/variables.css
-2. /shared/styles/reset.css
-3. /shared/styles/components.css
-4. Estilos especificos do header/navbar, quando usados
-5. Estilos especificos do modulo
-6. /shared/services/theme.js, quando a pagina possuir o botao de tema
+ -ORDEM RECOMENDADA NO HTML
+---------------------------
+-1. /shared/styles/variables.css
+-2. /shared/styles/reset.css
+-3. /shared/styles/components.css
+-4. Estilos especificos do header/navbar, quando usado
+-5. Estilos especificos do modulo
+-6. /shared/services/theme.js, quando a pagi na possuir o botao de tema
+
+REGRAS DE UTILIZAÇÃO
+--------------------
+1. Não duplicar componentes já existentes.
+2. Carregar tokens globais antes dos estilos locais.
+3. Definir keeperhubModuleConfig antes do loader.
+4. Não assumir que o fetch termina imediatamente.
+5. Não duplicar IDs ao inserir componentes.
+6. Carregar os arquivos CSS correspondentes.
+7. Não importar serviços Node.js no navegador.
+8. Diferenciar componentes completos de placeholders.
+9. Não importar código diretamente de outro módulo.
+10. Preservar acessibilidade e funcionamento nos
+    temas claro e escuro.
+
+LIMITAÇÕES CONHECIDAS
+---------------------
+- Ainda não existe um sistema completo de notificações.
+- auth.js e notifications.js estão incompletos.
+- Alguns módulos ainda usam carregadores próprios.
+- O loader compartilhado não trata integralmente
+  todas as falhas de carregamento.
+- A padronização dos componentes é gradual.

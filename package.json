@@ -18,11 +18,16 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"migrate:photos": "node scripts/migrate-photos-to-blob.js"
 	},
 	"dependencies": {
-		"dotenv": "^18.0.4",
+		"@tensorflow/tfjs": "^4.22.0",
+		"@vercel/blob": "^2.8.2",
+		"dotenv": "^18.0.9",
 		"groq-sdk": "^1.6.0",
-		"mysql2": "^3.24.4"
+		"mysql2": "^3.24.6",
+		"nsfwjs": "^4.3.0",
+		"sharp": "^0.35.5"
 	}
 }

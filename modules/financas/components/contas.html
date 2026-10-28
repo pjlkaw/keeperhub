@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
@@ -18,7 +15,16 @@
     <script src="/shared/services/theme.js" defer></script>
     <title>Minhas Contas</title>
     <script src="../js/interface.js" defer></script>
-    <script src="../js/cabecalho.js" defer data-title="Minhas Contas" data-subtitle="Gerencie suas contas"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Minhas Contas',
+            subtitle: 'Gerencie suas contas',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
     <section class="app-shell">
@@ -35,10 +41,6 @@
     <a href="/modules/pets/index.html" data-module="pets" class="modules-nav-item">
         <img src="/shared/img/logo-pets.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Pets
-    </a>
-    <a href="/modules/metas/index.html" data-module="metas" class="modules-nav-item">
-        <img src="/shared/img/logo-metas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
-        Metas
     </a>
     <a href="/modules/medicamentos/index.html" data-module="medicamentos" class="modules-nav-item">
         <img src="/shared/img/logo-medicamentos.png" alt="" class="modules-nav-item-icon" width="14" height="14" />

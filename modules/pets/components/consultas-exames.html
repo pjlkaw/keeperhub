@@ -1,29 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Consultas e Exames</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/consultas-exames.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Consultas e Exames',
+        subtitle: 'Acompanhe as consultas e os exames do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="painel-medico">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar">
-                <span class="icone" aria-hidden="true"></span>
-                <span class="somente-leitor-tela">Voltar</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Consultas e Exames</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <section class="consultas" aria-labelledby="proximas-consultas-heading">
             <h2 id="proximas-consultas-heading">Próximas Consultas</h2>
@@ -33,17 +44,17 @@
                     <article class="card cartao-consulta cartao-consulta--destaque">
                         <h3 class="cartao-consulta__veterinario">Dra. Amanda Silva</h3>
                         <p class="cartao-consulta__local">
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-solid fa-location-dot icone" aria-hidden="true"></i>
                             Clínica Pata Azul
                         </p>
 
                         <p class="cartao-consulta__data-hora">
                             <span class="cartao-consulta__data">
-                                <span class="icone" aria-hidden="true"></span>
+                                <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
                                 15 Out
                             </span>
                             <span class="cartao-consulta__horario">
-                                <span class="icone" aria-hidden="true"></span>
+                                <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
                                 14:30
                             </span>
                         </p>
@@ -68,7 +79,7 @@
 
                 <li>
                     <article class="card cartao-consulta">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
                         <div class="cartao-consulta__informacoes">
                             <h3 class="cartao-consulta__veterinario">Dr. Roberto (Dermatologista)</h3>
                             <p class="cartao-consulta__data-hora">22 Out - 09:00</p>
@@ -104,39 +115,39 @@
             <ul>
                 <li>
                     <article class="card cartao-exame">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-file-medical icone" aria-hidden="true"></i>
                         <div class="cartao-exame__informacoes">
                             <h3 class="cartao-exame__nome">Hemograma Completo</h3>
                             <p class="cartao-exame__data">10 Set 2023</p>
                         </div>
                         <a href="#" class="botao-icone" aria-label="Baixar Hemograma Completo" download>
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
                         </a>
                     </article>
                 </li>
 
                 <li>
                     <article class="card cartao-exame">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-image icone" aria-hidden="true"></i>
                         <div class="cartao-exame__informacoes">
                             <h3 class="cartao-exame__nome">Raio-X Torácico</h3>
                             <p class="cartao-exame__data">05 Ago 2023</p>
                         </div>
                         <a href="#" class="botao-icone" aria-label="Baixar Raio-X Torácico" download>
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
                         </a>
                     </article>
                 </li>
 
                 <li>
                     <article class="card cartao-exame">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-file-medical icone" aria-hidden="true"></i>
                         <div class="cartao-exame__informacoes">
                             <h3 class="cartao-exame__nome">Exame de Urina</h3>
                             <p class="cartao-exame__data">15 Jun 2023</p>
                         </div>
                         <a href="#" class="botao-icone" aria-label="Baixar Exame de Urina" download>
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
                         </a>
                     </article>
                 </li>
@@ -194,7 +205,8 @@
 
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
-    <!-- Integração de consultas e exames pendente; ver consultas-integracao.md. -->
+    <script src="/shared/services/theme.js"></script>
+<!-- Integração de consultas e exames pendente; ver consultas-integracao.md. -->
 </body>
 </html>
+

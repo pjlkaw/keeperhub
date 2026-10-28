@@ -8,14 +8,12 @@
     <title>Transações • Finanças • KeeperHub</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
     <link rel="stylesheet" href="../assets/css/base.css">
     <link rel="stylesheet" href="../assets/css/transacoes.css">
@@ -23,32 +21,34 @@
     <script src="/shared/services/theme.js" defer></script>
     <title>Transações</title>
     <script src="../js/interface.js" defer></script>
-
-    <!-- Header compartilhado -->
-    <script src="../js/cabecalho.js" defer data-title="Transações" data-subtitle="Consulte suas movimentações"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Transações',
+            subtitle: 'Consulte suas movimentações',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 
 <body class="finance-page">
     <div class="finance-shell transactions-list-screen">
 
-        <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
 
-        <!-- 2. CABEÇALHO DA PÁGINA -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
         <nav class="finance-tabs" aria-label="Seções de finanças">
-            <a href="/modules/financas/">Visão geral</a>
+            <a href="/modules/financas/index.html">Visão geral</a>
             <a class="active" href="transacoes.html" aria-current="page">Transações</a>
             <a href="relatorios.html">Relatórios</a>
             <a href="nova-transacao.html">Nova transação</a>
         </nav>
 
-        <!-- 4. CONTEÚDO PRINCIPAL -->
         <section class="finance-content transactions-content">
 
-            <!-- Busca -->
             <form class="transactions-search" role="search">
                 <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
@@ -61,7 +61,6 @@
                 </p>
             </form>
 
-            <!-- Filtros -->
             <section class="filter-row" aria-label="Filtros de transações">
                 <nav class="filter-chips" aria-label="Filtros de transações">
                     <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
@@ -82,23 +81,28 @@
                 </section>
             </section>
 
-            <!-- Lista de Transações -->
             <section class="card transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
 
         </section>
 
-        <!-- FAB: Nova Transação -->
-        <a class="transactions-add" href="nova-transacao.html" aria-label="Nova transação">
-            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
-            </svg>
-        </a>
+        <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
 
     </div>
 
     <script type="module" src="../script.js"></script>
+    <script>
+        fetch('/shared/components/btn-add.html')
+            .then(r => r.text())
+            .then(html => {
+                const secao = document.getElementById('btn-add-section');
+                if (!secao) return;
+                secao.innerHTML = html;
+                secao.querySelector('#btn-add').href = 'nova-transacao.html';
+                secao.querySelector('#btn-add').setAttribute('aria-label', 'Nova transação');
+            });
+    </script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
@@ -33,7 +33,6 @@
     <!-- Favicon e Ícones de Aplicação -->
     <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png" />
-    <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" />
 
     <!-- CSS Global e Específico da Página Criar Conta -->
     <link rel="stylesheet" href="../../shared/styles/reset.css" />
@@ -43,6 +42,7 @@
   </head>
   <body>
     <div class="auth-page-wrapper" id="app-root">
+      <section id="alertFromShared" class="alert"></section>
       <!-- HEADER COMPACTO -->
       <header class="auth-header" id="auth-header">
         <div class="container">
@@ -93,6 +93,9 @@
 
             <!-- FORMULÁRIO DE CADASTRO -->
             <form class="auth-form" id="signup-form" novalidate>
+              <p class="form-completion-status" id="signup-completion-status" role="status" aria-live="polite">
+                Preencha todos os campos obrigatórios para criar sua conta.
+              </p>
               <!-- Campo Nome completo -->
               <div class="form-group">
                 <label for="name" class="form-label">Nome completo</label>
@@ -157,9 +160,12 @@
                   required
                   aria-describedby="sexo-error"
                 >
-                  <option value="">Selecione</option>
+                  <option value="" disabled selected>Selecione</option>
                   <option value="masculino">Masculino</option>
                   <option value="feminino">Feminino</option>
+                  <option value="nao-binario">Não binário</option>
+                  <option value="outro">Outro</option>
+                  <option value="nao-informar">Prefiro não informar</option>
                 </select>
                 <span class="form-field-error" id="sexo-error" role="alert">
                   Selecione o sexo
@@ -255,7 +261,6 @@
                 type="submit"
                 class="btn-auth-primary"
                 id="btn-submit-signup"
-                disabled
               >
                 Criar conta
               </button>
@@ -266,7 +271,7 @@
               <span class="auth-divider-text">ou</span>
             </div>
 
-            <!-- CADASTRO SOCIAL (GOOGLE E APPLE) -->
+            <!-- CADASTRO SOCIAL (GOOGLE) -->
             <div class="auth-social-group" aria-label="Métodos alternativos de cadastro">
               <button type="button" class="btn-auth-social" id="btn-signup-google">
                 <svg class="auth-social-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -276,13 +281,6 @@
                   <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
                 </svg>
                 Continuar com Google
-              </button>
-
-              <button type="button" class="btn-auth-social" id="btn-signup-apple">
-                <svg class="auth-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.88c.64-.78 1.08-1.86.96-2.88-.93.04-2.05.62-2.71 1.4-.58.67-1.09 1.76-.95 2.8 1.03.08 2.07-.54 2.7-1.32z"/>
-                </svg>
-                Continuar com Apple
               </button>
             </div>
 
@@ -302,10 +300,7 @@
                   <img src="../assets/img/logo-financas.png" alt="" class="auth-module-icon" width="16" height="16" />
                   Finanças
                 </span>
-                <span class="auth-module-pill">
-                  <img src="../assets/img/logo-metas.png" alt="" class="auth-module-icon" width="16" height="16" />
-                  Metas
-                </span>
+
                 <span class="auth-module-pill">
                   <img src="../assets/img/logo-despensa.png" alt="" class="auth-module-icon" width="16" height="16" />
                   Despensa

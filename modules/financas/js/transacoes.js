@@ -1,4 +1,5 @@
 import { formatarMoeda, formatarData, obterTransacoes, salvarTransacoes } from './dados.js';
+import { apiDisponivel, atualizarTransacaoApi, excluirTransacaoApi } from './api.js';
 
 function criarTransacao(transacao) {
     const item = document.createElement('article');
@@ -7,6 +8,7 @@ function criarTransacao(transacao) {
     const icone = document.createElement('span');
     const titulo = document.createElement('strong');
     const descricao = document.createElement('small');
+    const observacoes = document.createElement('small');
     const despesa = transacao.tipo === 'despesa';
     item.className = 'transaction-item';
     icone.className = 'transaction-icon';
@@ -19,6 +21,10 @@ function criarTransacao(transacao) {
     descricao.textContent = [transacao.categoria, transacao.conta_nome,
         transacao.vencimento && 'Vencimento: ' + formatarData(transacao.vencimento)].filter(Boolean).join(' · ');
     detalhes.append(titulo, descricao);
+    if (transacao.observacoes) {
+        observacoes.textContent = 'Observação: ' + transacao.observacoes;
+        detalhes.append(observacoes);
+    }
     valor.className = despesa ? 'expense' : '';
     valor.textContent = (despesa ? '- ' : '+ ') + formatarMoeda(transacao.valor);
     item.append(icone, detalhes, valor);
@@ -32,6 +38,21 @@ function criarTransacao(transacao) {
         acoes.append(valor, pagamento);
         item.append(acoes);
     }
+    const acoes = item.querySelector('aside') || document.createElement('aside');
+    if (!acoes.parentElement) item.append(acoes);
+    const editar = document.createElement('button');
+    editar.className = 'transaction-edit';
+    editar.dataset.id = transacao.id;
+    editar.type = 'button';
+    editar.textContent = 'Editar';
+    editar.setAttribute('aria-label', 'Editar transação ' + transacao.descricao);
+    const excluir = document.createElement('button');
+    excluir.className = 'transaction-delete';
+    excluir.dataset.id = transacao.id;
+    excluir.type = 'button';
+    excluir.textContent = 'Excluir';
+    excluir.setAttribute('aria-label', 'Excluir transação ' + transacao.descricao);
+    acoes.append(editar, excluir);
     return item;
 }
 
@@ -85,7 +106,7 @@ function inicializarPopup() {
     });
 }
 
-export function inicializarTransacoes() {
+export async function inicializarTransacoes() {
     const lista = document.querySelector('#transaction-list, #due-list');
     if (!lista) return;
     const agrupar = lista.id === 'transaction-list';
@@ -106,7 +127,10 @@ export function inicializarTransacoes() {
             const mesValido = filtro !== 'este-mes' || (data.getUTCMonth() === hoje.getMonth() && data.getUTCFullYear() === hoje.getFullYear());
             return texto.includes(termo) && tipoValido && mesValido;
         });
-        renderizarTransacoes(filtradas, lista, agrupar);
+        const ordenadas = agrupar
+            ? filtradas
+            : [...filtradas].sort((a, b) => String(a.vencimento).localeCompare(String(b.vencimento)));
+        renderizarTransacoes(ordenadas, lista, agrupar);
     };
     filtros.forEach((botao) => botao.addEventListener('click', () => {
         filtro = botao.dataset.filter;
@@ -124,16 +148,50 @@ export function inicializarTransacoes() {
         busca.focus();
     });
     inicializarPopup();
-    lista.addEventListener('click', (evento) => {
+    lista.addEventListener('click', async (evento) => {
         const botao = evento.target.closest('.payment-button');
-        if (!botao || botao.disabled) return;
-        botao.disabled = true;
-        const transacao = transacoes.find((item) => String(item.id) === botao.dataset.id);
-        if (transacao) transacao.status = 'pago';
+        if (botao && !botao.disabled) {
+            botao.disabled = true;
+            const transacao = transacoes.find((item) => String(item.id) === botao.dataset.id);
+            if (!transacao) return;
+            if (apiDisponivel()) {
+                try {
+                    await atualizarTransacaoApi(transacao.id, { ...transacao, status: 'pago' });
+                } catch (erro) {
+                    botao.disabled = false;
+                    window.alert(erro.message);
+                    return;
+                }
+            }
+            transacao.status = 'pago';
+            salvarTransacoes(transacoes);
+            botao.textContent = 'Pago';
+            botao.closest('.transaction-item').classList.add('is-paid');
+            return;
+        }
+
+        const editar = evento.target.closest('.transaction-edit');
+        if (editar) {
+            window.location.href = `nova-transacao.html?modo=editar&id=${encodeURIComponent(editar.dataset.id)}`;
+            return;
+        }
+
+        const excluir = evento.target.closest('.transaction-delete');
+        if (!excluir) return;
+        const transacao = transacoes.find((item) => String(item.id) === excluir.dataset.id);
+        if (!transacao || !window.confirm(`Excluir a transação "${transacao.descricao}"?`)) return;
+        if (apiDisponivel()) {
+            try {
+                await excluirTransacaoApi(transacao.id);
+            } catch (erro) {
+                window.alert(erro.message);
+                return;
+            }
+        }
+        transacoes = transacoes.filter((item) => String(item.id) !== excluir.dataset.id);
         salvarTransacoes(transacoes);
-        botao.textContent = 'Pago';
-        botao.closest('.transaction-item').classList.add('is-paid');
+        atualizar();
     });
-    transacoes = obterTransacoes();
+    transacoes = await obterTransacoes();
     atualizar();
 }

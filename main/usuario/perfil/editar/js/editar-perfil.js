@@ -1,23 +1,26 @@
 /**
  * KEEPERHUB — EDIÇÃO DO PERFIL
- * Interações locais da prévia. Senhas nunca são armazenadas no navegador.
- * PROVISÓRIO: os dados demonstrativos e o salvamento em localStorage devem
- * ser substituídos pela integração com o banco de dados/backend.
+ * Carrega e salva os dados do usuário pela API.
  */
 
-(function () {
-  'use strict';
+import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/api/usuario.js';
+import { alertShared } from '../../../../../shared/services/interface.js';
 
-  const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
-  const FALLBACK_PROFILE = {
-    name: 'Gabriel Santos',
-    email: 'gabriel.santos@email.com',
-    phone: '+55 (11) 98765-4321',
-    birthDate: '14/08/1994',
-    gender: 'masculino',
-  };
+const FALLBACK_PROFILE = {
+  name: '',
+  birthDate: '',
+};
+const MAX_PHOTO_SIZE = 15 * 1024 * 1024;
+// A foto vai em JSON como Base64; manter o resultado abaixo de 2.5 MB deixa
+// margem para a expansao Base64 dentro do limite de requisicao da Vercel.
+const MAX_COMPRESSED_PHOTO_SIZE = 2.5 * 1024 * 1024;
+const MAX_PHOTO_DIMENSION = 1800;
+const MAX_SOURCE_DIMENSION = 6000;
+const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+let photoData = '';
+let isProcessingPhoto = false;
 
-  const form = document.getElementById('formulario-perfil');
+const form = document.getElementById('formulario-perfil');
   const nameInput = document.getElementById('nome-completo');
   const emailInput = document.getElementById('email');
   const phoneInput = document.getElementById('telefone');
@@ -26,31 +29,25 @@
   const nameSummary = document.getElementById('nome-resumo');
   const photoInput = document.getElementById('foto-perfil');
   const avatarImage = document.getElementById('avatar-imagem');
-  const avatarFallback = document.getElementById('avatar-substituto');
+  const avatarFallback = document.getElementById('userIcon');
   const newPasswordInput = document.getElementById('nova-senha');
   const confirmPasswordInput = document.getElementById('confirmar-senha');
   const strengthBar = document.getElementById('barra-forca-senha');
   const strengthText = document.getElementById('texto-forca-senha');
   const message = document.getElementById('mensagem-formulario');
   const discardButton = document.getElementById('descartar-alteracoes');
+  const saveButton = form.querySelector('.botao-salvar');
+  const saveButtonText = saveButton?.querySelector('.botao-salvar__texto');
+  let isSaving = false;
 
-  function readSession() {
-    try {
-      const data = localStorage.getItem(AUTH_STORAGE_KEY);
-      return data ? JSON.parse(data) : null;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function fillProfile() {
-    const user = readSession() || {};
+async function fillProfile() {
+    const user = await carregarUsuarioAtual();
     const profile = {
-      name: user.name || FALLBACK_PROFILE.name,
-      email: user.email || FALLBACK_PROFILE.email,
-      phone: user.phone || user.telefone || FALLBACK_PROFILE.phone,
-      birthDate: user.birthDate || user.nascimento || FALLBACK_PROFILE.birthDate,
-      gender: user.gender || user.sexo || FALLBACK_PROFILE.gender,
+      name: user.nome_usuario,
+      email: user.email_usuario,
+      phone: user.numero_usuario || '',
+      birthDate: FALLBACK_PROFILE.birthDate,
+      gender: user.genero_usuario,
     };
 
     nameInput.value = profile.name;
@@ -59,7 +56,12 @@
     birthInput.value = profile.birthDate;
     genderSelect.value = profile.gender;
     nameSummary.textContent = profile.name;
-  }
+    if (user.foto_usuario) {
+      avatarImage.src = user.foto_usuario;
+      avatarImage.hidden = false;
+      avatarFallback.hidden = true;
+    }
+}
 
   function togglePassword(button) {
     const input = document.getElementById(button.dataset.alternarSenha);
@@ -99,17 +101,81 @@
     strengthText.textContent = level.label;
   }
 
-  function previewPhoto(event) {
-    const file = event.target.files && event.target.files[0];
-    if (!file || !file.type.startsWith('image/')) return;
+  function lerComoDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(reader.result), { once: true });
+      reader.addEventListener('error', () => reject(new Error('Não foi possível ler a imagem.')), { once: true });
+      reader.readAsDataURL(blob);
+    });
+  }
 
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      avatarImage.src = reader.result;
+  async function prepararFoto(file) {
+    const bitmap = await createImageBitmap(file);
+    try {
+      if (bitmap.width > MAX_SOURCE_DIMENSION || bitmap.height > MAX_SOURCE_DIMENSION) {
+        throw new Error('A foto nao pode ultrapassar 6000x6000 pixels.');
+      }
+      const escala = Math.min(1, MAX_PHOTO_DIMENSION / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(bitmap.width * escala));
+      canvas.height = Math.max(1, Math.round(bitmap.height * escala));
+      const contexto = canvas.getContext('2d');
+      if (!contexto) throw new Error('Não foi possível preparar a imagem.');
+      contexto.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.82));
+      if (!blob) throw new Error('Este navegador não conseguiu comprimir a imagem.');
+      if (blob.size > MAX_COMPRESSED_PHOTO_SIZE) {
+        throw new Error('A imagem continua muito grande após a compressão. Escolha outra foto.');
+      }
+      return await lerComoDataUrl(blob);
+    } finally {
+      bitmap.close?.();
+    }
+  }
+
+  async function previewPhoto(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      photoData = '';
+      alertShared('Escolha uma imagem JPG, PNG ou WebP.');
+      return;
+    }
+
+    if (file.size > MAX_PHOTO_SIZE) {
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      photoData = '';
+      alertShared('A imagem original deve ter no máximo 15 MB.');
+      return;
+    }
+
+    isProcessingPhoto = true;
+    if (saveButton) saveButton.disabled = true;
+    message.textContent = 'Preparando imagem...';
+    try {
+      photoData = await prepararFoto(file);
+      avatarImage.src = photoData;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
-    });
-    reader.readAsDataURL(file);
+      message.textContent = 'Imagem pronta para salvar.';
+    } catch (error) {
+      photoData = '';
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      message.textContent = error.message || 'Não foi possível preparar a imagem.';
+    } finally {
+      isProcessingPhoto = false;
+      if (saveButton) saveButton.disabled = false;
+    }
   }
 
   function formatBirthDate(event) {
@@ -118,8 +184,9 @@
     event.target.value = parts.join('/');
   }
 
-  function saveProfile(event) {
+  async function saveProfile(event) {
     event.preventDefault();
+    if (isSaving || isProcessingPhoto) return;
 
     if (!form.reportValidity()) return;
 
@@ -130,26 +197,41 @@
     }
 
     confirmPasswordInput.setCustomValidity('');
-
-    const current = readSession() || {};
-    const publicProfile = {
-      ...current,
-      name: nameInput.value.trim(),
-      email: emailInput.value.trim(),
-      phone: phoneInput.value.trim(),
-      birthDate: birthInput.value.trim(),
-      gender: genderSelect.value,
-    };
+    isSaving = true;
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.setAttribute('aria-busy', 'true');
+    }
+    if (saveButtonText) saveButtonText.textContent = 'Salvando...';
 
     try {
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(publicProfile));
-      message.textContent = 'Alterações salvas neste dispositivo.';
-      nameSummary.textContent = publicProfile.name;
+      await atualizarUsuarioAtual({
+        nome_usuario: nameInput.value.trim(),
+        email_usuario: emailInput.value.trim(),
+        numero_usuario: phoneInput.value.trim(),
+        genero_usuario: genderSelect.value,
+        ...(photoData ? { foto_usuario: photoData } : {}),
+        ...(newPasswordInput.value
+          ? {
+              senha_atual: document.getElementById('senha-atual').value,
+              senha_usuario: newPasswordInput.value,
+            }
+          : {}),
+      });
+      message.textContent = 'Alterações salvas.';
+      if (saveButtonText) saveButtonText.textContent = 'Salvo!';
+      nameSummary.textContent = nameInput.value.trim();
       window.setTimeout(() => {
         window.location.href = '../index.html';
       }, 450);
     } catch (error) {
-      message.textContent = 'Não foi possível salvar as alterações.';
+      message.textContent = error.message || 'Não foi possível salvar as alterações.';
+      isSaving = false;
+      if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.removeAttribute('aria-busy');
+      }
+      if (saveButtonText) saveButtonText.textContent = 'Salvar alterações';
     }
   }
 
@@ -170,6 +252,11 @@
     window.location.href = '../index.html';
   });
 
-  fillProfile();
+  fillProfile().catch((error) => {
+    if (error.status === 401) {
+      window.location.replace('../../../entrar/index.html');
+      return;
+    }
+    message.textContent = error.message || 'Não foi possível carregar o perfil.';
+  });
   updatePasswordStrength();
-})();

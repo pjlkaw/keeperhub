@@ -1,25 +1,37 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KeeperHub — Editar Pet — Rotina Alimentar</title>
-    <link rel="icon" type="image/png" href=/shared/img/logo-pets.png">
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/editar-pet-rotina-alimentar.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Editar Pet',
+        subtitle: 'Organize a alimentação do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
     <main class="editar-pet editar-pet--rotina-alimentar" data-pet-id="exemplo">
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar aos meus pets" data-manter-pet>
-                <span aria-hidden="true">‹</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Editar Pet</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link" data-manter-pet>Informações</a>
@@ -32,7 +44,7 @@
                 <header class="lista-refeicoes__cabecalho">
                     <h2 id="titulo-refeicoes">Refeições</h2>
                     <button type="button" class="botao-texto lista-refeicoes__adicionar" id="adicionar-refeicao" aria-expanded="false" aria-controls="nova-refeicao">
-                        <span aria-hidden="true">+</span>
+                        <i class="fa-solid fa-plus" aria-hidden="true"></i>
                         Adicionar Refeição
                     </button>
                 </header>
@@ -40,63 +52,51 @@
                 <ul class="lista-refeicoes__itens" id="lista-refeicoes">
                     <li>
                         <article class="card cartao-refeicao">
-                            <span class="icone-rotina cartao-refeicao__relogio" aria-hidden="true"></span>
+                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
                             <div class="cartao-refeicao__informacoes">
                                 <h3 class="cartao-refeicao__titulo">Café da manhã</h3>
                                 <time class="cartao-refeicao__horario" datetime="08:00">08:00</time>
                             </div>
                             <div class="cartao-refeicao__acoes">
                                 <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar café da manhã">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="m16 4 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir café da manhã">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </article>
                     </li>
                     <li>
                         <article class="card cartao-refeicao">
-                            <span class="icone-rotina cartao-refeicao__relogio" aria-hidden="true"></span>
+                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
                             <div class="cartao-refeicao__informacoes">
                                 <h3 class="cartao-refeicao__titulo">Almoço</h3>
                                 <time class="cartao-refeicao__horario" datetime="13:00">13:00</time>
                             </div>
                             <div class="cartao-refeicao__acoes">
                                 <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar almoço">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="m16 4 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir almoço">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </article>
                     </li>
                     <li>
                         <article class="card cartao-refeicao">
-                            <span class="icone-rotina cartao-refeicao__relogio" aria-hidden="true"></span>
+                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
                             <div class="cartao-refeicao__informacoes">
                                 <h3 class="cartao-refeicao__titulo">Jantar</h3>
                                 <time class="cartao-refeicao__horario" datetime="19:00">19:00</time>
                             </div>
                             <div class="cartao-refeicao__acoes">
                                 <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar jantar">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="m16 4 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir jantar">
-                                    <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                        <path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"></path>
-                                    </svg>
+                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </article>
@@ -125,24 +125,17 @@
     <template id="modelo-cartao-refeicao">
         <li>
             <article class="card cartao-refeicao">
-                <svg class="icone-rotina cartao-refeicao__relogio" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 7v5l3 2"></path>
-                </svg>
+                <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
                 <div class="cartao-refeicao__informacoes">
                     <h3 class="cartao-refeicao__titulo"></h3>
                     <time class="cartao-refeicao__horario"></time>
                 </div>
                 <div class="cartao-refeicao__acoes">
                     <button type="button" class="botao-icone cartao-refeicao__editar">
-                        <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path d="m16 4 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z"></path>
-                        </svg>
+                        <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
                     </button>
                     <button type="button" class="botao-icone cartao-refeicao__remover">
-                        <svg class="icone-rotina" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                            <path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"></path>
-                        </svg>
+                        <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
                     </button>
                 </div>
             </article>
@@ -169,6 +162,7 @@
         </fieldset>
     </template>
 
-    <script src="../../../shared/services/theme.js"></script>
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>
+

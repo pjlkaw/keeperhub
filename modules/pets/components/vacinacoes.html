@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark" class="tema-vacinacoes-pets">
 <head>
     <meta charset="UTF-8">
@@ -6,25 +6,35 @@
     <meta name="theme-color" content="#0b0b0d">
     <title>Keeper Hub — Pets — Vacinações</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/vacinacoes.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+    <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Vacinações',
+        subtitle: 'Acompanhe as vacinas do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="vacinacoes-pet" id="conteudo-principal" data-pet-id="exemplo">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar" data-manter-pet>
-                <span class="icone" aria-hidden="true"></span>
-                <span class="somente-leitor-tela">Voltar</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Vacinações</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <!-- Datas, status e contagens são demonstrativos da referência de 2024.
              A consulta por pet e os cálculos serão integrados ao Node.js depois. -->
@@ -36,10 +46,10 @@
                     <article class="card cartao-destaque-vacina cartao-destaque-vacina--destaque">
                         <p class="cartao-destaque-vacina__rotulo">Reforço Anual</p>
                         <h3 class="cartao-destaque-vacina__nome">V10 (Múltipla)</h3>
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-paw icone" aria-hidden="true"></i>
 
                         <p class="cartao-destaque-vacina__data">
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
                             <time datetime="2024-10-15">15 Outubro 2024</time>
                         </p>
 
@@ -54,10 +64,10 @@
                     <article class="card cartao-destaque-vacina">
                         <p class="cartao-destaque-vacina__rotulo">Dose Única</p>
                         <h3 class="cartao-destaque-vacina__nome">Antirrábica</h3>
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
 
                         <p class="cartao-destaque-vacina__data">
-                            <span class="icone" aria-hidden="true"></span>
+                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
                             <time datetime="2024-11-22">22 Novembro 2024</time>
                         </p>
 
@@ -76,7 +86,7 @@
             <ul class="card">
                 <li>
                     <article class="item-vacina item-vacina--atrasada">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-triangle-exclamation icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">Gripe Canina</h3>
                             <p class="item-vacina__detalhe">Era prevista para <time datetime="2024-10-01">01 Outubro 2024</time></p>
@@ -87,7 +97,7 @@
 
                 <li>
                     <article class="item-vacina item-vacina--agendada">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">V10 (Múltipla)</h3>
                             <p class="item-vacina__detalhe"><time datetime="2024-10-15">15 Outubro 2024</time></p>
@@ -98,7 +108,7 @@
 
                 <li>
                     <article class="item-vacina item-vacina--agendada item-vacina--antirrabica">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-calendar-days icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">Antirrábica</h3>
                             <p class="item-vacina__detalhe"><time datetime="2024-11-22">22 Novembro 2024</time></p>
@@ -109,7 +119,7 @@
 
                 <li>
                     <article class="item-vacina item-vacina--aplicada">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">Vermífugo</h3>
                             <p class="item-vacina__detalhe"><time datetime="2024-09-10">10 Setembro 2024</time></p>
@@ -126,7 +136,7 @@
             <ul>
                 <li>
                     <article class="card item-vacina item-vacina--registro">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">Giárdia (1ª Dose)</h3>
                             <p class="item-vacina__detalhe">Aplicada em <time datetime="2024-01-15">15 Jan 2024</time> · Lote: 894A22</p>
@@ -136,7 +146,7 @@
 
                 <li>
                     <article class="card item-vacina item-vacina--certificado">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-file-circle-check icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
                             <h3 class="item-vacina__nome">V10 (Múltipla)</h3>
                             <p class="item-vacina__detalhe">Aplicada em <time datetime="2023-10-12">12 Out 2023</time> · Certificado Digital</p>
@@ -152,7 +162,8 @@
 
     </main>
 
-    <script src="../../../shared/services/theme.js"></script>
-    <!-- JavaScript de vacinação será incluído quando a integração estiver pronta. -->
+    <script src="/shared/services/theme.js"></script>
+<!-- JavaScript de vacinação será incluído quando a integração estiver pronta. -->
 </body>
 </html>
+

@@ -4,16 +4,22 @@
 import db from '../db.js';
 
 export async function buscarUsuario(id) {
-    const [usuario] = await db.query(
-        `SELECT id_usuario, nome_usuario, email_usuario, numero_usuario, genero_usuario
+    const [usuarios] = await db.query(
+        `SELECT id_usuario, nome_usuario, email_usuario, telefone AS numero_usuario,
+            genero_usuario, foto_usuario
         FROM usuario WHERE id_usuario = ? LIMIT 1`,
         [id]
     );
-    return usuario[0] ?? null;
+    return usuarios[0] ?? null;
 }
 
 export async function buscarUsuarioPorEmail(email) {
-    const [usuarios] = await db.query('SELECT * FROM usuario WHERE email_usuario = ? LIMIT 1', [email]);
+    const [usuarios] = await db.query(
+        `SELECT id_usuario, nome_usuario, email_usuario, senha_usuario,
+            telefone AS numero_usuario, genero_usuario, foto_usuario
+        FROM usuario WHERE email_usuario = ? LIMIT 1`,
+        [email]
+    );
     return usuarios[0] ?? null;
 }
 
@@ -26,12 +32,32 @@ export async function buscarSenhaUsuario(id) {
 }
 
 export async function criarUsuario(usuario) {
-    const [result] = await db.query('INSERT INTO usuario SET ?', [usuario]);
+    const {
+        numero_usuario,
+        foto_usuario,
+        ...dados
+    } = usuario;
+
+    const [result] = await db.query('INSERT INTO usuario SET ?', [{
+        ...dados,
+        telefone: numero_usuario,
+        foto_usuario
+    }]);
     return result;
 }
 
 export async function atualizarUsuario(id, usuario) {
-    const [result] = await db.query('UPDATE usuario SET ? WHERE id_usuario = ?', [usuario, id]);
+    const dados = { ...usuario };
+
+    if (Object.prototype.hasOwnProperty.call(dados, 'numero_usuario')) {
+        dados.telefone = dados.numero_usuario;
+        delete dados.numero_usuario;
+    }
+
+    const [result] = await db.query(
+        'UPDATE usuario SET ? WHERE id_usuario = ?',
+        [dados, id]
+    );
     return result;
 }
 

@@ -1,4 +1,160 @@
-/* Estrutura e dashboard principal do módulo Pets */
+/* Estilos da página index.html.
+ * Os componentes gerais continuam vindo de shared.
+ */
+
+:root {
+  --pets-primary: var(--tool-pets);
+  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
+  --pets-status-alerta: #c90016;
+  --pets-primary-hover: color-mix(in srgb, var(--tool-pets) 85%, white);
+  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
+  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
+  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
+  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
+  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
+  --pets-surface: var(--card-bg);
+  --pets-surface-hover: color-mix(in srgb, var(--card-bg) 94%, var(--text-color));
+  --pets-surface-raised: color-mix(in srgb, var(--card-bg) 90%, var(--text-color));
+  --pets-border: var(--border-color);
+  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
+  --pets-text: var(--text-color);
+  --pets-text-muted: var(--text-muted);
+  --pets-photo-start: var(--pets-surface-raised);
+  --pets-photo-end: var(--card-bg);
+  --pets-appointment: #00d68f;
+  --pets-medication: #a855f7;
+  --pets-routine: #f59e0b;
+  --pets-on-primary: var(--pill-text);
+  --pets-radius-sm: 8px;
+  --pets-radius-md: 12px;
+  --pets-radius-pill: 999px;
+  --pets-content-width: 980px;
+  --pets-transition: 160ms ease;
+  --color-secondary: var(--tool-pets);
+  --color-section-primary: var(--tool-pets);
+  --color-section-bg-tint: var(--pets-primary-soft);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  min-width: 280px;
+  min-height: 100vh;
+}
+
+.pagina-pets {
+  font-size: 14px;
+}
+
+h1,
+h2 {
+  color: var(--pets-text);
+  font-family: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.somente-leitor-tela {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0px;
+  clip: rect(0px, 0px, 0px, 0px);
+  clip-path: inset(50%);
+}
+
+.icone {
+  display: inline-block;
+  flex: 0 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.botao-principal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 9px 16px;
+  color: var(--pets-on-primary);
+  background: var(--pets-primary-fill);
+  border: 1px solid transparent;
+  border-radius: var(--pets-radius-pill);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  transition: background-color var(--pets-transition),
+    box-shadow var(--pets-transition),
+    transform var(--pets-transition);
+}
+
+.botao-principal:hover:not(:disabled) {
+  background: var(--pets-primary-active);
+  box-shadow: 0 5px 14px var(--pets-primary-shadow);
+}
+
+.botao-principal:active:not(:disabled) {
+  background: var(--pets-primary-active);
+  transform: translateY(1px);
+}
+
+.botao-principal:disabled {
+  color: var(--text-muted);
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  box-shadow: none;
+  transform: none;
+}
+
+.modules-nav-wrapper .modules-nav-item.active {
+  color: var(--pets-primary-readable);
+  background-color: var(--pets-primary-soft);
+  border-color: var(--pets-primary-border);
+}
+
+.section-header-section {
+  flex-wrap: wrap;
+  font-size: 1rem;
+}
+
+.section-header-title-area {
+  flex: 1 1 180px;
+  min-width: 0px;
+}
+
+.section-header-title {
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Estrutura da página inicial do módulo Pets */
+
+/* Evita a altura extra da linha do ícone; as medidas vêm de shared. */
+#btn-add-section .btn-add {
+  display: flex;
+}
 
 .pagina-pets {
   width: min(100%, calc(var(--pets-content-width) + 48px));
@@ -7,13 +163,7 @@
   padding: 16px 14px 0;
 }
 
-.pagina-pets .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
-}
-
-/* Dashboard */
+/* Conteúdo principal */
 .painel-pets {
   width: 100%;
   padding: 16px 0 36px;
@@ -38,8 +188,8 @@
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr);
   grid-template-areas:
-    'photo info'
-    'photo edit';
+    'foto informacoes'
+    'foto editar';
   gap: 8px 14px;
   min-height: 124px;
   padding: 17px 14px;
@@ -50,7 +200,7 @@
 }
 
 .cartao-resumo-pet__foto {
-  grid-area: photo;
+  grid-area: foto;
   align-self: start;
   width: 64px;
   height: 64px;
@@ -67,8 +217,30 @@
   padding: 8px;
 }
 
+.cartao-resumo-pet__foto[data-tem-foto='true'] img {
+  padding: 0;
+  object-fit: cover;
+}
+
+.painel-pets-status {
+  color: var(--pets-primary-readable);
+  font-size: 13px;
+}
+
+.painel-pets-status:not(:empty) {
+  margin-bottom: 14px;
+}
+
+.painel-pets-status[data-estado='erro'] {
+  color: var(--pets-status-alerta);
+}
+
+#recarregar-pets[hidden] {
+  display: none;
+}
+
 .cartao-resumo-pet__informacoes {
-  grid-area: info;
+  grid-area: informacoes;
   min-width: 0;
   padding-right: 42px;
 }
@@ -120,17 +292,21 @@
 .cartao-resumo-pet__atributo:nth-child(1) .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/peso-pets.png');
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
 }
 
 .cartao-resumo-pet__atributo:nth-child(2) .icone {
   width: 10px;
   height: 12px;
-  background-image: url('../img/genero-femea-pets.png');
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
+}
+
+.bloco-pet[data-genero='macho'] .cartao-resumo-pet__atributo:nth-child(2) .icone {
+  color: var(--pets-text-muted); font-size: 12px; line-height: 1;
 }
 
 .cartao-resumo-pet__editar {
-  grid-area: edit;
+  grid-area: editar;
   min-height: 44px;
   padding-block: 7px;
   justify-self: end;
@@ -140,22 +316,32 @@
 .cartao-resumo-pet__editar .icone {
   width: 12px;
   height: 12px;
-  background-image: url('../img/editar-pets.png');
+  color: inherit;
+  font-size: 12px;
+  line-height: 1;
 }
 
 /* Ações rápidas */
+.adicionar-pet-section {
+  margin-block: 16px;
+}
+
 .acoes-rapidas-pet > ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
+.acoes-rapidas-pet__despesas {
+  grid-column: 1 / -1;
+}
+
 .acao-rapida {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
   grid-template-areas:
-    'icon title'
-    'icon status';
+    'icone titulo'
+    'icone descricao';
   column-gap: 10px;
   align-items: center;
   min-height: 79px;
@@ -177,7 +363,7 @@
 }
 
 .acao-rapida > .icone {
-  grid-area: icon;
+  grid-area: icone;
   align-self: start;
   display: grid;
   width: 34px;
@@ -190,17 +376,17 @@
 
 .acao-rapida--vacina > .icone,
 .cartao-alerta--vacina > .icone {
-  background-image: url('../img/vacinas-pets.png');
+  color: #4285F4; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--consulta > .icone {
   background-color: color-mix(in srgb, var(--pets-appointment) 11%, transparent);
-  background-image: url('../img/consultas-pets.png');
+  color: #10B981; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--medicacao > .icone,
 .cartao-alerta--medicacao > .icone {
-  background-image: url('../img/medicamentos-pets.png');
+  color: #C084FC; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--medicacao > .icone {
@@ -209,25 +395,16 @@
 
 .acao-rapida--rotina > .icone {
   background-color: color-mix(in srgb, var(--pets-routine) 12%, transparent);
-  background-image: url('../img/rotina-pets.png');
-}
-
-.acao-rapida--despesas,
-.acao-rapida--lembretes {
-  width: 100%;
-  text-align: left;
+  color: #FB923C; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida--despesas > .icone {
-  background-image: url('../img/despesas-pets.svg');
-}
-
-.acao-rapida--lembretes > .icone {
-  background-image: url('../img/lembretes-pets.svg');
+  background-color: transparent;
+  color: #EEF442; font-size: 16px; line-height: 1;
 }
 
 .acao-rapida__titulo {
-  grid-area: title;
+  grid-area: titulo;
   align-self: end;
   min-width: 0;
   overflow: hidden;
@@ -238,8 +415,8 @@
   white-space: nowrap;
 }
 
-.acao-rapida__status {
-  grid-area: status;
+.acao-rapida__descricao {
+  grid-area: descricao;
   align-self: start;
   min-width: 0;
   margin-top: 2px;
@@ -279,8 +456,9 @@
 .cartao-adicionar-pet .icone {
   width: 18px;
   height: 18px;
-  background-color: currentColor;
-  mask: url('../img/adicionar-pets.png') center / contain no-repeat;
+  color: inherit;
+  font-size: 18px;
+  line-height: 1;
 }
 
 /* Alertas */
@@ -373,7 +551,7 @@
 .cartao-alerta--medicacao .cartao-alerta__acao .icone {
   width: 12px;
   height: 9px;
-  background-image: url('../img/concluir-pets.png');
+  color: #4184F2; font-size: 12px; line-height: 1;
 }
 
 .cartao-alerta--vacina .cartao-alerta__acao {
@@ -383,20 +561,7 @@
 .cartao-alerta--vacina .cartao-alerta__acao .icone {
   width: 13px;
   height: 14px;
-  background-image: url('../img/calendario-pets.png');
-}
-
-/* Ícones personalizados da página principal de Pets. */
-.acao-rapida--despesas > .icone {
-  background-color: transparent;
-  background-image: url('../img/despesas-icone-pet.png');
-  background-size: 100% 100%;
-}
-
-.acao-rapida--lembretes > .icone {
-  background-color: transparent;
-  background-image: url('../img/lembretes-icone-pet.png');
-  background-size: 100% 100%;
+  color: var(--pets-text-muted); font-size: 13px; line-height: 1;
 }
 
 @media (min-width: 600px) {
@@ -410,7 +575,7 @@
 
   .cartao-resumo-pet {
     grid-template-columns: 82px minmax(0, 1fr) auto;
-    grid-template-areas: 'photo info edit';
+    grid-template-areas: 'foto informacoes editar';
     align-items: center;
     min-height: 142px;
     padding: 20px;
@@ -441,37 +606,6 @@
   .acao-rapida > .icone {
     width: 38px;
     height: 38px;
-  }
-}
-
-@media (min-width: 900px) {
-  .lista-pets:has(> li:nth-child(3)) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  .lista-pets > li:has(.cartao-adicionar-pet) {
-    grid-column: 1 / -1;
-  }
-
-  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet {
-    grid-template-columns: 72px minmax(0, 1fr);
-    grid-template-areas:
-      'photo info'
-      'photo edit';
-  }
-
-  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet__foto {
-    width: 72px;
-    height: 72px;
-  }
-
-  .lista-pets:has(> li:nth-child(3)) .cartao-resumo-pet__editar {
-    align-self: end;
-  }
-
-  .lista-pets:has(> li:nth-child(3)) .acoes-rapidas-pet > ul {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -507,3 +641,14 @@
     height: 30px;
   }
 }
+
+
+.acao-rapida--vacina > .icone { color: #4285F4; }
+.acao-rapida--consulta > .icone { color: #10B981; }
+.acao-rapida--medicacao > .icone { color: #C084FC; }
+.acao-rapida--rotina > .icone { color: #FB923C; }
+.acao-rapida--despesas > .icone { color: #EEF442; }
+.cartao-alerta--vacina > .icone { color: #4285F4; }
+.cartao-alerta--medicacao > .icone { color: #C084FC; }
+.cartao-alerta--medicacao .cartao-alerta__acao .icone { color: #4184F2; }
+.cartao-alerta--vacina .cartao-alerta__acao .icone { color: var(--pets-text-muted); }

@@ -342,6 +342,32 @@ select.form-input option {
   display: block;
 }
 
+.form-completion-status {
+  display: none;
+  margin: -4px 0 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--text-color);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.form-completion-status.is-visible {
+  display: block;
+}
+
+.form-completion-status.is-complete {
+  border-color: rgba(1, 171, 142, 0.4);
+  background: rgba(1, 171, 142, 0.1);
+  color: var(--color-secondary);
+}
+
+[data-theme="light"] .form-completion-status {
+  color: #92400e;
+}
+
 /* Alerta Geral de Autenticação */
 .form-alert-error {
   display: none;

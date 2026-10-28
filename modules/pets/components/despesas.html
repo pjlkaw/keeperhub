@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR" data-theme="dark" class="tema-despesas-pets">
   <head>
     <meta charset="UTF-8" />
@@ -6,22 +6,34 @@
     <meta name="theme-color" content="#0b0b0d" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
-    <link rel="stylesheet" href="../assets/css/style-pets.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/despesas.css" />
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css" />
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Despesas',
+        subtitle: 'Acompanhe os gastos com o seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
   <body>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="exemplo">
-      <header class="despesas-cabecalho cabecalho-pets">
-        <a class="despesas-voltar" href="../index.html" aria-label="Voltar aos meus pets" data-manter-pet>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg>
-        </a>
-        <h1>Despesas</h1>
-      </header>
+      <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+      <header class="section-header-section" id="headerSection"></header>
 
       <!-- Dados de demonstração da referência. Integração futura: despesas-integracao.md. -->
       <div class="despesas-conteudo">
@@ -55,7 +67,7 @@
           <ul class="categorias-despesas">
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-alimentacao">
-                <span class="despesa-icone"><img src="../assets/img/alimentacao-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="despesa-icone"><i class="fa-solid fa-bowl-food despesa-glyph" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">40,5%</span>
                 <span class="categoria-despesa__nome">Alimentação</span>
                 <data class="categoria-despesa__valor" value="170.00">R$ 170,00</data>
@@ -63,7 +75,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-saude">
-                <span class="despesa-icone"><img src="../assets/img/saude-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="despesa-icone"><i class="fa-solid fa-heart-pulse despesa-glyph" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">35,7%</span>
                 <span class="categoria-despesa__nome">Saúde</span>
                 <data class="categoria-despesa__valor" value="150.00">R$ 150,00</data>
@@ -71,7 +83,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-higiene">
-                <span class="despesa-icone"><img src="../assets/img/higiene-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="despesa-icone"><i class="fa-solid fa-soap despesa-glyph" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">16,7%</span>
                 <span class="categoria-despesa__nome">Higiene</span>
                 <data class="categoria-despesa__valor" value="70.00">R$ 70,00</data>
@@ -79,7 +91,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-lazer">
-                <span class="despesa-icone"><img src="../assets/img/lazer-despesas-pets.png" width="16" height="16" alt="" /></span>
+                <span class="despesa-icone"><i class="fa-solid fa-bone despesa-glyph" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">7,1%</span>
                 <span class="categoria-despesa__nome">Lazer</span>
                 <data class="categoria-despesa__valor" value="30.00">R$ 30,00</data>
@@ -96,13 +108,13 @@
 
           <section class="grupo-despesas" id="despesas-alimentacao" aria-labelledby="alimentacao-heading">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="alimentacao-heading"><img src="../assets/img/alimentacao-despesas-pets.png" width="14" height="14" alt="" />Alimentação</h3>
+              <h3 id="alimentacao-heading"><i class="fa-solid fa-bowl-food despesa-glyph" aria-hidden="true"></i>Alimentação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="170.00">R$ 170,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="alimentacao">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/racao-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-bowl-food despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Ração Golden Fórmula (15kg)</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-05">05 Out</time> · Cobasi Pet Store</p>
@@ -112,7 +124,7 @@
               </li>
               <li>
                 <article class="lancamento" data-categoria="alimentacao">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/petiscos-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-cookie-bite despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Petiscos Bifinhos e Sachês</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-12">12 Out</time> · PetLove Express</p>
@@ -124,13 +136,13 @@
           </section>
           <section class="grupo-despesas" id="despesas-higiene" aria-labelledby="higiene-heading">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="higiene-heading"><img src="../assets/img/higiene-despesas-pets.png" width="14" height="14" alt="" />Higiene e Estética</h3>
+              <h3 id="higiene-heading"><i class="fa-solid fa-soap despesa-glyph" aria-hidden="true"></i>Higiene e Estética</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="70.00">R$ 70,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="higiene">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/banho-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-bath despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Banho, Tosa Higiênica e Hidratação</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-15">15 Out</time> · Spa Pet Golden Glow</p>
@@ -142,13 +154,13 @@
           </section>
           <section class="grupo-despesas" id="despesas-lazer" aria-labelledby="lazer-heading">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="lazer-heading"><img src="../assets/img/lazer-despesas-pets.png" width="14" height="14" alt="" />Lazer e Recreação</h3>
+              <h3 id="lazer-heading"><i class="fa-solid fa-bone despesa-glyph" aria-hidden="true"></i>Lazer e Recreação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="30.00">R$ 30,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="lazer">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/brinquedo-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-bone despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Brinquedo Mordedor de Corda</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-02">02 Out</time> · PetZ Store</p>
@@ -160,13 +172,13 @@
           </section>
           <section class="grupo-despesas" id="despesas-saude" aria-labelledby="saude-heading">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="saude-heading"><img src="../assets/img/saude-despesas-pets.png" width="14" height="14" alt="" />Cuidados com a Saúde</h3>
+              <h3 id="saude-heading"><i class="fa-solid fa-heart-pulse despesa-glyph" aria-hidden="true"></i>Cuidados com a Saúde</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="150.00">R$ 150,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
               <li>
                 <article class="lancamento" data-categoria="saude">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/antipulgas-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-shield-dog despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Antipulgas Simparic (3 comp)</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-10">10 Out</time> · Farmácia Vet</p>
@@ -176,7 +188,7 @@
               </li>
               <li>
                 <article class="lancamento" data-categoria="saude">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/vacina-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-syringe despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Reforço Vacina V10</h4>
                     <p class="lancamento__detalhes"><time datetime="2024-10-15">15 Out</time> · Clínica VetLife</p>
@@ -186,7 +198,7 @@
               </li>
               <li>
                 <article class="lancamento lancamento--programado" data-categoria="saude" data-status="programado">
-                  <span class="despesa-icone lancamento__icone"><img src="../assets/img/consulta-programada-despesas-pets.png" width="16" height="16" alt="" /></span>
+                  <span class="despesa-icone lancamento__icone"><i class="fa-solid fa-stethoscope despesa-glyph" aria-hidden="true"></i></span>
                   <div class="lancamento__informacoes">
                     <h4 class="lancamento__titulo">Consulta Semestral de Rotina</h4>
                     <p class="lancamento__detalhes">Prevista para <time datetime="2024-11">Nov</time> · Dra. Camila</p>
@@ -200,7 +212,7 @@
       </div>
 
       <button class="despesas-adicionar" type="button" popovertarget="nova-despesa" aria-label="Adicionar despesa" title="Adicionar despesa">
-        <img src="../assets/img/adicionar-pets.png" width="20" height="20" alt="" />
+        <i class="fa-solid fa-plus" aria-hidden="true"></i>
       </button>
 
       <!-- Popover nativo: abre e fecha sem JavaScript. Salvar depende do backend. -->
@@ -247,6 +259,7 @@
         </form>
       </section>
     </main>
-    <script src="../../../shared/services/theme.js"></script>
-  </body>
+    <script src="/shared/services/theme.js"></script>
+</body>
 </html>
+

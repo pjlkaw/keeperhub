@@ -1,28 +1,40 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Rotina Diária</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="../assets/css/rotina-diaria.css">
-    <link rel="stylesheet" href="../assets/css/cabecalho-pets.css">
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Rotina Diária',
+        subtitle: 'Acompanhe os cuidados diários do seu pet',
+        backUrl: '/modules/pets/index.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
     <main class="rotina-diaria" data-pet-id="exemplo">
 
-        <header class="cabecalho-pagina cabecalho-pets">
-            <a href="../index.html" class="cabecalho-pagina__voltar" aria-label="Voltar aos meus pets" data-manter-pet>
-                <span aria-hidden="true">‹</span>
-            </a>
-            <h1 class="cabecalho-pagina__titulo">Rotina Diária</h1>
-        </header>
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <header class="section-header-section" id="headerSection"></header>
 
         <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading">
             <h2 id="hoje-heading">Hoje</h2>
@@ -30,7 +42,7 @@
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
                 <li>
                     <article class="linha-tempo-rotina__item linha-tempo-rotina__item--concluido">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
                         <div class="linha-tempo-rotina__informacoes">
                             <h3 class="linha-tempo-rotina__nome">Passeio Matinal</h3>
                             <p class="linha-tempo-rotina__status">Concluído</p>
@@ -41,7 +53,7 @@
 
                 <li>
                     <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
                         <div class="linha-tempo-rotina__informacoes">
                             <h3 class="linha-tempo-rotina__nome">Escovação</h3>
                             <p class="linha-tempo-rotina__status">Pendente</p>
@@ -60,7 +72,7 @@
             <ul>
                 <li>
                     <article class="card cartao-higiene">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-bath icone" aria-hidden="true"></i>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Banho</h3>
                             <p class="cartao-higiene__ultimo">Último: 05 Out</p>
@@ -71,7 +83,7 @@
 
                 <li>
                     <article class="card cartao-higiene">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-scissors icone" aria-hidden="true"></i>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Corte de Unhas</h3>
                             <p class="cartao-higiene__ultimo">Último: 20 Set</p>
@@ -122,7 +134,7 @@
                 <label for="nova-observacao" class="somente-leitor-tela">Adicionar nova observação</label>
                 <textarea id="nova-observacao" name="nova_observacao" placeholder="Adicionar nova observação..."></textarea>
                 <button type="submit" class="botao-icone anotacoes-comportamento__enviar" aria-label="Enviar observação">
-                    <span class="icone" aria-hidden="true"></span>
+                    <i class="fa-solid fa-paper-plane icone" aria-hidden="true"></i>
                 </button>
             </form>
 
@@ -156,7 +168,7 @@
     <template id="modelo-refeicao-hoje">
         <li data-refeicao>
             <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                <span class="icone" aria-hidden="true"></span>
+                <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
                 <div class="linha-tempo-rotina__informacoes">
                     <h3 class="linha-tempo-rotina__nome"></h3>
                     <p class="linha-tempo-rotina__status">Pendente</p>
@@ -166,6 +178,7 @@
         </li>
     </template>
 
-    <script src="../../../shared/services/theme.js"></script>
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>
+

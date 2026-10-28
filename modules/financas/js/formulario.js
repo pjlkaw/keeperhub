@@ -1,16 +1,66 @@
 import { formatarMoeda, formatarData, lerMoeda, obterContas, obterTransacoes, proximoId, salvarTransacoes } from './dados.js';
+import { apiDisponivel, criarTransacaoApi, listarContasApi, atualizarTransacaoApi } from './api.js';
 
-export function inicializarFormulario() {
+export async function inicializarFormulario() {
     const formulario = document.getElementById('transaction-form');
     if (!formulario) return;
 
     const campos = formulario.elements;
     const tipos = formulario.querySelectorAll('.type-option');
     const salvar = formulario.querySelector('[type="submit"]');
-    const contas = obterContas();
+    let contas = obterContas();
+    if (apiDisponivel()) {
+        try {
+            contas = await listarContasApi();
+        } catch (erro) {
+            console.warn('API de contas indisponível; usando contas locais.', erro.message);
+        }
+    }
+    const parametros = new URLSearchParams(window.location.search);
+    const idEmEdicao = Number(parametros.get('id'));
+    const modoEdicaoSolicitado = parametros.get('modo') === 'editar'
+        && Number.isInteger(idEmEdicao)
+        && idEmEdicao > 0;
+
+    if (!campos.date.value) {
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoje.getDate()).padStart(2, '0');
+        campos.date.value = `${ano}-${mes}-${dia}`;
+    }
 
     campos.account.replaceChildren(new Option('Selecione uma conta', '', true, true));
     contas.forEach((conta) => campos.account.add(new Option(conta.nome, conta.id)));
+
+    const transacoesAtuais = await obterTransacoes();
+    const transacaoEmEdicao = modoEdicaoSolicitado
+        ? transacoesAtuais.find((transacao) => Number(transacao.id) === idEmEdicao)
+        : null;
+    const modoEdicao = Boolean(transacaoEmEdicao);
+
+    if (transacaoEmEdicao) {
+        const tipoReceita = transacaoEmEdicao.tipo === 'receita';
+        tipos.forEach((botao) => {
+            const ativo = (botao.dataset.transactionType === 'income') === tipoReceita;
+            botao.classList.toggle('selected', ativo);
+            botao.setAttribute('aria-pressed', String(ativo));
+        });
+        campos.value.value = Number(transacaoEmEdicao.valor || 0).toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+        campos.description.value = transacaoEmEdicao.descricao || '';
+        campos.date.value = transacaoEmEdicao.data || campos.date.value;
+        campos.category.value = transacaoEmEdicao.categoria || campos.category.value;
+        campos.account.value = String(transacaoEmEdicao.conta_id
+            || contas.find((conta) => conta.nome === transacaoEmEdicao.conta_nome)?.id
+            || '');
+        campos.dueDate.value = transacaoEmEdicao.vencimento || '';
+        campos.notes.value = transacaoEmEdicao.observacoes || '';
+        campos.status.value = transacaoEmEdicao.status || 'pending';
+        salvar.textContent = 'Salvar alterações';
+    }
 
     const atualizarResumo = () => {
         const valores = {
@@ -43,10 +93,11 @@ export function inicializarFormulario() {
         atualizarResumo();
     });
     formulario.querySelector('.cancel-button').addEventListener('click', () => {
-        window.location.href = '../index.html';
+        const btnVoltar = document.getElementById('btn-back-header');
+        window.location.href = btnVoltar ? btnVoltar.getAttribute('href') : '../index.html';
     });
 
-    formulario.addEventListener('submit', (evento) => {
+    formulario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
         const dados = new FormData(formulario);
         const valor = lerMoeda(dados.get('value'));
@@ -57,19 +108,38 @@ export function inicializarFormulario() {
             return;
         }
 
-        const transacoes = obterTransacoes();
         const conta = contas.find((item) => item.id === contaId);
-        transacoes.push({
-            id: proximoId(transacoes),
+        const novaTransacao = {
+            id: modoEdicao ? idEmEdicao : proximoId(transacoesAtuais),
             tipo: formulario.querySelector('.type-option.selected').dataset.transactionType === 'income' ? 'receita' : 'despesa',
             valor,
             descricao: dados.get('description'),
             categoria: dados.get('category'),
+            conta_id: contaId,
             conta_nome: conta?.nome || '',
             data: dados.get('date'),
             vencimento: dados.get('dueDate') || null,
-            status: dados.get('status') || 'pendente'
-        });
+            status: dados.get('status') || 'pending',
+            observacoes: String(dados.get('notes') || '').trim() || null
+        };
+        let transacaoSalva = novaTransacao;
+        if (apiDisponivel()) {
+            try {
+                const resposta = modoEdicao
+                    ? await atualizarTransacaoApi(idEmEdicao, novaTransacao)
+                    : await criarTransacaoApi(novaTransacao);
+                transacaoSalva = {
+                    ...novaTransacao,
+                    id: Number(resposta?.id || novaTransacao.id)
+                };
+            } catch (erro) {
+                window.alert(erro.message);
+                return;
+            }
+        }
+        const transacoes = modoEdicao
+            ? transacoesAtuais.map((transacao) => Number(transacao.id) === idEmEdicao ? transacaoSalva : transacao)
+            : [...transacoesAtuais, transacaoSalva];
         salvarTransacoes(transacoes);
         window.location.href = 'transacoes.html';
     });

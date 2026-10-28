@@ -8,9 +8,6 @@
     <title>Nova transação • Finanças • KeeperHub</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
@@ -24,32 +21,28 @@
     <title>Nova transação — KeeperHub</title>
     <script src="../js/interface.js" defer></script>
 
-    <!-- Header compartilhado -->
-    <script src="../js/cabecalho.js" defer data-title="Nova transação" data-subtitle="Registre uma movimentação"></script>
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'financas',
+            title: 'Nova transação',
+            subtitle: 'Registre uma movimentação',
+            backUrl: '/modules/financas/index.html',
+            notificationsModule: 'financas'
+        };
+    </script>
+    <script src="/shared/services/load-components.js"></script>
 </head>
 
 <body class="finance-page finance-new-transaction-page">
     <div class="finance-shell">
 
-        <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
 
-        <!-- 2. CABEÇALHO DA PÁGINA -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
-        <nav class="finance-tabs" aria-label="Seções de finanças">
-            <a href="/modules/financas/">Visão geral</a>
-            <a href="transacoes.html">Transações</a>
-            <a href="relatorios.html">Relatórios</a>
-            <a class="active" href="nova-transacao.html" aria-current="page">Nova transação</a>
-        </nav>
-
-        <!-- 4. CONTEÚDO PRINCIPAL -->
         <section class="finance-content" aria-labelledby="pageNameH1">
             <form class="transaction-form" id="transaction-form">
 
-                <!-- Tipo: Despesa / Receita -->
                 <fieldset class="type-toggle">
                     <legend class="sr-only">Tipo de transação</legend>
                     <button class="type-option selected" type="button" data-transaction-type="expense" aria-pressed="true">
@@ -62,16 +55,14 @@
                     </button>
                 </fieldset>
 
-                <!-- Valor -->
                 <section class="card value-card">
                     <label for="value">VALOR</label>
                     <span class="currency-field">
                         <span>R$</span>
-                        <input id="value" name="value" type="text" inputmode="decimal" value="0,00" aria-label="Valor da transação" required>
+                            <input id="value" name="value" type="text" inputmode="decimal" value="" aria-label="Valor da transação" required>
                     </span>
                 </section>
 
-                <!-- Campos da transação -->
                 <section class="transaction-fields" aria-label="Dados da transação">
                     <p class="form-field form-field-wide">
                         <label for="description">Descrição</label>
@@ -79,13 +70,13 @@
                             <svg class="field-icon" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="m4 20 4.2-1 10.4-10.4a2.1 2.1 0 0 0-3-3L5.2 16 4 20ZM13.8 7.4l2.8 2.8M9 20h11"/>
                             </svg>
-                            <input id="description" name="description" type="text" value="Supermercado" required>
+                            <input id="description" name="description" type="text" value="" required>
                         </span>
                     </p>
                     <p class="form-field">
                         <label for="date">Data</label>
                         <span class="input-wrap">
-                            <input id="date" name="date" type="date" value="2026-09-15" required>
+                            <input id="date" name="date" type="date" required>
                         </span>
                     </p>
                     <p class="form-field">
@@ -104,24 +95,23 @@
                     <p class="form-field form-field-wide">
                         <label for="account">Conta / Origem</label>
                         <span class="input-wrap">
-                            <select id="account" name="account" required>
-                                <option value="1" selected>Conta principal</option>
-                                <option value="2">Poupança</option>
-                                <option value="3">Carteira</option>
-                            </select>
+                            <select id="account" name="account" required></select>
                         </span>
                     </p>
-                    <input name="dueDate" type="hidden">
+                    <p class="form-field">
+                        <label for="dueDate">Vencimento <small>(opcional)</small></label>
+                        <span class="input-wrap">
+                            <input id="dueDate" name="dueDate" type="date">
+                        </span>
+                    </p>
                     <input name="status" type="hidden" value="pending">
                 </section>
 
-                <!-- Observações -->
                 <section class="card notes-card">
                     <label for="notes">Observações</label>
                     <textarea id="notes" name="notes" rows="3" placeholder="Adicione uma anotação opcional..."></textarea>
                 </section>
 
-                <!-- Resumo -->
                 <aside class="card transaction-summary" aria-labelledby="summary-title">
                     <header>
                         <h2 id="summary-title">RESUMO</h2>
@@ -130,12 +120,11 @@
                     <section class="definition-list">
                         <dl><dt>Valor</dt><dd id="summary-value">R$ 0,00</dd></dl>
                         <dl><dt>Categoria</dt><dd id="summary-category">Alimentação</dd></dl>
-                        <dl><dt>Data</dt><dd id="summary-date">15/09/2026</dd></dl>
-                        <dl><dt>Conta</dt><dd id="summary-account">Conta principal</dd></dl>
+                        <dl><dt>Data</dt><dd id="summary-date"></dd></dl>
+                        <dl><dt>Conta</dt><dd id="summary-account"></dd></dl>
                     </section>
                 </aside>
 
-                <!-- Ações -->
                 <footer class="actions">
                     <button class="save-button" type="submit">
                         <span aria-hidden="true"><span class="fa-solid fa-check" aria-hidden="true"></span></span>
