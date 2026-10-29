@@ -1,4 +1,5 @@
-import { listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { definirRegistrosUsoDoBanco, listarRegistros } from "./armazenamento.js";
+import { salvarRegistroUsoApi } from "./api.js";
 
 const diasSemana = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"];
 
@@ -17,6 +18,7 @@ export function obterDosesDoDia(data = new Date()) {
     const medicamentos = listarRegistros("medicamentos").filter(
         (medicamento) =>
             medicamento.tipoUso !== "eventual" &&
+            (medicamento.frequencia || medicamento.intervaloHoras || medicamento.horarios?.length) &&
             (medicamento.status !== "encerrado" ||
                 (medicamento.encerradoEm && chaveData <= medicamento.encerradoEm.slice(0, 10))),
     );
@@ -48,57 +50,22 @@ export function obterDosesDoDia(data = new Date()) {
 }
 
 // Marca uma dose como tomada ou sem estoque e mantém seu estado entre telas.
-export function salvarEstadoDose(dose, status) {
-    const doses = listarRegistros("doses");
-    const existente = doses.find(
-        (registro) =>
-            registro.medicamentoId === dose.medicamentoId &&
-            registro.data === dose.data &&
-            registro.horario === dose.horario,
-    );
-    const registro = {
-        id: existente?.id ?? `${dose.medicamentoId}-${dose.data}-${dose.horario}`,
+export async function salvarEstadoDose(dose, status) {
+    const registros = await salvarRegistroUsoApi({
+        tipoUso: "rotina",
         medicamentoId: dose.medicamentoId,
-        medicamento: nomeMedicamento(dose.medicamento),
-        dose: dose.medicamento.dose || dose.medicamento.apresentacao,
-        horario: dose.horario,
         data: dose.data,
+        horario: dose.horario,
+        dose: dose.medicamento.dose || "",
         status,
-        tomadaEm: status === "tomada" ? new Date().toISOString() : "",
-        atualizadoEm: new Date().toISOString(),
-    };
-
-    if (dose.data === dataLocal() && existente?.status !== status) {
-        atualizarEstoqueDaDose(dose.medicamento, status);
-    }
-
-    if (existente) {
-        doses[doses.indexOf(existente)] = registro;
-    } else {
-        doses.unshift(registro);
-    }
-
-    // Provisório: o estado das doses fica apenas no localStorage deste navegador.
-    salvarRegistros("doses", doses);
-    return registro;
-}
-
-function atualizarEstoqueDaDose(medicamento, status) {
-    const medicamentos = listarRegistros("medicamentos");
-    const indice = medicamentos.findIndex((item) => item.id === medicamento.id);
-    if (indice < 0) throw new Error("O medicamento não foi encontrado para atualizar o estoque.");
-
-    const atual = Number(medicamentos[indice].quantidade) || 0;
-    if (status === "sem-estoque") {
-        medicamentos[indice].quantidade = 0;
-    } else if (status === "tomada") {
-        const doseNumerica = String(medicamento.dose ?? "").match(/^\s*(\d+(?:[.,]\d+)?)/)?.[1];
-        if (!doseNumerica || /^\s*\d+\s*\//.test(medicamento.dose)) return;
-        const consumo = Number(doseNumerica.replace(",", "."));
-        if (consumo > 0) medicamentos[indice].quantidade = Math.max(0, atual - consumo);
-    }
-    // Provisório: o estoque consumido pelas doses é atualizado somente no localStorage.
-    salvarRegistros("medicamentos", medicamentos);
+    });
+    definirRegistrosUsoDoBanco(registros);
+    return registros.find((registro) =>
+        registro.tipoUso === "rotina" &&
+        registro.medicamentoId === dose.medicamentoId &&
+        registro.data === dose.data &&
+        registro.horario === dose.horario,
+    ) ?? null;
 }
 
 export function nomeMedicamento(medicamento) {

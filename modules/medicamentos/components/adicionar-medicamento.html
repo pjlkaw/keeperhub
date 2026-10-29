@@ -60,25 +60,6 @@
                             <input type="text" class="meds-form-input" id="input-med-name" name="medName" placeholder="Ex.: Losartana" autocomplete="off" required />
                         </div>
 
-                        <div class="meds-form-field">
-                            <label for="select-med-presentation" class="meds-form-label">
-                                <span>Tipo <span class="meds-label-required" aria-hidden="true">*</span></span>
-                            </label>
-                            <select class="meds-form-select" id="select-med-presentation" name="presentation" required>
-                                <option value="" disabled selected>Selecione</option>
-                                <option value="comprimido">Comprimido</option>
-                                <option value="capsula">Cápsula</option>
-                                <option value="gotas">Gotas</option>
-                                <option value="solucao">Solução</option>
-                                <option value="xarope">Xarope</option>
-                                <option value="pomada">Pomada</option>
-                                <option value="creme">Creme</option>
-                                <option value="spray">Spray</option>
-                                <option value="inalador">Inalador</option>
-                                <option value="injetavel">Injetável</option>
-                                <option value="outro">Outro</option>
-                            </select>
-                        </div>
                     </section>
 
                     <!-- Tipo de uso permanece visível por controlar a rotina do medicamento. -->
@@ -147,7 +128,7 @@
                                         <span>Dose por horário</span>
                                         <span class="meds-label-optional">Opcional</span>
                                     </label>
-                                    <input type="text" class="meds-form-input" id="input-med-dose" name="dose" placeholder="Ex.: 1 comprimido" autocomplete="off" />
+                                    <input type="text" class="meds-form-input" id="input-med-dose" name="dose" maxlength="100" placeholder="Ex.: 1 comprimido" autocomplete="off" />
                                 </div>
 
                                 <div class="meds-form-field">
@@ -233,7 +214,7 @@
                                             <span>Quantidade</span>
                                             <span class="meds-label-optional">Opcional</span>
                                         </label>
-                                        <input type="number" class="meds-form-input" id="input-stock-qty" name="stockQty" min="0" placeholder="Ex.: 20" />
+                                        <input type="number" class="meds-form-input" id="input-stock-qty" name="stockQty" min="0" step="0.01" placeholder="Ex.: 20" />
                                     </div>
 
                                     <div class="meds-form-field">
