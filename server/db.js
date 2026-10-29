@@ -18,7 +18,7 @@ const db = mysql.createPool({
 });
 
 db.on('connection', (connection) => {
-    connection.query("SET time_zone = '-03:00'");
+    connection.query("SET time_zone = 'America/Sao_Paulo'");
 });
 
 export default db;
