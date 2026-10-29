@@ -6,7 +6,41 @@
  * ==================================================
  */
 
+function prepararFormularioTeste() {
+  const formulario = document.querySelector('.formulario-teste');
+  const campoEmail = document.getElementById('trial-email');
+  const mensagemErro = document.getElementById('erro-email-teste');
+  if (!formulario || !campoEmail || !mensagemErro) return;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  formulario.addEventListener('submit', (evento) => {
+    const email = campoEmail.value.trim();
+    if (!email || !emailRegex.test(email)) {
+      evento.preventDefault();
+      mensagemErro.classList.add('is-visible');
+      campoEmail.classList.add('has-error');
+      campoEmail.setAttribute('aria-invalid', 'true');
+      campoEmail.focus();
+      return;
+    }
+    campoEmail.value = email;
+  });
+
+  campoEmail.addEventListener('input', () => {
+    if (mensagemErro.classList.contains('is-visible')) {
+      mensagemErro.classList.remove('is-visible');
+      campoEmail.classList.remove('has-error');
+      campoEmail.setAttribute('aria-invalid', 'false');
+    }
+  });
+
+  // Mantém a validação nativa quando o JavaScript não está disponível.
+  formulario.noValidate = true;
+}
+
 function setupHomeInteractions() {
+  prepararFormularioTeste();
   const themeToggle = document.getElementById('theme-toggle');
 
   function atualizarBotaoTema() {
