@@ -11,8 +11,8 @@ import {
 } from '../server/auth-session.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar'];
-const GENEROS_CADASTRO = GENEROS_VALIDOS.slice(0, 2);
+const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar', 'outro'];
+const GENEROS_CADASTRO = GENEROS_VALIDOS;
 async function validarFormularioUsuario(body, { cadastro = false } = {}) {
   const dados = {};
   const temCampo = (campo) => Object.prototype.hasOwnProperty.call(body, campo);

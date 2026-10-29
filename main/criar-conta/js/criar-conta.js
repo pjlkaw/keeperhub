@@ -81,6 +81,11 @@ function setupSignupForm() {
   setupPasswordToggle(togglePasswordConfirmBtn, passwordConfirmInput);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Preenche o e-mail enviado pelo formulário de teste da home.
+  const emailRecebido = new URLSearchParams(window.location.search).get('email')?.trim();
+  if (emailInput && !emailInput.value && emailRecebido && emailRegex.test(emailRecebido)) {
+    emailInput.value = emailRecebido;
+  }
 
   function checkFormState(userChangedForm = false) {
     const nameVal = nameInput ? nameInput.value.trim() : '';
@@ -93,7 +98,7 @@ function setupSignupForm() {
     const isNameValid = nameVal.length > 0;
     const isEmailValid = emailRegex.test(emailVal);
     const isPhoneValid = phoneDigits.length === 10 || phoneDigits.length === 11;
-    const isSexoValid = sexoVal === 'masculino' || sexoVal === 'feminino';
+    const isSexoValid = Boolean(sexoVal);
     const isPassValid = passVal.length >= 8;
     const isPassConfirmValid = passConfirmVal.length >= 8 && passConfirmVal === passVal;
 
@@ -231,7 +236,7 @@ function setupSignupForm() {
         hasError = true;
       }
 
-      if (sexoVal !== 'masculino' && sexoVal !== 'feminino') {
+      if (!sexoVal) {
         if (sexoError) sexoError.classList.add('is-visible');
         if (sexoSelect) sexoSelect.classList.add('has-error');
         hasError = true;

@@ -36,13 +36,10 @@
 <body class="finance-page">
     <div class="finance-shell transactions-list-screen">
 
-        <!-- 1. NAVEGAÇÃO ENTRE MÓDULOS -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"></nav>
 
-        <!-- 2. CABEÇALHO DA PÁGINA -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- 3. ABAS DE NAVEGAÇÃO INTERNA DE FINANÇAS -->
         <nav class="finance-tabs" aria-label="Seções de finanças">
             <a href="/modules/financas/index.html">Visão geral</a>
             <a class="active" href="transacoes.html" aria-current="page">Transações</a>
@@ -50,10 +47,8 @@
             <a href="nova-transacao.html">Nova transação</a>
         </nav>
 
-        <!-- 4. CONTEÚDO PRINCIPAL -->
         <section class="finance-content transactions-content">
 
-            <!-- Busca -->
             <form class="transactions-search" role="search">
                 <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
@@ -66,7 +61,6 @@
                 </p>
             </form>
 
-            <!-- Filtros -->
             <section class="filter-row" aria-label="Filtros de transações">
                 <nav class="filter-chips" aria-label="Filtros de transações">
                     <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
@@ -87,14 +81,12 @@
                 </section>
             </section>
 
-            <!-- Lista de Transações -->
             <section class="card transaction-list" id="transaction-list" aria-live="polite">
                 <p class="empty-state">Carregando transações...</p>
             </section>
 
         </section>
 
-        <!-- Botão padrão de adicionar (shared/components/btn-add.html) -->
         <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
 
     </div>

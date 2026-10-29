@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
                 <li>
                     <article class="linha-tempo-rotina__item linha-tempo-rotina__item--concluido">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
                         <div class="linha-tempo-rotina__informacoes">
                             <h3 class="linha-tempo-rotina__nome">Passeio Matinal</h3>
                             <p class="linha-tempo-rotina__status">Concluído</p>
@@ -53,7 +53,7 @@
 
                 <li>
                     <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
                         <div class="linha-tempo-rotina__informacoes">
                             <h3 class="linha-tempo-rotina__nome">Escovação</h3>
                             <p class="linha-tempo-rotina__status">Pendente</p>
@@ -72,7 +72,7 @@
             <ul>
                 <li>
                     <article class="card cartao-higiene">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-bath icone" aria-hidden="true"></i>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Banho</h3>
                             <p class="cartao-higiene__ultimo">Último: 05 Out</p>
@@ -83,7 +83,7 @@
 
                 <li>
                     <article class="card cartao-higiene">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-scissors icone" aria-hidden="true"></i>
                         <div class="cartao-higiene__informacoes">
                             <h3 class="cartao-higiene__nome">Corte de Unhas</h3>
                             <p class="cartao-higiene__ultimo">Último: 20 Set</p>
@@ -134,7 +134,7 @@
                 <label for="nova-observacao" class="somente-leitor-tela">Adicionar nova observação</label>
                 <textarea id="nova-observacao" name="nova_observacao" placeholder="Adicionar nova observação..."></textarea>
                 <button type="submit" class="botao-icone anotacoes-comportamento__enviar" aria-label="Enviar observação">
-                    <span class="icone" aria-hidden="true"></span>
+                    <i class="fa-solid fa-paper-plane icone" aria-hidden="true"></i>
                 </button>
             </form>
 
@@ -168,7 +168,7 @@
     <template id="modelo-refeicao-hoje">
         <li data-refeicao>
             <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                <span class="icone" aria-hidden="true"></span>
+                <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
                 <div class="linha-tempo-rotina__informacoes">
                     <h3 class="linha-tempo-rotina__nome"></h3>
                     <p class="linha-tempo-rotina__status">Pendente</p>
@@ -181,3 +181,4 @@
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>
+

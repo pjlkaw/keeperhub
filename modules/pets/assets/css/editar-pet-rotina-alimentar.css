@@ -316,22 +316,14 @@ textarea:focus {
   border-radius: var(--pets-radius-sm);
 }
 
-.icone-rotina {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
+.icone-rotina { display: inline-block; width: 16px; height: 16px; color: currentColor; font-size: 16px; line-height: 1; }
 
 .cartao-refeicao__relogio {
   width: 20px;
   height: 20px;
   color: var(--pets-text-muted);
   background-color: currentColor;
-  mask: url('../img/pendente-pet.png') center / contain no-repeat;
+  background: none;
 }
 
 .cartao-refeicao__informacoes {
@@ -560,3 +552,5 @@ textarea:focus {
     grid-template-columns: minmax(0, 1fr) 150px;
   }
 }
+
+.cartao-refeicao__relogio { display: grid; place-items: center; background: none; color: var(--pets-text-muted); font-size: 20px; line-height: 1; }

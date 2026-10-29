@@ -237,7 +237,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   width: 24px;
   height: 24px;
   margin-top: 1px;
-  background-image: url("../img/dados-emergencia-pets.png");
+  background-image: none;
 }
 
 .aviso-informativo__conteudo {
@@ -309,3 +309,5 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
     padding: 16px;
   }
 }
+
+.alerta-emergencia .icone { color: var(--pets-text-muted); font-size: 20px; line-height: 1; }

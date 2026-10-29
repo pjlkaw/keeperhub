@@ -277,13 +277,6 @@ textarea:focus {
   border-radius: 50%;
   background-color: var(--pets-neutral-hover);
 }
-.cartao-consulta > .icone::before {
-  position: absolute;
-  inset: 0;
-  background: url('../img/agenda-consulta-pets.png') center / 20px no-repeat;
-  filter: var(--pets-neutral-icon-filter);
-  content: '';
-}
 .cartao-consulta__informacoes { align-self: center; min-width: 0; overflow-wrap: anywhere; }
 .cartao-consulta--destaque {
   display: block;
@@ -302,7 +295,7 @@ textarea:focus {
 .cartao-consulta__local .icone {
   width: 12px;
   height: 14px;
-  background-image: url('../img/localizacao-consulta-pets.png');
+  background-image: none;
   filter: var(--pets-neutral-icon-filter);
 }
 .cartao-consulta__data-hora {
@@ -325,8 +318,8 @@ textarea:focus {
   font-size: 0.75rem;
 }
 .cartao-consulta__data-hora .icone { width: 12px; height: 12px; }
-.cartao-consulta__data .icone { background-image: url('../img/calendario-pets.png'); filter: var(--pets-neutral-icon-filter); }
-.cartao-consulta__horario .icone { background-image: url('../img/horario-consulta-pets.png'); }
+.cartao-consulta__data .icone { background-image: none; filter: var(--pets-neutral-icon-filter); }
+.cartao-consulta__horario .icone { background-image: none; }
 .cartao-consulta__lembrete {
   display: flex;
   align-items: center;
@@ -383,11 +376,11 @@ textarea:focus {
   height: 36px;
   border-radius: var(--pets-radius-sm);
   background-color: var(--pets-neutral-hover);
-  background-image: url('../img/laudo-exame-pets.png');
+  background-image: none;
   background-size: 16px 20px;
 }
 .exames-medicos li:nth-child(2) .cartao-exame > .icone {
-  background-image: url('../img/imagem-exame-pets.png');
+  background-image: none;
   background-size: 18px;
 }
 .cartao-exame__informacoes { flex: 1; min-width: 0; overflow-wrap: anywhere; }
@@ -403,7 +396,7 @@ textarea:focus {
 .cartao-exame .botao-icone .icone {
   width: 16px;
   height: 16px;
-  background-image: url('../img/baixar-exame-pets.png');
+  background-image: none;
   filter: var(--pets-neutral-icon-filter);
 }
 .historico-medico > h2 { margin-bottom: 24px; }
@@ -451,8 +444,19 @@ textarea:focus {
   box-shadow: 0 8px 16px var(--pets-shadow);
   transition: transform var(--pets-transition), background-color var(--pets-transition);
 }
-.painel-medico .botao-flutuante .icone { background-image: url('../img/adicionar-pets.png'); }
+.painel-medico .botao-flutuante .icone { background-image: none; }
 @media (hover: hover) and (pointer: fine) {
   .painel-medico .botao-flutuante:hover { transform: translateY(-3px); background: var(--pets-primary-hover); }
 }
 .painel-medico .botao-flutuante:active { transform: scale(0.96); }
+
+.cartao-consulta > .icone, .cartao-consulta__local .icone,
+.cartao-consulta__data-hora .icone, .cartao-exame > .icone,
+.cartao-exame .botao-icone .icone, .painel-medico .botao-flutuante .icone {
+  display: grid; place-items: center; line-height: 1;
+}
+.cartao-consulta > .icone { color: var(--pets-text-muted); font-size: 18px; }
+.cartao-consulta__local .icone, .cartao-consulta__data-hora .icone { color: var(--pets-text-muted); font-size: 12px; }
+.cartao-exame > .icone { color: #4285F4; font-size: 16px; }
+.cartao-exame .botao-icone .icone { color: var(--pets-text-muted); font-size: 16px; }
+.painel-medico .botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; }

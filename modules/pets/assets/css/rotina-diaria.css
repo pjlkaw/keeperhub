@@ -204,11 +204,11 @@ textarea:focus {
 }
 
 .linha-tempo-rotina__item--concluido .icone {
-  background-image: url('../img/concluido-pet.png');
+  background-image: none;
 }
 
 .linha-tempo-rotina__item--pendente .icone {
-  background-image: url('../img/pendente-pet.png');
+  background-image: none;
 }
 
 .linha-tempo-rotina__informacoes,
@@ -267,11 +267,11 @@ textarea:focus {
 }
 
 .higiene-bem-estar li:first-child .cartao-higiene > .icone {
-  background-image: url('../img/banho-pet.png');
+  background-image: none;
 }
 
 .higiene-bem-estar li:nth-child(2) .cartao-higiene > .icone {
-  background-image: url('../img/corte-unhas-pet.png');
+  background-image: none;
 }
 
 .etiqueta-status {
@@ -348,7 +348,7 @@ textarea:focus {
 .anotacoes-comportamento__enviar .icone {
   width: 18px;
   height: 18px;
-  background-image: url('../img/enviar-pet.png');
+  background-image: none;
 }
 
 .anotacoes-comportamento__lista {
@@ -387,7 +387,7 @@ textarea:focus {
 .botao-flutuante .icone {
   width: 24px;
   height: 24px;
-  background-image: url('../img/adicionar-pets.png');
+  background-image: none;
 }
 
 @media (min-width: 600px) {
@@ -399,3 +399,10 @@ textarea:focus {
     padding: 28px;
   }
 }
+
+.linha-tempo-rotina__item .icone { display: grid; place-items: center; line-height: 1; }
+.linha-tempo-rotina__item--concluido .icone { color: #22C55E; font-size: 18px; }
+.linha-tempo-rotina__item--pendente .icone { color: var(--pets-text-muted); font-size: 18px; }
+.cartao-higiene > .icone { display: grid; place-items: center; color: #4285F4; font-size: 20px; line-height: 1; }
+.anotacoes-comportamento__enviar .icone { color: var(--pets-text-muted); font-size: 18px; line-height: 1; }
+.botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }
