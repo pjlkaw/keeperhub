@@ -480,3 +480,37 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Seletor de pet e campos condicionais controlados pela lógica do formulário. */
+.seletor-pet-vacinas {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-vacinas label {
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-vacinas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--vacina-texto);
+  background: var(--vacina-superficie);
+  border: 1px solid var(--vacina-borda);
+  border-radius: 8px;
+}
+
+.seletor-pet-vacinas [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.seletor-pet-vacinas [hidden],
+.opcoes-nome-vacina__personalizada[hidden],
+.formulario-adicionar-vacina > .campo-formulario[hidden] {
+  display: none !important;
+}

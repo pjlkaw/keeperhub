@@ -603,3 +603,50 @@ textarea:focus {
     justify-self: start;
   }
 }
+
+.seletor-pet-despesas {
+  display: grid;
+  gap: 6px;
+  padding-inline: 16px;
+  margin-bottom: 16px;
+}
+
+.seletor-pet-despesas label {
+  color: var(--pets-text-muted);
+  font-size: 0.75rem;
+}
+
+.seletor-pet-despesas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+}
+
+#status-pet-despesas[data-estado="erro"],
+#mensagem-despesa[data-estado="erro"] {
+  color: #c90016;
+}
+
+#status-pet-despesas {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+#status-pet-despesas:empty {
+  display: none;
+}
+
+.despesas-conteudo[hidden],
+.despesas-adicionar[hidden] {
+  display: none !important;
+}
+
+.lancamentos-vazios {
+  padding: 14px;
+  color: var(--pets-text-muted);
+  font-size: 0.8125rem;
+}

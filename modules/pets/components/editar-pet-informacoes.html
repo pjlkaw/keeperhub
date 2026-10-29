@@ -42,14 +42,14 @@
             <a href="editar-pet-tutor.html" class="abas-pet__link">Tutor</a>
         </nav>
 
-        <form class="formulario-informacoes-pet" id="formulario-informacoes-pet" data-pet-id="exemplo">
+        <form class="formulario-informacoes-pet" id="formulario-informacoes-pet" data-pet-id="">
 
             <div class="foto-pet-edicao">
-                <figure class="foto-pet-edicao__visualizacao" data-tem-foto="true">
+                <figure class="foto-pet-edicao__visualizacao" data-tem-foto="false">
                     <img
                         id="foto-pet-edicao-imagem"
-                        src="../../../shared/img/logo-pets.png"
-                        alt="Foto atual de Max"
+                        src="/shared/img/logo-pets.png"
+                        alt=""
                     >
                 </figure>
 
@@ -61,14 +61,14 @@
                     id="foto-pet-edicao"
                     name="foto_pet"
                     class="somente-leitor-tela"
-                    accept="image/*"
+                    accept="image/jpeg,image/png,image/webp"
                 >
             </div>
 
             <section class="painel-informacoes-pet" aria-label="Dados do pet">
                 <div class="campo-formulario">
                     <label for="nome-edicao">Nome</label>
-                    <input type="text" id="nome-edicao" name="nome" value="Max" maxlength="60" required>
+                    <input type="text" id="nome-edicao" name="nome" maxlength="60" required>
                 </div>
 
                 <fieldset class="campo-formulario">
@@ -76,7 +76,7 @@
                     <ul class="opcoes-especies" aria-label="Selecione o tipo de animal">
                         <li>
                             <label class="opcoes-especies__opcao">
-                                <input type="radio" name="tipo_animal" value="cachorro" required checked>
+                                <input type="radio" name="tipo_animal" value="cachorro" required>
                                 <span class="opcoes-especies__rotulo">Cachorro</span>
                             </label>
                         </li>
@@ -139,18 +139,18 @@
 
                 <div class="campo-formulario">
                     <label for="raca-edicao">Raça</label>
-                    <input type="text" id="raca-edicao" name="raca" value="Golden Retriever" maxlength="80" required>
+                    <input type="text" id="raca-edicao" name="raca" maxlength="80" required>
                 </div>
 
                 <div class="linha-formulario">
                     <div class="campo-formulario">
                         <label for="idade-edicao">Idade</label>
-                        <input type="text" id="idade-edicao" name="idade" value="3 anos" maxlength="20" required>
+                        <input type="text" id="idade-edicao" name="idade" maxlength="20" required>
                     </div>
 
                     <div class="campo-formulario">
                         <label for="peso-edicao">Peso (kg)</label>
-                        <input type="number" id="peso-edicao" name="peso" value="12.5" min="0.1" step="0.1" required>
+                        <input type="number" id="peso-edicao" name="peso" min="0.1" step="0.1" required>
                     </div>
                 </div>
 
@@ -158,7 +158,7 @@
                     <legend>Gênero</legend>
                     <div class="controle-segmentado">
                         <label class="controle-segmentado__opcao">
-                            <input type="radio" name="genero" value="macho" required checked>
+                            <input type="radio" name="genero" value="macho" required>
                             <span class="controle-segmentado__rotulo">Macho</span>
                         </label>
                         <label class="controle-segmentado__opcao">
@@ -180,7 +180,8 @@
 
     </main>
 
+    <script type="module" src="../js/editarPetInformacoes.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- Integração futura: ../js/editar-pet-informacoes.js (arquivo ainda não implementado). -->
 </body>
 </html>
+

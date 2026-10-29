@@ -84,16 +84,17 @@
                 <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
             </div>
 
-            <button type="button" disabled class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
+            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
                 Salvar Consulta
             </button>
 
-            <p id="aviso-integracao" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
+            <p id="aviso-integracao" class="aviso-integracao" role="status" aria-live="polite">Os dados serão salvos neste navegador.</p>
         </form>
 
     </main>
 
+    <script type="module" src="../js/consultas.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- Integração de cadastro pendente; ver consultas-integracao.md. -->
+<!-- Agendamentos são salvos localmente no navegador. -->
 </body>
 </html>

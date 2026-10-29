@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
 </head>
 <body>
 
-    <main class="editar-pet editar-pet--tutor">
+    <main class="editar-pet editar-pet--tutor" data-pet-id="">
 
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
@@ -41,7 +41,9 @@
             <a href="editar-pet-tutor.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Tutor</a>
         </nav>
 
-        <form class="formulario-editar-pet">
+        <form class="formulario-editar-pet" id="formulario-pet-tutor" data-pet-id="">
+
+            <p class="status-tutor" id="status-tutor" aria-live="polite"></p>
 
             <section class="aviso-informativo">
                 <i class="fa-solid fa-triangle-exclamation icone" aria-hidden="true"></i>
@@ -55,12 +57,12 @@
 
             <div class="campo-formulario">
                 <label for="nome-tutor">Nome do Tutor</label>
-                <input type="text" id="nome-tutor" name="nome-tutor" value="Maria Silva">
+                <input type="text" id="nome-tutor" name="nome-tutor" maxlength="100">
             </div>
 
             <div class="campo-formulario">
                 <label for="telefone-emergencia">Telefone de Emergência</label>
-                <input type="tel" id="telefone-emergencia" name="telefone-emergencia" value="(11) 98765-4321">
+                <input type="tel" id="telefone-emergencia" name="telefone-emergencia" maxlength="30" autocomplete="tel">
             </div>
 
             <button type="submit" class="botao-principal formulario-editar-pet__enviar">
@@ -71,8 +73,9 @@
 
     </main>
 
+    <script type="module" src="../js/editarPetTutor.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- Integração futura: ../js/editar-pet-tutor.js (arquivo ainda não implementado). -->
+
 </body>
 </html>
 

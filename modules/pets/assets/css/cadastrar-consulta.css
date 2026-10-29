@@ -228,3 +228,36 @@ select:focus {
 @media (min-width: 640px) {
   .adicionar-consulta { margin-block: 24px; border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; }
 }
+
+
+/* Seletor de pet inserido pela lógica local de consultas. */
+.seletor-pet-consultas {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-consultas label {
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-consultas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--card-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-pill);
+}
+
+.seletor-pet-consultas [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.seletor-pet-consultas [hidden],
+.campo-formulario[hidden] {
+  display: none !important;
+}

@@ -99,6 +99,37 @@ export function listarPets() {
     return pets;
 }
 
+// Busca um pet pelo identificador usado nas URLs do módulo.
+export function buscarPetPorId(id) {
+    if (typeof id !== 'string' || !id.trim()) return null;
+    return listarPets().find(pet => pet.id === id) ?? null;
+}
+
+// Atualiza somente os dados enviados, preservando identificador, data de criação
+// e outros dados do registro que não pertencem a este formulário.
+export function atualizarPet(id, dados) {
+    if (typeof id !== 'string' || !id.trim()) return null;
+
+    const pets = listarPets();
+    const indice = pets.findIndex(pet => pet.id === id);
+    if (indice === -1) return null;
+
+    const existente = pets[indice];
+    const atualizado = {
+        ...existente,
+        ...padronizarDadosPet({ ...existente, ...dados }),
+        id: existente.id
+    };
+
+    if (Object.prototype.hasOwnProperty.call(existente, 'criadoEm')) {
+        atualizado.criadoEm = existente.criadoEm;
+    }
+
+    pets[indice] = atualizado;
+    gravarPets(pets);
+    return atualizado;
+}
+
 // Cadastra um pet e retorna o registro criado.
 // O ID pode ser informado; caso contrário, um novo é gerado.
 export function cadastroPet(dados, id = criarIdPet()) {
