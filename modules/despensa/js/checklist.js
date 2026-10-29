@@ -1,24 +1,5 @@
-const CHAVE = "keeperhub_checklist_compras";
 
-const produtosIniciais = [
-    { nome: "Arroz", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Feijão", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Macarrão", quantidade: 2, categoria: "Alimentos" },
-    { nome: "Óleo", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Açúcar", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Sal", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Leite", quantidade: 2, categoria: "Bebidas" },
-    { nome: "Café", quantidade: 1, categoria: "Bebidas" },
-    { nome: "Pão", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Ovos", quantidade: 1, categoria: "Alimentos" },
-    { nome: "Banana", quantidade: 1, categoria: "Frutas e verduras" },
-    { nome: "Tomate", quantidade: 1, categoria: "Frutas e verduras" },
-    { nome: "Frango", quantidade: 1, categoria: "Carnes e frios" },
-    { nome: "Detergente", quantidade: 1, categoria: "Limpeza" },
-    { nome: "Sabão em pó", quantidade: 1, categoria: "Limpeza" },
-    { nome: "Papel higiênico", quantidade: 1, categoria: "Higiene" },
-    { nome: "Creme dental", quantidade: 1, categoria: "Higiene" }
-];
+
 
 function carregarLista() {
     try {
