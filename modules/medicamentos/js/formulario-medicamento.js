@@ -1,8 +1,8 @@
-import { criarIdLocal, listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { buscarMedicamentoApi, salvarMedicamentoApi } from "./api.js";
 import { mostrarRetornoFormulario } from "./formularios.js";
 
 // Controla campos condicionais e horários do cadastro e da edição de medicamentos.
-export function inicializarFormularioMedicamento() {
+export async function inicializarFormularioMedicamento() {
     const formulario = document.querySelector("#form-add-medication, #form-edit-medication");
     const frequencia = formulario?.querySelector("#select-med-frequency");
     const uso = formulario?.querySelectorAll('input[name="usageType"]');
@@ -27,18 +27,13 @@ export function inicializarFormularioMedicamento() {
         desabilitarFormulario(formulario);
         return;
     }
-    const medicamentoEditado = idEdicao ? carregarMedicamentoParaEdicao(formulario, idEdicao) : null;
+    const medicamentoEditado = idEdicao
+        ? await carregarMedicamentoParaEdicao(formulario, idEdicao)
+        : null;
 
     if (idEdicao && !medicamentoEditado) {
         desabilitarFormulario(formulario);
         return;
-    }
-
-    if (!medicamentoEditado) {
-        const alertaEstoque = formulario.querySelector("#checkbox-stock-alert");
-        const lembretes = formulario.querySelector("#checkbox-reminders");
-        if (alertaEstoque) alertaEstoque.checked = true;
-        if (lembretes) lembretes.checked = true;
     }
 
     const atualizarCampos = () => {
@@ -82,7 +77,6 @@ export function inicializarFormularioMedicamento() {
         atualizarCampos();
     }));
     frequencia?.addEventListener("change", atualizarCampos);
-    formulario.querySelector("#checkbox-stock-alert")?.addEventListener("change", atualizarCampos);
     formulario.addEventListener("input", (evento) => {
         if (evento.target instanceof HTMLInputElement && evento.target.matches(".meds-time-input")) {
             formatarEntradaHorario(evento.target);
@@ -120,7 +114,7 @@ export function inicializarFormularioMedicamento() {
         campoHorario.focus();
     });
 
-    formulario.addEventListener("submit", (evento) => {
+    formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
             return;
@@ -128,11 +122,9 @@ export function inicializarFormularioMedicamento() {
 
         const dados = new FormData(formulario);
         const medicamento = {
-            ...(medicamentoEditado ?? {}),
-            id: medicamentoEditado?.id ?? criarIdLocal(),
+            id: medicamentoEditado?.id,
             nome: String(dados.get("medName")).trim(),
             concentracao: String(dados.get("concentration") ?? "").trim(),
-            apresentacao: String(dados.get("presentation")),
             tipoUso: String(dados.get("usageType")),
             dataInicio: String(dados.get("startDate") ?? ""),
             dataFim: formulario.querySelector("#input-end-date")
@@ -140,43 +132,36 @@ export function inicializarFormularioMedicamento() {
                 : medicamentoEditado?.dataFim ?? "",
             dose: String(dados.get("dose") ?? "").trim(),
             frequencia: String(dados.get("frequency") ?? "diario"),
-            intervaloHoras: String(dados.get("intervalHours") ?? ""),
+            intervaloHoras: formulario.querySelector("#input-frequency-interval")
+                ? String(dados.get("intervalHours") ?? "")
+                : medicamentoEditado?.intervaloHoras ?? "",
             dias: formulario.querySelectorAll('input[name="weekdays"]').length
                 ? dados.getAll("weekdays").map(String)
                 : medicamentoEditado?.dias ?? [],
             horarios: dados.getAll("times").map(String).filter(Boolean),
             quantidade: Number(dados.get("stockQty") || 0),
             unidade: String(dados.get("stockUnit") ?? ""),
-            alertaEstoque: formulario.querySelector("#checkbox-stock-alert")
-                ? dados.has("stockAlert")
-                : true,
-            limiteEstoque: medicamentoEditado?.limiteEstoque ?? 0,
             validade: String(dados.get("expirationDate") ?? ""),
-            lembretes: formulario.querySelector("#checkbox-reminders")
-                ? dados.has("enableReminders")
-                : true,
-            status: medicamentoEditado?.status ?? "ativo",
-            criadoEm: medicamentoEditado?.criadoEm ?? new Date().toISOString(),
-            atualizadoEm: new Date().toISOString(),
         };
 
         try {
-            const medicamentos = listarRegistros("medicamentos");
-            if (medicamentoEditado) {
-                const indice = medicamentos.findIndex((item) => item.id === medicamentoEditado.id);
-                if (indice < 0) {
-                    throw new Error("O medicamento deixou de existir no armazenamento local. Recarregue a página.");
-                }
-                medicamentos[indice] = medicamento;
-            } else {
-                medicamentos.push(medicamento);
-            }
-            salvarRegistros("medicamentos", medicamentos);
-
-            // Provisório: cadastro e edições são mantidos apenas no localStorage deste navegador.
-            console.log("[Medicamentos] Medicamento salvo localmente (provisório):", medicamento);
+            const salvo = await salvarMedicamentoApi({
+                nome: medicamento.nome,
+                concentracao: medicamento.concentracao,
+                tipoUso: medicamento.tipoUso,
+                unidade: medicamento.unidade || "unidades",
+                dose: medicamento.dose,
+                frequencia: medicamento.frequencia,
+                intervaloHoras: medicamento.intervaloHoras,
+                dias: medicamento.dias,
+                horarios: medicamento.horarios,
+                dataInicio: medicamento.dataInicio,
+                dataFim: medicamento.dataFim,
+                quantidadeInicial: medicamentoEditado ? undefined : medicamento.quantidade,
+                validade: medicamentoEditado ? undefined : medicamento.validade,
+            }, medicamentoEditado?.id);
             window.location.href = medicamentoEditado
-                ? `/modules/medicamentos/components/detalhes-medicamento.html?id=${encodeURIComponent(medicamento.id)}`
+                ? `/modules/medicamentos/components/detalhes-medicamento.html?id=${encodeURIComponent(salvo.id)}`
                 : "/modules/medicamentos/components/medicacoes.html";
         } catch (erro) {
             mostrarRetornoFormulario(formulario, erro.message, true);
@@ -186,17 +171,16 @@ export function inicializarFormularioMedicamento() {
     atualizarCampos();
 }
 
-function carregarMedicamentoParaEdicao(formulario, id) {
+async function carregarMedicamentoParaEdicao(formulario, id) {
     try {
-        const medicamento = listarRegistros("medicamentos").find((item) => item.id === id);
+        const medicamento = await buscarMedicamentoApi(id);
         if (!medicamento) {
-            mostrarRetornoFormulario(formulario, "O medicamento não foi encontrado neste navegador.", true);
+            mostrarRetornoFormulario(formulario, "O medicamento não foi encontrado.", true);
             return null;
         }
 
         preencherCampo(formulario, "#input-med-name", medicamento.nome);
         preencherCampo(formulario, "#input-med-concentration", medicamento.concentracao);
-        preencherCampo(formulario, "#select-med-presentation", medicamento.apresentacao);
         preencherCampo(formulario, "#input-start-date", medicamento.dataInicio);
         preencherCampo(formulario, "#input-end-date", medicamento.dataFim);
         preencherCampo(formulario, "#input-med-dose", medicamento.dose);
@@ -212,11 +196,6 @@ function carregarMedicamentoParaEdicao(formulario, id) {
         formulario.querySelectorAll('input[name="weekdays"]').forEach((campo) => {
             campo.checked = medicamento.dias?.includes(campo.value) ?? false;
         });
-        const estoque = formulario.querySelector("#checkbox-stock-alert");
-        const lembretes = formulario.querySelector("#checkbox-reminders");
-        if (estoque) estoque.checked = medicamento.alertaEstoque ?? true;
-        if (lembretes) lembretes.checked = medicamento.lembretes ?? true;
-
         const lista = formulario.querySelector("#times-list, .meds-times-list");
         const horarios = medicamento.horarios ?? [];
         const camposHorario = Array.from(lista?.querySelectorAll(".meds-time-input") ?? []);
@@ -241,7 +220,6 @@ function configurarNomesCampos(formulario) {
     const campos = {
         "#input-med-name": "medName",
         "#input-med-concentration": "concentration",
-        "#select-med-presentation": "presentation",
         "#input-start-date": "startDate",
         "#input-end-date": "endDate",
         "#input-med-dose": "dose",
@@ -258,10 +236,6 @@ function configurarNomesCampos(formulario) {
     formulario.querySelectorAll("#times-list .meds-time-input, .meds-times-list .meds-time-input").forEach((campo) => {
         campo.name = "times";
     });
-    const estoque = formulario.querySelector("#checkbox-stock-alert");
-    const lembretes = formulario.querySelector("#checkbox-reminders");
-    if (estoque) estoque.name = "stockAlert";
-    if (lembretes) lembretes.name = "enableReminders";
 }
 
 function desabilitarFormulario(formulario) {
@@ -301,10 +275,8 @@ function definirVisibilidade(elemento, visivel) {
 function atualizarBotaoCadastro(formulario) {
     const botao = formulario.querySelector("#btn-submit-medication");
     const nome = formulario.querySelector("#input-med-name");
-    const apresentacao = formulario.querySelector("#select-med-presentation");
-
-    if (botao && nome && apresentacao) {
-        botao.disabled = !nome.value.trim() || !apresentacao.value;
+    if (botao && nome) {
+        botao.disabled = !nome.value.trim();
     }
 }
 

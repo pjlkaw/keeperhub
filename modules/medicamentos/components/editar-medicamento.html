@@ -45,27 +45,12 @@
                             <input type="text" class="meds-form-input" id="input-med-name" required />
                         </div>
 
-                        <div class="meds-form-row">
-                            <div class="meds-form-field">
-                                <label for="input-med-concentration" class="meds-form-label">
-                                    <span>Concentração</span>
-                                    <span class="meds-label-optional">Opcional</span>
-                                </label>
-                                <input type="text" class="meds-form-input" id="input-med-concentration" />
-                            </div>
-
-                            <div class="meds-form-field">
-                                <label for="select-med-presentation" class="meds-form-label">
-                                    <span>Apresentação <span class="meds-label-required" aria-hidden="true">*</span></span>
-                                </label>
-                                <select class="meds-form-select" id="select-med-presentation">
-                                    <option value="comprimido">Comprimido</option>
-                                    <option value="capsula">Cápsula</option>
-                                    <option value="gotas">Gotas</option>
-                                    <option value="solucao">Solução</option>
-                                    <option value="outro">Outro</option>
-                                </select>
-                            </div>
+                        <div class="meds-form-field">
+                            <label for="input-med-concentration" class="meds-form-label">
+                                <span>Concentração</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <input type="text" class="meds-form-input" id="input-med-concentration" />
                         </div>
                     </section>
 
@@ -101,6 +86,13 @@
                             </label>
                             <input type="date" class="meds-form-input" id="input-start-date" />
                         </div>
+                        <div class="meds-form-field" id="field-end-date" style="display: none;">
+                            <label for="input-end-date" class="meds-form-label">
+                                <span>Data de término</span>
+                                <span class="meds-label-optional">Opcional</span>
+                            </label>
+                            <input type="date" class="meds-form-input" id="input-end-date" />
+                        </div>
                     </section>
 
                     <section class="card meds-form-block" id="section-routine" aria-labelledby="block-routine-title">
@@ -113,7 +105,7 @@
                                 <span>Dose por horário</span>
                                 <span class="meds-label-optional">Opcional</span>
                             </label>
-                            <input type="text" class="meds-form-input" id="input-med-dose" />
+                            <input type="text" class="meds-form-input" id="input-med-dose" maxlength="100" />
                         </div>
 
                         <div class="meds-form-field">
@@ -125,6 +117,24 @@
                                 <option value="especifico">Em dias específicos</option>
                                 <option value="intervalo">A cada X horas</option>
                             </select>
+                        </div>
+
+                        <div class="meds-form-field" id="field-frequency-interval" style="display: none;">
+                            <label for="input-frequency-interval" class="meds-form-label">Intervalo em horas</label>
+                            <input type="number" class="meds-form-input" id="input-frequency-interval" min="1" max="48" />
+                        </div>
+
+                        <div class="meds-form-field" id="field-frequency-days" style="display: none;">
+                            <span class="meds-form-label">Dias da semana</span>
+                            <div class="meds-weekday-grid">
+                                <label><input type="checkbox" name="weekdays" value="seg" /> Seg</label>
+                                <label><input type="checkbox" name="weekdays" value="ter" /> Ter</label>
+                                <label><input type="checkbox" name="weekdays" value="qua" /> Qua</label>
+                                <label><input type="checkbox" name="weekdays" value="qui" /> Qui</label>
+                                <label><input type="checkbox" name="weekdays" value="sex" /> Sex</label>
+                                <label><input type="checkbox" name="weekdays" value="sab" /> Sáb</label>
+                                <label><input type="checkbox" name="weekdays" value="dom" /> Dom</label>
+                            </div>
                         </div>
 
                         <div class="meds-form-field" id="section-times">
@@ -145,37 +155,17 @@
 
                     <section class="card meds-form-block" aria-labelledby="block-stock-title">
                         <div class="meds-form-block-header">
-                            <h2 class="meds-form-block-title" id="block-stock-title">Estoque e validade</h2>
+                            <h2 class="meds-form-block-title" id="block-stock-title">Unidade de estoque</h2>
                         </div>
-
-                        <div class="meds-form-row">
-                            <div class="meds-form-field">
-                                <label for="input-stock-qty" class="meds-form-label">
-                                    <span>Quantidade disponível</span>
-                                    <span class="meds-label-optional">Opcional</span>
-                                </label>
-                                <input type="number" class="meds-form-input" id="input-stock-qty" />
-                            </div>
-
-                            <div class="meds-form-field">
-                                <label for="select-stock-unit" class="meds-form-label">
-                                    <span>Unidade</span>
-                                </label>
-                                <select class="meds-form-select" id="select-stock-unit">
-                                    <option value="comprimidos">comprimidos</option>
-                                    <option value="capsulas">cápsulas</option>
-                                    <option value="ml">ml</option>
-                                    <option value="gotas">gotas</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <div class="meds-form-field">
-                            <label for="input-expiration-date" class="meds-form-label">
-                                <span>Data de validade</span>
-                                <span class="meds-label-optional">Opcional</span>
-                            </label>
-                            <input type="date" class="meds-form-input" id="input-expiration-date" />
+                            <label for="select-stock-unit" class="meds-form-label">Unidade</label>
+                            <select class="meds-form-select" id="select-stock-unit">
+                                <option value="comprimidos">comprimidos</option>
+                                <option value="capsulas">cápsulas</option>
+                                <option value="ml">ml</option>
+                                <option value="gotas">gotas</option>
+                                <option value="unidades">unidades</option>
+                            </select>
                         </div>
                     </section>
 

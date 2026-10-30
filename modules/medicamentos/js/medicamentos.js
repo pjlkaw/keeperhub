@@ -1,7 +1,7 @@
-import { listarRegistros } from "./armazenamento.js";
+import { listarMedicamentosApi } from "./api.js";
 
-// Adiciona à listagem os medicamentos criados neste navegador.
-export function inicializarListaMedicamentos() {
+// Exibe na lista os medicamentos retornados pelo banco através da API.
+export async function inicializarListaMedicamentos() {
     const listas = {
         continuo: document.querySelector('[aria-labelledby="group-continuous-title"] .meds-list'),
         temporario: document.querySelector('[aria-labelledby="group-temporary-title"] .meds-list'),
@@ -15,7 +15,7 @@ export function inicializarListaMedicamentos() {
 
     try {
         Object.values(listas).forEach((lista) => lista?.replaceChildren());
-        const medicamentos = listarRegistros("medicamentos").filter((item) => item.status !== "encerrado");
+        const medicamentos = (await listarMedicamentosApi()).filter((item) => item.status !== "encerrado");
         medicamentos.forEach((medicamento) => {
             const lista = listas[medicamento.tipoUso] ?? listas.continuo;
             lista?.append(criarCartaoMedicamento(medicamento));
@@ -103,7 +103,7 @@ function formatarDetalhes(medicamento) {
         detalhes.push(`Até ${medicamento.dataFim}`);
     }
 
-    return detalhes.length ? detalhes.join(" • ") : medicamento.apresentacao;
+    return detalhes.length ? detalhes.join(" • ") : "Rotina ainda não cadastrada";
 }
 
 function textoStatus(tipoUso) {

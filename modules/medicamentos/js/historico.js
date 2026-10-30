@@ -1,13 +1,14 @@
 import { listarRegistros } from "./armazenamento.js";
+import { listarHistoricoEstoqueApi } from "./api.js";
 
-// Consolida doses, usos eventuais e reposições no histórico local do módulo.
-export function inicializarHistoricoMedicamentos() {
+// Consolida o histórico de estoque do servidor com os registros locais de adesão ainda não migrados.
+export async function inicializarHistoricoMedicamentos() {
     const lista = document.querySelector("#recent-history-title")?.closest("section")?.querySelector(".meds-list");
     const timeline = document.querySelector("#history-complete-title")?.closest("section")?.querySelector(".med-timeline");
     if (!lista && !timeline) return;
 
     try {
-        const eventos = carregarEventos();
+        const eventos = await carregarEventos();
         if (lista) renderizarLista(lista, eventos);
         if (timeline) renderizarTimeline(timeline, eventos);
         inicializarBusca(lista);
@@ -20,9 +21,16 @@ export function inicializarHistoricoMedicamentos() {
     }
 }
 
-function carregarEventos() {
+async function carregarEventos() {
     const medicamentos = new Map(listarRegistros("medicamentos").map((item) => [item.id, nomeCompleto(item)]));
+    const movimentacoes = await listarHistoricoEstoqueApi();
     return [
+        ...movimentacoes.map((item) => ({
+            data: item.data,
+            medicamento: item.medicamento,
+            detalhe: `${rotuloMovimentacao(item.tipo)} de ${item.quantidade} ${item.unidade}`,
+            tipo: item.tipo === "entrada" ? "cart" : "check",
+        })),
         ...listarRegistros("doses").map((dose) => ({
             data: dose.tomadaEm || `${dose.data}T${dose.horario === "Sem horário" ? "00:00" : dose.horario}:00`,
             medicamento: medicamentos.get(dose.medicamentoId) || dose.medicamento || "Medicamento removido",
@@ -35,13 +43,11 @@ function carregarEventos() {
             detalhe: `${uso.dose || "Uso registrado"} • Uso eventual`,
             tipo: "eventual",
         })),
-        ...listarRegistros("reposicoes").map((reposicao) => ({
-            data: reposicao.criadoEm,
-            medicamento: medicamentos.get(reposicao.medicamentoId) || reposicao.medicamento || "Medicamento",
-            detalhe: `Reposição de ${reposicao.quantidade} ${reposicao.unidade || "unidades"}`,
-            tipo: "cart",
-        })),
     ].filter((evento) => evento.data).sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime());
+}
+
+function rotuloMovimentacao(tipo) {
+    return tipo === "entrada" ? "Entrada de estoque" : tipo === "saida" ? "Saída de estoque" : "Ajuste de estoque";
 }
 
 function renderizarLista(lista, eventos) {

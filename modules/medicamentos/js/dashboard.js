@@ -1,6 +1,6 @@
 import { obterDosesDoDia } from "./dados-rotina.js";
 
-// Calcula métricas e calendário a partir dos eventos persistidos neste navegador.
+// Calcula métricas e calendário a partir dos registros de uso carregados do servidor.
 export function inicializarDashboardMedicamentos() {
     const grade = document.querySelector(".calendar-card .meds-calendar-grid");
     const titulo = document.querySelector(".calendar-card .meds-calendar-month-title");

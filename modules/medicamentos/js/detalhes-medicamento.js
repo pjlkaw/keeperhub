@@ -1,8 +1,14 @@
-import { listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { listarRegistros } from "./armazenamento.js";
+import {
+    buscarMedicamentoApi,
+    encerrarTratamentoApi,
+    excluirMedicamentoApi,
+    listarMovimentacoesEstoqueApi,
+} from "./api.js";
 import { formatarDataHora } from "./dados-rotina.js";
 
-// Exibe e atualiza o medicamento selecionado usando o armazenamento provisório local.
-export function inicializarDetalhesMedicamento() {
+// Exibe o medicamento e o estoque da API; os dados de receita ainda usam o protótipo local.
+export async function inicializarDetalhesMedicamento() {
     const titulo = document.querySelector("#med-title");
     if (!titulo) return;
     limparDemonstracoesDetalhes();
@@ -14,12 +20,15 @@ export function inicializarDetalhesMedicamento() {
     }
 
     try {
-        const medicamento = listarRegistros("medicamentos").find((item) => item.id === id);
-        if (!medicamento) throw new Error("Este medicamento não foi encontrado no armazenamento local.");
+        const [medicamento, movimentacoes] = await Promise.all([
+            buscarMedicamentoApi(id),
+            listarMovimentacoesEstoqueApi(id),
+        ]);
+        if (!medicamento) throw new Error("Este medicamento não foi encontrado.");
         mostrarMedicamento(medicamento);
         renderizarValidadeDoDetalhe(medicamento);
         renderizarReceita(medicamento);
-        renderizarHistorico(medicamento);
+        renderizarHistorico(medicamento, movimentacoes);
         configurarAcoes(medicamento);
     } catch (erro) {
         mostrarErroMedicamento(erro.message);
@@ -60,7 +69,7 @@ function mostrarMedicamento(medicamento) {
     }
 
     const linhas = document.querySelectorAll(".med-routine-list .med-routine-item span");
-    if (linhas[0]) linhas[0].textContent = medicamento.dose || medicamento.apresentacao || "Dose não informada";
+    if (linhas[0]) linhas[0].textContent = medicamento.dose || "Dose não informada";
     if (linhas[1]) {
         linhas[1].textContent = medicamento.horarios?.length
             ? `Horários: ${medicamento.horarios.join(", ")}`
@@ -73,9 +82,13 @@ function mostrarMedicamento(medicamento) {
     const quantidade = document.querySelector(".med-stock-number");
     const unidade = document.querySelector(".med-stock-unit");
     if (quantidade) quantidade.textContent = String(medicamento.quantidade ?? 0);
-    if (unidade) unidade.textContent = `${medicamento.unidade || "unidades"} disponíveis`;
+    if (unidade) unidade.textContent = medicamento.estoqueCadastrado
+        ? `${medicamento.unidade || "unidades"} disponíveis`
+        : "Estoque não cadastrado";
     const estimativa = document.querySelector(".med-stock-estimate");
-    if (estimativa) estimativa.textContent = estimarEstoque(medicamento);
+    if (estimativa) estimativa.textContent = !medicamento.estoqueCadastrado
+        ? "Estoque ainda não cadastrado"
+        : estimarEstoque(medicamento);
 
     const linkReposicao = document.querySelector("#btn-register-refill")?.closest("a");
     if (linkReposicao) linkReposicao.href = `refil-medicamento.html?id=${encodeURIComponent(medicamento.id)}`;
@@ -102,10 +115,8 @@ function estimarEstoque(medicamento) {
 function renderizarValidadeDoDetalhe(medicamento) {
     const caixa = document.querySelector("#section-expiration-title")?.closest(".med-card-section")?.querySelector(".med-inner-box");
     if (!caixa) return;
-    const reposicoes = listarRegistros("reposicoes").filter((item) => item.medicamentoId === medicamento.id);
     caixa.replaceChildren();
-    const validade = reposicoes[0]?.validade || medicamento.validade;
-    adicionarLinhaDetalhe(caixa, "Validade", formatarData(validade));
+    adicionarLinhaDetalhe(caixa, "Validade mais próxima", formatarData(medicamento.validade));
 }
 
 function renderizarReceita(medicamento) {
@@ -133,7 +144,7 @@ function renderizarReceita(medicamento) {
     }
 }
 
-function renderizarHistorico(medicamento) {
+function renderizarHistorico(medicamento, movimentacoes = []) {
     const timeline = document.querySelector(".med-timeline");
     if (!timeline) return;
     const eventos = [
@@ -144,13 +155,18 @@ function renderizarHistorico(medicamento) {
                 detalhe: item.status === "tomada" ? "Dose tomada" : item.status === "sem-estoque" ? "Sem estoque" : "Dose pendente",
                 icone: "check",
             })),
-        ...listarRegistros("reposicoes")
+        ...listarRegistros("usos")
             .filter((item) => item.medicamentoId === medicamento.id)
             .map((item) => ({
-                data: item.criadoEm,
-                detalhe: `Reposição de ${item.quantidade} ${medicamento.unidade || "unidades"}`,
-                icone: "cart-shopping",
+                data: item.tomadaEm || `${item.data}T${item.horario === "Sem horário" ? "00:00" : item.horario}:00`,
+                detalhe: `${item.dose || "Uso eventual"} • Uso eventual`,
+                icone: "check",
             })),
+        ...movimentacoes.map((item) => ({
+            data: item.data,
+            detalhe: `${rotuloMovimentacao(item.tipo)} de ${item.quantidade} ${item.unidade || medicamento.unidade}`,
+            icone: item.tipo === "entrada" ? "cart-shopping" : "arrows-rotate",
+        })),
     ].filter((item) => item.data).sort((a, b) => b.data.localeCompare(a.data)).slice(0, 5);
     timeline.replaceChildren();
     if (!eventos.length) {
@@ -160,6 +176,10 @@ function renderizarHistorico(medicamento) {
     eventos.forEach((evento) => timeline.append(
         criarEventoTimeline(formatarDataHora(evento.data), evento.detalhe, evento.icone),
     ));
+}
+
+function rotuloMovimentacao(tipo) {
+    return tipo === "entrada" ? "Entrada" : tipo === "saida" ? "Saída" : "Ajuste de estoque";
 }
 
 function criarEventoTimeline(data, detalhe, icone) {
@@ -187,16 +207,12 @@ function criarEventoTimeline(data, detalhe, icone) {
 function configurarAcoes(medicamento) {
     const encerrar = document.querySelector("#btn-stop-treatment");
     if (encerrar) {
-        encerrar.hidden = medicamento.status === "encerrado";
+        encerrar.hidden = medicamento.status === "encerrado" || medicamento.tipoUso === "eventual";
         encerrar.style.display = encerrar.hidden ? "none" : "";
-        encerrar.addEventListener("click", () => {
+        encerrar.addEventListener("click", async () => {
             if (!window.confirm(`Encerrar o tratamento com ${medicamento.nome}?`)) return;
             try {
-                atualizarMedicamento(medicamento.id, (registro) => ({
-                    ...registro,
-                    status: "encerrado",
-                    encerradoEm: new Date().toISOString(),
-                }));
+                await encerrarTratamentoApi(medicamento.id);
                 window.location.reload();
             } catch (erro) {
                 mostrarErroMedicamento(erro.message);
@@ -204,31 +220,15 @@ function configurarAcoes(medicamento) {
         });
     }
 
-    document.querySelector("#btn-delete-medication")?.addEventListener("click", () => {
-        if (!window.confirm(`Excluir ${medicamento.nome} e seu histórico de doses?`)) return;
+    document.querySelector("#btn-delete-medication")?.addEventListener("click", async () => {
+        if (!window.confirm(`Arquivar ${medicamento.nome}? Ele será ocultado da lista, mas os dados relacionados serão preservados.`)) return;
         try {
-            salvarRegistros("medicamentos", listarRegistros("medicamentos").filter((item) => item.id !== medicamento.id));
-            salvarRegistros("doses", listarRegistros("doses").filter((item) => item.medicamentoId !== medicamento.id));
-            const receitas = listarRegistros("receitas");
-            const receitasAtualizadas = receitas.map((receita) =>
-                receita.medicamentoId === medicamento.id ? { ...receita, medicamentoId: "" } : receita,
-            );
-            if (receitasAtualizadas.some((receita, indice) => receita !== receitas[indice])) {
-                salvarRegistros("receitas", receitasAtualizadas);
-            }
+            await excluirMedicamentoApi(medicamento.id);
             window.location.href = "medicacoes.html";
         } catch (erro) {
             mostrarErroMedicamento(erro.message);
         }
     });
-}
-
-function atualizarMedicamento(id, atualizar) {
-    const medicamentos = listarRegistros("medicamentos");
-    const indice = medicamentos.findIndex((item) => item.id === id);
-    if (indice < 0) throw new Error("O medicamento não foi encontrado.");
-    medicamentos[indice] = atualizar(medicamentos[indice]);
-    salvarRegistros("medicamentos", medicamentos);
 }
 
 function adicionarLinhaDetalhe(caixa, rotulo, valor) {
