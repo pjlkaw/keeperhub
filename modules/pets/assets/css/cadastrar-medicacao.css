@@ -192,7 +192,7 @@ textarea:focus {
   outline-offset: 3px;
 }
 
-/* Seleção e exibição dos campos são nativas, sem JavaScript de negócio. */
+/* A exibição condicional dos campos acompanha o tipo de uso selecionado. */
 .formulario-adicionar-medicacao > .campo-formulario:has(#horario-dose),
 .formulario-adicionar-medicacao > .campo-formulario:has(#frequencia-medicamento),
 .formulario-adicionar-medicacao > .campo-formulario:has(#ate-quando) { display: none; }
@@ -221,4 +221,37 @@ textarea:focus {
     border: 1px solid var(--border-color);
     border-radius: 16px;
   }
+}
+
+
+/* Seletor de pet e campos mostrados conforme o tipo de uso. */
+.seletor-pet-medicacoes {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-medicacoes label {
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-medicacoes select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.seletor-pet-medicacoes [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.seletor-pet-medicacoes [hidden],
+.formulario-adicionar-medicacao > .campo-formulario[hidden] {
+  display: none !important;
 }

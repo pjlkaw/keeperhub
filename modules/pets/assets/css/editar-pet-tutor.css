@@ -311,3 +311,18 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 }
 
 .alerta-emergencia .icone { color: var(--pets-text-muted); font-size: 20px; line-height: 1; }
+
+.status-tutor {
+  margin: 8px 16px;
+  color: var(--pets-primary-readable);
+  font-size: 12px;
+}
+
+.status-tutor:empty {
+  display: none;
+}
+
+.status-tutor[data-estado="erro"] {
+  color: #c90016;
+}
+

@@ -532,3 +532,36 @@ main > .section-header-section {
 .item-vacina--antirrabica > .icone { color: var(--vacinas-icone-neutro); }
 .item-vacina--aplicada > .icone { color: var(--vacinas-texto-aplicada); }
 .historico-vacinas .item-vacina > .icone { display: grid; place-items: center; font-size: 18px; }
+
+
+/* Seletor e estados vazios preenchidos pela agenda local. */
+.seletor-pet-vacinas {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-vacinas label {
+  color: var(--pets-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-vacinas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+}
+
+.seletor-pet-vacinas [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.vacina-vazia {
+  padding: 16px;
+  color: var(--pets-text-soft);
+}

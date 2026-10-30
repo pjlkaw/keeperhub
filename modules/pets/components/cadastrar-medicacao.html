@@ -76,7 +76,7 @@
 
             <!--
                 Os três campos abaixo variam de acordo com o "Tipo de Uso"
-                selecionado acima — exibição condicional fica pro JS depois:
+                selecionado acima — exibição condicional é controlada pelo JavaScript do módulo:
                 - Contínuo    → mostrar "Horário da Dose"
                 - Temporário  → mostrar "Frequência" e "Até quando"
                 - Eventual    → nenhum dos três é necessário
@@ -107,17 +107,18 @@
                 <textarea id="observacao-medicamento" name="observacao_medicamento" placeholder="Detalhes adicionais sobre o tratamento..."></textarea>
             </div>
 
-            <button type="button" class="botao-principal formulario-adicionar-medicacao__enviar" disabled aria-describedby="aviso-integracao-medicacao">
+            <button type="submit" class="botao-principal formulario-adicionar-medicacao__enviar" aria-describedby="aviso-integracao-medicacao">
                 Salvar Medicação
             </button>
 
-            <p id="aviso-integracao-medicacao" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
+            <p id="aviso-integracao-medicacao" class="aviso-integracao" role="status" aria-live="polite">A medicação será salva neste navegador.</p>
 
         </form>
 
     </main>
 
+    <script type="module" src="../js/medicacoes.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- A persistência será integrada ao backend futuramente. -->
+<!-- Medicações são salvas localmente no navegador. -->
 </body>
 </html>

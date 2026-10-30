@@ -1,38 +1,39 @@
-# Despesas de Pets — ações para integrar
+# Despesas de Pets — integração atual e próximos passos
 
-A página está em `components/despesas.html` e seu CSS em
-`assets/css/despesas.css`. A paleta escura é exclusiva desta tela; os demais
-módulos e o tema claro continuam com as cores compartilhadas.
+A tela está em `components/despesas.html`, com lógica em `js/despesas.js`.
+A persistência atual usa o `localStorage` por meio de `js/armazenamento.js`;
+nenhum endpoint Node ou schema MySQL de despesas está conectado.
 
-Não foi criado JavaScript de negócio. O único script carregado é o serviço
-de tema já existente. A seta retorna ao dashboard, as categorias levam aos
-grupos do extrato e o botão + abre o formulário com o popover nativo do HTML.
+## Funcionamento local atual
 
-## Integração com Node.js
+- A pessoa escolhe o pet na própria tela quando houver mais de um. Se houver
+  apenas um pet, ele é selecionado automaticamente. O ID segue na URL.
+- Despesas ficam em `pet.despesas` e guardam `id`, `descricao`, `categoria`,
+  `valorCentavos`, `data`, `estabelecimento`, `observacoes` e `criadaEm`.
+- O resumo, os subtotais, percentuais e extrato são calculados a partir dos
+  lançamentos locais do mês selecionado. O valor é guardado em centavos.
+- O orçamento continua com o padrão visual existente de R$ 600,00; se houver
+  valor em `pet.orcamentosDespesas[AAAA-MM]`, esse valor é usado para o mês.
+  A tela ainda não oferece edição de orçamento.
+- A consulta programada de exemplo não é registrada como despesa.
 
-- Substituir `data-pet-id="exemplo"` pelo pet autenticado e preservar sua
-  seleção nos links com `data-manter-pet`.
-- Consultar despesas e orçamento por pet e mês. Habilitar os botões
-  `data-acao="mes-anterior"` e `data-acao="mes-seguinte"` após conectar a consulta.
-- Calcular total, subtotal por categoria, percentuais e saldo. Armazenar
-  valores em centavos e tratar orçamento zero, excedido e extrato vazio.
-- Validar `#formulario-despesa`: descrição, categoria, valor positivo e data
-  obrigatórios; estabelecimento e observações opcionais.
-- Habilitar `data-acao="salvar-despesa"` somente com validação e persistência.
-  Validar também no servidor e conferir a autorização de acesso ao pet.
-- Mostrar envio, sucesso e erro em `#mensagem-despesa`, impedir envio
-  duplicado e atualizar resumo e extrato após salvar.
-- Integrar a consulta programada à agenda sem somá-la às despesas realizadas.
+## Próximos passos para uma API Node.js
 
-## Dados e ícones da referência
+- Definir schema e autorização de acesso por pet antes de criar rotas. O
+  repositório não contém uma tabela de despesas Pets.
+- Migrar leitura e gravação do `localStorage` para um endpoint autenticado,
+  preservando os campos e cálculos acima.
+- Definir como orçamentos mensais serão configurados e persistidos.
+- Considerar ações para editar/remover lançamentos, que ainda não existem na
+  tela atual.
 
-Outubro/2024: seis despesas de R$ 145,00, R$ 25,00, R$ 70,00, R$ 30,00,
-R$ 85,00 e R$ 65,00. Total: R$ 420,00; teto: R$ 600,00; consumo: 70%; saldo:
-R$ 180,00. O contador foi corrigido de cinco para seis para corresponder ao
-extrato. A consulta de novembro está programada e não entra na soma.
+## Referência visual
 
-Os 11 PNGs enviados são usados sem alteração gráfica em `assets/img/`.
-Na ordem Icon.png, Icon-1.png até Icon-10.png, os nomes são alimentação,
-ração, petiscos, higiene, banho, lazer, brinquedo, saúde, antipulgas, vacina
-e consulta programada, sem acentos, seguidos de `-despesas-pets.png`.
-Os originais do ZIP foram preservados.
+Os números de Outubro/2024 (R$ 420,00 em despesas, teto de R$ 600,00 e saldo
+de R$ 180,00) eram dados de demonstração e foram removidos da interface. O
+teto de R$ 600,00 permanece como valor padrão visual enquanto não houver uma
+configuração de orçamento na tela. A consulta programada continua fora do
+extrato de despesas.
+
+Os PNGs originais das categorias foram preservados na pasta `assets/img/`, mas
+os ícones exibidos agora são Font Awesome.

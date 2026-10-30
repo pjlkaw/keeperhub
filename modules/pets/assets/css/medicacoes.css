@@ -393,3 +393,63 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-medicacao--temporario > .icone { color: #C084FC; }
 .cartao-medicacao__estoque .icone, .cartao-medicacao__termino .icone { color: var(--pets-text-muted); font-size: 12px; line-height: 1; }
 .pagina-medicacoes .botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }
+
+
+/* Seletor do pet, filtro e estados da lista local. */
+.seletor-pet-medicacoes {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-medicacoes label,
+.filtro-medicacoes label {
+  color: var(--pets-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-medicacoes select,
+.filtro-medicacoes select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--card-bg);
+  border: 1px solid var(--pets-border);
+  border-radius: 8px;
+}
+
+.filtro-medicacoes {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.filtro-medicacoes[hidden],
+.seletor-pet-medicacoes [hidden],
+.formulario-adicionar-medicacao > .campo-formulario[hidden] {
+  display: none !important;
+}
+
+.seletor-pet-medicacoes [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.medicacao-vazia {
+  padding: 12px 0;
+  color: var(--pets-text-soft);
+  font-size: 0.8rem;
+}
+
+.grupo-medicacoes[data-sem-resultados="true"] {
+  display: none;
+}
+
+.cartao-medicacao__observacao {
+  margin-top: 8px;
+  color: var(--pets-text-soft);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}

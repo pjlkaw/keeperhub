@@ -28,7 +28,7 @@
     <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
-    <main class="editar-pet editar-pet--rotina-alimentar" data-pet-id="exemplo">
+    <main class="editar-pet editar-pet--rotina-alimentar" data-pet-id="">
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
         <header class="section-header-section" id="headerSection"></header>
@@ -39,7 +39,7 @@
             <a href="editar-pet-tutor.html" class="abas-pet__link" data-manter-pet>Tutor</a>
         </nav>
 
-        <form class="formulario-rotina-alimentar" id="formulario-rotina-alimentar" novalidate>
+        <form class="formulario-rotina-alimentar" id="formulario-rotina-alimentar" data-pet-id="" novalidate>
             <section class="lista-refeicoes" aria-labelledby="titulo-refeicoes">
                 <header class="lista-refeicoes__cabecalho">
                     <h2 id="titulo-refeicoes">Refeições</h2>
@@ -50,57 +50,6 @@
                 </header>
                 <div id="nova-refeicao" hidden></div>
                 <ul class="lista-refeicoes__itens" id="lista-refeicoes">
-                    <li>
-                        <article class="card cartao-refeicao">
-                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
-                            <div class="cartao-refeicao__informacoes">
-                                <h3 class="cartao-refeicao__titulo">Café da manhã</h3>
-                                <time class="cartao-refeicao__horario" datetime="08:00">08:00</time>
-                            </div>
-                            <div class="cartao-refeicao__acoes">
-                                <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar café da manhã">
-                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir café da manhã">
-                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="card cartao-refeicao">
-                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
-                            <div class="cartao-refeicao__informacoes">
-                                <h3 class="cartao-refeicao__titulo">Almoço</h3>
-                                <time class="cartao-refeicao__horario" datetime="13:00">13:00</time>
-                            </div>
-                            <div class="cartao-refeicao__acoes">
-                                <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar almoço">
-                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir almoço">
-                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </article>
-                    </li>
-                    <li>
-                        <article class="card cartao-refeicao">
-                            <i class="fa-regular fa-clock icone-rotina cartao-refeicao__relogio" aria-hidden="true"></i>
-                            <div class="cartao-refeicao__informacoes">
-                                <h3 class="cartao-refeicao__titulo">Jantar</h3>
-                                <time class="cartao-refeicao__horario" datetime="19:00">19:00</time>
-                            </div>
-                            <div class="cartao-refeicao__acoes">
-                                <button type="button" class="botao-icone cartao-refeicao__editar" aria-label="Editar jantar">
-                                    <i class="fa-solid fa-pen-to-square icone-rotina" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="botao-icone cartao-refeicao__remover" aria-label="Excluir jantar">
-                                    <i class="fa-solid fa-trash-can icone-rotina" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </article>
-                    </li>
                 </ul>
                 <p class="refeicoes-vazias" id="refeicoes-vazias" hidden>Nenhuma refeição cadastrada. Adicione a primeira refeição do pet.</p>
             </section>
@@ -162,6 +111,7 @@
         </fieldset>
     </template>
 
+    <script type="module" src="../js/editarPetRotinaAlimentar.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

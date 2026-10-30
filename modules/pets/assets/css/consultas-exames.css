@@ -460,3 +460,41 @@ textarea:focus {
 .cartao-exame > .icone { color: #4285F4; font-size: 16px; }
 .cartao-exame .botao-icone .icone { color: var(--pets-text-muted); font-size: 16px; }
 .painel-medico .botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; }
+
+
+/* Controles para seleção de pet e estados sem consultas cadastradas. */
+.seletor-pet-consultas {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-consultas label {
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-consultas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--card-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+}
+
+.seletor-pet-consultas [role="status"][data-estado="erro"] {
+  color: #ff7777;
+}
+
+.seletor-pet-consultas [hidden],
+.campo-formulario[hidden] {
+  display: none !important;
+}
+
+.consulta-vazia {
+  padding: 16px;
+  color: var(--pets-text-soft);
+}

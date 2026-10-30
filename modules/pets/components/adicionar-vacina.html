@@ -191,17 +191,18 @@
                 <textarea id="observacao-vacina" name="observacao_vacina" placeholder="Ex: certificado digital, reação observada, clínica onde foi aplicada..."></textarea>
             </div>
 
-            <button type="button" class="botao-principal formulario-adicionar-vacina__enviar" disabled aria-describedby="aviso-integracao-vacina">
+            <button type="submit" class="botao-principal formulario-adicionar-vacina__enviar" aria-describedby="aviso-integracao-vacina">
                 Salvar Vacina
             </button>
 
-            <p id="aviso-integracao-vacina" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
+            <p id="aviso-integracao-vacina" class="aviso-integracao" role="status" aria-live="polite">O registro será salvo neste navegador.</p>
 
         </form>
 
     </main>
 
+    <script type="module" src="../js/vacinacoes.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- A persistência será integrada ao backend futuramente. -->
+<!-- Os registros de vacinação são salvos localmente no navegador. -->
 </body>
 </html>
