@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (mesmaOrigem && doModulo && outraPagina) btnVoltar.href = origem.pathname + origem.search;
                     }
                     btnVoltar.setAttribute('aria-label', 'Voltar');
-                    document.getElementById('btn-notifications').href = '/shared/components/notifications.html?modulo=financas';
+                    document.getElementById('btn-notifications').href = '/main/lembretes/index.html?modulo=financas';
                     const atualizarRotuloTema = () => {
                         const botao = document.getElementById('theme-toggle');
                         if (!botao) return;

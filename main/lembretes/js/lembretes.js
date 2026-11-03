@@ -17,6 +17,7 @@
   const tituloFiltro = document.getElementById('titulo-filtro');
   const mensagemFiltro = document.getElementById('mensagem-filtro');
   const busca = document.getElementById('buscar-lembretes');
+  const moduloSolicitado = new URLSearchParams(window.location.search).get('modulo');
 
   function abrirModal() {
     formulario.reset();
@@ -59,6 +60,25 @@
     resultadoFiltro.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  function abrirNotificacoesDoModulo() {
+    if (!moduloSolicitado) return;
+
+    const nomes = {
+      financas: 'Finanças',
+      despensa: 'Despensa',
+      medicamentos: 'Medicamentos',
+      pets: 'Pets',
+      metas: 'Metas',
+      hub: 'Geral',
+      perfil: 'Geral',
+    };
+    const nome = nomes[moduloSolicitado.toLowerCase()] || 'Geral';
+
+    tituloFiltro.textContent = 'Notificações — ' + nome;
+    mensagemFiltro.textContent = 'Nenhuma notificação encontrada.';
+    resultadoFiltro.hidden = false;
+  }
+
   document.querySelectorAll('[id^="abrir-nova-lista"]').forEach((botao) => {
     botao.addEventListener('click', abrirModal);
   });
@@ -96,4 +116,6 @@
     atualizarListas();
     fecharModal();
   });
+
+  abrirNotificacoesDoModulo();
 })();
