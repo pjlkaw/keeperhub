@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Adicionar Vacina</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/adicionar-vacina.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -31,10 +32,13 @@
 
     <main class="adicionar-vacina">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Cadastro da vacina -->
         <form class="formulario-adicionar-vacina">
 
             <fieldset class="campo-formulario">
@@ -133,11 +137,7 @@
                     </li>
                 </ul>
 
-                <!--
-                    Este campo é destinado a aparecer/ficar habilitado somente
-                    quando a opção "Outra" acima estiver marcada. A exibição
-                    condicional em si é responsabilidade do JS mais pra frente.
-                -->
+                <!-- Exibido ao escolher Outra vacina. -->
                 <div class="campo-formulario opcoes-nome-vacina__personalizada">
                     <label for="nome-vacina-outra">Qual vacina?</label>
                     <input type="text" id="nome-vacina-outra" name="nome_vacina_outra" placeholder="Digite o nome da vacina">
@@ -187,10 +187,7 @@
                 </ul>
             </fieldset>
 
-            <!--
-                Campo relevante apenas quando "Doses Fracionadas" estiver
-                selecionado acima — exibição condicional fica pro JS depois.
-            -->
+            <!-- Exibido ao escolher Doses Fracionadas. -->
             <div class="campo-formulario">
                 <label for="proxima-dose">Próxima Dose</label>
                 <input type="date" id="proxima-dose" name="prox_dose">
@@ -211,8 +208,8 @@
 
     </main>
 
+    <!-- Scripts -->
     <script type="module" src="../js/vacinacoes.js"></script>
-<!-- Os registros de vacinação são salvos localmente no navegador. -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>
