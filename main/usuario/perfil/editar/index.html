@@ -39,155 +39,155 @@
   </head>
 
   <body>
-    <div class="edicao-app">
-      <header class="section-header-section" id="headerSection"></header>
-      
-      <main class="edicao-conteudo" id="conteudo-principal">
-        <section class="edicao-identidade" aria-labelledby="nome-resumo">
-          <div class="edicao-avatar">
-            <span class="edicao-avatar__substituto" id="userIcon" aria-hidden="true">
-              <i class="fa-solid fa-user"></i>
-            </span>
-            <img class="edicao-avatar__imagem" id="avatar-imagem" alt="Prévia da foto do perfil" hidden />
-            <label class="edicao-avatar__alterar" for="foto-perfil" title="Alterar foto">
-              <i class="fa-solid fa-camera" aria-hidden="true"></i>
+    
+    <header class="section-header-section" id="headerSection"></header>
+    
+    <main class="edicao-conteudo" id="conteudo-principal">
+      <section class="edicao-identidade" aria-labelledby="nome-resumo">
+        <div class="edicao-avatar">
+          <span class="edicao-avatar__substituto" id="userIcon" aria-hidden="true">
+            <i class="fa-solid fa-user"></i>
+          </span>
+          <img class="edicao-avatar__imagem" id="avatar-imagem" alt="Prévia da foto do perfil" hidden />
+          <label class="edicao-avatar__alterar" for="foto-perfil" title="Alterar foto">
+            <i class="fa-solid fa-camera" aria-hidden="true"></i>
+          </label>
+          <input class="edicao-avatar__input" id="foto-perfil" name="foto_perfil" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Alterar foto do perfil" />
+          
+        </div>
+        
+        <h2 class="edicao-identidade__nome" id="nome-resumo">...</h2>            
+        
+        <p class="mensagem-formulario" id="mensagem-formulario" role="status" aria-live="polite"></p>
+      </section>
+
+      <form class="formulario-perfil" id="formulario-perfil">
+        <section class="painel-formulario" aria-labelledby="informacoes-pessoais">
+          <header class="painel-formulario__cabecalho">
+            <div>
+              <h2 id="informacoes-pessoais">
+                <i class="fa-regular fa-address-card" aria-hidden="true"></i>
+                Informações Pessoais
+              </h2>
+              <p>Seus dados de contato e identificação</p>
+            </div>
+            <span>Edição direta</span>
+          </header>
+
+          <div class="campo-formulario">
+            <label for="nome-completo">
+              <i class="fa-regular fa-user" aria-hidden="true"></i>
+              Nome Completo
             </label>
-            <input class="edicao-avatar__input" id="foto-perfil" name="foto_perfil" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Alterar foto do perfil" />
+            <input id="nome-completo" name="nome" type="text" placeholder="..." autocomplete="name" required />
           </div>
 
-          <h2 class="edicao-identidade__nome" id="nome-resumo">...</h2>            
+          <div class="campo-formulario">
+            <label for="email">
+              <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              E-mail
+            </label>
+            <input id="email" name="email" type="email" placeholder="..." autocomplete="email" required />
+          </div>
 
+          <div class="campo-formulario">
+            <label for="telefone">
+              <i class="fa-solid fa-phone" aria-hidden="true"></i>
+              Número de Telefone
+            </label>
+            <input id="telefone" name="telefone" type="tel" placeholder="..." autocomplete="tel" />
+          </div>
+
+          <div class="linha-formulario">
+            <div class="campo-formulario">
+              <label for="nascimento">
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                Nascimento
+              </label>
+              <input id="nascimento" name="nascimento" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" />
+            </div>
+
+            <div class="campo-formulario">
+              <label for="genero">
+                <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
+                Gênero
+              </label>
+              <select id="genero" name="genero">
+                <option value="">Selecione</option>
+                <option value="masculino">Masculino</option>
+                <option value="feminino">Feminino</option>
+                <option value="nao-binario">Não binário</option>
+                <option value="nao-informar">Prefiro não informar</option>
+              </select>
+            </div>
+          </div>
         </section>
 
-        <form class="formulario-perfil" id="formulario-perfil">
-          <section class="painel-formulario" aria-labelledby="informacoes-pessoais">
-            <header class="painel-formulario__cabecalho">
-              <div>
-                <h2 id="informacoes-pessoais">
-                  <i class="fa-regular fa-address-card" aria-hidden="true"></i>
-                  Informações Pessoais
-                </h2>
-                <p>Seus dados de contato e identificação</p>
-              </div>
-              <span>Edição direta</span>
-            </header>
-
-            <div class="campo-formulario">
-              <label for="nome-completo">
-                <i class="fa-regular fa-user" aria-hidden="true"></i>
-                Nome Completo
-              </label>
-              <input id="nome-completo" name="nome" type="text" placeholder="..." autocomplete="name" required />
+        <section class="painel-formulario painel-formulario--seguranca" aria-labelledby="seguranca-senha">
+          <header class="painel-formulario__cabecalho">
+            <div>
+              <h2 id="seguranca-senha">
+                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                Segurança e Senha
+              </h2>
             </div>
+            <a href="#" aria-label="Recuperar senha">Esqueceu?</a>
+          </header>
 
-            <div class="campo-formulario">
-              <label for="email">
-                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
-                E-mail
-              </label>
-              <input id="email" name="email" type="email" placeholder="..." autocomplete="email" required />
+          <div class="campo-formulario campo-senha">
+            <label for="senha-atual">
+              <i class="fa-solid fa-lock" aria-hidden="true"></i>
+              Senha Atual
+            </label>
+            <div class="campo-senha__controle">
+              <input id="senha-atual" name="senha_atual" type="password" placeholder="********" autocomplete="current-password" />
+              <button type="button" aria-label="Mostrar senha atual" data-alternar-senha="senha-atual">
+                <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+              </button>
             </div>
-
-            <div class="campo-formulario">
-              <label for="telefone">
-                <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                Número de Telefone
-              </label>
-              <input id="telefone" name="telefone" type="tel" placeholder="..." autocomplete="tel" />
-            </div>
-
-            <div class="linha-formulario">
-              <div class="campo-formulario">
-                <label for="nascimento">
-                  <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                  Nascimento
-                </label>
-                <input id="nascimento" name="nascimento" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" />
-              </div>
-
-              <div class="campo-formulario">
-                <label for="genero">
-                  <i class="fa-solid fa-venus-mars" aria-hidden="true"></i>
-                  Gênero
-                </label>
-                <select id="genero" name="genero">
-                  <option value="">Selecione</option>
-                  <option value="masculino">Masculino</option>
-                  <option value="feminino">Feminino</option>
-                  <option value="nao-binario">Não binário</option>
-                  <option value="nao-informar">Prefiro não informar</option>
-                </select>
-              </div>
-            </div>
-          </section>
-
-          <section class="painel-formulario painel-formulario--seguranca" aria-labelledby="seguranca-senha">
-            <header class="painel-formulario__cabecalho">
-              <div>
-                <h2 id="seguranca-senha">
-                  <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-                  Segurança e Senha
-                </h2>
-              </div>
-              <a href="#" aria-label="Recuperar senha">Esqueceu?</a>
-            </header>
-
-            <div class="campo-formulario campo-senha">
-              <label for="senha-atual">
-                <i class="fa-solid fa-lock" aria-hidden="true"></i>
-                Senha Atual
-              </label>
-              <div class="campo-senha__controle">
-                <input id="senha-atual" name="senha_atual" type="password" placeholder="********" autocomplete="current-password" />
-                <button type="button" aria-label="Mostrar senha atual" data-alternar-senha="senha-atual">
-                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="campo-formulario campo-senha">
-              <label for="nova-senha">
-                <i class="fa-solid fa-key" aria-hidden="true"></i>
-                Nova Senha
-              </label>
-              <div class="campo-senha__controle">
-                <input id="nova-senha" name="nova_senha" type="password" placeholder="********" autocomplete="new-password" minlength="8" />
-                <button type="button" aria-label="Mostrar nova senha" data-alternar-senha="nova-senha">
-                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
-                </button>
-              </div>
-              <div class="forca-senha" aria-live="polite">
-                <div class="forca-senha__barra" aria-hidden="true"><span id="barra-forca-senha"></span></div>
-                <span>Força da senha</span>
-                <strong id="texto-forca-senha">Forte</strong>
-              </div>
-            </div>
-
-            <div class="campo-formulario campo-senha">
-              <label for="confirmar-senha">
-                <i class="fa-solid fa-check" aria-hidden="true"></i>
-                Confirmar Nova Senha
-              </label>
-              <div class="campo-senha__controle">
-                <input id="confirmar-senha" name="confirmar_senha" placeholder="********" type="password" autocomplete="new-password" minlength="8" />
-                <button type="button" aria-label="Mostrar confirmação da senha" data-alternar-senha="confirmar-senha">
-                  <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <div class="acoes-formulario">
-            <p class="mensagem-formulario" id="mensagem-formulario" role="status" aria-live="polite"></p>
-            <button class="botao-salvar" type="submit">
-              <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
-              <span class="botao-salvar__texto">Salvar alterações</span>
-            </button>
-            <button class="botao-descartar" id="descartar-alteracoes" type="button">Descartar</button>
           </div>
-        </form>
-      </main>
-    </div>
+
+          <div class="campo-formulario campo-senha">
+            <label for="nova-senha">
+              <i class="fa-solid fa-key" aria-hidden="true"></i>
+              Nova Senha
+            </label>
+            <div class="campo-senha__controle">
+              <input id="nova-senha" name="nova_senha" type="password" placeholder="********" autocomplete="new-password" minlength="8" />
+              <button type="button" aria-label="Mostrar nova senha" data-alternar-senha="nova-senha">
+                <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="forca-senha" aria-live="polite">
+              <div class="forca-senha__barra" aria-hidden="true"><span id="barra-forca-senha"></span></div>
+              <span>Força da senha</span>
+              <strong id="texto-forca-senha">Forte</strong>
+            </div>
+          </div>
+
+          <div class="campo-formulario campo-senha">
+            <label for="confirmar-senha">
+              <i class="fa-solid fa-check" aria-hidden="true"></i>
+              Confirmar Nova Senha
+            </label>
+            <div class="campo-senha__controle">
+              <input id="confirmar-senha" name="confirmar_senha" placeholder="********" type="password" autocomplete="new-password" minlength="8" />
+              <button type="button" aria-label="Mostrar confirmação da senha" data-alternar-senha="confirmar-senha">
+                <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <div class="acoes-formulario">
+          <button class="botao-salvar" type="submit" hidden>
+            <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i>
+            <span class="botao-salvar__texto">Salvar alterações</span>
+          </button>
+        </div>
+      </form>
+    </main>
+    
 
     <script src="../../../../shared/services/theme.js" defer></script>
     <script type="module" src="js/editar-perfil.js"></script>
