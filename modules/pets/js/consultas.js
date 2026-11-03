@@ -204,8 +204,12 @@ function persistirConsultas(consultas) {
 
 // Acrescenta o pet selecionado aos links que levam ao cadastro de consulta.
 function prepararLinkCadastro() {
+    const destino = petAtual
+        ? `cadastrar-consulta.html?petId=${encodeURIComponent(petAtual.id)}`
+        : 'cadastrar-consulta.html';
+    window.keeperhubModuleConfig.addUrl = `/modules/pets/components/${destino}`;
     document
-        .querySelectorAll('a[href="cadastrar-consulta.html"]')
+        .querySelectorAll('a[href*="cadastrar-consulta.html"]')
         .forEach(link => {
             link.href = petAtual
                 ? `cadastrar-consulta.html?petId=${encodeURIComponent(petAtual.id)}`
@@ -218,7 +222,7 @@ function renderizarLista() {
     const proximas = mainPainel.querySelector('.consultas > ul');
     const historico = mainPainel.querySelector('.linha-tempo-medica');
     const seletorSecao = seletor.closest('.seletor-pet-consultas');
-    const botaoAdicionar = mainPainel.querySelector('.botao-flutuante');
+    const botaoAdicionar = document.getElementById('btn-add-section');
     const secoesConteudo = [
         mainPainel.querySelector('.consultas'),
         mainPainel.querySelector('.exames-medicos'),

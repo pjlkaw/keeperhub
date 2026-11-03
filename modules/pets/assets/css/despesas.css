@@ -472,24 +472,6 @@ textarea:focus {
   white-space: nowrap;
 }
 
-.despesas-adicionar {
-  position: fixed;
-  z-index: 2;
-  right: max(20px, calc((100vw - var(--despesas-largura)) / 2 + 20px));
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  padding: 0;
-  color: var(--pets-on-primary);
-  background: var(--pets-primary);
-  border: 0;
-  border-radius: 50%;
-  box-shadow: 0 5px 20px var(--pets-primary-shadow);
-  transition: background-color var(--pets-transition), transform var(--pets-transition);
-}
-
 /* Formulário fora do fluxo: o conteúdo inicial segue o desenho enviado. */
 .nova-despesa {
   position: fixed;
@@ -549,11 +531,6 @@ textarea:focus {
     background: var(--pets-surface-hover);
     border-color: var(--pets-primary-border);
     transform: translateY(-2px);
-  }
-
-  .despesas-adicionar:hover {
-    background: var(--pets-primary-hover);
-    transform: translateY(-3px);
   }
 }
 
@@ -639,9 +616,7 @@ textarea:focus {
 #status-pet-despesas:empty {
   display: none;
 }
-
-.despesas-conteudo[hidden],
-.despesas-adicionar[hidden] {
+.despesas-conteudo[hidden] {
   display: none !important;
 }
 
@@ -656,10 +631,8 @@ textarea:focus {
   position: relative;
   z-index: 52;
 }
-.pagina-despesas .despesas-adicionar { z-index: 51; }
 .pagina-despesas .despesas-conteudo[hidden],
-.pagina-despesas .seletor-pet-despesas[hidden],
-.pagina-despesas .despesas-adicionar[hidden] { display: none !important; }
+.pagina-despesas .seletor-pet-despesas[hidden] { display: none !important; }
 .lancamento__pet {
   display: inline-block;
   margin-left: 6px;

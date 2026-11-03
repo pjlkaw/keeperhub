@@ -15,9 +15,9 @@
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/despesas.css" />
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
     <!-- Configuração do módulo -->
     <script>
@@ -26,10 +26,11 @@
         title: 'Despesas',
         subtitle: 'Acompanhe os gastos com o seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '#nova-despesa'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
   <body>
     <!-- Estado vazio -->
@@ -156,9 +157,6 @@
         </section>
       </div>
 
-      <button class="despesas-adicionar" type="button" popovertarget="nova-despesa" aria-label="Adicionar despesa" title="Adicionar despesa">
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-      </button>
 
       <!-- Formulário de nova despesa -->
       <section class="nova-despesa" id="nova-despesa" popover aria-labelledby="nova-despesa-heading">
@@ -210,6 +208,8 @@
         </form>
       </section>
     </main>
+
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar despesa"></section>
     <!-- Scripts -->
     <script type="module" src="../js/despesas.js"></script>
     <script src="/shared/services/theme.js"></script>

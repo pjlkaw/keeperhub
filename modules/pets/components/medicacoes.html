@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/medicacoes.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
     <!-- Configuração do módulo -->
     <script>
@@ -25,10 +25,11 @@
         title: 'Medicações - Pets',
         subtitle: 'Acompanhe os medicamentos do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-medicacao.html'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
@@ -181,11 +182,10 @@
             </ul>
         </section>
 
-        <a href="cadastrar-medicacao.html" class="botao-flutuante" aria-label="Adicionar medicação">
-            <span class="icone" aria-hidden="true"></span>
-        </a>
 
     </main>
+
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar medicação"></section>
 
     <!-- Scripts -->
     <script type="module" src="../js/medicacoes.js"></script>

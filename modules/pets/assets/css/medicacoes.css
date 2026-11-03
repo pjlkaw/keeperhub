@@ -356,32 +356,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   background: color-mix(in srgb, var(--pets-status-temporario) 12%, var(--card-bg));
   border-color: color-mix(in srgb, var(--pets-status-temporario) 40%, var(--border-color));
 }
-.pagina-medicacoes .botao-flutuante {
-  position: fixed;
-  right: max(16px, calc((100vw - 480px) / 2 + 16px));
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  z-index: 5;
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  background: var(--pets-primary);
-  border-radius: 50%;
-  box-shadow: 0 8px 24px var(--pets-shadow);
-  transition: transform var(--pets-transition), background-color var(--pets-transition);
-}
-.pagina-medicacoes .botao-flutuante .icone {
-  width: 20px;
-  height: 20px;
-  background-image: none;
-}
-@media (hover: hover) and (pointer: fine) {
-  .pagina-medicacoes .botao-flutuante:hover {
-    background: var(--pets-primary-hover);
-    transform: translateY(-3px);
-  }
-}
-.pagina-medicacoes .botao-flutuante:active { transform: scale(0.96); }
+
 
 @media (max-width: 359px) {
   .cartao-medicacao { grid-template-columns: 40px minmax(0, 1fr); }
@@ -392,7 +367,6 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .cartao-medicacao > .icone { display: grid; place-items: center; color: var(--pets-text-muted); font-size: 18px; line-height: 1; }
 .cartao-medicacao--temporario > .icone { color: #C084FC; }
 .cartao-medicacao__estoque .icone, .cartao-medicacao__termino .icone { color: var(--pets-text-muted); font-size: 12px; line-height: 1; }
-.pagina-medicacoes .botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }
 
 
 /* Seletor do pet, filtro e estados da lista local. */
@@ -460,7 +434,6 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   position: relative;
   z-index: 52;
 }
-.pagina-medicacoes .botao-flutuante { z-index: 51; }
 .pagina-medicacoes :is(.abas-pet, .barra-ferramentas-medicacoes, .grupo-medicacoes, .seletor-pet-medicacoes)[hidden] {
   display: none !important;
 }
