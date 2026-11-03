@@ -6,17 +6,18 @@
     <meta name="theme-color" content="#0a0a0c">
     <title>Keeper Hub — Pets — Editar Pet (Informações)</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/editar-pet-informacoes.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -32,18 +33,23 @@
 
     <main class="editar-pet editar-pet--informacoes">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Abas de edição -->
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Informações</a>
             <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link">Rotina Alimentar</a>
             <a href="editar-pet-tutor.html" class="abas-pet__link">Tutor</a>
         </nav>
 
+        <!-- Edição dos dados do pet -->
         <form class="formulario-informacoes-pet" id="formulario-informacoes-pet" data-pet-id="">
 
+            <!-- Foto do pet -->
             <div class="foto-pet-edicao">
                 <figure class="foto-pet-edicao__visualizacao" data-tem-foto="false">
                     <img
@@ -180,6 +186,7 @@
 
     </main>
 
+    <!-- Scripts -->
     <script type="module" src="../js/editarPetInformacoes.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>

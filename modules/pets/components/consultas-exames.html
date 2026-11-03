@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Consultas e Exames</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/consultas-exames.css">
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -31,14 +32,18 @@
 </head>
 <body>
 
+    <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma consulta cadastrada"></section>
 
     <main class="painel-medico">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Consultas preenchidas pelo JavaScript -->
         <section class="consultas" aria-labelledby="proximas-consultas-heading">
             <h2 id="proximas-consultas-heading">Próximas Consultas</h2>
 
@@ -104,6 +109,7 @@
 
             <a href="cadastrar-consulta.html" class="link-editar">Adicionar</a>
         </section>
+        <!-- Exames e laudos (integração pendente) -->
         <section class="exames-medicos" aria-labelledby="exames-heading">
             <header class="exames-medicos__cabecalho">
                 <h2 id="exames-heading">Exames e Laudos</h2>
@@ -116,6 +122,7 @@
             </ul>
         </section>
 
+        <!-- Histórico médico -->
         <section class="historico-medico" aria-labelledby="historico-medico-heading">
             <h2 id="historico-medico-heading">Histórico Médico</h2>
 
@@ -167,8 +174,8 @@
 
     </main>
 
+    <!-- Scripts -->
     <script type="module" src="../js/consultas.js"></script>
-<!-- Os agendamentos e o histórico são salvos localmente; exames ainda aguardam integração. -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

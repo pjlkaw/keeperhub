@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Adicionar Medicação</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/cadastrar-medicacao.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -31,10 +32,13 @@
 
     <main class="adicionar-medicacao">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Cadastro da medicação -->
         <form class="formulario-adicionar-medicacao">
 
             <div class="campo-formulario">
@@ -74,13 +78,7 @@
                 <input type="text" id="dosagem" name="dosagem" placeholder="Ex: 1 comprimido, 1 cápsula...">
             </div>
 
-            <!--
-                Os três campos abaixo variam de acordo com o "Tipo de Uso"
-                selecionado acima — exibição condicional é controlada pelo JavaScript do módulo:
-                - Contínuo    → mostrar "Horário da Dose"
-                - Temporário  → mostrar "Frequência" e "Até quando"
-                - Eventual    → nenhum dos três é necessário
-            -->
+            <!-- Campos condicionais conforme o tipo de uso. -->
 
             <div class="campo-formulario">
                 <label for="horario-dose">Horário da Dose</label>
@@ -117,8 +115,8 @@
 
     </main>
 
+    <!-- Scripts -->
     <script type="module" src="../js/medicacoes.js"></script>
-<!-- Medicações são salvas localmente no navegador. -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Receitas</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/receitas.css">
   <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -32,15 +33,19 @@
 
     <main class="pagina-medicacoes pagina-receitas">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Medicações e receitas -->
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
             <a href="receitas.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Receitas</a>
         </nav>
 
+        <!-- Busca e filtros (prévia) -->
         <div class="barra-ferramentas-medicacoes">
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-receita" class="somente-leitor-tela">Buscar receita</label>
@@ -52,6 +57,7 @@
             </button>
         </div>
 
+        <!-- Receitas ativas (exemplos) -->
         <section class="receitas-lista" aria-labelledby="receitas-ativas-heading">
             <header class="receitas-lista__cabecalho">
                 <h2 id="receitas-ativas-heading" class="receitas-lista__titulo receitas-lista__titulo--ativas">Receitas Ativas</h2>
@@ -101,6 +107,7 @@
             </ul>
         </section>
 
+        <!-- Histórico de receitas (exemplos) -->
         <section class="receitas-lista receitas-lista--historico" aria-labelledby="historico-receitas-heading">
             <header class="receitas-lista__cabecalho">
                 <h2 id="historico-receitas-heading" class="receitas-lista__titulo">Histórico</h2>
@@ -150,6 +157,7 @@
             </ul>
         </section>
 
+        <!-- Seleção de arquivo; envio ainda não integrado. -->
         <label class="botao-flutuante receitas-upload">
             <input type="file" accept=".pdf,.jpg,.jpeg,.png" aria-label="Adicionar arquivo de receita">
             <span class="icone" aria-hidden="true"></span>
@@ -157,9 +165,8 @@
 
     </main>
 
-<!-- Busca, filtros, download e persistência serão integrados ao backend futuramente. -->
+    <!-- Tema -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>
-
 

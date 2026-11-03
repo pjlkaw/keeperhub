@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Editar Pet (Tutor)</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/editar-pet-tutor.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -31,16 +32,20 @@
 
     <main class="editar-pet editar-pet--tutor" data-pet-id="">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Abas de edição -->
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link">Informações</a>
             <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link">Rotina Alimentar</a>
             <a href="editar-pet-tutor.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Tutor</a>
         </nav>
 
+        <!-- Dados do tutor -->
         <form class="formulario-editar-pet" id="formulario-pet-tutor" data-pet-id="">
 
             <p class="status-tutor" id="status-tutor" aria-live="polite"></p>
@@ -73,6 +78,7 @@
 
     </main>
 
+    <!-- Scripts -->
     <script type="module" src="../js/editarPetTutor.js"></script>
 
     <script src="/shared/services/theme.js"></script>
