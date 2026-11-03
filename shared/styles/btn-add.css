@@ -3,8 +3,13 @@
     bottom: 20px;
     right: 20px;
     z-index: 51;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
     background-color: var(--btn-add-color, var(--text-muted));
     border: solid 1px var(--btn-add-color, var(--text-muted));
-    padding: 12px;
+    padding: 0;
     border-radius: 50%;
 }
