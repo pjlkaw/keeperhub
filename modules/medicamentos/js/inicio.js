@@ -56,7 +56,7 @@ function renderizarPrioridade(container, doses) {
         const acoes = document.createElement("div");
         acoes.className = "meds-delayed-actions";
         acoes.append(
-            criarBotaoDose("Tomei", "<i class='fas fa-check'></i>", dose, () => inicializarInicioMedicamentos()),
+            criarBotaoDose("Tomei", "tomada", dose, () => inicializarInicioMedicamentos()),
             criarBotaoDose("Estou sem", "sem-estoque", dose, () => inicializarInicioMedicamentos()),
         );
         card.append(conteudo, acoes);
@@ -203,7 +203,10 @@ function criarBotaoDose(rotulo, status, dose, atualizar) {
     const botao = document.createElement("button");
     botao.type = "button";
     botao.className = status === "tomada" ? "btn-meds-take" : "btn-meds-out";
-    botao.textContent = rotulo;
+    const icone = document.createElement("i");
+    icone.className = status === "tomada" ? "fa-solid fa-check" : "fa-solid fa-box-open";
+    icone.setAttribute("aria-hidden", "true");
+    botao.append(icone, document.createTextNode(` ${rotulo}`));
     botao.addEventListener("click", async () => {
         try {
             await salvarEstadoDose(dose, status);

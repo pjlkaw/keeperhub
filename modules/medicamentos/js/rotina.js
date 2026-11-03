@@ -92,7 +92,7 @@ function criarCartaoDose(dose) {
     titulo.className = "routine-card-title-row";
     const nome = document.createElement("span");
     nome.className = "routine-card-name";
-    nome.textContent = [dose.medicamento.nome, dose.medicamento.concentracao].filter(Boolean).join(" ");
+    nome.textContent = dose.medicamento.nome;
     const quantidade = document.createElement("span");
     quantidade.className = "routine-card-time-taken";
     quantidade.textContent = tomada

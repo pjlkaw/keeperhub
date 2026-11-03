@@ -1,14 +1,20 @@
-import { criarIdLocal, listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { listarRegistros } from "./armazenamento.js";
+import { buscarReceitaApi, listarReceitasApi, salvarReceitaApi } from "./api.js";
 import { mostrarRetornoFormulario } from "./formularios.js";
 
 const tamanhoMaximoAnexos = 1024 * 1024;
 
 // Exibe receitas locais nas listas e conecta o formulário e a tela de detalhes.
-export function inicializarReceitas() {
+export async function inicializarReceitas() {
     preencherMedicamentos();
-    renderizarListas();
-    inicializarFormulario();
-    mostrarDetalhesReceita();
+    try {
+        const receitas = await listarReceitasApi();
+        renderizarListas(receitas);
+        inicializarFormulario();
+        await mostrarDetalhesReceita();
+    } catch (erro) {
+        mostrarRetornoFormulario(document.querySelector("#main-content"), erro.message, true);
+    }
 }
 
 function preencherMedicamentos() {
@@ -22,7 +28,7 @@ function preencherMedicamentos() {
         listarRegistros("medicamentos").filter((item) => item.status !== "encerrado").forEach((medicamento) => {
             const opcao = document.createElement("option");
             opcao.value = medicamento.id;
-            opcao.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+            opcao.textContent = medicamento.nome;
             seletor.append(opcao);
         });
     } catch (erro) {
@@ -30,7 +36,7 @@ function preencherMedicamentos() {
     }
 }
 
-function renderizarListas() {
+function renderizarListas(receitas) {
     const listas = document.querySelectorAll(
         "#recipes-panel .meds-list, #main-content .prescriptions-list",
     );
@@ -39,7 +45,6 @@ function renderizarListas() {
     }
 
     try {
-        const receitas = listarRegistros("receitas");
         listas.forEach((lista) => {
             const adicionar = lista.querySelector('a[href="adicionar-receita.html"]');
             lista.replaceChildren();
@@ -119,21 +124,14 @@ function inicializarFormulario() {
         try {
             const anexos = await Promise.all(arquivos.map(lerArquivo));
             const receita = {
-                id: criarIdLocal(),
                 titulo: String(dados.get("title")).trim(),
                 profissional: String(dados.get("professional")).trim(),
                 especialidade: String(dados.get("specialty") ?? "").trim(),
                 data: String(dados.get("date")),
                 medicamentoId: String(dados.get("medication") ?? ""),
                 anexos,
-                criadoEm: new Date().toISOString(),
             };
-
-            const receitas = listarRegistros("receitas");
-            receitas.unshift(receita);
-            // Provisório: receita e anexos ficam no localStorage deste navegador, não em um servidor.
-            salvarRegistros("receitas", receitas);
-            console.log("[Medicamentos] Receita salva localmente (provisória):", receita);
+            await salvarReceitaApi(receita);
             window.location.href = "receitas.html";
         } catch (erro) {
             mostrarRetornoFormulario(formulario, erro.message || "Não foi possível salvar a receita.", true);
@@ -163,7 +161,7 @@ function lerArquivo(arquivo) {
     });
 }
 
-function mostrarDetalhesReceita() {
+async function mostrarDetalhesReceita() {
     const id = new URLSearchParams(window.location.search).get("id");
     const tituloProfissional = document.querySelector("#prescription-title");
     if (!tituloProfissional || document.querySelector("#form-add-prescription")) {
@@ -177,10 +175,7 @@ function mostrarDetalhesReceita() {
         });
         document.querySelector("#attachment-title")?.closest(".med-card-section")?.querySelector(".med-routine-list")?.replaceChildren();
         if (!id) throw new Error("Selecione uma receita na lista para ver os detalhes.");
-        const receita = listarRegistros("receitas").find((item) => item.id === id);
-        if (!receita) {
-            throw new Error("Esta receita não foi encontrada no armazenamento local.");
-        }
+        const receita = await buscarReceitaApi(id);
 
         const voltar = document.querySelector("#btn-back-header");
         if (voltar) voltar.href = "receitas.html";
@@ -196,7 +191,7 @@ function mostrarDetalhesReceita() {
             (receita.anexos ?? []).forEach((anexo) => {
                 const link = document.createElement("a");
                 link.className = "med-routine-item";
-                link.href = anexo.conteudo;
+                link.href = anexo.url;
                 link.download = anexo.nome;
                 link.target = "_blank";
                 link.rel = "noopener";
@@ -233,7 +228,7 @@ function medicamentoDaReceita(receita) {
 
     const medicamento = listarRegistros("medicamentos").find((item) => item.id === receita.medicamentoId);
     return medicamento
-        ? [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ")
+        ? medicamento.nome
         : "Medicamento não encontrado";
 }
 

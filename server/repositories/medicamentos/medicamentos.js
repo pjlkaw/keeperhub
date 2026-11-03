@@ -5,7 +5,6 @@ const COLUNAS = `
   i.id_item AS itemId,
   i.nome,
   i.ativo,
-  m.concentracao,
   m.unidade_estoque AS unidade,
   m.tipo_uso AS tipoUso,
   r.id_rotina AS rotinaId,
@@ -53,7 +52,6 @@ function mapearMedicamento(linha, dias = [], horarios = []) {
     id: String(linha.id),
     itemId: Number(linha.itemId),
     nome: linha.nome,
-    concentracao: linha.concentracao || '',
     unidade: linha.unidade,
     tipoUso: linha.tipoUso,
     status: linha.ativo && !tratamentoEncerrado ? 'ativo' : 'encerrado',
@@ -212,9 +210,9 @@ export async function criarMedicamento(usuarioId, dados) {
       [usuarioId, dados.nome]
     );
     const [medicamento] = await conexao.execute(
-      `INSERT INTO medicamento (item_id, unidade_estoque, concentracao, tipo_uso)
-       VALUES (?, ?, ?, ?)`,
-      [item.insertId, dados.unidade, dados.concentracao || null, dados.tipoUso]
+      `INSERT INTO medicamento (item_id, unidade_estoque, tipo_uso)
+       VALUES (?, ?, ?)`,
+      [item.insertId, dados.unidade, dados.tipoUso]
     );
     await salvarRotina(conexao, medicamento.insertId, dados);
     await salvarEstoqueInicial(conexao, item.insertId, dados);
@@ -241,9 +239,9 @@ export async function atualizarMedicamento(idMedicamento, usuarioId, dados) {
       [dados.nome, existente.itemId, usuarioId]
     );
     await conexao.execute(
-      `UPDATE medicamento SET unidade_estoque = ?, concentracao = ?, tipo_uso = ?
+      `UPDATE medicamento SET unidade_estoque = ?, tipo_uso = ?
         WHERE id_medicamento = ?`,
-      [dados.unidade, dados.concentracao || null, dados.tipoUso, idMedicamento]
+      [dados.unidade, dados.tipoUso, idMedicamento]
     );
     await salvarRotina(conexao, Number(idMedicamento), dados);
     await conexao.commit();
@@ -295,7 +293,7 @@ export async function encerrarTratamento(idMedicamento, usuarioId) {
 export async function listarMovimentacoesEstoque(idMedicamento, usuarioId) {
   const [linhas] = await db.execute(
     `SELECT mov.id_movimentacao AS id, mov.tipo, mov.quantidade, mov.data, mov.observacao,
-            med.id_medicamento AS medicamentoId, i.nome, med.concentracao, med.unidade_estoque AS unidade
+            med.id_medicamento AS medicamentoId, i.nome, med.unidade_estoque AS unidade
        FROM movimentacao mov
        JOIN lote l ON l.id_lote = mov.lote_id
        JOIN item i ON i.id_item = l.item_id
@@ -312,14 +310,14 @@ export async function listarMovimentacoesEstoque(idMedicamento, usuarioId) {
     medicamentoId: String(linha.medicamentoId),
     quantidade: Number(linha.quantidade),
     data: linha.data instanceof Date ? linha.data.toISOString() : String(linha.data),
-    medicamento: [linha.nome, linha.concentracao].filter(Boolean).join(' '),
+    medicamento: linha.nome,
   }));
 }
 
 export async function listarHistoricoEstoque(usuarioId) {
   const [linhas] = await db.execute(
     `SELECT mov.id_movimentacao AS id, mov.tipo, mov.quantidade, mov.data, mov.observacao,
-            med.id_medicamento AS medicamentoId, i.nome, med.concentracao, med.unidade_estoque AS unidade
+            med.id_medicamento AS medicamentoId, i.nome, med.unidade_estoque AS unidade
        FROM movimentacao mov
        JOIN lote l ON l.id_lote = mov.lote_id
        JOIN item i ON i.id_item = l.item_id
@@ -335,14 +333,14 @@ export async function listarHistoricoEstoque(usuarioId) {
     medicamentoId: String(linha.medicamentoId),
     quantidade: Number(linha.quantidade),
     data: linha.data instanceof Date ? linha.data.toISOString() : String(linha.data),
-    medicamento: [linha.nome, linha.concentracao].filter(Boolean).join(' '),
+    medicamento: linha.nome,
   }));
 }
 
 export async function listarRegistrosUso(usuarioId) {
   const [linhas] = await db.execute(
     `SELECT u.id_registro AS id, u.medicamento_id AS medicamentoId,
-            i.nome, m.concentracao, DATE_FORMAT(u.data, '%Y-%m-%d') AS data,
+            i.nome, DATE_FORMAT(u.data, '%Y-%m-%d') AS data,
             TIME_FORMAT(u.horario_previsto, '%H:%i') AS horario,
             TIME_FORMAT(u.horario_realizado, '%H:%i') AS horarioRealizado,
             u.data_hora_realizada AS tomadaEm, u.dose_realizada AS dose,
@@ -361,7 +359,7 @@ export async function listarRegistrosUso(usuarioId) {
     medicamentoId: String(linha.medicamentoId),
     data: linha.data,
     tomadaEm: linha.tomadaEm instanceof Date ? linha.tomadaEm.toISOString() : linha.tomadaEm,
-    medicamento: [linha.nome, linha.concentracao].filter(Boolean).join(' '),
+    medicamento: linha.nome,
   }));
 }
 
@@ -380,6 +378,7 @@ export async function salvarRegistroUso(usuarioId, dados) {
   try {
     await conexao.beginTransaction();
     let registroId = null;
+    let statusAnterior = null;
     if (dados.tipoUso === 'rotina') {
       const [registros] = await conexao.execute(
         `SELECT id_registro FROM registro_uso
@@ -389,6 +388,20 @@ export async function salvarRegistroUso(usuarioId, dados) {
         [dados.medicamentoId, dados.data, horarioPrevisto]
       );
       registroId = registros[0]?.id_registro ?? null;
+      if (registroId) {
+        const [atuais] = await conexao.execute(
+          'SELECT status FROM registro_uso WHERE id_registro = ? FOR UPDATE',
+          [registroId],
+        );
+        statusAnterior = atuais[0]?.status || null;
+      }
+    }
+
+    if (statusBanco === 'tomado' && statusAnterior !== 'tomado') {
+      const quantidade = quantidadeDeUmaDose(dados.dose, medicamento.unidade);
+      if (quantidade > 0) {
+        await baixarEstoque(conexao, medicamento.itemId, medicamento.id, quantidade);
+      }
     }
 
     if (registroId) {
@@ -413,6 +426,49 @@ export async function salvarRegistroUso(usuarioId, dados) {
           dados.dose || null, dados.tipoUso,
           statusBanco, dados.observacao || null]
       );
+    }
+
+    function quantidadeDeUmaDose(dose, unidade) {
+      if (![
+        'comprimidos', 'capsulas', 'unidades', 'caixa', 'caixas',
+        'frasco', 'frascos', 'cartela', 'cartelas',
+      ].includes(String(unidade).toLowerCase())) {
+        return 0;
+      }
+      const valor = Number(String(dose || '').match(/\d+(?:[.,]\d+)?/)?.[0]?.replace(',', '.'));
+      return Number.isInteger(valor) && valor > 0 ? valor : 0;
+    }
+
+    async function baixarEstoque(conexao, itemId, medicamentoId, quantidade) {
+      const [lotes] = await conexao.execute(
+        `SELECT id_lote, quantidade FROM lote
+          WHERE item_id = ? AND quantidade > 0
+          ORDER BY validade IS NULL, validade, id_lote
+          FOR UPDATE`,
+        [itemId],
+      );
+      const total = lotes.reduce((soma, lote) => soma + Number(lote.quantidade), 0);
+      if (total < quantidade) {
+        const erro = new Error('Estoque insuficiente para registrar esta dose.');
+        erro.statusCode = 409;
+        throw erro;
+      }
+
+      let restante = quantidade;
+      for (const lote of lotes) {
+        if (restante <= 0) break;
+        const abatido = Math.min(Number(lote.quantidade), restante);
+        await conexao.execute(
+          'UPDATE lote SET quantidade = quantidade - ? WHERE id_lote = ?',
+          [abatido, lote.id_lote],
+        );
+        await conexao.execute(
+          `INSERT INTO movimentacao (lote_id, tipo, quantidade, observacao)
+           VALUES (?, 'saida', ?, ?)`,
+          [lote.id_lote, abatido, `Dose registrada do medicamento ${medicamentoId}`],
+        );
+        restante -= abatido;
+      }
     }
     await conexao.commit();
   } catch (erro) {

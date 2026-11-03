@@ -1,6 +1,8 @@
 const URL_API = '/api/modulos/medicamentos-api';
 let medicamentosCache = null;
 let registrosUsoCache = null;
+let receitasCache = null;
+let habitosCache = null;
 
 async function requisicao(url, opcoes = {}) {
   const resposta = await fetch(url, {
@@ -93,6 +95,56 @@ export async function salvarRegistroUsoApi(dados) {
   });
   registrosUsoCache = resposta.registros.map(normalizarRegistroUso);
   return registrosUsoCache.map((registro) => ({ ...registro }));
+}
+
+export async function listarReceitasApi() {
+  if (receitasCache) return receitasCache.map((receita) => ({ ...receita, anexos: [...receita.anexos] }));
+  const resposta = await requisicao(`${URL_API}?acao=receitas`);
+  receitasCache = resposta.receitas;
+  return receitasCache.map((receita) => ({ ...receita, anexos: [...receita.anexos] }));
+}
+
+export async function buscarReceitaApi(id) {
+  const resposta = await requisicao(`${URL_API}?acao=receitas&id=${encodeURIComponent(id)}`);
+  return resposta.receita;
+}
+
+export async function salvarReceitaApi(dados) {
+  const resposta = await requisicao(`${URL_API}?acao=receita`, {
+    method: 'POST',
+    body: JSON.stringify(dados),
+  });
+  receitasCache = receitasCache
+    ? [resposta.receita, ...receitasCache.filter((receita) => receita.id !== resposta.receita.id)]
+    : null;
+  return resposta.receita;
+}
+
+export async function listarHabitosApi() {
+  if (habitosCache) return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
+  const resposta = await requisicao(`${URL_API}?acao=habitos`);
+  habitosCache = resposta.habitos;
+  return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
+}
+
+export async function salvarHabitoApi(dados) {
+  const resposta = await requisicao(`${URL_API}?acao=habito`, {
+    method: 'POST',
+    body: JSON.stringify(dados),
+  });
+  habitosCache = habitosCache
+    ? [resposta.habito, ...habitosCache.filter((habito) => habito.id !== resposta.habito.id)]
+    : null;
+  return resposta.habito;
+}
+
+export async function alternarConclusaoHabitoApi(habitoId, data) {
+  const resposta = await requisicao(`${URL_API}?acao=habito-conclusao`, {
+    method: 'POST',
+    body: JSON.stringify({ habitoId, data }),
+  });
+  habitosCache = resposta.habitos;
+  return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
 }
 
 export async function excluirMedicamentoApi(id) {
