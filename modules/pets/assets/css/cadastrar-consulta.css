@@ -249,8 +249,8 @@ select:focus {
   padding: 8px 12px;
   color: var(--pets-text);
   background: var(--card-bg);
-  border: 1px solid var(--pets-border-strong);
-  border-radius: var(--pets-radius-pill);
+  border: 1px solid var(--border-color);
+  border-radius: var(--pets-radius-sm);
 }
 
 .seletor-pet-consultas [role="status"][data-estado="erro"] {
@@ -261,3 +261,26 @@ select:focus {
 .campo-formulario[hidden] {
   display: none !important;
 }
+
+
+.selecao-pets-consulta[hidden] { display: none !important; }
+.selecao-pets-consulta { padding: 0; border: 0; }
+.selecao-pets-consulta legend {
+  margin-bottom: 8px;
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+.selecao-pets-consulta__lista { display: grid; gap: 8px; }
+.selecao-pets-consulta__opcao {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--pets-radius-sm);
+}
+.selecao-pets-consulta__opcao input { accent-color: var(--pets-primary); }

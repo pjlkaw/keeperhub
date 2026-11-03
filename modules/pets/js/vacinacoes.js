@@ -1,7 +1,8 @@
 // Cadastro, cronograma e histórico local das vacinas dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { atualizarPet, listarPets } from './armazenamento.js';
+import { atualizarVariosPets, listarPets } from './armazenamento.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 // Busca o painel e o formulário.
 // A presença do painel indica que esta é a página de listagem.
@@ -31,6 +32,7 @@ const nomesVacina = {
 // Guarda os pets disponíveis e o pet selecionado.
 let pets = [];
 let petAtual = null;
+let petsAlvo = [];
 
 // Formata uma data local como AAAA-MM-DD.
 function dataLocalISO(data = new Date()) {
@@ -128,20 +130,6 @@ function vacinasDoPet() {
         : [];
 }
 
-// Salva a lista de vacinas e atualiza o pet guardado em memória.
-function persistir(vacinas) {
-    const atualizado = atualizarPet(petAtual.id, { vacinas });
-
-    if (!atualizado) {
-        throw new Error('Não foi possível localizar esse pet.');
-    }
-
-    petAtual = atualizado;
-
-    // Guarda o ID do pet no painel, quando esse elemento existe.
-    main?.setAttribute('data-pet-id', petAtual.id);
-}
-
 // Carrega os pets do armazenamento e preenche o seletor.
 function carregarPets() {
     pets = listarPets();
@@ -156,6 +144,13 @@ function carregarPets() {
     seletorPet.append(inicial);
 
     // Adiciona uma opção para cada pet cadastrado.
+    if (!paginaLista && pets.length > 1) {
+        const todos = document.createElement('option');
+        todos.value = '__todos__';
+        todos.textContent = 'Todos os pets';
+        seletorPet.append(todos);
+    }
+
     pets.forEach(pet => {
         const opcao = document.createElement('option');
         opcao.value = pet.id;
@@ -172,12 +167,18 @@ function carregarPets() {
     );
 
     // Se a URL não indicar um pet e existir apenas um, seleciona esse pet.
-    selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
+    if (!paginaLista) {
+        const petFormulario = petQuery ?? (pets.length === 1 ? pets[0] : null);
+        selecionarPet(petFormulario);
+    } else {
+        selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
+    }
 }
 
 // Seleciona um pet, atualiza a URL e atualiza a tela atual.
 function selecionarPet(pet) {
     petAtual = pet;
+    if (!paginaLista) petsAlvo = pet ? [pet] : [];
     seletorPet.value = pet?.id ?? '';
     atualizarUrl(pet?.id);
     main?.setAttribute('data-pet-id', pet?.id ?? '');
@@ -207,7 +208,8 @@ function registrosMaisRecentes() {
         // Guarda o registro se ainda não houver outro ou se ele for mais recente.
         if (
             !anterior ||
-            String(vacina.dataAplicacao) > String(anterior.dataAplicacao)
+            String(vacina.dataAgendada || vacina.dataAplicacao) >
+                String(anterior.dataAgendada || anterior.dataAplicacao)
         ) {
             porNome.set(chave, vacina);
         }
@@ -229,6 +231,7 @@ function renderizarLista() {
     const listaDestaques = main.querySelector('.destaques-vacinas > ul');
     const listaCronograma = main.querySelector('.cronograma-vacinas > ul');
     const listaHistorico = main.querySelector('.historico-vacinas > ul');
+    const secaoSeletorPet = seletorPet.closest('.seletor-pet-vacinas');
 
     // Acrescenta o ID do pet aos links para cadastrar uma vacina.
     document.querySelectorAll('a[href="adicionar-vacina.html"]')
@@ -238,41 +241,84 @@ function renderizarLista() {
                 : 'adicionar-vacina.html';
         });
 
+    const secoesConteudo = [
+        main.querySelector('.destaques-vacinas'),
+        main.querySelector('.cronograma-vacinas'),
+        main.querySelector('.historico-vacinas')
+    ];
+
     // Limpa as listas antes de renderizá-las novamente.
     listaDestaques.replaceChildren();
     listaCronograma.replaceChildren();
     listaHistorico.replaceChildren();
 
-    // Se não houver pet selecionado, mostra uma orientação em cada lista.
+    // Sem pet selecionado, mantém uma única orientação e esconde as listas.
+    // Se já existem pets, mas nenhum tem vacinas, mostra o no-content para
+    // conduzir ao cadastro inicial sem repetir mensagens em cada seção.
     if (!petAtual) {
+        secoesConteudo.forEach(secao => { secao.hidden = true; });
+
+        // Se ainda não existe nenhum pet, usa somente o estado vazio
+        // compartilhado, sem mostrar seletor ou mensagem redundante.
+        if (!pets.length) {
+            secaoSeletorPet.hidden = true;
+            informar('');
+            atualizarNoContent(false);
+            return;
+        }
+
+        const existeVacina = pets.some(pet =>
+            Array.isArray(pet.vacinas) && pet.vacinas.length > 0
+        );
+
+        if (!existeVacina) {
+            secaoSeletorPet.hidden = true;
+            informar('');
+            atualizarNoContent(false);
+            return;
+        }
+
+        secaoSeletorPet.hidden = false;
         const mensagem = pets.length
             ? 'Escolha um pet para consultar as vacinas.'
             : 'Cadastre um pet para acompanhar as vacinações.';
-
-        listaDestaques.append(listaVazia(mensagem));
-        listaCronograma.append(listaVazia(mensagem));
-        listaHistorico.append(listaVazia(mensagem));
         informar(mensagem, !pets.length);
+        atualizarNoContent(true);
         return;
     }
 
+    // Na primeira visita do pet, mostra o estado compartilhado de conteúdo
+    // vazio e deixa o botão flutuante disponível para iniciar o cadastro.
+    if (vacinasDoPet().length === 0) {
+        secaoSeletorPet.hidden = true;
+        secoesConteudo.forEach(secao => { secao.hidden = true; });
+        informar('');
+        atualizarNoContent(false);
+        return;
+    }
+
+    secaoSeletorPet.hidden = false;
+    secoesConteudo.forEach(secao => { secao.hidden = false; });
     informar('');
+    atualizarNoContent(true);
 
     const hoje = dataLocalISO();
 
     // Pega o registro mais recente de cada vacina e ordena pela próxima dose.
+    const dataDestaque = vacina => vacina.dataAgendada || vacina.proximaDose;
     const maisRecentes = registrosMaisRecentes()
         .sort((a, b) =>
-            String(a.proximaDose ?? a.dataAplicacao)
-                .localeCompare(String(b.proximaDose ?? b.dataAplicacao))
+            String(dataDestaque(a) ?? a.dataAplicacao)
+                .localeCompare(String(dataDestaque(b) ?? b.dataAplicacao))
         );
 
-    // Registros com próxima dose aparecem nos destaques.
-    const pendentes = maisRecentes.filter(item => item.proximaDose);
+    // Agendamentos futuros e próximas doses aparecem nos destaques.
+    const pendentes = maisRecentes.filter(item => dataDestaque(item));
 
     // Todas as aplicações são ordenadas da mais recente para a mais antiga
     // para compor o histórico.
     const aplicadas = vacinasDoPet()
+        .filter(item => item.status !== 'agendada' && item.dataAplicacao)
         .slice()
         .sort((a, b) =>
             String(b.dataAplicacao).localeCompare(String(a.dataAplicacao))
@@ -286,9 +332,10 @@ function renderizarLista() {
     // Cria um cartão de destaque para cada próxima dose.
     for (const [indice, vacina] of pendentes.entries()) {
         // Calcula quantos dias faltam para a próxima dose.
+        const dataPendencia = dataDestaque(vacina);
         const dias = Math.ceil(
             (
-                new Date(vacina.proximaDose + 'T12:00:00') -
+                new Date(dataPendencia + 'T12:00:00') -
                 new Date(hoje + 'T12:00:00')
             ) / 86400000
         );
@@ -296,18 +343,21 @@ function renderizarLista() {
         const vencida = dias < 0;
 
         // Calcula o progresso entre a data da aplicação e a próxima dose.
+        const inicioContagem = vacina.dataAplicacao || hoje;
         const duracao =
-            new Date(vacina.proximaDose + 'T12:00:00') -
-            new Date(vacina.dataAplicacao + 'T12:00:00');
+            new Date(dataPendencia + 'T12:00:00') -
+            new Date(inicioContagem + 'T12:00:00');
 
         const decorrido =
             new Date(hoje + 'T12:00:00') -
-            new Date(vacina.dataAplicacao + 'T12:00:00');
+            new Date(inicioContagem + 'T12:00:00');
 
-        // Limita o progresso entre 0% e 100%.
-        const progresso = duracao <= 0
-            ? 100
-            : Math.max(0, Math.min(100, Math.round((decorrido / duracao) * 100)));
+        // Agendamentos ainda não aplicados começam com progresso zero.
+        const progresso = vacina.status === 'agendada'
+            ? 0
+            : duracao <= 0
+                ? 100
+                : Math.max(0, Math.min(100, Math.round((decorrido / duracao) * 100)));
 
         // Usa o nome personalizado ou o nome amigável da vacina.
         const nome = vacina.nome === 'outra'
@@ -315,9 +365,11 @@ function renderizarLista() {
             : nomesVacina[vacina.nome] ?? vacina.nome;
 
         // Define o rótulo da frequência e a mensagem de prazo.
-        const frequencia = vacina.frequencia === 'reforco_anual'
-            ? 'Reforço anual'
-            : 'Próxima dose';
+        const frequencia = vacina.status === 'agendada'
+            ? 'Aplicação agendada'
+            : vacina.frequencia === 'reforco_anual'
+                ? 'Reforço anual'
+                : 'Próxima dose';
 
         const textoDias = vencida
             ? `Atrasada há ${Math.abs(dias)} ${Math.abs(dias) === 1 ? 'dia' : 'dias'}`
@@ -329,15 +381,15 @@ function renderizarLista() {
 
         // Insere os valores variáveis escapados para que sejam tratados como texto.
         // O primeiro cartão recebe uma classe visual de destaque.
-        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(vacina.proximaDose)}">${escapar(formatarData(vacina.proximaDose))}</time></p><div class="barra-progresso" aria-hidden="true"><div class="barra-progresso__preenchimento" style="width:${progresso}%"></div></div><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></article>`;
+        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><div class="barra-progresso" aria-hidden="true"><div class="barra-progresso__preenchimento" style="width:${progresso}%"></div></div><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></article>`;
 
         listaDestaques.append(li);
     }
 
     // Cria o cronograma a partir dos registros mais recentes.
     const cronograma = maisRecentes.slice().sort((a, b) =>
-        String(a.proximaDose ?? a.dataAplicacao)
-            .localeCompare(String(b.proximaDose ?? b.dataAplicacao))
+        String(a.dataAgendada ?? a.proximaDose ?? a.dataAplicacao)
+            .localeCompare(String(b.dataAgendada ?? b.proximaDose ?? b.dataAplicacao))
     );
 
     if (!cronograma.length) {
@@ -349,39 +401,44 @@ function renderizarLista() {
             ? vacina.nomePersonalizado
             : nomesVacina[vacina.nome] ?? vacina.nome;
 
+        const agendada = vacina.status === 'agendada' && Boolean(vacina.dataAgendada);
         const temProxima = Boolean(vacina.proximaDose);
-        const atrasada = temProxima && vacina.proximaDose < hoje;
+        const dataAgendadaAtrasada = agendada && vacina.dataAgendada < hoje;
+        const atrasada = dataAgendadaAtrasada || (!agendada && temProxima && vacina.proximaDose < hoje);
 
-        // Usa a próxima dose como data principal quando ela existe;
-        // caso contrário, usa a data em que a vacina foi aplicada.
-        const data = temProxima ? vacina.proximaDose : vacina.dataAplicacao;
-        const detalhe = temProxima
-            ? `Próxima dose prevista para ${formatarData(data)}`
-            : `Aplicada em ${formatarData(data)}`;
+        // Agendamentos usam sua data marcada; registros aplicados usam a próxima dose.
+        const data = agendada
+            ? vacina.dataAgendada
+            : temProxima ? vacina.proximaDose : vacina.dataAplicacao;
+        const detalhe = agendada
+            ? `Agendada para ${formatarData(data)}`
+            : temProxima
+                ? `Próxima dose prevista para ${formatarData(data)}`
+                : `Aplicada em ${formatarData(data)}`;
 
         // Define o texto, a classe e o ícone de acordo com a situação da vacina.
         const statusTexto = atrasada
             ? 'Atrasada'
-            : temProxima
+            : agendada || temProxima
                 ? 'Agendada'
                 : 'Aplicada';
 
         const classeStatus = atrasada
             ? 'atrasada'
-            : temProxima
+            : agendada || temProxima
                 ? 'agendada'
                 : 'aplicada';
 
         const icone = atrasada
             ? 'fa-triangle-exclamation'
-            : temProxima
+            : agendada || temProxima
                 ? 'fa-syringe'
                 : 'fa-circle-check';
 
         const li = document.createElement('li');
 
         // Cria a linha do cronograma com dados variáveis escapados.
-        li.innerHTML = `<article class="item-vacina item-vacina--${classeStatus}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}</h3><p class="item-vacina__detalhe">${escapar(detalhe)}${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${statusTexto}</span></article>`;
+        li.innerHTML = `<article class="item-vacina item-vacina--${classeStatus}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}</h3><p class="item-vacina__detalhe">${escapar(detalhe)}${vacina.clinica ? ` · ${escapar(vacina.clinica)}` : ''}${vacina.horario ? ` · ${escapar(vacina.horario)}` : ''}${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${statusTexto}</span></article>`;
 
         listaCronograma.append(li);
     }
@@ -413,10 +470,10 @@ function atualizarFormulario() {
     const botao = form.querySelector('.formulario-adicionar-vacina__enviar');
     const aviso = document.getElementById('aviso-integracao-vacina');
 
-    // Não permite enviar o formulário sem selecionar um pet.
-    botao.disabled = !petAtual;
+    // O formulário aceita um pet ou a seleção conjunta de todos.
+    botao.disabled = !petsAlvo.length;
 
-    if (!petAtual) {
+    if (!petsAlvo.length) {
         const mensagem = pets.length
             ? 'Selecione um pet para continuar.'
             : 'Cadastre um pet antes de registrar uma vacina.';
@@ -424,7 +481,9 @@ function atualizarFormulario() {
         aviso.textContent = mensagem;
         informar(mensagem, !pets.length);
     } else {
-        aviso.textContent = 'O registro será salvo neste navegador.';
+        aviso.textContent = petsAlvo.length > 1
+            ? `A vacina será registrada para ${petsAlvo.length} pets neste navegador.`
+            : 'O registro será salvo neste navegador.';
         informar('');
     }
 }
@@ -443,9 +502,9 @@ function configurarFormulario() {
     const aviso = document.getElementById('aviso-integracao-vacina');
     const dataAplicacao = form.elements.data_aplicacao;
 
-    // Exige a data da aplicação e impede escolher uma data futura.
+    // Datas futuras representam agendamentos; datas passadas/hoje representam aplicações.
     dataAplicacao.required = true;
-    dataAplicacao.max = dataLocalISO();
+    dataAplicacao.removeAttribute('max');
 
     // Os campos condicionais começam ocultos.
     campoOutra.hidden = true;
@@ -484,7 +543,7 @@ function configurarFormulario() {
         event.preventDefault();
 
         // Sem pet selecionado, não há onde salvar o registro.
-        if (!petAtual) return;
+        if (!petsAlvo.length) return;
 
         // Busca as opções escolhidas para vacina e frequência.
         const escolhida = form.querySelector(
@@ -513,21 +572,22 @@ function configurarFormulario() {
 
         if (!form.reportValidity()) return;
 
-        const aplicadaEm = dataAplicacao.value;
+        const dataEvento = dataAplicacao.value;
+        const agendada = dataEvento > dataLocalISO();
         const fracionada = frequencia.value === 'doses_fracionadas';
 
         // Reforços anuais recebem automaticamente a data de um ano depois.
         // Para doses fracionadas, usa a data preenchida no campo.
         // Nos demais casos, deixa a próxima dose vazia.
         const proximaDose = frequencia.value === 'reforco_anual'
-            ? adicionarAno(aplicadaEm)
+            ? adicionarAno(dataEvento)
             : fracionada
                 ? form.elements.prox_dose.value
                 : '';
 
         // A próxima dose de uma série fracionada não pode ser anterior
         // à data da aplicação.
-        if (fracionada && proximaDose < aplicadaEm) {
+        if (fracionada && proximaDose < dataEvento) {
             form.elements.prox_dose.setCustomValidity(
                 'A próxima dose deve ser na data de aplicação ou depois.'
             );
@@ -540,28 +600,43 @@ function configurarFormulario() {
         // Desabilita o botão para evitar envios repetidos.
         botao.disabled = true;
 
-        // Reúne os dados da nova vacina em um objeto.
+        // O mesmo compromisso recebe um ID de grupo e um registro por pet,
+        // preservando o histórico individual de cada animal.
+        const grupoId = crypto.randomUUID();
         const novaVacina = {
             id: crypto.randomUUID(),
+            grupoId,
             nome: escolhida.value,
             nomePersonalizado: escolhida.value === 'outra'
                 ? vacinaOutra.value.trim()
                 : '',
-            dataAplicacao: aplicadaEm,
+            status: agendada ? 'agendada' : 'aplicada',
+            dataAplicacao: agendada ? '' : dataEvento,
+            dataAgendada: agendada ? dataEvento : '',
             frequencia: frequencia.value,
             proximaDose,
+            clinica: form.elements.clinica_vacina.value.trim(),
+            horario: form.elements.horario_vacina.value,
             observacao: form.elements.observacao_vacina.value.trim(),
             criadaEm: new Date().toISOString()
         };
 
         try {
-            // Acrescenta o novo registro às vacinas já salvas para o pet.
-            persistir([...vacinasDoPet(), novaVacina]);
+            // Guardamos os dados antes do evento de atualização recarregar o seletor.
+            const petDestinoId = petsAlvo[0].id;
+            const quantidadePets = petsAlvo.length;
+            const atualizacoes = Object.fromEntries(petsAlvo.map(pet => [
+                pet.id,
+                { vacinas: [...(Array.isArray(pet.vacinas) ? pet.vacinas : []), { ...novaVacina, id: crypto.randomUUID() }] }
+            ]));
+            const salvos = atualizarVariosPets(atualizacoes);
+            if (!salvos) throw new Error('Não foi possível localizar todos os pets selecionados.');
 
-            // Avisa que salvou e abre o cronograma do pet.
-            aviso.textContent = 'Vacina salva. Abrindo o cronograma…';
-            location.href =
-                `vacinacoes.html?petId=${encodeURIComponent(petAtual.id)}`;
+            // Avisa que salvou e abre o cronograma do primeiro pet selecionado.
+            aviso.textContent = agendada
+                ? `Agendamento salvo para ${quantidadePets} ${quantidadePets === 1 ? 'pet' : 'pets'}. Abrindo o cronograma…`
+                : `Vacina salva para ${quantidadePets} ${quantidadePets === 1 ? 'pet' : 'pets'}. Abrindo o cronograma…`;
+            location.href = `vacinacoes.html?petId=${encodeURIComponent(petDestinoId)}`;
         } catch (erro) {
             // Se o salvamento falhar, mostra o erro e reabilita o botão.
             aviso.textContent =
@@ -573,9 +648,15 @@ function configurarFormulario() {
 
 // Quando a pessoa muda o pet selecionado, atualiza a página.
 seletorPet.addEventListener('change', () => {
-    selecionarPet(
-        pets.find(pet => pet.id === seletorPet.value) ?? null
-    );
+    if (!paginaLista && seletorPet.value === '__todos__') {
+        petAtual = null;
+        petsAlvo = [...pets];
+        atualizarUrl(null);
+        atualizarFormulario();
+        return;
+    }
+
+    selecionarPet(pets.find(pet => pet.id === seletorPet.value) ?? null);
 });
 
 // Configura o formulário somente na página de cadastro.

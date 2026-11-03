@@ -37,6 +37,11 @@
 
         <form class="formulario-adicionar-consulta">
 
+            <fieldset class="campo-formulario selecao-pets-consulta" hidden>
+                <legend>Selecione os pets</legend>
+                <div class="selecao-pets-consulta__lista" id="consulta-pets-lista"></div>
+            </fieldset>
+
             <div class="campo-formulario">
                 <label for="nome-medico">Nome do Médico</label>
                 <input type="text" id="nome-medico" name="nome_medico" placeholder="Ex: Dra. Amanda Silva">
@@ -94,7 +99,7 @@
     </main>
 
     <script type="module" src="../js/consultas.js"></script>
-    <script src="/shared/services/theme.js"></script>
 <!-- Agendamentos são salvos localmente no navegador. -->
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>

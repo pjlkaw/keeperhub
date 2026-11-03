@@ -28,6 +28,24 @@ let refeicoes = [];
 let ultimaExclusao = null;
 let salvando = false;
 
+const OPCOES_REFEICAO = {
+    'cafe-da-manha': 'Café da manhã',
+    almoco: 'Almoço',
+    'cafe-da-tarde': 'Café da tarde',
+    jantar: 'Jantar'
+};
+
+// Normaliza o nome para comparar opções sem diferença de acentos ou caixa.
+function chaveRefeicao(nome) {
+    return String(nome ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLocaleLowerCase('pt-BR');
+}
+
+// Identifica a opção pronta correspondente ou encaminha nomes personalizados para "Outro".
+function opcaoDaRefeicao(nome) {
+    const chave = chaveRefeicao(nome);
+    return Object.entries(OPCOES_REFEICAO).find(([, rotulo]) => chaveRefeicao(rotulo) === chave)?.[0] ?? 'outro';
+}
+
 // Cria um identificador para uma refeição.
 // Usa crypto.randomUUID quando disponível; caso contrário,
 // monta um ID usando a data atual e um valor aleatório.
@@ -150,15 +168,32 @@ function abrirEditor(refeicao = null) {
     const fragmento = modeloEditor.content.cloneNode(true);
     const editor = fragmento.querySelector('.editor-refeicao');
     const nome = editor.querySelector('[name="nome_refeicao"]');
+    const opcoes = [...editor.querySelectorAll('[name="tipo_refeicao"]')];
+    const campoNomePersonalizado = editor.querySelector('.editor-refeicao__nome-personalizado');
     const horario = editor.querySelector('[name="horario_refeicao"]');
     const titulo = editor.querySelector('.editor-refeicao__titulo');
     const botaoConfirmar = editor.querySelector('[data-acao="confirmar"]');
     const botaoCancelar = editor.querySelector('[data-acao="cancelar"]');
 
-    // Define o título e preenche os valores quando estiver editando.
+    // Usa a opção pronta quando ela corresponde ao nome salvo; nomes antigos
+    // ou personalizados continuam editáveis pela opção "Outro".
     titulo.textContent = refeicao ? 'Editar refeição' : 'Nova refeição';
-    nome.value = refeicao?.nome ?? '';
+    const opcaoSalva = refeicao ? opcaoDaRefeicao(refeicao.nome) : '';
+    opcoes.forEach(opcao => { opcao.checked = opcao.value === opcaoSalva; });
+    nome.value = opcaoSalva === 'outro' ? (refeicao?.nome ?? '') : '';
+    campoNomePersonalizado.hidden = opcaoSalva !== 'outro';
+    nome.required = opcaoSalva === 'outro';
     horario.value = refeicao?.horario ?? '';
+
+    editor.addEventListener('change', event => {
+        if (event.target.name !== 'tipo_refeicao') return;
+        const outroSelecionado = event.target.value === 'outro';
+        campoNomePersonalizado.hidden = !outroSelecionado;
+        nome.required = outroSelecionado;
+        nome.setCustomValidity('');
+        if (outroSelecionado) nome.focus();
+    });
+    nome.addEventListener('input', () => nome.setCustomValidity(''));
 
     // Guarda o ID no editor. Sem ID, será uma nova refeição.
     editor.dataset.refeicaoId = refeicao?.id ?? '';
@@ -169,25 +204,27 @@ function abrirEditor(refeicao = null) {
     botaoAdicionar.setAttribute('aria-expanded', 'true');
     botaoAdicionar.disabled = true;
 
-    // Ao confirmar, valida os campos e adiciona ou atualiza a refeição.
+    // Ao confirmar, valida a opção de refeição, o texto de "Outro" e o horário.
     botaoConfirmar.addEventListener('click', () => {
-        // Limpa uma mensagem de validação anterior do campo nome.
         nome.setCustomValidity('');
+        const opcaoSelecionada = editor.querySelector('[name="tipo_refeicao"]:checked');
 
-        // Exige que o nome não fique vazio depois de remover os espaços.
-        if (!nome.value.trim()) {
+        if (!opcaoSelecionada) {
+            opcoes[0].reportValidity();
+            return;
+        }
+
+        if (opcaoSelecionada.value === 'outro' && !nome.value.trim()) {
             nome.setCustomValidity('Informe o nome da refeição.');
             nome.reportValidity();
             nome.focus();
             return;
         }
 
-        // Executa as validações HTML dos campos, como required e formato.
-        if (!nome.reportValidity() || !horario.reportValidity()) return;
+        if ((opcaoSelecionada.value === 'outro' && !nome.reportValidity()) || !horario.reportValidity()) return;
 
-        // Reúne os dados preenchidos no editor.
         const dados = {
-            nome: nome.value.trim(),
+            nome: opcaoSelecionada.value === 'outro' ? nome.value.trim() : OPCOES_REFEICAO[opcaoSelecionada.value],
             horario: horario.value
         };
 

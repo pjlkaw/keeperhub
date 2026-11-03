@@ -2,6 +2,7 @@
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
 import { atualizarPet, listarPets } from './armazenamento.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 // Busca os elementos da página.
 // Se não houver formulário de cadastro, o script considera que está na página da lista.
@@ -19,6 +20,7 @@ const nomesTipo = {
 // Guarda os pets, o pet selecionado, o filtro ativo e o texto da busca.
 let pets = [];
 let petAtual = null;
+let todosPetsSelecionados = false;
 let filtroAtual = 'todos';
 let buscaAtual = '';
 
@@ -143,6 +145,7 @@ function atualizarLinks() {
         const destino = new URL(link.href, location.href);
 
         if (petAtual) destino.searchParams.set('petId', petAtual.id);
+        else destino.searchParams.delete('petId');
 
         // Mantém apenas o nome do arquivo e os parâmetros da URL.
         link.href = destino.pathname.split('/').pop() + destino.search;
@@ -162,6 +165,14 @@ function carregarPets() {
         : 'Cadastre um pet primeiro';
     seletorPet.append(inicial);
 
+    // Permite consultar as categorias e o histórico de todos os pets juntos.
+    if (paginaLista && pets.length > 1) {
+        const todos = document.createElement('option');
+        todos.value = '__todos__';
+        todos.textContent = 'Todos os pets';
+        seletorPet.append(todos);
+    }
+
     // Cria uma opção para cada pet.
     pets.forEach(pet => {
         const opcao = document.createElement('option');
@@ -178,19 +189,34 @@ function carregarPets() {
         pet => pet.id === new URLSearchParams(location.search).get('petId')
     );
 
-    // Se não houver ID na URL e existir apenas um pet, seleciona-o.
-    selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
+    // Em lista com vários pets, abre por padrão a visão geral.
+    if (paginaLista && !petQuery && pets.length > 1) {
+        selecionarTodosPets();
+    } else {
+        selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
+    }
 }
 
 // Define qual pet está selecionado e atualiza a página correspondente.
 function selecionarPet(pet) {
     petAtual = pet;
+    todosPetsSelecionados = false;
     seletorPet.value = pet?.id ?? '';
     atualizarUrl(pet?.id);
     atualizarLinks();
 
     if (paginaLista) renderizarLista();
     else atualizarFormulario();
+}
+
+// Seleciona o escopo geral da página sem fixar um pet na URL.
+function selecionarTodosPets() {
+    petAtual = null;
+    todosPetsSelecionados = true;
+    seletorPet.value = '__todos__';
+    atualizarUrl(null);
+    atualizarLinks();
+    renderizarLista();
 }
 
 // Verifica se uma medicação temporária já terminou.
@@ -208,7 +234,8 @@ function correspondeBusca(medicacao) {
         medicacao.nome,
         medicacao.dosagem,
         medicacao.frequencia,
-        medicacao.observacao
+        medicacao.observacao,
+        medicacao.nomePet
     ].join(' '));
 
     return termos.includes(semAcentos(buscaAtual));
@@ -283,7 +310,11 @@ function criarCartao(medicacao, historico = false) {
     const li = document.createElement('li');
 
     // Monta o cartão. Os dados variáveis são escapados antes de entrar no HTML.
-    li.innerHTML = `<article class="card cartao-medicacao cartao-medicacao--${tipo}${historico ? ' cartao-medicacao--aplicada' : ''}${baixo ? ' cartao-medicacao--estoque-baixo' : ''}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="cartao-medicacao__informacoes"><h3 class="cartao-medicacao__nome">${escapar(medicacao.nome)}</h3><p class="cartao-medicacao__dosagem">${escapar(detalhe || 'Dosagem não informada')}</p>${detalhesEstoque}${termino}${medicacao.observacao ? `<p class="cartao-medicacao__observacao">${escapar(medicacao.observacao)}</p>` : ''}</div><span class="etiqueta-status etiqueta-status--${classeStatus}">${status}</span></article>`;
+    const etiquetaPet = todosPetsSelecionados && medicacao.nomePet
+        ? `<span class="cartao-medicacao__pet">${escapar(medicacao.nomePet)}</span>`
+        : '';
+
+    li.innerHTML = `<article class="card cartao-medicacao cartao-medicacao--${tipo}${historico ? ' cartao-medicacao--aplicada' : ''}${baixo ? ' cartao-medicacao--estoque-baixo' : ''}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="cartao-medicacao__informacoes"><h3 class="cartao-medicacao__nome">${escapar(medicacao.nome)}${etiquetaPet}</h3><p class="cartao-medicacao__dosagem">${escapar(detalhe || 'Dosagem não informada')}</p>${detalhesEstoque}${termino}${medicacao.observacao ? `<p class="cartao-medicacao__observacao">${escapar(medicacao.observacao)}</p>` : ''}</div><span class="etiqueta-status etiqueta-status--${classeStatus}">${status}</span></article>`;
 
     return li;
 }
@@ -292,19 +323,48 @@ function criarCartao(medicacao, historico = false) {
 function renderizarLista() {
     const grupos = [...main.querySelectorAll('.grupo-medicacoes')];
     const listas = grupos.map(grupo => grupo.querySelector('ul'));
+    const seletorSecao = seletorPet.closest('.seletor-pet-medicacoes');
+    const toolbar = main.querySelector('.barra-ferramentas-medicacoes');
+    const abas = main.querySelector('.abas-pet');
+    const escopo = todosPetsSelecionados
+        ? pets
+        : petAtual ? [petAtual] : [];
+    const registrosDoEscopo = escopo.flatMap(pet =>
+        (Array.isArray(pet.medicacoes) ? pet.medicacoes : [])
+            .filter(item => item && typeof item === 'object')
+            .map(item => ({ ...item, nomePet: pet.nome }))
+    );
 
-    // Aplica a busca e o filtro atual à lista do pet.
-    const registros = medicacoesDoPet()
+    // Quando o escopo ainda não tem registros, usa o estado compartilhado
+    // em vez de repetir mensagens vazias em cada categoria.
+    if (!registrosDoEscopo.length) {
+        const existeMedicacaoEmAlgumPet = pets.some(pet =>
+            Array.isArray(pet.medicacoes) && pet.medicacoes.length > 0
+        );
+
+        seletorSecao.hidden = !existeMedicacaoEmAlgumPet;
+        toolbar.hidden = true;
+        abas.hidden = true;
+        grupos.forEach(grupo => { grupo.hidden = true; });
+        informar('');
+        atualizarNoContent(false);
+        return;
+    }
+
+    seletorSecao.hidden = false;
+    toolbar.hidden = false;
+    abas.hidden = false;
+    atualizarNoContent(true);
+
+    // Aplica busca e filtro aos registros do pet ou à visão geral.
+    const registros = registrosDoEscopo
         .filter(correspondeBusca)
         .filter(correspondeFiltro);
-
     const tipos = ['continuo', 'temporario', 'eventual'];
 
-    // Preenche os grupos de uso contínuo, temporário e eventual.
+    // Preenche uso contínuo, temporário e eventual.
     for (let indice = 0; indice < tipos.length; indice++) {
         const tipo = tipos[indice];
-
-        // Não inclui no grupo ativo os tratamentos que já terminaram.
         const itens = registros.filter(
             item => item.tipoUso === tipo && !estaNoHistorico(item)
         );
@@ -312,75 +372,53 @@ function renderizarLista() {
         listas[indice].replaceChildren();
 
         if (!itens.length) {
-            // Mostra uma mensagem quando a categoria não tem itens.
             const vazio = document.createElement('li');
             vazio.className = 'medicacao-vazia';
-            vazio.textContent = petAtual
-                ? 'Nenhuma medicação nesta categoria.'
-                : 'Selecione um pet para ver os registros.';
+            vazio.textContent = buscaAtual || filtroAtual !== 'todos'
+                ? 'Nenhuma medicação corresponde à busca ou ao filtro.'
+                : 'Nenhuma medicação nesta categoria.';
             listas[indice].append(vazio);
         } else {
-            // Cria um cartão para cada medicação encontrada.
             itens.forEach(item => listas[indice].append(criarCartao(item)));
         }
     }
 
-    // Seleciona os tratamentos concluídos e ordena pelos mais recentes.
+    // Exibe os tratamentos temporários concluídos mais recentemente.
     const historico = registros
         .filter(estaNoHistorico)
-        .sort((a, b) =>
-            String(b.dataFim).localeCompare(String(a.dataFim))
-        );
+        .sort((a, b) => String(b.dataFim).localeCompare(String(a.dataFim)));
 
     listas[3].replaceChildren();
 
     if (!historico.length) {
         const vazio = document.createElement('li');
         vazio.className = 'medicacao-vazia';
-        vazio.textContent = petAtual
-            ? 'Nenhum tratamento concluído.'
-            : 'Selecione um pet para ver o histórico.';
+        vazio.textContent = buscaAtual || filtroAtual === 'historico'
+            ? 'Nenhum tratamento concluído corresponde à busca ou ao filtro.'
+            : 'Nenhum tratamento concluído.';
         listas[3].append(vazio);
     } else {
-        // Cria os cartões do histórico indicando que são tratamentos concluídos.
-        historico.forEach(item =>
-            listas[3].append(criarCartao(item, true))
-        );
+        historico.forEach(item => listas[3].append(criarCartao(item, true)));
     }
 
-    // Mostra ou oculta cada grupo conforme o filtro selecionado.
+    // Mostra apenas a categoria solicitada, mantendo o histórico quando pertinente.
     grupos.forEach((grupo, indice) => {
-        const temItens = listas[indice]
-            .querySelector('.cartao-medicacao');
-
         grupo.hidden = filtroAtual === 'historico'
             ? indice !== 3
             : filtroAtual !== 'todos' &&
                 indice !== tipos.indexOf(filtroAtual) &&
                 indice !== 3;
 
-        // No filtro por categoria, oculta o histórico se estiver vazio.
         if (indice === 3 && filtroAtual !== 'historico') {
             grupo.hidden = !historico.length && filtroAtual !== 'todos';
         }
 
-        // Marca grupos sem resultados de busca, quando há pet selecionado.
-        if (!temItens && buscaAtual && petAtual) {
-            grupo.dataset.semResultados = 'true';
-        } else {
-            delete grupo.dataset.semResultados;
-        }
+        const temCartao = Boolean(listas[indice].querySelector('.cartao-medicacao'));
+        if (!temCartao && buscaAtual) grupo.dataset.semResultados = 'true';
+        else delete grupo.dataset.semResultados;
     });
 
-    // Mostra uma mensagem apropriada para a seleção, busca ou filtro atual.
-    if (!petAtual) {
-        informar(
-            pets.length
-                ? 'Escolha um pet para consultar as medicações.'
-                : 'Cadastre um pet para acompanhar medicações.',
-            !pets.length
-        );
-    } else if (!registros.length && (buscaAtual || filtroAtual !== 'todos')) {
+    if (!registros.length && (buscaAtual || filtroAtual !== 'todos')) {
         informar('Nenhuma medicação corresponde à busca ou ao filtro.');
     } else {
         informar('');
@@ -599,9 +637,12 @@ function configurarFormulario() {
 
 // Quando a pessoa muda o pet selecionado, atualiza a página.
 seletorPet.addEventListener('change', () => {
-    selecionarPet(
-        pets.find(pet => pet.id === seletorPet.value) ?? null
-    );
+    if (paginaLista && seletorPet.value === '__todos__') {
+        selecionarTodosPets();
+        return;
+    }
+
+    selecionarPet(pets.find(pet => pet.id === seletorPet.value) ?? null);
 });
 
 // Configura os controles apropriados para a página atual.

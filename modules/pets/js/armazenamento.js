@@ -107,27 +107,43 @@ export function buscarPetPorId(id) {
 
 // Atualiza somente os dados enviados, preservando identificador, data de criação
 // e outros dados do registro que não pertencem a este formulário.
-export function atualizarPet(id, dados) {
-    if (typeof id !== 'string' || !id.trim()) return null;
-
-    const pets = listarPets();
-    const indice = pets.findIndex(pet => pet.id === id);
-    if (indice === -1) return null;
-
-    const existente = pets[indice];
-    const atualizado = {
-        ...existente,
-        ...padronizarDadosPet({ ...existente, ...dados }),
-        id: existente.id
-    };
-
-    if (Object.prototype.hasOwnProperty.call(existente, 'criadoEm')) {
-        atualizado.criadoEm = existente.criadoEm;
+export function atualizarVariosPets(atualizacoes) {
+    if (!atualizacoes || typeof atualizacoes !== 'object' || Array.isArray(atualizacoes)) {
+        return null;
     }
 
-    pets[indice] = atualizado;
+    const ids = Object.keys(atualizacoes);
+    if (!ids.length || ids.some(id => !id.trim())) return null;
+
+    const pets = listarPets();
+    const indices = ids.map(id => pets.findIndex(pet => pet.id === id));
+    if (indices.some(indice => indice === -1)) return null;
+
+    const atualizados = ids.map((id, indiceAtualizacao) => {
+        const indicePet = indices[indiceAtualizacao];
+        const existente = pets[indicePet];
+        const atualizado = {
+            ...existente,
+            ...padronizarDadosPet({ ...existente, ...atualizacoes[id] }),
+            id: existente.id
+        };
+
+        if (Object.prototype.hasOwnProperty.call(existente, 'criadoEm')) {
+            atualizado.criadoEm = existente.criadoEm;
+        }
+
+        pets[indicePet] = atualizado;
+        return atualizado;
+    });
+
     gravarPets(pets);
-    return atualizado;
+    return atualizados;
+}
+
+// Atualiza um pet preservando a assinatura usada pelo restante do módulo.
+export function atualizarPet(id, dados) {
+    if (typeof id !== 'string' || !id.trim()) return null;
+    return atualizarVariosPets({ [id]: dados })?.[0] ?? null;
 }
 
 // Cadastra um pet e retorna o registro criado.

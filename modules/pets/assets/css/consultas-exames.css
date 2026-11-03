@@ -498,3 +498,22 @@ textarea:focus {
   padding: 16px;
   color: var(--pets-text-soft);
 }
+
+
+.exames-vazios {
+  padding: 16px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+
+.painel-medico > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-consultas) {
+  position: relative;
+  z-index: 52;
+}
+.painel-medico .botao-flutuante { z-index: 51; }
+.painel-medico > :is(.consultas, .exames-medicos, .historico-medico)[hidden] {
+  display: none !important;
+}
+
+.seletor-pet-consultas[hidden] { display: none !important; }

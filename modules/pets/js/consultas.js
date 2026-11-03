@@ -1,5 +1,6 @@
 // Controla o cadastro, a listagem e o histórico local das consultas dos pets.
-import { atualizarPet, listarPets } from './armazenamento.js';
+import { atualizarPet, atualizarVariosPets, listarPets } from './armazenamento.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 // Verifica se a página atual é a página que lista consultas.
 const mainPainel = document.querySelector('.painel-medico');
@@ -20,6 +21,7 @@ const nomeEspecialidade = {
 // Guarda os pets disponíveis e o pet selecionado atualmente.
 let pets = [];
 let petAtual = null;
+let petsAlvo = [];
 
 // Converte caracteres especiais em entidades HTML antes de inserir texto
 // em trechos montados com innerHTML. Isso impede que os dados sejam
@@ -112,6 +114,34 @@ function carregarPets() {
         : 'Cadastre um pet primeiro';
     seletor.append(opcao);
 
+    // No cadastro, permite aplicar a consulta a todos ou escolher vários pets.
+    if (!paginaLista && pets.length > 1) {
+        const todos = document.createElement('option');
+        todos.value = '__todos__';
+        todos.textContent = 'Todos os pets';
+        seletor.append(todos);
+
+        const varios = document.createElement('option');
+        varios.value = '__selecionar__';
+        varios.textContent = 'Selecionar pets…';
+        seletor.append(varios);
+
+        const lista = formulario.querySelector('#consulta-pets-lista');
+        lista.replaceChildren(...pets.map(pet => {
+            const label = document.createElement('label');
+            label.className = 'selecao-pets-consulta__opcao';
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'pets_consulta';
+            checkbox.value = pet.id;
+            checkbox.addEventListener('change', atualizarPetsSelecionados);
+            const nome = document.createElement('span');
+            nome.textContent = pet.nome;
+            label.append(checkbox, nome);
+            return label;
+        }));
+    }
+
     // Adiciona cada pet como uma opção do seletor.
     for (const pet of pets) {
         const item = document.createElement('option');
@@ -131,11 +161,11 @@ function carregarPets() {
     selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
 
     // Mostra uma orientação adequada quando ainda não há seleção.
-    if (!petQuery && pets.length > 1) {
+    if (!paginaLista && !petQuery && pets.length > 1) {
         informar('Escolha o pet para consultar ou agendar atendimento.');
     }
 
-    if (!pets.length) {
+    if (!paginaLista && !pets.length) {
         informar('Cadastre um pet antes de registrar consultas.', true);
     }
 }
@@ -143,6 +173,7 @@ function carregarPets() {
 // Define o pet atual, atualiza a URL e atualiza a página correspondente.
 function selecionarPet(pet) {
     petAtual = pet;
+    if (!paginaLista) petsAlvo = pet ? [pet] : [];
     seletor.value = pet?.id ?? '';
     atualizarUrl(pet?.id);
 
@@ -184,31 +215,44 @@ function prepararLinkCadastro() {
 
 // Desenha as próximas consultas e o histórico na página de listagem.
 function renderizarLista() {
-    const secoes = mainPainel.querySelectorAll(':scope > section');
-    const proximas = secoes[0]?.querySelector('ul');
+    const proximas = mainPainel.querySelector('.consultas > ul');
     const historico = mainPainel.querySelector('.linha-tempo-medica');
+    const seletorSecao = seletor.closest('.seletor-pet-consultas');
+    const botaoAdicionar = mainPainel.querySelector('.botao-flutuante');
+    const secoesConteudo = [
+        mainPainel.querySelector('.consultas'),
+        mainPainel.querySelector('.exames-medicos'),
+        mainPainel.querySelector('.historico-medico')
+    ];
 
     prepararLinkCadastro();
 
-    // Sem pet selecionado, limpa as listas e mostra uma orientação.
+    const temConsultaEmAlgumPet = pets.some(pet =>
+        Array.isArray(pet.consultas) && pet.consultas.some(item =>
+            item && typeof item === 'object'
+        )
+    );
+
+    // Sem pet selecionado, só mostra uma orientação se já houver registros
+    // em algum pet; no primeiro cadastro usa o no-content compartilhado.
     if (!petAtual) {
-        proximas?.replaceChildren();
-        historico?.replaceChildren();
-        informar(
-            pets.length
-                ? 'Escolha um pet para ver as consultas.'
-                : 'Cadastre um pet para acompanhar consultas.',
-            !pets.length
-        );
+        proximas.replaceChildren();
+        historico.replaceChildren();
+        secoesConteudo.forEach(secao => { secao.hidden = true; });
+        seletorSecao.hidden = true;
+        botaoAdicionar.hidden = pets.length === 0;
+
+        if (temConsultaEmAlgumPet) {
+            seletorSecao.hidden = false;
+            informar('Escolha um pet para consultar os atendimentos.');
+            atualizarNoContent(true);
+        } else {
+            informar('');
+            atualizarNoContent(false);
+        }
         return;
     }
 
-    informar('');
-
-    // Usa a data local de hoje para separar consultas futuras das anteriores.
-    const agora = dataLocalISO();
-
-    // Ordena as consultas por data e horário.
     const consultas = consultasDoPet()
         .slice()
         .sort((a, b) =>
@@ -216,13 +260,29 @@ function renderizarLista() {
                 .localeCompare(`${b.data ?? ''} ${b.horario ?? ''}`)
         );
 
-    // Próximas: não realizadas e com data de hoje ou posterior.
+    // No primeiro cadastro do pet, mostra somente o estado vazio compartilhado.
+    if (!consultas.length) {
+        proximas.replaceChildren();
+        historico.replaceChildren();
+        secoesConteudo.forEach(secao => { secao.hidden = true; });
+        seletorSecao.hidden = true;
+        botaoAdicionar.hidden = false;
+        informar('');
+        atualizarNoContent(false);
+        return;
+    }
+
+    seletorSecao.hidden = false;
+    botaoAdicionar.hidden = false;
+    secoesConteudo.forEach(secao => { secao.hidden = false; });
+    atualizarNoContent(true);
+    informar('');
+
+    // Usa a data local de hoje para separar consultas futuras das anteriores.
+    const agora = dataLocalISO();
     const futuras = consultas.filter(
         item => item.status !== 'realizada' && item.data >= agora
     );
-
-    // Histórico: realizadas ou com data anterior à data de hoje.
-    // reverse() mostra as mais recentes primeiro.
     const realizadas = consultas
         .filter(item => item.status === 'realizada' || item.data < agora)
         .reverse();
@@ -230,33 +290,21 @@ function renderizarLista() {
     proximas.replaceChildren();
     historico.replaceChildren();
 
-    // Se não houver consultas futuras, exibe uma mensagem na lista.
     if (!futuras.length) {
         proximas.innerHTML =
             '<li class="consulta-vazia">Nenhuma consulta futura cadastrada.</li>';
     }
 
-    // Cria um cartão para cada consulta futura.
     futuras.forEach((consulta, indice) => {
         const id = escapar(consulta.id);
-
-        // Usa o nome padronizado da especialidade ou o texto personalizado.
-        const especialidadeConsulta =
-            consulta.especialidade === 'outra'
-                ? consulta.especialidadePersonalizada
-                : nomeEspecialidade[consulta.especialidade] ??
-                    consulta.especialidadePersonalizada;
-
-        // Combina a especialidade e a clínica, omitindo os valores vazios.
-        const detalheMedico = [
-            especialidadeConsulta ?? '',
-            consulta.clinica ?? ''
-        ].filter(Boolean).join(' · ');
-
+        const especialidadeConsulta = consulta.especialidade === 'outra'
+            ? consulta.especialidadePersonalizada
+            : nomeEspecialidade[consulta.especialidade] ?? consulta.especialidadePersonalizada;
+        const detalheMedico = [especialidadeConsulta ?? '', consulta.clinica ?? '']
+            .filter(Boolean)
+            .join(' · ');
         const item = document.createElement('li');
 
-        // Monta o cartão. Os dados variáveis passam por escapar()
-        // antes de serem inseridos no HTML.
         item.innerHTML = `<article class="card cartao-consulta${indice === 0 ? ' cartao-consulta--destaque' : ''}" data-consulta-id="${id}">
             <h3 class="cartao-consulta__veterinario">${escapar(consulta.medico)}</h3>
             <p class="cartao-consulta__local"><i class="fa-solid fa-location-dot icone" aria-hidden="true"></i>${escapar(detalheMedico || 'Local não informado')}</p>
@@ -264,23 +312,17 @@ function renderizarLista() {
             <div class="cartao-consulta__lembrete"><label for="lembrete-${id}">Lembrar</label><input type="checkbox" id="lembrete-${id}" data-lembrete ${consulta.lembrar ? 'checked' : ''}></div>
             <details class="confirmar-consulta"><summary class="confirmar-consulta__acionador">Registrar atendimento</summary><form class="confirmar-consulta__formulario" data-form-historico><div class="campo-formulario"><label for="resumo-${id}">Resumo da consulta</label><textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea></div><button type="submit" class="botao-principal">Salvar no Histórico</button></form></details>
         </article>`;
-
         proximas.append(item);
     });
 
-    // Se não houver consultas anteriores ou realizadas, mostra uma mensagem.
     if (!realizadas.length) {
         historico.innerHTML =
             '<li class="consulta-vazia">O histórico aparecerá aqui após os atendimentos.</li>';
     }
 
-    // Cria uma entrada de histórico para cada consulta realizada ou passada.
     realizadas.forEach(consulta => {
         const item = document.createElement('li');
-
-        // Os dados variáveis são escapados antes de montar o HTML.
         item.innerHTML = `<article class="linha-tempo-medica__item"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data">${escapar(formatarData(consulta.data))}</p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p></div></article>`;
-
         historico.append(item);
     });
 }
@@ -293,9 +335,9 @@ function atualizarFormulario() {
     const aviso = document.getElementById('aviso-integracao');
 
     // Impede o envio se ainda não houver um pet selecionado.
-    botao.disabled = !petAtual;
+    botao.disabled = !petsAlvo.length;
 
-    if (!petAtual) {
+    if (!petsAlvo.length) {
         aviso.textContent = pets.length
             ? 'Selecione um pet para continuar.'
             : 'Cadastre um pet antes de agendar uma consulta.';
@@ -308,7 +350,9 @@ function atualizarFormulario() {
             !pets.length
         );
     } else {
-        aviso.textContent = 'Os dados serão salvos neste navegador.';
+        aviso.textContent = petsAlvo.length > 1
+            ? `A consulta será salva para ${petsAlvo.length} pets neste navegador.`
+            : 'Os dados serão salvos neste navegador.';
         aviso.hidden = false;
         informar('');
     }
@@ -327,8 +371,8 @@ function configurarFormulario() {
     const aviso = document.getElementById('aviso-integracao');
     const data = formulario.elements.data_consulta;
 
-    // Impede selecionar uma data anterior à data local de hoje.
-    data.min = dataLocalISO();
+    // Datas anteriores a hoje podem ser registradas como consultas já ocorridas.
+    data.removeAttribute('min');
 
     // O campo de especialidade personalizada começa oculto.
     campoOutra.hidden = true;
@@ -357,7 +401,7 @@ function configurarFormulario() {
         event.preventDefault();
 
         // Não cadastra se nenhum pet estiver selecionado.
-        if (!petAtual) return;
+        if (!petsAlvo.length) return;
 
         // Confirma que campos de texto obrigatórios não estejam vazios
         // depois de remover os espaços das pontas.
@@ -395,19 +439,33 @@ function configurarFormulario() {
             data: data.value,
             horario: formulario.elements.horario_consulta.value,
             lembrar: formulario.elements.lembrar_consulta.checked,
-            status: 'agendada',
+            status: data.value < dataLocalISO() ? 'realizada' : 'agendada',
             resumo: '',
+            ...(data.value < dataLocalISO() ? { realizadaEm: new Date().toISOString() } : {}),
             criadaEm: new Date().toISOString()
         };
 
         try {
-            // Acrescenta a consulta às consultas existentes do pet.
-            persistirConsultas([...consultasDoPet(), novaConsulta]);
+            // Captura o destino antes do evento de atualização recarregar o seletor.
+            const petDestinoId = petsAlvo[0].id;
+            const quantidadePets = petsAlvo.length;
+            const grupoId = crypto.randomUUID();
+            const atualizacoes = Object.fromEntries(petsAlvo.map(pet => [
+                pet.id,
+                {
+                    consultas: [
+                        ...(Array.isArray(pet.consultas) ? pet.consultas : []),
+                        { ...novaConsulta, id: crypto.randomUUID(), grupoId }
+                    ]
+                }
+            ]));
+            const salvos = atualizarVariosPets(atualizacoes);
+            if (!salvos) throw new Error('Não foi possível localizar todos os pets selecionados.');
 
-            // Informa que o cadastro foi salvo e abre a página de consultas.
-            aviso.textContent = 'Consulta salva. Abrindo a agenda…';
+            // Informa que salvou e abre a agenda do primeiro pet escolhido.
+            aviso.textContent = `Consulta salva para ${quantidadePets} ${quantidadePets === 1 ? 'pet' : 'pets'}. Abrindo a agenda…`;
             location.href =
-                `consultas-exames.html?petId=${encodeURIComponent(petAtual.id)}`;
+                `consultas-exames.html?petId=${encodeURIComponent(petDestinoId)}`;
         } catch (erro) {
             // Se houver falha, mostra o erro e reabilita o botão.
             aviso.textContent =
@@ -419,9 +477,37 @@ function configurarFormulario() {
 
 // Quando a pessoa muda a opção do seletor, seleciona o pet correspondente.
 seletor.addEventListener('change', () => {
-    const pet = pets.find(item => item.id === seletor.value) ?? null;
-    selecionarPet(pet);
+    if (!paginaLista && seletor.value === '__todos__') {
+        petAtual = null;
+        petsAlvo = [...pets];
+        formulario.querySelector('.selecao-pets-consulta').hidden = true;
+        atualizarUrl(null);
+        atualizarFormulario();
+        return;
+    }
+
+    if (!paginaLista && seletor.value === '__selecionar__') {
+        petAtual = null;
+        atualizarUrl(null);
+        formulario.querySelector('.selecao-pets-consulta').hidden = false;
+        atualizarPetsSelecionados();
+        return;
+    }
+
+    if (!paginaLista) {
+        formulario.querySelector('.selecao-pets-consulta').hidden = true;
+    }
+
+    selecionarPet(pets.find(item => item.id === seletor.value) ?? null);
 });
+
+// Mantém sincronizados o resumo e o destino do cadastro em seleção múltipla.
+function atualizarPetsSelecionados() {
+    const ids = new Set([...formulario.querySelectorAll('input[name="pets_consulta"]:checked')]
+        .map(checkbox => checkbox.value));
+    petsAlvo = pets.filter(pet => ids.has(pet.id));
+    atualizarFormulario();
+}
 
 // Configura interações específicas da página de listagem.
 if (paginaLista) {

@@ -554,3 +554,65 @@ textarea:focus {
 }
 
 .cartao-refeicao__relogio { display: grid; place-items: center; background: none; color: var(--pets-text-muted); font-size: 20px; line-height: 1; }
+
+
+/* Opções rápidas de refeição no editor da rotina alimentar. */
+.editor-refeicao__opcoes-campo {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.editor-refeicao__opcoes-campo > legend {
+  margin-bottom: 10px;
+  color: var(--pets-label);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.opcoes-refeicao {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 8px;
+}
+
+.opcao-refeicao {
+  position: relative;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.opcao-refeicao input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opcao-refeicao:has(input:checked) {
+  color: var(--pets-primary-readable);
+  background: var(--pets-primary-soft);
+  border-color: var(--pets-primary);
+}
+
+.opcao-refeicao:has(input:focus-visible) {
+  outline: 2px solid var(--pets-primary);
+  outline-offset: 2px;
+}
+
+.editor-refeicao__nome-personalizado[hidden] {
+  display: none !important;
+}

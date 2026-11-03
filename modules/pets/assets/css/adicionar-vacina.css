@@ -208,7 +208,7 @@ body {
   line-height: 1.45;
 }
 
-.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea) {
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], input[type='time'], textarea) {
   display: block;
   width: 100%;
   min-width: 0;
@@ -231,12 +231,12 @@ body {
   resize: vertical;
 }
 
-.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea)::placeholder {
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], input[type='time'], textarea)::placeholder {
   color: var(--vacina-suave);
   opacity: 1;
 }
 
-.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], textarea):focus {
+.formulario-adicionar-vacina :is(input[type='text'], input[type='date'], input[type='time'], textarea):focus {
   background: var(--vacina-superficie-hover);
   border-color: var(--vacina-azul);
   box-shadow: 0 0 0 3px var(--pets-primary-soft);

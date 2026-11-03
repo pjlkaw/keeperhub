@@ -541,6 +541,14 @@ main > .section-header-section {
   margin: 16px;
 }
 
+.seletor-pet-vacinas[hidden] {
+  display: none !important;
+}
+
+.vacinacoes-pet > :is(.destaques-vacinas, .cronograma-vacinas, .historico-vacinas)[hidden] {
+  display: none !important;
+}
+
 .seletor-pet-vacinas label {
   color: var(--pets-text);
   font-size: 12px;
@@ -564,4 +572,17 @@ main > .section-header-section {
 .vacina-vazia {
   padding: 16px;
   color: var(--pets-text-soft);
+}
+
+
+/* O CTA permanece acionável sobre o estado vazio compartilhado. */
+.vacinacoes-pet .botao-flutuante {
+  z-index: 51;
+}
+
+
+/* Mantém a navegação, o cabeçalho e a seleção de pet visíveis sobre o no-content. */
+.vacinacoes-pet > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-vacinas) {
+  position: relative;
+  z-index: 52;
 }
