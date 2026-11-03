@@ -18,9 +18,7 @@
   margin: 20px 20px 4px 20px;
 }
 
-.edicao-app {
-
-
+body {
   margin-inline: auto;
   background: var(--bg-color);
   border: 1px solid var(--border-color);
@@ -126,6 +124,7 @@
 
 .edicao-identidade__nome {
   margin: 12px 0 0;
+  margin-bottom: 5px;
   font-size: 1.125rem;
   line-height: 1.25;
 }
@@ -306,10 +305,15 @@
 }
 
 .botao-salvar {
-  width: 100%;
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  width: auto;
+  min-width: 180px;
   height: 48px;
   min-height: 48px;
-  margin-top: 6px;
+  margin: 0;
   padding: 12px 20px;
   display: inline-flex;
   align-items: center;
@@ -324,6 +328,10 @@
   text-align: center;
   cursor: pointer;
   transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.botao-salvar[hidden] {
+  display: none;
 }
 
 .botao-salvar:hover:not(:disabled) {
