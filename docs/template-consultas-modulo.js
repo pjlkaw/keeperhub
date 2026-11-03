@@ -17,7 +17,7 @@ import db from '../../db.js';
 export async function listarMedicamentos(usuarioId) {
   const [linhas] = await db.execute(
     `SELECT m.id_medicamento, i.id_item, i.nome,
-            m.unidade_estoque, m.concentracao
+            m.unidade_estoque
        FROM medicamento AS m
        JOIN item AS i ON i.id_item = m.item_id
       WHERE i.usuario_id = ? AND i.tipo_item = 'medicamento'
@@ -31,7 +31,7 @@ export async function listarMedicamentos(usuarioId) {
 // Buscar um medicamento específico do usuário logado
 export async function buscarMedicamento(idMedicamento, usuarioId) {
   const [linhas] = await db.execute(
-    `SELECT m.id_medicamento, i.nome, m.unidade_estoque, m.concentracao
+    `SELECT m.id_medicamento, i.nome, m.unidade_estoque
        FROM medicamento AS m
        JOIN item AS i ON i.id_item = m.item_id
       WHERE m.id_medicamento = ? AND i.usuario_id = ?

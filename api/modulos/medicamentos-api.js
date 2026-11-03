@@ -17,6 +17,11 @@ import {
   listarReceitas,
 } from '../../server/repositories/medicamentos/receitas.js';
 import {
+  alternarConclusaoHabito,
+  criarHabito,
+  listarHabitos,
+} from '../../server/repositories/medicamentos/habitos.js';
+import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
@@ -44,9 +49,6 @@ function quantidadeComDuasCasas(valor) {
 function validarDados(body) {
   const nome = typeof body.nome === 'string' ? body.nome.trim() : '';
   const unidade = typeof body.unidade === 'string' ? body.unidade.trim() : '';
-  const concentracao = typeof body.concentracao === 'string'
-    ? body.concentracao.trim()
-    : '';
   const dose = typeof body.dose === 'string' ? body.dose.trim() : '';
   const tipoUso = typeof body.tipoUso === 'string' ? body.tipoUso : '';
   const frequencia = typeof body.frequencia === 'string' ? body.frequencia : 'diario';
@@ -70,7 +72,7 @@ function validarDados(body) {
   if (!unidade || unidade.length > 30) {
     return { erro: 'Informe a unidade do medicamento.' };
   }
-  if (concentracao.length > 80 || dose.length > 100) {
+  if (dose.length > 100) {
     return { erro: 'Os dados do medicamento são muito longos.' };
   }
   if (!TIPOS_USO.includes(tipoUso)) {
@@ -105,7 +107,7 @@ function validarDados(body) {
 
   return {
     dados: {
-      nome, unidade, concentracao, dose, tipoUso, frequencia, intervaloHoras,
+      nome, unidade, dose, tipoUso, frequencia, intervaloHoras,
       dias, horarios, dataInicio, dataFim, quantidadeInicial, validade,
     },
   };
@@ -136,6 +138,9 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
+      if (req.query?.acao === 'habitos') {
+        return res.status(200).json({ habitos: await listarHabitos(usuarioId) });
+      }
       if (req.query?.acao === 'receitas') {
         const idReceita = req.query?.id;
         if (idReceita) {
@@ -172,6 +177,23 @@ export default async function handler(req, res) {
 
     if (!origemDaRequisicaoValida(req)) {
       return res.status(403).json({ erro: 'Origem da requisição não permitida.' });
+    }
+
+    if (req.method === 'POST' && req.query?.acao === 'habito') {
+      const habito = await criarHabito(usuarioId, req.body || {});
+      return res.status(201).json({ habito });
+    }
+
+    if (req.method === 'POST' && req.query?.acao === 'habito-conclusao') {
+      const habitoId = Number(req.body?.habitoId);
+      const data = typeof req.body?.data === 'string' ? req.body.data : '';
+      if (!Number.isInteger(habitoId) || habitoId <= 0 || !dataISOValida(data)) {
+        return res.status(400).json({ erro: 'Informe um hábito e uma data válidos.' });
+      }
+      const habitos = await alternarConclusaoHabito(usuarioId, habitoId, data);
+      return habitos
+        ? res.status(200).json({ habitos })
+        : res.status(404).json({ erro: 'Hábito não encontrado.' });
     }
 
     if (req.method === 'POST' && req.query?.acao === 'uso') {

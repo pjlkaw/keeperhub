@@ -124,7 +124,6 @@ export async function inicializarFormularioMedicamento() {
         const medicamento = {
             id: medicamentoEditado?.id,
             nome: String(dados.get("medName")).trim(),
-            concentracao: String(dados.get("concentration") ?? "").trim(),
             tipoUso: String(dados.get("usageType")),
             dataInicio: String(dados.get("startDate") ?? ""),
             dataFim: formulario.querySelector("#input-end-date")
@@ -147,7 +146,6 @@ export async function inicializarFormularioMedicamento() {
         try {
             const salvo = await salvarMedicamentoApi({
                 nome: medicamento.nome,
-                concentracao: medicamento.concentracao,
                 tipoUso: medicamento.tipoUso,
                 unidade: medicamento.unidade || "unidades",
                 dose: medicamento.dose,
@@ -180,7 +178,6 @@ async function carregarMedicamentoParaEdicao(formulario, id) {
         }
 
         preencherCampo(formulario, "#input-med-name", medicamento.nome);
-        preencherCampo(formulario, "#input-med-concentration", medicamento.concentracao);
         preencherCampo(formulario, "#input-start-date", medicamento.dataInicio);
         preencherCampo(formulario, "#input-end-date", medicamento.dataFim);
         preencherCampo(formulario, "#input-med-dose", medicamento.dose);
@@ -219,7 +216,6 @@ async function carregarMedicamentoParaEdicao(formulario, id) {
 function configurarNomesCampos(formulario) {
     const campos = {
         "#input-med-name": "medName",
-        "#input-med-concentration": "concentration",
         "#input-start-date": "startDate",
         "#input-end-date": "endDate",
         "#input-med-dose": "dose",

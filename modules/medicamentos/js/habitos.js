@@ -1,15 +1,18 @@
-import { listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { definirHabitosDoBanco, listarRegistros } from "./armazenamento.js";
+import { alternarConclusaoHabitoApi, listarHabitosApi } from "./api.js";
 import { dataLocal } from "./dados-rotina.js";
 
 // Atualiza o checklist e o resumo dos hábitos diretamente na interface.
-export function inicializarHabitos() {
+export async function inicializarHabitos() {
     const lista = document.querySelector(".habits-list");
     if (!lista) {
         return;
     }
 
-    const hoje = dataLocal();
     try {
+        const habitosDoBanco = await listarHabitosApi();
+        definirHabitosDoBanco(habitosDoBanco);
+        const hoje = dataLocal();
         lista.replaceChildren();
         const habitos = listarRegistros("habitos");
         habitos.forEach((habito) => lista.append(criarLinhaHabito(habito, hoje)));
@@ -73,24 +76,18 @@ export function inicializarHabitos() {
     atualizarResumoHabitos(lista);
 }
 
-function alternarHabito(habito) {
+async function alternarHabito(habito) {
     const concluido = habito.classList.toggle("is-complete");
     habito.setAttribute("aria-checked", String(concluido));
 
     const id = habito.dataset.habitId;
     if (id) {
         try {
-            const habitos = listarRegistros("habitos");
-            const registro = habitos.find((item) => item.id === id);
-            if (registro) {
-                const conclusoes = Array.isArray(registro.conclusoes) ? registro.conclusoes : [];
-                const hoje = dataLocal();
-                registro.conclusoes = concluido
-                    ? Array.from(new Set([...conclusoes, hoje]))
-                    : conclusoes.filter((data) => data !== hoje);
-                salvarRegistros("habitos", habitos);
-            }
+            const habitos = await alternarConclusaoHabitoApi(id, dataLocal());
+            definirHabitosDoBanco(habitos);
         } catch (erro) {
+            habito.classList.toggle("is-complete", !concluido);
+            habito.setAttribute("aria-checked", String(!concluido));
             mostrarErroHabito(habito.closest(".habits-list"), erro);
         }
     }
@@ -102,11 +99,6 @@ function alternarHabito(habito) {
 
     atualizarResumoHabitos(habito.closest(".habits-list"));
 
-    // Temporário: registra a mudança no console apenas para teste de desenvolvimento.
-    console.log("[Medicamentos] Hábito alterado (teste de desenvolvimento):", {
-        habito: habito.querySelector(".habit-row-name")?.textContent.trim(),
-        concluido,
-    });
 }
 
 function atualizarResumoHabitos(lista) {

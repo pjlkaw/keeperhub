@@ -1,9 +1,8 @@
-import { criarIdLocal, listarRegistros, salvarRegistros } from "./armazenamento.js";
-import { definirRegistrosUsoDoBanco } from "./armazenamento.js";
-import { registrarEntradaEstoqueApi, salvarRegistroUsoApi } from "./api.js";
+import { listarRegistros, definirRegistrosUsoDoBanco } from "./armazenamento.js";
+import { registrarEntradaEstoqueApi, salvarHabitoApi, salvarRegistroUsoApi } from "./api.js";
 import { dataLocal } from "./dados-rotina.js";
 
-// Inicializa formulários locais de hábitos e formulários de uso/estoque conectados à API.
+// Inicializa formulários de hábitos, uso eventual e reposição conectados à API.
 export function inicializarFormularios() {
     inicializarFormularioHabito();
     inicializarFormularioUsoEventual();
@@ -17,7 +16,7 @@ function inicializarFormularioHabito() {
         return;
     }
 
-    formulario.addEventListener("submit", (evento) => {
+    formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
             return;
@@ -25,21 +24,13 @@ function inicializarFormularioHabito() {
 
         const dados = new FormData(formulario);
         try {
-            const habitos = listarRegistros("habitos");
             const habito = {
-                id: criarIdLocal(),
                 nome: String(dados.get("habit-name")).trim(),
                 frequencia: String(dados.get("habit-frequency")),
-                meta: String(dados.get("habit-goal")).trim(),
+                meta: Number(dados.get("habit-goal")),
                 unidade: String(dados.get("habit-unit")),
-                conclusoes: [],
-                criadoEm: new Date().toISOString(),
             };
-            habitos.push(habito);
-            salvarRegistros("habitos", habitos);
-
-            // Provisório: o hábito fica salvo somente no localStorage deste navegador.
-            console.log("[Medicamentos] Hábito salvo localmente (provisório):", habito);
+            await salvarHabitoApi(habito);
             window.location.href = "bons-habitos.html";
         } catch (erro) {
             mostrarRetornoFormulario(formulario, erro.message, true);
@@ -68,7 +59,7 @@ function inicializarFormularioUsoEventual() {
             .forEach((medicamento) => {
             const opcao = document.createElement("option");
             opcao.value = medicamento.id;
-            opcao.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+            opcao.textContent = medicamento.nome;
             seletor.append(opcao);
         });
     } catch (erro) {
@@ -155,7 +146,7 @@ function inicializarFormularioReposicao() {
         const quantidadeAtual = formulario.querySelector(".calc-row .calc-value");
         const novoTotal = formulario.querySelector(".calc-total-value");
         const unidadeCampo = formulario.querySelector(".input-suffix");
-        if (titulo) titulo.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+        if (titulo) titulo.textContent = medicamento.nome;
         if (tipo) tipo.textContent = unidade;
         if (estoque) estoque.textContent = `Estoque atual: ${medicamento.quantidade} ${unidade}`;
         if (quantidadeAtual) quantidadeAtual.textContent = String(medicamento.quantidade);

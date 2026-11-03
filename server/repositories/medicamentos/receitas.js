@@ -34,8 +34,7 @@ export async function listarReceitas(usuarioId) {
   const [linhas] = await db.execute(
     `SELECT r.id_receita AS id, r.titulo, r.medico_nome, r.especialidade,
             r.data_receita, r.data_validade, r.status,
-            rm.medicamento_id, CONCAT(i.nome, IF(m.concentracao IS NULL OR m.concentracao = '', '',
-              CONCAT(' ', m.concentracao))) AS medicamento
+            rm.medicamento_id, i.nome AS medicamento
        FROM receita r
        LEFT JOIN receita_medicamento rm ON rm.receita_id = r.id_receita
        LEFT JOIN medicamento m ON m.id_medicamento = rm.medicamento_id

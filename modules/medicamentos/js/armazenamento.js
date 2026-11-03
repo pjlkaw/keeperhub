@@ -1,7 +1,7 @@
-// Medicamentos e registros de uso vêm da API; hábitos e receitas ainda usam o protótipo local.
-const prefixoChave = "keeperhub-medicamentos";
+// Dados do módulo vêm da API; estas variáveis são apenas o estado da página.
 let medicamentosDoBanco = null;
 let registrosUsoDoBanco = null;
+let habitosDoBanco = null;
 
 export function definirMedicamentosDoBanco(medicamentos) {
     medicamentosDoBanco = Array.isArray(medicamentos)
@@ -12,6 +12,12 @@ export function definirMedicamentosDoBanco(medicamentos) {
 export function definirRegistrosUsoDoBanco(registros) {
     registrosUsoDoBanco = Array.isArray(registros)
         ? registros.map((registro) => ({ ...registro }))
+        : null;
+}
+
+export function definirHabitosDoBanco(habitos) {
+    habitosDoBanco = Array.isArray(habitos)
+        ? habitos.map((habito) => ({ ...habito, conclusoes: [...(habito.conclusoes || [])] }))
         : null;
 }
 
@@ -42,47 +48,11 @@ export function listarRegistros(tipo) {
                 criadoEm: registro.tomadaEm || registro.data,
             }));
     }
-
-    const chave = `${prefixoChave}-${tipo}-v1`;
-    const conteudo = localStorage.getItem(chave);
-
-    if (conteudo === null) {
-        return [];
+    if (tipo === "habitos") {
+        if (!habitosDoBanco) {
+            throw new Error("Não foi possível carregar os hábitos do servidor.");
+        }
+        return habitosDoBanco.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
     }
-
-    let registros;
-    try {
-        registros = JSON.parse(conteudo);
-    } catch (erro) {
-        throw new Error(`Não foi possível ler os dados locais de ${tipo}.`, { cause: erro });
-    }
-
-    if (!Array.isArray(registros)) {
-        throw new Error(`Os dados locais de ${tipo} estão em um formato inválido.`);
-    }
-
-    return registros;
-}
-
-// Grava registros apenas neste navegador; a persistência em localStorage é provisória.
-export function salvarRegistros(tipo, registros) {
-    if (tipo === "medicamentos") {
-        throw new Error("Medicamentos devem ser alterados pela API, não pelo armazenamento local.");
-    }
-    if (tipo === "doses" || tipo === "usos") {
-        throw new Error("Registros de uso devem ser alterados pela API, não pelo armazenamento local.");
-    }
-
-    const chave = `${prefixoChave}-${tipo}-v1`;
-
-    try {
-        localStorage.setItem(chave, JSON.stringify(registros));
-    } catch (erro) {
-        throw new Error(`Não foi possível salvar ${tipo} neste navegador.`, { cause: erro });
-    }
-}
-
-// Cria identificadores locais sem depender de serviços externos.
-export function criarIdLocal() {
-    return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    throw new Error(`O tipo de registro "${tipo}" não é persistido neste módulo.`);
 }

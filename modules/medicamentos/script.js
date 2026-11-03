@@ -15,14 +15,15 @@ import { inicializarDetalhesMedicamento } from "./js/detalhes-medicamento.js";
 import { inicializarHabitos } from "./js/habitos.js";
 import { inicializarListaMedicamentos } from "./js/medicamentos.js";
 import { inicializarReceitas } from "./js/receitas.js";
-import { listarMedicamentosApi, listarRegistrosUsoApi } from "./js/api.js";
-import { definirMedicamentosDoBanco, definirRegistrosUsoDoBanco } from "./js/armazenamento.js";
+import { listarHabitosApi, listarMedicamentosApi, listarRegistrosUsoApi } from "./js/api.js";
+import { definirHabitosDoBanco, definirMedicamentosDoBanco, definirRegistrosUsoDoBanco } from "./js/armazenamento.js";
 import { atualizarNoContent } from "/shared/services/no-content.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const [medicamentos, registrosUso] = await Promise.allSettled([
+    const [medicamentos, registrosUso, habitos] = await Promise.allSettled([
         listarMedicamentosApi(),
         listarRegistrosUsoApi(),
+        listarHabitosApi(),
     ]);
     if (medicamentos.status === "fulfilled") {
         definirMedicamentosDoBanco(medicamentos.value);
@@ -36,6 +37,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         definirRegistrosUsoDoBanco(null);
         mostrarErroDeCarregamento(registrosUso.reason);
     }
+    if (habitos.status === "fulfilled") {
+        definirHabitosDoBanco(habitos.value);
+    } else {
+        definirHabitosDoBanco(null);
+        mostrarErroDeCarregamento(habitos.reason);
+    }
 
     mudarAbaMedicamentos();
     inicializarFormularios();
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     inicializarHistoricoMedicamentos();
     inicializarDashboardMedicamentos();
     inicializarDetalhesMedicamento();
-    inicializarHabitos();
+    await inicializarHabitos();
     inicializarListaMedicamentos();
     inicializarReceitas();
     if (document.querySelector(".no-content-section")) {

@@ -2,6 +2,7 @@ const URL_API = '/api/modulos/medicamentos-api';
 let medicamentosCache = null;
 let registrosUsoCache = null;
 let receitasCache = null;
+let habitosCache = null;
 
 async function requisicao(url, opcoes = {}) {
   const resposta = await fetch(url, {
@@ -117,6 +118,33 @@ export async function salvarReceitaApi(dados) {
     ? [resposta.receita, ...receitasCache.filter((receita) => receita.id !== resposta.receita.id)]
     : null;
   return resposta.receita;
+}
+
+export async function listarHabitosApi() {
+  if (habitosCache) return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
+  const resposta = await requisicao(`${URL_API}?acao=habitos`);
+  habitosCache = resposta.habitos;
+  return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
+}
+
+export async function salvarHabitoApi(dados) {
+  const resposta = await requisicao(`${URL_API}?acao=habito`, {
+    method: 'POST',
+    body: JSON.stringify(dados),
+  });
+  habitosCache = habitosCache
+    ? [resposta.habito, ...habitosCache.filter((habito) => habito.id !== resposta.habito.id)]
+    : null;
+  return resposta.habito;
+}
+
+export async function alternarConclusaoHabitoApi(habitoId, data) {
+  const resposta = await requisicao(`${URL_API}?acao=habito-conclusao`, {
+    method: 'POST',
+    body: JSON.stringify({ habitoId, data }),
+  });
+  habitosCache = resposta.habitos;
+  return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
 }
 
 export async function excluirMedicamentoApi(id) {

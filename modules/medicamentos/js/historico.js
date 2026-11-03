@@ -117,7 +117,7 @@ function inicializarBusca(lista) {
 }
 
 function nomeCompleto(medicamento) {
-    return [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+    return medicamento.nome;
 }
 
 function formatarData(valor) {

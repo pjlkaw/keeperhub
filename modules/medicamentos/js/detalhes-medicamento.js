@@ -290,7 +290,7 @@ function adicionarLinhaDetalhe(caixa, rotulo, valor) {
 }
 
 function nomeCompleto(medicamento) {
-    return [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+    return medicamento.nome;
 }
 
 function rotuloTipo(tipo) {

@@ -65,7 +65,7 @@ function criarCartaoMedicamento(medicamento) {
 
     const nome = document.createElement("span");
     nome.className = "med-card-name";
-    nome.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+    nome.textContent = medicamento.nome;
 
     const detalhes = document.createElement("span");
     detalhes.className = "med-card-details";

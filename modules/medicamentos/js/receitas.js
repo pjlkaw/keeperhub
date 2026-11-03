@@ -28,7 +28,7 @@ function preencherMedicamentos() {
         listarRegistros("medicamentos").filter((item) => item.status !== "encerrado").forEach((medicamento) => {
             const opcao = document.createElement("option");
             opcao.value = medicamento.id;
-            opcao.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+            opcao.textContent = medicamento.nome;
             seletor.append(opcao);
         });
     } catch (erro) {
@@ -228,7 +228,7 @@ function medicamentoDaReceita(receita) {
 
     const medicamento = listarRegistros("medicamentos").find((item) => item.id === receita.medicamentoId);
     return medicamento
-        ? [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ")
+        ? medicamento.nome
         : "Medicamento não encontrado";
 }
 

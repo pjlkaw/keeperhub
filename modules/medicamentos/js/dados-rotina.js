@@ -69,7 +69,7 @@ export async function salvarEstadoDose(dose, status) {
 }
 
 export function nomeMedicamento(medicamento) {
-    return [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+    return medicamento.nome;
 }
 
 export function horariosMedicamento(medicamento) {
