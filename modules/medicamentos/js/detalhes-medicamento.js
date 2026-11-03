@@ -3,6 +3,7 @@ import {
     buscarMedicamentoApi,
     encerrarTratamentoApi,
     excluirMedicamentoApi,
+    listarReceitasApi,
     listarMovimentacoesEstoqueApi,
 } from "./api.js";
 import { formatarDataHora } from "./dados-rotina.js";
@@ -48,7 +49,7 @@ function confirmarAcao(mensagem) {
     });
 }
 
-// Exibe o medicamento e o estoque da API; os dados de receita ainda usam o protótipo local.
+// Exibe o medicamento, o estoque e as receitas por meio da API.
 export async function inicializarDetalhesMedicamento() {
     const titulo = document.querySelector("#med-title");
     if (!titulo) return;
@@ -68,7 +69,7 @@ export async function inicializarDetalhesMedicamento() {
         if (!medicamento) throw new Error("Este medicamento não foi encontrado.");
         mostrarMedicamento(medicamento);
         renderizarValidadeDoDetalhe(medicamento);
-        renderizarReceita(medicamento);
+        await renderizarReceita(medicamento);
         renderizarHistorico(medicamento, movimentacoes);
         configurarAcoes(medicamento);
     } catch (erro) {
@@ -160,10 +161,11 @@ function renderizarValidadeDoDetalhe(medicamento) {
     adicionarLinhaDetalhe(caixa, "Validade mais próxima", formatarData(medicamento.validade));
 }
 
-function renderizarReceita(medicamento) {
+async function renderizarReceita(medicamento) {
     const secao = document.querySelector("#section-prescription-title")?.closest(".med-card-section");
     if (!secao) return;
-    const receita = listarRegistros("receitas").find((item) => item.medicamentoId === medicamento.id);
+    const receitas = await listarReceitasApi();
+    const receita = receitas.find((item) => item.medicamentoId === medicamento.id);
     const titulo = document.querySelector("#section-prescription-title");
     const data = secao.querySelector(".med-card-subtext");
     const link = secao.querySelector("#btn-view-prescription");
