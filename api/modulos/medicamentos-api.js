@@ -12,6 +12,11 @@ import {
   salvarRegistroUso,
 } from '../../server/repositories/medicamentos/medicamentos.js';
 import {
+  buscarReceita,
+  criarReceita,
+  listarReceitas,
+} from '../../server/repositories/medicamentos/receitas.js';
+import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
@@ -21,6 +26,10 @@ const FREQUENCIAS = ['diario', 'especifico', 'intervalo'];
 const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'];
 const HORARIO_VALIDO = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
 const DATA_VALIDA = /^\d{4}-\d{2}-\d{2}$/;
+const UNIDADES_INTEIRAS = new Set([
+  'comprimidos', 'capsulas', 'unidades', 'caixa', 'caixas',
+  'frasco', 'frascos', 'cartela', 'cartelas',
+]);
 
 function dataISOValida(valor) {
   if (!DATA_VALIDA.test(valor)) return false;
@@ -87,7 +96,7 @@ function validarDados(body) {
       !quantidadeComDuasCasas(quantidadeInicial)) {
     return { erro: 'Informe uma quantidade inicial válida.' };
   }
-  if (['comprimidos', 'capsulas', 'unidades'].includes(unidade) && !Number.isInteger(quantidadeInicial)) {
+  if (UNIDADES_INTEIRAS.has(unidade.toLowerCase()) && !Number.isInteger(quantidadeInicial)) {
     return { erro: 'Use uma quantidade inteira para esta unidade de estoque.' };
   }
   if (validade && !dataISOValida(validade)) {
@@ -127,6 +136,16 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
+      if (req.query?.acao === 'receitas') {
+        const idReceita = req.query?.id;
+        if (idReceita) {
+          const receita = await buscarReceita(idReceita, usuarioId);
+          return receita
+            ? res.status(200).json({ receita })
+            : res.status(404).json({ erro: 'Receita não encontrada.' });
+        }
+        return res.status(200).json({ receitas: await listarReceitas(usuarioId) });
+      }
       if (req.query?.acao === 'historico') {
         return res.status(200).json({ eventos: await listarHistoricoEstoque(usuarioId) });
       }
@@ -171,6 +190,7 @@ export default async function handler(req, res) {
           !['rotina', 'eventual'].includes(tipoUso)) {
         return res.status(400).json({ erro: 'Informe um medicamento e uma data válidos.' });
       }
+
       if ((horario && !HORARIO_VALIDO.test(horario)) || (tipoUso === 'eventual' && !horario)) {
         return res.status(400).json({ erro: 'Informe um horário válido.' });
       }
@@ -184,6 +204,11 @@ export default async function handler(req, res) {
       return registros
         ? res.status(200).json({ registros })
         : res.status(404).json({ erro: 'Medicamento não encontrado.' });
+    }
+
+    if (req.method === 'POST' && req.query?.acao === 'receita') {
+      const receita = await criarReceita(usuarioId, req.body || {});
+      return res.status(201).json({ receita });
     }
 
     if (req.method === 'POST' && req.query?.acao === 'entrada') {
@@ -200,7 +225,7 @@ export default async function handler(req, res) {
       if (!id) return res.status(400).json({ erro: 'Informe o medicamento.' });
       const atual = await buscarMedicamento(id, usuarioId);
       if (!atual) return res.status(404).json({ erro: 'Medicamento não encontrado.' });
-      if (['comprimidos', 'capsulas', 'unidades'].includes(atual.unidade) && !Number.isInteger(quantidade)) {
+      if (UNIDADES_INTEIRAS.has(String(atual.unidade).toLowerCase()) && !Number.isInteger(quantidade)) {
         return res.status(400).json({ erro: 'Use uma quantidade inteira para esta unidade de estoque.' });
       }
       const medicamento = await registrarEntradaEstoque(id, usuarioId, quantidade, validade);
@@ -253,6 +278,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ erro: 'Método não permitido.' });
   } catch (erro) {
     console.error('Erro na API de medicamentos:', erro);
-    return res.status(500).json({ erro: 'Erro ao acessar medicamentos.' });
+    return res.status(erro.statusCode || 500).json({
+      erro: erro.statusCode ? erro.message : 'Erro ao acessar medicamentos.',
+    });
   }
 }

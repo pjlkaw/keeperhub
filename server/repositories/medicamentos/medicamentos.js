@@ -380,6 +380,7 @@ export async function salvarRegistroUso(usuarioId, dados) {
   try {
     await conexao.beginTransaction();
     let registroId = null;
+    let statusAnterior = null;
     if (dados.tipoUso === 'rotina') {
       const [registros] = await conexao.execute(
         `SELECT id_registro FROM registro_uso
@@ -389,6 +390,20 @@ export async function salvarRegistroUso(usuarioId, dados) {
         [dados.medicamentoId, dados.data, horarioPrevisto]
       );
       registroId = registros[0]?.id_registro ?? null;
+      if (registroId) {
+        const [atuais] = await conexao.execute(
+          'SELECT status FROM registro_uso WHERE id_registro = ? FOR UPDATE',
+          [registroId],
+        );
+        statusAnterior = atuais[0]?.status || null;
+      }
+    }
+
+    if (statusBanco === 'tomado' && statusAnterior !== 'tomado') {
+      const quantidade = quantidadeDeUmaDose(dados.dose, medicamento.unidade);
+      if (quantidade > 0) {
+        await baixarEstoque(conexao, medicamento.itemId, medicamento.id, quantidade);
+      }
     }
 
     if (registroId) {
@@ -413,6 +428,49 @@ export async function salvarRegistroUso(usuarioId, dados) {
           dados.dose || null, dados.tipoUso,
           statusBanco, dados.observacao || null]
       );
+    }
+
+    function quantidadeDeUmaDose(dose, unidade) {
+      if (![
+        'comprimidos', 'capsulas', 'unidades', 'caixa', 'caixas',
+        'frasco', 'frascos', 'cartela', 'cartelas',
+      ].includes(String(unidade).toLowerCase())) {
+        return 0;
+      }
+      const valor = Number(String(dose || '').match(/\d+(?:[.,]\d+)?/)?.[0]?.replace(',', '.'));
+      return Number.isInteger(valor) && valor > 0 ? valor : 0;
+    }
+
+    async function baixarEstoque(conexao, itemId, medicamentoId, quantidade) {
+      const [lotes] = await conexao.execute(
+        `SELECT id_lote, quantidade FROM lote
+          WHERE item_id = ? AND quantidade > 0
+          ORDER BY validade IS NULL, validade, id_lote
+          FOR UPDATE`,
+        [itemId],
+      );
+      const total = lotes.reduce((soma, lote) => soma + Number(lote.quantidade), 0);
+      if (total < quantidade) {
+        const erro = new Error('Estoque insuficiente para registrar esta dose.');
+        erro.statusCode = 409;
+        throw erro;
+      }
+
+      let restante = quantidade;
+      for (const lote of lotes) {
+        if (restante <= 0) break;
+        const abatido = Math.min(Number(lote.quantidade), restante);
+        await conexao.execute(
+          'UPDATE lote SET quantidade = quantidade - ? WHERE id_lote = ?',
+          [abatido, lote.id_lote],
+        );
+        await conexao.execute(
+          `INSERT INTO movimentacao (lote_id, tipo, quantidade, observacao)
+           VALUES (?, 'saida', ?, ?)`,
+          [lote.id_lote, abatido, `Dose registrada do medicamento ${medicamentoId}`],
+        );
+        restante -= abatido;
+      }
     }
     await conexao.commit();
   } catch (erro) {
