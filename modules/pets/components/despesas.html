@@ -12,6 +12,7 @@
     <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/no-content.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
@@ -30,12 +31,13 @@
     <script src="/shared/services/load-components.js"></script>
 </head>
   <body>
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma despesa cadastrada"></section>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="">
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
       <header class="section-header-section" id="headerSection"></header>
 
-      <section class="seletor-pet-despesas" aria-labelledby="rotulo-pet-despesas">
+      <section class="seletor-pet-despesas" aria-labelledby="rotulo-pet-despesas" hidden>
         <label id="rotulo-pet-despesas" for="pet-despesas">Pet</label>
         <select id="pet-despesas" aria-describedby="status-pet-despesas"></select>
         <p id="status-pet-despesas" role="status" aria-live="polite" hidden></p>
@@ -158,6 +160,12 @@
           <button class="nova-despesa__fechar" type="button" popovertarget="nova-despesa" popovertargetaction="hide" aria-label="Fechar formulário"><span aria-hidden="true">×</span></button>
         </header>
         <form class="formulario-despesa" id="formulario-despesa" aria-describedby="mensagem-despesa">
+          <div class="campo-formulario destino-despesa" id="destino-despesa" hidden>
+            <label for="pet-destino-despesa">Pet desta despesa</label>
+            <select id="pet-destino-despesa" name="pet_destino" required>
+              <option value="" selected disabled>Selecione um pet</option>
+            </select>
+          </div>
           <div class="campo-formulario">
             <label for="descricao-despesa">Descrição</label>
             <input type="text" id="descricao-despesa" name="descricao" maxlength="100" placeholder="Ex.: Ração da Luna" required />

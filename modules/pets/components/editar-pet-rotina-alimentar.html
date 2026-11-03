@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -95,10 +95,20 @@
         <fieldset class="editor-refeicao">
             <legend class="editor-refeicao__titulo"></legend>
             <div class="editor-refeicao__campos">
-                <div class="campo-formulario">
-                    <label for="nome-refeicao">Nome da refeição</label>
-                    <input type="text" id="nome-refeicao" name="nome_refeicao" maxlength="60" placeholder="Ex.: Lanche da tarde" autocomplete="off" required>
-                </div>
+                <fieldset class="campo-formulario editor-refeicao__opcoes-campo">
+                    <legend>Nome da refeição</legend>
+                    <div class="opcoes-refeicao" role="radiogroup" aria-label="Escolha o tipo de refeição">
+                        <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="cafe-da-manha" required><span>Café da manhã</span></label>
+                        <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="almoco"><span>Almoço</span></label>
+                        <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="cafe-da-tarde"><span>Café da tarde</span></label>
+                        <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="jantar"><span>Jantar</span></label>
+                        <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="outro"><span>Outro</span></label>
+                    </div>
+                    <div class="campo-formulario editor-refeicao__nome-personalizado" hidden>
+                        <label for="nome-refeicao">Qual refeição?</label>
+                        <input type="text" id="nome-refeicao" name="nome_refeicao" maxlength="60" placeholder="Digite o nome da refeição" autocomplete="off">
+                    </div>
+                </fieldset>
                 <div class="campo-formulario">
                     <label for="horario-refeicao">Horário</label>
                     <input type="time" id="horario-refeicao" name="horario_refeicao" step="60" required>

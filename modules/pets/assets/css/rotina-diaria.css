@@ -163,6 +163,47 @@ textarea:focus {
   padding-bottom: 40px;
 }
 
+.rotina-diaria > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-rotina) {
+  position: relative;
+  z-index: 52;
+}
+
+.rotina-diaria .botao-flutuante {
+  z-index: 51;
+}
+
+.rotina-diaria > .seletor-pet-rotina {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-rotina[hidden],
+.rotina-diaria > section[hidden] {
+  display: none !important;
+}
+
+.seletor-pet-rotina label {
+  color: var(--pets-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-rotina select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--pets-control-bg);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+}
+
+.seletor-pet-rotina [role="status"] {
+  color: var(--pets-text-soft);
+  font-size: 12px;
+}
+
 .rotina-diaria__hoje,
 .higiene-bem-estar,
 .rotina-alimentar,
@@ -178,6 +219,12 @@ textarea:focus {
   color: var(--pets-text);
   font-size: 18px;
   font-weight: 500;
+}
+
+.rotina-diaria__vazia {
+  margin-top: 14px;
+  color: var(--pets-text-muted);
+  font-size: 12px;
 }
 
 .linha-tempo-rotina {

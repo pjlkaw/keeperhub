@@ -650,3 +650,36 @@ textarea:focus {
   color: var(--pets-text-muted);
   font-size: 0.8125rem;
 }
+
+
+.pagina-despesas > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-despesas) {
+  position: relative;
+  z-index: 52;
+}
+.pagina-despesas .despesas-adicionar { z-index: 51; }
+.pagina-despesas .despesas-conteudo[hidden],
+.pagina-despesas .seletor-pet-despesas[hidden],
+.pagina-despesas .despesas-adicionar[hidden] { display: none !important; }
+.lancamento__pet {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 7px;
+  color: var(--pets-text-muted);
+  background: var(--pets-neutral-hover);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.65rem;
+  vertical-align: middle;
+}
+.destino-despesa[hidden] { display: none !important; }
+.destino-despesa select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--pets-text);
+  background: var(--pets-surface);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-sm);
+}
+
+.pagina-despesas .seletor-pet-despesas { display: none !important; }

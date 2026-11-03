@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
@@ -29,6 +30,8 @@
     <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
+
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma consulta cadastrada"></section>
 
     <main class="painel-medico">
 
@@ -105,52 +108,11 @@
             <header class="exames-medicos__cabecalho">
                 <h2 id="exames-heading">Exames e Laudos</h2>
 
-                <label for="upload-exame" class="botao-texto">Adicionar</label>
-                <input type="file" id="upload-exame" name="upload_exame" class="somente-leitor-tela" accept=".pdf,.jpg,.jpeg,.png">
-
-                <!-- "Ver todos" revela itens além dos 3 primeiros — comportamento de JS depois -->
-                <button type="button" class="botao-texto exames-medicos__ver-todos">Ver todos</button>
+                <button type="button" class="botao-texto" disabled title="Envio disponível após a integração de exames">Adicionar</button>
             </header>
 
             <ul>
-                <li>
-                    <article class="card cartao-exame">
-                        <i class="fa-solid fa-file-medical icone" aria-hidden="true"></i>
-                        <div class="cartao-exame__informacoes">
-                            <h3 class="cartao-exame__nome">Hemograma Completo</h3>
-                            <p class="cartao-exame__data">10 Set 2023</p>
-                        </div>
-                        <a href="#" class="botao-icone" aria-label="Baixar Hemograma Completo" download>
-                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
-                        </a>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="card cartao-exame">
-                        <i class="fa-solid fa-image icone" aria-hidden="true"></i>
-                        <div class="cartao-exame__informacoes">
-                            <h3 class="cartao-exame__nome">Raio-X Torácico</h3>
-                            <p class="cartao-exame__data">05 Ago 2023</p>
-                        </div>
-                        <a href="#" class="botao-icone" aria-label="Baixar Raio-X Torácico" download>
-                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
-                        </a>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="card cartao-exame">
-                        <i class="fa-solid fa-file-medical icone" aria-hidden="true"></i>
-                        <div class="cartao-exame__informacoes">
-                            <h3 class="cartao-exame__nome">Exame de Urina</h3>
-                            <p class="cartao-exame__data">15 Jun 2023</p>
-                        </div>
-                        <a href="#" class="botao-icone" aria-label="Baixar Exame de Urina" download>
-                            <i class="fa-solid fa-download icone" aria-hidden="true"></i>
-                        </a>
-                    </article>
-                </li>
+                <li class="exames-vazios">Nenhum exame ou laudo cadastrado.</li>
             </ul>
         </section>
 
@@ -206,8 +168,8 @@
     </main>
 
     <script type="module" src="../js/consultas.js"></script>
-    <script src="/shared/services/theme.js"></script>
 <!-- Os agendamentos e o histórico são salvos localmente; exames ainda aguardam integração. -->
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>
 

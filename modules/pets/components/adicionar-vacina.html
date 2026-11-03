@@ -145,8 +145,18 @@
             </fieldset>
 
             <div class="campo-formulario">
-                <label for="data-aplicacao">Data de Aplicação</label>
+                <label for="data-aplicacao">Data da aplicação ou agendamento</label>
                 <input type="date" id="data-aplicacao" name="data_aplicacao">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="clinica-vacina">Clínica (opcional)</label>
+                <input type="text" id="clinica-vacina" name="clinica_vacina" placeholder="Ex.: Clínica veterinária">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="horario-vacina">Horário (opcional)</label>
+                <input type="time" id="horario-vacina" name="horario_vacina">
             </div>
 
             <fieldset class="campo-formulario">
@@ -202,7 +212,7 @@
     </main>
 
     <script type="module" src="../js/vacinacoes.js"></script>
-    <script src="/shared/services/theme.js"></script>
 <!-- Os registros de vacinação são salvos localmente no navegador. -->
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>

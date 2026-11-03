@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark" class="tema-vacinacoes-pets">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,7 @@
     <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
@@ -30,6 +31,8 @@
 </head>
 <body>
 
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma vacina cadastrada"></section>
+
     <main class="vacinacoes-pet" id="conteudo-principal" data-pet-id="">
 
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
@@ -38,49 +41,48 @@
 
         <!-- Datas, status e contagens são demonstrativos da referência de 2024.
              A consulta por pet e os cálculos serão integrados ao Node.js depois. -->
-        <section class="destaques-vacinas" aria-labelledby="proximas-vacinas-heading">
+        <section class="destaques-vacinas" aria-labelledby="proximas-vacinas-heading" hidden>
             <h2 id="proximas-vacinas-heading">Próximas Vacinas</h2>
 
             <ul>
                 <li>
                     <article class="card cartao-destaque-vacina cartao-destaque-vacina--destaque">
-                        <p class="cartao-destaque-vacina__rotulo">Reforço Anual</p>
-                        <h3 class="cartao-destaque-vacina__nome">V10 (Múltipla)</h3>
+                        <p class="cartao-destaque-vacina__rotulo"></p>
+                        <h3 class="cartao-destaque-vacina__nome"></h3>
                         <i class="fa-solid fa-paw icone" aria-hidden="true"></i>
 
                         <p class="cartao-destaque-vacina__data">
                             <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
-                            <time datetime="2024-10-15">15 Outubro 2024</time>
                         </p>
 
                         <div class="barra-progresso" aria-hidden="true">
                             <div class="barra-progresso__preenchimento"></div>
                         </div>
-                        <p class="cartao-destaque-vacina__contagem-regressiva">Faltam 5 dias</p>
+                        <p class="cartao-destaque-vacina__contagem-regressiva"></p>
                     </article>
                 </li>
 
                 <li>
                     <article class="card cartao-destaque-vacina">
-                        <p class="cartao-destaque-vacina__rotulo">Dose Única</p>
-                        <h3 class="cartao-destaque-vacina__nome">Antirrábica</h3>
+                        <p class="cartao-destaque-vacina__rotulo"></p>
+                        <h3 class="cartao-destaque-vacina__nome"></h3>
                         <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
 
                         <p class="cartao-destaque-vacina__data">
                             <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
-                            <time datetime="2024-11-22">22 Novembro 2024</time>
+
                         </p>
 
                         <div class="barra-progresso" aria-hidden="true">
                             <div class="barra-progresso__preenchimento"></div>
                         </div>
-                        <p class="cartao-destaque-vacina__contagem-regressiva">Faltam 43 dias</p>
+                        <p class="cartao-destaque-vacina__contagem-regressiva"></p>
                     </article>
                 </li>
             </ul>
         </section>
 
-        <section class="cronograma-vacinas" aria-labelledby="cronograma-heading">
+        <section class="cronograma-vacinas" aria-labelledby="cronograma-heading" hidden>
             <h2 id="cronograma-heading">Cronograma Completo</h2>
 
             <ul class="card">
@@ -88,8 +90,8 @@
                     <article class="item-vacina item-vacina--atrasada">
                         <i class="fa-solid fa-triangle-exclamation icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">Gripe Canina</h3>
-                            <p class="item-vacina__detalhe">Era prevista para <time datetime="2024-10-01">01 Outubro 2024</time></p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                         <span class="etiqueta-status etiqueta-status--atrasada">Atrasada</span>
                     </article>
@@ -99,8 +101,8 @@
                     <article class="item-vacina item-vacina--agendada">
                         <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">V10 (Múltipla)</h3>
-                            <p class="item-vacina__detalhe"><time datetime="2024-10-15">15 Outubro 2024</time></p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                         <span class="etiqueta-status etiqueta-status--agendada">Agendada</span>
                     </article>
@@ -110,8 +112,8 @@
                     <article class="item-vacina item-vacina--agendada item-vacina--antirrabica">
                         <i class="fa-solid fa-calendar-days icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">Antirrábica</h3>
-                            <p class="item-vacina__detalhe"><time datetime="2024-11-22">22 Novembro 2024</time></p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                         <span class="etiqueta-status etiqueta-status--agendada etiqueta-status--neutra">Agendada</span>
                     </article>
@@ -121,8 +123,8 @@
                     <article class="item-vacina item-vacina--aplicada">
                         <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">Vermífugo</h3>
-                            <p class="item-vacina__detalhe"><time datetime="2024-09-10">10 Setembro 2024</time></p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                         <span class="etiqueta-status etiqueta-status--aplicada">Aplicada</span>
                     </article>
@@ -130,7 +132,7 @@
             </ul>
         </section>
 
-        <section class="historico-vacinas" aria-labelledby="vaccine-history-heading">
+        <section class="historico-vacinas" aria-labelledby="vaccine-history-heading" hidden>
             <h2 id="vaccine-history-heading">Histórico</h2>
 
             <ul>
@@ -138,8 +140,8 @@
                     <article class="card item-vacina item-vacina--registro">
                         <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">Giárdia (1ª Dose)</h3>
-                            <p class="item-vacina__detalhe">Aplicada em <time datetime="2024-01-15">15 Jan 2024</time> · Lote: 894A22</p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                     </article>
                 </li>
@@ -148,8 +150,8 @@
                     <article class="card item-vacina item-vacina--certificado">
                         <i class="fa-solid fa-file-circle-check icone" aria-hidden="true"></i>
                         <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome">V10 (Múltipla)</h3>
-                            <p class="item-vacina__detalhe">Aplicada em <time datetime="2023-10-12">12 Out 2023</time> · Certificado Digital</p>
+                            <h3 class="item-vacina__nome"></h3>
+                            <p class="item-vacina__detalhe"></p>
                         </div>
                     </article>
                 </li>
@@ -163,8 +165,8 @@
     </main>
 
     <script type="module" src="../js/vacinacoes.js"></script>
-    <script src="/shared/services/theme.js"></script>
 <!-- Vacinas registradas localmente são exibidas pelo JavaScript do módulo. -->
+    <script src="/shared/services/theme.js"></script>
 </body>
 </html>
 

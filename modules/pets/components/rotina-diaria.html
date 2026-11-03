@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,7 @@
     <!-- Estilos Estruturais e Compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
@@ -30,104 +31,54 @@
 </head>
 <body>
 
-    <main class="rotina-diaria" data-pet-id="exemplo">
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma rotina cadastrada"></section>
+
+    <main class="rotina-diaria">
 
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
         <header class="section-header-section" id="headerSection"></header>
 
-        <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading">
+        <section class="seletor-pet-rotina" hidden>
+            <label for="pet-rotina">Pet</label>
+            <select id="pet-rotina" aria-describedby="status-rotina-diaria">
+                <option value="">Selecione um pet</option>
+            </select>
+            <p id="status-rotina-diaria" role="status" hidden></p>
+        </section>
+
+        <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading" hidden>
             <h2 id="hoje-heading">Hoje</h2>
 
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
-                <li>
-                    <article class="linha-tempo-rotina__item linha-tempo-rotina__item--concluido">
-                        <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
-                        <div class="linha-tempo-rotina__informacoes">
-                            <h3 class="linha-tempo-rotina__nome">Passeio Matinal</h3>
-                            <p class="linha-tempo-rotina__status">Concluído</p>
-                        </div>
-                        <p class="linha-tempo-rotina__horario">09:30</p>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                        <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
-                        <div class="linha-tempo-rotina__informacoes">
-                            <h3 class="linha-tempo-rotina__nome">Escovação</h3>
-                            <p class="linha-tempo-rotina__status">Pendente</p>
-                        </div>
-                        <p class="linha-tempo-rotina__horario">19:00</p>
-                    </article>
-                </li>
-            </ol>
+            </ul>
+            <p class="rotina-diaria__vazia" data-vazio="atividades" hidden>Nenhuma atividade diária cadastrada.</p>
 
             <a href="cadastrar-rotina.html" data-manter-pet class="link-editar">Editar</a>
         </section>
 
-        <section class="card higiene-bem-estar" aria-labelledby="higiene-heading">
+        <section class="card higiene-bem-estar" aria-labelledby="higiene-heading" hidden>
             <h2 id="higiene-heading">Higiene e Bem-estar</h2>
 
-            <ul>
-                <li>
-                    <article class="card cartao-higiene">
-                        <i class="fa-solid fa-bath icone" aria-hidden="true"></i>
-                        <div class="cartao-higiene__informacoes">
-                            <h3 class="cartao-higiene__nome">Banho</h3>
-                            <p class="cartao-higiene__ultimo">Último: 05 Out</p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--frequencia">A cada 15 dias</span>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="card cartao-higiene">
-                        <i class="fa-solid fa-scissors icone" aria-hidden="true"></i>
-                        <div class="cartao-higiene__informacoes">
-                            <h3 class="cartao-higiene__nome">Corte de Unhas</h3>
-                            <p class="cartao-higiene__ultimo">Último: 20 Set</p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--frequencia">Mensal</span>
-                    </article>
-                </li>
-            </ul>
+            <ul></ul>
+            <p class="rotina-diaria__vazia" data-vazio="higiene" hidden>Nenhum cuidado de higiene cadastrado.</p>
 
             <a href="cadastrar-rotina.html#higiene-heading" data-manter-pet class="link-editar">Editar</a>
         </section>
 
-        <section class="card rotina-alimentar" aria-labelledby="rotina-alimentar-heading">
+        <section class="card rotina-alimentar" aria-labelledby="rotina-alimentar-heading" hidden>
             <header class="rotina-alimentar__cabecalho">
                 <h2 id="rotina-alimentar-heading">Rotina Alimentar</h2>
                 <a href="editar-pet-rotina-alimentar.html?origem=rotina-diaria" class="link-editar" data-manter-pet>Editar refeições</a>
             </header>
-            <!-- Prévia estática das refeições, igual à tela de edição.
-                 A integração futura deverá preencher esta lista com os dados do pet. -->
             <ul class="rotina-alimentar__lista" id="resumo-refeicoes">
-                <li>
-                    <article class="card cartao-refeicao">
-                        <h3 class="cartao-refeicao__titulo">Café da manhã</h3>
-                        <time class="cartao-refeicao__horario" datetime="08:00">08:00</time>
-                    </article>
-                </li>
-                <li>
-                    <article class="card cartao-refeicao">
-                        <h3 class="cartao-refeicao__titulo">Almoço</h3>
-                        <time class="cartao-refeicao__horario" datetime="13:00">13:00</time>
-                    </article>
-                </li>
-                <li>
-                    <article class="card cartao-refeicao">
-                        <h3 class="cartao-refeicao__titulo">Jantar</h3>
-                        <time class="cartao-refeicao__horario" datetime="19:00">19:00</time>
-                    </article>
-                </li>
             </ul>
+            <p class="rotina-alimentar__mensagem" id="resumo-refeicoes-vazio" hidden>Nenhuma refeição cadastrada.</p>
             <p class="rotina-alimentar__mensagem" id="resumo-refeicoes-mensagem" role="status" hidden></p>
             <p class="rotina-alimentar__observacoes" id="resumo-refeicoes-observacoes" hidden></p>
         </section>
 
-        <section class="card anotacoes-comportamento" aria-labelledby="notas-heading">
+        <section class="card anotacoes-comportamento" aria-labelledby="notas-heading" hidden>
             <h2 id="notas-heading">Notas de Comportamento</h2>
 
             <form class="anotacoes-comportamento__formulario">
@@ -138,14 +89,8 @@
                 </button>
             </form>
 
-            <ul class="anotacoes-comportamento__lista">
-                <li>
-                    <article class="card anotacao-comportamento">
-                        <p class="anotacao-comportamento__texto">Puxando menos a guia no passeio de hoje de manhã.</p>
-                        <p class="anotacao-comportamento__data-hora">Ontem, 10:15</p>
-                    </article>
-                </li>
-            </ul>
+            <ul class="anotacoes-comportamento__lista"></ul>
+            <p class="rotina-diaria__vazia" data-vazio="anotacoes" hidden>Nenhuma anotação cadastrada.</p>
 
             <!-- Destino incerto: ver dúvida sobre o que "Editar" faz nessa seção específica -->
             <a href="#" class="link-editar">Editar</a>
@@ -165,19 +110,8 @@
             </article>
         </li>
     </template>
-    <template id="modelo-refeicao-hoje">
-        <li data-refeicao>
-            <article class="linha-tempo-rotina__item linha-tempo-rotina__item--pendente">
-                <i class="fa-regular fa-clock icone" aria-hidden="true"></i>
-                <div class="linha-tempo-rotina__informacoes">
-                    <h3 class="linha-tempo-rotina__nome"></h3>
-                    <p class="linha-tempo-rotina__status">Pendente</p>
-                </div>
-                <time class="linha-tempo-rotina__horario"></time>
-            </article>
-        </li>
-    </template>
 
+    <script type="module" src="../js/rotina-diaria.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

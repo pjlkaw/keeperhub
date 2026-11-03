@@ -453,3 +453,27 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   font-size: 0.75rem;
   overflow-wrap: anywhere;
 }
+
+
+/* Mantém o cabeçalho e o seletor acessíveis acima do estado vazio compartilhado. */
+.pagina-medicacoes > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-medicacoes) {
+  position: relative;
+  z-index: 52;
+}
+.pagina-medicacoes .botao-flutuante { z-index: 51; }
+.pagina-medicacoes :is(.abas-pet, .barra-ferramentas-medicacoes, .grupo-medicacoes, .seletor-pet-medicacoes)[hidden] {
+  display: none !important;
+}
+.cartao-medicacao__pet {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 7px;
+  color: var(--pets-text-muted);
+  background: var(--pets-neutral-hover);
+  border: 1px solid var(--pets-border);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1.2;
+  vertical-align: middle;
+}
