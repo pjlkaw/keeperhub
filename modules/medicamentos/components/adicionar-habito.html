@@ -39,32 +39,61 @@
                     <p>Escolha um hábito simples para acompanhar na sua rotina.</p>
                 </section>
 
-                <form class="card habit-create-form" action="bons-habitos.html" method="get">
-                    <label for="habit-name">Nome do hábito</label>
-                    <input id="habit-name" name="habit-name" type="text" placeholder="Ex.: Meditar por 10 minutos" required />
-
-                    <label for="habit-frequency">Frequência</label>
-                    <select id="habit-frequency" name="habit-frequency">
-                        <option>Todos os dias</option>
-                        <option>Durante a semana</option>
-                        <option>Fins de semana</option>
-                    </select>
-
-                    <label for="habit-goal">Meta</label>
-                    <div class="habit-goal-row">
-                        <input id="habit-goal" name="habit-goal" type="number" min="1" placeholder="1" required />
-                        <select aria-label="Unidade da meta" name="habit-unit">
-                            <option>vez por dia</option>
-                            <option>minutos por dia</option>
-                            <option>copos por dia</option>
-                            <option>páginas por dia</option>
-                        </select>
+                <form class="card habit-create-form" action="bons-habitos.html" method="get" novalidate>
+                    <div class="habit-form-field">
+                        <label for="habit-name">
+                            Nome do hábito <span class="habit-required" aria-hidden="true">*</span>
+                        </label>
+                        <input id="habit-name" name="habit-name" type="text"
+                            placeholder="Ex.: Meditar por 10 minutos" minlength="2" maxlength="200"
+                            autocomplete="off" required />
+                        <small class="habit-field-help">Escolha algo simples e fácil de reconhecer.</small>
                     </div>
 
-                    <button type="submit" class="habit-save-button">
+                    <div class="habit-form-field">
+                        <label for="habit-frequency">
+                            Frequência <span class="habit-required" aria-hidden="true">*</span>
+                        </label>
+                        <input id="habit-frequency" name="habit-frequency" type="text"
+                            list="habit-frequency-options" placeholder="Ex.: Todos os dias"
+                            maxlength="80" required />
+                        <datalist id="habit-frequency-options">
+                            <option value="Todos os dias"></option>
+                            <option value="Durante a semana"></option>
+                            <option value="Fins de semana"></option>
+                            <option value="A cada 2 dias"></option>
+                            <option value="Dias úteis"></option>
+                        </datalist>
+                    </div>
+
+                    <div class="habit-form-field">
+                        <label for="habit-goal">
+                            Meta diária <span class="habit-required" aria-hidden="true">*</span>
+                        </label>
+                        <div class="habit-goal-row">
+                            <input id="habit-goal" name="habit-goal" type="number" min="0.1" max="100000"
+                                step="0.1" placeholder="1" required />
+                            <input id="habit-unit" name="habit-unit" type="text"
+                                list="habit-unit-options" placeholder="Ex.: minutos" maxlength="40" required />
+                            <datalist id="habit-unit-options">
+                                <option value="vez por dia"></option>
+                                <option value="minutos por dia"></option>
+                                <option value="copos por dia"></option>
+                                <option value="páginas por dia"></option>
+                                <option value="litros por dia"></option>
+                                <option value="quilômetros por dia"></option>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <p class="habit-form-feedback" data-form-feedback aria-live="polite"></p>
+                    <div class="habit-form-actions">
+                        <a class="habit-cancel-button" href="bons-habitos.html">Cancelar</a>
+                        <button type="submit" class="habit-save-button">
                         <i class="fa-solid fa-check" aria-hidden="true"></i>
-                        Criar hábito
-                    </button>
+                            <span>Criar hábito</span>
+                        </button>
+                    </div>
                 </form>
             </main>
         </div>

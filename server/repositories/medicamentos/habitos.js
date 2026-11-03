@@ -44,8 +44,8 @@ export async function criarHabito(usuarioId, dados) {
   const frequencia = typeof dados.frequencia === 'string' ? dados.frequencia.trim() : '';
   const unidade = typeof dados.unidade === 'string' ? dados.unidade.trim() : '';
   const meta = Number(dados.meta);
-  if (!nome || nome.length > 120 || !frequencia || frequencia.length > 80 ||
-      !unidade || unidade.length > 40 || !Number.isInteger(meta) || meta < 1) {
+  if (!nome || nome.length > 200 || !frequencia || frequencia.length > 80 ||
+      !unidade || unidade.length > 40 || !Number.isFinite(meta) || meta < 0.1 || meta > 100000) {
     const erro = new Error('Confira os dados do hábito.');
     erro.statusCode = 400;
     throw erro;

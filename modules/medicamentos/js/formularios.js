@@ -23,16 +23,32 @@ function inicializarFormularioHabito() {
         }
 
         const dados = new FormData(formulario);
+        const nome = String(dados.get("habit-name") ?? "").trim();
+        const meta = Number(dados.get("habit-goal"));
+        const frequencia = String(dados.get("habit-frequency") ?? "").trim();
+        const unidade = String(dados.get("habit-unit") ?? "").trim();
+        if (nome.length < 2 || !Number.isFinite(meta) || meta < 0.1 || meta > 100000 ||
+            !frequencia || !unidade) {
+            mostrarRetornoFormulario(formulario, "Preencha o nome, a frequência, a meta e a unidade corretamente.", true);
+            return;
+        }
+
+        const botao = formulario.querySelector('button[type="submit"]');
+        const textoBotao = botao?.querySelector("span");
+        if (botao) botao.disabled = true;
+        if (textoBotao) textoBotao.textContent = "Salvando...";
         try {
             const habito = {
-                nome: String(dados.get("habit-name")).trim(),
-                frequencia: String(dados.get("habit-frequency")),
-                meta: Number(dados.get("habit-goal")),
-                unidade: String(dados.get("habit-unit")),
+                nome,
+                frequencia,
+                meta,
+                unidade,
             };
             await salvarHabitoApi(habito);
             window.location.href = "bons-habitos.html";
         } catch (erro) {
+            if (botao) botao.disabled = false;
+            if (textoBotao) textoBotao.textContent = "Criar hábito";
             mostrarRetornoFormulario(formulario, erro.message, true);
         }
     });
