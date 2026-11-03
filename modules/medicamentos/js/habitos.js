@@ -94,7 +94,7 @@ async function alternarHabito(habito) {
 
     const indicador = habito.querySelector(".habit-check");
     if (indicador) {
-        indicador.textContent = concluido ? "✓" : "";
+        indicador.setAttribute("aria-label", concluido ? "Hábito concluído" : "Hábito não concluído");
     }
 
     atualizarResumoHabitos(habito.closest(".habits-list"));
@@ -122,7 +122,10 @@ function criarLinhaHabito(habito, hoje) {
     const marcador = document.createElement("span");
     marcador.className = "habit-check";
     marcador.setAttribute("aria-hidden", "true");
-    marcador.textContent = concluido ? "✓" : "";
+    const indicador = document.createElement("i");
+    indicador.className = "fa-solid fa-check";
+    indicador.setAttribute("aria-hidden", "true");
+    marcador.append(indicador);
 
     const conteudo = document.createElement("span");
     conteudo.className = "habit-row-content";
