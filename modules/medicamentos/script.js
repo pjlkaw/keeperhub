@@ -68,11 +68,9 @@ function mostrarErroDeCarregamento(erro) {
 
 
 
-// SHARED =======================================
+// DEV TOOL =====================================
 // alerts
 import { alertShared } from "/shared/services/interface.js"
-
-// DEV TOOL =====================================
 // adciona no-content.html para teste de desenvolvimento
 document.addEventListener('keydown', (event) => {
     if (event.key === '8') {

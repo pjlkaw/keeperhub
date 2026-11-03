@@ -6,6 +6,47 @@ import {
     listarMovimentacoesEstoqueApi,
 } from "./api.js";
 import { formatarDataHora } from "./dados-rotina.js";
+import { alertShared } from "/shared/services/interface.js";
+
+function confirmarAcao(mensagem) {
+    return new Promise((resolver) => {
+        const modal = document.querySelector("#confirmation-modal");
+        if (!modal) {
+            resolver(false);
+            return;
+        }
+
+        const configurar = () => {
+            const texto = modal.querySelector("#confirmation-message");
+            const confirmar = modal.querySelector("#confirm-btn");
+            const cancelar = modal.querySelector("#cancel-btn");
+            if (!texto || !confirmar || !cancelar) return false;
+
+            texto.textContent = mensagem;
+            modal.style.display = "flex";
+            confirmar.onclick = () => {
+                modal.style.display = "none";
+                resolver(true);
+            };
+            cancelar.onclick = () => {
+                modal.style.display = "none";
+                resolver(false);
+            };
+            return true;
+        };
+
+        if (configurar()) return;
+
+        const observador = new MutationObserver(() => {
+            if (configurar()) observador.disconnect();
+        });
+        observador.observe(modal, { childList: true, subtree: true });
+        setTimeout(() => {
+            observador.disconnect();
+            if (modal.style.display !== "flex") resolver(false);
+        }, 5000);
+    });
+}
 
 // Exibe o medicamento e o estoque da API; os dados de receita ainda usam o protótipo local.
 export async function inicializarDetalhesMedicamento() {
@@ -210,22 +251,26 @@ function configurarAcoes(medicamento) {
         encerrar.hidden = medicamento.status === "encerrado" || medicamento.tipoUso === "eventual";
         encerrar.style.display = encerrar.hidden ? "none" : "";
         encerrar.addEventListener("click", async () => {
-            if (!window.confirm(`Encerrar o tratamento com ${medicamento.nome}?`)) return;
+            if (!await confirmarAcao(`Encerrar o tratamento com ${medicamento.nome}?`)) return;
             try {
                 await encerrarTratamentoApi(medicamento.id);
+                alertShared("Tratamento encerrado com sucesso.");
                 window.location.reload();
             } catch (erro) {
+                alertShared(erro.message);
                 mostrarErroMedicamento(erro.message);
             }
         });
     }
 
     document.querySelector("#btn-delete-medication")?.addEventListener("click", async () => {
-        if (!window.confirm(`Arquivar ${medicamento.nome}? Ele será ocultado da lista, mas os dados relacionados serão preservados.`)) return;
+        if (!await confirmarAcao(`Arquivar ${medicamento.nome}? Ele será ocultado da lista, mas os dados relacionados serão preservados.`)) return;
         try {
             await excluirMedicamentoApi(medicamento.id);
+            alertShared("Medicamento arquivado com sucesso.");
             window.location.href = "medicacoes.html";
         } catch (erro) {
+            alertShared(erro.message);
             mostrarErroMedicamento(erro.message);
         }
     });
