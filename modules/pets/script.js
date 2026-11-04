@@ -123,6 +123,10 @@ function carregarPainel() {
                 : '';
 
         status.setAttribute('role', 'status');
+        setTimeout(() => {
+            status.textContent = '';
+            status.removeAttribute('role');
+        }, 3000);
 
         // Remove o estado anterior da mensagem, se houver.
         delete status.dataset.estado;

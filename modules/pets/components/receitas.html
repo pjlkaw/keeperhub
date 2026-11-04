@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/receitas.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
     <!-- Configuração do módulo -->
     <script>
@@ -24,10 +24,11 @@
         title: 'Receitas - Pets',
         subtitle: 'Consulte as receitas do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '#arquivo-receita'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
@@ -158,14 +159,14 @@
         </section>
 
         <!-- Seleção de arquivo; envio ainda não integrado. -->
-        <label class="botao-flutuante receitas-upload">
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png" aria-label="Adicionar arquivo de receita">
-            <span class="icone" aria-hidden="true"></span>
-        </label>
+        <input type="file" id="arquivo-receita" accept=".pdf,.jpg,.jpeg,.png" aria-label="Adicionar arquivo de receita" hidden>
 
     </main>
 
-    <!-- Tema -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar arquivo de receita"></section>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/receitas.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

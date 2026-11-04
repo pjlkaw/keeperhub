@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/rotina-diaria.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
     <!-- Configuração do módulo -->
     <script>
@@ -25,10 +25,11 @@
         title: 'Rotina Diária',
         subtitle: 'Acompanhe os cuidados diários do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-rotina.html'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
@@ -104,11 +105,10 @@
             <a href="#" class="link-editar">Editar</a>
         </section>
 
-        <a href="cadastrar-rotina.html" data-manter-pet class="botao-flutuante" aria-label="Adicionar rotina">
-            <span class="icone" aria-hidden="true"></span>
-        </a>
 
     </main>
+
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar rotina"></section>
 
     <!-- Modelo do resumo da refeição -->
     <template id="modelo-refeicao-resumo">

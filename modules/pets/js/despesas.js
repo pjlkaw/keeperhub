@@ -7,7 +7,7 @@ const seletorPet = document.getElementById('pet-despesas');
 const secaoSeletor = seletorPet.closest('.seletor-pet-despesas');
 const statusPet = document.getElementById('status-pet-despesas');
 const conteudo = document.querySelector('.despesas-conteudo');
-const botaoAdicionar = document.querySelector('.despesas-adicionar');
+const botaoAdicionar = document.getElementById('btn-add-section');
 const popover = document.getElementById('nova-despesa');
 const form = document.getElementById('formulario-despesa');
 const statusForm = document.getElementById('mensagem-despesa');
@@ -512,9 +512,12 @@ form.addEventListener('change', () => {
 });
 
 // Abre o formulário com o pet de destino e uma data compatível com o mês atual.
-botaoAdicionar.addEventListener('click', () => {
+botaoAdicionar.addEventListener('click', event => {
+    if (!event.target.closest('#btn-add')) return;
+    event.preventDefault();
     atualizarDestinoFormulario();
     campoData.value = dataPadraoParaMes();
+    popover.showPopover();
 });
 
 // Valida o envio, grava a despesa no pet escolhido e limpa o formulário.

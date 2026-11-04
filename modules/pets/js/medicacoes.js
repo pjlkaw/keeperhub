@@ -132,8 +132,14 @@ function persistir(medicacoes) {
 // Atualiza os links de cadastro e as abas de navegação
 // para manter o pet selecionado.
 function atualizarLinks() {
+    if (paginaLista) {
+        const destino = petAtual
+            ? `cadastrar-medicacao.html?petId=${encodeURIComponent(petAtual.id)}`
+            : 'cadastrar-medicacao.html';
+        window.keeperhubModuleConfig.addUrl = `/modules/pets/components/${destino}`;
+    }
     // Acrescenta o ID do pet aos links para cadastrar medicação.
-    document.querySelectorAll('a[href="cadastrar-medicacao.html"]')
+    document.querySelectorAll('a[href*="cadastrar-medicacao.html"]')
         .forEach(link => {
             link.href = petAtual
                 ? `cadastrar-medicacao.html?petId=${encodeURIComponent(petAtual.id)}`
