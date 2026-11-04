@@ -1,6 +1,6 @@
 .despensa-resumo {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
 }
 .summary-card {
@@ -32,6 +32,7 @@
 .produto-item p, .lista-vazia {
     color: var(--text-muted);
 }
+
 @media (max-width: 360px) {
     .produto-item {
         flex-wrap: wrap;

@@ -218,13 +218,6 @@
     opacity: .55;
 }
 
-.remove-item {
-    padding: 8px;
-    border: 0;
-    background: transparent;
-    color: #d77b7b;
-    cursor: pointer;
-}
 
 .empty-message {
     padding: 20px 0;

@@ -77,3 +77,4 @@ export function inicializarResumo() {
         lista.textContent = 'Não foi possível ler os produtos salvos.';
     }
 }
+

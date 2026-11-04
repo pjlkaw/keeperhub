@@ -11,7 +11,7 @@ export function inicializarCadastro() {
         const categoria = String(campos.get('categoria') || '');
         const quantidade = Number(campos.get('quantidade'));
         const unidade = String(campos.get('unidade') || '');
-        if (!nome || !categoria || !Number.isFinite(quantidade) || quantidade < 1 || !unidade) {
+        if (!nome || !categoria || !Number.isFinite(quantidade) || quantidade < 1) {
             mensagem.textContent = 'Preencha corretamente os campos obrigatórios.';
             mensagem.hidden = false;
             return;

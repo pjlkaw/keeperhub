@@ -17,16 +17,20 @@
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
         <script type="module" src="/modules/despensa/js/index.js"></script>
-        <script>
-            window.keeperhubModuleConfig = {
-                module: 'despensa',
-                title: 'Vencimentos',
-                subtitle: '',
-                backUrl: '/modules/despensa/index.html',
-                notificationsModule: 'despensa'
-            };
-        </script>
-        <script src="/shared/services/load-components.js"></script>
+       
+    </script>
+    <script>
+    const configModule = window.keeperhubModuleConfig || {
+    module: 'despensa',
+    title: 'Despensa',
+    subtitle: 'Gestão do seu mercado',
+    backUrl: '/main/',
+    notificationsModule: 'Despensa',
+    addUrl: '/modules/despensa/components/cadastrar.html'
+};
+    </script>
+    <script src="/shared/services/load-components.js"></script>
+    
 
     </head>
     <body class="despensa" data-pagina="vencimento">
@@ -77,7 +81,7 @@
                             VENCIDOS
                         </div>
                         <div class="numero vermelho">
-                            12
+                           0
                         </div>
                     </div>
                     <div class="card resumo-card sete">
@@ -102,9 +106,7 @@
                     <button class="filtro ativo">
                         Todos
                     </button>
-                    <button class="filtro">
-                        Críticos
-                    </button>
+                 
                 </div>
                 <!-- TÍTULO -->
                 <div class="secao-header">
@@ -139,7 +141,7 @@
                         Coffee Lab • 250 g • 1 unidade
                     </div>
                 </article>
-                <a class="floating-button" href="/modules/despensa/components/cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
+                <a class="floating-button" href="cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
                     +
                 </a>
             </main>
