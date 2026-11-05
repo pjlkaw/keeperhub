@@ -58,14 +58,7 @@ function carregarModulo() {
             if (pageSubtittle) pageSubtittle.textContent = configModule.subtitle;
             if (btnBackHeader) btnBackHeader.href = configModule.backUrl;
             if (btnNotifications) {
-                /*
-                 * Mantém uma única central de notificações para todos os módulos.
-                 * A query string preserva a origem (pets, financas etc.) para que
-                 * /main/lembretes possa indicar o contexto correto ao abrir.
-                 */
-                const modulo = encodeURIComponent(configModule.notificationsModule || configModule.module || 'hub');
-                btnNotifications.href = `/main/lembretes/index.html?modulo=${modulo}`;
-            }
+                 btnNotifications.href = `/shared/components/notifications.html?modulo=${configModule.notificationsModule}`;            }
         });
 
     fetch('/shared/components/no-content.html')
