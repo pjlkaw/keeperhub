@@ -8,11 +8,24 @@
     flex-direction: column;
     gap: 8px;
     min-height: 112px;
+    
+}
+.fa-icons {
+  background-color: #a67b5b;
 }
 .summary-icon {
-    font-size: 24px;
-    color: var(--despensa-texto-destaque);
+  font-size: 24px;
+  color: var(--despensa-texto-destaque);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #a67b5b31;
+  border-radius: 50%;         
+  
 }
+
 #contador-produtos {
     font-size: 0.875rem;
 }
@@ -32,6 +45,7 @@
 .produto-item p, .lista-vazia {
     color: var(--text-muted);
 }
+
 
 @media (max-width: 360px) {
     .produto-item {

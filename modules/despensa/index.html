@@ -21,7 +21,7 @@
             window.keeperhubModuleConfig = {
                 module: 'despensa',
                 title: 'Despensa',
-                subtitle: 'Gestão do seu mercado',
+                subtitle: 'Sua despensa sob controle!',
                 backUrl: '/main/hub/index.html',
                 notificationsModule: 'despensa',
                 addUrl: '/modules/despensa/components/cadastrar.html'
@@ -62,7 +62,7 @@
                     <div class="despensa-resumo">
                         <a href="" class="card card--interactive summary-card">
                             <span class="summary-icon">
-                                ▣
+                                <i class="fa-regular fa-square-check" id="fa-icons"></i>
                             </span>
                             <span>
                                 Produtos
@@ -71,15 +71,16 @@
                         </a>
                         <a href="components/vencimento.html" class="card card--interactive summary-card">
                             <span class="summary-icon" aria-hidden="true">
-                                ◷
+                                <i class="fa-regular fa-calendar" id="fa-icons"></i>
                             </span>
                             <span>
-                                Próximos a vencer
+                                Próximos ao vencimento
                             </span>
                         </a>
                         <a href="components/checklist.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true">
-                                ≡
+                            <span class="summary-icon" aria-hidden="true" id="fa-icons">
+                               <i class="fa-solid fa-list-ul"></i>
+                            
                             </span>
                             <span>
                                Checklist
@@ -101,8 +102,7 @@
 
                 <!-- FILTROS -->
                 <nav class="filters" aria-label="Filtrar por categoria">
-                    <button class=""
-                    data-category="Todos">
+                    <button class="" data-category="Todos">
                         Todos
                     </button>
                     <button class="filter" data-category="Laticínios">

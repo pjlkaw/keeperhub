@@ -1,9 +1,5 @@
 const CHAVE = "keeperhub_checklist_compras";
 
-const produtosIniciais = [
-   
-];
-
 function carregarLista() {
     try {
         const dados = localStorage.getItem(CHAVE);

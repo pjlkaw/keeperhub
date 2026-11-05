@@ -21,7 +21,7 @@
             window.keeperhubModuleConfig = {
                 module: 'despensa',
                 title: 'Checklist',
-                subtitle: 'Gerencie sua compra',
+                subtitle: 'Gerencie suas compras',
                 backUrl: '/modules/despensa/index.html',
                 notificationsModule: 'despensa',
             };
@@ -107,16 +107,10 @@
 
             <label for="buscaProduto" class="sr-only">Buscar produto</label>
             <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
                 <input id="buscaProduto" type="search"
-                    placeholder="Buscar produto...">
+                    placeholder=" ⌕ Buscar produtos...">
             </div>
 
-            <div class="filter-row">
-                <button class="filter active" data-filtro="todos">Todos</button>
-                <button class="filter" data-filtro="pendentes">Pendentes</button>
-                <button class="filter" data-filtro="comprados">Comprados</button>
-            </div>
 
             <div id="listaCompras" aria-live="polite"></div>
 
@@ -125,10 +119,11 @@
             </p>
         </section>
 
+       <!--
         <button id="limparLista" class="clear-button" type="button">
-            
-            <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
+        <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
         </button>
+        -->
 
     </main>
 </body>
