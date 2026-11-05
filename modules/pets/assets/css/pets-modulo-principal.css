@@ -55,7 +55,6 @@ body {
 h1,
 h2 {
   color: var(--pets-text);
-  font-family: inherit;
 }
 
 ul {
@@ -94,7 +93,6 @@ ul {
   background: var(--pets-primary-fill);
   border: 1px solid transparent;
   border-radius: var(--pets-radius-pill);
-  font-family: inherit;
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
@@ -257,7 +255,6 @@ ul {
 .cartao-resumo-pet__idade {
   margin-left: 4px;
   color: var(--pets-text-muted);
-  font-family: inherit;
   font-size: 12px;
   font-weight: 400;
   white-space: nowrap;
@@ -408,7 +405,6 @@ ul {
   align-self: end;
   min-width: 0;
   overflow: hidden;
-  font-family: inherit;
   font-size: 12px;
   font-weight: 700;
   text-overflow: ellipsis;
@@ -438,7 +434,6 @@ ul {
   background: color-mix(in srgb, var(--pets-primary) 4%, transparent);
   border: 1px dashed var(--pets-primary-border);
   border-radius: var(--pets-radius-md);
-  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
   transition:
