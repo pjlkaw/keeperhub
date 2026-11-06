@@ -1,9 +1,15 @@
-# Consultas — integração futura
+# Consultas, exames e laudos — integração atual e pendências
 
-O layout usa HTML/CSS e os ícones fornecidos. Não foi criado JavaScript.
+Consultas e seu histórico são persistidos localmente por `js/consultas.js` em
+`pet.consultas`, usando `js/armazenamento.js`. O cadastro aceita data passada e
+pode gravar uma mesma consulta em todos os pets ou numa seleção de pets.
 
-- Cadastro: validar médico, especialidade, clínica, data e horário; exigir a especialidade complementar quando Outra estiver selecionada; salvar via backend Node.js e atualizar a listagem. Habilitar Salvar Consulta somente após conectar esse fluxo.
-- Lembrar: o checkbox tem seleção nativa, mas ainda não persiste nem agenda notificações.
-- Confirmar Consulta: o disclosure abre nativamente; integrar o resumo ao histórico antes de habilitar o salvamento.
-- Exames: o seletor nativo abre arquivos, mas não envia. Integrar upload, substituir os destinos de download de exemplo e implementar Ver todos.
-- As informações exibidas são exemplos estáticos. O formulário usa o visual da referência Nova despesa, mantendo os campos de consulta existentes.
+A seção **Exames e Laudos** não contém registros de demonstração. Ela apresenta
+um estado vazio até a integração de upload e persistência. Upload, visualização,
+download e “Ver todos” ainda não estão conectados. O histórico médico estático
+também precisa ser substituído por dados reais.
+
+O controle **Lembrar** salva uma preferência local, mas ainda não agenda
+notificações do navegador. A confirmação do atendimento salva resumo e status no
+registro do pet; a atualização de consultas criadas para vários pets permanece
+uma decisão funcional pendente.

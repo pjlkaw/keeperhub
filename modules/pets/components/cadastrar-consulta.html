@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Adicionar Consulta</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/cadastrar-consulta.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -32,11 +32,20 @@
 
     <main class="adicionar-consulta">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Cadastro da consulta -->
         <form class="formulario-adicionar-consulta">
+
+            <!-- Seleção de vários pets -->
+            <fieldset class="campo-formulario selecao-pets-consulta" hidden>
+                <legend>Selecione os pets</legend>
+                <div class="selecao-pets-consulta__lista" id="consulta-pets-lista"></div>
+            </fieldset>
 
             <div class="campo-formulario">
                 <label for="nome-medico">Nome do Médico</label>
@@ -57,7 +66,7 @@
                 </select>
             </div>
 
-            <!-- Aparece somente quando "Outra" é selecionada acima — JS depois -->
+            <!-- Exibido ao escolher Outra especialidade. -->
             <div class="campo-formulario">
                 <label for="area-atuacao-outra">Qual especialidade?</label>
                 <input type="text" id="area-atuacao-outra" name="area_atuacao_outra" placeholder="Digite a especialidade">
@@ -80,21 +89,23 @@
                 </div>
             </div>
 
+            <!-- Salva a preferência local; não agenda notificações. -->
             <div class="campo-formulario campo-formulario--alternancia">
                 <label for="lembrar-consulta">Lembrar</label>
                 <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
             </div>
 
-            <button type="button" disabled class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
+            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
                 Salvar Consulta
             </button>
 
-            <p id="aviso-integracao" class="aviso-integracao">Prévia do formulário. O salvamento estará disponível em breve.</p>
+            <p id="aviso-integracao" class="aviso-integracao" role="status" aria-live="polite">Os dados serão salvos neste navegador.</p>
         </form>
 
     </main>
 
+    <!-- Scripts -->
+    <script type="module" src="../js/consultas.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- Integração de cadastro pendente; ver consultas-integracao.md. -->
 </body>
 </html>

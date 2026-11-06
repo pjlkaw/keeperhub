@@ -1,14 +1,45 @@
-import { obterContas, proximoId, salvarContas } from './dados.js';
+import { obterContas, obterTransacoes, proximoId, salvarContas, salvarTransacoes } from './dados.js';
+import { apiDisponivel, atualizarContaApi, criarContaApi, excluirContaApi, listarContasApi } from './api.js';
 
-export function inicializarContas() {
+export async function inicializarContas() {
     const formulario = document.getElementById('account-form');
     const lista = document.getElementById('account-list');
     if (!formulario || !lista) return;
 
     let contaEmEdicao = null;
     let contas = obterContas();
+    let transacoes = await obterTransacoes();
+    let usandoApi = false;
+
+    if (apiDisponivel()) {
+        try {
+            contas = await listarContasApi();
+            usandoApi = true;
+            salvarContas(contas);
+        } catch (erro) {
+            console.warn('API de contas indisponível; usando armazenamento local.', erro.message);
+        }
+    }
+
+    const migrarVinculos = () => {
+        let houveAlteracao = false;
+        transacoes = transacoes.map((transacao) => {
+            if (transacao.conta_id !== undefined && transacao.conta_id !== null) return transacao;
+            const conta = contas.find((item) => item.nome === transacao.conta_nome);
+            if (!conta) return transacao;
+            houveAlteracao = true;
+            return { ...transacao, conta_id: conta.id };
+        });
+        if (houveAlteracao) salvarTransacoes(transacoes);
+    };
+
+    migrarVinculos();
 
     const renderizar = () => {
+        if (!contas.length) {
+            lista.textContent = 'Nenhuma conta cadastrada.';
+            return;
+        }
         lista.replaceChildren(...contas.map((conta) => {
             const item = document.createElement('article');
             const detalhes = document.createElement('section');
@@ -34,15 +65,44 @@ export function inicializarContas() {
         }));
     };
 
-    formulario.addEventListener('submit', (evento) => {
+    formulario.addEventListener('submit', async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) return;
         const dados = new FormData(formulario);
         const conta = { nome: dados.get('name'), tipo: dados.get('type') };
         if (contaEmEdicao) {
+            const contaAnterior = contas.find((item) => item.id === contaEmEdicao);
+            if (usandoApi) {
+                try {
+                    await atualizarContaApi(contaEmEdicao, conta);
+                } catch (erro) {
+                    window.alert(erro.message);
+                    return;
+                }
+            }
             contas = contas.map((item) => item.id === contaEmEdicao ? { ...item, ...conta } : item);
+            if (contaAnterior && contaAnterior.nome !== conta.nome) {
+                transacoes = transacoes.map((transacao) => {
+                    const pertenceAConta = Number(transacao.conta_id) === Number(contaEmEdicao)
+                        || (transacao.conta_id === undefined && transacao.conta_nome === contaAnterior.nome);
+                    return pertenceAConta
+                        ? { ...transacao, conta_id: contaEmEdicao, conta_nome: conta.nome }
+                        : transacao;
+                });
+                salvarTransacoes(transacoes);
+            }
         } else {
-            contas.push({ id: proximoId(contas), ...conta });
+            if (usandoApi) {
+                try {
+                    const contaCriada = await criarContaApi(conta);
+                    contas.push({ id: contaCriada.id, ...conta });
+                } catch (erro) {
+                    window.alert(erro.message);
+                    return;
+                }
+            } else {
+                contas.push({ id: proximoId(contas), ...conta });
+            }
         }
         salvarContas(contas);
         contaEmEdicao = null;
@@ -51,7 +111,7 @@ export function inicializarContas() {
         renderizar();
     });
 
-    lista.addEventListener('click', (evento) => {
+    lista.addEventListener('click', async (evento) => {
         const botao = evento.target.closest('button');
         const item = botao?.closest('.account-item');
         if (!item) return;
@@ -63,6 +123,23 @@ export function inicializarContas() {
             formulario.elements.type.value = conta.tipo;
             formulario.querySelector('[type="submit"]').textContent = 'Salvar alterações';
             return;
+        }
+        const transacoesVinculadas = transacoes.filter((transacao) =>
+            Number(transacao.conta_id) === Number(conta.id)
+            || (transacao.conta_id === undefined && transacao.conta_nome === conta.nome)
+        );
+        if (transacoesVinculadas.length > 0) {
+            window.alert('Esta conta possui transações vinculadas e não pode ser excluída.');
+            return;
+        }
+        if (!window.confirm(`Excluir a conta "${conta.nome}"?`)) return;
+        if (usandoApi) {
+            try {
+                await excluirContaApi(conta.id);
+            } catch (erro) {
+                window.alert(erro.message);
+                return;
+            }
         }
         contas = contas.filter((registro) => registro.id !== conta.id);
         salvarContas(contas);

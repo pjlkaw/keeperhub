@@ -24,9 +24,9 @@
 	"dependencies": {
 		"@tensorflow/tfjs": "^4.22.0",
 		"@vercel/blob": "^2.8.2",
-		"dotenv": "^18.0.4",
+		"dotenv": "^18.0.9",
 		"groq-sdk": "^1.6.0",
-		"mysql2": "^3.24.4",
+		"mysql2": "^3.24.6",
 		"nsfwjs": "^4.3.0",
 		"sharp": "^0.35.5"
 	}

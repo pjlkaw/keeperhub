@@ -1,9 +1,16 @@
-# Consultas — integração futura
+# Consultas e histórico de Pets
 
-O layout usa HTML/CSS e os ícones fornecidos. Não foi criado JavaScript.
+As telas `consultas-exames.html` e `cadastrar-consulta.html` usam `js/consultas.js`.
+Consultas são vinculadas ao pet selecionado e persistidas em `pet.consultas` por
+meio de `js/armazenamento.js` e do `localStorage` atual.
 
-- Cadastro: validar médico, especialidade, clínica, data e horário; exigir a especialidade complementar quando Outra estiver selecionada; salvar via backend Node.js e atualizar a listagem. Habilitar Salvar Consulta somente após conectar esse fluxo.
-- Lembrar: o checkbox tem seleção nativa, mas ainda não persiste nem agenda notificações.
-- Confirmar Consulta: o disclosure abre nativamente; integrar o resumo ao histórico antes de habilitar o salvamento.
-- Exames: o seletor nativo abre arquivos, mas não envia. Integrar upload, substituir os destinos de download de exemplo e implementar Ver todos.
-- As informações exibidas são exemplos estáticos. O formulário usa o visual da referência Nova despesa, mantendo os campos de consulta existentes.
+Cada registro inclui `id`, `medico`, `especialidade`, `especialidadePersonalizada`,
+`clinica`, `data`, `horario`, `lembrar`, `status`, `resumo`, `criadaEm` e, após
+registro do atendimento, `realizadaEm`. A página lista agendamentos futuros,
+permite atualizar a opção de lembrete e mover um atendimento para o histórico
+com seu resumo. O checkbox guarda somente uma preferência local: não agenda
+notificações do sistema.
+
+Arquivos de exames e laudos ainda não são persistidos. A seção visual de exames
+permanece separada e requer um fluxo próprio de armazenamento antes de aceitar
+uploads reais. A migração para API Node.js também fica para etapa posterior.

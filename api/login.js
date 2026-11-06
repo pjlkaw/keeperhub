@@ -1,11 +1,19 @@
 import { atualizarUsuario, buscarUsuarioPorEmail } from '../server/repositories/usuario.js';
 import { hashPassword, verificarSenha } from '../server/password.js';
+import {
+  criarCookieSessao, origemDaRequisicaoValida, validarConfiguracaoSessao
+} from '../server/auth-session.js';
 
 export default async function handler(req, res) {
   try {
     if (req.method !== 'POST') {
       return res.status(405).json({ erro: 'Método não permitido' });
     }
+
+    if (!origemDaRequisicaoValida(req)) {
+      return res.status(403).json({ erro: 'Request origin not allowed.' });
+    }
+    validarConfiguracaoSessao();
 
     const { email, senha } = req.body || {};
 
@@ -31,6 +39,9 @@ export default async function handler(req, res) {
         senha_usuario: await hashPassword(String(senha))
       });
     }
+
+    // Criar cookie de sessão para o usuário autenticado
+    criarCookieSessao(res, usuario.id_usuario);
 
     return res.status(200).json({
       ok: true,

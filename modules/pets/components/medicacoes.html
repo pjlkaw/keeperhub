@@ -5,66 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Medicações</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="../assets/css/style-pets.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/medicacoes.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
         title: 'Medicações - Pets',
         subtitle: 'Acompanhe os medicamentos do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-medicacao.html'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
+    <!-- Estado vazio -->
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma medicação cadastrada"></section>
+
     <main class="pagina-medicacoes"> 
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Medicações e receitas -->
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
             <a href="receitas.html" class="abas-pet__link">Receitas</a>
         </nav>
 
+        <!-- Busca e filtros -->
         <div class="barra-ferramentas-medicacoes">
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-medicacao" class="somente-leitor-tela">Buscar medicação</label>
-                <span class="icone" aria-hidden="true"></span>
+                <i class="fa-solid fa-magnifying-glass icone" aria-hidden="true"></i>
                 <input type="search" id="buscar-medicacao" name="buscar-medicacao" placeholder="Buscar medicação...">
             </form>
             <button type="button" class="botao-icone barra-ferramentas-medicacoes__filtro" aria-label="Filtrar medicações">
-                <span class="icone" aria-hidden="true"></span>
+                <i class="fa-solid fa-filter icone" aria-hidden="true"></i>
             </button>
         </div>
 
+        <!-- Uso contínuo -->
         <section class="grupo-medicacoes" aria-labelledby="uso-continuo-heading">
             <h2 id="uso-continuo-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--continuo">Uso Contínuo</h2>
 
             <ul>
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--continuo">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-prescription-bottle-medical icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Simparic</h3>
                             <p class="cartao-medicacao__horario">Hoje às 19:00</p>
                             <p class="cartao-medicacao__estoque">
-                                <span class="icone" aria-hidden="true"></span>
+                                <i class="fa-solid fa-box-open icone" aria-hidden="true"></i>
                                 12 restantes
                             </p>
                         </div>
@@ -74,18 +84,19 @@
             </ul>
         </section>
 
+        <!-- Tratamentos temporários -->
         <section class="grupo-medicacoes" aria-labelledby="tratamentos-temporarios-heading">
             <h2 id="tratamentos-temporarios-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--temporario">Tratamentos Temporários</h2>
 
             <ul>
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--temporario">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Bravecto Antipulgas</h3>
                             <p class="cartao-medicacao__dosagem">1 cápsula • a cada 8h</p>
                             <p class="cartao-medicacao__termino">
-                                <span class="icone" aria-hidden="true"></span>
+                                <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
                                 Até 27 Ago
                             </p>
                         </div>
@@ -95,7 +106,7 @@
 
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--temporario cartao-medicacao--estoque-baixo">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Bravecto Antipulgas</h3>
                             <p class="cartao-medicacao__dosagem">1 cápsula • a cada 8h</p>
@@ -103,7 +114,7 @@
                                 <span class="somente-leitor-tela">Atenção: </span>2 restantes (estoque baixo)
                             </p>
                             <p class="cartao-medicacao__termino">
-                                <span class="icone" aria-hidden="true"></span>
+                                <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
                                 Até 27 Ago
                             </p>
                         </div>
@@ -113,13 +124,14 @@
             </ul>
         </section>
 
+        <!-- Uso eventual -->
         <section class="grupo-medicacoes" aria-labelledby="uso-eventual-heading">
             <h2 id="uso-eventual-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--eventual">Uso Eventual</h2>
 
             <ul>
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--eventual">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-droplet icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
                             <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
@@ -130,7 +142,7 @@
 
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--eventual">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-droplet icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Omeprazol</h3>
                             <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
@@ -141,13 +153,14 @@
             </ul>
         </section>
 
+        <!-- Histórico de medicações -->
         <section class="grupo-medicacoes" aria-labelledby="historico-heading">
             <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
 
             <ul>
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--aplicada">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
                             <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
@@ -158,7 +171,7 @@
 
                 <li>
                     <article class="card cartao-medicacao cartao-medicacao--aplicada">
-                        <span class="icone" aria-hidden="true"></span>
+                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
                         <div class="cartao-medicacao__informacoes">
                             <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
                             <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
@@ -169,13 +182,14 @@
             </ul>
         </section>
 
-        <a href="cadastrar-medicacao.html" class="botao-flutuante" aria-label="Adicionar medicação">
-            <span class="icone" aria-hidden="true"></span>
-        </a>
 
     </main>
 
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar medicação"></section>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/medicacoes.js"></script>
     <script src="/shared/services/theme.js"></script>
-<!-- Busca, filtros, receitas e persistência serão integrados ao backend futuramente. -->
 </body>
 </html>
+

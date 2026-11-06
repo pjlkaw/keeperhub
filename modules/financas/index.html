@@ -37,27 +37,23 @@
 </head>
 
 <body class="landing-page">
-    <!-- localStorage: esta página só lê o tema (shared/services/theme.js). Os dados do módulo
-         ficam em js/dados.js (PROVISÓRIO até o backend); ver LOCALSTORAGE.md. -->
     <main>
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
 
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
             <header class="section-header-section" id="headerSection"></header>
-            <!-- PROVISÓRIO: dados demonstrativos fixos; integrar com os dados reais do módulo. -->
             <article class="card preview-balance">
-                <header><span>SALDO DISPONÍVEL</span><mark> +12% vs mês anterior</mark></header><output>R$
-                    4.250,00</output>
+                <header><span>SALDO DISPONÍVEL</span><mark>Sem transações</mark></header><output>R$ 0,00</output>
                 <hr>
                 <section class="definition-list">
                     <dl>
                         <dt>Receitas</dt>
-                        <dd>R$ 8.480,00</dd>
+                        <dd id="overview-income">R$ 0,00</dd>
                     </dl>
                     <dl>
                         <dt>Despesas</dt>
-                        <dd>R$ 4.230,00</dd>
+                        <dd id="overview-expense">R$ 0,00</dd>
                     </dl>
                 </section>
             </article>
@@ -75,66 +71,31 @@
                     <span>Análise mensal</span>
                 </a>
             </nav>
-            <!-- PROVISÓRIO: dados demonstrativos fixos; integrar com os dados reais do módulo. -->
             <article class="card cash-flow">
                 <header>
-                    <h3>Fluxo do mês</h3><span>Setembro 2026</span>
+                    <h3>Fluxo do mês</h3><span id="overview-month">Mês atual</span>
                 </header>
-                <p class="flow-row"><span>Receitas</span><strong>R$ 8.480,00</strong><i class="income-bar"></i></p>
-                <p class="flow-row"><span>Despesas</span><strong>R$ 4.230,00</strong><i class="expense-bar"></i></p>
+                <p class="flow-row"><span>Receitas</span><strong id="overview-flow-income">R$ 0,00</strong><i class="income-bar"></i></p>
+                <p class="flow-row"><span>Despesas</span><strong id="overview-flow-expense">R$ 0,00</strong><i class="expense-bar"></i></p>
             </article>
-            <!-- PROVISÓRIO: dados demonstrativos fixos; integrar com os dados reais do módulo. -->
             <article class="card monthly-expenses-card">
                 <header>
                     <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
                 </header>
-                <ul class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses">
-                    <li><b>2.900</b><i style="height: 33px"></i><span>Jun</span></li>
-                    <li><b>3.350</b><i style="height: 39px"></i><span>Jul</span></li>
-                    <li><b>3.780</b><i style="height: 43px"></i><span>Ago</span></li>
-                    <li class="current"><b>4.230</b><i style="height: 48px"></i><span>Set</span></li>
-                </ul>
+                <ul class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses"></ul>
             </article>
-            <!-- PROVISÓRIO: dados demonstrativos fixos; integrar com os dados reais do módulo. -->
             <article class="card top-spending-card">
                 <header>
-                    <h3>Onde você mais gastou</h3><span>3 categorias</span>
+                    <h3>Onde você mais gastou</h3><span>0 categorias</span>
                 </header>
-                <ul class="top-spending-list">
-                    <li style="--spending-color:var(--tool-financas);--spending-width:34%">
-                        <p><i class="fa-solid fa-utensils" aria-hidden="true"></i><b>Alimentação</b><strong>R$ 1.280,00
-                                <small>30%</small></strong>
-                        </p><span></span>
-                    </li>
-                    <li style="--spending-color:var(--tool-pets);--spending-width:20%">
-                        <p><i class="fa-solid fa-bus" aria-hidden="true"></i><b>Transporte</b><strong>R$ 860,00
-                                <small>20%</small></strong>
-                        </p><span></span>
-                    </li>
-                    <li style="--spending-color:#9b72f2;--spending-width:14%">
-                        <p><i class="fa-solid fa-credit-card" aria-hidden="true"></i><b>Assinaturas</b><strong>R$ 490,00
-                                <small>12%</small></strong>
-                        </p><span></span>
-                    </li>
-                </ul>
+                <ul class="top-spending-list"></ul>
             </article>
-            <!-- PROVISÓRIO: dados demonstrativos fixos; integrar com os dados reais do módulo. -->
             <article class="card recent-transactions-card">
                 <header>
                     <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span
                             class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
                 </header>
-                <nav class="recent-transactions-list" aria-label="Transações recentes">
-                    <a href="components/transacoes.html"><i class="fa-solid fa-cart-shopping"
-                            aria-hidden="true"></i><span><b>Supermercado</b><small>Alimentação ·
-                                Hoje</small></span><strong>- R$ 150,45<small>14:20</small></strong></a>
-                    <a href="components/transacoes.html"><i class="fa-solid fa-taxi"
-                            aria-hidden="true"></i><span><b>Uber</b><small>Transporte ·
-                                Hoje</small></span><strong>- R$ 24,90<small>09:45</small></strong></a>
-                    <a href="components/transacoes.html" class="income"><i class="fa-solid fa-arrow-up"
-                            aria-hidden="true"></i><span><b>Salário</b><small>Renda
-                                · Ontem</small></span><strong>+ R$ 5.430,00<small>Ontem</small></strong></a>
-                </nav>
+                <nav class="recent-transactions-list" aria-label="Transações recentes"></nav>
             </article>
             <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
         </section>

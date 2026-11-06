@@ -4,14 +4,21 @@
  */
 
 import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/api/usuario.js';
+import { alertShared } from '../../../../../shared/services/interface.js';
 
 const FALLBACK_PROFILE = {
   name: '',
   birthDate: '',
 };
-const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+const MAX_PHOTO_SIZE = 15 * 1024 * 1024;
+// A foto vai em JSON como Base64; manter o resultado abaixo de 2.5 MB deixa
+// margem para a expansao Base64 dentro do limite de requisicao da Vercel.
+const MAX_COMPRESSED_PHOTO_SIZE = 2.5 * 1024 * 1024;
+const MAX_PHOTO_DIMENSION = 1800;
+const MAX_SOURCE_DIMENSION = 6000;
 const ALLOWED_PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 let photoData = '';
+let isProcessingPhoto = false;
 
 const form = document.getElementById('formulario-perfil');
   const nameInput = document.getElementById('nome-completo');
@@ -28,7 +35,22 @@ const form = document.getElementById('formulario-perfil');
   const strengthBar = document.getElementById('barra-forca-senha');
   const strengthText = document.getElementById('texto-forca-senha');
   const message = document.getElementById('mensagem-formulario');
-  const discardButton = document.getElementById('descartar-alteracoes');
+  const saveButton = form.querySelector('.botao-salvar');
+  const saveButtonText = saveButton?.querySelector('.botao-salvar__texto');
+  const trackedFields = Array.from(form.querySelectorAll('input:not([type="file"]), select, textarea'));
+  let initialFormValues = null;
+  let isSaving = false;
+
+  function hasUnsavedChanges() {
+    if (!initialFormValues) return false;
+
+    return trackedFields.some((field, index) => field.value !== initialFormValues[index])
+      || Boolean(photoInput.files?.length || photoData);
+  }
+
+  function updateSaveButtonVisibility() {
+    if (saveButton) saveButton.hidden = !hasUnsavedChanges();
+  }
 
 async function fillProfile() {
     const user = await carregarUsuarioAtual();
@@ -51,6 +73,8 @@ async function fillProfile() {
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
     }
+    initialFormValues = trackedFields.map((field) => field.value);
+    updateSaveButtonVisibility();
 }
 
   function togglePassword(button) {
@@ -91,7 +115,41 @@ async function fillProfile() {
     strengthText.textContent = level.label;
   }
 
-  function previewPhoto(event) {
+  function lerComoDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => resolve(reader.result), { once: true });
+      reader.addEventListener('error', () => reject(new Error('Não foi possível ler a imagem.')), { once: true });
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function prepararFoto(file) {
+    const bitmap = await createImageBitmap(file);
+    try {
+      if (bitmap.width > MAX_SOURCE_DIMENSION || bitmap.height > MAX_SOURCE_DIMENSION) {
+        throw new Error('A foto nao pode ultrapassar 6000x6000 pixels.');
+      }
+      const escala = Math.min(1, MAX_PHOTO_DIMENSION / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(bitmap.width * escala));
+      canvas.height = Math.max(1, Math.round(bitmap.height * escala));
+      const contexto = canvas.getContext('2d');
+      if (!contexto) throw new Error('Não foi possível preparar a imagem.');
+      contexto.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/webp', 0.82));
+      if (!blob) throw new Error('Este navegador não conseguiu comprimir a imagem.');
+      if (blob.size > MAX_COMPRESSED_PHOTO_SIZE) {
+        throw new Error('A imagem continua muito grande após a compressão. Escolha outra foto.');
+      }
+      return await lerComoDataUrl(blob);
+    } finally {
+      bitmap.close?.();
+    }
+  }
+
+  async function previewPhoto(event) {
     const file = event.target.files && event.target.files[0];
     if (!file) return;
 
@@ -99,7 +157,9 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
-      message.textContent = 'Escolha uma imagem JPG, PNG ou WebP.';
+      photoData = '';
+      alertShared('Escolha uma imagem JPG, PNG ou WebP.');
+      updateSaveButtonVisibility();
       return;
     }
 
@@ -107,19 +167,33 @@ async function fillProfile() {
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
-      message.textContent = 'A imagem deve ter no máximo 5 MB.';
+      photoData = '';
+      alertShared('A imagem original deve ter no máximo 15 MB.');
+      updateSaveButtonVisibility();
       return;
     }
 
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      photoData = reader.result;
-      avatarImage.src = reader.result;
+    isProcessingPhoto = true;
+    if (saveButton) saveButton.disabled = true;
+    message.textContent = 'Preparando imagem...';
+    try {
+      photoData = await prepararFoto(file);
+      avatarImage.src = photoData;
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
-      message.textContent = 'Imagem carregada. A validação de conteúdo será feita ao salvar.';
-    });
-    reader.readAsDataURL(file);
+      message.textContent = 'Imagem pronta para salvar.';
+      updateSaveButtonVisibility();
+    } catch (error) {
+      photoData = '';
+      event.target.value = '';
+      avatarImage.hidden = true;
+      avatarFallback.hidden = false;
+      message.textContent = error.message || 'Não foi possível preparar a imagem.';
+      updateSaveButtonVisibility();
+    } finally {
+      isProcessingPhoto = false;
+      if (saveButton) saveButton.disabled = false;
+    }
   }
 
   function formatBirthDate(event) {
@@ -130,6 +204,7 @@ async function fillProfile() {
 
   async function saveProfile(event) {
     event.preventDefault();
+    if (isSaving || isProcessingPhoto) return;
 
     if (!form.reportValidity()) return;
 
@@ -140,6 +215,12 @@ async function fillProfile() {
     }
 
     confirmPasswordInput.setCustomValidity('');
+    isSaving = true;
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.setAttribute('aria-busy', 'true');
+    }
+    if (saveButtonText) saveButtonText.textContent = 'Salvando...';
 
     try {
       await atualizarUsuarioAtual({
@@ -156,12 +237,19 @@ async function fillProfile() {
           : {}),
       });
       message.textContent = 'Alterações salvas.';
+      if (saveButtonText) saveButtonText.textContent = 'Salvo!';
       nameSummary.textContent = nameInput.value.trim();
       window.setTimeout(() => {
         window.location.href = '../index.html';
       }, 450);
     } catch (error) {
       message.textContent = error.message || 'Não foi possível salvar as alterações.';
+      isSaving = false;
+      if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.removeAttribute('aria-busy');
+      }
+      if (saveButtonText) saveButtonText.textContent = 'Salvar alterações';
     }
   }
 
@@ -176,13 +264,15 @@ async function fillProfile() {
   newPasswordInput.addEventListener('input', updatePasswordStrength);
   confirmPasswordInput.addEventListener('input', () => confirmPasswordInput.setCustomValidity(''));
   photoInput.addEventListener('change', previewPhoto);
+  form.addEventListener('input', updateSaveButtonVisibility);
+  form.addEventListener('change', updateSaveButtonVisibility);
   form.addEventListener('submit', saveProfile);
-  discardButton.addEventListener('click', () => {
-    form.reset();
-    window.location.href = '../index.html';
-  });
 
   fillProfile().catch((error) => {
+    if (error.status === 401) {
+      window.location.replace('../../../entrar/index.html');
+      return;
+    }
     message.textContent = error.message || 'Não foi possível carregar o perfil.';
   });
   updatePasswordStrength();

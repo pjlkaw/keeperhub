@@ -109,8 +109,7 @@ body {
   padding-bottom: 64px;
 }
 
-.voltar,
-.link-previa {
+.voltar {
   font-size: 0.875rem;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -171,10 +170,6 @@ h3 {
   text-underline-offset: 4px;
 }
 
-.link-previa {
-  text-align: center;
-}
-
 .previa {
   padding: 48px 0;
   border-top: 1px solid var(--border-color);
@@ -185,6 +180,46 @@ h3 {
 .introducao-previa {
   margin-top: 16px;
   color: var(--text-muted);
+}
+
+/* Seleção nativa das prévias, sem JavaScript. */
+.seletor-previa {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.opcao-previa,
+.legenda-previa {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.painel-previa {
+  display: none;
+}
+
+#opcao-visao-geral:checked ~ #painel-visao-geral,
+#opcao-produtos:checked ~ #painel-produtos,
+#opcao-vencimentos:checked ~ #painel-vencimentos,
+#opcao-comparacao:checked ~ #painel-comparacao,
+#opcao-novo-produto:checked ~ #painel-novo-produto {
+  display: block;
+}
+
+#opcao-visao-geral:focus-visible ~ .abas-previa [for="opcao-visao-geral"],
+#opcao-produtos:focus-visible ~ .abas-previa [for="opcao-produtos"],
+#opcao-vencimentos:focus-visible ~ .abas-previa [for="opcao-vencimentos"],
+#opcao-comparacao:focus-visible ~ .abas-previa [for="opcao-comparacao"],
+#opcao-novo-produto:focus-visible ~ .abas-previa [for="opcao-novo-produto"] {
+  outline: 2px solid var(--text-color);
+  outline-offset: 3px;
 }
 
 .abas-previa {
@@ -212,7 +247,11 @@ h3 {
   border-color: var(--text-muted);
 }
 
-.aba-previa[aria-selected='true'] {
+#opcao-visao-geral:checked ~ .abas-previa [for="opcao-visao-geral"],
+#opcao-produtos:checked ~ .abas-previa [for="opcao-produtos"],
+#opcao-vencimentos:checked ~ .abas-previa [for="opcao-vencimentos"],
+#opcao-comparacao:checked ~ .abas-previa [for="opcao-comparacao"],
+#opcao-novo-produto:checked ~ .abas-previa [for="opcao-novo-produto"] {
   border-color: var(--cor-modulo);
   background: var(--cor-modulo);
   color: #f4f4f5;
@@ -285,11 +324,6 @@ figcaption {
 .chamada-teste p {
   margin: 16px 0 24px;
   color: var(--text-muted);
-}
-
-.aviso {
-  color: var(--text-muted);
-  font-size: 0.8125rem;
 }
 
 a:focus-visible,
