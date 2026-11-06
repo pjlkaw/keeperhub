@@ -1,5 +1,4 @@
-
-
+const CHAVE = "keeperhub_checklist_compras";
 
 function carregarLista() {
     try {
