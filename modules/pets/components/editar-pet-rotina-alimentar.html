@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KeeperHub — Editar Pet — Rotina Alimentar</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/editar-pet-rotina-alimentar.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -29,17 +30,22 @@
 </head>
 <body>
     <main class="editar-pet editar-pet--rotina-alimentar" data-pet-id="">
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Abas de edição -->
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link" data-manter-pet>Informações</a>
             <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page" data-manter-pet>Rotina Alimentar</a>
             <a href="editar-pet-tutor.html" class="abas-pet__link" data-manter-pet>Tutor</a>
         </nav>
 
+        <!-- Rotina alimentar -->
         <form class="formulario-rotina-alimentar" id="formulario-rotina-alimentar" data-pet-id="" novalidate>
+            <!-- Refeições -->
             <section class="lista-refeicoes" aria-labelledby="titulo-refeicoes">
                 <header class="lista-refeicoes__cabecalho">
                     <h2 id="titulo-refeicoes">Refeições</h2>
@@ -54,11 +60,13 @@
                 <p class="refeicoes-vazias" id="refeicoes-vazias" hidden>Nenhuma refeição cadastrada. Adicione a primeira refeição do pet.</p>
             </section>
 
+            <!-- Alterações e desfazer exclusão -->
             <div class="aviso-rotina" id="aviso-rotina" hidden>
                 <p id="status-rotina" role="status" aria-live="polite" aria-atomic="true"></p>
                 <button type="button" class="botao-texto" id="desfazer-exclusao" hidden>Desfazer exclusão</button>
             </div>
 
+            <!-- Observações da rotina -->
             <div class="observacoes-rotina">
                 <label for="observacoes-rotina">Observações sobre a rotina</label>
                 <textarea id="observacoes-rotina" name="observacoes-rotina" rows="4" maxlength="2000" placeholder="Adicione detalhes importantes sobre a rotina do pet..."></textarea>
@@ -71,6 +79,7 @@
 
     </main>
 
+    <!-- Modelo da refeição -->
     <template id="modelo-cartao-refeicao">
         <li>
             <article class="card cartao-refeicao">
@@ -91,6 +100,7 @@
         </li>
     </template>
 
+    <!-- Modelo do editor de refeição -->
     <template id="modelo-editor-refeicao">
         <fieldset class="editor-refeicao">
             <legend class="editor-refeicao__titulo"></legend>
@@ -104,6 +114,7 @@
                         <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="jantar"><span>Jantar</span></label>
                         <label class="opcao-refeicao"><input type="radio" name="tipo_refeicao" value="outro"><span>Outro</span></label>
                     </div>
+                    <!-- Exibido ao escolher Outro. -->
                     <div class="campo-formulario editor-refeicao__nome-personalizado" hidden>
                         <label for="nome-refeicao">Qual refeição?</label>
                         <input type="text" id="nome-refeicao" name="nome_refeicao" maxlength="60" placeholder="Digite o nome da refeição" autocomplete="off">
@@ -121,6 +132,7 @@
         </fieldset>
     </template>
 
+    <!-- Scripts -->
     <script type="module" src="../js/editarPetRotinaAlimentar.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>

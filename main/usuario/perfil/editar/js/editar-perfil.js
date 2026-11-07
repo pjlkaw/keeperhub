@@ -35,10 +35,22 @@ const form = document.getElementById('formulario-perfil');
   const strengthBar = document.getElementById('barra-forca-senha');
   const strengthText = document.getElementById('texto-forca-senha');
   const message = document.getElementById('mensagem-formulario');
-  const discardButton = document.getElementById('descartar-alteracoes');
   const saveButton = form.querySelector('.botao-salvar');
   const saveButtonText = saveButton?.querySelector('.botao-salvar__texto');
+  const trackedFields = Array.from(form.querySelectorAll('input:not([type="file"]), select, textarea'));
+  let initialFormValues = null;
   let isSaving = false;
+
+  function hasUnsavedChanges() {
+    if (!initialFormValues) return false;
+
+    return trackedFields.some((field, index) => field.value !== initialFormValues[index])
+      || Boolean(photoInput.files?.length || photoData);
+  }
+
+  function updateSaveButtonVisibility() {
+    if (saveButton) saveButton.hidden = !hasUnsavedChanges();
+  }
 
 async function fillProfile() {
     const user = await carregarUsuarioAtual();
@@ -61,6 +73,8 @@ async function fillProfile() {
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
     }
+    initialFormValues = trackedFields.map((field) => field.value);
+    updateSaveButtonVisibility();
 }
 
   function togglePassword(button) {
@@ -145,6 +159,7 @@ async function fillProfile() {
       avatarFallback.hidden = false;
       photoData = '';
       alertShared('Escolha uma imagem JPG, PNG ou WebP.');
+      updateSaveButtonVisibility();
       return;
     }
 
@@ -154,6 +169,7 @@ async function fillProfile() {
       avatarFallback.hidden = false;
       photoData = '';
       alertShared('A imagem original deve ter no máximo 15 MB.');
+      updateSaveButtonVisibility();
       return;
     }
 
@@ -166,12 +182,14 @@ async function fillProfile() {
       avatarImage.hidden = false;
       avatarFallback.hidden = true;
       message.textContent = 'Imagem pronta para salvar.';
+      updateSaveButtonVisibility();
     } catch (error) {
       photoData = '';
       event.target.value = '';
       avatarImage.hidden = true;
       avatarFallback.hidden = false;
       message.textContent = error.message || 'Não foi possível preparar a imagem.';
+      updateSaveButtonVisibility();
     } finally {
       isProcessingPhoto = false;
       if (saveButton) saveButton.disabled = false;
@@ -246,11 +264,9 @@ async function fillProfile() {
   newPasswordInput.addEventListener('input', updatePasswordStrength);
   confirmPasswordInput.addEventListener('input', () => confirmPasswordInput.setCustomValidity(''));
   photoInput.addEventListener('change', previewPhoto);
+  form.addEventListener('input', updateSaveButtonVisibility);
+  form.addEventListener('change', updateSaveButtonVisibility);
   form.addEventListener('submit', saveProfile);
-  discardButton.addEventListener('click', () => {
-    form.reset();
-    window.location.href = '../index.html';
-  });
 
   fillProfile().catch((error) => {
     if (error.status === 401) {

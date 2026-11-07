@@ -6,21 +6,22 @@
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
+
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
     <link rel="stylesheet" href="/shared/styles/header-page.css" />
     <link rel="stylesheet" href="/shared/styles/no-content.css" />
     <link rel="stylesheet" href="/shared/styles/btn-add.css" />
 
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="assets/css/pets-modulo-principal.css" />
 
-  
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -34,20 +35,28 @@
     <script defer src="/shared/services/load-components.js"></script>
 </head>
   <body>
+    <!-- Alertas -->
+    <section id="alertFromShared" class="alert"></section>
+    <!-- Botão de adicionar pet -->
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar novo pet"></section>
     <div class="pagina-pets">
+      <!-- Navegação entre módulos -->
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+      <!-- Cabeçalho da página -->
       <header class="section-header-section" id="headerSection"></header>
 
+      <!-- Estado vazio -->
       <section class="no-content-section" id="no-content-section" aria-label="Nenhum pet cadastrado" hidden></section>
 
       <main class="painel-pets" id="conteudo-principal" hidden>
         <h1 class="somente-leitor-tela">Meus pets</h1>
         <p id="painel-pets-status" class="painel-pets-status" role="status" aria-live="polite"></p>
         <button type="button" id="recarregar-pets" class="botao-principal" hidden>Tentar novamente</button>
+        <!-- Lista preenchida pelo script do painel -->
         <ul class="lista-pets" id="lista-pets"></ul>
 
+        <!-- Adicionar outro pet -->
         <section class="adicionar-pet-section" id="adicionar-pet-section" hidden aria-label="Adicionar outro pet">
           <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
             <i class="fa-solid fa-plus icone" aria-hidden="true"></i>
@@ -55,6 +64,7 @@
           </a>
         </section>
 
+            <!-- Atalhos de cuidados -->
             <section class="acoes-rapidas-pet" id="acoes-rapidas-pets" aria-label="Cuidados dos pets" hidden>
               <ul>
                 <li><a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina"><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Vacinas</span><span class="acao-rapida__descricao">Consultar vacinas</span></a></li>
@@ -68,6 +78,7 @@
         <noscript>Ative o JavaScript para cadastrar e visualizar seus pets.</noscript>
       </main>
 
+      <!-- Modelo do card de pet -->
       <template id="cartao-pet-template">
         <li>
           <article class="bloco-pet">
@@ -93,10 +104,10 @@
       </template>
     </div>
 
+    <!-- Scripts -->
     <script type="module" src="../pets/script.js"></script>
       <script src="/shared/services/theme.js"></script>
 </body>
 </html>
-
 
 

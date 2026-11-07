@@ -129,7 +129,10 @@
             <form class="formulario-teste" action="../criar-conta/index.html" method="get">
               <label for="trial-email">Teste grátis por 30 dias</label>
               <div class="campos-teste">
-                <input id="trial-email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required />
+                <div class="campo-email-teste">
+                  <input id="trial-email" name="email" type="email" placeholder="voce@exemplo.com" autocomplete="email" required aria-describedby="erro-email-teste" />
+                  <span class="form-field-error" id="erro-email-teste" role="alert">Insira um e-mail válido</span>
+                </div>
                 <button class="botao-teste" type="submit">Experimentar por 30 dias</button>
               </div>
               <p class="aviso-teste">Ao continuar, você concorda com os <a href="../termos/index.html">Termos de Uso</a> e a <a href="../privacidade/index.html">Política de Privacidade</a>.</p>

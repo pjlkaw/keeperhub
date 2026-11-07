@@ -6,41 +6,45 @@
     <meta name="theme-color" content="#0b0b0d">
     <title>Keeper Hub — Pets — Vacinações</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/vacinacoes.css">
-    <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
         title: 'Vacinações',
         subtitle: 'Acompanhe as vacinas do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/adicionar-vacina.html'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
+    <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma vacina cadastrada"></section>
 
     <main class="vacinacoes-pet" id="conteudo-principal" data-pet-id="">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- Datas, status e contagens são demonstrativos da referência de 2024.
-             A consulta por pet e os cálculos serão integrados ao Node.js depois. -->
+        <!-- Próximas vacinas -->
         <section class="destaques-vacinas" aria-labelledby="proximas-vacinas-heading" hidden>
             <h2 id="proximas-vacinas-heading">Próximas Vacinas</h2>
 
@@ -82,6 +86,7 @@
             </ul>
         </section>
 
+        <!-- Cronograma de vacinação -->
         <section class="cronograma-vacinas" aria-labelledby="cronograma-heading" hidden>
             <h2 id="cronograma-heading">Cronograma Completo</h2>
 
@@ -132,6 +137,7 @@
             </ul>
         </section>
 
+        <!-- Histórico de aplicações -->
         <section class="historico-vacinas" aria-labelledby="vaccine-history-heading" hidden>
             <h2 id="vaccine-history-heading">Histórico</h2>
 
@@ -158,14 +164,13 @@
             </ul>
         </section>
 
-        <a href="adicionar-vacina.html" class="botao-flutuante" aria-label="Adicionar vacina" data-manter-pet>
-            <span class="icone" aria-hidden="true"></span>
-        </a>
 
     </main>
 
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar vacina"></section>
+
+    <!-- Scripts -->
     <script type="module" src="../js/vacinacoes.js"></script>
-<!-- Vacinas registradas localmente são exibidas pelo JavaScript do módulo. -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

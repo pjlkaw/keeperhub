@@ -21,7 +21,7 @@
             window.keeperhubModuleConfig = {
                 module: 'despensa',
                 title: 'Despensa',
-                subtitle: 'Gestão do seu mercado',
+                subtitle: 'Sua despensa sob controle!',
                 backUrl: '/main/hub/index.html',
                 notificationsModule: 'despensa',
                 addUrl: '/modules/despensa/components/cadastrar.html'
@@ -37,32 +37,16 @@
         <div class="despensa-shell">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
             <header class="section-header-section" id="headerSection">
-                <div class="section-header-title-area">
-                    <div class="section-header-top-row">
-                       
-                        <h1 id="pageNameH1" class="section-header-title">
-                            Despensa
-                        </h1>
-                    </div>
-                    <div class="section-header-meta">
-                        <span id="pageSubtittleSpan">
-                            Controle sua despensa
-                        </span>
-                    </div>
-                </div>
-
-
-
             </header>
             <main class="despensa-conteudo" id="main-content">
                 <section aria-labelledby="resumo-titulo">
                     <h2 id="resumo-titulo">
-                        Resumo
+                     
                     </h2>
                     <div class="despensa-resumo">
-                        <a href="components/produtos.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true">
-                                ▣
+                        <a href="" class="card card--interactive summary-card">
+                            <span class="summary-icon">
+                                <i class="fa-regular fa-square-check" id="fa-icons"></i>
                             </span>
                             <span>
                                 Produtos
@@ -71,40 +55,62 @@
                         </a>
                         <a href="components/vencimento.html" class="card card--interactive summary-card">
                             <span class="summary-icon" aria-hidden="true">
-                                ◷
+                                <i class="fa-regular fa-calendar" id="fa-icons"></i>
                             </span>
                             <span>
-                                Próximos a vencer
+                                Próximos ao vencimento
                             </span>
                         </a>
                         <a href="components/checklist.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true">
-                                ≡
+                            <span class="summary-icon" aria-hidden="true" id="fa-icons">
+                               <i class="fa-solid fa-list-ul"></i>
+                            
                             </span>
                             <span>
                                Checklist
                             </span>
-                            
-                             
                             </strong>
                         </a>
-                        <a href="components/precos.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true">
-                                $
-                            </span>
-                            <span>
-                                Comparação de preços
-                            </span>
-                        </a>
-                    </div>
                 </section>
+
                 <section id="produtos-cadastrados" aria-labelledby="produtos-titulo">
                     <h2 id="produtos-titulo">
-                        Produtos cadastrados
+                        Produtos 
                     </h2>
-                    <div id="lista-produtos" class="lista-produtos" aria-live="polite">
-                    </div>
+                 <main class="despensa-conteudo" id="main-content">
+
+                <!-- BUSCA -->
+                <section class="search-container">
+                    <input type="text" id="searchInput" aria-label="Buscar produtos" placeholder=" ⌕ Buscar produtos...">
                 </section>
+
+                <!-- FILTROS -->
+                <nav class="filters" aria-label="Filtrar por categoria">
+                    <button class="" data-category="Todos">
+                        Todos
+                    </button>
+                    <button class="filter" data-category="Laticínios">
+                        Laticínios
+                    </button>
+                    <button class="filter" data-category="Grãos">
+                        Grãos
+                    </button>
+                    <button class="filter" data-category="Bebidas">
+                        Bebidas
+                    </button>
+                    <button class="filter" data-category="Limpeza">
+                        Limpeza
+                    </button>
+                </nav>
+                <p id="itemsBadge" role="status">
+                </p>
+
+                <!-- LISTA DE PRODUTOS -->
+                <section class="products-list" id="productsList">  
+                     <div id="lista-produtos" class="lista-produtos" aria-live="polite">
+                    </div>  
+
+
                 <a class="floating-button" href="/modules/despensa/components/cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
                     +
                 </a>

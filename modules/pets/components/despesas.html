@@ -6,45 +6,51 @@
     <meta name="theme-color" content="#0b0b0d" />
     <title>KeeperHub — Pets</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/no-content.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/despesas.css" />
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
         title: 'Despesas',
         subtitle: 'Acompanhe os gastos com o seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '#nova-despesa'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
   <body>
+    <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma despesa cadastrada"></section>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="">
+      <!-- Navegação entre módulos -->
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+      <!-- Cabeçalho da página -->
       <header class="section-header-section" id="headerSection"></header>
 
+      <!-- Seleção do pet -->
       <section class="seletor-pet-despesas" aria-labelledby="rotulo-pet-despesas" hidden>
         <label id="rotulo-pet-despesas" for="pet-despesas">Pet</label>
         <select id="pet-despesas" aria-describedby="status-pet-despesas"></select>
         <p id="status-pet-despesas" role="status" aria-live="polite" hidden></p>
       </section>
 
-      <!-- Os lançamentos e o resumo são preenchidos com os dados locais do pet. -->
       <div class="despesas-conteudo">
+        <!-- Resumo mensal -->
         <section class="card resumo-despesas" aria-labelledby="resumo-despesas-heading">
           <nav class="resumo-despesas__mes" aria-label="Mês das despesas">
             <button class="despesas-navegar" type="button" aria-label="Mês anterior" title="Troca de mês disponível após integração" data-acao="mes-anterior" disabled><span aria-hidden="true">‹</span></button>
@@ -67,6 +73,7 @@
           </p>
         </section>
 
+        <!-- Totais por categoria -->
         <section aria-labelledby="categorias-despesas-heading">
           <header class="secao-despesas__cabecalho">
             <h2 class="secao-despesas__titulo secao-despesas__titulo--discreto" id="categorias-despesas-heading">Divisão por área</h2>
@@ -108,6 +115,7 @@
           </ul>
         </section>
 
+        <!-- Extrato por categoria -->
         <section class="historico-despesas" aria-labelledby="historico-despesas-heading">
           <header class="secao-despesas__cabecalho">
             <h2 class="secao-despesas__titulo" id="historico-despesas-heading">Extrato Detalhado</h2>
@@ -149,11 +157,8 @@
         </section>
       </div>
 
-      <button class="despesas-adicionar" type="button" popovertarget="nova-despesa" aria-label="Adicionar despesa" title="Adicionar despesa">
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-      </button>
 
-      <!-- Formulário nativo com persistência local no registro do pet. -->
+      <!-- Formulário de nova despesa -->
       <section class="nova-despesa" id="nova-despesa" popover aria-labelledby="nova-despesa-heading">
         <header class="nova-despesa__cabecalho">
           <h2 id="nova-despesa-heading">Nova despesa</h2>
@@ -203,6 +208,9 @@
         </form>
       </section>
     </main>
+
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar despesa"></section>
+    <!-- Scripts -->
     <script type="module" src="../js/despesas.js"></script>
     <script src="/shared/services/theme.js"></script>
 </body>

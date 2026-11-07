@@ -37,18 +37,36 @@ function informar(mensagem, erro = false) {
 }
 
 // Mostra a foto do pet ou uma imagem padrão, caso não haja uma foto válida.
+function obterFotoSegura(foto) {
+    if (typeof foto !== 'string') return null;
+
+    if (/^data:image\/(?:jpeg|png|webp);base64,/.test(foto)) {
+        return foto;
+    }
+
+    try {
+        const url = new URL(foto, window.location.origin);
+
+        if (url.protocol === 'https:' && url.origin === window.location.origin) {
+            return url.href;
+        }
+    } catch {
+        return null;
+    }
+
+    return null;
+}
+
 function mostrarFoto(foto, nome) {
-    // Aceita fotos em URL HTTPS ou em formato Base64 JPEG, PNG ou WebP.
-    const fotoValida = typeof foto === 'string' && (
-        /^https:\/\//.test(foto) ||
-        /^data:image\/(?:jpeg|png|webp);base64,/.test(foto)
-    );
+    // Aceita fotos HTTPS do mesmo domínio ou em formato Base64 JPEG, PNG ou WebP.
+    const fotoSegura = obterFotoSegura(foto);
+    const fotoValida = Boolean(fotoSegura);
 
     // Indica no HTML se há uma foto válida.
     figuraFoto.dataset.temFoto = String(fotoValida);
 
     // Define a foto ou usa o logo padrão.
-    imagemFoto.src = fotoValida ? foto : '/shared/img/logo-pets.png';
+    imagemFoto.src = fotoSegura ?? '/shared/img/logo-pets.png';
 
     // O texto alternativo descreve a foto para leitores de tela.
     imagemFoto.alt = fotoValida ? 'Foto de ' + nome : '';

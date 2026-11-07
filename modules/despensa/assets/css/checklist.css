@@ -138,14 +138,7 @@
     cursor: pointer;
 }
 
-.search-box {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-left: 12px;
-    border: 1px solid var(--border-color, #444);
-    border-radius: 10px;
-}
+
 
 .search-box input {
     margin: 0;
@@ -218,13 +211,6 @@
     opacity: .55;
 }
 
-.remove-item {
-    padding: 8px;
-    border: 0;
-    background: transparent;
-    color: #d77b7b;
-    cursor: pointer;
-}
 
 .empty-message {
     padding: 20px 0;

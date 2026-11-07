@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Adicionar Rotina</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/cadastrar-rotina.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -31,10 +32,13 @@
 
     <main class="adicionar-rotina">
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Acesso à rotina alimentar -->
         <section class="adicionar-rotina__alimentacao" aria-labelledby="alimentacao-heading">
             <h2 id="alimentacao-heading">Alimentação</h2>
             <p>Organize os nomes e horários das refeições na rotina alimentar do pet.</p>
@@ -44,6 +48,7 @@
             </div>
         </section>
 
+        <!-- Higiene e bem-estar (sem gravação) -->
         <section class="adicionar-rotina__higiene" aria-labelledby="higiene-heading">
             <h2 id="higiene-heading">Higiene e Bem-estar</h2>
 
@@ -115,11 +120,6 @@
                         <input type="date" id="data-atividade" name="data_atividade">
                     </div>
 
-                    <!--
-                        Campo relevante quando a atividade selecionada acima for
-                        "Passeio Matinal", "Banho" ou "Banho e Tosa" — exibição
-                        condicional fica pro JS depois.
-                    -->
                     <div class="campo-formulario">
                         <label for="horario-atividade">Horário</label>
                         <input type="time" id="horario-atividade" name="horario_atividade">
@@ -135,6 +135,7 @@
 
     </main>
 
+    <!-- Tema -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>

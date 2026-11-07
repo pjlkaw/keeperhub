@@ -16,17 +16,20 @@
         <link rel="stylesheet" href="/modules/despensa/assets/css/cadastrar.css">
         <script src="/shared/services/theme.js" defer></script>
         <script type="module" src="/modules/despensa/script.js"></script>
-        <script>
-            window.keeperhubModuleConfig = {
-                module: 'despensa',
-                title: 'Cadastrar',
-                subtitle: '',
-                backUrl: '/modules/despensa/index.html',
-                notificationsModule: 'despensa'
-            };
-        </script>
-        <script src="/shared/services/load-components.js"></script>
+    </script>
 
+    <script>
+    const configModule = window.keeperhubModuleConfig || {
+    module: 'despensa',
+    title: 'Despensa',
+    subtitle: 'Gestão do seu mercado',
+    backUrl: '/main/',
+    notificationsModule: 'Despensa',
+    addUrl: '/modules/despensa/components/checklist.html'
+};
+    </script>
+    <script src="/shared/services/load-components.js"></script>
+    
 
     </head>
     <body class="despensa" data-pagina="cadastrar">
@@ -35,7 +38,6 @@
         <div class="despensa-shell">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
                 <a href="/main/hub/index.html">
-                    Voltar ao Hub
                 </a>
             </nav>
             <header class="section-header-section" id="headerSection">

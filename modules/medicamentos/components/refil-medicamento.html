@@ -29,12 +29,15 @@
             title: 'Reposição',
             subtitle: 'Reponha o estoque de medicamentos',
             backUrl: '/modules/medicamentos/index.html',
-            notificationsModule: 'medicamentos'
+            notificationsModule: 'medicamentos',
+            addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
         };
     </script>
     <script src="/shared/services/load-components.js"></script>
+        <link rel="stylesheet" href="/shared/styles/btn-add.css">
     </head>
     <body>
+        <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
         <div class="app-page-wrapper">
             <div class="app-container">
                 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navega&#231;&#227;o entre m&#243;dulos"></nav>
@@ -66,7 +69,7 @@
                                 Quantidade adquirida <span class="form-asterisk">*</span>
                             </label>
                             <div class="input-with-suffix">
-                                <input type="number" id="input-quantity" name="quantity" class="form-input" min="1" required />
+                                <input type="number" id="input-quantity" name="quantity" class="form-input" min="0.01" step="0.01" required />
                                 <span class="input-suffix"></span>
                             </div>
                         </div>

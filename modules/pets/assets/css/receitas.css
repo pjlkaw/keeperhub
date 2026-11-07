@@ -263,37 +263,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   font-size: 0.75rem;
 }
 
-.pagina-medicacoes .botao-flutuante {
-  position: fixed;
-  right: max(16px, -224px + 50vw);
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
-  z-index: 5;
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  background: var(--pets-primary);
-  border-radius: 50%;
-  box-shadow: 0 8px 24px var(--pets-shadow);
-  transition: transform var(--pets-transition), background-color var(--pets-transition);
-}
 
-.pagina-medicacoes .botao-flutuante .icone {
-  width: 20px;
-  height: 20px;
-  background-image: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .pagina-medicacoes .botao-flutuante:hover {
-    background: var(--pets-primary-hover);
-    transform: translateY(-3px);
-  }
-}
-
-.pagina-medicacoes .botao-flutuante:active {
-  transform: scale(0.96);
-}
 
 /* Reutiliza a estrutura de medicações e os cards/controles de shared. */
 .receitas-lista { padding-inline: 16px; }
@@ -405,19 +375,6 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   height: 16px;
   background-image: none;
   filter: var(--pets-neutral-icon-filter);
-}
-.receitas-upload { cursor: pointer; }
-.receitas-upload input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-.receitas-upload:has(input:focus-visible) {
-  outline: 2px solid var(--text-color);
-  outline-offset: 3px;
 }
 @media (max-width: 359px) {
   .cartao-receita { grid-template-columns: 40px minmax(0, 1fr); }

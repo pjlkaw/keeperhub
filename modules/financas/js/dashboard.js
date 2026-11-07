@@ -1,4 +1,5 @@
 import { formatarData, formatarMoeda, obterTransacoes } from './dados.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 const ICONE_CATEGORIA = {
     Alimentação: 'fa-utensils',
@@ -157,6 +158,7 @@ export async function inicializarDashboard() {
     if (!document.querySelector('.preview-balance')) return;
 
     const transacoes = await obterTransacoes();
+    atualizarNoContent(transacoes.length > 0);
     const referencia = new Date();
     const receitas = transacoes.filter((transacao) => transacao.tipo === 'receita')
         .reduce((total, transacao) => total + Number(transacao.valor || 0), 0);

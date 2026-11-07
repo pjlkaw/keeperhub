@@ -20,12 +20,15 @@
             title: 'Histórico completo',
             subtitle: 'Registro de todas as doses',
             backUrl: '/modules/medicamentos/components/historico-medicacoes.html',
-            notificationsModule: 'medicamentos'
+            notificationsModule: 'medicamentos',
+            addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
         };
     </script>
     <script src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
 </head>
 <body>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
     <div class="app-page-wrapper">
         <div class="app-container">
                 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navega&#231;&#227;o entre m&#243;dulos"></nav>

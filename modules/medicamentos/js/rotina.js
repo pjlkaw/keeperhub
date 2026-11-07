@@ -92,12 +92,12 @@ function criarCartaoDose(dose) {
     titulo.className = "routine-card-title-row";
     const nome = document.createElement("span");
     nome.className = "routine-card-name";
-    nome.textContent = [dose.medicamento.nome, dose.medicamento.concentracao].filter(Boolean).join(" ");
+    nome.textContent = dose.medicamento.nome;
     const quantidade = document.createElement("span");
     quantidade.className = "routine-card-time-taken";
     quantidade.textContent = tomada
         ? `Tomado às ${new Intl.DateTimeFormat("pt-BR", { timeStyle: "short" }).format(new Date(dose.tomadaEm))}`
-        : dose.medicamento.dose || dose.medicamento.apresentacao;
+        : dose.medicamento.dose || "Dose não informada";
     titulo.append(nome);
     info.append(titulo, quantidade);
 
@@ -125,9 +125,9 @@ function criarBotaoAcao(rotulo, status, dose, card) {
     botao.type = "button";
     botao.className = "btn-meds-secondary";
     botao.textContent = rotulo;
-    botao.addEventListener("click", () => {
+    botao.addEventListener("click", async () => {
         try {
-            salvarEstadoDose(dose, status);
+            await salvarEstadoDose(dose, status);
             const atualizadas = obterDosesDoDia(new Date(`${dose.data}T00:00:00`));
             desenharDoses(document.querySelector(".routine-timeline"), atualizadas);
         } catch (erro) {

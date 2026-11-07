@@ -6,17 +6,18 @@
     <meta name="theme-color" content="#0a0a0c" />
     <title>KeeperHub — Cadastrar Pet</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css" />
     <link rel="stylesheet" href="/shared/styles/reset.css" />
     <link rel="stylesheet" href="/shared/styles/components.css" />
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/cadastrar-pet.css" />
   
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
@@ -30,11 +31,15 @@
 </head>
   <body>
     <main class="editar-pet">
+      <!-- Navegação entre módulos -->
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+      <!-- Cabeçalho da página -->
       <header class="section-header-section" id="headerSection"></header>
 
+      <!-- Cadastro do pet -->
       <form class="formulario-editar-pet" id="cadastro-pet-form">
+        <!-- Foto indisponível no cadastro inicial. -->
         <figure class="formulario-editar-pet__foto" id="foto-pet-preview" data-has-photo="false">
           <img id="foto-pet-imagem" src="" alt="Prévia da foto do pet" hidden />
         </figure>
@@ -103,6 +108,7 @@
         <p class="status-formulario" id="cadastro-pet-status" aria-live="polite"></p>
       </form>
 
+    <!-- Scripts -->
     <script type="module" src="../js/cadastroPet.js"></script>
     </main>
 

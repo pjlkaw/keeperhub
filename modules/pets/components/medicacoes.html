@@ -5,45 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keeper Hub — Pets — Medicações</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <!-- Estilos Estruturais e Compartilhados -->
+    <!-- Estilos compartilhados -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/medicacoes.css">
-  <link rel="stylesheet" href="../assets/css/botao-adicionar-pets.css">
 
+    <!-- Configuração do módulo -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
         title: 'Medicações - Pets',
         subtitle: 'Acompanhe os medicamentos do seu pet',
         backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets'
+        notificationsModule: 'pets',
+        addUrl: '/modules/pets/components/cadastrar-medicacao.html'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
 
+    <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma medicação cadastrada"></section>
 
     <main class="pagina-medicacoes"> 
 
+        <!-- Navegação entre módulos -->
         <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
+        <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Medicações e receitas -->
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
             <a href="receitas.html" class="abas-pet__link">Receitas</a>
         </nav>
 
+        <!-- Busca e filtros -->
         <div class="barra-ferramentas-medicacoes">
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-medicacao" class="somente-leitor-tela">Buscar medicação</label>
@@ -55,6 +62,7 @@
             </button>
         </div>
 
+        <!-- Uso contínuo -->
         <section class="grupo-medicacoes" aria-labelledby="uso-continuo-heading">
             <h2 id="uso-continuo-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--continuo">Uso Contínuo</h2>
 
@@ -76,6 +84,7 @@
             </ul>
         </section>
 
+        <!-- Tratamentos temporários -->
         <section class="grupo-medicacoes" aria-labelledby="tratamentos-temporarios-heading">
             <h2 id="tratamentos-temporarios-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--temporario">Tratamentos Temporários</h2>
 
@@ -115,6 +124,7 @@
             </ul>
         </section>
 
+        <!-- Uso eventual -->
         <section class="grupo-medicacoes" aria-labelledby="uso-eventual-heading">
             <h2 id="uso-eventual-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--eventual">Uso Eventual</h2>
 
@@ -143,6 +153,7 @@
             </ul>
         </section>
 
+        <!-- Histórico de medicações -->
         <section class="grupo-medicacoes" aria-labelledby="historico-heading">
             <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
 
@@ -171,16 +182,14 @@
             </ul>
         </section>
 
-        <a href="cadastrar-medicacao.html" class="botao-flutuante" aria-label="Adicionar medicação">
-            <span class="icone" aria-hidden="true"></span>
-        </a>
 
     </main>
 
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar medicação"></section>
+
+    <!-- Scripts -->
     <script type="module" src="../js/medicacoes.js"></script>
-<!-- Medicações são salvas localmente; receitas têm fluxo de integração separado. -->
     <script src="/shared/services/theme.js"></script>
 </body>
 </html>
-
 

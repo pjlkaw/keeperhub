@@ -1,7 +1,8 @@
-import { criarIdLocal, listarRegistros, salvarRegistros } from "./armazenamento.js";
+import { listarRegistros, definirRegistrosUsoDoBanco } from "./armazenamento.js";
+import { registrarEntradaEstoqueApi, salvarHabitoApi, salvarRegistroUsoApi } from "./api.js";
 import { dataLocal } from "./dados-rotina.js";
 
-// Inicializa formulários de hábitos, uso eventual e reposição sem chamar um servidor.
+// Inicializa formulários de hábitos, uso eventual e reposição conectados à API.
 export function inicializarFormularios() {
     inicializarFormularioHabito();
     inicializarFormularioUsoEventual();
@@ -15,31 +16,39 @@ function inicializarFormularioHabito() {
         return;
     }
 
-    formulario.addEventListener("submit", (evento) => {
+    formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
             return;
         }
 
         const dados = new FormData(formulario);
-        try {
-            const habitos = listarRegistros("habitos");
-            const habito = {
-                id: criarIdLocal(),
-                nome: String(dados.get("habit-name")).trim(),
-                frequencia: String(dados.get("habit-frequency")),
-                meta: String(dados.get("habit-goal")).trim(),
-                unidade: String(dados.get("habit-unit")),
-                conclusoes: [],
-                criadoEm: new Date().toISOString(),
-            };
-            habitos.push(habito);
-            salvarRegistros("habitos", habitos);
+        const nome = String(dados.get("habit-name") ?? "").trim();
+        const meta = Number(dados.get("habit-goal"));
+        const frequencia = String(dados.get("habit-frequency") ?? "").trim();
+        const unidade = String(dados.get("habit-unit") ?? "").trim();
+        if (nome.length < 2 || !Number.isFinite(meta) || meta < 0.1 || meta > 100000 ||
+            !frequencia || !unidade) {
+            mostrarRetornoFormulario(formulario, "Preencha o nome, a frequência, a meta e a unidade corretamente.", true);
+            return;
+        }
 
-            // Provisório: o hábito fica salvo somente no localStorage deste navegador.
-            console.log("[Medicamentos] Hábito salvo localmente (provisório):", habito);
+        const botao = formulario.querySelector('button[type="submit"]');
+        const textoBotao = botao?.querySelector("span");
+        if (botao) botao.disabled = true;
+        if (textoBotao) textoBotao.textContent = "Salvando...";
+        try {
+            const habito = {
+                nome,
+                frequencia,
+                meta,
+                unidade,
+            };
+            await salvarHabitoApi(habito);
             window.location.href = "bons-habitos.html";
         } catch (erro) {
+            if (botao) botao.disabled = false;
+            if (textoBotao) textoBotao.textContent = "Criar hábito";
             mostrarRetornoFormulario(formulario, erro.message, true);
         }
     });
@@ -66,7 +75,7 @@ function inicializarFormularioUsoEventual() {
             .forEach((medicamento) => {
             const opcao = document.createElement("option");
             opcao.value = medicamento.id;
-            opcao.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
+            opcao.textContent = medicamento.nome;
             seletor.append(opcao);
         });
     } catch (erro) {
@@ -80,33 +89,28 @@ function inicializarFormularioUsoEventual() {
         dataUso.value = `${dataLocal(agora)}T${String(agora.getHours()).padStart(2, "0")}:${String(agora.getMinutes()).padStart(2, "0")}`;
     }
 
-    formulario.addEventListener("submit", (evento) => {
+    formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
             return;
         }
 
         const dados = new FormData(formulario);
-        const campoMedicamento = formulario.querySelector("#select-medication");
-        const medicamentoSelecionado = campoMedicamento.selectedOptions[0]?.textContent;
-
         try {
-            const usos = listarRegistros("usos");
-            const uso = {
-                id: criarIdLocal(),
+            const dataHora = String(dados.get("date") ?? "");
+            const [data, horario] = dataHora.split("T");
+            const registros = await salvarRegistroUsoApi({
+                tipoUso: "eventual",
                 medicamentoId: String(dados.get("medication")),
-                medicamento: medicamentoSelecionado ?? String(dados.get("medication")),
-                dose: String(dados.get("dose")).trim(),
-                data: String(dados.get("date")),
+                dose: String(dados.get("dose") ?? "").trim(),
+                data,
+                horario,
                 observacao: String(dados.get("notes")).trim(),
-                criadoEm: new Date().toISOString(),
-            };
-            usos.unshift(uso);
-            salvarRegistros("usos", usos);
-
-            // Provisório: o uso eventual fica salvo somente no localStorage deste navegador.
-            console.log("[Medicamentos] Uso eventual salvo localmente (provisório):", uso);
-            mostrarRetornoFormulario(formulario, "Uso eventual salvo neste navegador.");
+                status: "tomada",
+            });
+            definirRegistrosUsoDoBanco(registros);
+            mostrarRetornoFormulario(formulario, "Uso eventual registrado no banco de dados.");
+            formulario.reset();
         } catch (erro) {
             mostrarRetornoFormulario(formulario, erro.message, true);
         }
@@ -142,6 +146,14 @@ function inicializarFormularioReposicao() {
         return;
     }
 
+    if (medicamento.quantidade === undefined) {
+        mostrarRetornoFormulario(formulario, "O estoque deste medicamento ainda não está conectado ao banco de dados.", true);
+        formulario.querySelectorAll("input, select, textarea, button").forEach((campo) => {
+            campo.disabled = true;
+        });
+        return;
+    }
+
     if (medicamento) {
         const titulo = formulario.querySelector(".med-summary-name");
         const unidade = medicamento.unidade || "unidades";
@@ -150,40 +162,25 @@ function inicializarFormularioReposicao() {
         const quantidadeAtual = formulario.querySelector(".calc-row .calc-value");
         const novoTotal = formulario.querySelector(".calc-total-value");
         const unidadeCampo = formulario.querySelector(".input-suffix");
-        if (titulo) titulo.textContent = [medicamento.nome, medicamento.concentracao].filter(Boolean).join(" ");
-        if (tipo) tipo.textContent = medicamento.apresentacao || unidade;
+        if (titulo) titulo.textContent = medicamento.nome;
+        if (tipo) tipo.textContent = unidade;
         if (estoque) estoque.textContent = `Estoque atual: ${medicamento.quantidade} ${unidade}`;
         if (quantidadeAtual) quantidadeAtual.textContent = String(medicamento.quantidade);
         if (novoTotal) novoTotal.textContent = `${medicamento.quantidade} ${unidade}`;
         if (unidadeCampo) unidadeCampo.textContent = unidade;
     }
-    formulario.addEventListener("submit", (evento) => {
+    formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
             return;
         }
 
         const dados = new FormData(formulario);
-        const reposicao = {
-            id: criarIdLocal(),
-            medicamentoId: medicamento.id,
-            medicamento: formulario.querySelector(".med-summary-name")?.textContent.trim() ?? "",
-            unidade: medicamento.unidade || "unidades",
-            quantidade: Number(dados.get("quantity")),
-            validade: String(dados.get("expiration") ?? "").trim(),
-            criadoEm: new Date().toISOString(),
-        };
-
         try {
-            const reposicoes = listarRegistros("reposicoes");
-            reposicoes.unshift(reposicao);
-            salvarRegistros("reposicoes", reposicoes);
-
-            medicamento.quantidade = Number(medicamento.quantidade || 0) + reposicao.quantidade;
-            salvarRegistros("medicamentos", medicamentos);
-
-            // Provisório: reposição e estoque ficam salvos somente no localStorage deste navegador.
-            console.log("[Medicamentos] Reposição salva localmente (provisória):", reposicao);
+            await registrarEntradaEstoqueApi(medicamento.id, {
+                quantidade: Number(dados.get("quantity")),
+                validade: String(dados.get("expiration") ?? "").trim(),
+            });
             window.location.href = `detalhes-medicamento.html?id=${encodeURIComponent(medicamento.id)}`;
         } catch (erro) {
             mostrarRetornoFormulario(formulario, erro.message, true);
@@ -195,7 +192,7 @@ function inicializarFormularioReposicao() {
 function inicializarPreviaReposicao() {
     const quantidade = document.querySelector("#input-quantity");
     const resumo = document.querySelector(".med-calculation-card");
-    if (!quantidade || !resumo) {
+    if (!quantidade || quantidade.disabled || !resumo) {
         return;
     }
 

@@ -1,7 +1,7 @@
 import { listarRegistros } from "./armazenamento.js";
 import { dataLocal, nomeMedicamento, obterDosesDoDia, salvarEstadoDose } from "./dados-rotina.js";
 
-// Monta a página inicial com a rotina, o estoque e os hábitos salvos localmente.
+// Monta a página inicial com medicamentos, rotinas e estoque do servidor e hábitos locais.
 export function inicializarInicioMedicamentos() {
     const prioridade = document.querySelector("#home-dose-priority");
     if (!prioridade) {
@@ -50,13 +50,13 @@ function renderizarPrioridade(container, doses) {
         cabecalho.append(nome, status);
         const quantidade = document.createElement("span");
         quantidade.className = "meds-delayed-dose";
-        quantidade.textContent = dose.medicamento.dose || dose.medicamento.apresentacao;
+        quantidade.textContent = dose.medicamento.dose || "Dose não informada";
         conteudo.append(cabecalho, quantidade);
 
         const acoes = document.createElement("div");
         acoes.className = "meds-delayed-actions";
         acoes.append(
-            criarBotaoDose("Tomei", "<i class='fas fa-check'></i>", dose, () => inicializarInicioMedicamentos()),
+            criarBotaoDose("Tomei", "tomada", dose, () => inicializarInicioMedicamentos()),
             criarBotaoDose("Estou sem", "sem-estoque", dose, () => inicializarInicioMedicamentos()),
         );
         card.append(conteudo, acoes);
@@ -133,8 +133,8 @@ function renderizarEstoque() {
     const baixos = listarRegistros("medicamentos").filter(
         (medicamento) =>
             medicamento.status !== "encerrado" &&
-            medicamento.alertaEstoque &&
-            Number(medicamento.quantidade) <= Number(medicamento.limiteEstoque),
+            medicamento.estoqueCadastrado &&
+            Number(medicamento.quantidade) <= 0,
     );
     atencaoSection(baixos.length > 0);
 
@@ -203,10 +203,13 @@ function criarBotaoDose(rotulo, status, dose, atualizar) {
     const botao = document.createElement("button");
     botao.type = "button";
     botao.className = status === "tomada" ? "btn-meds-take" : "btn-meds-out";
-    botao.textContent = rotulo;
-    botao.addEventListener("click", () => {
+    const icone = document.createElement("i");
+    icone.className = status === "tomada" ? "fa-solid fa-check" : "fa-solid fa-box-open";
+    icone.setAttribute("aria-hidden", "true");
+    botao.append(icone, document.createTextNode(` ${rotulo}`));
+    botao.addEventListener("click", async () => {
         try {
-            salvarEstadoDose(dose, status);
+            await salvarEstadoDose(dose, status);
             atualizar();
         } catch (erro) {
             mostrarErro(botao.closest("article"), erro);

@@ -30,8 +30,15 @@ export async function inicializarFormulario() {
         campos.date.value = `${ano}-${mes}-${dia}`;
     }
 
-    campos.account.replaceChildren(new Option('Selecione uma conta', '', true, true));
+    campos.account.replaceChildren(new Option(
+        contas.length ? 'Selecione uma conta' : 'Nenhuma conta cadastrada',
+        '',
+        true,
+        true
+    ));
+    campos.account.options[0].disabled = contas.length === 0;
     contas.forEach((conta) => campos.account.add(new Option(conta.nome, conta.id)));
+    document.getElementById('account-warning').hidden = contas.length > 0;
 
     const transacoesAtuais = await obterTransacoes();
     const transacaoEmEdicao = modoEdicaoSolicitado
@@ -88,6 +95,7 @@ export async function inicializarFormulario() {
     campos.value.addEventListener('focus', () => {
         if (campos.value.value === '0,00') campos.value.value = '';
     });
+    campos.value.addEventListener('input', () => campos.value.setCustomValidity(''));
     campos.value.addEventListener('blur', () => {
         if (!campos.value.value.trim()) campos.value.value = '0,00';
         atualizarResumo();
@@ -103,12 +111,18 @@ export async function inicializarFormulario() {
         const valor = lerMoeda(dados.get('value'));
         const contaId = Number(dados.get('account'));
 
-        if (!Number.isFinite(valor) || valor <= 0 || !Number.isInteger(contaId) || contaId <= 0) {
+        if (!Number.isFinite(valor) || valor <= 0) {
+            campos.value.setCustomValidity('Informe um valor maior que zero.');
+            formulario.reportValidity();
+            return;
+        }
+        campos.value.setCustomValidity('');
+        if (!Number.isInteger(contaId) || contaId <= 0) {
             formulario.reportValidity();
             return;
         }
 
-        const conta = contas.find((item) => item.id === contaId);
+        const conta = contas.find((item) => Number(item.id) === contaId);
         const novaTransacao = {
             id: modoEdicao ? idEmEdicao : proximoId(transacoesAtuais),
             tipo: formulario.querySelector('.type-option.selected').dataset.transactionType === 'income' ? 'receita' : 'despesa',
@@ -144,6 +158,6 @@ export async function inicializarFormulario() {
         window.location.href = 'transacoes.html';
     });
 
-    salvar.disabled = false;
+    salvar.disabled = contas.length === 0 && !modoEdicao;
     atualizarResumo();
 }

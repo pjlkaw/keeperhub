@@ -15,33 +15,69 @@ import { inicializarDetalhesMedicamento } from "./js/detalhes-medicamento.js";
 import { inicializarHabitos } from "./js/habitos.js";
 import { inicializarListaMedicamentos } from "./js/medicamentos.js";
 import { inicializarReceitas } from "./js/receitas.js";
-import { listarRegistros } from "./js/armazenamento.js";
+import { listarHabitosApi, listarMedicamentosApi, listarRegistrosUsoApi } from "./js/api.js";
+import { definirHabitosDoBanco, definirMedicamentosDoBanco, definirRegistrosUsoDoBanco } from "./js/armazenamento.js";
 import { atualizarNoContent } from "/shared/services/no-content.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const [medicamentos, registrosUso, habitos] = await Promise.allSettled([
+        listarMedicamentosApi(),
+        listarRegistrosUsoApi(),
+        listarHabitosApi(),
+    ]);
+    if (medicamentos.status === "fulfilled") {
+        definirMedicamentosDoBanco(medicamentos.value);
+    } else {
+        definirMedicamentosDoBanco(null);
+        mostrarErroDeCarregamento(medicamentos.reason);
+    }
+    if (registrosUso.status === "fulfilled") {
+        definirRegistrosUsoDoBanco(registrosUso.value);
+    } else {
+        definirRegistrosUsoDoBanco(null);
+        mostrarErroDeCarregamento(registrosUso.reason);
+    }
+    if (habitos.status === "fulfilled") {
+        definirHabitosDoBanco(habitos.value);
+    } else {
+        definirHabitosDoBanco(null);
+        mostrarErroDeCarregamento(habitos.reason);
+    }
+
     mudarAbaMedicamentos();
     inicializarFormularios();
-    inicializarFormularioMedicamento();
+    await inicializarFormularioMedicamento();
     inicializarInicioMedicamentos();
     inicializarRotinaMedicamentos();
     inicializarHistoricoMedicamentos();
     inicializarDashboardMedicamentos();
     inicializarDetalhesMedicamento();
-    inicializarHabitos();
+    await inicializarHabitos();
     inicializarListaMedicamentos();
     inicializarReceitas();
     if (document.querySelector(".no-content-section")) {
-        atualizarNoContent(listarRegistros("medicamentos").length > 0);
+        try {
+            atualizarNoContent((await listarMedicamentosApi()).length > 0);
+        } catch (erro) {
+            console.error("Não foi possível atualizar o estado vazio dos medicamentos:", erro);
+        }
     }
 });
 
+function mostrarErroDeCarregamento(erro) {
+    const principal = document.querySelector("#main-content");
+    if (!principal) return;
+    const aviso = document.createElement("p");
+    aviso.setAttribute("role", "alert");
+    aviso.textContent = erro?.message || "Não foi possível carregar os dados do módulo.";
+    principal.prepend(aviso);
+}
 
 
-// SHARED =======================================
-// alerts
-import { alertShared } from "/shared/services/interface.js"
 
 // DEV TOOL =====================================
+// alerts
+import { alertShared } from "/shared/services/interface.js"
 // adciona no-content.html para teste de desenvolvimento
 document.addEventListener('keydown', (event) => {
     if (event.key === '8') {

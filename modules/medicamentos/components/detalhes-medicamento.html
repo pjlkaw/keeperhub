@@ -22,6 +22,7 @@
 
     <!-- Main -->
     <link rel="stylesheet" href="../assets/css/med-details.css">
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
 
     <script>
         window.keeperhubModuleConfig = {
@@ -29,12 +30,17 @@
             title: 'Detalhes',
             subtitle: 'Detalhes do medicamento',
             backUrl: '/modules/medicamentos/index.html',
-            notificationsModule: 'medicamentos'
+            notificationsModule: 'medicamentos',
+            addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
         };
     </script>
     <script src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
 </head>
 <body>
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
+    <section id="alertFromShared" class="alert"></section>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
     <div class="app-page-wrapper">
         <div class="app-container">
                 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navega&#231;&#227;o entre m&#243;dulos"></nav>
@@ -146,7 +152,7 @@
 
                         <button type="button" class="btn-meds-action btn-meds-action--danger" id="btn-delete-medication">
                             <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
-                            <span>Excluir medicamento</span>
+                            <span>Arquivar medicamento</span>
                         </button>
                     </div>
 

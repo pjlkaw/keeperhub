@@ -81,6 +81,11 @@ function setupSignupForm() {
   setupPasswordToggle(togglePasswordConfirmBtn, passwordConfirmInput);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Preenche o e-mail enviado pelo formulário de teste da home.
+  const emailRecebido = new URLSearchParams(window.location.search).get('email')?.trim();
+  if (emailInput && !emailInput.value && emailRecebido && emailRegex.test(emailRecebido)) {
+    emailInput.value = emailRecebido;
+  }
 
   function checkFormState(userChangedForm = false) {
     const nameVal = nameInput ? nameInput.value.trim() : '';

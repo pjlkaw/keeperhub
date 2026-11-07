@@ -240,7 +240,11 @@ function renderizarLista() {
     const secaoSeletorPet = seletorPet.closest('.seletor-pet-vacinas');
 
     // Acrescenta o ID do pet aos links para cadastrar uma vacina.
-    document.querySelectorAll('a[href="adicionar-vacina.html"]')
+    const destinoCadastro = petAtual
+        ? `adicionar-vacina.html?petId=${encodeURIComponent(petAtual.id)}`
+        : 'adicionar-vacina.html';
+    window.keeperhubModuleConfig.addUrl = `/modules/pets/components/${destinoCadastro}`;
+    document.querySelectorAll('a[href*="adicionar-vacina.html"]')
         .forEach(link => {
             link.href = petAtual
                 ? `adicionar-vacina.html?petId=${encodeURIComponent(petAtual.id)}`

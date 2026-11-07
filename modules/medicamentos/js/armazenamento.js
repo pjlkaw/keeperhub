@@ -1,41 +1,58 @@
-// Armazenamento temporário do módulo; será substituído pela API quando ela existir.
-const prefixoChave = "keeperhub-medicamentos";
+// Dados do módulo vêm da API; estas variáveis são apenas o estado da página.
+let medicamentosDoBanco = null;
+let registrosUsoDoBanco = null;
+let habitosDoBanco = null;
+
+export function definirMedicamentosDoBanco(medicamentos) {
+    medicamentosDoBanco = Array.isArray(medicamentos)
+        ? medicamentos.map((medicamento) => ({ ...medicamento }))
+        : null;
+}
+
+export function definirRegistrosUsoDoBanco(registros) {
+    registrosUsoDoBanco = Array.isArray(registros)
+        ? registros.map((registro) => ({ ...registro }))
+        : null;
+}
+
+export function definirHabitosDoBanco(habitos) {
+    habitosDoBanco = Array.isArray(habitos)
+        ? habitos.map((habito) => ({ ...habito, conclusoes: [...(habito.conclusoes || [])] }))
+        : null;
+}
 
 // Carrega registros locais e informa quando o conteúdo salvo não pode ser interpretado.
 export function listarRegistros(tipo) {
-    const chave = `${prefixoChave}-${tipo}-v1`;
-    const conteudo = localStorage.getItem(chave);
-
-    if (conteudo === null) {
-        return [];
+    if (tipo === "medicamentos") {
+        if (!medicamentosDoBanco) {
+            throw new Error("Não foi possível carregar os medicamentos do servidor.");
+        }
+        return medicamentosDoBanco.map((medicamento) => ({ ...medicamento }));
     }
-
-    let registros;
-    try {
-        registros = JSON.parse(conteudo);
-    } catch (erro) {
-        throw new Error(`Não foi possível ler os dados locais de ${tipo}.`, { cause: erro });
+    if (tipo === "doses" || tipo === "usos") {
+        if (!registrosUsoDoBanco) {
+            throw new Error("Não foi possível carregar o histórico de uso do servidor.");
+        }
+        return registrosUsoDoBanco
+            .filter((registro) => registro.tipoUso === (tipo === "doses" ? "rotina" : "eventual"))
+            .map((registro) => ({
+                id: registro.id,
+                medicamentoId: registro.medicamentoId,
+                medicamento: registro.medicamento,
+                dose: registro.dose || "",
+                data: registro.data,
+                horario: registro.horario || "Sem horário",
+                status: registro.status,
+                tomadaEm: registro.tomadaEm || "",
+                observacao: registro.observacao || "",
+                criadoEm: registro.tomadaEm || registro.data,
+            }));
     }
-
-    if (!Array.isArray(registros)) {
-        throw new Error(`Os dados locais de ${tipo} estão em um formato inválido.`);
+    if (tipo === "habitos") {
+        if (!habitosDoBanco) {
+            throw new Error("Não foi possível carregar os hábitos do servidor.");
+        }
+        return habitosDoBanco.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
     }
-
-    return registros;
-}
-
-// Grava registros apenas neste navegador; a persistência em localStorage é provisória.
-export function salvarRegistros(tipo, registros) {
-    const chave = `${prefixoChave}-${tipo}-v1`;
-
-    try {
-        localStorage.setItem(chave, JSON.stringify(registros));
-    } catch (erro) {
-        throw new Error(`Não foi possível salvar ${tipo} neste navegador.`, { cause: erro });
-    }
-}
-
-// Cria identificadores locais sem depender de serviços externos.
-export function criarIdLocal() {
-    return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    throw new Error(`O tipo de registro "${tipo}" não é persistido neste módulo.`);
 }

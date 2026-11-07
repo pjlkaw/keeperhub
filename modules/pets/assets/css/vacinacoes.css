@@ -445,34 +445,7 @@ main > .section-header-section {
   font-size: 12px;
 }
 
-.vacinacoes-pet .botao-flutuante {
-  position: fixed;
-  z-index: 5;
-  right: max(20px, calc((100vw - var(--vacinas-largura)) / 2 + 20px));
-  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  color: var(--pill-bg);
-  background: var(--pets-primary);
-  border-radius: 12px;
-  transition: background-color var(--pets-transition), transform var(--pets-transition), box-shadow var(--pets-transition);
-}
 
-.botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }
-
-@media (hover: hover) and (pointer: fine) {
-  .vacinacoes-pet .botao-flutuante:hover {
-    background: var(--pets-primary-hover);
-    box-shadow: 0 6px 18px var(--pets-primary-shadow);
-    transform: translateY(-3px);
-  }
-}
-
-.vacinacoes-pet .botao-flutuante:active {
-  transform: scale(0.96);
-}
 
 @media (min-width: 700px) {
   .destaques-vacinas,
@@ -575,10 +548,7 @@ main > .section-header-section {
 }
 
 
-/* O CTA permanece acionável sobre o estado vazio compartilhado. */
-.vacinacoes-pet .botao-flutuante {
-  z-index: 51;
-}
+
 
 
 /* Mantém a navegação, o cabeçalho e a seleção de pet visíveis sobre o no-content. */

@@ -54,21 +54,6 @@
     }
     </script>
 
-    <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
-    <script>
-      (function () {
-        try {
-          var saved = localStorage.getItem('keeperhub-theme');
-          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          var theme = saved || systemDark;
-          document.documentElement.setAttribute('data-theme', theme);
-          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
-          if (metaThemeColor) {
-            metaThemeColor.setAttribute('content', theme === 'light' ? '#ffffff' : '#0b0b0d');
-          }
-        } catch (e) {}
-      })();
-    </script>
 
     <!-- Estilos Compartilhados Oficiais -->
     <link rel="stylesheet" href="../../shared/styles/reset.css" />
@@ -92,13 +77,15 @@
       </div>
     </header>
 
-    <div class="controle-tema container">
+    <header class="section-header-section controle-tema container" id="headerSection">
       <a class="voltar" href="../home/index.html">← Voltar para o KeeperHub</a>
-      <button class="btn-header" id="theme-toggle" type="button" aria-label="Ativar tema claro" title="Ativar tema claro" aria-pressed="false">
-        <img class="theme-icon theme-icon-sun" src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" width="18" height="18" />
-        <img class="theme-icon theme-icon-moon" src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" width="18" height="18" />
-      </button>
-    </div>
+      <div class="section-header-controls">
+        <button class="btn-header" id="theme-toggle" data-theme-bound="true" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+          <img class="theme-icon theme-icon-sun" src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" width="18" height="18" />
+          <img class="theme-icon theme-icon-moon" src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" width="18" height="18" />
+        </button>
+      </div>
+    </header>
 
     <main id="conteudo-principal">
       <section class="apresentacao container" aria-labelledby="titulo-principal">
@@ -117,79 +104,86 @@
         <div class="container">
           <h2 class="titulo-secao" id="titulo-previa">Conheça o módulo por dentro.</h2>
           <p class="introducao-previa">Escolha uma aba para conhecer os cuidados e os registros do seu pet.</p>
-          <div class="abas-previa" role="tablist" aria-label="Prévias do módulo Pets">
-            <button class="aba-previa" id="aba-visao-geral" type="button" role="tab" aria-selected="true" aria-controls="painel-visao-geral" tabindex="0">Visão geral</button>
-            <button class="aba-previa" id="aba-vacinas" type="button" role="tab" aria-selected="false" aria-controls="painel-vacinas" tabindex="-1">Vacinas</button>
-            <button class="aba-previa" id="aba-consultas" type="button" role="tab" aria-selected="false" aria-controls="painel-consultas" tabindex="-1">Consultas</button>
-            <button class="aba-previa" id="aba-medicamentos" type="button" role="tab" aria-selected="false" aria-controls="painel-medicamentos" tabindex="-1">Medicamentos</button>
-            <button class="aba-previa" id="aba-historico" type="button" role="tab" aria-selected="false" aria-controls="painel-historico" tabindex="-1">Histórico</button>
-          </div>
+          <fieldset class="seletor-previa">
+            <legend class="legenda-previa">Prévias do módulo Pets</legend>
+            <input class="opcao-previa" type="radio" name="previa-pets" id="opcao-visao-geral" checked />
+            <input class="opcao-previa" type="radio" name="previa-pets" id="opcao-vacinas" />
+            <input class="opcao-previa" type="radio" name="previa-pets" id="opcao-consultas" />
+            <input class="opcao-previa" type="radio" name="previa-pets" id="opcao-medicamentos" />
+            <input class="opcao-previa" type="radio" name="previa-pets" id="opcao-historico" />
 
-          <div class="painel-previa" id="painel-visao-geral" role="tabpanel" aria-labelledby="aba-visao-geral" tabindex="0">
-            <h3>Os cuidados do seu pet em um só lugar.</h3>
-            <p class="descricao-previa">Consulte as informações do pet e acompanhe os próximos cuidados e compromissos.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
-                <p>Visão geral</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
-            </figure>
-          </div>
+            <div class="abas-previa">
+              <label class="aba-previa" id="aba-visao-geral" for="opcao-visao-geral">Visão geral</label>
+              <label class="aba-previa" id="aba-vacinas" for="opcao-vacinas">Vacinas</label>
+              <label class="aba-previa" id="aba-consultas" for="opcao-consultas">Consultas</label>
+              <label class="aba-previa" id="aba-medicamentos" for="opcao-medicamentos">Medicamentos</label>
+              <label class="aba-previa" id="aba-historico" for="opcao-historico">Histórico</label>
+            </div>
+            <div class="painel-previa" id="painel-visao-geral" role="region" aria-labelledby="aba-visao-geral" tabindex="0">
+              <h3>Os cuidados do seu pet em um só lugar.</h3>
+              <p class="descricao-previa">Consulte as informações do pet e acompanhe os próximos cuidados e compromissos.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
+                  <p>Visão geral</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-vacinas" role="tabpanel" aria-labelledby="aba-vacinas" tabindex="0" hidden>
-            <h3>Acompanhe o histórico de vacinação.</h3>
-            <p class="descricao-previa">Organize os registros das vacinas, as datas de aplicação e as próximas doses.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
-                <p>Vacinas</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-vacinas" role="region" aria-labelledby="aba-vacinas" tabindex="0">
+              <h3>Acompanhe o histórico de vacinação.</h3>
+              <p class="descricao-previa">Organize os registros das vacinas, as datas de aplicação e as próximas doses.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
+                  <p>Vacinas</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-consultas" role="tabpanel" aria-labelledby="aba-consultas" tabindex="0" hidden>
-            <h3>Organize os atendimentos do seu pet.</h3>
-            <p class="descricao-previa">Reúna as consultas, os profissionais e as informações de cada atendimento.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
-                <p>Consultas</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-consultas" role="region" aria-labelledby="aba-consultas" tabindex="0">
+              <h3>Organize os atendimentos do seu pet.</h3>
+              <p class="descricao-previa">Reúna as consultas, os profissionais e as informações de cada atendimento.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
+                  <p>Consultas</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-medicamentos" role="tabpanel" aria-labelledby="aba-medicamentos" tabindex="0" hidden>
-            <h3>Mantenha os tratamentos organizados.</h3>
-            <p class="descricao-previa">Consulte os medicamentos registrados, os horários e as informações de cada tratamento.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
-                <p>Medicamentos</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-medicamentos" role="region" aria-labelledby="aba-medicamentos" tabindex="0">
+              <h3>Mantenha os tratamentos organizados.</h3>
+              <p class="descricao-previa">Consulte os medicamentos registrados, os horários e as informações de cada tratamento.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
+                  <p>Medicamentos</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-historico" role="tabpanel" aria-labelledby="aba-historico" tabindex="0" hidden>
-            <h3>Encontre os registros quando precisar.</h3>
-            <p class="descricao-previa">Veja os cuidados e os atendimentos anteriores em um histórico do seu pet.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
-                <p>Histórico</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
-            </figure>
-          </div>
-          <noscript><p class="aviso">Ative o JavaScript para alternar entre as prévias do módulo.</p></noscript>
+            <div class="painel-previa" id="painel-historico" role="region" aria-labelledby="aba-historico" tabindex="0">
+              <h3>Encontre os registros quando precisar.</h3>
+              <p class="descricao-previa">Veja os cuidados e os atendimentos anteriores em um histórico do seu pet.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-pets.png" alt="" width="90" height="60" />
+                  <p>Histórico</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Pets.</figcaption>
+              </figure>
+            </div>
+          </fieldset>
         </div>
       </section>
 
@@ -219,6 +213,5 @@
     </footer>
 
     <script src="../../shared/services/theme.js"></script>
-    <script src="../../shared/services/previas-modulos.js"></script>
   </body>
 </html>

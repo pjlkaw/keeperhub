@@ -20,12 +20,15 @@
             title: 'Adicionar receita',
             subtitle: 'Cadastre a prescrição e anexe os arquivos',
             backUrl: '/modules/medicamentos/components/receitas.html',
-            notificationsModule: 'medicamentos'
+            notificationsModule: 'medicamentos',
+            addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
         };
     </script>
     <script src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
 </head>
 <body>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
     <div class="app-page-wrapper">
         <div class="app-container">
                 <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navega&#231;&#227;o entre m&#243;dulos"></nav>
@@ -74,7 +77,7 @@
                         <div class="meds-form-field">
                             <label for="prescription-files" class="meds-form-label">Imagens ou PDFs</label>
                             <input class="meds-form-input" id="prescription-files" name="attachments" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp" multiple />
-                            <p class="meds-form-helper">Até 1 MB no total. Os arquivos ficam salvos localmente neste navegador, de forma provisória.</p>
+                            <p class="meds-form-helper">Até 1 MB no total. Os arquivos serão armazenados na conta.</p>
                         </div>
                     </section>
 

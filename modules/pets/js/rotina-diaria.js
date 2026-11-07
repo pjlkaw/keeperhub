@@ -13,7 +13,7 @@ const main = document.querySelector('.rotina-diaria');
 const seletorSecao = main.querySelector('.seletor-pet-rotina');
 const seletorPet = document.getElementById('pet-rotina');
 const status = document.getElementById('status-rotina-diaria');
-const botaoAdicionar = main.querySelector('.botao-flutuante');
+const botaoAdicionar = document.getElementById('btn-add-section');
 const secoesConteudo = [
     main.querySelector('.rotina-diaria__hoje'),
     main.querySelector('.higiene-bem-estar'),
@@ -73,7 +73,10 @@ function atualizarLinks() {
         link.href = url.pathname.split('/').pop() + url.search + url.hash;
     });
 
-    botaoAdicionar.href = `cadastrar-rotina.html${petQuery}`;
+    const destino = `/modules/pets/components/cadastrar-rotina.html${petQuery}`;
+    window.keeperhubModuleConfig.addUrl = destino;
+    const linkAdicionar = botaoAdicionar.querySelector('#btn-add');
+    if (linkAdicionar) linkAdicionar.href = destino;
 }
 
 // Preenche os cartões com dados reais e estados vazios onde ainda não há persistência.

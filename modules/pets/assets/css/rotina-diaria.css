@@ -168,10 +168,6 @@ textarea:focus {
   z-index: 52;
 }
 
-.rotina-diaria .botao-flutuante {
-  z-index: 51;
-}
-
 .rotina-diaria > .seletor-pet-rotina {
   display: grid;
   gap: 8px;
@@ -418,25 +414,6 @@ textarea:focus {
   font-size: 11px;
 }
 
-.botao-flutuante {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  display: grid;
-  width: 52px;
-  height: 52px;
-  place-items: center;
-  background: var(--pets-primary);
-  border-radius: 50%;
-  box-shadow: 0 5px 14px var(--pets-shadow);
-}
-
-.botao-flutuante .icone {
-  width: 24px;
-  height: 24px;
-  background-image: none;
-}
-
 @media (min-width: 600px) {
   .rotina-diaria__hoje,
   .higiene-bem-estar,
@@ -452,4 +429,3 @@ textarea:focus {
 .linha-tempo-rotina__item--pendente .icone { color: var(--pets-text-muted); font-size: 18px; }
 .cartao-higiene > .icone { display: grid; place-items: center; color: #4285F4; font-size: 20px; line-height: 1; }
 .anotacoes-comportamento__enviar .icone { color: var(--pets-text-muted); font-size: 18px; line-height: 1; }
-.botao-flutuante .icone { color: var(--pets-on-primary); font-size: 20px; line-height: 1; }

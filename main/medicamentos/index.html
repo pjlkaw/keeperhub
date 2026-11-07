@@ -58,21 +58,6 @@
     }
     </script>
 
-  <!-- Script de Inicialização Imediata do Tema (Evita FOUC) -->
-  <script>
-    (function () {
-      try {
-        var saved = localStorage.getItem('keeperhub-theme');
-        var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        var theme = saved || systemDark;
-        document.documentElement.setAttribute('data-theme', theme);
-        var metaThemeColor = document.querySelector('meta[name="theme-color"]');
-        if (metaThemeColor) {
-          metaThemeColor.setAttribute('content', theme === 'light' ? '#ffffff' : '#0b0b0d');
-        }
-      } catch (e) { }
-    })();
-  </script>
 
   <!-- Estilos Compartilhados Oficiais -->
   <link rel="stylesheet" href="../../shared/styles/reset.css" />
@@ -96,13 +81,15 @@
       </div>
     </header>
 
-    <div class="controle-tema container">
+    <header class="section-header-section controle-tema container" id="headerSection">
       <a class="voltar" href="../home/index.html">← Voltar para o KeeperHub</a>
-      <button class="btn-header" id="theme-toggle" type="button" aria-label="Ativar tema claro" title="Ativar tema claro" aria-pressed="false">
-        <img class="theme-icon theme-icon-sun" src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" width="18" height="18" />
-        <img class="theme-icon theme-icon-moon" src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" width="18" height="18" />
-      </button>
-    </div>
+      <div class="section-header-controls">
+        <button class="btn-header" id="theme-toggle" data-theme-bound="true" type="button" aria-label="Ativar tema claro" title="Ativar tema claro">
+          <img class="theme-icon theme-icon-sun" src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true" width="18" height="18" />
+          <img class="theme-icon theme-icon-moon" src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true" width="18" height="18" />
+        </button>
+      </div>
+    </header>
 
     <main id="conteudo-principal">
       <section class="apresentacao container" aria-labelledby="titulo-principal">
@@ -121,79 +108,86 @@
         <div class="container">
           <h2 class="titulo-secao" id="titulo-previa">Conheça o módulo por dentro.</h2>
           <p class="introducao-previa">Escolha uma aba para conhecer a organização dos seus medicamentos.</p>
-          <div class="abas-previa" role="tablist" aria-label="Prévias do módulo Medicamentos">
-            <button class="aba-previa" id="aba-visao-geral" type="button" role="tab" aria-selected="true" aria-controls="painel-visao-geral" tabindex="0">Visão geral</button>
-            <button class="aba-previa" id="aba-medicacoes" type="button" role="tab" aria-selected="false" aria-controls="painel-medicacoes" tabindex="-1">Medicações</button>
-            <button class="aba-previa" id="aba-rotina" type="button" role="tab" aria-selected="false" aria-controls="painel-rotina" tabindex="-1">Rotina</button>
-            <button class="aba-previa" id="aba-estoque" type="button" role="tab" aria-selected="false" aria-controls="painel-estoque" tabindex="-1">Estoque</button>
-            <button class="aba-previa" id="aba-scanner" type="button" role="tab" aria-selected="false" aria-controls="painel-scanner" tabindex="-1">Scanner</button>
-          </div>
+          <fieldset class="seletor-previa">
+            <legend class="legenda-previa">Prévias do módulo Medicamentos</legend>
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-visao-geral" checked />
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-medicacoes" />
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-rotina" />
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-estoque" />
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-scanner" />
 
-          <div class="painel-previa" id="painel-visao-geral" role="tabpanel" aria-labelledby="aba-visao-geral" tabindex="0">
-            <h3>Veja o que faz parte da sua rotina.</h3>
-            <p class="descricao-previa">Acompanhe seus medicamentos, os horários registrados e os avisos de estoque e validade.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                <p>Visão geral</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
-            </figure>
-          </div>
+            <div class="abas-previa">
+              <label class="aba-previa" id="aba-visao-geral" for="opcao-visao-geral">Visão geral</label>
+              <label class="aba-previa" id="aba-medicacoes" for="opcao-medicacoes">Medicações</label>
+              <label class="aba-previa" id="aba-rotina" for="opcao-rotina">Rotina</label>
+              <label class="aba-previa" id="aba-estoque" for="opcao-estoque">Estoque</label>
+              <label class="aba-previa" id="aba-scanner" for="opcao-scanner">Scanner</label>
+            </div>
+            <div class="painel-previa" id="painel-visao-geral" role="region" aria-labelledby="aba-visao-geral" tabindex="0">
+              <h3>Veja o que faz parte da sua rotina.</h3>
+              <p class="descricao-previa">Acompanhe seus medicamentos, os horários registrados e os avisos de estoque e validade.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
+                  <p>Visão geral</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-medicacoes" role="tabpanel" aria-labelledby="aba-medicacoes" tabindex="0" hidden>
-            <h3>Reúna as informações dos seus medicamentos.</h3>
-            <p class="descricao-previa">Consulte os medicamentos cadastrados e os detalhes de cada registro.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                <p>Medicações</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-medicacoes" role="region" aria-labelledby="aba-medicacoes" tabindex="0">
+              <h3>Reúna as informações dos seus medicamentos.</h3>
+              <p class="descricao-previa">Consulte os medicamentos cadastrados e os detalhes de cada registro.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
+                  <p>Medicações</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-rotina" role="tabpanel" aria-labelledby="aba-rotina" tabindex="0" hidden>
-            <h3>Acompanhe os horários e as doses.</h3>
-            <p class="descricao-previa">Organize os horários registrados e acompanhe as tomadas ao longo do dia.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                <p>Rotina</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-rotina" role="region" aria-labelledby="aba-rotina" tabindex="0">
+              <h3>Acompanhe os horários e as doses.</h3>
+              <p class="descricao-previa">Organize os horários registrados e acompanhe as tomadas ao longo do dia.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
+                  <p>Rotina</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-estoque" role="tabpanel" aria-labelledby="aba-estoque" tabindex="0" hidden>
-            <h3>Saiba o que você tem disponível.</h3>
-            <p class="descricao-previa">Consulte as quantidades e as validades para acompanhar quando será necessário repor um medicamento.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                <p>Estoque</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
-            </figure>
-          </div>
+            <div class="painel-previa" id="painel-estoque" role="region" aria-labelledby="aba-estoque" tabindex="0">
+              <h3>Saiba o que você tem disponível.</h3>
+              <p class="descricao-previa">Consulte as quantidades e as validades para acompanhar quando será necessário repor um medicamento.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
+                  <p>Estoque</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
+              </figure>
+            </div>
 
-          <div class="painel-previa" id="painel-scanner" role="tabpanel" aria-labelledby="aba-scanner" tabindex="0" hidden>
-            <h3>Conheça o cadastro pelo código de barras.</h3>
-            <p class="descricao-previa">Veja como a leitura do código de barras da embalagem pode ajudar no cadastro de um medicamento.</p>
-            <figure class="captura-tela">
-              <div class="espaco-imagem">
-                <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                <p>Scanner</p>
-                <span>Imagem em preparação</span>
-              </div>
-              <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
-            </figure>
-          </div>
-          <noscript><p class="aviso">Ative o JavaScript para alternar entre as prévias do módulo.</p></noscript>
+            <div class="painel-previa" id="painel-scanner" role="region" aria-labelledby="aba-scanner" tabindex="0">
+              <h3>Conheça o cadastro pelo código de barras.</h3>
+              <p class="descricao-previa">Veja como a leitura do código de barras da embalagem pode ajudar no cadastro de um medicamento.</p>
+              <figure class="captura-tela">
+                <div class="espaco-imagem">
+                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
+                  <p>Scanner</p>
+                  <span>Imagem em preparação</span>
+                </div>
+                <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
+              </figure>
+            </div>
+          </fieldset>
         </div>
       </section>
 
@@ -223,6 +217,5 @@
     </footer>
 
     <script src="../../shared/services/theme.js"></script>
-    <script src="../../shared/services/previas-modulos.js"></script>
   </body>
 </html>
