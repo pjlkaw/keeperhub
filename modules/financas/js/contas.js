@@ -10,6 +10,8 @@ export async function inicializarContas() {
     let contas = obterContas();
     let transacoes = await obterTransacoes();
     let usandoApi = false;
+    const salvarBotao = formulario.querySelector('[type="submit"]');
+    const cancelarEdicao = formulario.querySelector('.cancel-edit-button');
 
     if (apiDisponivel()) {
         try {
@@ -107,7 +109,8 @@ export async function inicializarContas() {
         salvarContas(contas);
         contaEmEdicao = null;
         formulario.reset();
-        formulario.querySelector('[type="submit"]').textContent = 'Cadastrar conta';
+        salvarBotao.textContent = 'Cadastrar conta';
+        cancelarEdicao.hidden = true;
         renderizar();
     });
 
@@ -121,7 +124,8 @@ export async function inicializarContas() {
             contaEmEdicao = conta.id;
             formulario.elements.name.value = conta.nome;
             formulario.elements.type.value = conta.tipo;
-            formulario.querySelector('[type="submit"]').textContent = 'Salvar alterações';
+            salvarBotao.textContent = 'Salvar alterações';
+            cancelarEdicao.hidden = false;
             return;
         }
         const transacoesVinculadas = transacoes.filter((transacao) =>
@@ -146,9 +150,17 @@ export async function inicializarContas() {
         if (contaEmEdicao === conta.id) {
             contaEmEdicao = null;
             formulario.reset();
-            formulario.querySelector('[type="submit"]').textContent = 'Cadastrar conta';
+            salvarBotao.textContent = 'Cadastrar conta';
+            cancelarEdicao.hidden = true;
         }
         renderizar();
+    });
+
+    cancelarEdicao.addEventListener('click', () => {
+        contaEmEdicao = null;
+        formulario.reset();
+        salvarBotao.textContent = 'Cadastrar conta';
+        cancelarEdicao.hidden = true;
     });
 
     renderizar();

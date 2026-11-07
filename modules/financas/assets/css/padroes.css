@@ -132,7 +132,6 @@ select {
 }
 
 .finance-modules-nav .modules-nav-item {
-	min-height: 44px;
 	color: var(--text-muted);
 	background: color-mix(in srgb, var(--text-color) 4%, transparent);
 	border-color: var(--border-color);
@@ -186,11 +185,6 @@ html[data-theme=dark] .finance-shell {
    (shared/styles/navbar-modules.css e btn-add.css), que não são alterados.
    ================================================== */
 
-/* ---- 0. Nova transação sem abas/bolinhas e sem a barra de rolagem ---- */
-html body.finance-new-transaction-page .finance-tabs {
-	display: none !important;
-}
-
 :root {
 	--finance-column-width: 420px;
 }
@@ -207,10 +201,18 @@ body.landing-page {
    O seletor usa o id #modules-nav-wrapper para não depender da classe finance-modules-nav
    e para vencer o verde/preto do CSS compartilhado. */
 html[data-theme] #modules-nav-wrapper .modules-nav-item {
-	min-height: 44px;
+	min-height: 0;
+	font-family: 'Nunito Sans', 'Helvetica Neue', sans-serif;
 	color: var(--text-muted);
 	background: color-mix(in srgb, var(--text-color) 4%, transparent);
 	border-color: var(--border-color);
+}
+
+#modules-nav-wrapper,
+#headerSection,
+.finance-tabs {
+	position: relative;
+	z-index: 51;
 }
 
 html[data-theme] #modules-nav-wrapper .modules-nav-item.active {

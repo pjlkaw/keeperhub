@@ -157,7 +157,7 @@ ul {
 
 /* Mesmo motivo: a barra de módulos é preenchida por js/interface.js. */
 #modules-nav-wrapper {
-	min-height: 52px;
+	min-height: 46px;
 }
 
 /* ---- Componentes: botões, atalhos, gráficos e botão de tema ---- */
@@ -535,7 +535,7 @@ body.finance-page .finance-content {
 
 /* Navegação entre módulos */
 .finance-modules-nav {
-	margin-bottom: 16px;
+	margin-bottom: 20px;
 }
 
 body.finance-page .finance-back {

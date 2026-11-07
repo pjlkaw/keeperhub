@@ -48,6 +48,14 @@
     </a>
 </div></nav>
 <header class="section-header-section" id="headerSection"></header>
+            <nav class="finance-tabs" aria-label="Seções de finanças">
+                <a href="../index.html">Visão geral</a>
+                <a href="transacoes.html">Transações</a>
+                <a href="relatorios.html">Relatórios</a>
+                <a class="active" href="contas.html" aria-current="page">Contas</a>
+                <a href="vencimentos.html">Vencimentos</a>
+                <a href="nova-transacao.html">Nova transação</a>
+            </nav>
             <main class="transactions-content">
                 <form class="card account-form" id="account-form">
                     <label class="field-label" for="account-name">Nome da conta</label>
@@ -55,6 +63,7 @@
                     <label class="field-label" for="account-type">Tipo</label>
                     <select class="account-input" id="account-type" name="type" required><option value="" selected disabled>Selecione o tipo</option><option>Conta corrente</option><option>Poupança</option><option>Carteira</option><option>Cartão</option></select>
                     <button class="save-button" type="submit">Cadastrar conta</button>
+                    <button class="cancel-edit-button" type="button" hidden>Cancelar edição</button>
                 </form>
                 <section class="card account-list" id="account-list" aria-live="polite" aria-label="Contas cadastradas"></section>
             </main>

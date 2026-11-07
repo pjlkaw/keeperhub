@@ -1,5 +1,6 @@
 import { formatarMoeda, formatarData, obterTransacoes, salvarTransacoes } from './dados.js';
 import { apiDisponivel, atualizarTransacaoApi, excluirTransacaoApi } from './api.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 function criarTransacao(transacao) {
     const item = document.createElement('article');
@@ -130,6 +131,7 @@ export async function inicializarTransacoes() {
         const ordenadas = agrupar
             ? filtradas
             : [...filtradas].sort((a, b) => String(a.vencimento).localeCompare(String(b.vencimento)));
+        atualizarNoContent(agrupar ? transacoes.length > 0 : ordenadas.length > 0);
         renderizarTransacoes(ordenadas, lista, agrupar);
     };
     filtros.forEach((botao) => botao.addEventListener('click', () => {
@@ -165,8 +167,7 @@ export async function inicializarTransacoes() {
             }
             transacao.status = 'pago';
             salvarTransacoes(transacoes);
-            botao.textContent = 'Pago';
-            botao.closest('.transaction-item').classList.add('is-paid');
+            atualizar();
             return;
         }
 
