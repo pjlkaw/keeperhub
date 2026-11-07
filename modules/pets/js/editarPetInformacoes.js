@@ -305,4 +305,4 @@ form.addEventListener('submit', async event => {
 });
 
 // Carrega os dados do pet assim que o script é executado.
-carregarPet();
+carregarPet();

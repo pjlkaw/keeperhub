@@ -114,4 +114,4 @@ export function validarDadosPet(dados) {
 
     // Nenhuma validação falhou, então os dados são válidos.
     return null;
-}
+}

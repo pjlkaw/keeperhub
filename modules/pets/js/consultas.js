@@ -606,4 +606,4 @@ window.addEventListener('keeperhub:pets-atualizados', () => {
     } catch {
         informar('Não foi possível carregar os pets salvos.', true);
     }
-});
+});

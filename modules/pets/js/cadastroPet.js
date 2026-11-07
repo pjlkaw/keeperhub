@@ -143,4 +143,4 @@ window.addEventListener('pageshow', () => {
 });
 
 // Define o estado inicial do botão quando o script é carregado.
-atualizarBotao();
+atualizarBotao();

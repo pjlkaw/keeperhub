@@ -175,4 +175,4 @@ window.addEventListener('pageshow', carregarPainel);
 window.addEventListener('focus', carregarPainel);
 
 // Faz o primeiro carregamento assim que o script é executado.
-carregarPainel();
+carregarPainel();
