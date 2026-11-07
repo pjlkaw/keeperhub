@@ -60,6 +60,9 @@ export async function inicializarFormularioMedicamento() {
         formulario.querySelectorAll(".meds-usage-option").forEach((opcao) => {
             opcao.classList.toggle("active", opcao.querySelector("input")?.checked ?? false);
         });
+        formulario.querySelectorAll('input[name="weekdays"]').forEach((campo) => {
+            campo.closest(".meds-weekday-chip")?.classList.toggle("active", campo.checked);
+        });
 
         const tipoFrequencia = frequencia?.value;
         definirVisibilidade(formulario.querySelector("#field-frequency-interval"), tipoFrequencia === "intervalo");
@@ -76,6 +79,9 @@ export async function inicializarFormularioMedicamento() {
     uso?.forEach((campo) => campo.addEventListener("change", () => {
         atualizarCampos();
     }));
+    formulario.querySelectorAll('input[name="weekdays"]').forEach((campo) => {
+        campo.addEventListener("change", atualizarCampos);
+    });
     frequencia?.addEventListener("change", atualizarCampos);
     formulario.addEventListener("input", (evento) => {
         if (evento.target instanceof HTMLInputElement && evento.target.matches(".meds-time-input")) {
