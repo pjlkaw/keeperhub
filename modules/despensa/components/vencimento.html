@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="/shared/styles/components.css">
         <link rel="stylesheet" href="/shared/styles/header-page.css">
         <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+        <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
         <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
         <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
@@ -40,6 +41,7 @@
             <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
             <header class="section-header-section" id="headerSection"></header>
+            <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
             
             <main class="despensa-conteudo" id="main-content">
                 <!-- RESUMO -->
@@ -57,7 +59,7 @@
                             VENCEM EM 7 DIAS
                         </div>
                         <div class="numero laranja">
-                            8
+                            0
                         </div>
                     </div>
                 </section>
@@ -76,19 +78,13 @@
                         Em 30 dias
                     </button>
                 </div>
-                <!-- TÍTULO -->
-                <div class="secao-header">
-                    <h2>
-                        ATENÇÃO NECESSÁRIA
-                    </h2>
-                    <span>
-                        4 itens
-                    </span>
-                </div>
                 <!-- PRODUTOS -->
                 <section class="produtosSection">
+                    <span class="produtosSection-title">
+                        Produtos - 0 Itens
+                    </span>
                     <!-- PRODUTO 1 -->
-                    <article class="card produto">
+                    <!-- <article class="card produto">
                         <h3>
                             Molho de Tomate Orgânico
                         </h3>
@@ -99,7 +95,7 @@
                             La Molisana • 400 g • 2 unidades
                         </div>
                     </article>
-                    <!-- PRODUTO 2 -->
+                    PRODUTO 2 
                     <article class="card produto atencao">
                         <h3>
                             Café Especial Torrado
@@ -110,11 +106,8 @@
                         <div class="card produto-info">
                             Coffee Lab • 250 g • 1 unidade
                         </div>
-                    </article>
+                    </article> -->
                 </section>
-                <a class="floating-button" href="cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
-                    +
-                </a>
             </main>
         </div>
     </body>

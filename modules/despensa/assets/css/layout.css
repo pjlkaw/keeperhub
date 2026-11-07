@@ -6,6 +6,12 @@
     background: var(--bg-color);
     color: var(--text-color);
 }
+
+.btn-add {
+    background-color: var(--tool-despensa);
+    border: none;
+}
+
 .despensa-shell {
     width: 100%;
     max-width: 480px;
