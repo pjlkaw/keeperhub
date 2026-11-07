@@ -1,7 +1,10 @@
 // Controla o carregamento e o salvamento dos dados de emergência do tutor.
 
-// Importa as funções que buscam e atualizam um pet no armazenamento.
-import { atualizarPet, buscarPetPorId } from './armazenamento.js';
+// Importa as funções que carregam os pets e atualizam a memória da página.
+import { buscarPetPorId, carregarPets, definirPetDoBanco } from './armazenamento.js';
+
+// Importa a função que salva os dados do tutor na API (banco de dados).
+import { salvarTutorApi } from './api.js';
 
 // Busca no HTML o formulário, a mensagem de status e o botão de envio.
 const form = document.getElementById('formulario-pet-tutor');
@@ -55,7 +58,7 @@ function desabilitarFormulario() {
 }
 
 // Busca o pet pelo ID da URL e carrega seus dados no formulário.
-function carregarPet() {
+async function carregarPet() {
     try {
         // Sem ID, não há como identificar qual pet deve ser editado.
         if (!petId) {
@@ -64,12 +67,13 @@ function carregarPet() {
             return;
         }
 
-        // Busca o pet no armazenamento.
+        // Busca os pets na API e depois procura o pet desta página.
+        await carregarPets();
         petAtual = buscarPetPorId(petId);
 
         // Se o pet não existir, mostra uma mensagem e desabilita o formulário.
         if (!petAtual) {
-            informar('Este pet não foi encontrado no armazenamento deste navegador.', true);
+            informar('Este pet não foi encontrado na sua conta.', true);
             desabilitarFormulario();
             return;
         }
@@ -100,7 +104,7 @@ form.addEventListener('invalid', event => {
 }, true);
 
 // Executa quando a pessoa envia o formulário.
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
     // Impede o envio padrão do formulário, que recarregaria a página.
     event.preventDefault();
 
@@ -117,29 +121,12 @@ form.addEventListener('submit', event => {
     botao.textContent = 'Salvando…';
 
     try {
-        // Atualiza os dados de contato de emergência do pet.
-        const atualizado = atualizarPet(petId, {
-            contatoEmergencia: {
-                // Preserva outras propriedades que já existam nesse objeto.
-                ...(petAtual.contatoEmergencia ?? {}),
-
-                // Substitui o nome e o telefone pelos valores do formulário.
-                nomeTutor,
-                telefone
-            }
-        });
-
-        // Se o pet não foi encontrado durante a atualização,
-        // desabilita o formulário e mostra uma mensagem.
-        if (!atualizado) {
-            petAtual = null;
-            desabilitarFormulario();
-            informar('Este pet não foi encontrado no armazenamento deste navegador.', true);
-            return;
-        }
+        // Salva o nome e o telefone do tutor na API.
+        const atualizado = await salvarTutorApi(petId, { nomeTutor, telefone });
+        definirPetDoBanco(atualizado);
 
         // Atualiza os dados locais com o resultado salvo.
-        petAtual = atualizado;
+        petAtual = buscarPetPorId(petId);
         informar('Dados do tutor salvos com sucesso.');
     } catch (erro) {
         // Mostra o erro recebido ou uma mensagem padrão.
@@ -157,4 +144,4 @@ form.addEventListener('submit', event => {
 });
 
 // Carrega o pet assim que o script é executado.
-carregarPet();
+carregarPet();

@@ -18,7 +18,7 @@
 		"doc": "docs"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "node --test \"tests/**/*.test.js\"",
 		"migrate:photos": "node scripts/migrate-photos-to-blob.js"
 	},
 	"dependencies": {

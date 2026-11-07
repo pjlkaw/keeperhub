@@ -1,18 +1,19 @@
-// Importa do arquivo armazenamento.js as funções usadas para salvar o pet
-// e criar um identificador para o envio.
-import { cadastroPet, criarIdPet } from './armazenamento.js';
+// Importa a função que envia o novo pet para a API (banco de dados).
+import { cadastrarPetApi } from './api.js';
 
-// Importa a função que verifica se os dados do pet são válidos.
-import { validarDadosPet } from './validacao-pet.js';
+// Importa as funções que padronizam e verificam os dados do pet.
+import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet.js';
 
 // Busca no HTML o formulário, a área de mensagens e o botão de cadastro.
 const form = document.getElementById('cadastro-pet-form');
 const status = document.getElementById('cadastro-pet-status');
 const botao = document.getElementById('btnCadastro');
 
-// Guarda o identificador do envio atual e controla se um cadastro está em andamento.
-let idEnvio;
+// Controla se um cadastro está em andamento.
 let enviando = false;
+
+// Impede escolher uma data de nascimento no futuro.
+document.getElementById('data-nascimento').max = dataDeHoje();
 
 // Mostra uma mensagem na página e indica se ela representa sucesso ou erro.
 function informar(mensagem, erro = false) {
@@ -47,7 +48,7 @@ form.addEventListener('invalid', event => {
 }, true);
 
 // Executa esta função quando a pessoa tenta enviar o formulário.
-form.addEventListener('submit', function (event) {
+form.addEventListener('submit', async function (event) {
     // Impede o envio padrão do formulário, que recarregaria a página.
     event.preventDefault();
 
@@ -64,7 +65,7 @@ form.addEventListener('submit', function (event) {
     const especie = especieSelecionada ? especieSelecionada.value : '';
 
     const raca = document.getElementById('raca').value.trim();
-    const idade = document.getElementById('idade').value.trim();
+    const dataNascimento = document.getElementById('data-nascimento').value;
 
     // Lê o peso sem aplicar trim(), pois o campo pode ser numérico.
     const peso = document.getElementById('peso').value;
@@ -74,14 +75,14 @@ form.addEventListener('submit', function (event) {
     const genero = generoSelecionado ? generoSelecionado.value : '';
 
     // Agrupa os dados do formulário em um objeto.
-    const novoPet = {
+    const novoPet = padronizarDadosPet({
         nome: nome,
         especie: especie,
         raca: raca,
-        idade: idade,
+        dataNascimento: dataNascimento,
         peso: peso,
         genero: genero
-    };
+    });
 
     // Valida os dados usando a função importada.
     // Se houver erro, a função retorna informações sobre o campo e a mensagem.
@@ -111,12 +112,8 @@ form.addEventListener('submit', function (event) {
     atualizarBotao();
 
     try {
-        // Cria um identificador para o envio, se ainda não houver um.
-        // O operador ||= mantém o valor existente ou atribui um novo.
-        idEnvio ||= criarIdPet();
-
-        // Salva os dados do pet, usando o identificador do envio.
-        cadastroPet(novoPet, idEnvio);
+        // Envia o pet para a API, que grava no banco de dados.
+        await cadastrarPetApi(novoPet);
 
         // Limpa os campos do formulário após salvar.
         form.reset();
@@ -146,4 +143,4 @@ window.addEventListener('pageshow', () => {
 });
 
 // Define o estado inicial do botão quando o script é carregado.
-atualizarBotao();
+atualizarBotao();

@@ -1,1 +1,195 @@
-﻿// Organização do módulo Pets: administrar animais, consultas, exames, vacinas, rotinas e despesas.
+﻿// Organização do módulo Pets: administrar animais e os dados do tutor.
+// Consultas, vacinas, medicações, despesas e rotinas ainda ficam no navegador.
+import {
+  atualizarPet,
+  buscarPet,
+  criarPet,
+  desativarPet,
+  listarPets,
+  salvarTutor,
+} from '../../server/repositories/pets/animais.js';
+import {
+  origemDaRequisicaoValida,
+  usuarioDaSessao,
+} from '../../server/auth-session.js';
+
+const ESPECIES = [
+  'cachorro', 'gato', 'passaro', 'cavalo', 'reptil',
+  'pequeno-mamifero', 'peixe', 'animal-fazenda', 'anfibio', 'exotico',
+];
+const GENEROS = ['macho', 'femea'];
+const DATA_VALIDA = /^\d{4}-\d{2}-\d{2}$/;
+const PESO_MAXIMO = 9999.99; // coluna DECIMAL(6,2)
+
+function texto(valor) {
+  return typeof valor === 'string' ? valor.trim() : '';
+}
+
+function dataISOValida(valor) {
+  if (!DATA_VALIDA.test(valor)) return false;
+  const data = new Date(`${valor}T00:00:00.000Z`);
+  return !Number.isNaN(data.getTime()) && data.toISOString().slice(0, 10) === valor;
+}
+
+function hojeEmSaoPaulo() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+}
+
+// Mesmas regras de modules/pets/js/validacao-pet.js, repetidas no servidor.
+export function validarPet(body, hoje = hojeEmSaoPaulo()) {
+  const nome = texto(body.nome);
+  const especie = texto(body.especie);
+  const raca = texto(body.raca);
+  const dataNascimento = texto(body.dataNascimento);
+  const genero = texto(body.genero);
+  const pesoTexto = body.peso == null ? '' : String(body.peso).trim().replace(',', '.');
+  const peso = pesoTexto === '' ? NaN : Number(pesoTexto);
+
+  if (!nome || nome.length > 60) return { erro: 'Informe o nome do pet (até 60 caracteres).' };
+  if (!ESPECIES.includes(especie)) return { erro: 'Selecione um tipo de animal.' };
+  if (!raca || raca.length > 80) return { erro: 'Informe a raça do pet (até 80 caracteres).' };
+  if (!dataISOValida(dataNascimento) || dataNascimento < '1900-01-01' || dataNascimento > hoje) {
+    return { erro: 'Informe uma data de nascimento válida, que não esteja no futuro.' };
+  }
+  if (!Number.isFinite(peso) || peso < 0 || peso > PESO_MAXIMO) {
+    return { erro: 'Informe um peso válido em quilogramas, sem valores negativos.' };
+  }
+  if (!GENEROS.includes(genero)) return { erro: 'Selecione o gênero do pet.' };
+
+  return {
+    dados: {
+      nome, especie, raca, dataNascimento,
+      peso: Math.round(peso * 100) / 100,
+      genero,
+    },
+  };
+}
+
+export function validarTutor(body) {
+  const nomeTutor = texto(body.nomeTutor);
+  const telefone = texto(body.telefone);
+  if (nomeTutor.length > 150) return { erro: 'O nome do tutor pode ter até 150 caracteres.' };
+  if (telefone.length > 30) return { erro: 'O telefone pode ter até 30 caracteres.' };
+  if (telefone && !nomeTutor) return { erro: 'Informe o nome do tutor.' };
+  return { dados: { nomeTutor, telefone } };
+}
+
+// A foto chega em Base64; é validada e enviada ao Vercel Blob. Só a URL vai para o banco.
+// Os módulos de imagem são carregados sob demanda para não pesar nas demais requisições.
+async function prepararFotoPadrao(foto) {
+  const { validarFoto } = await import('../../server/image-validation.js');
+  const { armazenarFoto } = await import('../../server/image-storage.js');
+  const resultado = await validarFoto(foto);
+  if (resultado.erro) {
+    const erro = new Error(resultado.erro.replace('do perfil', 'do pet').replace('foto de perfil', 'foto do pet'));
+    erro.statusCode = 400;
+    throw erro;
+  }
+  return armazenarFoto(resultado, 'pets');
+}
+
+function idDaRequisicao(req) {
+  const id = Number(req.query?.id);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+function requisicaoTemId(req) {
+  return Object.prototype.hasOwnProperty.call(req.query || {}, 'id');
+}
+
+// Recebe as dependências para permitir testes sem banco; o export default usa as reais.
+export function criarHandlerPets(deps) {
+  const { repositorio, prepararFoto } = deps;
+
+  // Inclui "foto" nos dados apenas quando o navegador enviou uma alteração.
+  async function aplicarFoto(body, dados) {
+    if (!Object.hasOwn(body, 'foto')) return dados;
+    if (body.foto === null || body.foto === '') return { ...dados, foto: null };
+    if (typeof body.foto === 'string' && body.foto.startsWith('data:')) {
+      return { ...dados, foto: await prepararFoto(body.foto) };
+    }
+    return dados; // URL já salva: nada muda.
+  }
+
+  return async function handler(req, res) {
+    try {
+      res.setHeader('Cache-Control', 'no-store');
+      const usuarioId = deps.usuarioDaSessao(req);
+      if (!usuarioId) {
+        return res.status(401).json({ erro: 'Entre na sua conta para continuar.' });
+      }
+
+      const id = idDaRequisicao(req);
+      if (requisicaoTemId(req) && !id) {
+        return res.status(400).json({ erro: 'Informe um identificador válido.' });
+      }
+
+      if (req.method === 'GET') {
+        if (id) {
+          const pet = await repositorio.buscarPet(id, usuarioId);
+          return pet
+            ? res.status(200).json({ pet })
+            : res.status(404).json({ erro: 'Pet não encontrado.' });
+        }
+        return res.status(200).json({ pets: await repositorio.listarPets(usuarioId) });
+      }
+
+      if (!deps.origemDaRequisicaoValida(req)) {
+        return res.status(403).json({ erro: 'Origem da requisição não permitida.' });
+      }
+
+      const body = req.body && typeof req.body === 'object' ? req.body : {};
+
+      if (req.method === 'PUT' && req.query?.acao === 'tutor') {
+        if (!id) return res.status(400).json({ erro: 'Informe o pet.' });
+        const validacao = validarTutor(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const pet = await repositorio.salvarTutor(id, usuarioId, validacao.dados);
+        return pet
+          ? res.status(200).json({ pet })
+          : res.status(404).json({ erro: 'Pet não encontrado.' });
+      }
+
+      if (req.method === 'POST' || req.method === 'PUT') {
+        const validacao = validarPet(body, deps.hoje?.());
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+
+        if (req.method === 'POST') {
+          const dados = await aplicarFoto(body, validacao.dados);
+          const pet = await repositorio.criarPet(usuarioId, dados);
+          return res.status(201).json({ pet });
+        }
+
+        if (!id) return res.status(400).json({ erro: 'Informe o pet.' });
+        const existente = await repositorio.buscarPet(id, usuarioId);
+        if (!existente) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        const dados = await aplicarFoto(body, validacao.dados);
+        const pet = await repositorio.atualizarPet(id, usuarioId, dados);
+        return pet
+          ? res.status(200).json({ pet })
+          : res.status(404).json({ erro: 'Pet não encontrado.' });
+      }
+
+      if (req.method === 'DELETE') {
+        if (!id) return res.status(400).json({ erro: 'Informe o pet.' });
+        return (await repositorio.desativarPet(id, usuarioId))
+          ? res.status(204).end()
+          : res.status(404).json({ erro: 'Pet não encontrado.' });
+      }
+
+      return res.status(405).json({ erro: 'Método não permitido.' });
+    } catch (erro) {
+      console.error('Erro na API de pets:', erro);
+      return res.status(erro.statusCode || 500).json({
+        erro: erro.statusCode ? erro.message : 'Erro ao acessar pets.',
+      });
+    }
+  };
+}
+
+export default criarHandlerPets({
+  repositorio: { atualizarPet, buscarPet, criarPet, desativarPet, listarPets, salvarTutor },
+  usuarioDaSessao,
+  origemDaRequisicaoValida,
+  prepararFoto: prepararFotoPadrao,
+});

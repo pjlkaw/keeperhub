@@ -1,6 +1,12 @@
 // Cadastro, resumo mensal e extrato local das despesas dos pets.
 import { atualizarPet, listarPets } from './armazenamento.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
+import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+
+// Os dados principais dos pets vêm da API; carrega antes de montar a página.
+// Se falhar, listarPets() lança o erro e a página mostra a mensagem.
+await carregarPetsDoServidor();
+
 
 const main = document.getElementById('conteudo-principal');
 const seletorPet = document.getElementById('pet-despesas');

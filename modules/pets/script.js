@@ -1,5 +1,8 @@
-﻿// Importa a função que busca os pets salvos e a chave usada no localStorage.
-import { listarPets, PETS_STORAGE_KEY } from './js/armazenamento.js';
+﻿// Importa as funções que carregam os pets da API e a chave dos dados locais.
+import { carregarPets, listarPets, PETS_STORAGE_KEY } from './js/armazenamento.js';
+
+// Calcula a idade exibida a partir da data de nascimento.
+import { formatarIdadePet } from './js/idade-pet.js';
 
 // Importa uma função compartilhada que atualiza a mensagem de lista vazia.
 import { atualizarNoContent } from '/shared/services/no-content.js';
@@ -32,16 +35,9 @@ function criarCartao(pet) {
     // textContent insere texto sem interpretá-lo como HTML.
     cartao.querySelector('[data-pet-nome]').textContent = pet.nome;
 
-    // Converte a idade para texto.
-    // O ?? '' usa uma string vazia se a idade for null ou undefined.
-    const idade = String(pet.idade ?? '');
-
-    // Se a idade for somente um número, acrescenta "ano" ou "anos".
-    // Caso contrário, mostra a idade como foi informada, por exemplo "6 meses".
+    // A idade é calculada a partir da data de nascimento salva no banco.
     cartao.querySelector('[data-pet-idade]').textContent =
-        /^\d+(?:[.,]\d+)?$/.test(idade)
-            ? `${idade} ${Number(idade.replace(',', '.')) === 1 ? 'ano' : 'anos'}`
-            : idade;
+        formatarIdadePet(pet.dataNascimento);
 
     cartao.querySelector('[data-pet-raca]').textContent = pet.raca;
 
@@ -92,9 +88,10 @@ function criarCartao(pet) {
     return cartao;
 }
 
-// Busca os pets e atualiza o painel com os resultados.
-function carregarPainel() {
+// Busca os pets na API e atualiza o painel com os resultados.
+async function carregarPainel() {
     try {
+        await carregarPets();
         const pets = listarPets();
         const temPets = pets.length > 0;
 
@@ -178,4 +175,4 @@ window.addEventListener('pageshow', carregarPainel);
 window.addEventListener('focus', carregarPainel);
 
 // Faz o primeiro carregamento assim que o script é executado.
-carregarPainel();
+carregarPainel();

@@ -1,6 +1,12 @@
 // Controla o cadastro, a listagem e o histórico local das consultas dos pets.
 import { atualizarPet, atualizarVariosPets, listarPets } from './armazenamento.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
+import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+
+// Os dados principais dos pets vêm da API; carrega antes de montar a página.
+// Se falhar, listarPets() lança o erro e a página mostra a mensagem.
+await carregarPetsDoServidor();
+
 
 // Verifica se a página atual é a página que lista consultas.
 const mainPainel = document.querySelector('.painel-medico');
@@ -587,9 +593,9 @@ if (paginaLista) {
 // Carrega os pets. Se ocorrer um erro, desabilita o seletor e mostra aviso.
 try {
     carregarPets();
-} catch {
+} catch (erro) {
     seletor.disabled = true;
-    informar('Não foi possível carregar os pets salvos.', true);
+    informar(erro.message || 'Não foi possível carregar os pets salvos.', true);
 }
 
 // Quando outra parte da aplicação avisa que os pets foram atualizados,
@@ -600,4 +606,4 @@ window.addEventListener('keeperhub:pets-atualizados', () => {
     } catch {
         informar('Não foi possível carregar os pets salvos.', true);
     }
-});
+});
