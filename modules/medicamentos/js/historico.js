@@ -11,7 +11,6 @@ export async function inicializarHistoricoMedicamentos() {
         const eventos = await carregarEventos();
         if (lista) renderizarLista(lista, eventos);
         if (timeline) renderizarTimeline(timeline, eventos);
-        inicializarBusca(lista);
     } catch (erro) {
         const destino = lista ?? timeline;
         const mensagem = document.createElement("p");
@@ -100,19 +99,6 @@ function renderizarTimeline(timeline, eventos) {
         conteudo.append(data, detalhe);
         item.append(icone, conteudo);
         timeline.append(item);
-    });
-}
-
-function inicializarBusca(lista) {
-    const busca = document.querySelector(".meds-search-input");
-    if (!lista || !busca) return;
-    busca.addEventListener("input", () => {
-        const termo = busca.value.trim().toLocaleLowerCase("pt-BR");
-        lista.querySelectorAll(".med-card").forEach((cartao) => {
-            cartao.hidden = !cartao.textContent.toLocaleLowerCase("pt-BR").includes(termo);
-        });
-        // Provisório: o termo digitado é registrado somente para teste de desenvolvimento.
-        console.log("[Medicamentos] Busca no histórico (teste de desenvolvimento):", busca.value);
     });
 }
 
