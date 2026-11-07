@@ -145,6 +145,8 @@ Usado por: apenas a página de listagem do módulo
 .med-card-left {
     display: flex;
     align-items: center;
+    flex: 1;
+    min-width: 0;
 }
 .med-card-icon-wrap {
     width: 38px;
