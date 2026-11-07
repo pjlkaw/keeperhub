@@ -47,7 +47,9 @@ function obterFotoSegura(foto) {
     try {
         const url = new URL(foto, window.location.origin);
 
-        if (url.protocol === 'https:' && url.origin === window.location.origin) {
+        // Aceita o próprio domínio e o armazenamento de fotos do Vercel Blob.
+        const blobVercel = url.hostname.endsWith('.public.blob.vercel-storage.com');
+        if (url.protocol === 'https:' && (url.origin === window.location.origin || blobVercel)) {
             return url.href;
         }
     } catch {
