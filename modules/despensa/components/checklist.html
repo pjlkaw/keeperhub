@@ -64,61 +64,22 @@
             </div>
         </section>
 
-        <section class="add-product">
-            <h2>Adicionar produto</h2>
-
-            <form id="formProduto">
-                <label for="nomeProduto">Nome do produto</label>
-                <input id="nomeProduto" type="text"
-                    placeholder="Ex.: Arroz, leite, detergente"
-                    maxlength="80" required>
-
-                <div class="form-row">
-                    <div>
-                        <label for="quantidadeProduto">Quantidade</label>
-                        <input id="quantidadeProduto" type="number"
-                            min="1" max="999" value="1" required>
-                    </div>
-
-                    <div>
-                        <label for="categoriaProduto">Categoria</label>
-                        <select id="categoriaProduto">
-                            <option value="Alimentos">Alimentos</option>
-                            <option value="Frutas e verduras">Frutas e verduras</option>
-                            <option value="Carnes e frios">Carnes e frios</option>
-                            <option value="Bebidas">Bebidas</option>
-                            <option value="Higiene">Higiene</option>
-                            <option value="Limpeza">Limpeza</option>
-                            <option value="Outros">Outros</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" class="add-button">
-                    <i class="fa-solid fa-plus"></i> Adicionar à lista
-                </button>
-            </form>
-        </section>
-
         <section class="shopping-list">
             <div class="list-heading">
                 <h2>Minha lista</h2>
-                <button id="limparComprados" class="text-button" type="button">
-                    Remover comprados
-                </button>
+              
             </div>
 
             <label for="buscaProduto" class="sr-only">Buscar produto</label>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input id="buscaProduto" type="search"
-                    placeholder="Buscar produto...">
+                    placeholder=" ⌕  Buscar produto...">
             </div>
 
             <div class="filter-row">
                 <button class="filter active" data-filtro="todos">Todos</button>
                 <button class="filter" data-filtro="pendentes">Pendentes</button>
-                <button class="filter" data-filtro="comprados">Comprados</button>
             </div>
 
             <div id="listaCompras" aria-live="polite"></div>

@@ -1,3 +1,16 @@
+
+:root {
+    --background: #0b0b0d;
+    --card: #18181b;
+    --border: #303034;
+    --text: #ffffff;
+    --secondary: #a1a1aa;
+    --accent: #a67b5b;
+    --accent-hover: #bd906e;
+    --input: #19191d;
+    --danger: #e45c5c;
+}
+
 .despensa-resumo {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -45,6 +58,320 @@
 .produto-item p, .lista-vazia {
     color: var(--text-muted);
 }
+
+
+/* PESQUISA */
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    padding: 0 12px;
+
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    color: var(--secondary);
+    margin-bottom: 21px;
+}
+
+.search-container i {
+    font-size: 11px;
+}
+
+.search-container input {
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    color: var(--text);
+    font-size: 11px;
+}
+
+.search-container input::placeholder {
+    color: var(--secondary);
+}
+
+.search-container button {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+/* CATEGORIAS */
+
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    margin-bottom: 41px;
+    padding: 0 3px;
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.category {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    color: var(--text);
+    font-size: 11px;
+    font-weight: bold;
+
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.category:hover {
+    border-color: var(--accent);
+}
+
+.category.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+}
+
+/* LISTA DE PRODUTOS */
+
+.products-section {
+    width: 100%;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.empty-message {
+    font-size: 12px;
+    color: var(--text);
+    padding: 2px 0;
+}
+
+/* CARTÃO DO PRODUTO */
+
+.product-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    padding: 13px;
+
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    transition: 0.2s;
+}
+
+.product-card:hover {
+    border-color: var(--accent);
+}
+
+.product-information {
+    min-width: 0;
+}
+
+.product-information h3 {
+    font-size: 13px;
+    margin-bottom: 7px;
+    overflow-wrap: anywhere;
+}
+
+.product-information p {
+    font-size: 11px;
+    color: var(--secondary);
+    margin-top: 4px;
+}
+
+.product-information .validity {
+    color: var(--accent);
+}
+
+.product-information .expired {
+    color: var(--danger);
+}
+
+/* AÇÕES */
+
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-actions button {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.product-actions .edit-button:hover {
+    color: var(--accent);
+}
+
+.product-actions .delete-button:hover {
+    color: var(--danger);
+}
+
+/* BOTÃO ADICIONAR */
+
+.add-button {
+    position: fixed;
+    right: max(12px, calc((100vw - 588px) / 2));
+    bottom: 24px;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: var(--accent);
+    color: white;
+
+    border: none;
+    border-radius: 50%;
+
+    font-size: 17px;
+    cursor: pointer;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+}
+
+.add-button:hover {
+    background: var(--accent-hover);
+    transform: scale(1.08);
+}
+
+/* MODAL */
+
+dialog {
+    width: min(90%, 380px);
+    margin: auto;
+    padding: 20px;
+
+    background: var(--card);
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(3px);
+}
+
+#productForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.modal-header h2 {
+    font-size: 17px;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.form-content label {
+    font-size: 12px;
+    color: var(--secondary);
+}
+
+.form-content input,
+.form-content select {
+    width: 100%;
+    height: 39px;
+    padding: 0 10px;
+
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+
+    color: var(--text);
+    outline: none;
+}
+
+.form-content input:focus,
+.form-content select:focus {
+    border-color: var(--accent);
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.modal-footer button {
+    flex: 1;
+    height: 39px;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: var(--border);
+    color: var(--text);
+}
+
+.save-button {
+    background: var(--accent);
+    color: white;
+}
+
+/* RESPONSIVIDADE */
 
 
 @media (max-width: 360px) {

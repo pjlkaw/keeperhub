@@ -1,0 +1,86 @@
+.subtitulo, .savings-copy, .route-sub, .step-detail, .comparativo-header span, .produto-titulo span, .preco small {
+    color: var(--text-muted);
+}
+.container, .precos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+.total-top, .mercado-info, .route-head, .comparativo-header, .produto-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.total-card, .savings-card, .route-inner, .comparativo {
+    display: grid;
+    gap: 16px;
+}
+.barra {
+    height: 8px;
+    margin-top: 8px;
+    border-radius: 8px;
+    background: var(--border-color);
+    overflow: hidden;
+}
+.barra-pao, .barra-extra {
+    height: 100%;
+    background: var(--despensa-destaque);
+}
+.barra-pao {
+    width: 60%;
+}
+.barra-extra {
+    width: 40%;
+}
+.orange-eyebrow {
+    color: var(--despensa-texto-destaque);
+    font-weight: 700;
+}
+.savings-value {
+    font-size: 1.5rem;
+}
+.route-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.route-step {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.step-number {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--despensa-fundo-destaque);
+}
+.step-detail {
+    display: block;
+}
+.comparativo-header h2 {
+    margin-bottom: 0;
+}
+.produto-titulo {
+    margin-bottom: 16px;
+}
+.preco {
+    display: grid;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-color);
+}
+.preco.melhor {
+    border-color: var(--despensa-destaque);
+    background: var(--despensa-fundo-destaque);
+}
+.preco b {
+    font-size: 0.75rem;
+    color: var(--despensa-texto-destaque);
+}
