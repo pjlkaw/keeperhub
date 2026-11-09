@@ -1,99 +1,287 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checklist de compras — KeeperHub</title>
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-        <link rel="stylesheet" href="/shared/styles/variables.css">
-        <link rel="stylesheet" href="/shared/styles/reset.css">
-        <link rel="stylesheet" href="/shared/styles/components.css">
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
-        <link rel="stylesheet" href="/modules/despensa/assets/css/index.css">
-        <script src="/shared/services/theme.js" defer></script>
-        <script type="module" src="/modules/despensa/script.js"></script>
-        <script type="module" src="/modules/despensa/js/index.js"></script>
-        <link rel="stylesheet" href="../assets/css/checklist.css">
-        <script>
-            window.keeperhubModuleConfig = {
-                module: 'despensa',
-                title: 'Checklist',
-                subtitle: 'Gerencie suas compras',
-                backUrl: '/modules/despensa/index.html',
-                notificationsModule: 'despensa',
-            };
-        </script>
-        <script src="/shared/services/load-components.js"></script>
-    
-</head>   
+    <title>Checklist — KeeperHub</title>
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS COMPARTILHADO -->
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+
+    <!-- CSS DA DESPENSA -->
+    <link rel="stylesheet"
+        href="/modules/despensa/assets/css/layout.css">
+
+    <!-- CSS EXCLUSIVO DO CHECKLIST -->
+    <link rel="stylesheet"
+        href="/modules/despensa/assets/css/checklist.css">
+
+    <!-- CONFIGURAÇÃO DO MÓDULO -->
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'despensa',
+            title: 'Checklist',
+            subtitle: 'Gerencie suas compras!',
+            backUrl: '/modules/despensa/index.html',
+            notificationsModule: 'despensa'
+        };
+    </script>
+
+    <!-- SERVIÇOS COMPARTILHADOS -->
+    <script src="/shared/services/theme.js" defer></script>
+    <script src="/shared/services/load-components.js" defer></script>
+
+    <!-- JAVASCRIPT DO CHECKLIST -->
+    <script type="module"
+        src="/modules/despensa/js/checklist.js"></script>
+
+</head>
 
 <body class="despensa" data-pagina="checklist">
-        <section id="alertFromShared" class="alert" role="status" aria-live="polite">
-        </section>
-        <div class="despensa-shell">
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
-            </nav>
-             <a href="/main/hub/index.html">   
-                </a>
-            </nav>
-            <header class="section-header-section" id="headerSection">
-                <div class="section-header-title-area">
-                        </span>
-                </div>
+
+    <!-- ALERTAS -->
+    <section
+        id="alertFromShared"
+        class="alert"
+        role="status"
+        aria-live="polite">
+    </section>
+
+    <div class="despensa-shell">
+
+        <!-- NAVEGAÇÃO -->
+        <nav
+            id="modules-nav-wrapper"
+            class="modules-nav-wrapper"
+            aria-label="Navegação entre módulos">
+        </nav>
+
+        <!-- CABEÇALHO COMPARTILHADO -->
+        <header
+            class="section-header-section"
+            id="headerSection">
         </header>
 
-        <section class="checklist-summary">
-            <div>
-                <span>Selecionados</span>
-                <strong id="totalSelecionados">0</strong>
-            </div>
-            <div>
-                <span>Comprados</span>
-                <strong id="totalComprados">0</strong>
-            </div>
-            <div>
-                <span>Progresso</span>
-                <strong id="progressoTexto">0%</strong>
-            </div>
+        <main class="checklist-page">
 
-            <div class="progress-track">
-                <div id="progressoBarra"></div>
-            </div>
-        </section>
+            <section class="checklist-container">
 
-        <section class="shopping-list">
-            <div class="list-heading">
-                <h2>Minha lista</h2>
-              
-            </div>
+                <!-- RESUMO -->
+                <section class="card checklist-summary"
+                    aria-label="Resumo da lista">
 
-            <label for="buscaProduto" class="sr-only">Buscar produto</label>
-            <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input id="buscaProduto" type="search"
-                    placeholder=" ⌕  Buscar produto...">
-            </div>
+                    <div class="summary-item">
+                        <span>Selecionados</span>
+                        <strong id="totalSelecionados">0</strong>
+                    </div>
 
-            <div class="filter-row">
-                <button class="filter active" data-filtro="todos">Todos</button>
-                <button class="filter" data-filtro="pendentes">Pendentes</button>
-            </div>
+                    <div class="summary-item">
+                        <span>Comprados</span>
+                        <strong id="totalComprados">0</strong>
+                    </div>
 
-            <div id="listaCompras" aria-live="polite"></div>
+                    <div class="summary-item">
+                        <span>Progresso</span>
+                        <strong id="progressoTexto">0%</strong>
+                    </div>
 
-            <p id="mensagemVazia" class="empty-message">
-                Sua lista está vazia. Adicione seu primeiro produto!
-            </p>
-        </section>
+                    <div class="progress-track">
+                        <div id="progressoBarra"></div>
+                    </div>
 
-        <button id="limparLista" class="clear-button" type="button">
-            
-            <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
-        </button>
+                </section>
 
-    </main>
+                <!-- LISTA DE COMPRAS -->
+                <section class="card shopping-list">
+
+                    <div class="list-heading">
+                        <h2>Minha lista</h2>
+                    </div>
+
+                    <!-- PESQUISA -->
+                    <div class="search-box">
+    <input
+        id="buscaProduto"
+        type="search"
+        placeholder="Buscar produto...">
+</div>
+
+                    <!-- FILTROS -->
+                    <nav class="filter-row"
+                        aria-label="Filtrar produtos">
+
+                        <button
+                            type="button"
+                            class="filter active"
+                            data-filtro="todos"
+                            aria-pressed="true">
+
+                            Todos
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-filtro="pendentes"
+                            aria-pressed="false">
+
+                            Pendentes
+
+                        </button>
+
+                    </nav>
+
+                    <!-- PRODUTOS -->
+                    <section
+                        id="listaCompras"
+                        class="shopping-items"
+                        aria-live="polite">
+                    </section>
+
+                    <!-- LISTA VAZIA -->
+                    <p id="mensagemVazia" class="empty-message">
+                        Sua lista está vazia. Adicione seu primeiro produto!
+                    </p>
+
+                    <!-- ADICIONAR ITEM -->
+                    <button
+                        type="button"
+                        id="abrirModal"
+                        class="add-list-button">
+
+                        <i class="fa-solid fa-plus"></i>
+                        Adicionar item na lista
+
+                    </button>
+
+                </section>
+
+                <!-- LIMPAR LISTA -->
+                <button
+                    id="limparLista"
+                    class="clear-button"
+                    type="button">
+
+                    <i class="fa-regular fa-trash-can"></i>
+                    Limpar lista inteira
+
+                </button>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- MODAL ADICIONAR PRODUTO -->
+    <dialog id="modalProduto" class="product-modal">
+
+        <form id="formProduto">
+
+            <header class="modal-header">
+
+                <h2>Adicionar item</h2>
+
+                <button
+                    type="button"
+                    id="fecharModal"
+                    class="close-button"
+                    aria-label="Fechar">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </header>
+
+            <section class="modal-content">
+
+                <label for="nomeProduto">
+                    Nome do produto
+                </label>
+
+                <input
+                    type="text"
+                    id="nomeProduto"
+                    placeholder="Ex: Arroz"
+                    maxlength="80"
+                    required>
+
+                <div class="form-row">
+
+                    <div>
+                        <label for="quantidadeProduto">
+                            Quantidade
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantidadeProduto"
+                            min="1"
+                            max="999"
+                            value="1"
+                            required>
+                    </div>
+
+                    <div>
+                        <label for="categoriaProduto">
+                            Categoria
+                        </label>
+
+                        <select id="categoriaProduto" required>
+
+                            <option value="">Selecione</option>
+                            <option value="Grãos">Grãos</option>
+                            <option value="Laticínios">Laticínios</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Hortifruti">Hortifruti</option>
+                            <option value="Outros">Outros</option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <footer class="modal-footer">
+
+                <button
+                    type="button"
+                    id="cancelarModal"
+                    class="cancel-button">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-button">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Adicionar
+
+                </button>
+
+            </footer>
+
+        </form>
+
+    </dialog>
+
 </body>
 </html>

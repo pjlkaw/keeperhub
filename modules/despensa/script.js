@@ -1,58 +1,94 @@
+/* =====================================================
+   KEEPERHUB — DESPENSA / INDEX.JS
 
-// ELEMENTOS
+   Responsável por:
+   - Ler e salvar produtos no localStorage;
+   - Cadastrar produtos;
+   - Editar produtos;
+   - Excluir produtos;
+   - Pesquisar e filtrar categorias;
+   - Calcular a validade;
+   - Compartilhar os dados com a página Vencimentos.
+===================================================== */
 
+/* CHAVE DE ARMAZENAMENTO
+
+   IMPORTANTE:
+   A página Vencimentos utiliza exatamente a mesma chave.
+*/
+const STORAGE_KEY = "keeperHubProducts";
+
+/* ELEMENTOS HTML */
 const productList = document.getElementById("productList");
-
 const searchInput = document.getElementById("searchInput");
-
 const clearSearch = document.getElementById("clearSearch");
-
 const addButton = document.getElementById("addButton");
-
 const productModal = document.getElementById("productModal");
-
 const productForm = document.getElementById("productForm");
-
-const closeModal = document.getElementById("closeModal");
-
+const closeModalButton = document.getElementById("closeModal");
 const cancelButton = document.getElementById("cancelButton");
-
 const modalTitle = document.getElementById("modalTitle");
 
 const productName = document.getElementById("productName");
-
 const productCategory = document.getElementById("productCategory");
-
 const productQuantity = document.getElementById("productQuantity");
-
 const productExpiry = document.getElementById("productExpiry");
 
-const categoryButtons = document.querySelectorAll(".category");
+const categoryButtons = document.querySelectorAll("[data-category]");
+const productCounter = document.getElementById("contador-produtos");
 
-
-// Armazenamento
-
-let products = JSON.parse(
-    localStorage.getItem("keeperHubProducts")
-) || [];
-
+/* VARIÁVEIS DE CONTROLE */
+let products = loadProducts();
 let selectedCategory = "Todos";
-
 let editingId = null;
 
 
-// Salvar produtos no navegador
+/* =====================================================
+   CARREGAR PRODUTOS
+   Recupera os produtos que já estão salvos no navegador.
+===================================================== */
+
+function loadProducts() {
+
+    try {
+
+        const saved = JSON.parse(
+            localStorage.getItem(STORAGE_KEY) || "[]"
+        );
+
+        return Array.isArray(saved) ? saved : [];
+
+    } catch (error) {
+
+        console.error("Erro ao carregar produtos:", error);
+
+        return [];
+
+    }
+
+}
+
+
+/* =====================================================
+   SALVAR PRODUTOS
+   Salva todos os produtos no localStorage.
+   A página Vencimentos também consulta esse armazenamento.
+===================================================== */
 
 function saveProducts() {
 
     localStorage.setItem(
-        "keeperHubProducts",
+        STORAGE_KEY,
         JSON.stringify(products)
     );
 
 }
 
-// Abrir modal
+
+/* =====================================================
+   ABRIR MODAL
+   Limpa os campos e abre o formulário de cadastro.
+===================================================== */
 
 function openModal() {
 
@@ -68,26 +104,53 @@ function openModal() {
 
 }
 
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function closeProductModal() {
+
+    productModal.close();
+
+    productForm.reset();
+
+    editingId = null;
+
+}
+
+
+/* EVENTOS DOS BOTÕES */
+
 addButton.addEventListener("click", openModal);
 
+closeModalButton.addEventListener(
+    "click",
+    closeProductModal
+);
 
-// Fechar modal
+cancelButton.addEventListener(
+    "click",
+    closeProductModal
+);
 
-closeModal.addEventListener("click", () => {
 
-    productModal.close();
+/* =====================================================
+   CADASTRAR E EDITAR PRODUTOS
 
-});
+   Aqui está a parte principal da integração.
 
-cancelButton.addEventListener("click", () => {
+   Quando o usuário cadastra um produto, são armazenados:
+   - ID;
+   - Nome;
+   - Categoria;
+   - Quantidade;
+   - Data de validade.
 
-    productModal.close();
+   A página Vencimentos consegue ler esses mesmos dados.
+===================================================== */
 
-});
-
-// Cadastrar e editar
-
-productForm.addEventListener("submit", function(event) {
+productForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
@@ -99,15 +162,24 @@ productForm.addEventListener("submit", function(event) {
 
     const expiry = productExpiry.value;
 
-    if (!name || !category || quantity < 1) {
 
-        alert("Preencha todos os campos corretamente.");
+    /* Verifica se os campos obrigatórios estão preenchidos */
+
+    if (
+        !name ||
+        !category ||
+        !Number.isFinite(quantity) ||
+        quantity < 1
+    ) {
+
+        alert("Preencha os campos corretamente.");
 
         return;
 
     }
 
-    // Editar produto existente
+
+    /* SE ESTIVER EDITANDO UM PRODUTO */
 
     if (editingId !== null) {
 
@@ -118,21 +190,27 @@ productForm.addEventListener("submit", function(event) {
         if (product) {
 
             product.name = name;
+
             product.category = category;
+
             product.quantity = quantity;
+
             product.expiry = expiry;
 
         }
 
     }
 
-    // Cadastrar novo produto
+
+    /* SE ESTIVER CADASTRANDO UM NOVO PRODUTO */
 
     else {
 
         const newProduct = {
 
-            id: Date.now(),
+            id: (window.crypto && crypto.randomUUID)
+                ? crypto.randomUUID()
+                : String(Date.now()),
 
             name: name,
 
@@ -148,30 +226,36 @@ productForm.addEventListener("submit", function(event) {
 
     }
 
+
+    /* SALVA OS DADOS COMPARTILHADOS */
+
     saveProducts();
+
+    /* Atualiza os cartões da página Produtos */
 
     renderProducts();
 
-    productModal.close();
+    /* Fecha o formulário */
 
-    productForm.reset();
+    closeProductModal();
 
 });
 
 
-
-// Editar produto
-
+/* =====================================================
+   EDITAR PRODUTO
+   Recupera as informações e preenche o formulário.
+===================================================== */
 
 function editProduct(id) {
 
     const product = products.find(
-        item => item.id === id
+        item => String(item.id) === String(id)
     );
 
     if (!product) return;
 
-    editingId = id;
+    editingId = product.id;
 
     productName.value = product.name;
 
@@ -188,9 +272,10 @@ function editProduct(id) {
 }
 
 
-
-// Excluir produto
-
+/* =====================================================
+   EXCLUIR PRODUTO
+   Remove o produto do armazenamento compartilhado.
+===================================================== */
 
 function deleteProduct(id) {
 
@@ -201,7 +286,7 @@ function deleteProduct(id) {
     if (!confirmation) return;
 
     products = products.filter(
-        item => item.id !== id
+        item => String(item.id) !== String(id)
     );
 
     saveProducts();
@@ -210,25 +295,49 @@ function deleteProduct(id) {
 
 }
 
-// Data de validade
 
+/* =====================================================
+   CALCULAR DIAS ATÉ O VENCIMENTO
+
+   Retorna:
+   - Número negativo: produto vencido;
+   - Zero: vence hoje;
+   - Número positivo: dias restantes;
+   - Null: validade não informada.
+===================================================== */
 
 function getDaysUntilExpiry(date) {
 
     if (!date) return null;
 
+    const [year, month, day] = date.split("-").map(Number);
+
+    const expiryDate = Date.UTC(
+        year,
+        month - 1,
+        day
+    );
+
     const today = new Date();
 
-    today.setHours(0, 0, 0, 0);
-
-    const expiry = new Date(date + "T00:00:00");
+    const todayDate = Date.UTC(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+    );
 
     return Math.round(
-        (expiry - today) / (1000 * 60 * 60 * 24)
+        (expiryDate - todayDate) / 86400000
     );
 
 }
 
+
+/* =====================================================
+   FORMATAR DATA
+
+   Transforma AAAA-MM-DD em DD/MM/AAAA.
+===================================================== */
 
 function formatDate(date) {
 
@@ -240,15 +349,40 @@ function formatDate(date) {
 
 }
 
-// Renderizar produtos
+
+/* =====================================================
+   CONTADOR DE PRODUTOS
+   Atualiza o número de produtos cadastrados.
+===================================================== */
+
+function updateProductCounter() {
+
+    if (productCounter) {
+
+        productCounter.textContent =
+            `${products.length} produto(s) cadastrado(s)`;
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDERIZAR PRODUTOS
+
+   Cria os cartões na tela e aplica os filtros.
+===================================================== */
 
 function renderProducts() {
+
+    if (!productList) return;
 
     productList.innerHTML = "";
 
     let filteredProducts = [...products];
 
-// Filtro de categoria
+
+    /* FILTRO POR CATEGORIA */
 
     if (selectedCategory !== "Todos") {
 
@@ -258,7 +392,8 @@ function renderProducts() {
 
     }
 
-// Pesquisa
+
+    /* FILTRO DE PESQUISA */
 
     const search = searchInput.value
         .toLowerCase()
@@ -272,7 +407,13 @@ function renderProducts() {
 
     }
 
-    // Nenhum produto encontrado
+
+    /* ATUALIZA CONTADOR */
+
+    updateProductCounter();
+
+
+    /* MENSAGEM QUANDO NÃO EXISTEM PRODUTOS */
 
     if (filteredProducts.length === 0) {
 
@@ -280,15 +421,9 @@ function renderProducts() {
 
         message.className = "empty-message";
 
-        if (products.length === 0) {
-
-            message.textContent = "Nenhum produto cadastrado.";
-
-        } else {
-
-            message.textContent = "Nenhum produto encontrado.";
-
-        }
+        message.textContent = products.length === 0
+            ? "Nenhum produto cadastrado."
+            : "Nenhum produto encontrado.";
 
         productList.appendChild(message);
 
@@ -296,7 +431,8 @@ function renderProducts() {
 
     }
 
-    // Criar cartões
+
+    /* CRIA OS CARTÕES */
 
     filteredProducts.forEach(product => {
 
@@ -304,24 +440,31 @@ function renderProducts() {
 
         card.className = "product-card";
 
-        // Informações
+
+        /* INFORMAÇÕES DO PRODUTO */
 
         const information = document.createElement("section");
 
         information.className = "product-information";
 
+
         const name = document.createElement("h3");
 
         name.textContent = product.name;
+
 
         const category = document.createElement("p");
 
         category.textContent = product.category;
 
+
         const quantity = document.createElement("p");
 
         quantity.textContent =
             `Quantidade: ${product.quantity}`;
+
+
+        /* INFORMAÇÃO DA VALIDADE */
 
         const validity = document.createElement("p");
 
@@ -329,24 +472,31 @@ function renderProducts() {
 
         const days = getDaysUntilExpiry(product.expiry);
 
-        if (!product.expiry) {
+
+        if (days === null) {
 
             validity.textContent = "Validade não informada";
 
-        } else if (days < 0) {
+        }
+
+        else if (days < 0) {
 
             validity.textContent =
                 `Vencido há ${Math.abs(days)} dia(s)`;
 
             validity.classList.add("expired");
 
-        } else if (days === 0) {
+        }
+
+        else if (days === 0) {
 
             validity.textContent = "Vence hoje!";
 
             validity.classList.add("expired");
 
-        } else {
+        }
+
+        else {
 
             validity.textContent =
                 `Validade: ${formatDate(product.expiry)}`;
@@ -359,6 +509,7 @@ function renderProducts() {
 
         }
 
+
         information.append(
             name,
             category,
@@ -366,20 +517,29 @@ function renderProducts() {
             validity
         );
 
-        // Botões
+
+        /* BOTÕES DE AÇÃO */
 
         const actions = document.createElement("section");
 
         actions.className = "product-actions";
 
+
+        /* BOTÃO EDITAR */
+
         const editButton = document.createElement("button");
+
+        editButton.type = "button";
 
         editButton.className = "edit-button";
 
         editButton.innerHTML =
             '<i class="fa-solid fa-pen"></i>';
 
-        editButton.setAttribute("aria-label", "Editar produto");
+        editButton.setAttribute(
+            "aria-label",
+            "Editar produto"
+        );
 
         editButton.addEventListener("click", () => {
 
@@ -387,20 +547,31 @@ function renderProducts() {
 
         });
 
+
+        /* BOTÃO EXCLUIR */
+
         const deleteButton = document.createElement("button");
+
+        deleteButton.type = "button";
 
         deleteButton.className = "delete-button";
 
         deleteButton.innerHTML =
             '<i class="fa-solid fa-trash"></i>';
 
-        deleteButton.setAttribute("aria-label", "Excluir produto");
+        deleteButton.setAttribute(
+            "aria-label",
+            "Excluir produto"
+        );
 
         deleteButton.addEventListener("click", () => {
 
             deleteProduct(product.id);
 
         });
+
+
+        /* ADICIONA OS BOTÕES E INFORMAÇÕES */
 
         actions.append(editButton, deleteButton);
 
@@ -413,7 +584,9 @@ function renderProducts() {
 }
 
 
-// FILTRAR CATEGORIAS
+/* =====================================================
+   FILTRAR CATEGORIAS
+===================================================== */
 
 categoryButtons.forEach(button => {
 
@@ -436,34 +609,47 @@ categoryButtons.forEach(button => {
 });
 
 
-// PESQUISAR
+/* =====================================================
+   PESQUISAR PRODUTOS
+===================================================== */
 
 searchInput.addEventListener("input", () => {
 
-    clearSearch.style.display =
-        searchInput.value ? "block" : "none";
+    if (clearSearch) {
+
+        clearSearch.hidden = !searchInput.value;
+
+    }
 
     renderProducts();
 
 });
 
 
-// Limpar pesquisa
+/* =====================================================
+   LIMPAR PESQUISA
+===================================================== */
 
-clearSearch.addEventListener("click", () => {
+if (clearSearch) {
 
-    searchInput.value = "";
+    clearSearch.addEventListener("click", () => {
 
-    clearSearch.style.display = "none";
+        searchInput.value = "";
 
-    renderProducts();
+        clearSearch.hidden = true;
 
-    searchInput.focus();
+        renderProducts();
 
-});
+        searchInput.focus();
+
+    });
+
+}
 
 
-// Iniciar a página
-
+/* =====================================================
+   INICIAR PÁGINA
+   Carrega os produtos salvos assim que a página abre.
+===================================================== */
 
 renderProducts();
