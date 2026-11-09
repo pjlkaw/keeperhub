@@ -10,6 +10,20 @@
     --input: #19191d;
     --danger: #e45c5c;
 }
+/* OCUPAR TODA A TELA */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+.despensa-shell {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
 .despensa-resumo {
     display: grid;
@@ -59,13 +73,23 @@
     color: var(--text-muted);
 }
 
-
 /* PESQUISA */
 
 .search-container {
     display: flex;
     align-items: center;
-    gap: 8px;
+
+    width: 100%;
+    height: 34px;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    margin-bottom: 21px;
+}
+
+.search-container input {
+    width: 100%;
     height: 34px;
     padding: 0 12px;
 
@@ -73,36 +97,14 @@
     border: 1px solid var(--border);
     border-radius: 6px;
 
-    color: var(--secondary);
-    margin-bottom: 21px;
-}
-
-.search-container i {
-    font-size: 11px;
-}
-
-.search-container input {
-    width: 100%;
-    height: 100%;
-
-    background: transparent;
-    border: none;
-    outline: none;
-
     color: var(--text);
-    font-size: 11px;
+    font-size: 12px;
+    outline: none;
+    box-sizing: border-box;
 }
 
 .search-container input::placeholder {
     color: var(--secondary);
-}
-
-.search-container button {
-    display: none;
-    background: transparent;
-    border: none;
-    color: var(--secondary);
-    cursor: pointer;
 }
 
 /* CATEGORIAS */

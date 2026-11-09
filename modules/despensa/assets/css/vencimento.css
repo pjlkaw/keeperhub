@@ -1,4 +1,4 @@
-.validade, .titulo, .secao-header span, .produto-info {
+.validade, .titulo, span, .produto-info {
     color: var(--text-muted);
 }
 .resumo {
@@ -7,7 +7,7 @@
     gap: 16px;
 }
 .resumo-card {
-    border-left: 4px solid var(--despensa-destaque);
+    border-bottom: 2px solid var(--despensa-destaque);
 }
 .resumo-card.trinta {
     grid-column: 1 / -1;
@@ -16,20 +16,17 @@
     font-size: 1.5rem;
     font-weight: 800;
 }
-.secao-header {
+
+.produtosSection {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    flex-direction: column;
+    gap: 10px;
 }
-.secao-header h2 {
-    margin: 0;
-}
+
 .produto {
     display: grid;
     gap: 8px;
-    border-left: 4px solid var(--despensa-destaque);
+    border-left: 2px solid var(--despensa-destaque);
 }
 .status {
     justify-self: start;

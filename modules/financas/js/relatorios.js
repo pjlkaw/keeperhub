@@ -1,4 +1,5 @@
 import { formatarMoeda, obterTransacoes } from './dados.js';
+import { atualizarNoContent } from '/shared/services/no-content.js';
 
 function dataValida(valor) {
     const partes = String(valor || '').split('-').map(Number);
@@ -164,6 +165,7 @@ export async function inicializarRelatorios() {
     if (!document.getElementById('report-balance')) return;
 
     const transacoes = await obterTransacoes();
+    atualizarNoContent(transacoes.length > 0);
     const seletor = document.getElementById('report-month-selector');
     const hoje = new Date();
     const mesesDisponiveis = Array.from({ length: 12 }, (_, indice) =>
