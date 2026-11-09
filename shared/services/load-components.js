@@ -58,8 +58,7 @@ function carregarModulo() {
             if (pageSubtittle) pageSubtittle.textContent = configModule.subtitle;
             if (btnBackHeader) btnBackHeader.href = configModule.backUrl;
             if (btnNotifications) {
-                btnNotifications.href = `/shared/components/notifications.html?modulo=${configModule.notificationsModule}`;
-            }
+                 btnNotifications.href = `/shared/components/notifications.html?modulo=${configModule.notificationsModule}`;            }
         });
 
     fetch('/shared/components/no-content.html')

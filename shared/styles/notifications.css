@@ -1,4 +1,12 @@
 
+/* Página de notificações — usa os tokens de tema de /shared. */
+:root {
+  --lembretes-acento: #01ab8e;
+  --lembretes-superficie: var(--card-bg);
+  --lembretes-borda: var(--border-color);
+  --lembretes-sombra: rgb(0 0 0 / 22%);
+}
+
 *,
 *::before,
 *::after {
@@ -11,12 +19,19 @@ body {
   min-height: 100%;
 }
 
+body,
+button,
+input,
+textarea,
+select {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 body {
   min-height: 100vh;
   min-height: 100svh;
   background: var(--bg-color);
   color: var(--text-color);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 button,
@@ -94,6 +109,9 @@ button {
 .cartao-categoria {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  align-items: end;
   min-height: 132px;
   padding: 17px;
   overflow: hidden;
@@ -113,25 +131,42 @@ button {
   content: '';
 }
 
-.cartao-categoria i {
+.cartao-categoria > i,
+.cartao-categoria > img {
+  grid-column: 1;
+  grid-row: 1;
   align-self: start;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
   font-size: 1.45rem;
 }
 
 .cartao-categoria strong {
-  align-self: end;
-  max-width: calc(100% - 34px);
+  grid-column: 1;
+  grid-row: 3;
+  min-width: 0;
+  padding-right: 8px;
   font-size: 1.15rem;
   line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .cartao-categoria span {
-  position: absolute;
-  right: 16px;
-  bottom: 12px;
+  position: static;
+  grid-column: 2;
+  grid-row: 3;
+  align-self: end;
+  justify-self: end;
+  padding-left: 8px;
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1;
+}
+
+/* O texto mais longo exige um pouco menos de corpo, sem colidir com o contador. */
+.cartao-categoria--medicamentos strong {
+  font-size: 1rem;
 }
 
 .cartao-categoria--pets { background-color: var(--tool-pets); }
