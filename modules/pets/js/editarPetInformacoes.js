@@ -1,10 +1,13 @@
 // Controla o carregamento e a edição das informações de um pet.
 
-// Importa a função que atualiza um pet e a que busca um pet pelo ID.
-import { atualizarPet, buscarPetPorId } from './armazenamento.js';
+// Importa as funções que carregam os pets e atualizam a memória da página.
+import { buscarPetPorId, carregarPets, definirPetDoBanco } from './armazenamento.js';
 
-// Importa a função que valida os dados do pet antes de salvar.
-import { validarDadosPet } from './validacao-pet.js';
+// Importa a função que salva as alterações na API (banco de dados).
+import { atualizarPetApi } from './api.js';
+
+// Importa as funções que padronizam e validam os dados do pet antes de salvar.
+import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet.js';
 
 // Busca no HTML o formulário e os elementos usados pela página.
 const form = document.getElementById('formulario-informacoes-pet');
@@ -44,7 +47,9 @@ function obterFotoSegura(foto) {
     try {
         const url = new URL(foto, window.location.origin);
 
-        if (url.protocol === 'https:' && url.origin === window.location.origin) {
+        // Aceita o próprio domínio e o armazenamento de fotos do Vercel Blob.
+        const blobVercel = url.hostname.endsWith('.public.blob.vercel-storage.com');
+        if (url.protocol === 'https:' && (url.origin === window.location.origin || blobVercel)) {
             return url.href;
         }
     } catch {
@@ -89,7 +94,8 @@ function preencherFormulario(pet) {
     form.elements.nome.value = pet.nome ?? '';
     form.elements.tipo_animal.value = pet.especie ?? '';
     form.elements.raca.value = pet.raca ?? '';
-    form.elements.idade.value = pet.idade ?? '';
+    form.elements.data_nascimento.value = pet.dataNascimento ?? '';
+    form.elements.data_nascimento.max = dataDeHoje();
     form.elements.peso.value = pet.peso ?? '';
     form.elements.genero.value = pet.genero ?? '';
 
@@ -150,7 +156,7 @@ function lerArquivoComoDataUrl(arquivo) {
 }
 
 // Busca o pet usando o ID da URL e preenche o formulário.
-function carregarPet() {
+async function carregarPet() {
     try {
         // Sem ID, não há como saber qual pet deve ser editado.
         if (!petId) {
@@ -159,12 +165,13 @@ function carregarPet() {
             return;
         }
 
-        // Busca o pet no armazenamento.
+        // Busca os pets na API e depois procura o pet desta página.
+        await carregarPets();
         petAtual = buscarPetPorId(petId);
 
         // Se o ID não corresponder a nenhum pet, avisa e desabilita o formulário.
         if (!petAtual) {
-            informar('Este pet não foi encontrado no armazenamento deste navegador.', true);
+            informar('Este pet não foi encontrado na sua conta.', true);
             desabilitarFormulario();
             return;
         }
@@ -243,14 +250,14 @@ form.addEventListener('submit', async event => {
     const generoSelecionado = form.querySelector('[name="genero"]:checked');
 
     // Lê e organiza os dados atuais do formulário.
-    const dados = {
+    const dados = padronizarDadosPet({
         nome: form.elements.nome.value.trim(),
         especie: especieSelecionada?.value ?? '',
         raca: form.elements.raca.value.trim(),
-        idade: form.elements.idade.value.trim(),
+        dataNascimento: form.elements.data_nascimento.value,
         peso: form.elements.peso.value,
         genero: generoSelecionado?.value ?? ''
-    };
+    });
 
     // Verifica os dados com as regras de validação da aplicação.
     const erroValidacao = validarDadosPet(dados);
@@ -291,19 +298,15 @@ form.addEventListener('submit', async event => {
             dados.foto = fotoSelecionada;
         }
 
-        // Salva as alterações do pet usando seu ID.
-        const atualizado = atualizarPet(petId, dados);
+        // Salva as alterações na API. A foto nova vai em Base64 e volta como URL.
+        const atualizado = await atualizarPetApi(petId, dados);
 
-        // Se o pet não for mais encontrado, desabilita o formulário.
-        if (!atualizado) {
-            petAtual = null;
-            desabilitarFormulario();
-            informar('Este pet não foi encontrado no armazenamento deste navegador.', true);
-            return;
-        }
-
-        // Atualiza os dados locais e a prévia com o resultado salvo.
-        petAtual = atualizado;
+        // Atualiza a memória da página e a prévia com o resultado salvo.
+        definirPetDoBanco(atualizado);
+        petAtual = buscarPetPorId(petId);
+        fotoSelecionada = null;
+        campoFoto.value = '';
+        leituraFoto = Promise.resolve(null);
         mostrarFoto(petAtual.foto, petAtual.nome);
         informar('Alterações salvas com sucesso.');
     } catch (erro) {

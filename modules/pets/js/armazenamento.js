@@ -1,102 +1,97 @@
-// Importa a função que padroniza os dados do pet,
-// por exemplo, removendo espaços desnecessários.
-import { padronizarDadosPet } from './validacao-pet.js';
+// Armazenamento do módulo Pets.
+// Os dados principais do pet (nome, espécie, raça, nascimento, peso, gênero, foto e tutor)
+// vêm do banco pela API. Consultas, vacinas, medicações, despesas e rotina alimentar
+// ainda ficam no localStorage deste navegador, guardadas pelo id do pet no banco,
+// até que cada parte ganhe sua própria API.
+import { listarPetsApi } from './api.js';
 
-// Chave usada para localizar os dados dos pets no localStorage.
-// Somente este arquivo acessa o armazenamento; outras partes do sistema
-// usam as funções exportadas abaixo.
-export const PETS_STORAGE_KEY = 'keeperhub-pets';
+// Chave dos dados que continuam locais, separados por id do pet.
+export const PETS_STORAGE_KEY = 'keeperhub-pets-dados-locais';
 
-// Lê os pets salvos no localStorage e verifica se os dados têm o formato esperado.
-function lerPets() {
+// Campos que pertencem ao banco e não podem ser gravados no localStorage.
+const CAMPOS_DO_BANCO = new Set([
+    'id', 'nome', 'especie', 'raca', 'dataNascimento',
+    'peso', 'genero', 'foto', 'contatoEmergencia'
+]);
+
+// Estado da página: pets carregados da API e o erro da última tentativa.
+let petsDoBanco = null;
+let erroCarregamento = null;
+
+// Busca os pets na API e guarda na memória. Deve ser chamada antes de listar.
+export async function carregarPets() {
     try {
-        const petsSalvos = localStorage.getItem(PETS_STORAGE_KEY);
-
-        // Se ainda não houver dados salvos, começa com uma lista vazia.
-        // Caso contrário, converte o texto JSON para um valor JavaScript.
-        const pets = petsSalvos ? JSON.parse(petsSalvos) : [];
-
-        // Confirma que os dados são uma lista e que cada item é um objeto.
-        // Arrays e valores nulos não são aceitos como registros de pets.
-        if (
-            !Array.isArray(pets) ||
-            pets.some(pet => !pet || typeof pet !== 'object' || Array.isArray(pet))
-        ) {
-            throw new Error('Formato inválido');
-        }
-
-        return pets;
-    } catch {
-        // Captura erros de leitura, conversão do JSON ou formato inválido.
-        // A mensagem informa que os dados existentes não foram apagados.
-        throw new Error(
-            'Não foi possível ler os pets salvos. Os dados existentes foram preservados. Verifique o armazenamento do navegador e tente novamente.'
-        );
+        const pets = await listarPetsApi();
+        petsDoBanco = pets.map(pet => ({ ...pet, id: String(pet.id) }));
+        erroCarregamento = null;
+    } catch (erro) {
+        petsDoBanco = null;
+        erroCarregamento = erro;
     }
+    return petsDoBanco !== null;
 }
 
-// Salva a lista de pets no localStorage.
-function gravarPets(pets) {
+// Atualiza na memória um pet devolvido pela API após cadastro ou edição.
+export function definirPetDoBanco(pet) {
+    if (!pet) return;
+    const normalizado = { ...pet, id: String(pet.id) };
+    const lista = petsDoBanco ?? [];
+    const indice = lista.findIndex(item => item.id === normalizado.id);
+    if (indice === -1) lista.push(normalizado);
+    else lista[indice] = normalizado;
+    petsDoBanco = lista;
+}
+
+function lerDadosLocais() {
+    let conteudo;
     try {
-        // Converte a lista para texto JSON, pois o localStorage armazena strings.
-        localStorage.setItem(PETS_STORAGE_KEY, JSON.stringify(pets));
+        conteudo = localStorage.getItem(PETS_STORAGE_KEY);
     } catch {
-        // Pode ocorrer, por exemplo, se não houver espaço disponível
-        // ou se o navegador impedir o uso do armazenamento.
+        throw new Error('Não foi possível acessar o armazenamento deste navegador.');
+    }
+    if (!conteudo) return {};
+
+    try {
+        const dados = JSON.parse(conteudo);
+        if (dados && typeof dados === 'object' && !Array.isArray(dados)) return dados;
+    } catch {
+        // Tratado abaixo.
+    }
+    throw new Error(
+        'Não foi possível ler os dados locais dos pets. Os dados existentes foram preservados.'
+    );
+}
+
+function gravarDadosLocais(dados) {
+    try {
+        localStorage.setItem(PETS_STORAGE_KEY, JSON.stringify(dados));
+    } catch {
         throw new Error(
-            'Não foi possível salvar o pet. Verifique o espaço disponível e a permissão de armazenamento do navegador e tente novamente.'
+            'Não foi possível salvar os dados. Verifique o espaço disponível e a permissão de armazenamento do navegador.'
         );
     }
-
-    // Avisa outras partes da aplicação que a lista de pets foi atualizada.
+    // Avisa outras partes da aplicação que os dados dos pets mudaram.
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
 
-// Cria e retorna um identificador único para um pet.
-export function criarIdPet() {
-    return crypto.randomUUID();
+function somenteCamposLocais(dados) {
+    return Object.fromEntries(
+        Object.entries(dados).filter(([campo]) => !CAMPOS_DO_BANCO.has(campo))
+    );
 }
 
-// Retorna a lista de pets salvos.
-// Também corrige identificadores ausentes ou repetidos e padroniza alguns campos.
+// Junta os dados do banco com os dados locais de cada pet.
+function combinar(pet, dadosLocais) {
+    return { ...(dadosLocais[pet.id] ?? {}), ...pet };
+}
+
+// Retorna os pets do usuário. Lança erro se carregarPets() não tiver funcionado.
 export function listarPets() {
-    const pets = lerPets();
-
-    // O Set permite verificar rapidamente se um identificador já apareceu.
-    const ids = new Set();
-
-    // Indica se algum registro foi alterado e precisa ser salvo novamente.
-    let alterado = false;
-
-    // Compatibilidade com cadastros feitos por uma versão anterior
-    // do arquivo cadastroPet.js.
-    for (const pet of pets) {
-        // Se o pet não tiver um ID válido, ou se o ID estiver repetido,
-        // cria um novo identificador.
-        if (typeof pet.id !== 'string' || !pet.id || ids.has(pet.id)) {
-            pet.id = criarIdPet();
-            alterado = true;
-        }
-
-        // Registra o ID para detectar possíveis repetições nos próximos pets.
-        ids.add(pet.id);
-
-        // Cria uma versão padronizada dos dados do pet.
-        const padronizado = padronizarDadosPet(pet);
-
-        // Atualiza apenas estes campos se estiverem diferentes do padrão.
-        for (const campo of ['nome', 'raca', 'idade']) {
-            if (pet[campo] !== padronizado[campo]) {
-                pet[campo] = padronizado[campo];
-                alterado = true;
-            }
-        }
+    if (!petsDoBanco) {
+        throw erroCarregamento ?? new Error('Não foi possível carregar os pets do servidor.');
     }
-
-    // Se algum registro foi corrigido, salva a lista atualizada.
-    if (alterado) gravarPets(pets);
-
-    return pets;
+    const dadosLocais = lerDadosLocais();
+    return petsDoBanco.map(pet => combinar(pet, dadosLocais));
 }
 
 // Busca um pet pelo identificador usado nas URLs do módulo.
@@ -105,8 +100,8 @@ export function buscarPetPorId(id) {
     return listarPets().find(pet => pet.id === id) ?? null;
 }
 
-// Atualiza somente os dados enviados, preservando identificador, data de criação
-// e outros dados do registro que não pertencem a este formulário.
+// Atualiza os dados locais (consultas, vacinas, medicações, despesas, rotina...) de vários pets.
+// Campos do banco são ignorados aqui: use as funções de js/api.js para alterá-los.
 export function atualizarVariosPets(atualizacoes) {
     if (!atualizacoes || typeof atualizacoes !== 'object' || Array.isArray(atualizacoes)) {
         return null;
@@ -116,57 +111,19 @@ export function atualizarVariosPets(atualizacoes) {
     if (!ids.length || ids.some(id => !id.trim())) return null;
 
     const pets = listarPets();
-    const indices = ids.map(id => pets.findIndex(pet => pet.id === id));
-    if (indices.some(indice => indice === -1)) return null;
+    if (ids.some(id => !pets.some(pet => pet.id === id))) return null;
 
-    const atualizados = ids.map((id, indiceAtualizacao) => {
-        const indicePet = indices[indiceAtualizacao];
-        const existente = pets[indicePet];
-        const atualizado = {
-            ...existente,
-            ...padronizarDadosPet({ ...existente, ...atualizacoes[id] }),
-            id: existente.id
-        };
+    const dadosLocais = lerDadosLocais();
+    for (const id of ids) {
+        dadosLocais[id] = { ...(dadosLocais[id] ?? {}), ...somenteCamposLocais(atualizacoes[id] ?? {}) };
+    }
+    gravarDadosLocais(dadosLocais);
 
-        if (Object.prototype.hasOwnProperty.call(existente, 'criadoEm')) {
-            atualizado.criadoEm = existente.criadoEm;
-        }
-
-        pets[indicePet] = atualizado;
-        return atualizado;
-    });
-
-    gravarPets(pets);
-    return atualizados;
+    return ids.map(id => combinar(petsDoBanco.find(pet => pet.id === id), dadosLocais));
 }
 
-// Atualiza um pet preservando a assinatura usada pelo restante do módulo.
+// Atualiza os dados locais de um pet, mantendo a assinatura usada pelo restante do módulo.
 export function atualizarPet(id, dados) {
     if (typeof id !== 'string' || !id.trim()) return null;
     return atualizarVariosPets({ [id]: dados })?.[0] ?? null;
-}
-
-// Cadastra um pet e retorna o registro criado.
-// O ID pode ser informado; caso contrário, um novo é gerado.
-export function cadastroPet(dados, id = criarIdPet()) {
-    // Lê e prepara os pets que já estão salvos.
-    const pets = listarPets();
-
-    // Se esse ID já existir, trata a chamada como uma repetição do mesmo envio.
-    // Assim, uma nova tentativa não cria um registro duplicado.
-    const existente = pets.find(pet => pet.id === id);
-    if (existente) return existente;
-
-    // Padroniza os dados e acrescenta o ID e a data de criação.
-    const novoPet = {
-        ...padronizarDadosPet(dados),
-        id,
-        criadoEm: new Date().toISOString()
-    };
-
-    // Adiciona o novo pet à lista e salva a lista atualizada.
-    pets.push(novoPet);
-    gravarPets(pets);
-
-    return novoPet;
 }

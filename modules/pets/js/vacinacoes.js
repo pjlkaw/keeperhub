@@ -3,6 +3,12 @@
 // Importa as funções para atualizar um pet e listar os pets salvos.
 import { atualizarVariosPets, listarPets } from './armazenamento.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
+import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+
+// Os dados principais dos pets vêm da API; carrega antes de montar a página.
+// Se falhar, listarPets() lança o erro e a página mostra a mensagem.
+await carregarPetsDoServidor();
+
 
 // Busca o painel e o formulário.
 // A presença do painel indica que esta é a página de listagem.
@@ -672,9 +678,9 @@ if (!paginaLista) {
 // Se houver erro, desabilita o seletor e mostra uma mensagem.
 try {
     carregarPets();
-} catch {
+} catch (erro) {
     seletorPet.disabled = true;
-    informar('Não foi possível carregar os pets salvos.', true);
+    informar(erro.message || 'Não foi possível carregar os pets salvos.', true);
 }
 
 // Recarrega a lista quando outra parte da aplicação atualizar os pets.

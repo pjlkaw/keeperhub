@@ -1,6 +1,12 @@
 // Exibe somente dados de rotina que foram salvos no cadastro do pet.
 import { listarPets } from './armazenamento.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
+import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+
+// Os dados principais dos pets vêm da API; carrega antes de montar a página.
+// Se falhar, listarPets() lança o erro e a página mostra a mensagem.
+await carregarPetsDoServidor();
+
 
 // Busca as áreas que a página preenche conforme a rotina salva do pet.
 const main = document.querySelector('.rotina-diaria');
