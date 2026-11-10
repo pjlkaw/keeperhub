@@ -63,15 +63,10 @@
             </form>
 
             <section class="filter-row" aria-label="Filtros de transações">
-                <nav class="filter-chips" aria-label="Filtros de transações">
-                    <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
-                    <button type="button" data-filter="receitas" aria-pressed="false">Receitas</button>
-                    <button type="button" data-filter="despesas" aria-pressed="false">Despesas</button>
-                    <button type="button" data-filter="este-mes" aria-pressed="false">Este Mês</button>
-                </nav>
+                <div class="transaction-dates" aria-label="Datas das transações"></div>
                 <section class="filter-actions-wrap" aria-label="Opções de filtragem">
                     <button class="filter-actions" type="button" aria-controls="filter-popup" aria-label="Abrir opções de visualização" aria-expanded="false">
-                        <span aria-hidden="true"><span class="fa-solid fa-sliders" aria-hidden="true"></span></span>
+                        Filtros<span aria-hidden="true"><span class="fa-solid fa-sliders" aria-hidden="true"></span></span>
                     </button>
                     <nav class="filter-popup" id="filter-popup" aria-label="Opções de filtragem" hidden>
                         <button type="button" data-popup-filter="receitas">Mostrar apenas Receitas</button>

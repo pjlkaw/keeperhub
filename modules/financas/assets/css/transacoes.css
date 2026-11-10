@@ -170,9 +170,27 @@ body.finance-page .transaction-list {
 .filter-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     gap: 12px;
     margin-top: 12px;
+}
+
+.transaction-dates {
+        margin-left: 20px;
+
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    min-width: 0;
+}
+
+.transaction-date {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: inherit;
 }
 
 .filter-chips {
@@ -219,13 +237,13 @@ html[data-theme='light'] .finance-page .filter-chips button.filter-active {
 /* Ações de filtro & Popups */
 .filter-actions-wrap {
     position: relative;
+    
 }
 
 .filter-actions {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
+        display: inline-flex;
     align-items: center;
+    gap: 10px;
     justify-content: center;
     background: transparent;
     border: 1px solid transparent;

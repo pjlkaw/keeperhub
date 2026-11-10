@@ -102,3 +102,7 @@ html body.finance-page .transactions-list-screen .transaction-item > aside > .tr
 	color: var(--danger-color, #dc3545);
 	border-color: var(--danger-color, #dc3545);
 }
+
+* {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
