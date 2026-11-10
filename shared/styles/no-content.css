@@ -16,6 +16,7 @@ body.sem-rolagem {
     height: 100%;
     z-index: 50;
     padding: 0 76px 88px;
+    margin: 0 auto;
 }
 
 .no-content-section[hidden] {
