@@ -54,6 +54,16 @@ export async function salvarTutorApi(id, { nomeTutor, telefone }) {
     return resposta.pet;
 }
 
+// dados: { petIds, nome, nomePersonalizado, data, frequencia, proximaDose, clinica, horario, observacao }
+// Retorna as vacinas atualizadas, agrupadas pelo id do pet.
+export async function cadastrarVacinaApi(dados) {
+    const resposta = await requisicao(`${URL_API}?acao=vacina`, {
+        method: 'POST',
+        body: JSON.stringify(dados),
+    });
+    return resposta.vacinas ?? {};
+}
+
 export async function excluirPetApi(id) {
     await requisicao(urlDoPet(id), { method: 'DELETE' });
 }

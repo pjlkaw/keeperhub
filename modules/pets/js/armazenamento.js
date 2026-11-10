@@ -1,6 +1,6 @@
 // Armazenamento do módulo Pets.
 // Os dados principais do pet (nome, espécie, raça, nascimento, peso, gênero, foto e tutor)
-// vêm do banco pela API. Consultas, vacinas, medicações, despesas e rotina alimentar
+// e as vacinas vêm do banco pela API. Consultas, medicações, despesas e rotina alimentar
 // ainda ficam no localStorage deste navegador, guardadas pelo id do pet no banco,
 // até que cada parte ganhe sua própria API.
 import { listarPetsApi } from './api.js';
@@ -11,7 +11,7 @@ export const PETS_STORAGE_KEY = 'keeperhub-pets-dados-locais';
 // Campos que pertencem ao banco e não podem ser gravados no localStorage.
 const CAMPOS_DO_BANCO = new Set([
     'id', 'nome', 'especie', 'raca', 'dataNascimento',
-    'peso', 'genero', 'foto', 'contatoEmergencia'
+    'peso', 'genero', 'foto', 'contatoEmergencia', 'vacinas'
 ]);
 
 // Estado da página: pets carregados da API e o erro da última tentativa.
@@ -37,9 +37,23 @@ export function definirPetDoBanco(pet) {
     const normalizado = { ...pet, id: String(pet.id) };
     const lista = petsDoBanco ?? [];
     const indice = lista.findIndex(item => item.id === normalizado.id);
+    // As rotas de edição não devolvem as vacinas; mantém as que já estão na memória.
+    if (indice !== -1 && !Array.isArray(normalizado.vacinas)) {
+        normalizado.vacinas = lista[indice].vacinas;
+    }
     if (indice === -1) lista.push(normalizado);
     else lista[indice] = normalizado;
     petsDoBanco = lista;
+}
+
+// Substitui na memória as vacinas devolvidas pela API (objeto { idDoPet: [vacinas] }).
+export function definirVacinasDoBanco(vacinasPorPet) {
+    if (!petsDoBanco || !vacinasPorPet) return;
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        vacinas: Array.isArray(vacinasPorPet[pet.id]) ? vacinasPorPet[pet.id] : (pet.vacinas ?? [])
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
 
 function lerDadosLocais() {
