@@ -1,454 +1,347 @@
 /* ==================================================
    KEEPERHUB — MÓDULO FINANÇAS
    Arquivo: transacoes.css
-   Página: components/transacoes.html. Carregue depois de base.css.
+   Página: components/transacoes.html (Carregue após base.css)
    ================================================== */
 
-/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
+/* --------------------------------------------------
+   1. ESTRUTURA E ESTRUTURA DA PÁGINA
+   -------------------------------------------------- */
 
 [hidden] {
-	display: none !important;
+    display: none !important;
 }
 
 .finance-shell {
-	width: min(420px, 100%);
-	min-height: 100vh;
-	margin: 0 auto;
+    width: min(420px, 100%);
+    min-height: 100vh;
+    margin: 0 auto;
 }
 
-.transactions-list-screen .finance-tabs {
-	border-bottom: 0;
-	scrollbar-width: none;
-}
-
-.transactions-list-screen .finance-tabs::-webkit-scrollbar {
-	display: none;
-}
-
-/* ---- Transações, listas e pagamentos ---- */
-
-/* Listagem, pesquisa, filtros, pagamentos e estados de interação. */
-/* Pesquisa e filtros */
-.transactions-search {
-	border: 1px solid var(--border-color);
-}
-
-.transactions-search .search-field {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	flex: 1;
-	min-width: 0;
-}
-
-.transactions-search input[type='search'] {
-	flex: 1;
-	background: transparent;
-	border: 0;
-	outline: 0;
-	color: var(--text-color);
-	font-size: 14px;
-	padding: 8px 0;
-}
-
-.filter-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	margin-top: 12px;
-}
-
-.filter-chips {
-	align-items: center;
-	flex-wrap: nowrap;
-	/* keep chips on single line */;
-	flex: 1;
-	overflow-x: auto;
-	/* allow horizontal scroll if needed */;
-	-webkit-overflow-scrolling: touch;
-}
-
-.filter-actions {
-	width: 40px;
-	height: 40px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	background: transparent;
-	border: 1px solid transparent;
-	border-radius: 8px;
-	color: var(--text-muted);
-}
-
-.filter-actions:hover {
-	background: color-mix(in srgb, var(--text-color) 2%, transparent);
-	color: var(--text-color);
-	border-color: var(--border-color);
-}
-
-.filter-actions-wrap {
-	position: relative;
-}
-
-.filter-popup {
-	position: absolute;
-	right: 0;
-	top: 48px;
-	min-width: 180px;
-	background: var(--card-bg);
-	border: 1px solid var(--border-color);
-	border-radius: 10px;
-	padding: 8px;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	box-shadow: 0 6px 18px color-mix(in srgb, var(--pill-bg) 60%, transparent);
-	z-index: 40;
-}
-
-.filter-popup button {
-	text-align: left;
-	padding: 8px 10px;
-	background: transparent;
-	border: 0;
-	color: var(--text-color);
-	border-radius: 6px;
-}
-
-.filter-popup button:hover {
-	background: color-mix(in srgb, var(--text-color) 2%, transparent);
-	color: var(--text-color);
-}
-
-/* Estrutura da lista */
 .transactions-list-screen {
-	min-height: 100vh;
-	color: var(--text-color);
-	background: var(--bg-color);
+    min-height: 100vh;
+    color: var(--text-color);
+    background: var(--bg-color);
 }
 
 .transactions-header {
-	display: flex;
-	align-items: center;
-	height: 73px;
-	padding: 16px;
-	border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    height: 73px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .transactions-header h1 {
-	flex: 1;
-	margin: 0;
-	padding-right: 40px;
-	text-align: center;
-	font-size: 24px;
-	line-height: 32px;
+    flex: 1;
+    margin: 0;
+    padding-right: 40px;
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
 }
 
-.transactions-search {
-	display: flex;
-	align-items: center;
-	height: 48px;
-	padding: 0 16px;
-	gap: 16px;
-	background: var(--card-bg);
-	box-shadow: 0 4px 6px -4px color-mix(in srgb, var(--pill-bg) 10%, transparent), 0 10px 15px -3px color-mix(in srgb, var(--pill-bg) 10%, transparent);
+.transactions-list-screen .finance-tabs {
+    border-bottom: 0;
+    scrollbar-width: none;
 }
 
-.transactions-search span {
-	color: var(--text-color);
-	font-size: 20px;
-	line-height: 20px;
+.transactions-list-screen .finance-tabs::-webkit-scrollbar {
+    display: none;
 }
 
-.transactions-search input {
-	flex: 1;
-	min-width: 0;
-	color: var(--text-color);
-	background: transparent;
-	border: 0;
-	outline: 0;
-	font-size: 18px;
-}
-
-.transactions-search input::placeholder {
-	color: var(--text-muted);
-}
-
-.transactions-search button {
-	color: var(--text-color);
-	background: transparent;
-	font-size: 26px;
-}
-
-.filter-chips {
-	display: flex;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
-.filter-chips button {
-	flex: 0 0 auto;
-	height: 34px;
-	padding: 6px 16px;
-	color: var(--text-muted);
-	background: var(--card-bg);
-	border: 1px solid var(--border-color);
-	border-radius: 999px;
-	font-weight: 500;
-	font-size: 14px;
-	font-family: inherit;
-	letter-spacing: .05em;
-}
-
-.filter-chips .filter-active {
-	color: var(--tool-financas);
-	background: color-mix(in srgb, var(--tool-financas) 20%, transparent);
-	border-color: color-mix(in srgb, var(--tool-financas) 30%, transparent);
-}
-
-.transaction-group {
-	padding: 16px 16px 8px;
-	border-bottom: 1px solid var(--border-color);
-}
-
-.transaction-group:last-child {
-	border-bottom: 0;
-}
-
-.transaction-group h2 {
-	margin: 0 0 12px;
-	color: var(--text-muted);
-	font-weight: 500;
-	font-size: 14px;
-	font-family: inherit;
-}
-
-.transaction-item:last-child {
-	margin-bottom: 0;
-}
-
-/* Apresentação da página */
-.finance-page .transactions-content {
-	position: relative;
-	gap: 14px;
-	padding-top: 16px;
-}
-
-.finance-page .transactions-search {
-	height: 46px;
-	background: var(--card-bg);
-	border: 1px solid var(--border-color);
-	box-shadow: none;
-}
-
-.finance-page .transactions-search span,
-.finance-page .transactions-search button {
-	color: var(--text-muted);
-}
-
-.finance-page .transactions-search input {
-	color: var(--text-color);
-	font-size: 15px;
-}
-
-.finance-page .transactions-search input::placeholder {
-	color: var(--text-muted);
-}
-
-.finance-page .filter-chips {
-	overflow-x: auto;
-	scrollbar-width: none;
-}
-
-.finance-page .filter-chips button {
-	min-height: 36px;
-	color: var(--text-color);
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-.finance-page .transaction-list {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-	box-shadow: none;
-}
-
-.finance-page .transaction-group {
-	padding: 14px;
-	border-color: var(--border-color);
-}
-
-.finance-page .transaction-group h2 {
-	color: var(--text-muted);
-}
-
-.finance-page .transaction-item {
-	background: var(--card-bg);
-}
-
-.finance-page .transaction-icon {
-	color: var(--tool-financas);
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
-}
-
-.finance-page .transaction-item strong,
-.finance-page .transaction-item b {
-	color: var(--text-color);
-}
-
-.finance-page .transaction-item small {
-	color: var(--text-muted);
-}
-
-.finance-page .transaction-item b.expense {
-	color: var(--tool-financas);
-}
-
-.finance-page .payment-button {
-	color: var(--tool-financas);
-	background: var(--card-bg);
-	border-color: color-mix(in srgb, var(--tool-financas) 45%, transparent);
-}
-
-.finance-page .empty-state {
-	margin: 0;
-	padding: 28px 16px;
-	color: var(--text-muted);
-	text-align: center;
-}
-
-/* Foco e interação */
-.finance-page .transactions-search .search-icon {
-	display: inline-flex;
-	flex: 0 0 24px;
-	align-items: center;
-	justify-content: center;
-	width: 24px;
-	height: 24px;
-	min-height: 24px;
-	padding: 0;
-	border: 0;
-	border-radius: 4px;
-	background: transparent;
-	color: var(--text-muted);
-	cursor: pointer;
-}
-
-.finance-page .transactions-search .search-icon .fa-solid {
-	display: block;
-}
-
-.finance-page .transactions-search input[type='search'] {
-	min-width: 0;
-	padding: 0;
-	background: transparent;
-	border: 0;
-	outline: 0;
-	box-shadow: none;
-	appearance: none;
-}
-
-.finance-page .transactions-search input[type='search']:focus,
-.finance-page .transactions-search input[type='search']:focus-visible {
-	border: 1px solid var(--tool-financas) !important;
-	border-radius: 8px;
-	outline: 1px solid var(--tool-financas) !important;
-	outline-offset: -1px !important;
-	box-shadow: 0 0 0 1px color-mix(in srgb, var(--tool-financas) 20%, transparent) !important;
-}
-
-.finance-page .transactions-search input[type='search']::-webkit-search-cancel-button {
-	width: 14px;
-	height: 14px;
-	margin-left: 8px;
-	background-color: var(--tool-financas);
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23e47a00' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
-	appearance: none;
-	cursor: pointer;
-}
-
-.finance-page .transactions-search .search-icon:hover,
-.finance-page .transactions-search .search-icon:focus-visible {
-	color: var(--tool-financas);
-}
-
-.finance-page .filter-chips button.filter-active {
-	color: var(--tool-financas) !important;
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent) !important;
-	border-color: var(--tool-financas) !important;
-}
-
-html[data-theme='light'] .finance-page .filter-chips button.filter-active {
-	color: var(--tool-financas) !important;
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent) !important;
-	border-color: var(--tool-financas) !important;
-}
-
-
-/* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
-
+.transactions-content,
+.finance-content,
 body.finance-page .finance-content,
 body.finance-page .transactions-content {
-	gap: 16px;
-	padding: 16px 16px 24px;
-}
-
-body.finance-page .filter-chips {
-	gap: 8px;
-}
-
-body.finance-page .transaction-list,
-body.finance-page .transaction-item,
-body.finance-page .transactions-search {
-	padding: 16px;
-	border-radius: 16px;
-}
-
-body.finance-page .transaction-item {
-	border-radius: 8px;
-}
-
-body.finance-page .filter-chips button,
-body.finance-page .payment-button {
-	min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0 24px;
+    position: relative;
 }
 
 body.finance-page .transactions-content,
 body.finance-page .transaction-list {
-	background: transparent !important;
+    background: transparent !important;
 }
 
-.transactions-content,
-.finance-content {
-	gap: 16px;
-	padding: 16px 16px 24px;
+/* --------------------------------------------------
+   2. CAMPO DE PESQUISA (SEARCH)
+   -------------------------------------------------- */
+
+.transactions-search {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    padding: 0 16px;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+}
+
+.transactions-search .search-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.search-field input,
+.transactions-search input,
+.transactions-search .search-field input,
+.finance-page .transactions-search input[type='search'] {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: transparent !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    appearance: none;
+    color: var(--text-color);
+    font-size: 15px;
+}
+
+.transactions-search input::placeholder,
+.finance-page .transactions-search input::placeholder {
+    color: var(--text-muted);
+}
+
+.transactions-search span,
+.transactions-search button,
+.finance-page .transactions-search span,
+.finance-page .transactions-search button {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+/* Ícone de busca e estados de Foco */
+.finance-page .transactions-search .search-icon {
+    display: inline-flex;
+    flex: 0 0 24px;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-height: 24px;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.finance-page .transactions-search .search-icon .fa-solid {
+    display: block;
+}
+
+.finance-page .transactions-search .search-icon:hover,
+.finance-page .transactions-search .search-icon:focus-visible {
+    color: var(--tool-financas);
+}
+
+.finance-page .transactions-search input[type='search']:focus,
+.finance-page .transactions-search input[type='search']:focus-visible {
+    border: 1px solid var(--tool-financas) !important;
+    border-radius: 8px;
+    outline: 1px solid var(--tool-financas) !important;
+    outline-offset: -1px !important;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--tool-financas) 20%, transparent) !important;
+}
+
+.finance-page .transactions-search input[type='search']::-webkit-search-cancel-button {
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    background-color: var(--tool-financas);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' stroke='%23e47a00' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* --------------------------------------------------
+   3. FILTROS E CHIPS
+   -------------------------------------------------- */
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
 }
 
 .filter-chips {
-	gap: 8px;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 8px;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
 }
 
-.transactions-search {
-	border-radius: 16px;
+.filter-chips::-webkit-scrollbar {
+    display: none;
 }
 
+.filter-chips button {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 6px 16px;
+    color: var(--text-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: inherit;
+    letter-spacing: .05em;
+}
+
+body.finance-page .filter-chips button {
+    min-height: 44px;
+}
+
+.filter-chips .filter-active,
+.finance-page .filter-chips button.filter-active,
+html[data-theme='light'] .finance-page .filter-chips button.filter-active {
+    color: var(--tool-financas) !important;
+    background: color-mix(in srgb, var(--tool-financas) 14%, transparent) !important;
+    border-color: var(--tool-financas) !important;
+}
+
+/* Ações de filtro & Popups */
+.filter-actions-wrap {
+    position: relative;
+}
+
+.filter-actions {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-muted);
+}
+
+.filter-actions:hover {
+    background: color-mix(in srgb, var(--text-color) 2%, transparent);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.filter-popup {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    min-width: 180px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--pill-bg) 60%, transparent);
+    z-index: 40;
+}
+
+.filter-popup button {
+    text-align: left;
+    padding: 8px 10px;
+    background: transparent;
+    border: 0;
+    color: var(--text-color);
+    border-radius: 6px;
+}
+
+.filter-popup button:hover {
+    background: color-mix(in srgb, var(--text-color) 2%, transparent);
+    color: var(--text-color);
+}
+
+/* --------------------------------------------------
+   4. LISTA DE TRANSAÇÕES & ITENS
+   -------------------------------------------------- */
+
+.finance-page .transaction-list {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: none;
+}
+
+.transaction-group {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.transaction-group:last-child {
+    border-bottom: 0;
+}
+
+.transaction-group h2 {
+    margin: 0 0 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.transaction-item {
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.transaction-item:last-child {
+    margin-bottom: 0;
+}
+
+.finance-page .transaction-icon {
+    color: var(--tool-financas);
+    background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
+}
+
+.finance-page .transaction-item strong,
+.finance-page .transaction-item b {
+    color: var(--text-color);
+}
+
+.finance-page .transaction-item small {
+    color: var(--text-muted);
+}
+
+.finance-page .transaction-item b.expense {
+    color: var(--tool-financas);
+}
+
+.payment-button,
+body.finance-page .payment-button {
+    min-height: 44px;
+    color: var(--tool-financas);
+    background: var(--card-bg);
+    border-color: color-mix(in srgb, var(--tool-financas) 45%, transparent);
+}
+
+.empty-state {
+    margin: 0;
+    padding: 28px 16px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Utilitários globais de toque */
 a {
-	min-height: 44px;
+    min-height: 44px;
 }
-
-body.finance-page .finance-content,
-body.finance-page .transactions-content {
-	padding-inline: 0;
-}
-
-/* Campos dentro de um contêiner com borda não repetem a borda
-   (evita o "quadro dentro de quadro"). */
-.search-field input,
-.transactions-search input,
-.transactions-search .search-field input {
-	background: transparent !important;
-	border: 0 !important;
-	box-shadow: none !important;
-}
-
