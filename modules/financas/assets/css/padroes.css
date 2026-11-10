@@ -17,6 +17,7 @@
 
 body.landing-page {
 	--finance-column-width: 440px;
+	background-color: var(--bg-color);
 }
 
 .app-shell {

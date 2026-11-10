@@ -13,7 +13,6 @@ html,
 body {
 	min-width: 320px;
 	background: var(--bg-color);
-	font-family: 'Nunito', sans-serif;
 }
 
 /* Tamanho base igual ao do módulo Pets. */
@@ -103,7 +102,7 @@ body {
 	min-height: 44px;
 	padding: 0 16px;
 	place-items: center;
-	color: var(--text-muted);
+	color: var(--text-color);
 	border: 1px solid var(--border-color);
 	border-radius: 999px;
 	font-size: 14px;
@@ -156,9 +155,7 @@ ul {
 }
 
 /* Mesmo motivo: a barra de módulos é preenchida por js/interface.js. */
-#modules-nav-wrapper {
-	min-height: 46px;
-}
+
 
 /* ---- Componentes: botões, atalhos, gráficos e botão de tema ---- */
 
@@ -254,59 +251,6 @@ ul {
 	box-shadow: 0 2px 8px color-mix(in srgb, var(--pill-bg) 18%, transparent);
 }
 
-.finance-theme-button,
-.preview-theme-button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex: 0 0 36px;
-	width: 36px !important;
-	min-width: 36px !important;
-	height: 36px !important;
-	min-height: 36px !important;
-	padding: 0 !important;
-	background-color: color-mix(in srgb, var(--text-color) 5%, transparent);
-	border: 1px solid var(--border-color);
-	border-radius: 50%;
-	color: var(--text-muted);
-	cursor: pointer;
-}
-
-.finance-theme-button:focus-visible,
-.preview-theme-button:focus-visible {
-	outline: 2px solid var(--tool-financas);
-	outline-offset: 2px;
-}
-
-.finance-theme-button .theme-icon,
-.preview-theme-button .theme-icon {
-	display: none;
-	width: 18px !important;
-	height: 18px !important;
-	object-fit: contain;
-}
-
-html[data-theme=dark] .theme-icon-moon,
-html[data-theme=light] .theme-icon-sun {
-	display: block;
-}
-
-html[data-theme=light] .finance-theme-button,
-html[data-theme=light] .preview-theme-button {
-	background-color: color-mix(in srgb, var(--text-color) 4%, transparent);
-	border-color: var(--border-color);
-	color: var(--text-muted);
-}
-
-.transactions-header .finance-theme-button {
-	margin-left: -36px;
-}
-
-.transaction-heading .finance-theme-button {
-	width: 34px;
-	height: 34px;
-	font-size: 17px;
-}
 
 /* ---- Formulários: campos, seletores e botões de ação ---- */
 

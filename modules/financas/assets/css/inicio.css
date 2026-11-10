@@ -4,12 +4,6 @@
    Página: index.html (visão geral). Carregue depois de base.css.
    ================================================== */
 
-/* ---- Estrutura: páginas, cabeçalhos, abas e utilitários ---- */
-
-body.landing-page #headerSection {
-	min-height: 113px;
-}
-
 /* ---- Visão geral ---- */
 
 /* Visão geral: saldo, atalhos, fluxo, despesas e transações recentes. */
@@ -500,105 +494,6 @@ body.landing-page #headerSection {
 	border-color: #a8dfbb;
 }
 
-html[data-theme=light] body.landing-page {
-	min-height: 100%;
-	background: var(--bg-color);
-	color-scheme: light;
-}
-
-html[data-theme=light] body.landing-page,
-html[data-theme=light] body.landing-page main,
-html[data-theme=light] body.landing-page .app-preview {
-	min-height: 100dvh;
-}
-
-html[data-theme=light] body.landing-page .app-preview {
-	color: var(--text-color);
-	background: var(--bg-color);
-	border-color: transparent;
-	scrollbar-color: var(--text-muted) transparent;
-}
-
-html[data-theme=dark] body.landing-page,
-html[data-theme=dark] body.landing-page main,
-html[data-theme=dark] body.landing-page .app-preview {
-	background: var(--bg-color);
-}
-
-html[data-theme=light] body.landing-page .preview-back {
-	color: var(--text-muted) !important;
-	border-color: var(--border-color);
-}
-
-html[data-theme=light] body.landing-page .preview-heading p,
-html[data-theme=light] body.landing-page .preview-balance header span,
-html[data-theme=light] body.landing-page .preview-balance dt,
-html[data-theme=light] body.landing-page .cash-flow header span,
-html[data-theme=light] body.landing-page .flow-row span {
-	color: var(--text-muted);
-}
-
-html[data-theme=light] body.landing-page .preview-heading>strong {
-	color: var(--tool-financas);
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
-}
-
-html[data-theme=light] body.landing-page .preview-theme-button {
-	color: var(--text-color);
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=light] body.landing-page .preview-balance {
-	background: var(--card-bg);
-	border-color: var(--tool-financas);
-}
-
-html[data-theme=light] body.landing-page .preview-balance hr {
-	background: var(--card-bg);
-}
-
-html[data-theme=light] body.landing-page .cash-flow,
-html[data-theme=light] body.landing-page .monthly-expenses-card,
-html[data-theme=light] body.landing-page .top-spending-card,
-html[data-theme=light] body.landing-page .recent-transactions-card {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=light] body.landing-page .monthly-expenses-chart i {
-	background: color-mix(in srgb, var(--text-muted) 35%, var(--card-bg));
-}
-
-html[data-theme=light] body.landing-page .monthly-expenses-chart .current i {
-	background: var(--tool-financas);
-}
-
-html[data-theme=light] body.landing-page .top-spending-list p i {
-	background: var(--card-bg);
-}
-
-html[data-theme=light] body.landing-page .top-spending-list>li>span {
-	background: linear-gradient(to right, var(--spending-color) var(--spending-width), var(--border-color) var(--spending-width));
-}
-
-html[data-theme=light] body.landing-page .recent-transactions-list>a {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=light] body.landing-page .recent-transactions-list>a>i {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-@media (max-width:440px) {
-	.app-preview {
-		width: 100%;
-		border-radius: 0;
-	}
-}
-
 /* ---- Transações, listas e pagamentos ---- */
 
 .transaction-group:last-child {
@@ -609,20 +504,6 @@ html[data-theme=light] body.landing-page .recent-transactions-list>a>i {
 	margin-bottom: 0;
 }
 
-/* ---- Variações dos temas claro e escuro ---- */
-
-html[data-theme=light] body:not(.landing-page):not(.finance-page) .transactions-header {
-	border-color: var(--border-color);
-}
-
-html[data-theme=light] body:not(.landing-page):not(.finance-page) .screen-back {
-	color: var(--text-color);
-}
-
-html[data-theme='light'] .shortcut-icon {
-	background: transparent !important;
-	color: var(--tool-financas) !important;
-}
 
 /* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
 
@@ -634,11 +515,6 @@ body.landing-page h1,
 body.landing-page h2,
 body.landing-page h3 {
 	font-weight: 700;
-}
-
-body.landing-page .app-preview {
-	padding: 16px 16px 24px;
-	border-radius: 16px;
 }
 
 body.landing-page .preview-actions,
@@ -667,14 +543,6 @@ body.transaction-page .preview-back {
 	min-width: 44px;
 	height: 44px;
 	min-height: 44px;
-}
-
-h3 {
-	font-weight: 700;
-}
-
-.app-preview {
-	background: var(--card-bg);
 }
 
 .shortcut-card {
@@ -725,6 +593,4 @@ body.landing-page .fa-solid {
 	font-weight: 900;
 }
 
-body.landing-page .app-preview {
-	padding-inline: 14px;
-}
+/*  */

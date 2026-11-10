@@ -41,12 +41,6 @@
 	min-width: 0;
 }
 
-.transactions-search .search-icon svg {
-	width: 18px;
-	height: 18px;
-	color: var(--text-muted);
-}
-
 .transactions-search input[type='search'] {
 	flex: 1;
 	background: transparent;
@@ -118,7 +112,7 @@
 	padding: 8px 10px;
 	background: transparent;
 	border: 0;
-	color: var(--text-muted);
+	color: var(--text-color);
 	border-radius: 6px;
 }
 
@@ -151,12 +145,6 @@
 	line-height: 32px;
 }
 
-html[data-theme='light'] .filter-chips .filter-active {
-	background: color-mix(in srgb, var(--tool-financas) 8%, transparent);
-	color: var(--tool-financas);
-	border-color: color-mix(in srgb, var(--tool-financas) 12%, transparent);
-}
-
 .transactions-search {
 	display: flex;
 	align-items: center;
@@ -168,7 +156,7 @@ html[data-theme='light'] .filter-chips .filter-active {
 }
 
 .transactions-search span {
-	color: var(--text-muted);
+	color: var(--text-color);
 	font-size: 35px;
 	line-height: 20px;
 }
@@ -188,7 +176,7 @@ html[data-theme='light'] .filter-chips .filter-active {
 }
 
 .transactions-search button {
-	color: var(--text-muted);
+	color: var(--text-color);
 	background: transparent;
 	font-size: 26px;
 }
@@ -275,7 +263,7 @@ html[data-theme='light'] .filter-chips .filter-active {
 
 .finance-page .filter-chips button {
 	min-height: 36px;
-	color: var(--text-muted);
+	color: var(--text-color);
 	background: var(--card-bg);
 	border-color: var(--border-color);
 }
@@ -328,51 +316,6 @@ html[data-theme='light'] .filter-chips .filter-active {
 	padding: 28px 16px;
 	color: var(--text-muted);
 	text-align: center;
-}
-
-/* Tema escuro */
-html[data-theme=dark] .finance-page .transactions-search {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=dark] .finance-page .transactions-search input {
-	color: var(--text-color);
-}
-
-html[data-theme=dark] .finance-page .filter-chips button {
-	color: var(--text-muted);
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-.finance-page .filter-chips .filter-active {
-	color: var(--tool-financas);
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
-	border-color: var(--tool-financas);
-}
-
-html[data-theme=dark] .finance-page .transaction-list {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=dark] .finance-page .transaction-group {
-	border-color: var(--border-color);
-}
-
-html[data-theme=dark] .finance-page .transaction-item {
-	background: var(--card-bg);
-}
-
-html[data-theme=dark] .finance-page .transaction-item strong,
-html[data-theme=dark] .finance-page .transaction-item b {
-	color: var(--text-color);
-}
-
-html[data-theme=dark] .finance-page .payment-button {
-	background: var(--card-bg);
-	border-color: color-mix(in srgb, var(--tool-financas) 45%, transparent);
 }
 
 /* Foco e interação */
@@ -442,36 +385,6 @@ html[data-theme='light'] .finance-page .filter-chips button.filter-active {
 	border-color: var(--tool-financas) !important;
 }
 
-/* ---- Variações dos temas claro e escuro ---- */
-
-/* Variações compartilhadas dos temas claro e escuro. */
-/* Títulos */
-html[data-theme=light] body.finance-page .transactions-list-screen>.finance-header>h1 {
-	color: var(--text-color) !important;
-}
-
-html[data-theme=dark] body.finance-page .transactions-list-screen>.finance-header>h1 {
-	color: var(--text-color) !important;
-}
-
-html[data-theme=dark] .finance-shell {
-	background: var(--card-bg);
-}
-
-html[data-theme='light'] .transactions-search,
-html[data-theme='light'] .transactions-search span,
-html[data-theme='light'] .filter-chips button,
-html[data-theme='light'] .transaction-list,
-html[data-theme='light'] .transaction-item {
-	background: var(--card-bg) !important;
-	border-color: var(--border-color) !important;
-	color: var(--text-color) !important;
-	box-shadow: none !important;
-}
-
-html[data-theme='light'] .transaction-group h2 {
-	color: var(--text-muted) !important;
-}
 
 /* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
 
@@ -522,12 +435,6 @@ body.finance-page .transaction-list {
 
 a {
 	min-height: 44px;
-}
-
-body .fa-solid {
-	font-family: "Font Awesome 6 Free";
-	font-style: normal;
-	font-weight: 900;
 }
 
 body.finance-page .finance-content,
