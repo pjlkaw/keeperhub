@@ -1,5 +1,5 @@
 // Organização do módulo Pets: administrar animais e os dados do tutor.
-// Vacinas também vêm do banco. Consultas, medicações, despesas e rotinas ainda ficam no navegador.
+// Vacinas e consultas também vêm do banco. Medicações, despesas e rotinas ainda ficam no navegador.
 import {
   atualizarPet,
   buscarPet,
@@ -13,6 +13,13 @@ import {
   cadastrarVacina,
   listarVacinasPorPet,
 } from '../../server/repositories/pets/vacinas.js';
+import {
+  CODIGOS_ESPECIALIDADE,
+  alterarLembreteConsulta,
+  cadastrarConsulta,
+  listarConsultasPorPet,
+  registrarConsultaRealizada,
+} from '../../server/repositories/pets/consultas.js';
 import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
@@ -129,6 +136,43 @@ export function validarVacina(body, hoje = hojeEmSaoPaulo()) {
   };
 }
 
+// Valida uma consulta. Data passada já entra como realizada; hoje ou futura, como agendada
+// (mesma regra da tela).
+export function validarConsulta(body, hoje = hojeEmSaoPaulo()) {
+  const petIds = Array.isArray(body.petIds)
+    ? [...new Set(body.petIds.map(Number))]
+    : [];
+  const codigo = texto(body.especialidade);
+  const especialidade = codigo === 'outra' ? texto(body.especialidadePersonalizada) : codigo;
+  const medico = texto(body.medico);
+  const clinica = texto(body.clinica);
+  const data = texto(body.data);
+  const horario = texto(body.horario);
+
+  if (!petIds.length || petIds.length > 50 || petIds.some(id => !Number.isInteger(id) || id <= 0)) {
+    return { erro: 'Selecione ao menos um pet válido.' };
+  }
+  if (!medico || medico.length > 150) return { erro: 'Informe o nome do veterinário (até 150 caracteres).' };
+  if (codigo !== 'outra' && !CODIGOS_ESPECIALIDADE.includes(codigo)) {
+    return { erro: 'Selecione a especialidade.' };
+  }
+  if (!especialidade || especialidade.length > 120) {
+    return { erro: 'Informe a especialidade (até 120 caracteres).' };
+  }
+  if (!clinica || clinica.length > 150) return { erro: 'Informe a clínica (até 150 caracteres).' };
+  if (!dataISOValida(data) || data < '1900-01-01') return { erro: 'Informe uma data válida.' };
+  if (!HORARIO_VALIDO.test(horario)) return { erro: 'Informe o horário no formato HH:mm.' };
+
+  return {
+    petIds,
+    dados: {
+      medico, especialidade, clinica, data, horario,
+      lembrar: body.lembrar === true,
+      status: data < hoje ? 'realizada' : 'agendada',
+    },
+  };
+}
+
 // A foto chega em Base64; é validada e enviada ao Vercel Blob. Só a URL vai para o banco.
 // Os módulos de imagem são carregados sob demanda para não pesar nas demais requisições.
 async function prepararFotoPadrao(foto) {
@@ -187,12 +231,17 @@ export function criarHandlerPets(deps) {
             : res.status(404).json({ erro: 'Pet não encontrado.' });
         }
         // A lista já leva as vacinas de cada pet, usadas pelas telas do módulo.
-        const [pets, vacinasPorPet] = await Promise.all([
+        const [pets, vacinasPorPet, consultasPorPet] = await Promise.all([
           repositorio.listarPets(usuarioId),
           repositorio.listarVacinasPorPet(usuarioId),
+          repositorio.listarConsultasPorPet(usuarioId),
         ]);
         return res.status(200).json({
-          pets: pets.map(pet => ({ ...pet, vacinas: vacinasPorPet.get(pet.id) || [] })),
+          pets: pets.map(pet => ({
+            ...pet,
+            vacinas: vacinasPorPet.get(pet.id) || [],
+            consultas: consultasPorPet.get(pet.id) || [],
+          })),
         });
       }
 
@@ -208,6 +257,33 @@ export function criarHandlerPets(deps) {
         const vacinasPorPet = await repositorio.cadastrarVacina(usuarioId, validacao.petIds, validacao.dados);
         if (!vacinasPorPet) return res.status(404).json({ erro: 'Pet não encontrado.' });
         return res.status(201).json({ vacinas: Object.fromEntries(vacinasPorPet) });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'consulta') {
+        const validacao = validarConsulta(body, deps.hoje?.());
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const consultasPorPet = await repositorio.cadastrarConsulta(usuarioId, validacao.petIds, validacao.dados);
+        if (!consultasPorPet) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({ consultas: Object.fromEntries(consultasPorPet) });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'consulta-lembrete') {
+        if (!id) return res.status(400).json({ erro: 'Informe a consulta.' });
+        if (typeof body.lembrar !== 'boolean') return res.status(400).json({ erro: 'Informe o lembrete.' });
+        const consulta = await repositorio.alterarLembreteConsulta(id, usuarioId, body.lembrar);
+        return consulta
+          ? res.status(200).json({ consulta })
+          : res.status(404).json({ erro: 'Consulta não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'consulta-realizada') {
+        if (!id) return res.status(400).json({ erro: 'Informe a consulta.' });
+        const resumo = texto(body.resumo);
+        if (resumo.length > 2000) return res.status(400).json({ erro: 'O resumo pode ter até 2000 caracteres.' });
+        const consulta = await repositorio.registrarConsultaRealizada(id, usuarioId, resumo);
+        return consulta
+          ? res.status(200).json({ consulta })
+          : res.status(404).json({ erro: 'Consulta não encontrada.' });
       }
 
       if (req.method === 'PUT' && req.query?.acao === 'tutor') {
@@ -261,6 +337,7 @@ export default criarHandlerPets({
   repositorio: {
     atualizarPet, buscarPet, criarPet, desativarPet, listarPets, salvarTutor,
     listarVacinasPorPet, cadastrarVacina,
+    listarConsultasPorPet, cadastrarConsulta, alterarLembreteConsulta, registrarConsultaRealizada,
   },
   usuarioDaSessao,
   origemDaRequisicaoValida,
