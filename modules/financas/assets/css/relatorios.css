@@ -432,79 +432,6 @@
 	}
 }
 
-/* Tema escuro */
-html[data-theme=dark] .summary-card,
-html[data-theme=dark] .report-section {
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=dark] .summary-card>header span {
-	color: var(--text-muted);
-	background: var(--card-bg);
-	border-color: var(--border-color);
-}
-
-html[data-theme=dark] .summary-card>footer {
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
-}
-
-html[data-theme=dark] .report-section header p,
-html[data-theme=dark] .report-month,
-html[data-theme=dark] .spending-list p span,
-html[data-theme=dark] .insight-card small,
-html[data-theme=dark] .largest-expense p small {
-	color: var(--text-muted);
-}
-
-html[data-theme=dark] .spending-list p strong {
-	color: var(--text-color);
-}
-
-html[data-theme=dark] .spending-list i {
-	background: linear-gradient(to right, var(--category-color) var(--category-width), var(--border-color) var(--category-width));
-}
-
-html[data-theme=dark] .insight-card {
-	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);
-	border-color: color-mix(in srgb, var(--tool-financas) 45%, transparent);
-}
-
-html[data-theme=dark] .comparison-card section dl {
-	border-color: var(--border-color);
-}
-
-/* ---- Variações dos temas claro e escuro ---- */
-
-html[data-theme=light] body.finance-page .reports-screen>.finance-header>h1 {
-	color: var(--text-color) !important;
-}
-
-html[data-theme=dark] body.finance-page .reports-screen>.finance-header>h1 {
-	color: var(--text-color) !important;
-}
-
-html[data-theme=dark] .finance-shell {
-	background: var(--card-bg);
-}
-
-html[data-theme='light'] .reports-screen {
-	background: var(--bg-color) !important;
-	color: var(--text-color) !important;
-}
-
-html[data-theme='light'] .summary-card,
-html[data-theme='light'] .report-section {
-	background: var(--card-bg) !important;
-	border-color: var(--border-color) !important;
-	color: var(--text-color) !important;
-	box-shadow: none !important;
-}
-
-html[data-theme='light'] .insight-card small {
-	color: var(--text-muted) !important;
-}
-
 /* ---- Padronização: tipografia, espaçamentos, cards e áreas de toque ---- */
 
 body.finance-page .finance-content {
@@ -563,7 +490,6 @@ a {
 }
 
 body .fa-solid {
-	font-family: "Font Awesome 6 Free";
 	font-style: normal;
 	font-weight: 900;
 }
