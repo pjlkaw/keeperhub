@@ -15,12 +15,13 @@
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/no-content.css">
     <link rel="stylesheet" href="/shared/styles/btn-add.css">
+
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/inicio.css">
     <link rel="stylesheet" href="assets/css/padroes.css">
     <script src="/shared/services/theme.js" defer></script>
-    <title>Finanças — KeeperHub</title>
     <script src="js/interface.js" defer></script>
+    <title>Finanças — KeeperHub</title>
 
     <script>
         window.keeperhubModuleConfig = {
@@ -29,7 +30,7 @@
             subtitle: 'Organize seus ganhos, gastos e contas em um só lugar.',
             backUrl: '/main/hub/index.html',
             notificationsModule: 'financas',
-            addUrl: '/modules/financas/components/nova-transacao.html'
+            addUrl: '/modules/financas/components/contas.html'
         };
     </script>
 
@@ -42,9 +43,9 @@
         <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
 
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-
             <header class="section-header-section" id="headerSection"></header>
             <section class="no-content-section" id="no-content-section" aria-label="Nenhuma transação cadastrada" hidden></section>
+            
             <article class="card preview-balance">
                 <header><span>SALDO DISPONÍVEL</span><mark>Sem transações</mark></header><output>R$ 0,00</output>
                 <hr>

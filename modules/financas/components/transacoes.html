@@ -56,25 +56,17 @@
             <form class="transactions-search" role="search">
                 <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <path d="M14.5 14.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <span class="fa-solid fa-magnifying-glass" aria-hidden="true"></span>
                     </button>
                     <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
                 </p>
             </form>
 
             <section class="filter-row" aria-label="Filtros de transações">
-                <nav class="filter-chips" aria-label="Filtros de transações">
-                    <button class="filter-active" type="button" data-filter="all" aria-pressed="true">Todas</button>
-                    <button type="button" data-filter="receitas" aria-pressed="false">Receitas</button>
-                    <button type="button" data-filter="despesas" aria-pressed="false">Despesas</button>
-                    <button type="button" data-filter="este-mes" aria-pressed="false">Este Mês</button>
-                </nav>
+                <div class="transaction-dates" aria-label="Datas das transações"></div>
                 <section class="filter-actions-wrap" aria-label="Opções de filtragem">
                     <button class="filter-actions" type="button" aria-controls="filter-popup" aria-label="Abrir opções de visualização" aria-expanded="false">
-                        <span aria-hidden="true"><span class="fa-solid fa-sliders" aria-hidden="true"></span></span>
+                        Filtros<span aria-hidden="true"><span class="fa-solid fa-sliders" aria-hidden="true"></span></span>
                     </button>
                     <nav class="filter-popup" id="filter-popup" aria-label="Opções de filtragem" hidden>
                         <button type="button" data-popup-filter="receitas">Mostrar apenas Receitas</button>
@@ -96,17 +88,6 @@
     </div>
 
     <script type="module" src="../script.js"></script>
-    <script>
-        fetch('/shared/components/btn-add.html')
-            .then(r => r.text())
-            .then(html => {
-                const secao = document.getElementById('btn-add-section');
-                if (!secao) return;
-                secao.innerHTML = html;
-                secao.querySelector('#btn-add').href = 'nova-transacao.html';
-                secao.querySelector('#btn-add').setAttribute('aria-label', 'Nova transação');
-            });
-    </script>
 </body>
 
 </html>
