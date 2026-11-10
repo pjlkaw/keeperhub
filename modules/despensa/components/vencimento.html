@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>
-            Vencimentos — KeeperHub
-        </title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-        
-        <link rel="stylesheet" href="/shared/styles/variables.css">
-        <link rel="stylesheet" href="/shared/styles/reset.css">
-        <link rel="stylesheet" href="/shared/styles/components.css">
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
-        <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
-        <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
+<head>
 
-        <script src="/shared/services/theme.js" defer></script>
-        <script type="module" src="/modules/despensa/script.js"></script>
-        <script type="module" src="/modules/despensa/js/index.js"></script>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Vencimentos — KeeperHub</title>
+
+    <!-- Ícones -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS compartilhado -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+
+    <!-- CSS do módulo -->
+    <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
+    <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
+
+    <!-- Serviço de tema -->
+    <script src="/shared/services/theme.js" defer></script>
+
+    <!-- Configuração da página -->
     <script>
         window.keeperhubModuleConfig = {
             module: 'despensa',
@@ -31,84 +40,133 @@
             addUrl: '/modules/despensa/components/cadastrar.html'
         };
     </script>
-    <script src="/shared/services/load-components.js"></script>
-    
 
-    </head>
-    <body class="despensa" data-pagina="vencimento">
-        <div class="despensa-shell">
-            <!-- importados -->
-            <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-            <header class="section-header-section" id="headerSection"></header>
-            <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
-            
-            <main class="despensa-conteudo" id="main-content">
-                <!-- RESUMO -->
-                <section class="resumo">
-                    <div class="card resumo-card vencido">
-                        <div class="titulo">
-                            VENCIDOS
-                        </div>
-                        <div class="numero vermelho">
-                            0
-                        </div>
+    <!-- Componentes compartilhados -->
+    <script src="/shared/services/load-components.js" defer></script>
+
+    <!-- JavaScript que carrega os produtos cadastrados -->
+    <script type="module"
+        src="/modules/despensa/js/vencimentos.js">
+    </script>
+
+</head>
+
+<body class="despensa" data-pagina="vencimento">
+
+    <div class="despensa-shell">
+
+        <!-- ALERTAS -->
+        <section id="alertFromShared"
+            class="alert"
+            role="status"
+            aria-live="polite">
+        </section>
+
+        <!-- NAVEGAÇÃO -->
+        <nav id="modules-nav-wrapper"
+            class="modules-nav-wrapper"
+            aria-label="Navegação entre módulos">
+        </nav>
+
+        <!-- CABEÇALHO -->
+        <header class="section-header-section"
+            id="headerSection">
+        </header>
+
+        <!-- BOTÃO COMPARTILHADO -->
+        <section class="btn-add-section"
+            id="btn-add-section"
+            style="--btn-add-color: var(--tool-nome-do-modulo)">
+        </section>
+
+        <main class="despensa-conteudo" id="main-content">
+
+            <!-- RESUMO DE VENCIMENTOS -->
+            <section class="resumo"
+                aria-label="Resumo de vencimentos">
+
+                <!-- QUANTIDADE DE PRODUTOS VENCIDOS -->
+                <div class="card resumo-card vencido">
+
+                    <div class="titulo">
+                        VENCIDOS
                     </div>
-                    <div class="card resumo-card sete">
-                        <div class="titulo">
-                            VENCEM EM 7 DIAS
-                        </div>
-                        <div class="numero laranja">
-                            0
-                        </div>
+
+                    <div class="numero vermelho"
+                        id="contadorVencidos">
+                        0
                     </div>
-                </section>
-                <!-- FILTROS -->
-                <div class="filtros">
-                    <button class="filtro ativo">
-                        Todos
-                    </button>
-                    <button class="filtro">
-                        Vencidos
-                    </button>
-                    <button class="filtro">
-                        Em 7 dias
-                    </button>
-                    <button class="filtro"> 
-                        Em 30 dias
-                    </button>
+
                 </div>
-                <!-- PRODUTOS -->
-                <section class="produtosSection">
-                    <span class="produtosSection-title">
-                        Produtos - 0 Itens
-                    </span>
-                    <!-- PRODUTO 1 -->
-                    <!-- <article class="card produto">
-                        <h3>
-                            Molho de Tomate Orgânico
-                        </h3>
-                        <div class="status vencido-status">
-                            Vencido há 3 dias
-                        </div>
-                        <div class="card produto-info">
-                            La Molisana • 400 g • 2 unidades
-                        </div>
-                    </article>
-                    PRODUTO 2 
-                    <article class="card produto atencao">
-                        <h3>
-                            Café Especial Torrado
-                        </h3>
-                        <div class="status proximo">
-                            Vence em 2 dias
-                        </div>
-                        <div class="card produto-info">
-                            Coffee Lab • 250 g • 1 unidade
-                        </div>
-                    </article> -->
-                </section>
-            </main>
-        </div>
-    </body>
+
+                <!-- QUANTIDADE QUE VENCE EM ATÉ 7 DIAS -->
+                <div class="card resumo-card sete">
+
+                    <div class="titulo">
+                        VENCEM EM 7 DIAS
+                    </div>
+
+                    <div class="numero laranja"
+                        id="contadorSeteDias">
+                        0
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- FILTROS -->
+            <nav class="filtros"
+                aria-label="Filtrar vencimentos">
+
+                <button type="button"
+                    class="filtro ativo"
+                    data-filter="todos">
+                    Todos
+                </button>
+
+                <button type="button"
+                    class="filtro"
+                    data-filter="vencidos">
+                    Vencidos
+                </button>
+
+                <button type="button"
+                    class="filtro"
+                    data-filter="7">
+                    Em 7 dias
+                </button>
+
+                <button type="button"
+                    class="filtro"
+                    data-filter="30">
+                    Em 30 dias
+                </button>
+
+            </nav>
+
+            <!-- LISTA DE PRODUTOS -->
+            <section class="produtosSection">
+
+                <!-- CONTADOR DE ITENS -->
+                <span class="produtosSection-title"
+                    id="totalVencimentos">
+                    Produtos - 0 Itens
+                </span>
+
+                <!--
+                    O JavaScript adiciona automaticamente
+                    os produtos cadastrados na outra página.
+                -->
+                <div id="listaVencimentos"
+                    aria-live="polite">
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
 </html>

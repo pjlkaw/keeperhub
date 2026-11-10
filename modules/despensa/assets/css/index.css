@@ -1,50 +1,361 @@
+/* =====================================================
+   KEEPERHUB — DESPENSA / PÁGINA DE PRODUTOS
+   Controla a aparência dos produtos, pesquisa,
+   categorias, modal e botão de adicionar.
+===================================================== */
+
+/* CORES */
+:root {
+    --background: #0b0b0d;
+    --card: #18181b;
+    --border: #303034;
+    --text: #ffffff;
+    --secondary: #a1a1aa;
+    --accent: #a67b5b;
+    --accent-hover: #bd906e;
+    --input: #19191d;
+    --danger: #e45c5c;
+}
+
+/* ESTRUTURA PRINCIPAL */
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+.despensa-shell {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* CARDS DE RESUMO */
 .despensa-resumo {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
 }
+
 .summary-card {
     display: flex;
     flex-direction: column;
     gap: 8px;
     min-height: 112px;
-    
 }
-.fa-icons {
-  background-color: #a67b5b;
-}
+
 .summary-icon {
-  font-size: 24px;
-  color: var(--despensa-texto-destaque);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: #a67b5b31;
-  border-radius: 50%;         
-  
+    font-size: 24px;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: #a67b5b31;
+    border-radius: 50%;
 }
 
 #contador-produtos {
     font-size: 0.875rem;
 }
-.lista-produtos {
-    display: grid;
-    gap: 16px;
+
+/* PESQUISA */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 34px;
+    margin-bottom: 21px;
 }
-.produto-item {
+
+.search-container input {
+    width: 100%;
+    height: 38px;
+    padding: 0 38px 0 12px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-container input::placeholder {
+    color: var(--secondary);
+}
+
+.clear-search {
+    position: absolute;
+    right: 10px;
+    border: 0;
+    background: transparent;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.clear-search[hidden] {
+    display: none;
+}
+
+/* CATEGORIAS */
+.categories {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: 30px;
+    padding: 0 3px;
+}
+
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.category {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.category:hover {
+    border-color: var(--accent);
+}
+
+.category.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+}
+
+/* LISTA DE PRODUTOS */
+.products-section,
+.product-list {
+    width: 100%;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.empty-message {
+    font-size: 12px;
+    color: var(--secondary);
+    padding: 2px 0;
+}
+
+/* CARTÕES */
+.product-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 10px;
+    padding: 13px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    transition: 0.2s;
 }
-.produto-item h3 {
+
+.product-card:hover {
+    border-color: var(--accent);
+}
+
+.product-information {
+    min-width: 0;
+}
+
+.product-information h3 {
+    font-size: 13px;
+    margin: 0 0 7px;
     overflow-wrap: anywhere;
+    color: var(--text);
 }
-.produto-item p, .lista-vazia {
-    color: var(--text-muted);
+
+.product-information p {
+    font-size: 11px;
+    color: var(--secondary);
+    margin: 4px 0 0;
 }
+
+.product-information .validity {
+    color: var(--accent);
+}
+
+.product-information .expired {
+    color: var(--danger);
+}
+
+/* BOTÕES DE EDITAR E EXCLUIR */
+.product-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-actions button {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.product-actions .edit-button:hover {
+    color: var(--accent);
+}
+
+.product-actions .delete-button:hover {
+    color: var(--danger);
+}
+
+/* BOTÃO ADICIONAR */
+.add-button {
+    position: fixed;
+    right: max(12px, calc((100vw - 588px) / 2));
+    bottom: 24px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 17px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.2s;
+}
+
+.add-button:hover {
+    background: var(--accent-hover);
+    transform: scale(1.08);
+}
+
+/* MODAL */
+dialog {
+    width: min(90%, 380px);
+    margin: auto;
+    padding: 20px;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(3px);
+}
+
+#productForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.modal-header h2 {
+    font-size: 17px;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 19px;
+    cursor: pointer;
+}
+
+/* CAMPOS DO FORMULÁRIO */
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.form-content label {
+    font-size: 12px;
+    color: var(--secondary);
+}
+
+.form-content input,
+.form-content select {
+    width: 100%;
+    height: 39px;
+    padding: 0 10px;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Aparência do menu de categorias no tema escuro */
+.form-content select {
+    color-scheme: dark;
+}
+
+.form-content select option {
+    background: var(--card);
+    color: var(--text);
+}
+
+.form-content input:focus,
+.form-content select:focus {
+    border-color: var(--accent);
+}
+
+/* BOTÕES DO MODAL */
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.modal-footer button {
+    flex: 1;
+    min-height: 39px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: var(--border);
+    color: var(--text);
+}
+
+.save-button {
+    background: var(--accent);
+    color: white;
+}
+
+/* RESPONSIVIDADE */
 
 
 @media (max-width: 360px) {
