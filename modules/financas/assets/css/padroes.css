@@ -5,12 +5,6 @@
    Carregue por último, depois do CSS da página, para preservar a cascata.
    ================================================== */
 
-/* ==================================================
-   AJUSTES V5 — navegação de módulos, botão "+" e Nova transação (tema claro)
-   Mantido no fim do arquivo para vencer a cascata dos estilos compartilhados
-   (shared/styles/navbar-modules.css e btn-add.css), que não são alterados.
-   ================================================== */
-
 :root {
 	--finance-column-width: 420px;
 }
@@ -105,4 +99,8 @@ html body.finance-page .transactions-list-screen .transaction-item > aside > .tr
 
 * {
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.section-header-section{
+	padding: 0;
 }
