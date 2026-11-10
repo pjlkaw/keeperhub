@@ -56,10 +56,7 @@
             <form class="transactions-search" role="search">
                 <p class="search-field">
                     <button class="search-icon" type="submit" aria-label="Pesquisar transações">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <path d="M14.5 14.5l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                        <span class="fa-solid fa-magnifying-glass" aria-hidden="true"></span>
                     </button>
                     <input type="search" placeholder="Buscar transações..." aria-label="Buscar transações">
                 </p>
@@ -96,17 +93,6 @@
     </div>
 
     <script type="module" src="../script.js"></script>
-    <script>
-        fetch('/shared/components/btn-add.html')
-            .then(r => r.text())
-            .then(html => {
-                const secao = document.getElementById('btn-add-section');
-                if (!secao) return;
-                secao.innerHTML = html;
-                secao.querySelector('#btn-add').href = 'nova-transacao.html';
-                secao.querySelector('#btn-add').setAttribute('aria-label', 'Nova transação');
-            });
-    </script>
 </body>
 
 </html>

@@ -157,7 +157,7 @@
 
 .transactions-search span {
 	color: var(--text-color);
-	font-size: 35px;
+	font-size: 20px;
 	line-height: 20px;
 }
 
@@ -335,7 +335,7 @@
 	cursor: pointer;
 }
 
-.finance-page .transactions-search .search-icon svg {
+.finance-page .transactions-search .search-icon .fa-solid {
 	display: block;
 }
 
@@ -451,3 +451,4 @@ body.finance-page .transactions-content {
 	border: 0 !important;
 	box-shadow: none !important;
 }
+

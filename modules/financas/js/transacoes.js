@@ -10,6 +10,8 @@ function criarTransacao(transacao) {
     const titulo = document.createElement('strong');
     const descricao = document.createElement('small');
     const observacoes = document.createElement('small');
+    const acoes = document.createElement('aside');
+    const pagamento = document.createElement('button');
     const despesa = transacao.tipo === 'despesa';
     item.className = 'transaction-item';
     icone.className = 'transaction-icon';
@@ -28,31 +30,35 @@ function criarTransacao(transacao) {
     }
     valor.className = despesa ? 'expense' : '';
     valor.textContent = (despesa ? '- ' : '+ ') + formatarMoeda(transacao.valor);
-    item.append(icone, detalhes, valor);
+    detalhes.append(valor);
+    item.append(icone, detalhes, acoes);
     if (transacao.status !== 'pago') {
-        const acoes = document.createElement('aside');
-        const pagamento = document.createElement('button');
         pagamento.className = 'payment-button';
         pagamento.dataset.id = transacao.id;
         pagamento.type = 'button';
         pagamento.textContent = 'Marcar como pago';
-        acoes.append(valor, pagamento);
-        item.append(acoes);
+        acoes.append(pagamento);
     }
-    const acoes = item.querySelector('aside') || document.createElement('aside');
-    if (!acoes.parentElement) item.append(acoes);
     const editar = document.createElement('button');
     editar.className = 'transaction-edit';
     editar.dataset.id = transacao.id;
     editar.type = 'button';
-    editar.textContent = 'Editar';
+    editar.title = 'Editar';
     editar.setAttribute('aria-label', 'Editar transação ' + transacao.descricao);
+    const editarIcone = document.createElement('span');
+    editarIcone.className = 'fa-solid fa-pen';
+    editarIcone.setAttribute('aria-hidden', 'true');
+    editar.append(editarIcone);
     const excluir = document.createElement('button');
     excluir.className = 'transaction-delete';
     excluir.dataset.id = transacao.id;
     excluir.type = 'button';
-    excluir.textContent = 'Excluir';
+    excluir.title = 'Excluir';
     excluir.setAttribute('aria-label', 'Excluir transação ' + transacao.descricao);
+    const excluirIcone = document.createElement('span');
+    excluirIcone.className = 'fa-solid fa-trash';
+    excluirIcone.setAttribute('aria-hidden', 'true');
+    excluir.append(excluirIcone);
     acoes.append(editar, excluir);
     return item;
 }

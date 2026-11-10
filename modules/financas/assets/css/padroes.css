@@ -30,47 +30,75 @@ html[data-theme] #modules-nav-wrapper .modules-nav-item.active {
 	border-color: color-mix(in srgb, var(--tool-financas) 60%, transparent);
 }
 
-/* ---- 6. Transações: nada de texto quebrando nem sobreposto no item da lista ----
-   O espaço ao lado do ícone é pequeno (~240px no celular). Título + valor na mesma linha não cabem
-   ("Supermercado" + "+ R$ 180,00" se sobrepunham) e a descrição + valor também não.
-   Por isso o texto fica empilhado e cada linha usa toda a largura disponível:
-       [ícone]  Supermercado
-                Renda · Poupança
-                + R$ 180,00
-   Não muda fonte, só a posição. Itens com o botão "Marcar como pago" mantêm o layout atual. */
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) {
+/* ---- 6. Transações: conteúdo e ações não se sobrepõem ---- */
+html body.finance-page .transactions-list-screen .transaction-item {
 	display: grid;
 	grid-template-columns: 48px minmax(0, 1fr);
 	column-gap: 12px;
-	row-gap: 2px;
-	align-items: center;
+	row-gap: 10px;
+	align-items: start;
 }
 
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > .transaction-icon {
+html body.finance-page .transactions-list-screen .transaction-item > .transaction-icon {
 	grid-column: 1;
-	grid-row: 1 / span 3;
+	grid-row: 1 / span 2;
 }
 
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section {
-	display: contents;
-}
-
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section > strong {
+html body.finance-page .transactions-list-screen .transaction-item > section {
 	grid-column: 2;
 	grid-row: 1;
+	min-width: 0;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > section > strong {
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > section > small {
-	grid-column: 2;
-	grid-row: 2;
-	min-width: 0;
-}
-
-html body.finance-page .transactions-list-screen .transaction-item:not(:has(aside)) > b {
-	grid-column: 2;
-	grid-row: 3;
+html body.finance-page .transactions-list-screen .transaction-item > section > b {
+	display: block;
+	margin-top: 4px;
 	text-align: left;
 	white-space: nowrap;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > aside {
+	grid-column: 2;
+	grid-row: 2;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 8px;
+	width: 100%;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > aside > .payment-button {
+	flex: 1 0 100%;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > aside > button:not(.payment-button) {
+	display: inline-grid;
+	width: 36px;
+	height: 36px;
+	padding: 0;
+	place-items: center;
+	color: var(--text-muted);
+	background: transparent;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	cursor: pointer;
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > aside > button:not(.payment-button):hover,
+html body.finance-page .transactions-list-screen .transaction-item > aside > button:not(.payment-button):focus-visible {
+	color: var(--tool-financas);
+	border-color: var(--tool-financas);
+}
+
+html body.finance-page .transactions-list-screen .transaction-item > aside > .transaction-delete:hover,
+html body.finance-page .transactions-list-screen .transaction-item > aside > .transaction-delete:focus-visible {
+	color: var(--danger-color, #dc3545);
+	border-color: var(--danger-color, #dc3545);
 }
