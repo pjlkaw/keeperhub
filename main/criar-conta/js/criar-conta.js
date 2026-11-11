@@ -7,7 +7,7 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario } from '../../../shared/api/usuario.js';
+import { criarUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
