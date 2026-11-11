@@ -48,137 +48,94 @@
         src="/modules/despensa/js/vencimentos.js">
     </script>
 
-    <link rel="stylesheet" href="/shared/styles/no-content.css">
-</head>
+    </head>
+    <body class="despensa" data-pagina="vencimento">
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
+              <div class="despensa-shell">
+                  <!-- importados -->
+                  <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
 
-<body class="despensa" data-pagina="vencimento">
+                  <header class="section-header-section" id="headerSection"></header>
+                  <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
 
-    <!-- Botão de adicionar compartilhado -->
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
+                  <main class="despensa-conteudo" id="main-content">
+                      <!-- RESUMO -->
+                      <section class="resumo">
+                          <div class="card resumo-card vencido">
+                              <div class="titulo">
+                                  VENCIDOS
+                              </div>
+                              <div class="numero vermelho">
+                                  0
+                              </div>
+                          </div>
 
-    <div class="despensa-shell">
+                      </div>
 
-        <!-- Exibe mensagens de aviso e confirmação -->
-        <section
-            id="alertFromShared"
-            class="alert"
-            role="status"
-            aria-live="polite">
-        </section>
+                      <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
+                      <div class="card resumo-card sete">
 
-        <!-- Reserva o espaço da navegação entre módulos -->
-        <nav
-            id="modules-nav-wrapper"
-            class="modules-nav-wrapper"
-            aria-label="Navegação entre módulos">
-        </nav>
+                          <div class="titulo">
+                              VENCEM EM 7 DIAS
+                          </div>
 
-        <!-- Exibe o cabeçalho da página -->
-        <header
-            class="section-header-section"
-            id="headerSection">
-        </header>
-
-        <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
-        <section class="no-content-section" id="no-content-section" aria-label="Nenhum produto com validade cadastrada" hidden></section>
-
-        <!-- Agrupa o conteúdo principal da página -->
-        <main class="despensa-conteudo" id="main-content">
-
-            <!-- Apresenta o resumo dos produtos por vencimento -->
-            <section
-                class="resumo"
-                aria-label="Resumo de vencimentos">
-
-                <!-- Exibe a quantidade de produtos vencidos -->
-                <div class="card resumo-card vencido">
-
-                    <div class="titulo">
-                        VENCIDOS
-                    </div>
-
-                    <div
-                        class="numero vermelho"
-                        id="contadorVencidos">
-                        0
-                    </div>
-
-                </div>
-
-                <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
-                <div class="card resumo-card sete">
-
-                    <div class="titulo">
-                        VENCEM EM 7 DIAS
-                    </div>
-
-                    <div
-                        class="numero laranja"
-                        id="contadorSeteDias">
-                        0
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- Permite filtrar os produtos pelo prazo de vencimento -->
-            <nav
-                class="filtros"
-                aria-label="Filtrar vencimentos">
-
-                <button
-                    type="button"
-                    class="filtro ativo"
-                    data-filter="todos">
-                    Todos
-                </button>
-
-                <button
-                    type="button"
-                    class="filtro"
-                    data-filter="vencidos">
-                    Vencidos
-                </button>
-
-                <button
-                    type="button"
-                    class="filtro"
-                    data-filter="7">
-                    Em 7 dias
-                </button>
-
-                <button
-                    type="button"
-                    class="filtro"
-                    data-filter="30">
-                    Em 30 dias
-                </button>
-
-            </nav>
-
-            <!-- Exibe a lista de produtos e suas respectivas validades -->
-            <section class="produtosSection">
-
-                <!-- Mostra a quantidade total de produtos na lista -->
-                <span
-                    class="produtosSection-title"
-                    id="totalVencimentos">
-                    Produtos - 0 Itens
-                </span>
-
-                <!-- O JavaScript adiciona automaticamente os produtos cadastrados na outra página -->
-                <div
-                    id="listaVencimentos"
-                    aria-live="polite">
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-</body>
-
+                          <div
+                              class="numero laranja"
+                              id="contadorSeteDias">
+                              0
+                          </div>
+                      </section>
+                      <!-- FILTROS -->
+                      <div class="filtros">
+                          <button class="filtro ativo">
+                              Todos
+                          </button>
+                          <button class="filtro">
+                              Vencidos
+                          </button>
+                          <button class="filtro">
+                              Em 7 dias
+                          </button>
+                          <button class="filtro"> 
+                              Em 30 dias
+                          </button>
+                      </div>
+                      <!-- PRODUTOS -->
+                      <section class="produtosSection">
+                          <span class="produtosSection-title">
+                              Produtos - 0 Itens
+                          </span>
+                          <!-- PRODUTO 1 -->
+                          <!-- <article class="card produto">
+                              <h3>
+                                  Molho de Tomate Orgânico
+                              </h3>
+                              <div class="status vencido-status">
+                                  Vencido há 3 dias
+                              </div>
+                              <div class="card produto-info">
+                                  La Molisana • 400 g • 2 unidades
+                              </div>
+                          </article>
+                          PRODUTO 2 
+                          <article class="card produto atencao">
+                              <h3>
+                                  Café Especial Torrado
+                              </h3>
+                              <div class="status proximo">
+                                  Vence em 2 dias
+                              </div>
+                              <div class="card produto-info">
+                                  Coffee Lab • 250 g • 1 unidade
+                              </div>
+                          </article> -->
+                      </section>
+                  </main>
+              </div>
+    
+            </div>
+        </div>
+    </body>
 </html>

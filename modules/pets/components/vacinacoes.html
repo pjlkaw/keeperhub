@@ -1,182 +1,288 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR" data-theme="dark" class="tema-vacinacoes-pets">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b0b0d">
-    <title>Keeper Hub — Pets — Vacinações</title>
-    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#0b0b0d" />
+		<title>Keeper Hub — Pets — Vacinações</title>
+		<link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+		/>
 
-    <!-- Estilos compartilhados -->
-    <link rel="stylesheet" href="/shared/styles/variables.css">
-    <link rel="stylesheet" href="/shared/styles/reset.css">
-    <link rel="stylesheet" href="/shared/styles/no-content.css">
-    <link rel="stylesheet" href="/shared/styles/components.css">
-    <link rel="stylesheet" href="/shared/styles/header-page.css">
-    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-    <link rel="stylesheet" href="/shared/styles/btn-add.css">
-    <!-- Estilos da página -->
-    <link rel="stylesheet" href="../assets/css/vacinacoes.css">
-    <!-- Configuração do módulo -->
-    <script>
-      window.keeperhubModuleConfig = {
-        module: 'pets',
-        title: 'Vacinações',
-        subtitle: 'Acompanhe as vacinas do seu pet',
-        backUrl: '/modules/pets/index.html',
-        notificationsModule: 'pets',
-        addUrl: '/modules/pets/components/cadastrar-registro.html?tipo=vacina'
-      };
-    </script>
-    <script defer src="/shared/services/load-components.js"></script>
-    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
-</head>
-<body>
+		<!-- Estilos compartilhados -->
+		<link rel="stylesheet" href="/shared/styles/variables.css" />
+		<link rel="stylesheet" href="/shared/styles/reset.css" />
+		<link rel="stylesheet" href="/shared/styles/no-content.css" />
+		<link rel="stylesheet" href="/shared/styles/components.css" />
+		<link rel="stylesheet" href="/shared/styles/header-page.css" />
+		<link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
+		<link rel="stylesheet" href="/shared/styles/btn-add.css" />
+		<!-- Estilos da página -->
+		<link rel="stylesheet" href="../assets/css/vacinacoes.css" />
+		<!-- Configuração do módulo -->
+		<script>
+			window.keeperhubModuleConfig = {
+				module: "pets",
+				title: "Vacinações",
+				subtitle: "Acompanhe as vacinas do seu pet",
+				backUrl: "/modules/pets/index.html",
+				notificationsModule: "pets",
+				addUrl: "/modules/pets/components/adicionar-vacina.html",
+			};
+		</script>
+		<script defer src="/shared/services/load-components.js"></script>
+	</head>
+	<body>
+		<div class="app-page-wrapper">
+			<nav
+				id="modules-nav-wrapper"
+				class="modules-nav-wrapper"
+				aria-label="Navegação entre módulos"
+			></nav>
+			<div class="app-container">
+				<!-- Estado vazio -->
+				<section
+					class="no-content-section"
+					id="no-content-section"
+					aria-label="Nenhuma vacina cadastrada"
+				></section>
 
-    <!-- Estado vazio -->
-    <main class="vacinacoes-pet" id="conteudo-principal" data-pet-id="">
+				<main
+					class="vacinacoes-pet"
+					id="conteudo-principal"
+					data-pet-id=""
+				>
+					<!-- Navegação entre módulos -->
 
-        <!-- Navegação entre módulos -->
-        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+					<!-- Cabeçalho da página -->
+					<header
+						class="section-header-section"
+						id="headerSection"
+					></header>
 
-        <!-- Cabeçalho da página -->
-        <header class="section-header-section" id="headerSection"></header>
+					<!-- Próximas vacinas -->
+					<section
+						class="destaques-vacinas"
+						aria-labelledby="proximas-vacinas-heading"
+						hidden
+					>
+						<h2 id="proximas-vacinas-heading">Próximas Vacinas</h2>
 
-        <nav class="abas-pet" aria-label="Tipo de registro">
-            <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
-            <a href="vacinacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Vacinas</a>
-        </nav>
+						<ul>
+							<li>
+								<article
+									class="card cartao-destaque-vacina cartao-destaque-vacina--destaque"
+								>
+									<p
+										class="cartao-destaque-vacina__rotulo"
+									></p>
+									<h3
+										class="cartao-destaque-vacina__nome"
+									></h3>
+									<i
+										class="fa-solid fa-paw icone"
+										aria-hidden="true"
+									></i>
 
-        <!-- Próximas vacinas -->
-        <section class="destaques-vacinas" aria-labelledby="proximas-vacinas-heading" hidden>
-            <h2 id="proximas-vacinas-heading">Próximas Vacinas</h2>
+									<p class="cartao-destaque-vacina__data">
+										<i
+											class="fa-regular fa-calendar-days icone"
+											aria-hidden="true"
+										></i>
+									</p>
 
-            <ul>
-                <li>
-                    <article class="card cartao-destaque-vacina cartao-destaque-vacina--destaque">
-                        <p class="cartao-destaque-vacina__rotulo"></p>
-                        <h3 class="cartao-destaque-vacina__nome"></h3>
-                        <i class="fa-solid fa-paw icone" aria-hidden="true"></i>
+									<div
+										class="barra-progresso"
+										aria-hidden="true"
+									>
+										<div
+											class="barra-progresso__preenchimento"
+										></div>
+									</div>
+									<p
+										class="cartao-destaque-vacina__contagem-regressiva"
+									></p>
+								</article>
+							</li>
 
-                        <p class="cartao-destaque-vacina__data">
-                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
-                        </p>
+							<li>
+								<article class="card cartao-destaque-vacina">
+									<p
+										class="cartao-destaque-vacina__rotulo"
+									></p>
+									<h3
+										class="cartao-destaque-vacina__nome"
+									></h3>
+									<i
+										class="fa-solid fa-syringe icone"
+										aria-hidden="true"
+									></i>
 
-                        <div class="barra-progresso" aria-hidden="true">
-                            <div class="barra-progresso__preenchimento"></div>
-                        </div>
-                        <p class="cartao-destaque-vacina__contagem-regressiva"></p>
-                    </article>
-                </li>
+									<p class="cartao-destaque-vacina__data">
+										<i
+											class="fa-regular fa-calendar-days icone"
+											aria-hidden="true"
+										></i>
+									</p>
 
-                <li>
-                    <article class="card cartao-destaque-vacina">
-                        <p class="cartao-destaque-vacina__rotulo"></p>
-                        <h3 class="cartao-destaque-vacina__nome"></h3>
-                        <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
+									<div
+										class="barra-progresso"
+										aria-hidden="true"
+									>
+										<div
+											class="barra-progresso__preenchimento"
+										></div>
+									</div>
+									<p
+										class="cartao-destaque-vacina__contagem-regressiva"
+									></p>
+								</article>
+							</li>
+						</ul>
+					</section>
 
-                        <p class="cartao-destaque-vacina__data">
-                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
+					<!-- Cronograma de vacinação -->
+					<section
+						class="cronograma-vacinas"
+						aria-labelledby="cronograma-heading"
+						hidden
+					>
+						<h2 id="cronograma-heading">Cronograma Completo</h2>
 
-                        </p>
+						<ul class="card">
+							<li>
+								<article
+									class="item-vacina item-vacina--atrasada"
+								>
+									<i
+										class="fa-solid fa-triangle-exclamation icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+									<span
+										class="etiqueta-status etiqueta-status--atrasada"
+										>Atrasada</span
+									>
+								</article>
+							</li>
 
-                        <div class="barra-progresso" aria-hidden="true">
-                            <div class="barra-progresso__preenchimento"></div>
-                        </div>
-                        <p class="cartao-destaque-vacina__contagem-regressiva"></p>
-                    </article>
-                </li>
-            </ul>
-        </section>
+							<li>
+								<article
+									class="item-vacina item-vacina--agendada"
+								>
+									<i
+										class="fa-solid fa-syringe icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+									<span
+										class="etiqueta-status etiqueta-status--agendada"
+										>Agendada</span
+									>
+								</article>
+							</li>
 
-        <!-- Cronograma de vacinação -->
-        <section class="cronograma-vacinas" aria-labelledby="cronograma-heading" hidden>
-            <h2 id="cronograma-heading">Cronograma Completo</h2>
+							<li>
+								<article
+									class="item-vacina item-vacina--agendada item-vacina--antirrabica"
+								>
+									<i
+										class="fa-solid fa-calendar-days icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+									<span
+										class="etiqueta-status etiqueta-status--agendada etiqueta-status--neutra"
+										>Agendada</span
+									>
+								</article>
+							</li>
 
-            <ul class="card">
-                <li>
-                    <article class="item-vacina item-vacina--atrasada">
-                        <i class="fa-solid fa-triangle-exclamation icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--atrasada">Atrasada</span>
-                    </article>
-                </li>
+							<li>
+								<article
+									class="item-vacina item-vacina--aplicada"
+								>
+									<i
+										class="fa-solid fa-circle-check icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+									<span
+										class="etiqueta-status etiqueta-status--aplicada"
+										>Aplicada</span
+									>
+								</article>
+							</li>
+						</ul>
+					</section>
 
-                <li>
-                    <article class="item-vacina item-vacina--agendada">
-                        <i class="fa-solid fa-syringe icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--agendada">Agendada</span>
-                    </article>
-                </li>
+					<!-- Histórico de aplicações -->
+					<section
+						class="historico-vacinas"
+						aria-labelledby="vaccine-history-heading"
+						hidden
+					>
+						<h2 id="vaccine-history-heading">Histórico</h2>
 
-                <li>
-                    <article class="item-vacina item-vacina--agendada item-vacina--antirrabica">
-                        <i class="fa-solid fa-calendar-days icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--agendada etiqueta-status--neutra">Agendada</span>
-                    </article>
-                </li>
+						<ul>
+							<li>
+								<article
+									class="card item-vacina item-vacina--registro"
+								>
+									<i
+										class="fa-solid fa-clock-rotate-left icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+								</article>
+							</li>
 
-                <li>
-                    <article class="item-vacina item-vacina--aplicada">
-                        <i class="fa-solid fa-circle-check icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                        <span class="etiqueta-status etiqueta-status--aplicada">Aplicada</span>
-                    </article>
-                </li>
-            </ul>
-        </section>
+							<li>
+								<article
+									class="card item-vacina item-vacina--certificado"
+								>
+									<i
+										class="fa-solid fa-file-circle-check icone"
+										aria-hidden="true"
+									></i>
+									<div class="item-vacina__informacoes">
+										<h3 class="item-vacina__nome"></h3>
+										<p class="item-vacina__detalhe"></p>
+									</div>
+								</article>
+							</li>
+						</ul>
+					</section>
+				</main>
 
-        <!-- Histórico de aplicações -->
-        <section class="historico-vacinas" aria-labelledby="vaccine-history-heading" hidden>
-            <h2 id="vaccine-history-heading">Histórico</h2>
+				<section
+					class="btn-add-section"
+					id="btn-add-section"
+					style="--btn-add-color: var(--tool-pets)"
+					aria-label="Adicionar vacina"
+				></section>
 
-            <ul>
-                <li>
-                    <article class="card item-vacina item-vacina--registro">
-                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="card item-vacina item-vacina--certificado">
-                        <i class="fa-solid fa-file-circle-check icone" aria-hidden="true"></i>
-                        <div class="item-vacina__informacoes">
-                            <h3 class="item-vacina__nome"></h3>
-                            <p class="item-vacina__detalhe"></p>
-                        </div>
-                    </article>
-                </li>
-            </ul>
-        </section>
-
-
-        <section class="no-content-section" id="no-content-section" aria-label="Nenhuma vacina cadastrada"></section>
-    </main>
-
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar vacina" inert></section>
-
-    <!-- Scripts -->
-    <script type="module" src="../js/vacinacoes.js"></script>
-    <script src="/shared/services/theme.js"></script>
-</body>
+				<!-- Scripts -->
+				<script type="module" src="../js/vacinacoes.js"></script>
+				<script src="/shared/services/theme.js"></script>
+			</div>
+		</div>
+	</body>
 </html>
-
