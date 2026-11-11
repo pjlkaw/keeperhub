@@ -36,7 +36,7 @@
             subtitle: 'Controle de validade',
             backUrl: '../index.html',
             notificationsModule: 'Despensa',
-            addUrl: '/modules/despensa/components/cadastrar.html'
+            addUrl: '/modules/despensa/index.html'
         };
     </script>
 
@@ -53,87 +53,87 @@
         <div class="app-page-wrapper">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
             <div class="app-container">
-        <div class="despensa-shell">
-            <!-- importados -->
-            <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
-            
-            <header class="section-header-section" id="headerSection"></header>
-            <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
-            
-            <main class="despensa-conteudo" id="main-content">
-                <!-- RESUMO -->
-                <section class="resumo">
-                    <div class="card resumo-card vencido">
-                        <div class="titulo">
-                            VENCIDOS
-                        </div>
-                        <div class="numero vermelho">
-                            0
-                        </div>
-                    </div>
+              <div class="despensa-shell">
+                  <!-- importados -->
+                  <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
 
-                </div>
+                  <header class="section-header-section" id="headerSection"></header>
+                  <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-nome-do-modulo)"></section>
 
-                <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
-                <div class="card resumo-card sete">
+                  <main class="despensa-conteudo" id="main-content">
+                      <!-- RESUMO -->
+                      <section class="resumo">
+                          <div class="card resumo-card vencido">
+                              <div class="titulo">
+                                  VENCIDOS
+                              </div>
+                              <div class="numero vermelho">
+                                  0
+                              </div>
+                          </div>
 
-                    <div class="titulo">
-                        VENCEM EM 7 DIAS
-                    </div>
+                      </div>
 
-                    <div
-                        class="numero laranja"
-                        id="contadorSeteDias">
-                        0
-                    </div>
-                </section>
-                <!-- FILTROS -->
-                <div class="filtros">
-                    <button class="filtro ativo">
-                        Todos
-                    </button>
-                    <button class="filtro">
-                        Vencidos
-                    </button>
-                    <button class="filtro">
-                        Em 7 dias
-                    </button>
-                    <button class="filtro"> 
-                        Em 30 dias
-                    </button>
-                </div>
-                <!-- PRODUTOS -->
-                <section class="produtosSection">
-                    <span class="produtosSection-title">
-                        Produtos - 0 Itens
-                    </span>
-                    <!-- PRODUTO 1 -->
-                    <!-- <article class="card produto">
-                        <h3>
-                            Molho de Tomate Orgânico
-                        </h3>
-                        <div class="status vencido-status">
-                            Vencido há 3 dias
-                        </div>
-                        <div class="card produto-info">
-                            La Molisana • 400 g • 2 unidades
-                        </div>
-                    </article>
-                    PRODUTO 2 
-                    <article class="card produto atencao">
-                        <h3>
-                            Café Especial Torrado
-                        </h3>
-                        <div class="status proximo">
-                            Vence em 2 dias
-                        </div>
-                        <div class="card produto-info">
-                            Coffee Lab • 250 g • 1 unidade
-                        </div>
-                    </article> -->
-                </section>
-            </main>
-        </div>
+                      <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
+                      <div class="card resumo-card sete">
+
+                          <div class="titulo">
+                              VENCEM EM 7 DIAS
+                          </div>
+
+                          <div
+                              class="numero laranja"
+                              id="contadorSeteDias">
+                              0
+                          </div>
+                      </section>
+                      <!-- FILTROS -->
+                      <div class="filtros">
+                          <button class="filtro ativo">
+                              Todos
+                          </button>
+                          <button class="filtro">
+                              Vencidos
+                          </button>
+                          <button class="filtro">
+                              Em 7 dias
+                          </button>
+                          <button class="filtro"> 
+                              Em 30 dias
+                          </button>
+                      </div>
+                      <!-- PRODUTOS -->
+                      <section class="produtosSection">
+                          <span class="produtosSection-title">
+                              Produtos - 0 Itens
+                          </span>
+                          <!-- PRODUTO 1 -->
+                          <!-- <article class="card produto">
+                              <h3>
+                                  Molho de Tomate Orgânico
+                              </h3>
+                              <div class="status vencido-status">
+                                  Vencido há 3 dias
+                              </div>
+                              <div class="card produto-info">
+                                  La Molisana • 400 g • 2 unidades
+                              </div>
+                          </article>
+                          PRODUTO 2 
+                          <article class="card produto atencao">
+                              <h3>
+                                  Café Especial Torrado
+                              </h3>
+                              <div class="status proximo">
+                                  Vence em 2 dias
+                              </div>
+                              <div class="card produto-info">
+                                  Coffee Lab • 250 g • 1 unidade
+                              </div>
+                          </article> -->
+                      </section>
+                  </main>
+              </div>
     
             </div>
         </div>
