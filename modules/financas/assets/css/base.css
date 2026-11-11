@@ -24,11 +24,7 @@ body {
 	color: var(--text-color);
 }
 
-.app-shell {
-	width: min(390px, 100%);
-	min-height: 100vh;
-	margin: 0 auto;
-}
+	
 
 @media (min-width: 600px) {
 	body {
@@ -406,13 +402,6 @@ body.finance-page .finance-content {
 
 .app-shell {
 	background: var(--card-bg);
-}
-
-/* Medidas comuns */
-.app-shell,
-.finance-shell {
-	gap: 16px;
-	padding: 16px 16px 24px;
 }
 
 .finance-tabs {
