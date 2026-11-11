@@ -1,4 +1,4 @@
-import { lerSessaoUsuario } from '../../../shared/api/usuario.js';
+import { lerSessaoUsuario } from '../../../shared/services/usuario.js';
 
 function obterUsuarioId() {
     return lerSessaoUsuario()?.id_usuario || null;

@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { loginUsuario } from '../../../shared/api/usuario.js';
+import { loginUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 function validarInformacoesLogin(email, senha) {

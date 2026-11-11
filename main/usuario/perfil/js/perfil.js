@@ -3,7 +3,7 @@
  * Carrega os dados do usuário pela API.
  */
 
-import { carregarUsuarioAtual, encerrarSessaoUsuario } from '../../../../shared/api/usuario.js';
+import { carregarUsuarioAtual, encerrarSessaoUsuario } from '../../../../shared/services/usuario.js';
 import { alertShared } from '../../../../shared/services/interface.js';
 
 async function renderProfile() {

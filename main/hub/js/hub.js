@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { carregarUsuarioAtual } from '../../../shared/api/usuario.js';
+import { carregarUsuarioAtual } from '../../../shared/services/usuario.js';
 
 // CHATBOT
 function initializeChatbot() {

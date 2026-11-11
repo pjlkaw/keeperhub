@@ -124,10 +124,10 @@ Utiliza GROQ_API_KEY no ambiente do servidor.
 É código de execução Node.js, não um serviço
 que deve ser importado pelo navegador.
 
-CLIENTES DE API
+SERVIÇOS DE API
 ---------------
 
-/shared/api/usuario.js
+/shared/services/usuario.js
 Cliente HTTP usado no navegador para cadastro,
 login, leitura e edição do usuário.
 Também gerencia dados locais da sessão pela
@@ -136,11 +136,6 @@ chave keeperhub-auth-session.
 A autenticação atual ainda necessita de
 mecanismos de autorização e proteção de sessão
 adequados para produção.
-
-/shared/api/chatbot.js
-Existe uma implementação adicional que precisa
-ser revisada. A rota HTTP utilizada pelo Hub
-está em /api/chatbot.js.
 
 ESTILOS COMPARTILHADOS
 ----------------------
