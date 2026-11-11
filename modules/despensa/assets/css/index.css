@@ -226,32 +226,6 @@ body {
     color: var(--danger);
 }
 
-/* Posiciona e estiliza o botão flutuante de adicionar produto */
-.add-button {
-    position: fixed;
-    right: max(12px, calc((100vw - 588px) / 2));
-    bottom: 24px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 17px;
-    cursor: pointer;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-    transition: 0.2s;
-}
-
-/* Aplica efeito visual ao botão de adicionar quando o mouse passa sobre ele */
-.add-button:hover {
-    background: var(--accent-hover);
-    transform: scale(1.08);
-}
-
 /* Define a aparência e o posicionamento da janela modal */
 dialog {
     width: min(90%, 380px);

@@ -273,37 +273,6 @@
     display: none;
 }
 
-/* Define a aparência do botão para adicionar produtos */
-.add-list-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    width: 100%;
-    min-height: 42px;
-
-    margin-top: 14px;
-    padding: 10px;
-
-    background: #a67b5b;
-    border: 1px solid #a67b5b;
-    border-radius: 9px;
-
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 700;
-
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-/* Altera a aparência do botão adicionar ao passar o mouse */
-.add-list-button:hover {
-    background: #bd906e;
-    border-color: #bd906e;
-}
-
 /* Define a aparência do botão para limpar todos os produtos */
 .clear-button {
     display: flex;

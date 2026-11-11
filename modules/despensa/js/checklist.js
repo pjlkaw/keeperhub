@@ -1,3 +1,4 @@
+import { atualizarNoContent } from "/shared/services/no-content.js";
 import { confirmarAcao } from "./confirmar.js";
 
 
@@ -22,7 +23,7 @@ const buscaInput = document.getElementById("buscaProduto");
 
 const modal = document.getElementById("modalProduto");
 
-const abrirModal = document.getElementById("abrirModal");
+const btnAddSection = document.getElementById("btn-add-section");
 const fecharModal = document.getElementById("fecharModal");
 const cancelarModal = document.getElementById("cancelarModal");
 
@@ -241,6 +242,9 @@ function renderizarLista() {
 
     listaElement.replaceChildren();
 
+    // MOSTRA O NO-CONTENT QUANDO A LISTA ESTÁ VAZIA
+    atualizarNoContent(lista.length > 0);
+
     const filtrados = lista.filter(produto => {
 
         const correspondeBusca =
@@ -320,7 +324,13 @@ function abrirFormulario() {
 
 }
 
-abrirModal.addEventListener("click", abrirFormulario);
+// O btn-add compartilhado é carregado pelo load-components.js;
+// o clique é capturado na seção para abrir o modal
+btnAddSection.addEventListener("click", event => {
+    if (!event.target.closest("#btn-add")) return;
+    event.preventDefault();
+    abrirFormulario();
+});
 
 // =================================
 // FECHAR MODAL
