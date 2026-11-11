@@ -24,6 +24,13 @@ async function realizarCadastro(usuario) {
 }
 
 function setupSignupForm() {
+  const googleButton = document.getElementById('btn-signup-google');
+  if (googleButton) {
+    googleButton.addEventListener('click', () => {
+      window.location.href = '/api/auth/google';
+    });
+  }
+
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
   const telefoneInput = document.getElementById('telefone');

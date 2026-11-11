@@ -23,6 +23,27 @@ export async function buscarUsuarioPorEmail(email) {
     return usuarios[0] ?? null;
 }
 
+export async function buscarUsuarioLoginSocial(provedor, identificadorExterno) {
+    const [logins] = await db.query(
+        `SELECT usuario_id FROM usuario_login_social
+         WHERE provedor = ? AND identificador_externo = ? LIMIT 1`,
+        [provedor, identificadorExterno]
+    );
+    return logins[0] ?? null;
+}
+
+export async function criarUsuarioLoginSocial({
+    usuarioId, provedor, identificadorExterno, emailProvedor
+}) {
+    const [result] = await db.query(
+        `INSERT INTO usuario_login_social
+            (usuario_id, provedor, identificador_externo, email_provedor)
+         VALUES (?, ?, ?, ?)`,
+        [usuarioId, provedor, identificadorExterno, emailProvedor]
+    );
+    return result;
+}
+
 export async function buscarSenhaUsuario(id) {
     const [usuarios] = await db.query(
         'SELECT id_usuario, senha_usuario FROM usuario WHERE id_usuario = ? LIMIT 1',
