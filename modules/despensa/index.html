@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 
@@ -8,22 +7,22 @@
 
     <title>Despensa — KeeperHub</title>
 
-    <!-- FONT AWESOME -->
+    <!-- Carrega os ícones utilizados na página -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- CSS COMPARTILHADO -->
+    <!-- Carrega os estilos compartilhados do projeto -->
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
 
-    <!-- CSS DO MÓDULO -->
+    <!-- Carrega os estilos específicos da despensa -->
     <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
     <link rel="stylesheet" href="/modules/despensa/assets/css/index.css">
 
-    <!-- CONFIGURAÇÕES DO MÓDULO -->
+    <!-- Define as informações e os caminhos do módulo -->
     <script>
         window.keeperhubModuleConfig = {
             module: 'despensa',
@@ -35,11 +34,11 @@
         };
     </script>
 
-    <!-- SERVIÇOS COMPARTILHADOS -->
+    <!-- Carrega os serviços compartilhados de tema e componentes -->
     <script src="/shared/services/theme.js" defer></script>
     <script src="/shared/services/load-components.js"></script>
 
-    <!-- JAVASCRIPT DO MÓDULO -->
+    <!-- Carrega os scripts responsáveis pelo funcionamento da despensa -->
     <script type="module" src="/modules/despensa/script.js"></script>
     <script type="module" src="/modules/despensa/js/index.js"></script>
 
@@ -47,7 +46,7 @@
 
 <body class="despensa" data-pagina="index">
 
-    <!-- ALERTAS -->
+    <!-- Exibe mensagens de aviso e confirmação -->
     <section
         id="alertFromShared"
         class="alert"
@@ -57,14 +56,14 @@
 
     <div class="despensa-shell">
 
-        <!-- NAVEGAÇÃO ENTRE MÓDULOS -->
+        <!-- Reserva o espaço da navegação entre módulos -->
         <nav
             id="modules-nav-wrapper"
             class="modules-nav-wrapper"
             aria-label="Navegação entre módulos">
         </nav>
 
-        <!-- CABEÇALHO -->
+        <!-- Exibe o título e a descrição da página -->
         <header class="section-header-section" id="headerSection">
 
             <div class="section-header-title-area">
@@ -89,10 +88,10 @@
 
         </header>
 
-        <!-- CONTEÚDO PRINCIPAL -->
+        <!-- Agrupa o conteúdo principal da despensa -->
         <main class="despensa-conteudo" id="main-content">
 
-            <!-- RESUMO DA DESPENSA -->
+            <!-- Apresenta os atalhos e o resumo da despensa -->
             <section aria-labelledby="resumo-titulo">
 
                 <h2 id="resumo-titulo" class="visually-hidden">
@@ -101,7 +100,7 @@
 
                 <div class="despensa-resumo">
 
-                    <!-- CARD PRODUTOS -->
+                    <!-- Direciona para a lista de produtos cadastrados -->
                     <a
                         href="#produtos-cadastrados"
                         class="card card--interactive summary-card">
@@ -118,7 +117,7 @@
 
                     </a>
 
-                    <!-- CARD VENCIMENTO -->
+                    <!-- Direciona para o controle de vencimentos -->
                     <a
                         href="components/vencimento.html"
                         class="card card--interactive summary-card">
@@ -127,11 +126,11 @@
                             <i class="fa-regular fa-calendar"></i>
                         </span>
 
-                        <span>Próximos ao vencimento</span>
+                        <span>Vencimento</span>
 
                     </a>
 
-                    <!-- CARD CHECKLIST -->
+                    <!-- Direciona para a checklist de compras -->
                     <a
                         href="components/checklist.html"
                         class="card card--interactive summary-card">
@@ -148,7 +147,7 @@
 
             </section>
 
-            <!-- PRODUTOS CADASTRADOS -->
+            <!-- Exibe os produtos cadastrados -->
             <section
                 id="produtos-cadastrados"
                 aria-labelledby="produtos-titulo">
@@ -157,7 +156,7 @@
                     Produtos
                 </h2>
 
-                <!-- PESQUISA -->
+                <!-- Permite pesquisar produtos pelo nome -->
                 <section class="search-container">
 
                     <input
@@ -170,7 +169,7 @@
 
                 </section>
 
-                <!-- CATEGORIAS -->
+                <!-- Filtra os produtos pela categoria selecionada -->
                 <nav
                     class="categories"
                     aria-label="Categorias de produtos">
@@ -222,7 +221,7 @@
 
                 </nav>
 
-                <!-- LISTA DE PRODUTOS -->
+                <!-- Área onde os produtos cadastrados são exibidos -->
                 <section class="products-section">
 
                     <section
@@ -240,7 +239,7 @@
 
             </section>
 
-            <!-- BOTÃO ADICIONAR -->
+            <!-- Abre o formulário para cadastrar um produto -->
             <button
                 type="button"
                 class="btn btn-primary add-button"
@@ -255,12 +254,12 @@
 
     </div>
 
-    <!-- MODAL DE CADASTRO -->
+    <!-- Contém o formulário de cadastro de produtos -->
     <dialog id="productModal">
 
         <form id="productForm">
 
-            <!-- CABEÇALHO DO MODAL -->
+            <!-- Exibe o título e o botão para fechar o modal -->
             <header class="modal-header">
 
                 <h2 id="modalTitle">
@@ -279,7 +278,7 @@
 
             </header>
 
-            <!-- CAMPOS DO FORMULÁRIO -->
+            <!-- Reúne os campos para preencher os dados do produto -->
             <section class="form-content">
 
                 <label for="productName">
@@ -334,7 +333,7 @@
 
             </section>
 
-            <!-- BOTÕES DO MODAL -->
+            <!-- Disponibiliza as ações de cancelar e salvar -->
             <footer class="modal-footer">
 
                 <button
@@ -361,4 +360,5 @@
     </dialog>
 
 </body>
+
 </html>

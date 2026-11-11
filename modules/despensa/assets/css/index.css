@@ -1,23 +1,21 @@
-/* =====================================================
-   KEEPERHUB — DESPENSA / PÁGINA DE PRODUTOS
-   Controla a aparência dos produtos, pesquisa,
-   categorias, modal e botão de adicionar.
-===================================================== */
-
-/* CORES */
+/* Define as cores principais utilizadas na página */
 :root {
-    --background: #0b0b0d;
-    --card: #18181b;
-    --border: #303034;
-    --text: #ffffff;
-    --secondary: #a1a1aa;
     --accent: #a67b5b;
     --accent-hover: #bd906e;
-    --input: #19191d;
     --danger: #e45c5c;
 }
 
-/* ESTRUTURA PRINCIPAL */
+/* Define as variáveis de cores específicas da despensa */
+.despensa {
+    --background: var(--bg-color);
+    --card: var(--card-bg);
+    --border: var(--border-color);
+    --text: var(--text-color);
+    --secondary: var(--text-muted);
+    --input: var(--card-bg);
+}
+
+/* Define a largura e a altura mínima da página */
 html,
 body {
     width: 100%;
@@ -25,19 +23,21 @@ body {
     margin: 0;
 }
 
+/* Define a estrutura principal da área da despensa */
 .despensa-shell {
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
 }
 
-/* CARDS DE RESUMO */
+/* Organiza os cards de resumo em três colunas */
 .despensa-resumo {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
 }
 
+/* Organiza o conteúdo dos cards de resumo */
 .summary-card {
     display: flex;
     flex-direction: column;
@@ -45,9 +45,8 @@ body {
     min-height: 112px;
 }
 
+/* Define a aparência dos ícones dos cards de resumo */
 .summary-icon {
-    font-size: 24px;
-    color: var(--accent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -55,13 +54,16 @@ body {
     height: 50px;
     background-color: #a67b5b31;
     border-radius: 50%;
+    color: var(--accent);
+    font-size: 24px;
 }
 
+/* Define o tamanho do contador de produtos */
 #contador-produtos {
     font-size: 0.875rem;
 }
 
-/* PESQUISA */
+/* Organiza o campo de pesquisa e seus elementos */
 .search-container {
     position: relative;
     display: flex;
@@ -71,6 +73,7 @@ body {
     margin-bottom: 21px;
 }
 
+/* Define a aparência do campo de pesquisa */
 .search-container input {
     width: 100%;
     height: 38px;
@@ -84,10 +87,12 @@ body {
     box-sizing: border-box;
 }
 
+/* Define a cor do texto de orientação da pesquisa */
 .search-container input::placeholder {
     color: var(--secondary);
 }
 
+/* Posiciona e estiliza o botão de limpar pesquisa */
 .clear-search {
     position: absolute;
     right: 10px;
@@ -97,11 +102,12 @@ body {
     cursor: pointer;
 }
 
+/* Esconde o botão de limpar quando estiver oculto */
 .clear-search[hidden] {
     display: none;
 }
 
-/* CATEGORIAS */
+/* Organiza os botões de categorias horizontalmente */
 .categories {
     display: flex;
     align-items: center;
@@ -112,11 +118,13 @@ body {
     padding: 0 3px;
 }
 
+/* Esconde a barra de rolagem das categorias no Chrome */
 .categories::-webkit-scrollbar {
     display: none;
 }
 
-.category {
+/* Define a aparência dos botões de categorias */
+.categories button[data-category] {
     flex-shrink: 0;
     padding: 10px 14px;
     background: var(--card);
@@ -129,55 +137,62 @@ body {
     transition: 0.2s;
 }
 
-.category:hover {
+/* Destaca a borda da categoria ao passar o mouse */
+.categories button[data-category]:hover {
     border-color: var(--accent);
 }
 
-.category.active {
+/* Destaca a categoria atualmente selecionada */
+.categories button[data-category].active {
     background: var(--accent);
     border-color: var(--accent);
     color: #ffffff;
 }
 
-/* LISTA DE PRODUTOS */
+/* Define a largura das seções e da lista de produtos */
 .products-section,
 .product-list {
     width: 100%;
 }
 
+/* Organiza os produtos em uma lista vertical */
 .product-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Define a aparência da mensagem exibida quando a lista está vazia */
 .empty-message {
     font-size: 12px;
     color: var(--secondary);
     padding: 2px 0;
 }
 
-/* CARTÕES */
+/* Organiza e estiliza os cartões individuais de produtos */
 .product-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     padding: 13px;
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border: 1px solid var(--accent);
     border-radius: 9px;
     transition: 0.2s;
 }
 
+/* Altera a cor da borda do cartão ao passar o mouse */
 .product-card:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-hover);
 }
 
+/* Permite que as informações do produto ocupem o espaço disponível */
 .product-information {
     min-width: 0;
 }
 
+/* Define a aparência do nome do produto */
 .product-information h3 {
     font-size: 13px;
     margin: 0 0 7px;
@@ -185,27 +200,31 @@ body {
     color: var(--text);
 }
 
+/* Define a aparência das informações adicionais do produto */
 .product-information p {
     font-size: 11px;
     color: var(--secondary);
     margin: 4px 0 0;
 }
 
+/* Destaca a informação de validade do produto */
 .product-information .validity {
     color: var(--accent);
 }
 
+/* Destaca os produtos que estão vencidos */
 .product-information .expired {
     color: var(--danger);
 }
 
-/* BOTÕES DE EDITAR E EXCLUIR */
+/* Organiza os botões de ações dos produtos */
 .product-actions {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
+/* Define a aparência dos botões de ação */
 .product-actions button {
     background: transparent;
     border: none;
@@ -214,15 +233,17 @@ body {
     cursor: pointer;
 }
 
+/* Destaca o botão de editar ao passar o mouse */
 .product-actions .edit-button:hover {
     color: var(--accent);
 }
 
+/* Destaca o botão de excluir ao passar o mouse */
 .product-actions .delete-button:hover {
     color: var(--danger);
 }
 
-/* BOTÃO ADICIONAR */
+/* Posiciona e estiliza o botão flutuante de adicionar produto */
 .add-button {
     position: fixed;
     right: max(12px, calc((100vw - 588px) / 2));
@@ -242,12 +263,13 @@ body {
     transition: 0.2s;
 }
 
+/* Aplica efeito visual ao botão de adicionar quando o mouse passa sobre ele */
 .add-button:hover {
     background: var(--accent-hover);
     transform: scale(1.08);
 }
 
-/* MODAL */
+/* Define a aparência e o posicionamento da janela modal */
 dialog {
     width: min(90%, 380px);
     margin: auto;
@@ -258,17 +280,20 @@ dialog {
     border-radius: 12px;
 }
 
+/* Estiliza o fundo escuro exibido atrás do modal */
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.75);
     backdrop-filter: blur(3px);
 }
 
+/* Organiza os campos do formulário do modal em coluna */
 #productForm {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+/* Organiza o título e o botão de fechar do modal */
 .modal-header {
     display: flex;
     align-items: center;
@@ -276,10 +301,12 @@ dialog::backdrop {
     margin-bottom: 8px;
 }
 
+/* Define o tamanho do título do modal */
 .modal-header h2 {
     font-size: 17px;
 }
 
+/* Estiliza o botão de fechar o modal */
 .close-button {
     background: transparent;
     border: none;
@@ -288,18 +315,20 @@ dialog::backdrop {
     cursor: pointer;
 }
 
-/* CAMPOS DO FORMULÁRIO */
+/* Organiza os campos e rótulos do formulário */
 .form-content {
     display: flex;
     flex-direction: column;
     gap: 9px;
 }
 
+/* Define a aparência dos rótulos dos campos */
 .form-content label {
     font-size: 12px;
     color: var(--secondary);
 }
 
+/* Define a aparência dos campos de texto e seleção */
 .form-content input,
 .form-content select {
     width: 100%;
@@ -313,28 +342,36 @@ dialog::backdrop {
     box-sizing: border-box;
 }
 
-/* Aparência do menu de categorias no tema escuro */
-.form-content select {
+/* Define o esquema de cores dos controles do navegador no tema escuro */
+html[data-theme="dark"] {
     color-scheme: dark;
 }
 
+/* Define o esquema de cores dos controles do navegador no tema claro */
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+/* Define as cores das opções dos campos de seleção */
 .form-content select option {
     background: var(--card);
     color: var(--text);
 }
 
+/* Destaca os campos quando recebem foco */
 .form-content input:focus,
 .form-content select:focus {
     border-color: var(--accent);
 }
 
-/* BOTÕES DO MODAL */
+/* Organiza os botões de ação do rodapé do modal */
 .modal-footer {
     display: flex;
     gap: 10px;
     margin-top: 12px;
 }
 
+/* Define a aparência geral dos botões do modal */
 .modal-footer button {
     flex: 1;
     min-height: 39px;
@@ -345,21 +382,25 @@ dialog::backdrop {
     cursor: pointer;
 }
 
+/* Estiliza o botão de cancelar do modal */
 .cancel-button {
     background: var(--border);
     color: var(--text);
 }
 
+/* Estiliza o botão de salvar do modal */
 .save-button {
     background: var(--accent);
     color: white;
 }
 
-/* RESPONSIVIDADE */
+@media (min-width: 600px) {
+	body {
+		display: flex;
+		justify-content: center;
+	}
 
-
-@media (max-width: 360px) {
-    .produto-item {
-        flex-wrap: wrap;
-    }
+	.app-shell {
+		box-shadow: none;
+	}
 }
