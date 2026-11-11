@@ -35,7 +35,8 @@
             title: 'Checklist',
             subtitle: 'Gerencie suas compras!',
             backUrl: '/modules/despensa/index.html',
-            notificationsModule: 'despensa'
+            notificationsModule: 'despensa',
+            addUrl: '#novo-item'
         };
     </script>
 
@@ -47,6 +48,9 @@
     <script type="module"
         src="/modules/despensa/js/checklist.js"></script>
 
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
 </head>
 
 <body class="despensa" data-pagina="checklist">
@@ -58,6 +62,12 @@
         role="status"
         aria-live="polite">
     </section>
+
+    <!-- Modal de confirmação compartilhado (substitui o confirm do navegador) -->
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
+
+    <!-- Botão de adicionar compartilhado -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
     <div class="despensa-shell">
 
@@ -73,6 +83,9 @@
             class="section-header-section"
             id="headerSection">
         </header>
+
+        <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+        <section class="no-content-section" id="no-content-section" aria-label="Nenhum item na lista de compras" hidden></section>
 
         <!-- Agrupa o conteúdo principal da checklist -->
         <main class="checklist-page">
@@ -166,16 +179,6 @@
                         Sua lista está vazia. Adicione seu primeiro produto!
                     </p>
 
-                    <!-- Abre o modal para adicionar um novo item -->
-                    <button
-                        type="button"
-                        id="abrirModal"
-                        class="add-list-button">
-
-                        <i class="fa-solid fa-plus"></i>
-                        Adicionar item na lista
-
-                    </button>
 
                 </section>
 

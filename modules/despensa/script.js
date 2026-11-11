@@ -1,3 +1,6 @@
+import { atualizarNoContent } from "/shared/services/no-content.js";
+import { confirmarAcao } from "./js/confirmar.js";
+
 /* =====================================================
    KEEPERHUB — DESPENSA / INDEX.JS
 
@@ -22,7 +25,7 @@ const STORAGE_KEY = "keeperHubProducts";
 const productList = document.getElementById("productList");
 const searchInput = document.getElementById("searchInput");
 const clearSearch = document.getElementById("clearSearch");
-const addButton = document.getElementById("addButton");
+const btnAddSection = document.getElementById("btn-add-section");
 const productModal = document.getElementById("productModal");
 const productForm = document.getElementById("productForm");
 const closeModalButton = document.getElementById("closeModal");
@@ -122,7 +125,13 @@ function closeProductModal() {
 
 /* EVENTOS DOS BOTÕES */
 
-addButton.addEventListener("click", openModal);
+/* O btn-add compartilhado é carregado pelo load-components.js;
+   o clique é capturado na seção para abrir o modal de cadastro */
+btnAddSection.addEventListener("click", event => {
+    if (!event.target.closest("#btn-add")) return;
+    event.preventDefault();
+    openModal();
+});
 
 closeModalButton.addEventListener(
     "click",
@@ -277,9 +286,9 @@ function editProduct(id) {
    Remove o produto do armazenamento compartilhado.
 ===================================================== */
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
 
-    const confirmation = confirm(
+    const confirmation = await confirmarAcao(
         "Deseja realmente excluir este produto?"
     );
 
@@ -378,6 +387,9 @@ function renderProducts() {
     if (!productList) return;
 
     productList.innerHTML = "";
+
+    /* MOSTRA O NO-CONTENT QUANDO NÃO HÁ NENHUM PRODUTO */
+    atualizarNoContent(products.length > 0);
 
     let filteredProducts = [...products];
 

@@ -1,3 +1,5 @@
+import { atualizarNoContent } from "/shared/services/no-content.js";
+
 /* =====================================================
    KEEPERHUB — DESPENSA / VENCIMENTOS.JS
 
@@ -338,6 +340,11 @@ function renderizarVencimentos() {
     const produtosComValidade = produtos.filter(
         product => product.expiry
     );
+
+
+    /* MOSTRA O NO-CONTENT QUANDO NENHUM PRODUTO TEM VALIDADE */
+
+    atualizarNoContent(produtosComValidade.length > 0);
 
 
     /* APLICA O FILTRO SELECIONADO */

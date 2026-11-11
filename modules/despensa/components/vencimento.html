@@ -36,7 +36,7 @@
             subtitle: 'Controle de validade',
             backUrl: '../index.html',
             notificationsModule: 'Despensa',
-            addUrl: '/modules/despensa/components/cadastrar.html'
+            addUrl: '/modules/despensa/index.html'
         };
     </script>
 
@@ -48,9 +48,13 @@
         src="/modules/despensa/js/vencimentos.js">
     </script>
 
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
 </head>
 
 <body class="despensa" data-pagina="vencimento">
+
+    <!-- Botão de adicionar compartilhado -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
     <div class="despensa-shell">
 
@@ -75,12 +79,8 @@
             id="headerSection">
         </header>
 
-        <!-- Reserva o espaço do botão compartilhado -->
-        <section
-            class="btn-add-section"
-            id="btn-add-section"
-            style="--btn-add-color: var(--tool-nome-do-modulo)">
-        </section>
+        <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+        <section class="no-content-section" id="no-content-section" aria-label="Nenhum produto com validade cadastrada" hidden></section>
 
         <!-- Agrupa o conteúdo principal da página -->
         <main class="despensa-conteudo" id="main-content">
