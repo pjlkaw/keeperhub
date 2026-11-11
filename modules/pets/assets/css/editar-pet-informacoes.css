@@ -451,7 +451,8 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 }
 
 .painel-informacoes-pet input[type='text'],
-.painel-informacoes-pet input[type='number'] {
+.painel-informacoes-pet input[type='number'],
+.painel-informacoes-pet input[type='date'] {
   background: var(--pets-control-bg);
   border-color: var(--pets-border);
 }

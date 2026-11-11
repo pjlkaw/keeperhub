@@ -25,34 +25,34 @@ function padronizarTexto(texto) {
 
 // Padroniza os campos de texto do cadastro do pet.
 export function padronizarDadosPet(dados) {
-    // Se a idade for texto, remove espaços extras e padroniza
-    // "mês" ou "meses" quando aparecer depois do número.
-    const idade = typeof dados.idade === 'string'
-        ? dados.idade.trim().replace(
-            /^(\d+(?:[.,]\d+)?)\s+(mês|meses)$/i,
-            (_, numero, unidade) =>
-                `${numero} ${
-                    unidade.toLocaleLowerCase('pt-BR') === 'mês'
-                        ? 'Mês'
-                        : 'Meses'
-                }`
-        )
-        : dados.idade;
-
     // Mantém os outros dados e substitui os campos padronizados.
     return {
         ...dados,
         nome: padronizarTexto(dados.nome),
-        raca: padronizarTexto(dados.raca),
-        idade: idade
+        raca: padronizarTexto(dados.raca)
     };
+}
+
+// Retorna a data de hoje no formato AAAA-MM-DD, no fuso do navegador.
+export function dataDeHoje(hoje = new Date()) {
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    return `${hoje.getFullYear()}-${mes}-${dia}`;
+}
+
+// Confere se o texto é uma data real no formato AAAA-MM-DD.
+function dataValida(texto) {
+    if (typeof texto !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(texto)) return false;
+    const [ano, mes, dia] = texto.split('-').map(Number);
+    const data = new Date(ano, mes - 1, dia);
+    return data.getFullYear() === ano && data.getMonth() === mes - 1 && data.getDate() === dia;
 }
 
 // Valida os dados do pet.
 // Retorna informações sobre o primeiro erro encontrado.
 // Se não houver erro, retorna null.
 //
-// A idade é um texto e pode ser informada em anos, meses, semanas ou dias.
+// A data de nascimento usa o formato AAAA-MM-DD do campo <input type="date">.
 export function validarDadosPet(dados) {
     // Verifica se o nome foi informado e se respeita o limite de caracteres.
     if (!dados.nome || dados.nome.length > 60) {
@@ -78,16 +78,15 @@ export function validarDadosPet(dados) {
         };
     }
 
-    // Aceita um número, com parte decimal opcional, seguido opcionalmente
-    // por uma unidade de tempo, como "3 anos", "6 meses" ou "10 dias".
-    // Também limita a idade a 20 caracteres.
+    // A data de nascimento é obrigatória, precisa ser real e não pode estar no futuro.
     if (
-        !/^\d+(?:[.,]\d+)?(?:\s+(?:anos?|meses|mês|dias?|semanas?))?$/i.test(dados.idade) ||
-        dados.idade.length > 20
+        !dataValida(dados.dataNascimento) ||
+        dados.dataNascimento < '1900-01-01' ||
+        dados.dataNascimento > dataDeHoje()
     ) {
         return {
-            campo: 'idade',
-            mensagem: 'Informe uma idade válida, sem valores negativos. Ex.: 3 anos ou 6 meses.'
+            campo: 'data_nascimento',
+            mensagem: 'Informe uma data de nascimento válida, que não esteja no futuro.'
         };
     }
 
@@ -96,7 +95,8 @@ export function validarDadosPet(dados) {
     if (
         dados.peso === '' ||
         !Number.isFinite(Number(dados.peso)) ||
-        Number(dados.peso) < 0
+        Number(dados.peso) < 0 ||
+        Number(dados.peso) > 9999.99
     ) {
         return {
             campo: 'peso',

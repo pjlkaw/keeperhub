@@ -2,6 +2,12 @@
 
 // Importa as funções para atualizar um pet e buscá-lo pelo ID.
 import { atualizarPet, buscarPetPorId } from './armazenamento.js';
+import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+
+// Os dados principais dos pets vêm da API; carrega antes de montar a página.
+// Se falhar, listarPets() lança o erro e a página mostra a mensagem.
+await carregarPetsDoServidor();
+
 
 // Busca no HTML o formulário e os elementos que a página vai atualizar.
 const form = document.getElementById('formulario-rotina-alimentar');

@@ -46,6 +46,10 @@ export async function inicializarFormulario() {
         : null;
     const modoEdicao = Boolean(transacaoEmEdicao);
 
+    if (contas.length && !modoEdicao) {
+        campos.account.value = String(contas[0].id);
+    }
+
     if (transacaoEmEdicao) {
         const tipoReceita = transacaoEmEdicao.tipo === 'receita';
         tipos.forEach((botao) => {

@@ -10,6 +10,8 @@ function criarTransacao(transacao) {
     const titulo = document.createElement('strong');
     const descricao = document.createElement('small');
     const observacoes = document.createElement('small');
+    const acoes = document.createElement('aside');
+    const pagamento = document.createElement('button');
     const despesa = transacao.tipo === 'despesa';
     item.className = 'transaction-item';
     icone.className = 'transaction-icon';
@@ -28,37 +30,43 @@ function criarTransacao(transacao) {
     }
     valor.className = despesa ? 'expense' : '';
     valor.textContent = (despesa ? '- ' : '+ ') + formatarMoeda(transacao.valor);
-    item.append(icone, detalhes, valor);
+    detalhes.append(valor);
+    item.append(icone, detalhes, acoes);
     if (transacao.status !== 'pago') {
-        const acoes = document.createElement('aside');
-        const pagamento = document.createElement('button');
         pagamento.className = 'payment-button';
         pagamento.dataset.id = transacao.id;
         pagamento.type = 'button';
         pagamento.textContent = 'Marcar como pago';
-        acoes.append(valor, pagamento);
-        item.append(acoes);
+        acoes.append(pagamento);
     }
-    const acoes = item.querySelector('aside') || document.createElement('aside');
-    if (!acoes.parentElement) item.append(acoes);
     const editar = document.createElement('button');
     editar.className = 'transaction-edit';
     editar.dataset.id = transacao.id;
     editar.type = 'button';
-    editar.textContent = 'Editar';
+    editar.title = 'Editar';
     editar.setAttribute('aria-label', 'Editar transação ' + transacao.descricao);
+    const editarIcone = document.createElement('span');
+    editarIcone.className = 'fa-solid fa-pen';
+    editarIcone.setAttribute('aria-hidden', 'true');
+    editar.append(editarIcone);
     const excluir = document.createElement('button');
     excluir.className = 'transaction-delete';
     excluir.dataset.id = transacao.id;
     excluir.type = 'button';
-    excluir.textContent = 'Excluir';
+    excluir.title = 'Excluir';
     excluir.setAttribute('aria-label', 'Excluir transação ' + transacao.descricao);
+    const excluirIcone = document.createElement('span');
+    excluirIcone.className = 'fa-solid fa-trash';
+    excluirIcone.setAttribute('aria-hidden', 'true');
+    excluir.append(excluirIcone);
     acoes.append(editar, excluir);
     return item;
 }
 
 function renderizarTransacoes(transacoes, lista, agrupar) {
+    const datas = document.querySelector('.transaction-dates');
     lista.replaceChildren();
+    if (datas) datas.replaceChildren();
     if (!transacoes.length) {
         lista.textContent = agrupar ? 'Nenhuma transação cadastrada.' : 'Nenhum vencimento pendente.';
         return;
@@ -72,10 +80,14 @@ function renderizarTransacoes(transacoes, lista, agrupar) {
     });
     grupos.forEach((itens, data) => {
         const grupo = document.createElement('section');
-        const titulo = document.createElement('h2');
         grupo.className = 'transaction-group';
-        titulo.textContent = data;
-        grupo.append(titulo, ...itens.map(criarTransacao));
+        if (datas) {
+            const titulo = document.createElement('h2');
+            titulo.className = 'transaction-date';
+            titulo.textContent = data;
+            datas.append(titulo);
+        }
+        grupo.append(...itens.map(criarTransacao));
         lista.append(grupo);
     });
 }
@@ -92,7 +104,7 @@ function inicializarPopup() {
     popup.addEventListener('click', (evento) => {
         const opcao = evento.target.closest('[data-popup-filter]');
         if (!opcao) return;
-        document.querySelector('[data-filter="' + opcao.dataset.popupFilter + '"]')?.click();
+        aplicarFiltro(opcao.dataset.popupFilter);
         alternar(false);
         botao.focus();
     });
@@ -107,6 +119,17 @@ function inicializarPopup() {
     });
 }
 
+function aplicarFiltro(novoFiltro) {
+    const filtros = document.querySelectorAll('[data-filter]');
+    const filtroAtivo = novoFiltro || 'all';
+    filtros.forEach((item) => {
+        const ativo = item.dataset.filter === filtroAtivo;
+        item.classList.toggle('filter-active', ativo);
+        item.setAttribute('aria-pressed', String(ativo));
+    });
+    document.dispatchEvent(new CustomEvent('transacoes:filtro', { detail: filtroAtivo }));
+}
+
 export async function inicializarTransacoes() {
     const lista = document.querySelector('#transaction-list, #due-list');
     if (!lista) return;
@@ -116,6 +139,10 @@ export async function inicializarTransacoes() {
     let transacoes = [];
     let carregadas = true;
     let filtro = document.querySelector('.filter-active')?.dataset.filter || 'all';
+    document.addEventListener('transacoes:filtro', (evento) => {
+        filtro = evento.detail;
+        atualizar();
+    });
     const atualizar = () => {
         if (!carregadas) return;
         const termo = busca?.value.trim().toLowerCase() || '';
@@ -135,13 +162,7 @@ export async function inicializarTransacoes() {
         renderizarTransacoes(ordenadas, lista, agrupar);
     };
     filtros.forEach((botao) => botao.addEventListener('click', () => {
-        filtro = botao.dataset.filter;
-        filtros.forEach((item) => {
-            const ativo = item === botao;
-            item.classList.toggle('filter-active', ativo);
-            item.setAttribute('aria-pressed', String(ativo));
-        });
-        atualizar();
+        aplicarFiltro(botao.dataset.filter);
     }));
     busca?.addEventListener('input', atualizar);
     busca?.form.addEventListener('submit', (evento) => {

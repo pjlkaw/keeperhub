@@ -1,23 +1,21 @@
 # Vacinações de Pets
 
 As páginas `components/vacinacoes.html` e `components/adicionar-vacina.html`
-usam `js/vacinacoes.js`. Os registros ficam em `pet.vacinas`, persistidos no
-`localStorage` pelo módulo `js/armazenamento.js`.
+usam `js/vacinacoes.js`. As vacinas ficam na tabela `vacina` do banco e chegam
+pela API `api/modulos/pets-api.js`: a listagem de pets (`GET`) já traz
+`pet.vacinas` de cada animal, e o cadastro usa `POST ?acao=vacina`.
 
 O formulário permite selecionar um pet ou todos os pets cadastrados. Ao escolher
-todos, a mesma agenda é gravada no histórico individual de cada animal em uma
-única atualização local. Registros feitos para hoje ou datas passadas são
-marcados como aplicados; datas futuras são guardadas como agendamentos e aparecem
-no cronograma sem entrar no histórico de aplicações.
+todos, a API grava um registro por pet numa única transação. Datas de hoje ou
+passadas são salvas como aplicadas (`status = 'aplicada'`); datas futuras como
+agendamentos (`status = 'agendada'`), que aparecem no cronograma sem entrar no
+histórico de aplicações.
 
-Cada registro guarda `id`, `grupoId`, `nome`, `nomePersonalizado`, `status`,
-`dataAplicacao`, `dataAgendada`, `frequencia`, `proximaDose`, `clinica`,
-`horario`, `observacao` e `criadaEm`. `grupoId` relaciona os registros criados
-para vários pets na mesma operação. Reforços anuais calculam a próxima data a
-partir da data escolhida; doses fracionadas exigem uma data manual; dose única
-não cria uma próxima dose. Clínica e horário são opcionais.
+Colunas usadas: `nome` (código da vacina, como `v8`, ou o nome digitado quando a
+opção é "Outra"), `status`, `data_aplicacao` (data escolhida no formulário),
+`frequencia`, `data_proxima_dose`, `clinica`, `horario` e `observacao`.
+Reforços anuais calculam a próxima data a partir da data escolhida; doses
+fracionadas exigem uma data manual; dose única não cria uma próxima dose.
 
-A agenda mostra agendamentos e próximas doses, identifica vencimentos e mantém
-o histórico apenas das aplicações. O cadastro continua local ao navegador, não
-agenda notificações do sistema e ainda não permite anexar certificados. A futura
-migração para API Node.js pode preservar este formato.
+Ainda não é possível editar ou excluir vacinas, agendar notificações do sistema
+ou anexar certificados.

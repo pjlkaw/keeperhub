@@ -1,4 +1,5 @@
-import { formatarData, formatarMoeda, obterTransacoes } from './dados.js';
+import { formatarData, formatarMoeda, obterContas, obterTransacoes } from './dados.js';
+import { apiDisponivel, listarContasApi } from './api.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 
 const ICONE_CATEGORIA = {
@@ -154,9 +155,36 @@ function atualizarRecentes(transacoes) {
     }));
 }
 
+async function configurarBotaoAdicionar() {
+    let contas = obterContas();
+    if (apiDisponivel()) {
+        try {
+            contas = await listarContasApi();
+        } catch (erro) {
+            console.warn('API de contas indisponível; usando contas locais.', erro.message);
+        }
+    }
+
+    const atualizarLink = () => {
+        const botao = document.querySelector('#btn-add');
+        if (!botao) return false;
+        botao.href = contas.length
+            ? '/modules/financas/components/nova-transacao.html'
+            : '/modules/financas/components/contas.html';
+        return true;
+    };
+
+    if (atualizarLink()) return;
+    const observador = new MutationObserver(() => {
+        if (atualizarLink()) observador.disconnect();
+    });
+    observador.observe(document.body, { childList: true, subtree: true });
+}
+
 export async function inicializarDashboard() {
     if (!document.querySelector('.preview-balance')) return;
 
+    configurarBotaoAdicionar();
     const transacoes = await obterTransacoes();
     atualizarNoContent(transacoes.length > 0);
     const referencia = new Date();
