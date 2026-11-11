@@ -3,31 +3,32 @@
 <html lang="pt-BR" data-theme="dark">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Checklist — KeeperHub</title>
 
-    <!-- FONT AWESOME -->
+    <!-- Carrega os ícones utilizados na página -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- CSS COMPARTILHADO -->
+    <!-- Carrega os estilos compartilhados do projeto -->
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="/shared/styles/header-page.css">
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
 
-    <!-- CSS DA DESPENSA -->
+    <!-- Carrega o estilo geral da despensa -->
     <link rel="stylesheet"
         href="/modules/despensa/assets/css/layout.css">
 
-    <!-- CSS EXCLUSIVO DO CHECKLIST -->
+    <!-- Carrega os estilos específicos da checklist -->
     <link rel="stylesheet"
         href="/modules/despensa/assets/css/checklist.css">
 
-    <!-- CONFIGURAÇÃO DO MÓDULO -->
+    <!-- Define as informações e os caminhos do módulo -->
     <script>
         window.keeperhubModuleConfig = {
             module: 'despensa',
@@ -38,11 +39,11 @@
         };
     </script>
 
-    <!-- SERVIÇOS COMPARTILHADOS -->
+    <!-- Carrega os serviços compartilhados de tema e componentes -->
     <script src="/shared/services/theme.js" defer></script>
     <script src="/shared/services/load-components.js" defer></script>
 
-    <!-- JAVASCRIPT DO CHECKLIST -->
+    <!-- Carrega o script responsável pelo funcionamento da checklist -->
     <script type="module"
         src="/modules/despensa/js/checklist.js"></script>
 
@@ -50,7 +51,7 @@
 
 <body class="despensa" data-pagina="checklist">
 
-    <!-- ALERTAS -->
+    <!-- Exibe mensagens de aviso e confirmação -->
     <section
         id="alertFromShared"
         class="alert"
@@ -60,65 +61,75 @@
 
     <div class="despensa-shell">
 
-        <!-- NAVEGAÇÃO -->
+        <!-- Reserva o espaço da navegação entre módulos -->
         <nav
             id="modules-nav-wrapper"
             class="modules-nav-wrapper"
             aria-label="Navegação entre módulos">
         </nav>
 
-        <!-- CABEÇALHO COMPARTILHADO -->
+        <!-- Exibe o cabeçalho compartilhado da página -->
         <header
             class="section-header-section"
             id="headerSection">
         </header>
 
+        <!-- Agrupa o conteúdo principal da checklist -->
         <main class="checklist-page">
 
             <section class="checklist-container">
 
-                <!-- RESUMO -->
-                <section class="card checklist-summary"
+                <!-- Apresenta o resumo dos itens da lista -->
+                <section
+                    class="card checklist-summary"
                     aria-label="Resumo da lista">
 
+                    <!-- Exibe a quantidade de itens selecionados -->
                     <div class="summary-item">
                         <span>Selecionados</span>
                         <strong id="totalSelecionados">0</strong>
                     </div>
 
+                    <!-- Exibe a quantidade de itens comprados -->
                     <div class="summary-item">
                         <span>Comprados</span>
                         <strong id="totalComprados">0</strong>
                     </div>
 
+                    <!-- Exibe o percentual de conclusão da lista -->
                     <div class="summary-item">
                         <span>Progresso</span>
                         <strong id="progressoTexto">0%</strong>
                     </div>
 
+                    <!-- Exibe visualmente o progresso das compras -->
                     <div class="progress-track">
                         <div id="progressoBarra"></div>
                     </div>
 
                 </section>
 
-                <!-- LISTA DE COMPRAS -->
+                <!-- Agrupa os produtos da lista de compras -->
                 <section class="card shopping-list">
 
+                    <!-- Exibe o título da lista -->
                     <div class="list-heading">
                         <h2>Minha lista</h2>
                     </div>
 
-                    <!-- PESQUISA -->
+                    <!-- Permite pesquisar produtos pelo nome -->
                     <div class="search-box">
-    <input
-        id="buscaProduto"
-        type="search"
-        placeholder="Buscar produto...">
-</div>
 
-                    <!-- FILTROS -->
-                    <nav class="filter-row"
+                        <input
+                            id="buscaProduto"
+                            type="search"
+                            placeholder="Buscar produto...">
+
+                    </div>
+
+                    <!-- Permite filtrar os produtos da checklist -->
+                    <nav
+                        class="filter-row"
                         aria-label="Filtrar produtos">
 
                         <button
@@ -143,19 +154,19 @@
 
                     </nav>
 
-                    <!-- PRODUTOS -->
+                    <!-- Exibe os produtos adicionados à lista -->
                     <section
                         id="listaCompras"
                         class="shopping-items"
                         aria-live="polite">
                     </section>
 
-                    <!-- LISTA VAZIA -->
+                    <!-- Informa quando não existem produtos na lista -->
                     <p id="mensagemVazia" class="empty-message">
                         Sua lista está vazia. Adicione seu primeiro produto!
                     </p>
 
-                    <!-- ADICIONAR ITEM -->
+                    <!-- Abre o modal para adicionar um novo item -->
                     <button
                         type="button"
                         id="abrirModal"
@@ -168,7 +179,7 @@
 
                 </section>
 
-                <!-- LIMPAR LISTA -->
+                <!-- Permite remover todos os itens da checklist -->
                 <button
                     id="limparLista"
                     class="clear-button"
@@ -185,11 +196,12 @@
 
     </div>
 
-    <!-- MODAL ADICIONAR PRODUTO -->
+    <!-- Contém o formulário para adicionar produtos à checklist -->
     <dialog id="modalProduto" class="product-modal">
 
         <form id="formProduto">
 
+            <!-- Exibe o título e o botão para fechar o modal -->
             <header class="modal-header">
 
                 <h2>Adicionar item</h2>
@@ -206,6 +218,7 @@
 
             </header>
 
+            <!-- Reúne os campos para cadastrar um item -->
             <section class="modal-content">
 
                 <label for="nomeProduto">
@@ -219,9 +232,11 @@
                     maxlength="80"
                     required>
 
+                <!-- Agrupa os campos de quantidade e categoria -->
                 <div class="form-row">
 
                     <div>
+
                         <label for="quantidadeProduto">
                             Quantidade
                         </label>
@@ -233,9 +248,11 @@
                             max="999"
                             value="1"
                             required>
+
                     </div>
 
                     <div>
+
                         <label for="categoriaProduto">
                             Categoria
                         </label>
@@ -251,12 +268,14 @@
                             <option value="Outros">Outros</option>
 
                         </select>
+
                     </div>
 
                 </div>
 
             </section>
 
+            <!-- Disponibiliza as ações de cancelar e adicionar -->
             <footer class="modal-footer">
 
                 <button
@@ -284,4 +303,5 @@
     </dialog>
 
 </body>
+
 </html>

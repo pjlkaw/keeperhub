@@ -1,20 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
 
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Vencimentos — KeeperHub</title>
 
-    <!-- Ícones -->
+    <!-- Carrega os ícones utilizados na página -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- CSS compartilhado -->
+    <!-- Carrega os estilos compartilhados do projeto -->
     <link rel="stylesheet" href="/shared/styles/variables.css">
     <link rel="stylesheet" href="/shared/styles/reset.css">
     <link rel="stylesheet" href="/shared/styles/components.css">
@@ -22,14 +21,14 @@
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
-    <!-- CSS do módulo -->
+    <!-- Carrega os estilos específicos da página de vencimentos -->
     <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
     <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
 
-    <!-- Serviço de tema -->
+    <!-- Carrega o serviço responsável pelo tema -->
     <script src="/shared/services/theme.js" defer></script>
 
-    <!-- Configuração da página -->
+    <!-- Define as informações e os caminhos do módulo -->
     <script>
         window.keeperhubModuleConfig = {
             module: 'despensa',
@@ -41,10 +40,10 @@
         };
     </script>
 
-    <!-- Componentes compartilhados -->
+    <!-- Carrega os componentes compartilhados do projeto -->
     <script src="/shared/services/load-components.js" defer></script>
 
-    <!-- JavaScript que carrega os produtos cadastrados -->
+    <!-- Carrega os produtos cadastrados e controla os vencimentos -->
     <script type="module"
         src="/modules/despensa/js/vencimentos.js">
     </script>
@@ -55,58 +54,66 @@
 
     <div class="despensa-shell">
 
-        <!-- ALERTAS -->
-        <section id="alertFromShared"
+        <!-- Exibe mensagens de aviso e confirmação -->
+        <section
+            id="alertFromShared"
             class="alert"
             role="status"
             aria-live="polite">
         </section>
 
-        <!-- NAVEGAÇÃO -->
-        <nav id="modules-nav-wrapper"
+        <!-- Reserva o espaço da navegação entre módulos -->
+        <nav
+            id="modules-nav-wrapper"
             class="modules-nav-wrapper"
             aria-label="Navegação entre módulos">
         </nav>
 
-        <!-- CABEÇALHO -->
-        <header class="section-header-section"
+        <!-- Exibe o cabeçalho da página -->
+        <header
+            class="section-header-section"
             id="headerSection">
         </header>
 
-        <!-- BOTÃO COMPARTILHADO -->
-        <section class="btn-add-section"
+        <!-- Reserva o espaço do botão compartilhado -->
+        <section
+            class="btn-add-section"
             id="btn-add-section"
             style="--btn-add-color: var(--tool-nome-do-modulo)">
         </section>
 
+        <!-- Agrupa o conteúdo principal da página -->
         <main class="despensa-conteudo" id="main-content">
 
-            <!-- RESUMO DE VENCIMENTOS -->
-            <section class="resumo"
+            <!-- Apresenta o resumo dos produtos por vencimento -->
+            <section
+                class="resumo"
                 aria-label="Resumo de vencimentos">
 
-                <!-- QUANTIDADE DE PRODUTOS VENCIDOS -->
+                <!-- Exibe a quantidade de produtos vencidos -->
                 <div class="card resumo-card vencido">
 
                     <div class="titulo">
                         VENCIDOS
                     </div>
 
-                    <div class="numero vermelho"
+                    <div
+                        class="numero vermelho"
                         id="contadorVencidos">
                         0
                     </div>
 
                 </div>
 
-                <!-- QUANTIDADE QUE VENCE EM ATÉ 7 DIAS -->
+                <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
                 <div class="card resumo-card sete">
 
                     <div class="titulo">
                         VENCEM EM 7 DIAS
                     </div>
 
-                    <div class="numero laranja"
+                    <div
+                        class="numero laranja"
                         id="contadorSeteDias">
                         0
                     </div>
@@ -115,29 +122,34 @@
 
             </section>
 
-            <!-- FILTROS -->
-            <nav class="filtros"
+            <!-- Permite filtrar os produtos pelo prazo de vencimento -->
+            <nav
+                class="filtros"
                 aria-label="Filtrar vencimentos">
 
-                <button type="button"
+                <button
+                    type="button"
                     class="filtro ativo"
                     data-filter="todos">
                     Todos
                 </button>
 
-                <button type="button"
+                <button
+                    type="button"
                     class="filtro"
                     data-filter="vencidos">
                     Vencidos
                 </button>
 
-                <button type="button"
+                <button
+                    type="button"
                     class="filtro"
                     data-filter="7">
                     Em 7 dias
                 </button>
 
-                <button type="button"
+                <button
+                    type="button"
                     class="filtro"
                     data-filter="30">
                     Em 30 dias
@@ -145,20 +157,19 @@
 
             </nav>
 
-            <!-- LISTA DE PRODUTOS -->
+            <!-- Exibe a lista de produtos e suas respectivas validades -->
             <section class="produtosSection">
 
-                <!-- CONTADOR DE ITENS -->
-                <span class="produtosSection-title"
+                <!-- Mostra a quantidade total de produtos na lista -->
+                <span
+                    class="produtosSection-title"
                     id="totalVencimentos">
                     Produtos - 0 Itens
                 </span>
 
-                <!--
-                    O JavaScript adiciona automaticamente
-                    os produtos cadastrados na outra página.
-                -->
-                <div id="listaVencimentos"
+                <!-- O JavaScript adiciona automaticamente os produtos cadastrados na outra página -->
+                <div
+                    id="listaVencimentos"
                     aria-live="polite">
                 </div>
 
@@ -169,4 +180,5 @@
     </div>
 
 </body>
+
 </html>
