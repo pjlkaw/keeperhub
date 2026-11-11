@@ -1,3 +1,5 @@
+import { confirmarAcao } from "./js/confirmar.js";
+
 /* =====================================================
    KEEPERHUB — DESPENSA / INDEX.JS
 
@@ -277,9 +279,9 @@ function editProduct(id) {
    Remove o produto do armazenamento compartilhado.
 ===================================================== */
 
-function deleteProduct(id) {
+async function deleteProduct(id) {
 
-    const confirmation = confirm(
+    const confirmation = await confirmarAcao(
         "Deseja realmente excluir este produto?"
     );
 

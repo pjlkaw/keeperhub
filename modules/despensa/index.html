@@ -42,6 +42,7 @@
     <script type="module" src="/modules/despensa/script.js"></script>
     <script type="module" src="/modules/despensa/js/index.js"></script>
 
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
 </head>
 
 <body class="despensa" data-pagina="index">
@@ -53,6 +54,9 @@
         role="status"
         aria-live="polite">
     </section>
+
+    <!-- Modal de confirmação compartilhado (substitui o confirm do navegador) -->
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
 
     <div class="despensa-shell">
 

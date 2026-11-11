@@ -1,3 +1,5 @@
+import { confirmarAcao } from "./confirmar.js";
+
 
 /* =================================
    CHECKLIST - KEEPERHUB
@@ -203,9 +205,9 @@ function criarElementoProduto(produto) {
         `Remover ${produto.nome}`
     );
 
-    remover.addEventListener("click", () => {
+    remover.addEventListener("click", async () => {
 
-        const confirmar = confirm(
+        const confirmar = await confirmarAcao(
             `Deseja remover ${produto.nome} da lista?`
         );
 
@@ -472,7 +474,7 @@ document.querySelectorAll(".filter").forEach(botao => {
 // LIMPAR LISTA INTEIRA
 // =================================
 
-limparLista.addEventListener("click", () => {
+limparLista.addEventListener("click", async () => {
 
     if (lista.length === 0) {
 
@@ -482,7 +484,7 @@ limparLista.addEventListener("click", () => {
 
     }
 
-    const confirmar = confirm(
+    const confirmar = await confirmarAcao(
         "Deseja apagar todos os produtos da lista?"
     );
 

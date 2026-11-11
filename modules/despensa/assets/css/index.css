@@ -1,20 +1,3 @@
-/* Define as cores principais utilizadas na página */
-:root {
-    --accent: #a67b5b;
-    --accent-hover: #bd906e;
-    --danger: #e45c5c;
-}
-
-/* Define as variáveis de cores específicas da despensa */
-.despensa {
-    --background: var(--bg-color);
-    --card: var(--card-bg);
-    --border: var(--border-color);
-    --text: var(--text-color);
-    --secondary: var(--text-muted);
-    --input: var(--card-bg);
-}
-
 /* Define a largura e a altura mínima da página */
 html,
 body {
