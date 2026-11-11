@@ -63,205 +63,206 @@
     <!-- Botão de adicionar compartilhado -->
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
-    <div class="despensa-shell">
+    <div class="app-page-wrapper">
 
-        <!-- Reserva o espaço da navegação entre módulos -->
-        <nav
-            id="modules-nav-wrapper"
-            class="modules-nav-wrapper"
-            aria-label="Navegação entre módulos">
-        </nav>
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-        <!-- Exibe o título e a descrição da página -->
-        <header class="section-header-section" id="headerSection">
+        <div class="app-container">
 
-            <div class="section-header-title-area">
 
-                <div class="section-header-top-row">
+            <!-- Exibe o título e a descrição da página -->
+            <header class="section-header-section" id="headerSection">
 
-                    <h1 id="pageNameH1" class="section-header-title">
-                        Despensa
-                    </h1>
+                <div class="section-header-title-area">
+
+                    <div class="section-header-top-row">
+
+                        <h1 id="pageNameH1" class="section-header-title">
+                            Despensa
+                        </h1>
+
+                    </div>
+
+                    <div class="section-header-meta">
+
+                        <span id="pageSubtittleSpan">
+                            Sua despensa sob controle!
+                        </span>
+
+                    </div>
 
                 </div>
 
-                <div class="section-header-meta">
+            </header>
 
-                    <span id="pageSubtittleSpan">
-                        Sua despensa sob controle!
-                    </span>
+            <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+            <section class="no-content-section" id="no-content-section" aria-label="Nenhum produto cadastrado" hidden></section>
 
-                </div>
+            <!-- Agrupa o conteúdo principal da despensa -->
+            <main class="despensa-conteudo" id="main-content">
 
-            </div>
+                <!-- Apresenta os atalhos e o resumo da despensa -->
+                <section aria-labelledby="resumo-titulo">
 
-        </header>
+                    <h2 id="resumo-titulo" class="visually-hidden">
+                        Resumo da despensa
+                    </h2>
 
-        <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
-        <section class="no-content-section" id="no-content-section" aria-label="Nenhum produto cadastrado" hidden></section>
+                    <div class="despensa-resumo">
 
-        <!-- Agrupa o conteúdo principal da despensa -->
-        <main class="despensa-conteudo" id="main-content">
+                        <!-- Direciona para a lista de produtos cadastrados -->
+                        <a
+                            href="#produtos-cadastrados"
+                            class="card card--interactive summary-card">
 
-            <!-- Apresenta os atalhos e o resumo da despensa -->
-            <section aria-labelledby="resumo-titulo">
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-regular fa-square-check"></i>
+                            </span>
 
-                <h2 id="resumo-titulo" class="visually-hidden">
-                    Resumo da despensa
-                </h2>
+                            <span>Produtos</span>
 
-                <div class="despensa-resumo">
+                            <strong id="contador-produtos">
+                                0 produtos cadastrados
+                            </strong>
 
-                    <!-- Direciona para a lista de produtos cadastrados -->
-                    <a
-                        href="#produtos-cadastrados"
-                        class="card card--interactive summary-card">
+                        </a>
 
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-regular fa-square-check"></i>
-                        </span>
+                        <!-- Direciona para o controle de vencimentos -->
+                        <a
+                            href="components/vencimento.html"
+                            class="card card--interactive summary-card">
 
-                        <span>Produtos</span>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-regular fa-calendar"></i>
+                            </span>
 
-                        <strong id="contador-produtos">
-                            0 produtos cadastrados
-                        </strong>
+                            <span>Vencimento</span>
 
-                    </a>
+                        </a>
 
-                    <!-- Direciona para o controle de vencimentos -->
-                    <a
-                        href="components/vencimento.html"
-                        class="card card--interactive summary-card">
+                        <!-- Direciona para a checklist de compras -->
+                        <a
+                            href="components/checklist.html"
+                            class="card card--interactive summary-card">
 
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-regular fa-calendar"></i>
-                        </span>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-solid fa-list-ul"></i>
+                            </span>
 
-                        <span>Vencimento</span>
+                            <span>Checklist</span>
 
-                    </a>
+                        </a>
 
-                    <!-- Direciona para a checklist de compras -->
-                    <a
-                        href="components/checklist.html"
-                        class="card card--interactive summary-card">
-
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-solid fa-list-ul"></i>
-                        </span>
-
-                        <span>Checklist</span>
-
-                    </a>
-
-                </div>
-
-            </section>
-
-            <!-- Exibe os produtos cadastrados -->
-            <section
-                id="produtos-cadastrados"
-                aria-labelledby="produtos-titulo">
-
-                <h2 id="produtos-titulo">
-                    Produtos
-                </h2>
-
-                <!-- Permite pesquisar produtos pelo nome -->
-                <section class="search-container">
-
-                    <input
-                        type="search"
-                        id="searchInput"
-                        class="input"
-                        placeholder="Buscar produtos..."
-                        autocomplete="off"
-                        aria-label="Buscar produtos">
+                    </div>
 
                 </section>
 
-                <!-- Filtra os produtos pela categoria selecionada -->
-                <nav
-                    class="categories"
-                    aria-label="Categorias de produtos">
+                <!-- Exibe os produtos cadastrados -->
+                <section
+                    id="produtos-cadastrados"
+                    aria-labelledby="produtos-titulo">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Todos">
+                    <h2 id="produtos-titulo">
+                        Produtos
+                    </h2>
 
-                        Todos
+                    <!-- Permite pesquisar produtos pelo nome -->
+                    <section class="search-container">
 
-                    </button>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            class="input"
+                            placeholder="Buscar produtos..."
+                            autocomplete="off"
+                            aria-label="Buscar produtos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Laticínios">
+                    </section>
 
-                        Laticínios
+                    <!-- Filtra os produtos pela categoria selecionada -->
+                    <nav
+                        class="categories"
+                        aria-label="Categorias de produtos">
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Todos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Grãos">
+                            Todos
 
-                        Grãos
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Laticínios">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Bebidas">
+                            Laticínios
 
-                        Bebidas
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Grãos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Limpeza">
+                            Grãos
 
-                        Limpeza
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Bebidas">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Hortifruti">
+                            Bebidas
 
-                        Hortifruti
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Limpeza">
 
-                </nav>
+                            Limpeza
 
-                <!-- Área onde os produtos cadastrados são exibidos -->
-                <section class="products-section">
+                        </button>
 
-                    <section
-                        class="product-list"
-                        id="productList"
-                        aria-live="polite">
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Hortifruti">
 
-                        <p class="empty-message">
-                            Nenhum produto cadastrado.
-                        </p>
+                            Hortifruti
+
+                        </button>
+
+                    </nav>
+
+                    <!-- Área onde os produtos cadastrados são exibidos -->
+                    <section class="products-section">
+
+                        <section
+                            class="product-list"
+                            id="productList"
+                            aria-live="polite">
+
+                            <p class="empty-message">
+                                Nenhum produto cadastrado.
+                            </p>
+
+                        </section>
 
                     </section>
 
                 </section>
 
-            </section>
 
+            </main>
 
-        </main>
+        </div>
 
     </div>
 

@@ -69,133 +69,134 @@
     <!-- Botão de adicionar compartilhado -->
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
-    <div class="despensa-shell">
+    <div class="app-page-wrapper">
 
-        <!-- Reserva o espaço da navegação entre módulos -->
-        <nav
-            id="modules-nav-wrapper"
-            class="modules-nav-wrapper"
-            aria-label="Navegação entre módulos">
-        </nav>
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-        <!-- Exibe o cabeçalho compartilhado da página -->
-        <header
-            class="section-header-section"
-            id="headerSection">
-        </header>
+        <div class="app-container">
 
-        <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
-        <section class="no-content-section" id="no-content-section" aria-label="Nenhum item na lista de compras" hidden></section>
 
-        <!-- Agrupa o conteúdo principal da checklist -->
-        <main class="checklist-page">
+            <!-- Exibe o cabeçalho compartilhado da página -->
+            <header
+                class="section-header-section"
+                id="headerSection">
+            </header>
 
-            <section class="checklist-container">
+            <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+            <section class="no-content-section" id="no-content-section" aria-label="Nenhum item na lista de compras" hidden></section>
 
-                <!-- Apresenta o resumo dos itens da lista -->
-                <section
-                    class="card checklist-summary"
-                    aria-label="Resumo da lista">
+            <!-- Agrupa o conteúdo principal da checklist -->
+            <main class="checklist-page">
 
-                    <!-- Exibe a quantidade de itens selecionados -->
-                    <div class="summary-item">
-                        <span>Selecionados</span>
-                        <strong id="totalSelecionados">0</strong>
-                    </div>
+                <section class="checklist-container">
 
-                    <!-- Exibe a quantidade de itens comprados -->
-                    <div class="summary-item">
-                        <span>Comprados</span>
-                        <strong id="totalComprados">0</strong>
-                    </div>
-
-                    <!-- Exibe o percentual de conclusão da lista -->
-                    <div class="summary-item">
-                        <span>Progresso</span>
-                        <strong id="progressoTexto">0%</strong>
-                    </div>
-
-                    <!-- Exibe visualmente o progresso das compras -->
-                    <div class="progress-track">
-                        <div id="progressoBarra"></div>
-                    </div>
-
-                </section>
-
-                <!-- Agrupa os produtos da lista de compras -->
-                <section class="card shopping-list">
-
-                    <!-- Exibe o título da lista -->
-                    <div class="list-heading">
-                        <h2>Minha lista</h2>
-                    </div>
-
-                    <!-- Permite pesquisar produtos pelo nome -->
-                    <div class="search-box">
-
-                        <input
-                            id="buscaProduto"
-                            type="search"
-                            placeholder="Buscar produto...">
-
-                    </div>
-
-                    <!-- Permite filtrar os produtos da checklist -->
-                    <nav
-                        class="filter-row"
-                        aria-label="Filtrar produtos">
-
-                        <button
-                            type="button"
-                            class="filter active"
-                            data-filtro="todos"
-                            aria-pressed="true">
-
-                            Todos
-
-                        </button>
-
-                        <button
-                            type="button"
-                            class="filter"
-                            data-filtro="pendentes"
-                            aria-pressed="false">
-
-                            Pendentes
-
-                        </button>
-
-                    </nav>
-
-                    <!-- Exibe os produtos adicionados à lista -->
+                    <!-- Apresenta o resumo dos itens da lista -->
                     <section
-                        id="listaCompras"
-                        class="shopping-items"
-                        aria-live="polite">
+                        class="card checklist-summary"
+                        aria-label="Resumo da lista">
+
+                        <!-- Exibe a quantidade de itens selecionados -->
+                        <div class="summary-item">
+                            <span>Selecionados</span>
+                            <strong id="totalSelecionados">0</strong>
+                        </div>
+
+                        <!-- Exibe a quantidade de itens comprados -->
+                        <div class="summary-item">
+                            <span>Comprados</span>
+                            <strong id="totalComprados">0</strong>
+                        </div>
+
+                        <!-- Exibe o percentual de conclusão da lista -->
+                        <div class="summary-item">
+                            <span>Progresso</span>
+                            <strong id="progressoTexto">0%</strong>
+                        </div>
+
+                        <!-- Exibe visualmente o progresso das compras -->
+                        <div class="progress-track">
+                            <div id="progressoBarra"></div>
+                        </div>
+
                     </section>
 
-                    <!-- Informa quando não existem produtos na lista -->
-                    <p id="mensagemVazia" class="empty-message">
-                        Sua lista está vazia. Adicione seu primeiro produto!
-                    </p>
+                    <!-- Agrupa os produtos da lista de compras -->
+                    <section class="card shopping-list">
 
+                        <!-- Exibe o título da lista -->
+                        <div class="list-heading">
+                            <h2>Minha lista</h2>
+                        </div>
+
+                        <!-- Permite pesquisar produtos pelo nome -->
+                        <div class="search-box">
+
+                            <input
+                                id="buscaProduto"
+                                type="search"
+                                placeholder="Buscar produto...">
+
+                        </div>
+
+                        <!-- Permite filtrar os produtos da checklist -->
+                        <nav
+                            class="filter-row"
+                            aria-label="Filtrar produtos">
+
+                            <button
+                                type="button"
+                                class="filter active"
+                                data-filtro="todos"
+                                aria-pressed="true">
+
+                                Todos
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="filter"
+                                data-filtro="pendentes"
+                                aria-pressed="false">
+
+                                Pendentes
+
+                            </button>
+
+                        </nav>
+
+                        <!-- Exibe os produtos adicionados à lista -->
+                        <section
+                            id="listaCompras"
+                            class="shopping-items"
+                            aria-live="polite">
+                        </section>
+
+                        <!-- Informa quando não existem produtos na lista -->
+                        <p id="mensagemVazia" class="empty-message">
+                            Sua lista está vazia. Adicione seu primeiro produto!
+                        </p>
+
+
+                    </section>
+
+                    <!-- Permite remover todos os itens da checklist -->
+                    <button
+                        id="limparLista"
+                        class="clear-button"
+                        type="button">
+
+                        <i class="fa-regular fa-trash-can"></i>
+                        Limpar lista inteira
+
+                    </button>
 
                 </section>
 
-                <!-- Permite remover todos os itens da checklist -->
-                <button
-                    id="limparLista"
-                    class="clear-button"
-                    type="button">
+            </main>
 
-                    <i class="fa-regular fa-trash-can"></i>
-                    Limpar lista inteira
-
-                </button>
-
-            </section>
-
-        </main>
+        </div>
 
     </div>
 
