@@ -30,6 +30,7 @@
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
 </head>
 <body>
         <div class="app-page-wrapper">
@@ -51,7 +52,7 @@
         <section class="seletor-pet-rotina" hidden>
             <label for="pet-rotina">Pet</label>
             <select id="pet-rotina" aria-describedby="status-rotina-diaria">
-                <option value="">Selecione um pet</option>
+                <option value="" selected disabled hidden>Selecione um pet</option>
             </select>
             <p id="status-rotina-diaria" role="status" hidden></p>
         </section>
@@ -111,7 +112,7 @@
 
     </main>
 
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar rotina"></section>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar rotina" inert></section>
 
     <!-- Modelo do resumo da refeição -->
     <template id="modelo-refeicao-resumo">

@@ -59,8 +59,8 @@ const SELECT_CONSULTA = `
 `;
 
 // Consultas de todos os pets ativos do usuário, agrupadas pelo id do pet.
-export async function listarConsultasPorPet(usuarioId) {
-  const [linhas] = await db.execute(
+export async function listarConsultasPorPet(usuarioId, executor = db) {
+  const [linhas] = await executor.execute(
     `${SELECT_CONSULTA} WHERE p.usuario_id = ? AND p.ativo = 1 ORDER BY c.data, c.id_consulta`,
     [usuarioId]
   );
@@ -101,8 +101,9 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
       return null;
     }
 
+    const criados = [];
     for (const petId of petIds) {
-      await conexao.execute(
+      const [resultado] = await conexao.execute(
         `INSERT INTO consulta
           (pet_id, data, status, realizada_em, veterinario, especialidade, clinica, lembrete_ativo)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -112,16 +113,18 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
           dados.medico, dados.especialidade, dados.clinica, dados.lembrar ? 1 : 0,
         ]
       );
+      criados.push(String(resultado.insertId));
     }
 
+    const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
     await conexao.commit();
+    return { consultasPorPet, criados };
   } catch (erro) {
     await conexao.rollback();
     throw erro;
   } finally {
     conexao.release();
   }
-  return listarConsultasPorPet(usuarioId);
 }
 
 // Liga ou desliga o lembrete de uma consulta do usuário.
@@ -148,4 +151,42 @@ export async function registrarConsultaRealizada(idConsulta, usuarioId, resumo) 
   );
   // A busca também filtra pelo dono: consulta de outro usuário volta null.
   return buscarConsulta(idConsulta, usuarioId);
+}
+
+// Conclui os registros do card juntos, depois de verificar todos os IDs.
+export async function registrarConsultasRealizadas(ids, usuarioId, resumo) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const filtro = `p.usuario_id = ? AND p.ativo = 1 AND c.id_consulta IN (${marcadores})`;
+    const parametros = [usuarioId, ...ids];
+    const [consultas] = await conexao.execute(
+      `SELECT c.id_consulta FROM consulta c
+         JOIN pet p ON p.id_pet = c.pet_id
+        WHERE ${filtro}
+        FOR UPDATE`,
+      parametros
+    );
+    if (consultas.length !== ids.length) {
+      await conexao.rollback();
+      return null;
+    }
+
+    await conexao.execute(
+      `UPDATE consulta c
+         JOIN pet p ON p.id_pet = c.pet_id
+          SET c.status = 'realizada', c.realizada_em = NOW(), c.observacoes = ?
+        WHERE ${filtro}`,
+      [resumo || null, ...parametros]
+    );
+    const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return consultasPorPet;
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
 }

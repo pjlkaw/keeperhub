@@ -1,12 +1,13 @@
 # Vacinações de Pets
 
-As páginas `components/vacinacoes.html` e `components/adicionar-vacina.html`
+As páginas `components/vacinacoes.html` e `components/cadastrar-registro.html?tipo=vacina`
 usam `js/vacinacoes.js`. As vacinas ficam na tabela `vacina` do banco e chegam
 pela API `api/modulos/pets-api.js`: a listagem de pets (`GET`) já traz
 `pet.vacinas` de cada animal, e o cadastro usa `POST ?acao=vacina`.
 
-O formulário permite selecionar um pet ou todos os pets cadastrados. Ao escolher
-todos, a API grava um registro por pet numa única transação. Datas de hoje ou
+O formulário permite selecionar um, vários ou todos os pets. A API grava um
+registro por pet numa única transação. Os IDs devolvidos pelo cadastro permitem
+exibir um card coletivo neste navegador. Datas de hoje ou
 passadas são salvas como aplicadas (`status = 'aplicada'`); datas futuras como
 agendamentos (`status = 'agendada'`), que aparecem no cronograma sem entrar no
 histórico de aplicações.

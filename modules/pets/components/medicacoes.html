@@ -26,10 +26,11 @@
         subtitle: 'Acompanhe os medicamentos do seu pet',
         backUrl: '/modules/pets/index.html',
         notificationsModule: 'pets',
-        addUrl: '/modules/pets/components/cadastrar-medicacao.html'
+        addUrl: '/modules/pets/components/cadastrar-registro.html?tipo=medicamento'
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
 </head>
 <body>
         <div class="app-page-wrapper">
@@ -37,8 +38,6 @@
             <div class="app-container">
 
     <!-- Estado vazio -->
-    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma medicação cadastrada"></section>
-
     <main class="pagina-medicacoes"> 
 
         <!-- Navegação entre módulos -->
@@ -47,14 +46,14 @@
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- Medicações e receitas -->
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
-            <a href="receitas.html" class="abas-pet__link">Receitas</a>
+            <a href="vacinacoes.html" class="abas-pet__link">Vacinas</a>
         </nav>
+        <p class="atalho-receitas"><a href="receitas.html">Ver receitas</a></p>
 
         <!-- Busca e filtros -->
-        <div class="barra-ferramentas-medicacoes">
+        <div class="barra-ferramentas-medicacoes" hidden>
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-medicacao" class="somente-leitor-tela">Buscar medicação</label>
                 <i class="fa-solid fa-magnifying-glass icone" aria-hidden="true"></i>
@@ -66,7 +65,7 @@
         </div>
 
         <!-- Uso contínuo -->
-        <section class="grupo-medicacoes" aria-labelledby="uso-continuo-heading">
+        <section class="grupo-medicacoes" aria-labelledby="uso-continuo-heading" hidden>
             <h2 id="uso-continuo-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--continuo">Uso Contínuo</h2>
 
             <ul>
@@ -88,7 +87,7 @@
         </section>
 
         <!-- Tratamentos temporários -->
-        <section class="grupo-medicacoes" aria-labelledby="tratamentos-temporarios-heading">
+        <section class="grupo-medicacoes" aria-labelledby="tratamentos-temporarios-heading" hidden>
             <h2 id="tratamentos-temporarios-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--temporario">Tratamentos Temporários</h2>
 
             <ul>
@@ -128,7 +127,7 @@
         </section>
 
         <!-- Uso eventual -->
-        <section class="grupo-medicacoes" aria-labelledby="uso-eventual-heading">
+        <section class="grupo-medicacoes" aria-labelledby="uso-eventual-heading" hidden>
             <h2 id="uso-eventual-heading" class="grupo-medicacoes__titulo grupo-medicacoes__titulo--eventual">Uso Eventual</h2>
 
             <ul>
@@ -157,7 +156,7 @@
         </section>
 
         <!-- Histórico de medicações -->
-        <section class="grupo-medicacoes" aria-labelledby="historico-heading">
+        <section class="grupo-medicacoes" aria-labelledby="historico-heading" hidden>
             <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
 
             <ul>
@@ -186,9 +185,10 @@
         </section>
 
 
+        <section class="no-content-section" id="no-content-section" aria-label="Nenhuma medicação cadastrada"></section>
     </main>
 
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar medicação"></section>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar medicação" inert></section>
 
     <!-- Scripts -->
     <script type="module" src="../js/medicacoes.js"></script>

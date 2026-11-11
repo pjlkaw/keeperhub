@@ -128,6 +128,12 @@ form.addEventListener('submit', async event => {
         // Atualiza os dados locais com o resultado salvo.
         petAtual = buscarPetPorId(petId);
         informar('Dados do tutor salvos com sucesso.');
+        setTimeout(() => {
+            if (status.textContent === 'Dados do tutor salvos com sucesso.') {
+                status.textContent = '';
+                status.removeAttribute('role');
+            }
+        }, 2000);
     } catch (erro) {
         // Mostra o erro recebido ou uma mensagem padrão.
         informar(erro.message || 'Não foi possível salvar os dados do tutor.', true);
