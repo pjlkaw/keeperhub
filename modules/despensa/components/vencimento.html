@@ -1,26 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="dark">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>
-            Vencimentos — KeeperHub
-        </title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-        
-        <link rel="stylesheet" href="/shared/styles/variables.css">
-        <link rel="stylesheet" href="/shared/styles/reset.css">
-        <link rel="stylesheet" href="/shared/styles/components.css">
-        <link rel="stylesheet" href="/shared/styles/header-page.css">
-        <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
-        <link rel="stylesheet" href="/shared/styles/btn-add.css">
 
-        <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
-        <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
+<head>
 
-        <script src="/shared/services/theme.js" defer></script>
-        <script type="module" src="/modules/despensa/script.js"></script>
-        <script type="module" src="/modules/despensa/js/index.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vencimentos — KeeperHub</title>
+
+    <!-- Carrega os ícones utilizados na página -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Carrega os estilos compartilhados do projeto -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+
+    <!-- Carrega os estilos específicos da página de vencimentos -->
+    <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
+    <link rel="stylesheet" href="/modules/despensa/assets/css/vencimento.css">
+
+    <!-- Carrega o serviço responsável pelo tema -->
+    <script src="/shared/services/theme.js" defer></script>
+
+    <!-- Define as informações e os caminhos do módulo -->
     <script>
         window.keeperhubModuleConfig = {
             module: 'despensa',
@@ -31,8 +39,14 @@
             addUrl: '/modules/despensa/components/cadastrar.html'
         };
     </script>
-    <script src="/shared/services/load-components.js"></script>
-    
+
+    <!-- Carrega os componentes compartilhados do projeto -->
+    <script src="/shared/services/load-components.js" defer></script>
+
+    <!-- Carrega os produtos cadastrados e controla os vencimentos -->
+    <script type="module"
+        src="/modules/despensa/js/vencimentos.js">
+    </script>
 
     </head>
     <body class="despensa" data-pagina="vencimento">
@@ -57,13 +71,20 @@
                             0
                         </div>
                     </div>
-                    <div class="card resumo-card sete">
-                        <div class="titulo">
-                            VENCEM EM 7 DIAS
-                        </div>
-                        <div class="numero laranja">
-                            0
-                        </div>
+
+                </div>
+
+                <!-- Exibe a quantidade de produtos que vencem em até 7 dias -->
+                <div class="card resumo-card sete">
+
+                    <div class="titulo">
+                        VENCEM EM 7 DIAS
+                    </div>
+
+                    <div
+                        class="numero laranja"
+                        id="contadorSeteDias">
+                        0
                     </div>
                 </section>
                 <!-- FILTROS -->

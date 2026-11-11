@@ -1,5 +1,10 @@
-// Controla o cadastro, a listagem e o histórico local das consultas dos pets.
-import { atualizarPet, atualizarVariosPets, listarPets } from './armazenamento.js';
+// Controla o cadastro, a listagem e o histórico das consultas dos pets (salvas no banco pela API).
+import { definirConsultaDoBanco, definirConsultasDoBanco, listarPets } from './armazenamento.js';
+import {
+    alterarLembreteConsultaApi,
+    cadastrarConsultaApi,
+    registrarConsultaRealizadaApi
+} from './api.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -197,9 +202,9 @@ function consultasDoPet() {
         : [];
 }
 
-// Salva a lista de consultas atualizada e atualiza o pet em memória.
-function persistirConsultas(consultas) {
-    const atualizado = atualizarPet(petAtual.id, { consultas });
+// Guarda na memória a consulta devolvida pela API e atualiza o pet atual.
+function aplicarConsultaSalva(consulta) {
+    const atualizado = definirConsultaDoBanco(consulta);
 
     if (!atualizado) {
         throw new Error('Não foi possível localizar esse pet.');
@@ -361,8 +366,8 @@ function atualizarFormulario() {
         );
     } else {
         aviso.textContent = petsAlvo.length > 1
-            ? `A consulta será salva para ${petsAlvo.length} pets neste navegador.`
-            : 'Os dados serão salvos neste navegador.';
+            ? `A consulta será salva para ${petsAlvo.length} pets na sua conta.`
+            : 'Os dados serão salvos na sua conta.';
         aviso.hidden = false;
         informar('');
     }
@@ -407,7 +412,7 @@ function configurarFormulario() {
     });
 
     // Trata o envio do formulário de cadastro.
-    formulario.addEventListener('submit', event => {
+    formulario.addEventListener('submit', async event => {
         event.preventDefault();
 
         // Não cadastra se nenhum pet estiver selecionado.
@@ -438,9 +443,9 @@ function configurarFormulario() {
 
         const especialidadeValor = especialidade.value;
 
-        // Monta o objeto da consulta com os dados preenchidos.
-        const novaConsulta = {
-            id: crypto.randomUUID(),
+        // Monta os dados da consulta; a API grava um registro por pet escolhido.
+        const dadosConsulta = {
+            petIds: petsAlvo.map(pet => pet.id),
             medico: formulario.elements.nome_medico.value.trim(),
             especialidade: especialidadeValor,
             especialidadePersonalizada:
@@ -448,29 +453,15 @@ function configurarFormulario() {
             clinica: formulario.elements.clinica.value.trim(),
             data: data.value,
             horario: formulario.elements.horario_consulta.value,
-            lembrar: formulario.elements.lembrar_consulta.checked,
-            status: data.value < dataLocalISO() ? 'realizada' : 'agendada',
-            resumo: '',
-            ...(data.value < dataLocalISO() ? { realizadaEm: new Date().toISOString() } : {}),
-            criadaEm: new Date().toISOString()
+            lembrar: formulario.elements.lembrar_consulta.checked
         };
 
         try {
             // Captura o destino antes do evento de atualização recarregar o seletor.
             const petDestinoId = petsAlvo[0].id;
             const quantidadePets = petsAlvo.length;
-            const grupoId = crypto.randomUUID();
-            const atualizacoes = Object.fromEntries(petsAlvo.map(pet => [
-                pet.id,
-                {
-                    consultas: [
-                        ...(Array.isArray(pet.consultas) ? pet.consultas : []),
-                        { ...novaConsulta, id: crypto.randomUUID(), grupoId }
-                    ]
-                }
-            ]));
-            const salvos = atualizarVariosPets(atualizacoes);
-            if (!salvos) throw new Error('Não foi possível localizar todos os pets selecionados.');
+            const consultasPorPet = await cadastrarConsultaApi(dadosConsulta);
+            definirConsultasDoBanco(consultasPorPet);
 
             // Informa que salvou e abre a agenda do primeiro pet escolhido.
             aviso.textContent = `Consulta salva para ${quantidadePets} ${quantidadePets === 1 ? 'pet' : 'pets'}. Abrindo a agenda…`;
@@ -528,7 +519,7 @@ if (paginaLista) {
         .forEach(form => form.remove());
 
     // Salva alterações na opção "Lembrar" de uma consulta.
-    mainPainel.addEventListener('change', event => {
+    mainPainel.addEventListener('change', async event => {
         const cartao = event.target.closest('[data-consulta-id]');
 
         // Ignora mudanças que não sejam caixas de lembrete dentro de cartões.
@@ -539,14 +530,13 @@ if (paginaLista) {
         ) return;
 
         try {
-            // Atualiza o campo lembrar da consulta que mudou.
-            const consultas = consultasDoPet().map(item =>
-                item.id === cartao.dataset.consultaId
-                    ? { ...item, lembrar: event.target.checked }
-                    : item
+            // Salva o novo valor do lembrete da consulta que mudou.
+            const consulta = await alterarLembreteConsultaApi(
+                cartao.dataset.consultaId,
+                event.target.checked
             );
 
-            persistirConsultas(consultas);
+            aplicarConsultaSalva(consulta);
         } catch {
             // Se não for possível salvar, desfaz visualmente a mudança.
             event.target.checked = !event.target.checked;
@@ -555,7 +545,7 @@ if (paginaLista) {
     });
 
     // Trata o formulário que registra uma consulta no histórico.
-    mainPainel.addEventListener('submit', event => {
+    mainPainel.addEventListener('submit', async event => {
         const form = event.target.closest('[data-form-historico]');
 
         // Ignora envios que não sejam de um formulário de histórico.
@@ -566,19 +556,13 @@ if (paginaLista) {
         const cartao = form.closest('[data-consulta-id]');
 
         try {
-            // Marca a consulta como realizada e salva o resumo e a data do registro.
-            const consultas = consultasDoPet().map(item =>
-                item.id === cartao.dataset.consultaId
-                    ? {
-                        ...item,
-                        status: 'realizada',
-                        resumo: form.elements.resumo.value.trim(),
-                        realizadaEm: new Date().toISOString()
-                    }
-                    : item
+            // Marca a consulta como realizada e salva o resumo; o banco registra a data.
+            const consulta = await registrarConsultaRealizadaApi(
+                cartao.dataset.consultaId,
+                form.elements.resumo.value.trim()
             );
 
-            persistirConsultas(consultas);
+            aplicarConsultaSalva(consulta);
 
             // Atualiza a tela para mover a consulta ao histórico.
             renderizarLista();

@@ -1,38 +1,149 @@
-.validade, .titulo, span, .produto-info {
-    color: var(--text-muted);
-}
+
+/* Organiza os cards de resumo em duas colunas */
 .resumo {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+    margin-bottom: 16px;
 }
+
+/* Define a estrutura individual dos cards de resumo */
 .resumo-card {
-    border-bottom: 2px solid var(--despensa-destaque);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 2px solid var(--despensa-destaque, var(--accent, #a67b5b));
 }
-.resumo-card.trinta {
-    grid-column: 1 / -1;
+
+/* Define a aparência dos títulos dos cards */
+.resumo-card .titulo {
+    color: var(--text-muted, var(--secondary, #a1a1aa));
+    font-size: 11px;
 }
+
+/* Destaca os números apresentados no resumo */
 .numero {
     font-size: 1.5rem;
     font-weight: 800;
 }
 
+/* Identifica os produtos que já estão vencidos */
+.vermelho {
+    color: #e45c5c;
+}
+
+/* Identifica os produtos próximos do vencimento */
+.laranja {
+    color: #e9ad73;
+}
+
+/* Organiza os filtros horizontalmente */
+.filtros {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 16px 0 20px;
+    padding: 2px;
+}
+
+/* Esconde a barra de rolagem no Chrome */
+.filtros::-webkit-scrollbar {
+    display: none;
+}
+
+/* Define a aparência padrão dos botões de filtro */
+.filtro {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: 1px solid var(--border, #303034);
+    border-radius: 7px;
+    background: var(--card, #18181b);
+    color: var(--text, #fff);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+/* Destaca o filtro atualmente selecionado */
+.filtro.ativo {
+    border-color: var(--accent, #a67b5b);
+    background: var(--accent, #a67b5b);
+    color: #fff;
+}
+
+/* Organiza a seção de produtos verticalmente */
 .produtosSection {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Define a aparência do título da seção de produtos */
+.produtosSection-title {
+    display: block;
+    color: var(--text-muted, var(--secondary, #a1a1aa));
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+/* Organiza os cartões de vencimentos em coluna */
+#listaVencimentos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Define a estrutura de cada cartão de produto */
 .produto {
     display: grid;
     gap: 8px;
-    border-left: 2px solid var(--despensa-destaque);
+    padding: 12px;
+    border-left: 2px solid var(--accent, #a67b5b);
 }
+
+/* Define a aparência do nome do produto */
+.produto h3 {
+    margin: 0;
+    color: var(--text, #fff);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+/* Define a aparência geral das etiquetas de validade */
 .status {
     justify-self: start;
     padding: 4px 8px;
     border-radius: 8px;
-    background: var(--despensa-fundo-destaque);
-    color: var(--text-color);
-    border: 1px solid var(--despensa-destaque);
+    font-size: 11px;
+    border: 1px solid var(--accent, #a67b5b);
+}
+
+/* Identifica visualmente os produtos que já venceram */
+.vencido-status {
+    color: #ff7777;
+    border-color: #e45c5c;
+    background: rgba(228, 92, 92, 0.10);
+}
+
+/* Identifica visualmente os produtos próximos do vencimento */
+.proximo {
+    color: #e9ad73;
+    border-color: var(--accent, #a67b5b);
+    background: rgba(166, 123, 91, 0.10);
+}
+
+/* Organiza as informações adicionais de cada produto */
+.produto-info {
+    padding: 10px;
+    border-radius: 8px;
+    color: var(--text-muted, var(--secondary, #a1a1aa));
+    font-size: 11px;
+}
+
+/* Define a aparência da mensagem de lista vazia */
+.lista-vazia {
+    padding: 12px 0;
+    color: var(--text-muted, var(--secondary, #a1a1aa));
+    font-size: 12px;
 }
