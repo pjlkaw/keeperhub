@@ -39,71 +39,73 @@
     <section id="alertFromShared" class="alert"></section>
     <!-- Botão de adicionar pet -->
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar novo pet"></section>
-    <div class="pagina-pets">
+    <div class="app-page-wrapper">
       <!-- Navegação entre módulos -->
       <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-
-      <!-- Cabeçalho da página -->
-      <header class="section-header-section" id="headerSection"></header>
-
-      <!-- Estado vazio -->
-      <section class="no-content-section" id="no-content-section" aria-label="Nenhum pet cadastrado" hidden></section>
-
-      <main class="painel-pets" id="conteudo-principal" hidden>
-        <h1 class="somente-leitor-tela">Meus pets</h1>
-        <p id="painel-pets-status" class="painel-pets-status" role="status" aria-live="polite"></p>
-        <button type="button" id="recarregar-pets" class="botao-principal" hidden>Tentar novamente</button>
-        <!-- Lista preenchida pelo script do painel -->
-        <ul class="lista-pets" id="lista-pets"></ul>
-
-        <!-- Adicionar outro pet -->
-        <section class="adicionar-pet-section" id="adicionar-pet-section" hidden aria-label="Adicionar outro pet">
-          <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
-            <i class="fa-solid fa-plus icone" aria-hidden="true"></i>
-            Adicionar novo pet
-          </a>
-        </section>
-
-            <!-- Atalhos de cuidados -->
-            <section class="acoes-rapidas-pet" id="acoes-rapidas-pets" aria-label="Cuidados dos pets" hidden>
-              <ul>
-                <li><a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina"><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Vacinas</span><span class="acao-rapida__descricao">Consultar vacinas</span></a></li>
-                <li><a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Consultas</span><span class="acao-rapida__descricao">Consultar agendamentos</span></a></li>
-                <li><a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao"><i class="fa-solid fa-pills icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Medicamentos</span><span class="acao-rapida__descricao">Consultar medicações</span></a></li>
-                <li><a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina"><i class="fa-solid fa-clipboard-list icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Rotina</span><span class="acao-rapida__descricao">Consultar rotina</span></a></li>
-                <li class="acoes-rapidas-pet__despesas"><a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas"><i class="fa-solid fa-receipt icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Despesas</span><span class="acao-rapida__descricao">Consultar despesas</span></a></li>
-              </ul>
-            </section>
-
-        <noscript>Ative o JavaScript para cadastrar e visualizar seus pets.</noscript>
-      </main>
-
-      <!-- Modelo do card de pet -->
-      <template id="cartao-pet-template">
-        <li>
-          <article class="bloco-pet">
-            <section class="card cartao-resumo-pet">
-              <figure class="cartao-resumo-pet__foto">
-                <img src="/shared/img/logo-pets.png" alt="" />
-              </figure>
-              <div class="cartao-resumo-pet__informacoes">
-                <h2 class="cartao-resumo-pet__nome"><span data-pet-nome></span> <span class="cartao-resumo-pet__idade" data-pet-idade></span></h2>
-                <p class="cartao-resumo-pet__raca" data-pet-raca></p>
-                <ul class="cartao-resumo-pet__atributos">
-                  <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-weight-scale icone" aria-hidden="true"></i><span data-pet-peso></span></li>
-                  <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-venus icone" aria-hidden="true"></i><span data-pet-genero></span></li>
+      <div class="app-container"> 
+  
+        <!-- Cabeçalho da página -->
+        <header class="section-header-section" id="headerSection"></header>
+  
+        <!-- Estado vazio -->
+        <section class="no-content-section" id="no-content-section" aria-label="Nenhum pet cadastrado" hidden></section>
+  
+        <main class="painel-pets" id="conteudo-principal" hidden>
+          <h1 class="somente-leitor-tela">Meus pets</h1>
+          <p id="painel-pets-status" class="painel-pets-status" role="status" aria-live="polite"></p>
+          <button type="button" id="recarregar-pets" class="botao-principal" hidden>Tentar novamente</button>
+          <!-- Lista preenchida pelo script do painel -->
+          <ul class="lista-pets" id="lista-pets"></ul>
+  
+          <!-- Adicionar outro pet -->
+          <section class="adicionar-pet-section" id="adicionar-pet-section" hidden aria-label="Adicionar outro pet">
+            <a href="components/cadastrar-pet.html" class="card card--interactive cartao-adicionar-pet">
+              <i class="fa-solid fa-plus icone" aria-hidden="true"></i>
+              Adicionar novo pet
+            </a>
+          </section>
+  
+              <!-- Atalhos de cuidados -->
+              <section class="acoes-rapidas-pet" id="acoes-rapidas-pets" aria-label="Cuidados dos pets" hidden>
+                <ul>
+                  <li><a href="components/vacinacoes.html" class="card card--interactive acao-rapida acao-rapida--vacina"><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Vacinas</span><span class="acao-rapida__descricao">Consultar vacinas</span></a></li>
+                  <li><a href="components/consultas-exames.html" class="card card--interactive acao-rapida acao-rapida--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Consultas</span><span class="acao-rapida__descricao">Consultar agendamentos</span></a></li>
+                  <li><a href="components/medicacoes.html" class="card card--interactive acao-rapida acao-rapida--medicacao"><i class="fa-solid fa-pills icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Medicamentos</span><span class="acao-rapida__descricao">Consultar medicações</span></a></li>
+                  <li><a href="components/rotina-diaria.html" class="card card--interactive acao-rapida acao-rapida--rotina"><i class="fa-solid fa-clipboard-list icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Rotina</span><span class="acao-rapida__descricao">Consultar rotina</span></a></li>
+                  <li class="acoes-rapidas-pet__despesas"><a href="components/despesas.html" class="card card--interactive acao-rapida acao-rapida--despesas"><i class="fa-solid fa-receipt icone" aria-hidden="true"></i><span class="acao-rapida__titulo">Despesas</span><span class="acao-rapida__descricao">Consultar despesas</span></a></li>
                 </ul>
-              </div>
-              <a href="components/editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar" data-link-pet>
-                <i class="fa-solid fa-pen-to-square icone" aria-hidden="true"></i>Editar Pet
-              </a>
-            </section>
+              </section>
+  
+          <noscript>Ative o JavaScript para cadastrar e visualizar seus pets.</noscript>
+        </main>
+  
+        <!-- Modelo do card de pet -->
+        <template id="cartao-pet-template">
+          <li>
+            <article class="bloco-pet">
+              <section class="card cartao-resumo-pet">
+                <figure class="cartao-resumo-pet__foto">
+                  <img src="/shared/img/logo-pets.png" alt="" />
+                </figure>
+                <div class="cartao-resumo-pet__informacoes">
+                  <h2 class="cartao-resumo-pet__nome"><span data-pet-nome></span> <span class="cartao-resumo-pet__idade" data-pet-idade></span></h2>
+                  <p class="cartao-resumo-pet__raca" data-pet-raca></p>
+                  <ul class="cartao-resumo-pet__atributos">
+                    <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-weight-scale icone" aria-hidden="true"></i><span data-pet-peso></span></li>
+                    <li class="cartao-resumo-pet__atributo"><i class="fa-solid fa-venus icone" aria-hidden="true"></i><span data-pet-genero></span></li>
+                  </ul>
+                </div>
+                <a href="components/editar-pet-informacoes.html" class="botao-principal cartao-resumo-pet__editar" data-link-pet>
+                  <i class="fa-solid fa-pen-to-square icone" aria-hidden="true"></i>Editar Pet
+                </a>
+              </section>
+  
+            </article>
+          </li>
+        </template>
+      </div>
 
-          </article>
-        </li>
-      </template>
-    </div>
-
+      </div>  
     <!-- Scripts -->
     <script type="module" src="../pets/script.js"></script>
       <script src="/shared/services/theme.js"></script>

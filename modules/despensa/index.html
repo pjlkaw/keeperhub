@@ -34,87 +34,89 @@
     <body class="despensa" data-pagina="index">
         <section id="alertFromShared" class="alert" role="status" aria-live="polite">
         </section>
-        <div class="despensa-shell">
+        <div class="app-page-wrapper">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-            <header class="section-header-section" id="headerSection">
-            </header>
-            <main class="despensa-conteudo" id="main-content">
-                <section aria-labelledby="resumo-titulo">
-                    <h2 id="resumo-titulo">
-                     
-                    </h2>
-                    <div class="despensa-resumo">
-                        <a href="" class="card card--interactive summary-card">
-                            <span class="summary-icon">
-                                <i class="fa-regular fa-square-check" id="fa-icons"></i>
-                            </span>
-                            <span>
-                                Produtos
-                            </span>
-                            <strong id="contador-produtos"></strong>
-                        </a>
-                        <a href="components/vencimento.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true">
-                                <i class="fa-regular fa-calendar" id="fa-icons"></i>
-                            </span>
-                            <span>
-                                Próximos ao vencimento
-                            </span>
-                        </a>
-                        <a href="components/checklist.html" class="card card--interactive summary-card">
-                            <span class="summary-icon" aria-hidden="true" id="fa-icons">
-                               <i class="fa-solid fa-list-ul"></i>
-                            
-                            </span>
-                            <span>
-                               Checklist
-                            </span>
-                            </strong>
-                        </a>
-                </section>
-
-                <section id="produtos-cadastrados" aria-labelledby="produtos-titulo">
-                    <h2 id="produtos-titulo">
-                        Produtos 
-                    </h2>
-                 <main class="despensa-conteudo" id="main-content">
-
-                <!-- BUSCA -->
-                <section class="search-container">
-                    <input type="text" id="searchInput" aria-label="Buscar produtos" placeholder=" ⌕ Buscar produtos...">
-                </section>
-
-                <!-- FILTROS -->
-                <nav class="filters" aria-label="Filtrar por categoria">
-                    <button class="" data-category="Todos">
-                        Todos
-                    </button>
-                    <button class="filter" data-category="Laticínios">
-                        Laticínios
-                    </button>
-                    <button class="filter" data-category="Grãos">
-                        Grãos
-                    </button>
-                    <button class="filter" data-category="Bebidas">
-                        Bebidas
-                    </button>
-                    <button class="filter" data-category="Limpeza">
-                        Limpeza
-                    </button>
-                </nav>
-                <p id="itemsBadge" role="status">
-                </p>
-
-                <!-- LISTA DE PRODUTOS -->
-                <section class="products-list" id="productsList">  
-                     <div id="lista-produtos" class="lista-produtos" aria-live="polite">
-                    </div>  
-
-
-                <a class="floating-button" href="/modules/despensa/components/cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
-                    +
-                </a>
-            </main>
+            <div class="app-container">
+                <header class="section-header-section" id="headerSection">
+                </header>
+                <main class="despensa-conteudo" id="main-content">
+                    <section aria-labelledby="resumo-titulo">
+                        <h2 id="resumo-titulo">
+                         
+                        </h2>
+                        <div class="despensa-resumo">
+                            <a href="" class="card card--interactive summary-card">
+                                <span class="summary-icon">
+                                    <i class="fa-regular fa-square-check" id="fa-icons"></i>
+                                </span>
+                                <span>
+                                    Produtos
+                                </span>
+                                <strong id="contador-produtos"></strong>
+                            </a>
+                            <a href="components/vencimento.html" class="card card--interactive summary-card">
+                                <span class="summary-icon" aria-hidden="true">
+                                    <i class="fa-regular fa-calendar" id="fa-icons"></i>
+                                </span>
+                                <span>
+                                    Próximos ao vencimento
+                                </span>
+                            </a>
+                            <a href="components/checklist.html" class="card card--interactive summary-card">
+                                <span class="summary-icon" aria-hidden="true" id="fa-icons">
+                                   <i class="fa-solid fa-list-ul"></i>
+                                
+                                </span>
+                                <span>
+                                   Checklist
+                                </span>
+                                </strong>
+                            </a>
+                    </section>
+    
+                    <section id="produtos-cadastrados" aria-labelledby="produtos-titulo">
+                        <h2 id="produtos-titulo">
+                            Produtos 
+                        </h2>
+                     <main class="despensa-conteudo" id="main-content">
+    
+                    <!-- BUSCA -->
+                    <section class="search-container">
+                        <input type="text" id="searchInput" aria-label="Buscar produtos" placeholder=" ⌕ Buscar produtos...">
+                    </section>
+    
+                    <!-- FILTROS -->
+                    <nav class="filters" aria-label="Filtrar por categoria">
+                        <button class="" data-category="Todos">
+                            Todos
+                        </button>
+                        <button class="filter" data-category="Laticínios">
+                            Laticínios
+                        </button>
+                        <button class="filter" data-category="Grãos">
+                            Grãos
+                        </button>
+                        <button class="filter" data-category="Bebidas">
+                            Bebidas
+                        </button>
+                        <button class="filter" data-category="Limpeza">
+                            Limpeza
+                        </button>
+                    </nav>
+                    <p id="itemsBadge" role="status">
+                    </p>
+    
+                    <!-- LISTA DE PRODUTOS -->
+                    <section class="products-list" id="productsList">  
+                         <div id="lista-produtos" class="lista-produtos" aria-live="polite">
+                        </div>  
+    
+    
+                    <a class="floating-button" href="/modules/despensa/components/cadastrar.html" aria-label="Adicionar produto" title="Adicionar produto">
+                        +
+                    </a>
+                </main>
+            </div>
         </div>
     </body>
 </html>
