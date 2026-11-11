@@ -54,267 +54,258 @@
 </head>
 
 <body class="despensa" data-pagina="checklist">
-        <div class="app-page-wrapper">
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos">
-            </nav>
-            <div class="app-container">
-          <section id="alertFromShared" class="alert" role="status" aria-live="polite">
-          </section>
-          <div class="despensa-shell">
-
-               <a href="/main/hub/index.html">   
-                  </a>
-              </nav>
-              <header class="section-header-section" id="headerSection">
-                  <div class="section-header-title-area">
-                          </span>
-                  </div>
-          </header>
-
-          <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
-          <section class="no-content-section" id="no-content-section" aria-label="Nenhum item na lista de compras" hidden></section>
-
-          <!-- Agrupa o conteúdo principal da checklist -->
-          <main class="checklist-page">
-
-              <section class="checklist-container">
-
-                  <!-- Apresenta o resumo dos itens da lista -->
-                  <section
-                      class="card checklist-summary"
-                      aria-label="Resumo da lista">
-
-                      <!-- Exibe a quantidade de itens selecionados -->
-                      <div class="summary-item">
-                          <span>Selecionados</span>
-                          <strong id="totalSelecionados">0</strong>
-                      </div>
 
-                      <!-- Exibe a quantidade de itens comprados -->
-                      <div class="summary-item">
-                          <span>Comprados</span>
-                          <strong id="totalComprados">0</strong>
-                      </div>
+    <!-- Exibe mensagens de aviso e confirmação -->
+    <section
+        id="alertFromShared"
+        class="alert"
+        role="status"
+        aria-live="polite">
+    </section>
 
-                      <!-- Exibe o percentual de conclusão da lista -->
-                      <div class="summary-item">
-                          <span>Progresso</span>
-                          <strong id="progressoTexto">0%</strong>
-                      </div>
+    <!-- Modal de confirmação compartilhado (substitui o confirm do navegador) -->
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
 
-                      <!-- Exibe visualmente o progresso das compras -->
-                      <div class="progress-track">
-                          <div id="progressoBarra"></div>
-                      </div>
+    <!-- Botão de adicionar compartilhado -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
-                  </section>
+    <div class="app-page-wrapper">
 
-                  <!-- Agrupa os produtos da lista de compras -->
-                  <section class="card shopping-list">
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-                      <!-- Exibe o título da lista -->
-                      <div class="list-heading">
-                          <h2>Minha lista</h2>
-                      </div>
+        <div class="app-container">
 
-                      <!-- Permite pesquisar produtos pelo nome -->
-                      <div class="search-box">
 
-                          <input
-                              id="buscaProduto"
-                              type="search"
-                              placeholder="Buscar produto...">
+            <!-- Exibe o cabeçalho compartilhado da página -->
+            <header
+                class="section-header-section"
+                id="headerSection">
+            </header>
 
-                      </div>
+            <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+            <section class="no-content-section" id="no-content-section" aria-label="Nenhum item na lista de compras" hidden></section>
 
-                      <!-- Permite filtrar os produtos da checklist -->
-                      <nav
-                          class="filter-row"
-                          aria-label="Filtrar produtos">
+            <!-- Agrupa o conteúdo principal da checklist -->
+            <main class="checklist-page">
 
-                          <button
-                              type="button"
-                              class="filter active"
-                              data-filtro="todos"
-                              aria-pressed="true">
+                <section class="checklist-container">
 
-                              Todos
+                    <!-- Apresenta o resumo dos itens da lista -->
+                    <section
+                        class="card checklist-summary"
+                        aria-label="Resumo da lista">
 
-                          </button>
+                        <!-- Exibe a quantidade de itens selecionados -->
+                        <div class="summary-item">
+                            <span>Selecionados</span>
+                            <strong id="totalSelecionados">0</strong>
+                        </div>
 
-                          <button
-                              type="button"
-                              class="filter"
-                              data-filtro="pendentes"
-                              aria-pressed="false">
+                        <!-- Exibe a quantidade de itens comprados -->
+                        <div class="summary-item">
+                            <span>Comprados</span>
+                            <strong id="totalComprados">0</strong>
+                        </div>
 
-                              Pendentes
+                        <!-- Exibe o percentual de conclusão da lista -->
+                        <div class="summary-item">
+                            <span>Progresso</span>
+                            <strong id="progressoTexto">0%</strong>
+                        </div>
 
-                          </button>
+                        <!-- Exibe visualmente o progresso das compras -->
+                        <div class="progress-track">
+                            <div id="progressoBarra"></div>
+                        </div>
 
-                      </nav>
+                    </section>
 
-                      <!-- Exibe os produtos adicionados à lista -->
-                      <section
-                          id="listaCompras"
-                          class="shopping-items"
-                          aria-live="polite">
-                      </section>
+                    <!-- Agrupa os produtos da lista de compras -->
+                    <section class="card shopping-list">
 
-                      <!-- Informa quando não existem produtos na lista -->
-                      <p id="mensagemVazia" class="empty-message">
-                          Sua lista está vazia. Adicione seu primeiro produto!
-                      </p>
+                        <!-- Exibe o título da lista -->
+                        <div class="list-heading">
+                            <h2>Minha lista</h2>
+                        </div>
 
+                        <!-- Permite pesquisar produtos pelo nome -->
+                        <div class="search-box">
 
-                  </section>
+                            <input
+                                id="buscaProduto"
+                                type="search"
+                                placeholder="Buscar produto...">
 
-                  <!-- Permite remover todos os itens da checklist -->
-                  <button
-                      id="limparLista"
-                      class="clear-button"
-                      type="button">
+                        </div>
 
-                      <i class="fa-regular fa-trash-can"></i>
-                      Limpar lista inteira
+                        <!-- Permite filtrar os produtos da checklist -->
+                        <nav
+                            class="filter-row"
+                            aria-label="Filtrar produtos">
 
-                  </button>
+                            <button
+                                type="button"
+                                class="filter active"
+                                data-filtro="todos"
+                                aria-pressed="true">
 
-              </section>
+                                Todos
 
-          </main>
+                            </button>
 
-      </div>
+                            <button
+                                type="button"
+                                class="filter"
+                                data-filtro="pendentes"
+                                aria-pressed="false">
 
-      <!-- Contém o formulário para adicionar produtos à checklist -->
-      <dialog id="modalProduto" class="product-modal">
+                                Pendentes
 
-          <form id="formProduto">
+                            </button>
 
-              <!-- Exibe o título e o botão para fechar o modal -->
-              <header class="modal-header">
+                        </nav>
 
-                  <h2>Adicionar item</h2>
+                        <!-- Exibe os produtos adicionados à lista -->
+                        <section
+                            id="listaCompras"
+                            class="shopping-items"
+                            aria-live="polite">
+                        </section>
 
-                  <button
-                      type="button"
-                      id="fecharModal"
-                      class="close-button"
-                      aria-label="Fechar">
+                        <!-- Informa quando não existem produtos na lista -->
+                        <p id="mensagemVazia" class="empty-message">
+                            Sua lista está vazia. Adicione seu primeiro produto!
+                        </p>
 
-                      <i class="fa-solid fa-xmark"></i>
 
-                  </button>
+                    </section>
 
-              </header>
+                    <!-- Permite remover todos os itens da checklist -->
+                    <button
+                        id="limparLista"
+                        class="clear-button"
+                        type="button">
 
-              <!-- Reúne os campos para cadastrar um item -->
-              <section class="modal-content">
+                        <i class="fa-regular fa-trash-can"></i>
+                        Limpar lista inteira
 
-                  <label for="nomeProduto">
-                      Nome do produto
-                  </label>
+                    </button>
 
-                  <input
-                      type="text"
-                      id="nomeProduto"
-                      placeholder="Ex: Arroz"
-                      maxlength="80"
-                      required>
+                </section>
 
-                  <!-- Agrupa os campos de quantidade e categoria -->
-                  <div class="form-row">
+            </main>
 
-                      <div>
-
-                          <label for="quantidadeProduto">
-                              Quantidade
-                          </label>
-
-                          <input
-                              type="number"
-                              id="quantidadeProduto"
-                              min="1"
-                              max="999"
-                              value="1"
-                              required>
-
-                      </div>
-
-                      <div>
-
-                          <label for="categoriaProduto">
-                              Categoria
-                          </label>
-
-                          <select id="categoriaProduto" required>
-
-                              <option value="">Selecione</option>
-                              <option value="Grãos">Grãos</option>
-                              <option value="Laticínios">Laticínios</option>
-                              <option value="Bebidas">Bebidas</option>
-                              <option value="Limpeza">Limpeza</option>
-                              <option value="Hortifruti">Hortifruti</option>
-                              <option value="Outros">Outros</option>
-
-                          </select>
-
-                      </div>
-
-                  </div>
-
-              </section>
-
-              <!-- Disponibiliza as ações de cancelar e adicionar -->
-              <footer class="modal-footer">
-
-                  <button
-                      type="button"
-                      id="cancelarModal"
-                      class="cancel-button">
-
-                      Cancelar
-
-                  </button>
-
-                  <button
-                      type="submit"
-                      class="save-button">
-
-                      <i class="fa-solid fa-plus"></i>
-                      Adicionar
-
-                  </button>
-              </div>
-
-              <label for="buscaProduto" class="sr-only">Buscar produto</label>
-              <div class="search-box">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                  <input id="buscaProduto" type="search"
-                      placeholder="Buscar produto...">
-              </div>
-
-              <div class="filter-row">
-                  <button class="filter active" data-filtro="todos">Todos</button>
-                  <button class="filter" data-filtro="pendentes">Pendentes</button>
-                  <button class="filter" data-filtro="comprados">Comprados</button>
-              </div>
-
-              <div id="listaCompras" aria-live="polite"></div>
-
-              <p id="mensagemVazia" class="empty-message">
-                  Sua lista está vazia. Adicione seu primeiro produto!
-              </p>
-          </section>
-
-          <button id="limparLista" class="clear-button" type="button">
-
-              <i class="fa-regular fa-trash-can"></i> Limpar lista inteira
-          </button>
-
-      </main>
-
-            </div>
         </div>
-    </body>
+
+    </div>
+
+    <!-- Contém o formulário para adicionar produtos à checklist -->
+    <dialog id="modalProduto" class="product-modal">
+
+        <form id="formProduto">
+
+            <!-- Exibe o título e o botão para fechar o modal -->
+            <header class="modal-header">
+
+                <h2>Adicionar item</h2>
+
+                <button
+                    type="button"
+                    id="fecharModal"
+                    class="close-button"
+                    aria-label="Fechar">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </header>
+
+            <!-- Reúne os campos para cadastrar um item -->
+            <section class="modal-content">
+
+                <label for="nomeProduto">
+                    Nome do produto
+                </label>
+
+                <input
+                    type="text"
+                    id="nomeProduto"
+                    placeholder="Ex: Arroz"
+                    maxlength="80"
+                    required>
+
+                <!-- Agrupa os campos de quantidade e categoria -->
+                <div class="form-row">
+
+                    <div>
+
+                        <label for="quantidadeProduto">
+                            Quantidade
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantidadeProduto"
+                            min="1"
+                            max="999"
+                            value="1"
+                            required>
+
+                    </div>
+
+                    <div>
+
+                        <label for="categoriaProduto">
+                            Categoria
+                        </label>
+
+                        <select id="categoriaProduto" required>
+
+                            <option value="">Selecione</option>
+                            <option value="Grãos">Grãos</option>
+                            <option value="Laticínios">Laticínios</option>
+                            <option value="Bebidas">Bebidas</option>
+                            <option value="Limpeza">Limpeza</option>
+                            <option value="Hortifruti">Hortifruti</option>
+                            <option value="Outros">Outros</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Disponibiliza as ações de cancelar e adicionar -->
+            <footer class="modal-footer">
+
+                <button
+                    type="button"
+                    id="cancelarModal"
+                    class="cancel-button">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-button">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Adicionar
+
+                </button>
+
+            </footer>
+
+        </form>
+
+    </dialog>
+
+</body>
+
 </html>

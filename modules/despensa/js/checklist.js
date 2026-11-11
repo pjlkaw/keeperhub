@@ -1,5 +1,7 @@
 import { atualizarNoContent } from "/shared/services/no-content.js";
 import { confirmarAcao } from "./confirmar.js";
+import { adicionarProdutoComprado, removerProdutoComprado } from "./estoque.js";
+import { alertShared } from "/shared/services/interface.js";
 
 
 /* =================================
@@ -65,7 +67,9 @@ function carregarLista() {
             nome: produto.nome,
             quantidade: Number(produto.quantidade) || 1,
             categoria: produto.categoria || "Outros",
-            comprado: Boolean(produto.comprado)
+            comprado: Boolean(produto.comprado),
+            // id do produto criado na despensa quando o item foi comprado
+            produtoDespensaId: produto.produtoDespensaId || null
         }));
 
     } catch (erro) {
@@ -164,6 +168,35 @@ function criarElementoProduto(produto) {
     checkbox.addEventListener("change", () => {
 
         produto.comprado = checkbox.checked;
+
+        // COMPRADO → adiciona aos produtos da despensa
+        // DESMARCADO → desfaz, removendo o produto criado
+        try {
+
+            if (produto.comprado) {
+
+                produto.produtoDespensaId =
+                    adicionarProdutoComprado(produto);
+
+                alertShared(`${produto.nome} adicionado aos seus produtos.`);
+
+            } else if (produto.produtoDespensaId) {
+
+                removerProdutoComprado(produto.produtoDespensaId);
+
+                produto.produtoDespensaId = null;
+
+                alertShared(`${produto.nome} removido dos seus produtos.`);
+
+            }
+
+        } catch (erro) {
+
+            console.error("Erro ao atualizar produtos da despensa:", erro);
+
+            alertShared("Não foi possível atualizar seus produtos.");
+
+        }
 
         salvarLista();
 
