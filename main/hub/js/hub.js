@@ -149,7 +149,14 @@ function userLoadContent(user) {
   }
 
   if (userImage) {
-    userImage.style.display = 'none'; // Oculta a imagem do usuário se não estiver disponível
+    userImage.hidden = true;
+    userImage.removeAttribute('src');
+    userImage.onerror = null;
+  }
+
+  const userIcon = document.getElementById('userIcon');
+  if (userIcon) {
+    userIcon.style.display = '';
   }
 
   if (pageName && user.name) {
@@ -157,10 +164,17 @@ function userLoadContent(user) {
     pageName.textContent = `Olá, ${firstName}`; // Atualiza o conteúdo do elemento <h1> com o nome
   }
 
-  if (userImage && user.foto_usuario) {
-    document.getElementById('userIcon').style.display = 'none'; //remove ícone de usuário padrão
-    userImage.style.display = 'flex'; // exibe a imagem do usuário
-    userImage.src = user.foto_usuario; // aplica imagem do usuário
+  const foto = typeof user.foto_usuario === 'string' ? user.foto_usuario.trim() : '';
+  if (userImage && foto) {
+    userImage.referrerPolicy = 'no-referrer';
+    userImage.onerror = () => {
+      userImage.hidden = true;
+      userImage.removeAttribute('src');
+      if (userIcon) userIcon.style.display = '';
+    };
+    if (userIcon) userIcon.style.display = 'none';
+    userImage.src = foto;
+    userImage.hidden = false;
   }
 
 }

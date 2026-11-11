@@ -18,12 +18,19 @@ async function renderProfile() {
 
     if (nameElement) nameElement.textContent = displayName;
     if (emailElement) emailElement.textContent = displayEmail || 'Email não disponível';
-    if (imageElement) imageElement.src = user.foto_usuario || '';
-    if (avatarElement && user.foto_usuario) {
+    if (imageElement) imageElement.removeAttribute('src');
+    const foto = typeof user.foto_usuario === 'string' ? user.foto_usuario.trim() : '';
+    if (avatarElement && foto) {
       const avatarImage = document.createElement('img');
-      avatarImage.src = user.foto_usuario;
+      avatarImage.referrerPolicy = 'no-referrer';
       avatarImage.alt = `Foto de perfil de ${displayName}`;
+      avatarImage.addEventListener('error', () => {
+        const fallback = document.createElement('i');
+        fallback.className = 'fa-regular fa-user';
+        avatarElement.replaceChildren(fallback);
+      }, { once: true });
       avatarElement.replaceChildren(avatarImage);
+      avatarImage.src = foto;
     }
     alertShared('Foto de perfil carregada com sucesso.');
     document.title = 'KeeperHub — Perfil de ' + displayName;
