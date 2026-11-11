@@ -450,3 +450,27 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   line-height: 1.2;
   vertical-align: middle;
 }
+
+.atalho-receitas {
+  margin: 8px 16px;
+  text-align: right;
+  color: var(--pets-text-muted);
+  font-size: 0.875rem;
+}
+
+.atalho-receitas a {
+  text-decoration: underline;
+}
+
+body.sem-rolagem:has(.pagina-medicacoes) {
+  position: static;
+  overflow-y: auto;
+}
+
+.pagina-medicacoes .no-content-section {
+  position: static;
+  transform: none;
+  height: auto;
+  min-height: 180px;
+  padding: 24px 16px;
+}

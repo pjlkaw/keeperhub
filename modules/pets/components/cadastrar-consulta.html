@@ -27,25 +27,23 @@
       };
     </script>
     <script src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
 </head>
 <body>
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
 
     <main class="adicionar-consulta">
 
         <!-- Navegação entre módulos -->
-        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+        
 
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
         <!-- Cadastro da consulta -->
         <form class="formulario-adicionar-consulta">
-
-            <!-- Seleção de vários pets -->
-            <fieldset class="campo-formulario selecao-pets-consulta" hidden>
-                <legend>Selecione os pets</legend>
-                <div class="selecao-pets-consulta__lista" id="consulta-pets-lista"></div>
-            </fieldset>
 
             <div class="campo-formulario">
                 <label for="nome-medico">Nome do Médico</label>
@@ -55,7 +53,7 @@
             <div class="campo-formulario">
                 <label for="area-atuacao">Área de Atuação</label>
                 <select id="area-atuacao" name="area_atuacao">
-                    <option value="" selected disabled>Selecione uma especialidade</option>
+                    <option value="" selected disabled hidden>Selecione uma especialidade</option>
                     <option value="clinico_geral">Clínico Geral</option>
                     <option value="dermatologista">Dermatologista</option>
                     <option value="cardiologista">Cardiologista</option>
@@ -89,13 +87,7 @@
                 </div>
             </div>
 
-            <!-- Salva a preferência local; não agenda notificações. -->
-            <div class="campo-formulario campo-formulario--alternancia">
-                <label for="lembrar-consulta">Lembrar</label>
-                <input type="checkbox" id="lembrar-consulta" name="lembrar_consulta" checked>
-            </div>
-
-            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao">
+            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-integracao" disabled>
                 Salvar Consulta
             </button>
 
@@ -107,5 +99,8 @@
     <!-- Scripts -->
     <script type="module" src="../js/consultas.js"></script>
     <script src="/shared/services/theme.js"></script>
-</body>
+
+            </div>
+        </div>
+    </body>
 </html>

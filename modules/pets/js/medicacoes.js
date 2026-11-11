@@ -1,13 +1,14 @@
 // Cadastro, busca e organização local das medicações dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { atualizarPet, listarPets } from './armazenamento.js';
+import { listarPets } from './armazenamento.js';
+import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
 // Os dados principais dos pets vêm da API; carrega antes de montar a página.
 // Se falhar, listarPets() lança o erro e a página mostra a mensagem.
-await carregarPetsDoServidor();
+await carregarPetsDoServidor({ reutilizar: true });
 
 
 // Busca os elementos da página.
@@ -27,6 +28,7 @@ const nomesTipo = {
 let pets = [];
 let petAtual = null;
 let todosPetsSelecionados = false;
+let petsAlvo = [];
 let filtroAtual = 'todos';
 let buscaAtual = '';
 
@@ -76,6 +78,11 @@ function formatarData(iso) {
 function atualizarUrl(id) {
     const url = new URL(location.href);
 
+    if (!paginaLista) {
+        if (seletorPet.value === '__todos__') url.searchParams.set('todos', '1');
+        else url.searchParams.delete('todos');
+    }
+
     if (id) url.searchParams.set('petId', id);
     else url.searchParams.delete('petId');
 
@@ -94,8 +101,8 @@ function criarSeletor() {
         '<p id="medicacoes-status-pet" role="status" aria-live="polite" hidden></p>';
 
     // Insere o seletor depois do cabeçalho, se ele existir.
-    document.querySelector('.section-header-section')
-        ?.insertAdjacentElement('afterend', secao);
+    if (form) form.before(secao);
+    else document.querySelector('.section-header-section')?.after(secao);
 
     return {
         select: secao.querySelector('select'),
@@ -105,6 +112,7 @@ function criarSeletor() {
 
 // Cria o seletor e guarda referências aos elementos que serão usados.
 const { select: seletorPet, status } = criarSeletor();
+const selecaoMultipla = form ? criarSelecaoMultipla(seletorPet) : null;
 
 // Exibe uma mensagem de sucesso ou de erro.
 function informar(mensagem, erro = false) {
@@ -114,50 +122,27 @@ function informar(mensagem, erro = false) {
     status.setAttribute('role', erro ? 'alert' : 'status');
 }
 
-// Retorna as medicações do pet atual.
-// Se o valor salvo não for uma lista, retorna uma lista vazia.
-function medicacoesDoPet() {
-    return Array.isArray(petAtual?.medicacoes)
-        ? petAtual.medicacoes.filter(
-            item => item && typeof item === 'object'
-        )
-        : [];
-}
-
-// Salva a lista de medicações e atualiza os dados do pet em memória.
-function persistir(medicacoes) {
-    const atualizado = atualizarPet(petAtual.id, { medicacoes });
-
-    if (!atualizado) {
-        throw new Error('Não foi possível localizar esse pet.');
-    }
-
-    petAtual = atualizado;
-}
-
 // Atualiza os links de cadastro e as abas de navegação
 // para manter o pet selecionado.
 function atualizarLinks() {
-    if (paginaLista) {
-        const destino = petAtual
-            ? `cadastrar-medicacao.html?petId=${encodeURIComponent(petAtual.id)}`
-            : 'cadastrar-medicacao.html';
-        window.keeperhubModuleConfig.addUrl = `/modules/pets/components/${destino}`;
-    }
-    // Acrescenta o ID do pet aos links para cadastrar medicação.
-    document.querySelectorAll('a[href*="cadastrar-medicacao.html"]')
-        .forEach(link => {
-            link.href = petAtual
-                ? `cadastrar-medicacao.html?petId=${encodeURIComponent(petAtual.id)}`
-                : 'cadastrar-medicacao.html';
-        });
+    if (!paginaLista) return;
+
+    const destinoCadastro = new URL('cadastrar-registro.html', location.href);
+    destinoCadastro.searchParams.set('tipo', 'medicamento');
+    if (petAtual) destinoCadastro.searchParams.set('petId', petAtual.id);
+    if (todosPetsSelecionados) destinoCadastro.searchParams.set('todos', '1');
+    window.keeperhubModuleConfig.addUrl = destinoCadastro.href;
+    const botaoAdicionar = document.getElementById('btn-add');
+    if (botaoAdicionar) botaoAdicionar.href = destinoCadastro.href;
 
     // Acrescenta o ID do pet às abas da página.
-    document.querySelectorAll('.abas-pet a').forEach(link => {
+    document.querySelectorAll('.abas-pet a, .atalho-receitas a').forEach(link => {
         const destino = new URL(link.href, location.href);
 
         if (petAtual) destino.searchParams.set('petId', petAtual.id);
         else destino.searchParams.delete('petId');
+        if (todosPetsSelecionados && destino.pathname.endsWith('/vacinacoes.html')) destino.searchParams.set('todos', '1');
+        else destino.searchParams.delete('todos');
 
         // Mantém apenas o nome do arquivo e os parâmetros da URL.
         link.href = destino.pathname.split('/').pop() + destino.search;
@@ -166,16 +151,20 @@ function atualizarLinks() {
 
 // Lê os pets salvos e preenche o seletor.
 function carregarPets() {
+    const modoAnterior = seletorPet.value;
     pets = listarPets();
     seletorPet.replaceChildren();
 
     // Cria a opção inicial do seletor.
     const inicial = document.createElement('option');
+    inicial.disabled = true;
+    inicial.hidden = true;
     inicial.value = '';
     inicial.textContent = pets.length
         ? 'Selecione um pet'
         : 'Cadastre um pet primeiro';
     seletorPet.append(inicial);
+    selecaoMultipla?.preparar(pets, true);
 
     // Permite consultar as categorias e o histórico de todos os pets juntos.
     if (paginaLista && pets.length > 1) {
@@ -207,11 +196,17 @@ function carregarPets() {
     } else {
         selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
     }
+    if (!paginaLista && modoAnterior.startsWith("__") && [...seletorPet.options].some(opcao => opcao.value === modoAnterior)) {
+        seletorPet.value = modoAnterior;
+        seletorPet.dispatchEvent(new Event("change"));
+    }
+
 }
 
 // Define qual pet está selecionado e atualiza a página correspondente.
 function selecionarPet(pet) {
     petAtual = pet;
+    if (form) petsAlvo = pet ? [pet] : [];
     todosPetsSelecionados = false;
     seletorPet.value = pet?.id ?? '';
     atualizarUrl(pet?.id);
@@ -322,8 +317,8 @@ function criarCartao(medicacao, historico = false) {
     const li = document.createElement('li');
 
     // Monta o cartão. Os dados variáveis são escapados antes de entrar no HTML.
-    const etiquetaPet = todosPetsSelecionados && medicacao.nomePet
-        ? `<span class="cartao-medicacao__pet">${escapar(medicacao.nomePet)}</span>`
+    const etiquetaPet = todosPetsSelecionados && medicacao.nomesPets.length
+        ? `<span class="cartao-medicacao__pet">${escapar(medicacao.nomesPets.join(", "))}</span>`
         : '';
 
     li.innerHTML = `<article class="card cartao-medicacao cartao-medicacao--${tipo}${historico ? ' cartao-medicacao--aplicada' : ''}${baixo ? ' cartao-medicacao--estoque-baixo' : ''}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="cartao-medicacao__informacoes"><h3 class="cartao-medicacao__nome">${escapar(medicacao.nome)}${etiquetaPet}</h3><p class="cartao-medicacao__dosagem">${escapar(detalhe || 'Dosagem não informada')}</p>${detalhesEstoque}${termino}${medicacao.observacao ? `<p class="cartao-medicacao__observacao">${escapar(medicacao.observacao)}</p>` : ''}</div><span class="etiqueta-status etiqueta-status--${classeStatus}">${status}</span></article>`;
@@ -337,35 +332,25 @@ function renderizarLista() {
     const listas = grupos.map(grupo => grupo.querySelector('ul'));
     const seletorSecao = seletorPet.closest('.seletor-pet-medicacoes');
     const toolbar = main.querySelector('.barra-ferramentas-medicacoes');
-    const abas = main.querySelector('.abas-pet');
     const escopo = todosPetsSelecionados
         ? pets
         : petAtual ? [petAtual] : [];
-    const registrosDoEscopo = escopo.flatMap(pet =>
-        (Array.isArray(pet.medicacoes) ? pet.medicacoes : [])
-            .filter(item => item && typeof item === 'object')
-            .map(item => ({ ...item, nomePet: pet.nome }))
-    );
+    const registrosDoEscopo = agruparRegistros(escopo, pet => registrosDoPet(pet, "medicacoes"));
 
-    // Quando o escopo ainda não tem registros, usa o estado compartilhado
-    // em vez de repetir mensagens vazias em cada categoria.
     if (!registrosDoEscopo.length) {
-        const existeMedicacaoEmAlgumPet = pets.some(pet =>
-            Array.isArray(pet.medicacoes) && pet.medicacoes.length > 0
-        );
-
-        seletorSecao.hidden = !existeMedicacaoEmAlgumPet;
+        const podeTrocarPet = pets.length > 1 && pets.some(pet => registrosDoPet(pet, 'medicacoes').length);
+        seletorSecao.hidden = !podeTrocarPet;
         toolbar.hidden = true;
-        abas.hidden = true;
+
         grupos.forEach(grupo => { grupo.hidden = true; });
-        informar('');
-        atualizarNoContent(false);
+        informar(podeTrocarPet ? 'Nenhuma medicação para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet);
         return;
     }
 
     seletorSecao.hidden = false;
     toolbar.hidden = false;
-    abas.hidden = false;
+
     atualizarNoContent(true);
 
     // Aplica busca e filtro aos registros do pet ou à visão geral.
@@ -502,9 +487,9 @@ function atualizarFormulario() {
     );
 
     // Não permite cadastrar medicação sem selecionar um pet.
-    botao.disabled = !petAtual;
+    botao.disabled = !petsAlvo.length;
 
-    if (!petAtual) {
+    if (!petsAlvo.length) {
         const mensagem = pets.length
             ? 'Selecione um pet para continuar.'
             : 'Cadastre um pet antes de adicionar uma medicação.';
@@ -512,7 +497,9 @@ function atualizarFormulario() {
         aviso.textContent = mensagem;
         informar(mensagem, !pets.length);
     } else {
-        aviso.textContent = 'A medicação será salva neste navegador.';
+        aviso.textContent = petsAlvo.length > 1
+            ? 'A medicação será salva para ' + petsAlvo.length + ' pets.'
+            : 'A medicação será salva neste navegador.';
         informar('');
     }
 }
@@ -580,7 +567,7 @@ function configurarFormulario() {
         event.preventDefault();
 
         // Não cadastra a medicação sem um pet selecionado.
-        if (!petAtual) return;
+        if (!petsAlvo.length) return;
 
         // Exige nome e dosagem depois de remover espaços extras.
         nome.setCustomValidity(
@@ -606,7 +593,6 @@ function configurarFormulario() {
 
         // Reúne os dados da medicação em um objeto.
         const medicamento = {
-            id: crypto.randomUUID(),
             nome: nome.value.trim(),
             tipoUso: tipo,
             dosagem: dosagem.value.trim(),
@@ -631,13 +617,12 @@ function configurarFormulario() {
         botao.disabled = true;
 
         try {
-            // Acrescenta a medicação à lista existente e salva.
-            persistir([...medicacoesDoPet(), medicamento]);
-
-            // Avisa que salvou e abre a lista de medicações daquele pet.
-            aviso.textContent = 'Medicação salva. Abrindo a lista…';
-            location.href =
-                `medicacoes.html?petId=${encodeURIComponent(petAtual.id)}`;
+            const petDestinoId = petsAlvo[0].id;
+            const quantidadePets = petsAlvo.length;
+            gravarRegistroDosPets(petsAlvo, "medicacoes", medicamento);
+            location.href = quantidadePets > 1
+                ? "medicacoes.html"
+                : "medicacoes.html?petId=" + encodeURIComponent(petDestinoId);
         } catch (erro) {
             // Mostra o erro e libera o botão para uma nova tentativa.
             aviso.textContent =
@@ -654,7 +639,14 @@ seletorPet.addEventListener('change', () => {
         return;
     }
 
-    selecionarPet(pets.find(pet => pet.id === seletorPet.value) ?? null);
+    if (paginaLista) {
+        selecionarPet(pets.find(pet => pet.id === seletorPet.value) ?? null);
+    } else {
+        petsAlvo = selecaoMultipla.selecionados(pets);
+        petAtual = petsAlvo.length === 1 ? petsAlvo[0] : null;
+        atualizarUrl(petAtual?.id);
+        atualizarFormulario();
+    }
 });
 
 // Configura os controles apropriados para a página atual.
@@ -664,13 +656,16 @@ else configurarFormulario();
 // Carrega os pets. Se ocorrer um erro, desabilita o seletor e informa a pessoa.
 try {
     carregarPets();
+    if (paginaLista) document.getElementById('btn-add-section').inert = false;
 } catch (erro) {
     seletorPet.disabled = true;
+    if (form) form.querySelector('[type="submit"]').disabled = true;
     informar(erro.message || 'Não foi possível carregar os pets salvos.', true);
 }
 
 // Recarrega os pets quando outra parte do sistema sinaliza uma atualização.
 window.addEventListener('keeperhub:pets-atualizados', () => {
+    if (form?.closest('[inert]')) return;
     try {
         carregarPets();
     } catch {

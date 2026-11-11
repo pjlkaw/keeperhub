@@ -40,69 +40,72 @@
 
 <body class="landing-page">
     <main>
-        <section class="app-preview" id="preview" aria-label="Prévia do módulo de finanças">
-
+        <section class="app-page-wrapper" id="preview" aria-label="Prévia do módulo de finanças">
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-            <header class="section-header-section" id="headerSection"></header>
-            <section class="no-content-section" id="no-content-section" aria-label="Nenhuma transação cadastrada" hidden></section>
-            
-            <article class="card preview-balance">
-                <header><span>SALDO DISPONÍVEL</span><mark>Sem transações</mark></header><output>R$ 0,00</output>
-                <hr>
-                <section class="definition-list">
-                    <dl>
-                        <dt>Receitas</dt>
-                        <dd id="overview-income">R$ 0,00</dd>
-                    </dl>
-                    <dl>
-                        <dt>Despesas</dt>
-                        <dd id="overview-expense">R$ 0,00</dd>
-                    </dl>
-                </section>
-            </article>
-            <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
-                <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list"
-                            aria-hidden="true"></span></span>
-                    <strong>Transações</strong>
-                    <span>Ver tudo</span>
-                </a>
-                <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
-                    <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-chart-column"
-                            aria-hidden="true"></span></span>
-                    <strong>Relatórios</strong>
-                    <span>Análise mensal</span>
-                </a>
-            </nav>
-            <article class="card cash-flow">
-                <header>
-                    <h3>Fluxo do mês</h3><span id="overview-month">Mês atual</span>
-                </header>
-                <p class="flow-row"><span>Receitas</span><strong id="overview-flow-income">R$ 0,00</strong><i class="income-bar"></i></p>
-                <p class="flow-row"><span>Despesas</span><strong id="overview-flow-expense">R$ 0,00</strong><i class="expense-bar"></i></p>
-            </article>
-            <article class="card monthly-expenses-card">
-                <header>
-                    <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
-                </header>
-                <ul class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses"></ul>
-            </article>
-            <article class="card top-spending-card">
-                <header>
-                    <h3>Onde você mais gastou</h3><span>0 categorias</span>
-                </header>
-                <ul class="top-spending-list"></ul>
-            </article>
-            <article class="card recent-transactions-card">
-                <header>
-                    <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span
-                            class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
-                </header>
-                <nav class="recent-transactions-list" aria-label="Transações recentes"></nav>
-            </article>
-            <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
-        </section>
-    </main>
+            <div class="app-container">
+
+                <header class="section-header-section" id="headerSection"></header>
+                <section class="no-content-section" id="no-content-section" aria-label="Nenhuma transação cadastrada" hidden></section>
+                
+                <article class="card preview-balance">
+                    <header><span>SALDO DISPONÍVEL</span><mark>Sem transações</mark></header><output>R$ 0,00</output>
+                    <hr>
+                    <section class="definition-list">
+                        <dl>
+                            <dt>Receitas</dt>
+                            <dd id="overview-income">R$ 0,00</dd>
+                        </dl>
+                        <dl>
+                            <dt>Despesas</dt>
+                            <dd id="overview-expense">R$ 0,00</dd>
+                        </dl>
+                    </section>
+                </article>
+                <nav class="finance-shortcuts" aria-label="Atalhos de finanças">
+                    <a class="card card--interactive finance-shortcut-card" href="components/transacoes.html">
+                        <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-list"
+                                aria-hidden="true"></span></span>
+                        <strong>Transações</strong>
+                        <span>Ver tudo</span>
+                    </a>
+                    <a class="card card--interactive finance-shortcut-card" href="components/relatorios.html">
+                        <span class="finance-shortcut-icon" aria-hidden="true"><span class="fa-solid fa-chart-column"
+                                aria-hidden="true"></span></span>
+                        <strong>Relatórios</strong>
+                        <span>Análise mensal</span>
+                    </a>
+                </nav>
+                <article class="card cash-flow">
+                    <header>
+                        <h3>Fluxo do mês</h3><span id="overview-month">Mês atual</span>
+                    </header>
+                    <p class="flow-row"><span>Receitas</span><strong id="overview-flow-income">R$ 0,00</strong><i class="income-bar"></i></p>
+                    <p class="flow-row"><span>Despesas</span><strong id="overview-flow-expense">R$ 0,00</strong><i class="expense-bar"></i></p>
+                </article>
+                <article class="card monthly-expenses-card">
+                    <header>
+                        <h3>Despesas mensais</h3><span>Últimos 4 meses</span>
+                    </header>
+                    <ul class="monthly-expenses-chart" aria-label="Despesas mensais dos últimos quatro meses"></ul>
+                </article>
+                <article class="card top-spending-card">
+                    <header>
+                        <h3>Onde você mais gastou</h3><span>0 categorias</span>
+                    </header>
+                    <ul class="top-spending-list"></ul>
+                </article>
+                <article class="card recent-transactions-card">
+                    <header>
+                        <h3>Transações recentes</h3><a href="components/transacoes.html">Ver todas <span
+                                class="fa-solid fa-chevron-right" aria-hidden="true"></span></a>
+                    </header>
+                    <nav class="recent-transactions-list" aria-label="Transações recentes"></nav>
+                </article>
+                <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-financas)"></section>
+            </section>
+        </main>
+    </div>
+
     <script type="module" src="script.js"></script>
 </body>
 

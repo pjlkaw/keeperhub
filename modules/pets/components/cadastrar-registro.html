@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar registro • Pets • KeeperHub</title>
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página -->
+    <link rel="stylesheet" id="estilo-medicamento" href="../assets/css/cadastrar-medicacao.css">
+    <link rel="stylesheet" id="estilo-vacina" href="../assets/css/adicionar-vacina.css" media="not all">
+    <style>
+        .tipo-registro { margin: 16px; }
+        .tipo-registro select { width: 100%; }
+    </style>
+
+    <!-- Configuração do módulo -->
+    <script>
+      const parametrosCadastro = new URLSearchParams(location.search);
+      const tipoInicial = parametrosCadastro.get('tipo') === 'vacina' ? 'vacina' : 'medicamento';
+      const listaOrigem = tipoInicial === 'vacina' ? 'vacinacoes.html' : 'medicacoes.html';
+      const retornoCadastro = new URL(listaOrigem, location.href);
+      const petOrigem = parametrosCadastro.get('petId');
+      const todosNaOrigem = !petOrigem && parametrosCadastro.get('todos') === '1';
+      if (petOrigem) retornoCadastro.searchParams.set('petId', petOrigem);
+      if (todosNaOrigem) retornoCadastro.searchParams.set('todos', '1');
+
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Adicionar registro',
+        subtitle: 'Registre um medicamento ou uma vacina do seu pet.',
+        backUrl: retornoCadastro.href,
+        notificationsModule: 'pets'
+      };
+    </script>
+    <script defer src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+</head>
+<body>
+
+    <main class="adicionar-medicacao">
+
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <!-- Cabeçalho da página -->
+        <header class="section-header-section" id="headerSection"></header>
+
+        <div class="campo-formulario tipo-registro">
+            <label for="tipo-registro">Tipo</label>
+            <select id="tipo-registro" disabled>
+                <option value="medicamento">Medicamento</option>
+                <option value="vacina">Vacina</option>
+            </select>
+        </div>
+
+        <div id="cadastro-medicamento">
+            <form class="formulario-adicionar-medicacao">
+
+                <div class="campo-formulario">
+                    <label for="nome-medicamento">Nome do Medicamento</label>
+                    <input type="text" id="nome-medicamento" name="nome_medicamento" placeholder="Ex: Simparic, Bravecto, Dipirona...">
+                </div>
+
+                <fieldset class="campo-formulario">
+                    <legend>Tipo de Uso</legend>
+                    <ul class="opcoes-tipo-uso">
+                        <li>
+                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                                <input type="radio" name="tipo_uso" value="continuo">
+                                <span class="opcoes-tipo-uso__titulo">Contínuo</span>
+                                <span class="opcoes-tipo-uso__descricao">Uso diário, sem data para parar</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                                <input type="radio" name="tipo_uso" value="temporario">
+                                <span class="opcoes-tipo-uso__titulo">Temporário</span>
+                                <span class="opcoes-tipo-uso__descricao">Tratamento com data para acabar</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                                <input type="radio" name="tipo_uso" value="eventual">
+                                <span class="opcoes-tipo-uso__titulo">Eventual</span>
+                                <span class="opcoes-tipo-uso__descricao">Só quando necessário</span>
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <div class="campo-formulario">
+                    <label for="dosagem">Dosagem</label>
+                    <input type="text" id="dosagem" name="dosagem" placeholder="Ex: 1 comprimido, 1 cápsula...">
+                </div>
+
+                <!-- Campos condicionais conforme o tipo de uso. -->
+
+                <div class="campo-formulario">
+                    <label for="horario-dose">Horário da Dose</label>
+                    <input type="time" id="horario-dose" name="horario_dose">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="frequencia-medicamento">Frequência</label>
+                    <input type="text" id="frequencia-medicamento" name="frequencia_medicamento" placeholder="Ex: a cada 8h">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="ate-quando">Até quando</label>
+                    <input type="date" id="ate-quando" name="ate_quando">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="quantidade-estoque">Quantidade em Estoque</label>
+                    <input type="number" id="quantidade-estoque" name="quantidade_estoque" min="0">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="observacao-medicamento">Observação (opcional)</label>
+                    <textarea id="observacao-medicamento" name="observacao_medicamento" placeholder="Detalhes adicionais sobre o tratamento..."></textarea>
+                </div>
+
+                <button type="submit" class="botao-principal formulario-adicionar-medicacao__enviar" aria-describedby="aviso-integracao-medicacao" disabled>
+                    Salvar Medicação
+                </button>
+
+                <p id="aviso-integracao-medicacao" class="aviso-integracao" role="status" aria-live="polite">A medicação será salva neste navegador.</p>
+
+            </form>
+        </div>
+        <div id="cadastro-vacina" hidden inert>
+            <form class="formulario-adicionar-vacina">
+
+                <fieldset class="campo-formulario">
+                    <legend>Nome da Vacina</legend>
+
+                    <ul class="opcoes-nome-vacina">
+                        <li>
+                            <label class="opcoes-nome-vacina__opcao">
+                                <input type="radio" name="nome_vacina" value="v8" required>
+                                V8
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-nome-vacina__opcao">
+                                <input type="radio" name="nome_vacina" value="v10">
+                                V10
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-nome-vacina__opcao">
+                                <input type="radio" name="nome_vacina" value="antirrabica">
+                                Antirrábica
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-nome-vacina__opcao">
+                                <input type="radio" name="nome_vacina" value="influenza">
+                                Influenza (Gripe)
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-nome-vacina__opcao">
+                                <input type="radio" name="nome_vacina" value="outra">
+                                Outra
+                            </label>
+                        </li>
+                    </ul>
+
+                    <!-- Exibido ao escolher Outra vacina. -->
+                    <div class="campo-formulario opcoes-nome-vacina__personalizada">
+                        <label for="nome-vacina-outra">Qual vacina?</label>
+                        <input type="text" id="nome-vacina-outra" name="nome_vacina_outra" placeholder="Digite o nome da vacina">
+                    </div>
+                </fieldset>
+
+                <div class="campo-formulario">
+                    <label for="data-aplicacao">Data da aplicação ou agendamento</label>
+                    <input type="date" id="data-aplicacao" name="data_aplicacao">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="clinica-vacina">Clínica (opcional)</label>
+                    <input type="text" id="clinica-vacina" name="clinica_vacina" placeholder="Ex.: Clínica veterinária">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="horario-vacina">Horário (opcional)</label>
+                    <input type="time" id="horario-vacina" name="horario_vacina">
+                </div>
+
+                <fieldset class="campo-formulario">
+                    <legend>Frequência</legend>
+
+                    <ul class="opcoes-frequencia">
+                        <li>
+                            <label class="opcoes-frequencia__opcao">
+                                <input type="radio" name="frequencia" value="reforco_anual">
+                                <span class="opcoes-frequencia__titulo">Reforço Anual</span>
+                                <span class="opcoes-frequencia__descricao">Lembrete automático 1 ano após a aplicação</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-frequencia__opcao">
+                                <input type="radio" name="frequencia" value="doses_fracionadas">
+                                <span class="opcoes-frequencia__titulo">Doses Fracionadas</span>
+                                <span class="opcoes-frequencia__descricao">Frequência personalizada — você escolhe a próxima data</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="opcoes-frequencia__opcao">
+                                <input type="radio" name="frequencia" value="dose_unica">
+                                <span class="opcoes-frequencia__titulo">Dose Única</span>
+                                <span class="opcoes-frequencia__descricao">Sem renovação programada</span>
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+
+                <!-- Exibido ao escolher Doses Fracionadas. -->
+                <div class="campo-formulario">
+                    <label for="proxima-dose">Próxima Dose</label>
+                    <input type="date" id="proxima-dose" name="prox_dose">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="observacao-vacina">Observação (opcional)</label>
+                    <textarea id="observacao-vacina" name="observacao_vacina" placeholder="Ex: certificado digital, reação observada, clínica onde foi aplicada..."></textarea>
+                </div>
+
+                <button type="submit" class="botao-principal formulario-adicionar-vacina__enviar" aria-describedby="aviso-integracao-vacina" disabled>
+                    Salvar Vacina
+                </button>
+
+                <p id="aviso-integracao-vacina" class="aviso-integracao" role="status" aria-live="polite">O registro será salvo na sua conta.</p>
+
+            </form>
+        </div>
+    </main>
+
+    <script type="module">
+        const tipo = document.getElementById('tipo-registro');
+        const main = tipo.closest('main');
+        const paineis = {
+            medicamento: document.getElementById('cadastro-medicamento'),
+            vacina: document.getElementById('cadastro-vacina')
+        };
+        const seletorAtivo = () => main.querySelector('[id^="cadastro-"]:not([hidden]) select');
+
+        function mostrarCadastro(valor) {
+            const url = new URL(location.href);
+            url.searchParams.set('tipo', valor);
+            history.replaceState(null, '', url.pathname + url.search + url.hash);
+
+            for (const [nome, painel] of Object.entries(paineis)) {
+                const ativo = nome === valor;
+                painel.hidden = !ativo;
+                painel.inert = !ativo;
+                document.getElementById('estilo-' + nome).media = ativo ? 'all' : 'not all';
+            }
+            main.className = valor === 'vacina' ? 'adicionar-vacina' : 'adicionar-medicacao';
+        }
+
+        tipo.value = tipoInicial;
+        mostrarCadastro(tipoInicial);
+        await Promise.all([
+            import('../js/medicacoes.js'),
+            import('../js/vacinacoes.js')
+        ]);
+        const seletorInicial = seletorAtivo();
+        if (todosNaOrigem && [...seletorInicial.options].some(opcao => opcao.value === '__todos__')) {
+            seletorInicial.value = '__todos__';
+            seletorInicial.dispatchEvent(new Event('change'));
+        }
+
+        tipo.addEventListener('change', () => {
+            const anterior = seletorAtivo();
+            const pet = anterior.value;
+            const marcados = new Set([...anterior.nextElementSibling.querySelectorAll(":checked")].map(input => input.value));
+            mostrarCadastro(tipo.value);
+            const seletor = seletorAtivo();
+            seletor.nextElementSibling.querySelectorAll("input").forEach(input => { input.checked = marcados.has(input.value); });
+            seletor.value = pet;
+            if (seletor.selectedIndex === -1) seletor.value = '';
+            if (!seletor.disabled) seletor.dispatchEvent(new Event('change'));
+        });
+        tipo.disabled = false;
+    </script>
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

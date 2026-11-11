@@ -30,8 +30,12 @@
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
 </head>
 <body>
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
 
     <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma consulta cadastrada"></section>
@@ -39,13 +43,13 @@
     <main class="painel-medico">
 
         <!-- Navegação entre módulos -->
-        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+        
 
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
         <!-- Consultas preenchidas pelo JavaScript -->
-        <section class="consultas" aria-labelledby="proximas-consultas-heading">
+        <section class="consultas" aria-labelledby="proximas-consultas-heading" hidden>
             <h2 id="proximas-consultas-heading">Próximas Consultas</h2>
 
             <ul>
@@ -67,11 +71,6 @@
                                 14:30
                             </span>
                         </p>
-
-                        <div class="cartao-consulta__lembrete">
-                            <label for="lembrar-amanda">Lembrar</label>
-                            <input type="checkbox" id="lembrar-amanda" name="lembrar_amanda" checked>
-                        </div>
 
                         <details class="confirmar-consulta">
                             <summary class="confirmar-consulta__acionador">Confirmar Consulta</summary>
@@ -111,7 +110,7 @@
             <a href="cadastrar-consulta.html" class="link-editar">Adicionar</a>
         </section>
         <!-- Exames e laudos (integração pendente) -->
-        <section class="exames-medicos" aria-labelledby="exames-heading">
+        <section class="exames-medicos" aria-labelledby="exames-heading" hidden>
             <header class="exames-medicos__cabecalho">
                 <h2 id="exames-heading">Exames e Laudos</h2>
 
@@ -124,7 +123,7 @@
         </section>
 
         <!-- Histórico médico -->
-        <section class="historico-medico" aria-labelledby="historico-medico-heading">
+        <section class="historico-medico" aria-labelledby="historico-medico-heading" hidden>
             <h2 id="historico-medico-heading">Histórico Médico</h2>
 
             <ol class="card linha-tempo-medica">
@@ -172,11 +171,14 @@
 
     </main>
 
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar consulta"></section>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar consulta" inert></section>
 
     <!-- Scripts -->
     <script type="module" src="../js/consultas.js"></script>
     <script src="/shared/services/theme.js"></script>
-</body>
+
+            </div>
+        </div>
+    </body>
 </html>
 

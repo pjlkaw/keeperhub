@@ -654,5 +654,3 @@ textarea:focus {
   border: 1px solid var(--pets-border);
   border-radius: var(--pets-radius-sm);
 }
-
-.pagina-despesas .seletor-pet-despesas { display: none !important; }

@@ -126,23 +126,20 @@ function selecionarPet(pet) {
     atualizarUrl(pet?.id);
     atualizarLinks();
 
-    if (pet) {
+    if (pet && temRotinaSalva(pet)) {
         status.hidden = true;
         status.textContent = '';
-        if (temRotinaSalva(pet)) {
-            renderizarRotina(pet);
-            return;
-        }
-    } else {
-        secoesConteudo.forEach(secao => { secao.hidden = true; });
-        status.textContent = pets.length > 1
-            ? 'Selecione um pet para consultar a rotina.'
-            : '';
-        status.hidden = !status.textContent;
+        renderizarRotina(pet);
+        return;
     }
 
+    const podeTrocarPet = !seletorSecao.hidden;
+    status.textContent = podeTrocarPet
+        ? (pet ? 'Nenhuma rotina para o pet selecionado.' : 'Selecione um pet para consultar a rotina.')
+        : '';
+    status.hidden = !podeTrocarPet;
     secoesConteudo.forEach(secao => { secao.hidden = true; });
-    atualizarNoContent(false);
+    atualizarNoContent(podeTrocarPet);
 }
 
 // Carrega os pets, prepara o seletor e define o pet inicial quando possível.
@@ -173,14 +170,8 @@ function iniciar() {
         // Usa o pet indicado na URL ou seleciona automaticamente o único pet.
         const petInicial = petInformado ?? (pets.length === 1 ? pets[0] : null);
         selecionarPet(petInicial);
+        botaoAdicionar.inert = false;
 
-        // Quando há vários pets e nenhum foi escolhido, informa se já existe
-        // rotina em algum deles; a seleção permanece disponível sobre o overlay.
-        if (!petInicial && pets.length > 1 && temRotinaEmAlgumPet) {
-            status.textContent = 'Selecione um pet para consultar a rotina.';
-            status.hidden = false;
-            atualizarNoContent(true);
-        }
     } catch (erro) {
         botaoAdicionar.hidden = true;
         secoesConteudo.forEach(secao => { secao.hidden = true; });

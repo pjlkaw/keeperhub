@@ -31,13 +31,17 @@
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
 </head>
   <body>
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
     <!-- Estado vazio -->
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma despesa cadastrada"></section>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="">
       <!-- Navegação entre módulos -->
-      <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+      
 
       <!-- Cabeçalho da página -->
       <header class="section-header-section" id="headerSection"></header>
@@ -209,10 +213,13 @@
       </section>
     </main>
 
-    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar despesa"></section>
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar despesa" inert></section>
     <!-- Scripts -->
     <script type="module" src="../js/despesas.js"></script>
     <script src="/shared/services/theme.js"></script>
-</body>
+
+            </div>
+        </div>
+    </body>
 </html>
 

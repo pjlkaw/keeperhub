@@ -19,6 +19,7 @@ import {
   cadastrarConsulta,
   listarConsultasPorPet,
   registrarConsultaRealizada,
+  registrarConsultasRealizadas,
 } from '../../server/repositories/pets/consultas.js';
 import {
   origemDaRequisicaoValida,
@@ -254,17 +255,23 @@ export function criarHandlerPets(deps) {
       if (req.method === 'POST' && req.query?.acao === 'vacina') {
         const validacao = validarVacina(body, deps.hoje?.());
         if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
-        const vacinasPorPet = await repositorio.cadastrarVacina(usuarioId, validacao.petIds, validacao.dados);
-        if (!vacinasPorPet) return res.status(404).json({ erro: 'Pet não encontrado.' });
-        return res.status(201).json({ vacinas: Object.fromEntries(vacinasPorPet) });
+        const resultado = await repositorio.cadastrarVacina(usuarioId, validacao.petIds, validacao.dados);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          vacinas: Object.fromEntries(resultado.vacinasPorPet),
+          criados: resultado.criados,
+        });
       }
 
       if (req.method === 'POST' && req.query?.acao === 'consulta') {
         const validacao = validarConsulta(body, deps.hoje?.());
         if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
-        const consultasPorPet = await repositorio.cadastrarConsulta(usuarioId, validacao.petIds, validacao.dados);
-        if (!consultasPorPet) return res.status(404).json({ erro: 'Pet não encontrado.' });
-        return res.status(201).json({ consultas: Object.fromEntries(consultasPorPet) });
+        const resultado = await repositorio.cadastrarConsulta(usuarioId, validacao.petIds, validacao.dados);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          consultas: Object.fromEntries(resultado.consultasPorPet),
+          criados: resultado.criados,
+        });
       }
 
       if (req.method === 'PUT' && req.query?.acao === 'consulta-lembrete') {
@@ -277,9 +284,18 @@ export function criarHandlerPets(deps) {
       }
 
       if (req.method === 'PUT' && req.query?.acao === 'consulta-realizada') {
-        if (!id) return res.status(400).json({ erro: 'Informe a consulta.' });
         const resumo = texto(body.resumo);
         if (resumo.length > 2000) return res.status(400).json({ erro: 'O resumo pode ter até 2000 caracteres.' });
+        if (!id) {
+          const ids = Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+          if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+            return res.status(400).json({ erro: 'Informe as consultas válidas.' });
+          }
+          const consultasPorPet = await repositorio.registrarConsultasRealizadas(ids, usuarioId, resumo);
+          return consultasPorPet
+            ? res.status(200).json({ consultas: Object.fromEntries(consultasPorPet) })
+            : res.status(404).json({ erro: 'Consulta não encontrada.' });
+        }
         const consulta = await repositorio.registrarConsultaRealizada(id, usuarioId, resumo);
         return consulta
           ? res.status(200).json({ consulta })
@@ -338,6 +354,7 @@ export default criarHandlerPets({
     atualizarPet, buscarPet, criarPet, desativarPet, listarPets, salvarTutor,
     listarVacinasPorPet, cadastrarVacina,
     listarConsultasPorPet, cadastrarConsulta, alterarLembreteConsulta, registrarConsultaRealizada,
+    registrarConsultasRealizadas,
   },
   usuarioDaSessao,
   origemDaRequisicaoValida,
