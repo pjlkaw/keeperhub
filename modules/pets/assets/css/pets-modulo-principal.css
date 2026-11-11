@@ -329,10 +329,6 @@ ul {
   gap: 10px;
 }
 
-.acoes-rapidas-pet__despesas {
-  grid-column: 1 / -1;
-}
-
 .acao-rapida {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
@@ -371,7 +367,6 @@ ul {
   border-radius: 50%;
 }
 
-.acao-rapida--vacina > .icone,
 .cartao-alerta--vacina > .icone {
   color: #4285F4; font-size: 16px; line-height: 1;
 }
@@ -638,7 +633,6 @@ ul {
 }
 
 
-.acao-rapida--vacina > .icone { color: #4285F4; }
 .acao-rapida--consulta > .icone { color: #10B981; }
 .acao-rapida--medicacao > .icone { color: #C084FC; }
 .acao-rapida--rotina > .icone { color: #FB923C; }

@@ -1,5 +1,6 @@
 // Cadastro, resumo mensal e extrato local das despesas dos pets.
-import { atualizarPet, listarPets } from './armazenamento.js';
+import { listarPets } from './armazenamento.js';
+import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -21,6 +22,7 @@ const botaoSalvar = form.querySelector('[data-acao="salvar-despesa"]');
 const campoData = document.getElementById('data-despesa');
 const destinoDespesa = document.getElementById('destino-despesa');
 const seletorDestino = document.getElementById('pet-destino-despesa');
+const selecaoMultipla = criarSelecaoMultipla(seletorDestino);
 
 const CATEGORIAS = ['alimentacao', 'saude', 'higiene', 'lazer'];
 const ORCAMENTO_MENSAL_PADRAO = 60000;
@@ -98,11 +100,10 @@ function despesasValidas(pet) {
 // Retorna as despesas do pet atual ou de todos os pets, incluindo o nome do pet.
 function despesasDoEscopo() {
     const escopo = todosPetsSelecionados ? pets : petAtual ? [petAtual] : [];
-    return escopo.flatMap(pet => despesasValidas(pet).map(despesa => ({
+    return agruparRegistros(escopo, despesasValidas).map(despesa => ({
         ...despesa,
-        petId: pet.id,
-        petNome: pet.nome
-    })));
+        petNome: despesa.nomesPets.join(", ")
+    }));
 }
 
 // Filtra as despesas visíveis para o mês que está selecionado na tela.
@@ -303,7 +304,7 @@ function renderizarGrupos(despesas) {
 
 // Prepara a escolha do pet de destino quando a despesa é criada na visão geral.
 function atualizarDestinoFormulario() {
-    const mostrarSelecao = todosPetsSelecionados;
+    const mostrarSelecao = todosPetsSelecionados || pets.length > 2;
     destinoDespesa.hidden = !mostrarSelecao;
     seletorDestino.required = mostrarSelecao;
     seletorDestino.replaceChildren();
@@ -311,9 +312,11 @@ function atualizarDestinoFormulario() {
     const inicial = document.createElement('option');
     inicial.value = '';
     inicial.textContent = 'Selecione um pet';
+    inicial.hidden = true;
     inicial.disabled = true;
     inicial.selected = true;
     seletorDestino.append(inicial);
+    selecaoMultipla.preparar(pets);
 
     pets.forEach(pet => {
         const opcao = document.createElement('option');
@@ -322,9 +325,8 @@ function atualizarDestinoFormulario() {
         seletorDestino.append(opcao);
     });
 
-    if (!mostrarSelecao && petAtual) {
-        seletorDestino.value = petAtual.id;
-    }
+    if (petAtual) seletorDestino.value = petAtual.id;
+    selecaoMultipla.selecionados(pets);
 }
 
 // Renderiza o mês atual ou mostra o estado compartilhado quando não há registros.
@@ -332,18 +334,18 @@ function renderizarMes() {
     const escopo = escopoAtual();
     const temDespesaNoEscopo = escopo.some(pet => despesasValidas(pet).length > 0);
 
-    // Sem registros no escopo, mostra somente o componente vazio compartilhado.
     if (!escopo.length || !temDespesaNoEscopo) {
+        const podeTrocarPet = pets.length > 1 && pets.some(pet => despesasValidas(pet).length);
         conteudo.hidden = true;
-        secaoSeletor.hidden = true;
+        secaoSeletor.hidden = !podeTrocarPet;
         botaoAdicionar.hidden = pets.length === 0;
-        informarSelecao('');
-        atualizarNoContent(false);
+        informarSelecao(podeTrocarPet ? 'Nenhuma despesa para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet);
         return;
     }
 
     conteudo.hidden = false;
-    secaoSeletor.hidden = true;
+    secaoSeletor.hidden = pets.length < 2;
     botaoAdicionar.hidden = false;
     atualizarNoContent(true);
 
@@ -388,6 +390,8 @@ function prepararSelecao() {
     inicial.textContent = pets.length
         ? 'Selecione um pet'
         : 'Cadastre um pet para acompanhar despesas';
+    inicial.disabled = true;
+    inicial.hidden = true;
     seletorPet.append(inicial);
 
     if (pets.length > 1) {
@@ -469,22 +473,13 @@ function validarFormulario() {
     return { dados: { descricao, categoria, valorCentavos, data, estabelecimento, observacoes } };
 }
 
-// Adiciona a despesa ao pet escolhido e atualiza os dados em memória.
-function salvarDespesa(dados, pet) {
-    const despesas = despesasValidas(pet);
-    const despesa = {
-        id: globalThis.crypto?.randomUUID?.() || `despesa-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        ...dados,
-        criadaEm: new Date().toISOString()
-    };
-    const atualizado = atualizarPet(pet.id, { despesas: [...despesas, despesa] });
-    if (!atualizado) throw new Error('Este pet não foi encontrado no armazenamento.');
-
-    pets = pets.map(item => item.id === atualizado.id ? atualizado : item);
-    if (!todosPetsSelecionados) petAtual = atualizado;
-    mesAtual = new Date(dados.data + 'T12:00:00');
-    return despesa;
+function salvarDespesa(dados, petsDestino) {
+    const despesa = { ...dados, criadaEm: new Date().toISOString() };
+    gravarRegistroDosPets(petsDestino, "despesas", despesa);
+    mesAtual = new Date(dados.data + "T12:00:00");
 }
+
+seletorDestino.addEventListener("change", () => selecaoMultipla.selecionados(pets));
 
 // Troca entre um pet específico e a visão conjunta de todos os pets.
 seletorPet.addEventListener('change', () => {
@@ -538,10 +533,8 @@ form.addEventListener('submit', event => {
     }
     if (!form.reportValidity()) return;
 
-    const petDestino = todosPetsSelecionados
-        ? pets.find(pet => pet.id === seletorDestino.value)
-        : petAtual;
-    if (!petDestino) {
+    const petsDestino = selecaoMultipla.selecionados(pets);
+    if (!petsDestino.length) {
         informarFormulario('Selecione o pet ao qual esta despesa pertence.', true);
         seletorDestino.focus();
         return;
@@ -551,8 +544,9 @@ form.addEventListener('submit', event => {
     botaoSalvar.disabled = true;
     botaoSalvar.textContent = 'Salvando…';
     try {
-        salvarDespesa(validacao.dados, petDestino);
-        renderizarMes();
+        salvarDespesa(validacao.dados, petsDestino);
+        if (petsDestino.length > 1) selecionarTodosPets();
+        else renderizarMes();
         form.reset();
         atualizarDestinoFormulario();
         campoData.value = dataPadraoParaMes();
@@ -580,6 +574,7 @@ window.addEventListener('keeperhub:pets-atualizados', () => {
 try {
     prepararSelecao();
     campoData.value = dataPadraoParaMes();
+    botaoAdicionar.inert = false;
 } catch (erro) {
     seletorPet.disabled = true;
     conteudo.hidden = true;

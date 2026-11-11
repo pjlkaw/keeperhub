@@ -139,10 +139,8 @@ main > .section-header-section {
   margin-top: 16px;
 }
 
-/* Mantém o título depois dos cards, como no desenho, sem mover o HTML. */
 .destaques-vacinas > ul {
   display: grid;
-  order: -1;
   gap: 16px;
 }
 
@@ -555,4 +553,54 @@ main > .section-header-section {
 .vacinacoes-pet > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-vacinas) {
   position: relative;
   z-index: 52;
+}
+
+.abas-pet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-inline: 16px;
+  border-bottom: 1px solid var(--pets-border);
+}
+
+.abas-pet__link {
+  position: relative;
+  display: grid;
+  min-height: 52px;
+  place-items: center;
+  padding: 10px 6px;
+  color: var(--pets-text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+  transition: color var(--pets-transition);
+}
+
+.abas-pet__link:hover {
+  color: var(--pets-text);
+}
+
+.abas-pet__link--ativo {
+  color: var(--pets-primary-readable);
+}
+
+.abas-pet__link--ativo::after {
+  position: absolute;
+  right: 0px;
+  bottom: -1px;
+  left: 0px;
+  height: 2px;
+  background: var(--pets-primary);
+  content: "";
+}
+
+body.sem-rolagem:has(.vacinacoes-pet) {
+  position: static;
+  overflow-y: auto;
+}
+
+.vacinacoes-pet .no-content-section {
+  position: static;
+  transform: none;
+  height: auto;
+  min-height: 180px;
+  padding: 24px 16px;
 }

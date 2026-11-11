@@ -1,0 +1,79 @@
+select:has(> option[value=""][disabled][hidden]:checked) {
+  color: var(--text-muted);
+}
+
+select:has(> option[value=""][disabled][hidden]) > option {
+  color: var(--text-color);
+  background: var(--card-bg);
+}
+
+select:has(> option[value=""][disabled][hidden]):focus,
+#tipo-registro:focus {
+  border-color: var(--tool-pets);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tool-pets) 20%, transparent);
+}
+
+.selecao-pets {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.selecao-pets[hidden] {
+  display: none;
+}
+
+.selecao-pets legend {
+  padding: 0;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.selecao-pets__lista {
+  display: grid;
+  gap: 8px;
+  padding: 3px;
+  margin: -3px;
+}
+
+.selecao-pets .selecao-pets__lista label {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  min-height: 72px;
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.selecao-pets__lista input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--text-muted);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.selecao-pets__lista input[type="checkbox"]:checked {
+  background: radial-gradient(circle, var(--pill-bg) 4px, var(--pill-text) 5px);
+}
+
+.selecao-pets .selecao-pets__lista label:has(input:checked) {
+  background: color-mix(in srgb, var(--tool-pets) 10%, var(--card-bg));
+  border-color: var(--tool-pets);
+}
+
+.selecao-pets .selecao-pets__lista label:has(input:focus-visible) {
+  outline: 2px solid var(--tool-pets);
+  outline-offset: 2px;
+}

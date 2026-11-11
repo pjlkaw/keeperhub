@@ -39,8 +39,8 @@ export function mapearVacina(linha) {
 }
 
 // Vacinas de todos os pets ativos do usuário, agrupadas pelo id do pet.
-export async function listarVacinasPorPet(usuarioId) {
-  const [linhas] = await db.execute(
+export async function listarVacinasPorPet(usuarioId, executor = db) {
+  const [linhas] = await executor.execute(
     `SELECT v.id_vacina AS id, v.pet_id AS petId, v.nome, v.status,
             v.data_aplicacao AS dataAplicacao, v.frequencia,
             v.data_proxima_dose AS dataProximaDose, v.clinica,
@@ -80,8 +80,9 @@ export async function cadastrarVacina(usuarioId, petIds, dados) {
       return null;
     }
 
+    const criados = [];
     for (const petId of petIds) {
-      await conexao.execute(
+      const [resultado] = await conexao.execute(
         `INSERT INTO vacina
           (pet_id, nome, status, data_aplicacao, frequencia,
            data_proxima_dose, clinica, horario, observacao)
@@ -92,14 +93,16 @@ export async function cadastrarVacina(usuarioId, petIds, dados) {
           dados.horario || null, dados.observacao || null,
         ]
       );
+      criados.push(String(resultado.insertId));
     }
 
+    const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
     await conexao.commit();
+    return { vacinasPorPet, criados };
   } catch (erro) {
     await conexao.rollback();
     throw erro;
   } finally {
     conexao.release();
   }
-  return listarVacinasPorPet(usuarioId);
 }
