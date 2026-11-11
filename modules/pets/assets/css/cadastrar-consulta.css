@@ -16,6 +16,7 @@
   --pets-label: var(--text-color);
   --pets-on-primary: var(--pill-text);
   --pets-shadow: color-mix(in srgb, black 35%, transparent);
+  --pets-radius-sm: 8px;
   --pets-radius-pill: 999px;
   --pets-transition: 160ms ease;
   --color-secondary: var(--tool-pets);
@@ -132,6 +133,10 @@ select {
   min-height: 44px;
 }
 
+.formulario-adicionar-consulta :is(input[type="date"], input[type="time"]):required:invalid {
+  color: var(--text-muted);
+}
+
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
 select:focus {
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
@@ -158,7 +163,7 @@ select:focus {
   }
 }
 
-/* Adaptações de layout e alternância; base visual em shared e style-pets. */
+/* Adaptações de layout da consulta. */
 :is(.painel-medico, .adicionar-consulta) { width: 100%; margin-inline: auto; }
 :is(.painel-medico, .adicionar-consulta) ol { list-style: none; }
 :is(.painel-medico, .adicionar-consulta) .icone {
@@ -169,54 +174,10 @@ select:focus {
 :is(.painel-medico, .adicionar-consulta) .campo-formulario { margin-bottom: 24px; }
 :is(.painel-medico, .adicionar-consulta) textarea { min-height: 120px; }
 
-:is(.painel-medico, .adicionar-consulta) input[type=checkbox] {
-  appearance: none;
-  position: relative;
-  flex: 0 0 36px;
-  width: 36px;
-  height: 20px;
-  border: 1px solid var(--pets-border-strong);
-  border-radius: var(--pets-radius-pill);
-  background: var(--pets-surface-raised);
-  cursor: pointer;
-  transition: background-color var(--pets-transition);
-}
-:is(.painel-medico, .adicionar-consulta) input[type=checkbox]::before {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--pill-text);
-  box-shadow: 0 1px 2px var(--pets-shadow);
-  transition: transform var(--pets-transition);
-  content: '';
-}
-:is(.painel-medico, .adicionar-consulta) input[type=checkbox]:checked {
-  background: var(--pets-primary);
-  border-color: var(--pets-primary);
-}
-:is(.painel-medico, .adicionar-consulta) input[type=checkbox]:checked::before {
-  transform: translateX(16px);
-}
 
 
 .adicionar-consulta { max-width: 600px; padding-bottom: 24px; }
 .formulario-adicionar-consulta { padding: 24px 16px; }
-.campo-formulario--alternancia {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 44px;
-  gap: 16px;
-}
-.adicionar-consulta .campo-formulario--alternancia label {
-  margin: 0;
-  flex: 1;
-  padding-block: 12px;
-  cursor: pointer;
-}
 .formulario-adicionar-consulta__enviar { width: 100%; border-radius: var(--pets-radius-pill); font-size: 0.875rem; }
 .adicionar-consulta .aviso-integracao { margin-top: 16px; color: var(--text-muted); font-size: 0.75rem; }
 
@@ -261,26 +222,3 @@ select:focus {
 .campo-formulario[hidden] {
   display: none !important;
 }
-
-
-.selecao-pets-consulta[hidden] { display: none !important; }
-.selecao-pets-consulta { padding: 0; border: 0; }
-.selecao-pets-consulta legend {
-  margin-bottom: 8px;
-  color: var(--pets-label);
-  font-size: 12px;
-  font-weight: 700;
-}
-.selecao-pets-consulta__lista { display: grid; gap: 8px; }
-.selecao-pets-consulta__opcao {
-  display: flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  color: var(--pets-text);
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-sm);
-}
-.selecao-pets-consulta__opcao input { accent-color: var(--pets-primary); }
