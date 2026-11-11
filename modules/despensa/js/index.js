@@ -69,6 +69,7 @@ export function inicializarResumo() {
             alertShared('Não foi possível excluir o produto. Tente novamente.');
         }
     }
+    
 
     try {
         carregarProdutos();

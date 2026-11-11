@@ -1,7 +1,8 @@
-// Cadastro, cronograma e histórico local das vacinas dos pets.
+// Cadastro, cronograma e histórico das vacinas dos pets (salvas no banco pela API).
 
-// Importa as funções para atualizar um pet e listar os pets salvos.
-import { atualizarVariosPets, listarPets } from './armazenamento.js';
+// Importa as funções para listar os pets e atualizar as vacinas na memória.
+import { definirVacinasDoBanco, listarPets } from './armazenamento.js';
+import { cadastrarVacinaApi } from './api.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -492,8 +493,8 @@ function atualizarFormulario() {
         informar(mensagem, !pets.length);
     } else {
         aviso.textContent = petsAlvo.length > 1
-            ? `A vacina será registrada para ${petsAlvo.length} pets neste navegador.`
-            : 'O registro será salvo neste navegador.';
+            ? `A vacina será registrada para ${petsAlvo.length} pets na sua conta.`
+            : 'O registro será salvo na sua conta.';
         informar('');
     }
 }
@@ -549,7 +550,7 @@ function configurarFormulario() {
     });
 
     // Valida os dados e salva a nova vacina quando o formulário é enviado.
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
         event.preventDefault();
 
         // Sem pet selecionado, não há onde salvar o registro.
@@ -610,37 +611,28 @@ function configurarFormulario() {
         // Desabilita o botão para evitar envios repetidos.
         botao.disabled = true;
 
-        // O mesmo compromisso recebe um ID de grupo e um registro por pet,
+        // A API grava um registro por pet escolhido (um ou "Todos os pets"),
         // preservando o histórico individual de cada animal.
-        const grupoId = crypto.randomUUID();
-        const novaVacina = {
-            id: crypto.randomUUID(),
-            grupoId,
+        const dadosVacina = {
+            petIds: petsAlvo.map(pet => pet.id),
             nome: escolhida.value,
             nomePersonalizado: escolhida.value === 'outra'
                 ? vacinaOutra.value.trim()
                 : '',
-            status: agendada ? 'agendada' : 'aplicada',
-            dataAplicacao: agendada ? '' : dataEvento,
-            dataAgendada: agendada ? dataEvento : '',
+            data: dataEvento,
             frequencia: frequencia.value,
             proximaDose,
             clinica: form.elements.clinica_vacina.value.trim(),
             horario: form.elements.horario_vacina.value,
-            observacao: form.elements.observacao_vacina.value.trim(),
-            criadaEm: new Date().toISOString()
+            observacao: form.elements.observacao_vacina.value.trim()
         };
 
         try {
             // Guardamos os dados antes do evento de atualização recarregar o seletor.
             const petDestinoId = petsAlvo[0].id;
             const quantidadePets = petsAlvo.length;
-            const atualizacoes = Object.fromEntries(petsAlvo.map(pet => [
-                pet.id,
-                { vacinas: [...(Array.isArray(pet.vacinas) ? pet.vacinas : []), { ...novaVacina, id: crypto.randomUUID() }] }
-            ]));
-            const salvos = atualizarVariosPets(atualizacoes);
-            if (!salvos) throw new Error('Não foi possível localizar todos os pets selecionados.');
+            const vacinasPorPet = await cadastrarVacinaApi(dadosVacina);
+            definirVacinasDoBanco(vacinasPorPet);
 
             // Avisa que salvou e abre o cronograma do primeiro pet selecionado.
             aviso.textContent = agendada
