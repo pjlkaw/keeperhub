@@ -157,29 +157,29 @@
         </section>
 
         <!-- Histórico de medicações -->
-        <section class="grupo-medicacoes" aria-labelledby="historico-heading" hidden>
+        <section class="grupo-medicacoes grupo-medicacoes--historico" aria-labelledby="historico-heading" hidden>
             <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
 
-            <ul>
+            <ul class="card linha-tempo-medica cartao-historico-medicacao__lista">
                 <li>
-                    <article class="card cartao-medicacao cartao-medicacao--aplicada">
-                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
-                        <div class="cartao-medicacao__informacoes">
-                            <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
-                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                    <article class="linha-tempo-medica__item cartao-historico-medicacao">
+                        <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
+                        <div class="linha-tempo-medica__conteudo">
+                            <h3 class="linha-tempo-medica__titulo">Dipirona 500 mg<span class="etiqueta-pets-registro">Mantega</span></h3>
+                            <p class="linha-tempo-medica__data"><time datetime="2026-11-10">Concluído em 10 nov 2026</time></p>
+                            <p class="linha-tempo-medica__descricao">Eventual · 1 comprimido · Quando necessário</p>
                         </div>
-                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
                     </article>
                 </li>
 
                 <li>
-                    <article class="card cartao-medicacao cartao-medicacao--aplicada">
-                        <i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i>
-                        <div class="cartao-medicacao__informacoes">
-                            <h3 class="cartao-medicacao__nome">Dipirona 500 mg</h3>
-                            <p class="cartao-medicacao__dosagem">1 comprimido quando necessário</p>
+                    <article class="linha-tempo-medica__item cartao-historico-medicacao">
+                        <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
+                        <div class="linha-tempo-medica__conteudo">
+                            <h3 class="linha-tempo-medica__titulo">Macrocéfalia<span class="etiqueta-pets-registro">Bibi</span></h3>
+                            <p class="linha-tempo-medica__data"><time datetime="2026-10-27">Concluído em 27 out 2026</time></p>
+                            <p class="linha-tempo-medica__descricao">Temporário · 1 comprimido · A cada 5 horas</p>
                         </div>
-                        <span class="etiqueta-status etiqueta-status--eventual">Eventual</span>
                     </article>
                 </li>
             </ul>

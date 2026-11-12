@@ -336,18 +336,70 @@ SELETOR DE PET E ESTADOS DA LISTA
 .pagina-medicacoes :is(.abas-pet, .barra-ferramentas-medicacoes, .grupo-medicacoes, .seletor-pet-medicacoes)[hidden] {
   display: none !important;
 }
-.cartao-medicacao__pet {
-  display: inline-block;
-  margin-left: 8px;
-  padding: 3px 7px;
-  color: var(--text-muted);
+/* Histórico no formato da linha do tempo médica, com informações do remédio. */
+.grupo-medicacoes--historico ul.cartao-historico-medicacao__lista {
+  gap: 0;
+  padding: 16px;
+}
+
+.cartao-historico-medicacao__lista > li {
+  position: relative;
+  padding-left: 26px;
+}
+
+.cartao-historico-medicacao__lista > li:not(:last-child) {
+  padding-bottom: 18px;
+}
+
+.cartao-historico-medicacao__lista > li:not(:last-child)::before {
+  position: absolute;
+  top: 18px;
+  bottom: 0;
+  left: 8px;
+  width: 1px;
+  background: var(--border-color);
+  content: "";
+}
+
+.cartao-historico-medicacao > .icone {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  color: var(--pets-medication-action);
+  background: var(--pets-primary-soft);
+  border-radius: 50%;
+  font-size: 11px;
+}
+
+.cartao-historico-medicacao .linha-tempo-medica__conteudo {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cartao-historico-medicacao .linha-tempo-medica__titulo {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.cartao-historico-medicacao .linha-tempo-medica__data {
+  margin-block: 8px;
+  padding: 4px 8px;
+  color: var(--text-color);
   background: var(--pets-neutral-hover);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-pill);
-  font-size: 0.65rem;
-  font-weight: 600;
-  line-height: 1.2;
-  vertical-align: middle;
+  border-radius: var(--pets-radius-sm);
+  font-size: 0.75rem;
+}
+
+.cartao-historico-medicacao .linha-tempo-medica__descricao {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
 }
 
 /* ==================================================

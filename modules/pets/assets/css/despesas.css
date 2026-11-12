@@ -453,17 +453,6 @@ LISTA DE LANÇAMENTOS
 }
 .pagina-despesas .despesas-conteudo[hidden],
 .pagina-despesas .seletor-pet-despesas[hidden] { display: none !important; }
-.lancamento__pet {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 2px 7px;
-  color: var(--text-muted);
-  background: var(--pets-neutral-hover);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-pill);
-  font-size: 0.65rem;
-  vertical-align: middle;
-}
 .destino-despesa[hidden] { display: none !important; }
 .destino-despesa select {
   width: 100%;

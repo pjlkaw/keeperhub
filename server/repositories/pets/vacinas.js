@@ -106,3 +106,170 @@ export async function cadastrarVacina(usuarioId, petIds, dados) {
     conexao.release();
   }
 }
+
+// Atualiza uma vacina e seus pets associados dentro de uma transação.
+export async function atualizarVacinas(ids, petIdsOrigem, petIdsDestino, usuarioId, dados) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT v.id_vacina AS id, v.pet_id AS petId
+         FROM vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    const petsPorId = new Map(registros.map(registro => [String(registro.id), String(registro.petId)]));
+    if (registros.length !== ids.length || ids.some((id, indice) => petsPorId.get(String(id)) !== String(petIdsOrigem[indice]))) {
+      await conexao.rollback();
+      return null;
+    }
+
+    const marcadoresDestino = petIdsDestino.map(() => '?').join(', ');
+    const [petsDestino] = await conexao.execute(
+      `SELECT id_pet FROM pet
+        WHERE usuario_id = ? AND ativo = 1 AND id_pet IN (${marcadoresDestino})
+        FOR UPDATE`,
+      [usuarioId, ...petIdsDestino]
+    );
+    if (petsDestino.length !== petIdsDestino.length) {
+      await conexao.rollback();
+      return null;
+    }
+
+    const registrosPorPet = new Map(registros.map(registro => [String(registro.petId), registro]));
+    const petIdsDestinoSet = new Set(petIdsDestino.map(String));
+    const grupoIds = [];
+    for (const petId of petIdsDestino) {
+      const existente = registrosPorPet.get(String(petId));
+      if (!existente) {
+        const [resultado] = await conexao.execute(
+          `INSERT INTO vacina
+            (pet_id, nome, status, data_aplicacao, frequencia,
+             data_proxima_dose, clinica, horario, observacao)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            petId, dados.nome, dados.status, dados.data, dados.frequencia,
+            dados.proximaDose || null, dados.clinica || null,
+            dados.horario || null, dados.observacao || null,
+          ]
+        );
+        grupoIds.push(String(resultado.insertId));
+        continue;
+      }
+
+      await conexao.execute(
+        `UPDATE vacina v
+           JOIN pet p ON p.id_pet = v.pet_id
+            SET v.nome = ?, v.status = ?, v.data_aplicacao = ?, v.frequencia = ?,
+                v.data_proxima_dose = ?, v.clinica = ?, v.horario = ?, v.observacao = ?
+          WHERE v.id_vacina = ? AND p.usuario_id = ? AND p.ativo = 1`,
+        [
+          dados.nome, dados.status, dados.data, dados.frequencia,
+          dados.proximaDose || null, dados.clinica || null,
+          dados.horario || null, dados.observacao || null, existente.id, usuarioId,
+        ]
+      );
+      grupoIds.push(String(existente.id));
+    }
+
+    for (const registro of registros) {
+      if (!petIdsDestinoSet.has(String(registro.petId))) {
+        await conexao.execute(
+          `DELETE v FROM vacina v
+             JOIN pet p ON p.id_pet = v.pet_id
+            WHERE v.id_vacina = ? AND p.usuario_id = ? AND p.ativo = 1`,
+          [registro.id, usuarioId]
+        );
+      }
+    }
+
+    const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return { vacinasPorPet, grupoIds };
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}
+
+// Confirma em conjunto somente aplicações que ainda estão agendadas.
+export async function marcarVacinasAplicadas(ids, usuarioId) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT v.id_vacina AS id, v.status
+         FROM vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    if (registros.length !== ids.length || registros.some(registro => registro.status !== 'agendada')) {
+      await conexao.rollback();
+      return null;
+    }
+
+    await conexao.execute(
+      `UPDATE vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+          SET v.status = 'aplicada', v.data_aplicacao = CURDATE(),
+              v.data_proxima_dose = CASE
+                WHEN v.frequencia = 'reforco_anual' THEN DATE_ADD(CURDATE(), INTERVAL 1 YEAR)
+                ELSE v.data_proxima_dose
+              END
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})`,
+      [usuarioId, ...ids]
+    );
+    const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return vacinasPorPet;
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}
+
+// Exclui registros selecionados depois de conferir que todos pertencem à conta.
+export async function excluirVacinas(ids, usuarioId) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT v.id_vacina AS id
+         FROM vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    if (registros.length !== ids.length) {
+      await conexao.rollback();
+      return null;
+    }
+
+    await conexao.execute(
+      `DELETE v FROM vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})`,
+      [usuarioId, ...ids]
+    );
+    const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return vacinasPorPet;
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}

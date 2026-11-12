@@ -16,6 +16,10 @@ nenhum endpoint Node ou schema MySQL de despesas está conectado.
   valor em `pet.orcamentosDespesas[AAAA-MM]`, esse valor é usado para o mês.
   A tela ainda não oferece edição de orçamento.
 - A consulta programada de exemplo não é registrada como despesa.
+- Cada lançamento pode ser editado ou excluído no próprio formulário. Ao editar,
+  é possível alterar os pets associados; os registros mantidos preservam seus
+  IDs, os desmarcados são removidos e os novos pets recebem uma cópia. Tudo fica
+  no `localStorage` deste navegador.
 
 ## Próximos passos para uma API Node.js
 
@@ -24,8 +28,6 @@ nenhum endpoint Node ou schema MySQL de despesas está conectado.
 - Migrar leitura e gravação do `localStorage` para um endpoint autenticado,
   preservando os campos e cálculos acima.
 - Definir como orçamentos mensais serão configurados e persistidos.
-- Considerar ações para editar/remover lançamentos, que ainda não existem na
-  tela atual.
 
 ## Referência visual
 

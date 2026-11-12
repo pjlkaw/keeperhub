@@ -127,6 +127,135 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
   }
 }
 
+// Atualiza uma consulta e seus pets associados dentro de uma transação.
+export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuarioId, dados) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT c.id_consulta AS id, c.pet_id AS petId,
+              c.lembrete_ativo AS lembrete, c.observacoes, c.realizada_em AS realizadaEm
+         FROM consulta c
+         JOIN pet p ON p.id_pet = c.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND c.id_consulta IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    const petsPorId = new Map(registros.map(registro => [String(registro.id), String(registro.petId)]));
+    if (registros.length !== ids.length || ids.some((id, indice) => petsPorId.get(String(id)) !== String(petIdsOrigem[indice]))) {
+      await conexao.rollback();
+      return null;
+    }
+
+    const marcadoresDestino = petIdsDestino.map(() => '?').join(', ');
+    const [petsDestino] = await conexao.execute(
+      `SELECT id_pet FROM pet
+        WHERE usuario_id = ? AND ativo = 1 AND id_pet IN (${marcadoresDestino})
+        FOR UPDATE`,
+      [usuarioId, ...petIdsDestino]
+    );
+    if (petsDestino.length !== petIdsDestino.length) {
+      await conexao.rollback();
+      return null;
+    }
+
+    const registrosPorPet = new Map(registros.map(registro => [String(registro.petId), registro]));
+    const petIdsDestinoSet = new Set(petIdsDestino.map(String));
+    const grupoIds = [];
+    for (const petId of petIdsDestino) {
+      const existente = registrosPorPet.get(String(petId));
+      if (existente) {
+        await conexao.execute(
+          `UPDATE consulta c
+             JOIN pet p ON p.id_pet = c.pet_id
+              SET c.data = ?, c.status = ?,
+                  c.realizada_em = IF(? = 'realizada', COALESCE(c.realizada_em, NOW()), NULL),
+                  c.veterinario = ?, c.especialidade = ?, c.clinica = ?
+            WHERE c.id_consulta = ? AND p.usuario_id = ? AND p.ativo = 1`,
+          [
+            `${dados.data} ${dados.horario}:00`, dados.status, dados.status,
+            dados.medico, dados.especialidade, dados.clinica, existente.id, usuarioId,
+          ]
+        );
+        grupoIds.push(String(existente.id));
+        continue;
+      }
+
+      const modelo = registros[0];
+      const realizadaEm = dados.status === 'realizada' ? (modelo.realizadaEm || new Date()) : null;
+      const [resultado] = await conexao.execute(
+        `INSERT INTO consulta
+          (pet_id, data, status, realizada_em, veterinario, especialidade,
+           clinica, lembrete_ativo, observacoes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          petId, `${dados.data} ${dados.horario}:00`, dados.status, realizadaEm,
+          dados.medico, dados.especialidade, dados.clinica,
+          modelo.lembrete ? 1 : 0, modelo.observacoes || null,
+        ]
+      );
+      grupoIds.push(String(resultado.insertId));
+    }
+
+    for (const registro of registros) {
+      if (!petIdsDestinoSet.has(String(registro.petId))) {
+        await conexao.execute(
+          `DELETE c FROM consulta c
+             JOIN pet p ON p.id_pet = c.pet_id
+            WHERE c.id_consulta = ? AND p.usuario_id = ? AND p.ativo = 1`,
+          [registro.id, usuarioId]
+        );
+      }
+    }
+
+    const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return { consultasPorPet, grupoIds };
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}
+
+// Exclui consultas depois de conferir a propriedade de todos os IDs recebidos.
+export async function excluirConsultas(ids, usuarioId) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT c.id_consulta AS id
+         FROM consulta c
+         JOIN pet p ON p.id_pet = c.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND c.id_consulta IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    if (registros.length !== ids.length) {
+      await conexao.rollback();
+      return null;
+    }
+
+    await conexao.execute(
+      `DELETE c FROM consulta c
+         JOIN pet p ON p.id_pet = c.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND c.id_consulta IN (${marcadores})`,
+      [usuarioId, ...ids]
+    );
+    const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return consultasPorPet;
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}
+
 // Liga ou desliga o lembrete de uma consulta do usuário.
 export async function alterarLembreteConsulta(idConsulta, usuarioId, lembrar) {
   await db.execute(

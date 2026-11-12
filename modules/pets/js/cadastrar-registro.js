@@ -13,6 +13,7 @@ const tipoInicial = parametrosCadastro.get('tipo') === 'vacina'
     : 'medicamento';
 const petOrigem = parametrosCadastro.get('petId');
 const todosNaOrigem = !petOrigem && parametrosCadastro.get('todos') === '1';
+const modoEdicao = Boolean(parametrosCadastro.get('ids'));
 
 // Ajusta o retorno do cabeçalho antes de o script compartilhado ler a configuração.
 const listaOrigem = tipoInicial === 'vacina'
@@ -22,6 +23,12 @@ const retornoCadastro = new URL(listaOrigem, location.href);
 if (petOrigem) retornoCadastro.searchParams.set('petId', petOrigem);
 if (todosNaOrigem) retornoCadastro.searchParams.set('todos', '1');
 window.keeperhubModuleConfig.backUrl = retornoCadastro.href;
+if (modoEdicao) {
+    window.keeperhubModuleConfig.title = tipoInicial === 'vacina'
+        ? 'Editar vacina'
+        : 'Editar medicação';
+    window.keeperhubModuleConfig.subtitle = 'Atualize as informações salvas do seu pet.';
+}
 
 // Espera o HTML existir antes de preparar os painéis e os respectivos scripts.
 document.addEventListener('DOMContentLoaded', iniciarCadastroRegistro, { once: true });
@@ -55,6 +62,16 @@ async function iniciarCadastroRegistro() {
 
     tipo.value = tipoInicial;
     mostrarCadastro(tipoInicial);
+
+    if (modoEdicao) {
+        document.querySelector('#headerSection h1')?.replaceChildren(
+            tipoInicial === 'vacina' ? 'Editar vacina' : 'Editar medicação'
+        );
+        const botao = document.querySelector(
+            `#cadastro-${tipoInicial} button[type="submit"]`
+        );
+        if (botao) botao.textContent = 'Salvar alterações';
+    }
 
     // Cada módulo inicializa o seletor e o envio do próprio formulário.
     await Promise.all([
@@ -91,5 +108,5 @@ async function iniciarCadastroRegistro() {
         if (!seletor.disabled) seletor.dispatchEvent(new Event('change'));
     });
 
-    tipo.disabled = false;
+    tipo.disabled = modoEdicao;
 }

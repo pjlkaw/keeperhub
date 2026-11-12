@@ -1,8 +1,10 @@
 // Cadastro, cronograma e histórico das vacinas dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { definirVacinasDoBanco, listarPets } from './armazenamento.js';
-import { cadastrarVacinaApi } from './api.js';
+import { definirVacinasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { atualizarVacinasApi, cadastrarVacinaApi, excluirVacinasApi, marcarVacinasAplicadasApi } from './api.js';
+import { confirmarExclusao } from './confirmar-exclusao.js';
+import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
@@ -43,6 +45,14 @@ let petAtual = null;
 let petsAlvo = [];
 let salvando = false;
 let todosPetsSelecionados = false;
+const exclusoesPendentes = new Set();
+const parametrosEdicao = new URLSearchParams(location.search);
+const idsEdicao = (parametrosEdicao.get('ids') || '').split(',').filter(Boolean);
+const petIdsEdicao = (parametrosEdicao.get('petIds') || '').split(',').filter(Boolean);
+const modoEdicao = Boolean(
+    !paginaLista && parametrosEdicao.get('tipo') === 'vacina' &&
+    idsEdicao.length && idsEdicao.length === petIdsEdicao.length
+);
 
 // Formata uma data local como AAAA-MM-DD.
 function dataLocalISO(data = new Date()) {
@@ -100,6 +110,16 @@ function atualizarUrl(id) {
     history.replaceState(null, '', url.pathname + url.search + url.hash);
 }
 
+function urlEdicaoVacina(vacina) {
+    const destino = new URL('cadastrar-registro.html', location.href);
+    destino.searchParams.set('tipo', 'vacina');
+    destino.searchParams.set('ids', vacina.membros.map(membro => membro.registro.id).join(','));
+    destino.searchParams.set('petIds', vacina.membros.map(membro => membro.pet.id).join(','));
+    if (vacina.membros.length === 1) destino.searchParams.set('petId', vacina.membros[0].pet.id);
+    else destino.searchParams.set('todos', '1');
+    return destino.pathname.split('/').pop() + destino.search;
+}
+
 // Cria na página o seletor de pet e a área de mensagens.
 function criarSeletor() {
     const section = document.createElement('section');
@@ -131,6 +151,13 @@ function informar(mensagem, erro = false) {
     status.textContent = mensagem;
     status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
+}
+
+// Mantém ocultas da listagem as vacinas cuja exclusão ainda pode ser desfeita.
+function vacinasVisiveis(pet) {
+    return registrosDoPet(pet, 'vacinas').filter(vacina =>
+        !exclusoesPendentes.has(String(vacina.id))
+    );
 }
 
 // Carrega os pets do armazenamento e preenche o seletor.
@@ -274,7 +301,7 @@ function renderizarLista() {
     // Sem pet selecionado, mantém uma única orientação e esconde as listas.
     // Se já existem pets, mas nenhum tem vacinas, mostra o no-content para
     // conduzir ao cadastro inicial sem repetir mensagens em cada seção.
-    const existeVacina = pets.some(pet => registrosDoPet(pet, 'vacinas').length > 0);
+    const existeVacina = pets.some(pet => vacinasVisiveis(pet).length > 0);
     if (!petAtual && !todosPetsSelecionados) {
         secoesConteudo.forEach(secao => { secao.hidden = true; });
 
@@ -285,8 +312,7 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
-    const vacinas = pet => registrosDoPet(pet, "vacinas");
-    const registros = agruparRegistros(escopo, vacinas);
+    const registros = agruparRegistros(escopo, vacinasVisiveis);
     if (!registros.length) {
         const podeTrocarPet = existeVacina && pets.length > 1;
         secaoSeletorPet.hidden = !podeTrocarPet;
@@ -305,7 +331,7 @@ function renderizarLista() {
 
     // Pega o registro mais recente de cada vacina e ordena pela próxima dose.
     const dataDestaque = vacina => vacina.dataAgendada || vacina.proximaDose;
-    const maisRecentes = agruparRegistros(escopo, pet => registrosMaisRecentes(vacinas(pet)))
+    const maisRecentes = agruparRegistros(escopo, pet => registrosMaisRecentes(vacinasVisiveis(pet)))
         .sort((a, b) =>
             String(dataDestaque(a) ?? a.dataAplicacao)
                 .localeCompare(String(dataDestaque(b) ?? b.dataAplicacao))
@@ -380,7 +406,8 @@ function renderizarLista() {
 
         // Insere os valores variáveis escapados para que sejam tratados como texto.
         // O primeiro cartão recebe uma classe visual de destaque.
-        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><div class="barra-progresso" aria-hidden="true"><div class="barra-progresso__preenchimento" style="width:${progresso}%"></div></div><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></article>`;
+        const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
+        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><div class="barra-progresso" aria-hidden="true"><div class="barra-progresso__preenchimento" style="width:${progresso}%"></div></div><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a>${vacina.status === 'agendada' ? `<button type="button" class="botao-texto" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}<button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></article>`;
 
         listaDestaques.append(li);
     }
@@ -437,7 +464,8 @@ function renderizarLista() {
         const li = document.createElement('li');
 
         // Cria a linha do cronograma com dados variáveis escapados.
-        li.innerHTML = `<article class="item-vacina item-vacina--${classeStatus}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><p class="item-vacina__detalhe">${escapar(detalhe)}${vacina.clinica ? ` · ${escapar(vacina.clinica)}` : ''}${vacina.horario ? ` · ${escapar(vacina.horario)}` : ''}${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${statusTexto}</span></article>`;
+        const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
+        li.innerHTML = `<article class="item-vacina item-vacina--${classeStatus}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><p class="item-vacina__detalhe">${escapar(detalhe)}${vacina.clinica ? ` · ${escapar(vacina.clinica)}` : ''}${vacina.horario ? ` · ${escapar(vacina.horario)}` : ''}${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a>${agendada ? `<button type="button" class="botao-texto" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}<button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${statusTexto}</span></article>`;
 
         listaCronograma.append(li);
     }
@@ -456,9 +484,13 @@ function renderizarLista() {
             : nomesVacina[vacina.nome] ?? vacina.nome;
 
         const li = document.createElement('li');
+        const etiquetaPets = vacina.nomesPets?.length
+            ? `<span class="etiqueta-pets-registro">${escapar(vacina.nomesPets.join(', '))}</span>`
+            : '';
 
         // Mostra o nome, a data de aplicação e, se houver, a observação.
-        li.innerHTML = `<article class="card item-vacina item-vacina--registro"><i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><p class="item-vacina__detalhe">Aplicada em <time datetime="${escapar(vacina.dataAplicacao)}">${escapar(formatarData(vacina.dataAplicacao, { day: '2-digit', month: 'short', year: 'numeric' }))}</time>${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p></div></article>`;
+        const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
+        li.innerHTML = `<article class="card item-vacina item-vacina--registro"><i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${etiquetaPets}</h3><p class="item-vacina__detalhe">Aplicada em <time datetime="${escapar(vacina.dataAplicacao)}">${escapar(formatarData(vacina.dataAplicacao, { day: '2-digit', month: 'short', year: 'numeric' }))}</time>${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></div></article>`;
 
         listaHistorico.append(li);
     }
@@ -502,6 +534,8 @@ function configurarFormulario() {
     );
     const aviso = document.getElementById('aviso-integracao-vacina');
     const dataAplicacao = form.elements.data_aplicacao;
+
+    if (modoEdicao) botao.textContent = 'Salvar alterações';
 
     // Datas futuras representam agendamentos; datas passadas/hoje representam aplicações.
     dataAplicacao.required = true;
@@ -607,6 +641,7 @@ function configurarFormulario() {
         // A API define o status e grava um registro por pet escolhido.
         const dadosVacina = {
             petIds: petsAlvo.map(pet => pet.id),
+            ...(modoEdicao ? { petIdsOrigem: petIdsEdicao.map(Number) } : {}),
             nome: escolhida.value,
             nomePersonalizado: escolhida.value === 'outra'
                 ? vacinaOutra.value.trim()
@@ -623,8 +658,18 @@ function configurarFormulario() {
             // Guardamos os dados antes do evento de atualização recarregar o seletor.
             const [petDestinoId] = dadosVacina.petIds;
             const quantidadePets = dadosVacina.petIds.length;
-            const { vacinas, criados } = await cadastrarVacinaApi(dadosVacina);
-            definirVacinasDoBanco(vacinas, criados);
+            const resposta = modoEdicao
+                ? await atualizarVacinasApi({ ...dadosVacina, ids: idsEdicao.map(Number) })
+                : await cadastrarVacinaApi(dadosVacina);
+            if (modoEdicao) separarRegistrosDoGrupo('vacinas', idsEdicao);
+            definirVacinasDoBanco(resposta.vacinas, resposta.grupoIds ?? resposta.criados);
+            if (modoEdicao) {
+                const destino = new URL('vacinacoes.html', location.href);
+                if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
+                else destino.searchParams.set('petId', petsAlvo[0].id);
+                location.href = destino.href;
+                return;
+            }
             location.href = quantidadePets > 1
                 ? "vacinacoes.html?todos=1"
                 : "vacinacoes.html?petId=" + encodeURIComponent(petDestinoId);
@@ -661,10 +706,97 @@ if (!paginaLista) {
     configurarFormulario();
 }
 
+if (paginaLista) {
+    main.addEventListener('click', async event => {
+        const excluir = event.target.closest('[data-excluir-vacina]');
+        if (excluir) {
+            const ids = excluir.dataset.excluirVacina.split(',').filter(Boolean).map(Number);
+            const confirmado = await confirmarExclusao({
+                titulo: 'Excluir vacina?',
+                mensagem: 'A vacina e seus dados de aplicação serão removidos.'
+            });
+            if (!confirmado) return;
+
+            const idsTexto = ids.map(String);
+            idsTexto.forEach(id => exclusoesPendentes.add(id));
+            renderizarLista();
+
+            oferecerDesfazerExclusao({
+                antesDe: main.querySelector('.destaques-vacinas'),
+                mensagem: 'Vacina removida da lista.',
+                aoDesfazer() {
+                    idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                    renderizarLista();
+                },
+                async aoExcluir() {
+                    const vacinas = await excluirVacinasApi(ids);
+                    idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                    separarRegistrosDoGrupo('vacinas', idsTexto);
+                    definirVacinasDoBanco(vacinas);
+                },
+                aoFalhar(erro) {
+                    idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                    renderizarLista();
+                    informar(erro.message || 'Não foi possível excluir a vacina.', true);
+                }
+            });
+            return;
+        }
+
+        const botao = event.target.closest('[data-marcar-vacina]');
+        if (!botao || botao.disabled) return;
+        const ids = botao.dataset.marcarVacina.split(',').filter(Boolean).map(Number);
+        botao.disabled = true;
+        try {
+            const resposta = await marcarVacinasAplicadasApi(ids);
+            definirVacinasDoBanco(resposta.vacinas);
+            informar('Vacinação confirmada como aplicada.');
+        } catch (erro) {
+            informar(erro.message || 'Não foi possível confirmar a vacinação.', true);
+            botao.disabled = false;
+        }
+    });
+}
+
 // Carrega os pets ao iniciar.
 // Se houver erro, desabilita o seletor e mostra uma mensagem.
 try {
     carregarPets();
+    if (modoEdicao) {
+        const membros = petIdsEdicao.map((petId, indice) => ({
+            pet: pets.find(pet => pet.id === petId),
+            registroId: idsEdicao[indice]
+        }));
+        const registro = membros[0]?.pet?.vacinas?.find(item => item.id === membros[0].registroId);
+        if (!registro || membros.some(membro => !membro.pet?.vacinas?.some(item => item.id === membro.registroId))) {
+            informar('A vacina que você quer editar não foi encontrada.', true);
+            form.querySelector('[type="submit"]').disabled = true;
+        } else {
+            petsAlvo = membros.map(membro => membro.pet);
+            petAtual = petsAlvo.length === 1 ? petsAlvo[0] : null;
+            selecaoMultipla.selecionarPets(pets, petsAlvo.map(pet => pet.id));
+            document.querySelector('#headerSection h1')?.replaceChildren('Editar vacina');
+            let radioNome = form.querySelector(`input[name="nome_vacina"][value="${registro.nome}"]`);
+            const nomePersonalizado = registro.nomePersonalizado || nomesVacina[registro.nome] || registro.nome;
+            if (!radioNome) {
+                radioNome = form.querySelector('input[name="nome_vacina"][value="outra"]');
+                form.elements.nome_vacina_outra.value = nomePersonalizado;
+            } else {
+                form.elements.nome_vacina_outra.value = registro.nomePersonalizado;
+            }
+            radioNome.checked = true;
+            form.elements.data_aplicacao.value = registro.dataAgendada || registro.dataAplicacao;
+            form.elements.clinica_vacina.value = registro.clinica;
+            form.elements.horario_vacina.value = registro.horario;
+            form.elements.observacao_vacina.value = registro.observacao;
+            const radioFrequencia = form.querySelector(`input[name="frequencia"][value="${registro.frequencia}"]`);
+            radioFrequencia.checked = true;
+            form.elements.prox_dose.value = registro.proximaDose;
+            radioNome.dispatchEvent(new Event('change', { bubbles: true }));
+            radioFrequencia.dispatchEvent(new Event('change', { bubbles: true }));
+            atualizarFormulario();
+        }
+    }
     if (paginaLista) document.getElementById('btn-add-section').inert = false;
 } catch (erro) {
     seletorPet.disabled = true;

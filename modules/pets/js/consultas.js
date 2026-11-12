@@ -1,6 +1,8 @@
 // Controla o cadastro, a listagem e o histórico das consultas dos pets.
-import { definirConsultasDoBanco, listarPets } from './armazenamento.js';
-import { cadastrarConsultaApi, registrarConsultasRealizadasApi } from './api.js';
+import { definirConsultasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, registrarConsultasRealizadasApi } from './api.js';
+import { confirmarExclusao } from './confirmar-exclusao.js';
+import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
@@ -33,6 +35,33 @@ let petsAlvo = [];
 let salvando = false;
 let todosPetsSelecionados = false;
 const consultasExibidas = new Map();
+const exclusoesPendentes = new Set();
+const parametrosEdicao = new URLSearchParams(location.search);
+const idsEdicao = (parametrosEdicao.get('ids') || '').split(',').filter(Boolean);
+const petIdsEdicao = (parametrosEdicao.get('petIds') || '').split(',').filter(Boolean);
+const modoEdicao = !paginaLista && idsEdicao.length > 0 && idsEdicao.length === petIdsEdicao.length;
+if (modoEdicao) {
+    window.keeperhubModuleConfig.title = 'Editar consulta';
+    window.keeperhubModuleConfig.subtitle = 'Atualize os dados do atendimento veterinário.';
+    const retorno = new URL('consultas-exames.html', location.href);
+    if (petIdsEdicao.length > 1) retorno.searchParams.set('todos', '1');
+    else retorno.searchParams.set('petId', petIdsEdicao[0]);
+    window.keeperhubModuleConfig.backUrl = retorno.href;
+    const cabecalho = document.getElementById('headerSection');
+    const atualizarCabecalho = () => {
+        const titulo = document.getElementById('pageNameH1');
+        const voltar = document.getElementById('btn-back-header');
+        if (titulo) titulo.textContent = 'Editar consulta';
+        if (voltar) voltar.href = retorno.href;
+        return Boolean(titulo);
+    };
+    if (!atualizarCabecalho() && cabecalho) {
+        const observador = new MutationObserver(() => {
+            if (atualizarCabecalho()) observador.disconnect();
+        });
+        observador.observe(cabecalho, { childList: true, subtree: true });
+    }
+}
 
 // Converte caracteres especiais em entidades HTML antes de inserir texto
 // em trechos montados com innerHTML. Isso impede que os dados sejam
@@ -207,6 +236,22 @@ function prepararLinkCadastro() {
         });
 }
 
+// Mantém ocultas da lista as consultas cuja exclusão ainda pode ser desfeita.
+function consultasVisiveis(pet) {
+    return registrosDoPet(pet, 'consultas').filter(consulta =>
+        !exclusoesPendentes.has(String(consulta.id))
+    );
+}
+
+function urlEdicaoConsulta(consulta) {
+    const destino = new URL('cadastrar-consulta.html', location.href);
+    destino.searchParams.set('ids', consulta.membros.map(membro => membro.registro.id).join(','));
+    destino.searchParams.set('petIds', consulta.membros.map(membro => membro.pet.id).join(','));
+    if (consulta.membros.length === 1) destino.searchParams.set('petId', consulta.membros[0].pet.id);
+    else destino.searchParams.set('todos', '1');
+    return destino.pathname.split('/').pop() + destino.search;
+}
+
 // Desenha as próximas consultas e o histórico na página de listagem.
 function renderizarLista() {
     const proximas = mainPainel.querySelector('.consultas > ul');
@@ -222,11 +267,7 @@ function renderizarLista() {
     prepararLinkCadastro();
     consultasExibidas.clear();
 
-    const temConsultaEmAlgumPet = pets.some(pet =>
-        Array.isArray(pet.consultas) && pet.consultas.some(item =>
-            item && typeof item === 'object'
-        )
-    );
+    const temConsultaEmAlgumPet = pets.some(pet => consultasVisiveis(pet).length > 0);
 
     // Sem pet selecionado, só mostra uma orientação se já houver registros
     // em algum pet; no primeiro cadastro usa o no-content compartilhado.
@@ -249,7 +290,7 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
-    const consultas = agruparRegistros(escopo, pet => registrosDoPet(pet, "consultas"),
+    const consultas = agruparRegistros(escopo, consultasVisiveis,
         consulta => consulta.status === "realizada" ? "realizada" : "pendente")
         .sort((a, b) =>
             `${a.data ?? ''} ${a.horario ?? ''}`
@@ -306,6 +347,7 @@ function renderizarLista() {
             <h3 class="cartao-consulta__veterinario">${escapar(consulta.medico)}${todosPetsSelecionados ? " · " + escapar(consulta.nomesPets.join(", ")) : ""}</h3>
             <p class="cartao-consulta__local"><i class="fa-solid fa-location-dot icone" aria-hidden="true"></i>${escapar(detalheMedico || 'Local não informado')}</p>
             <p class="cartao-consulta__data-hora"><span class="cartao-consulta__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>${escapar(formatarData(consulta.data))}</span><span class="cartao-consulta__horario"><i class="fa-regular fa-clock icone" aria-hidden="true"></i>${escapar(consulta.horario || '')}</span></p>
+            <div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div>
             <details class="confirmar-consulta"><summary class="confirmar-consulta__acionador">Registrar atendimento</summary><form class="confirmar-consulta__formulario" data-form-historico><div class="campo-formulario"><label for="resumo-${id}">Resumo da consulta</label><textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea></div><button type="submit" class="botao-principal">Salvar no Histórico</button></form></details>
         </article>`;
         proximas.append(item);
@@ -318,7 +360,10 @@ function renderizarLista() {
 
     realizadas.forEach(consulta => {
         const item = document.createElement('li');
-        item.innerHTML = `<article class="linha-tempo-medica__item"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${todosPetsSelecionados ? " · " + escapar(consulta.nomesPets.join(", ")) : ""}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data">${escapar(formatarData(consulta.data))}</p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p></div></article>`;
+        const etiquetaPets = consulta.nomesPets?.length
+            ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
+            : '';
+        item.innerHTML = `<article class="linha-tempo-medica__item"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data">${escapar(formatarData(consulta.data))}</p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
         historico.append(item);
     });
 }
@@ -368,6 +413,11 @@ function configurarFormulario() {
     );
     const aviso = document.getElementById('aviso-integracao');
     const data = formulario.elements.data_consulta;
+
+    if (modoEdicao) {
+        document.querySelector('#headerSection h1')?.replaceChildren('Editar consulta');
+        botao.textContent = 'Salvar alterações';
+    }
 
     // Datas anteriores a hoje podem ser registradas como consultas já ocorridas.
     data.removeAttribute('min');
@@ -435,21 +485,33 @@ function configurarFormulario() {
         // A API valida o agendamento e grava um registro por pet.
         const dadosConsulta = {
             petIds: petsAlvo.map(pet => pet.id),
+            ...(modoEdicao ? { petIdsOrigem: petIdsEdicao.map(Number) } : {}),
             medico: formulario.elements.nome_medico.value.trim(),
             especialidade: especialidadeValor,
             especialidadePersonalizada:
                 especialidadeValor === 'outra' ? outra.value.trim() : '',
             clinica: formulario.elements.clinica.value.trim(),
             data: data.value,
-            horario: formulario.elements.horario_consulta.value
+            horario: formulario.elements.horario_consulta.value,
+            ...(modoEdicao ? { ids: idsEdicao.map(Number) } : {})
         };
 
         try {
             // Captura o destino antes do evento de atualização recarregar o seletor.
             const [petDestinoId] = dadosConsulta.petIds;
             const quantidadePets = dadosConsulta.petIds.length;
-            const { consultas, criados } = await cadastrarConsultaApi(dadosConsulta);
-            definirConsultasDoBanco(consultas, criados);
+            const resposta = modoEdicao
+                ? await atualizarConsultasApi(dadosConsulta)
+                : await cadastrarConsultaApi(dadosConsulta);
+            if (modoEdicao) separarRegistrosDoGrupo('consultas', idsEdicao);
+            definirConsultasDoBanco(resposta.consultas, resposta.grupoIds ?? resposta.criados);
+            if (modoEdicao) {
+                const destino = new URL('consultas-exames.html', location.href);
+                if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
+                else destino.searchParams.set('petId', petsAlvo[0].id);
+                location.href = destino.href;
+                return;
+            }
             location.href = quantidadePets > 1
                 ? "consultas-exames.html?todos=1"
                 : "consultas-exames.html?petId=" + encodeURIComponent(petDestinoId);
@@ -489,6 +551,42 @@ if (paginaLista) {
         .querySelectorAll('.confirmar-consulta__formulario')
         .forEach(form => form.remove());
 
+    mainPainel.addEventListener('click', async event => {
+        const botao = event.target.closest('[data-excluir-consulta]');
+        if (!botao) return;
+        const ids = botao.dataset.excluirConsulta.split(',').filter(Boolean).map(Number);
+        const confirmado = await confirmarExclusao({
+            titulo: 'Excluir consulta?',
+            mensagem: 'A consulta e os dados do atendimento serão removidos.'
+        });
+        if (!confirmado) return;
+
+        const idsTexto = ids.map(String);
+        idsTexto.forEach(id => exclusoesPendentes.add(id));
+        renderizarLista();
+        mainPainel.querySelector('.consultas').hidden = false;
+
+        oferecerDesfazerExclusao({
+            antesDe: mainPainel.querySelector('.consultas > ul'),
+            mensagem: 'Consulta removida da lista.',
+            aoDesfazer() {
+                idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                renderizarLista();
+            },
+            async aoExcluir() {
+                const consultas = await excluirConsultasApi(ids);
+                idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                separarRegistrosDoGrupo('consultas', idsTexto);
+                definirConsultasDoBanco(consultas);
+            },
+            aoFalhar(erro) {
+                idsTexto.forEach(id => exclusoesPendentes.delete(id));
+                renderizarLista();
+                informar(erro.message || 'Não foi possível excluir a consulta.', true);
+            }
+        });
+    });
+
     // Trata o formulário que registra uma consulta no histórico.
     mainPainel.addEventListener('submit', async event => {
         const form = event.target.closest('[data-form-historico]');
@@ -525,6 +623,31 @@ if (paginaLista) {
 // Carrega os pets. Se ocorrer um erro, desabilita o seletor e mostra aviso.
 try {
     carregarPets();
+    if (modoEdicao) {
+        const membros = petIdsEdicao.map((petId, indice) => ({
+            pet: pets.find(pet => pet.id === petId),
+            registroId: idsEdicao[indice]
+        }));
+        const membroInicial = membros[0];
+        const registro = membroInicial?.pet?.consultas?.find(item => item.id === membroInicial.registroId);
+        if (!registro || membros.some(membro => !membro.pet?.consultas?.some(item => item.id === membro.registroId))) {
+            informar('A consulta que você quer editar não foi encontrada.', true);
+            formulario.querySelector('[type="submit"]').disabled = true;
+        } else {
+            petsAlvo = membros.map(membro => membro.pet);
+            petAtual = petsAlvo.length === 1 ? petsAlvo[0] : null;
+            selecaoMultipla.selecionarPets(pets, petsAlvo.map(pet => pet.id));
+            document.querySelector('#headerSection h1')?.replaceChildren('Editar consulta');
+            formulario.elements.nome_medico.value = registro.medico;
+            formulario.elements.area_atuacao.value = registro.especialidade;
+            formulario.elements.area_atuacao_outra.value = registro.especialidadePersonalizada;
+            formulario.elements.clinica.value = registro.clinica;
+            formulario.elements.data_consulta.value = registro.data;
+            formulario.elements.horario_consulta.value = registro.horario;
+            formulario.elements.area_atuacao.dispatchEvent(new Event('change'));
+            atualizarFormulario();
+        }
+    }
     if (paginaLista) document.getElementById('btn-add-section').inert = false;
 } catch (erro) {
     seletor.disabled = true;
