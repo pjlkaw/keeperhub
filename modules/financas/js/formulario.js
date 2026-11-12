@@ -1,5 +1,5 @@
-import { formatarMoeda, formatarData, lerMoeda, obterContas, obterTransacoes, proximoId, salvarTransacoes } from './dados.js';
-import { apiDisponivel, criarTransacaoApi, listarContasApi, atualizarTransacaoApi } from './api.js';
+import { formatarMoeda, formatarData, lerMoeda, obterContas, obterTransacoes } from './dados.js';
+import { criarTransacaoApi, atualizarTransacaoApi } from './api.js';
 
 export async function inicializarFormulario() {
     const formulario = document.getElementById('transaction-form');
@@ -8,14 +8,7 @@ export async function inicializarFormulario() {
     const campos = formulario.elements;
     const tipos = formulario.querySelectorAll('.type-option');
     const salvar = formulario.querySelector('[type="submit"]');
-    let contas = obterContas();
-    if (apiDisponivel()) {
-        try {
-            contas = await listarContasApi();
-        } catch (erro) {
-            console.warn('API de contas indisponível; usando contas locais.', erro.message);
-        }
-    }
+    const contas = await obterContas();
     const parametros = new URLSearchParams(window.location.search);
     const idEmEdicao = Number(parametros.get('id'));
     const modoEdicaoSolicitado = parametros.get('modo') === 'editar'
@@ -128,7 +121,7 @@ export async function inicializarFormulario() {
 
         const conta = contas.find((item) => Number(item.id) === contaId);
         const novaTransacao = {
-            id: modoEdicao ? idEmEdicao : proximoId(transacoesAtuais),
+            id: modoEdicao ? idEmEdicao : null,
             tipo: formulario.querySelector('.type-option.selected').dataset.transactionType === 'income' ? 'receita' : 'despesa',
             valor,
             descricao: dados.get('description'),
@@ -140,25 +133,15 @@ export async function inicializarFormulario() {
             status: dados.get('status') || 'pending',
             observacoes: String(dados.get('notes') || '').trim() || null
         };
-        let transacaoSalva = novaTransacao;
-        if (apiDisponivel()) {
-            try {
-                const resposta = modoEdicao
-                    ? await atualizarTransacaoApi(idEmEdicao, novaTransacao)
-                    : await criarTransacaoApi(novaTransacao);
-                transacaoSalva = {
-                    ...novaTransacao,
-                    id: Number(resposta?.id || novaTransacao.id)
-                };
-            } catch (erro) {
-                window.alert(erro.message);
-                return;
-            }
+        try {
+            const resposta = modoEdicao
+                ? await atualizarTransacaoApi(idEmEdicao, novaTransacao)
+                : await criarTransacaoApi(novaTransacao);
+            if (!modoEdicao) novaTransacao.id = Number(resposta?.id || novaTransacao.id);
+        } catch (erro) {
+            window.alert(erro.message);
+            return;
         }
-        const transacoes = modoEdicao
-            ? transacoesAtuais.map((transacao) => Number(transacao.id) === idEmEdicao ? transacaoSalva : transacao)
-            : [...transacoesAtuais, transacaoSalva];
-        salvarTransacoes(transacoes);
         window.location.href = 'transacoes.html';
     });
 
