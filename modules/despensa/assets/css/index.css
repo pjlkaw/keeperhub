@@ -13,10 +13,10 @@ body {
     box-sizing: border-box;
 }
 
-/* Organiza os cards de resumo em três colunas */
+/* Organiza os cards de resumo em duas colunas (2 x 2) */
 .despensa-resumo {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
 
