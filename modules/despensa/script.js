@@ -333,7 +333,7 @@ function updateProductCounter() {
     if (productCounter) {
 
         productCounter.textContent =
-            `${products.length} produto(s) cadastrado(s)`;
+            products.length === 1 ? "1 item" : `${products.length} itens`;
 
     }
 

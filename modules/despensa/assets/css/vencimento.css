@@ -61,7 +61,7 @@
     border-radius: 7px;
     background: var(--card, #18181b);
     color: var(--text, #fff);
-    font-size: 11px;
+    font-size: 0.875rem; /* padrão de shared/styles/components.css */
     cursor: pointer;
 }
 
