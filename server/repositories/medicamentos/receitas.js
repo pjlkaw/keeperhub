@@ -1,5 +1,5 @@
 import db from '../../db.js';
-import { put } from '@vercel/blob';
+import { del, put } from '@vercel/blob';
 import { randomUUID } from 'node:crypto';
 
 const MAX_ANEXO_BYTES = 1024 * 1024;
@@ -143,4 +143,83 @@ export async function criarReceita(usuarioId, dados) {
   } finally {
     conexao.release();
   }
+}
+
+export async function excluirAnexoReceita(idArquivo, usuarioId) {
+  const [arquivos] = await db.execute(
+    `SELECT id_arquivo AS id, url
+       FROM arquivo
+      WHERE id_arquivo = ? AND usuario_id = ?
+        AND entidade_tipo = 'receita'
+      LIMIT 1`,
+    [idArquivo, usuarioId],
+  );
+  const arquivo = arquivos[0];
+  if (!arquivo) return false;
+
+  const [resultado] = await db.execute(
+    `DELETE FROM arquivo
+      WHERE id_arquivo = ? AND usuario_id = ?
+        AND entidade_tipo = 'receita'`,
+    [idArquivo, usuarioId],
+  );
+
+  if (resultado.affectedRows > 0 && arquivo.url) {
+    try {
+      await del(arquivo.url);
+    } catch (erro) {
+      console.error('Não foi possível remover o anexo da receita no Blob:', erro);
+    }
+  }
+
+  return resultado.affectedRows > 0;
+}
+
+export async function excluirReceita(idReceita, usuarioId) {
+  const [receitas] = await db.execute(
+    'SELECT id_receita FROM receita WHERE id_receita = ? AND usuario_id = ? LIMIT 1',
+    [idReceita, usuarioId],
+  );
+  if (!receitas.length) return false;
+
+  const [anexos] = await db.execute(
+    `SELECT url
+       FROM arquivo
+      WHERE usuario_id = ? AND entidade_tipo = 'receita'
+        AND entidade_id = ?`,
+    [usuarioId, idReceita],
+  );
+
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    await conexao.execute('DELETE FROM receita_medicamento WHERE receita_id = ?', [idReceita]);
+    await conexao.execute(
+      `DELETE FROM arquivo
+        WHERE usuario_id = ? AND entidade_tipo = 'receita'
+          AND entidade_id = ?`,
+      [usuarioId, idReceita],
+    );
+    await conexao.execute(
+      'DELETE FROM receita WHERE id_receita = ? AND usuario_id = ?',
+      [idReceita, usuarioId],
+    );
+    await conexao.commit();
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+
+  const urls = anexos.map((anexo) => anexo.url).filter(Boolean);
+  if (urls.length) {
+    try {
+      await del(urls);
+    } catch (erro) {
+      console.error('Não foi possível remover todos os anexos da receita no Blob:', erro);
+    }
+  }
+
+  return true;
 }
