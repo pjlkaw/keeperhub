@@ -65,14 +65,14 @@ function formatarData(dataISO) {
 function informarSelecao(mensagem, erro = false) {
     statusPet.hidden = !mensagem;
     statusPet.textContent = mensagem;
-    statusPet.dataset.estado = erro ? 'erro' : 'sucesso';
+    statusPet.dataset.estado = erro ? 'erro' : 'informativo';
     statusPet.setAttribute('role', erro ? 'alert' : 'status');
 }
 
 // Atualiza o aviso exibido dentro do formulário de despesa.
-function informarFormulario(mensagem, erro = false) {
+function informarFormulario(mensagem, erro = false, sucesso = false) {
     statusForm.textContent = mensagem;
-    statusForm.dataset.estado = erro ? 'erro' : 'sucesso';
+    statusForm.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
     statusForm.setAttribute('role', erro ? 'alert' : 'status');
 }
 
@@ -316,7 +316,7 @@ function atualizarDestinoFormulario() {
     inicial.disabled = true;
     inicial.selected = true;
     seletorDestino.append(inicial);
-    selecaoMultipla.preparar(pets);
+    selecaoMultipla.preparar(pets, true);
 
     pets.forEach(pet => {
         const opcao = document.createElement('option');
@@ -326,6 +326,7 @@ function atualizarDestinoFormulario() {
     });
 
     if (petAtual) seletorDestino.value = petAtual.id;
+    else if (todosPetsSelecionados && pets.length > 1) seletorDestino.value = '__todos__';
     selecaoMultipla.selecionados(pets);
 }
 
@@ -550,7 +551,7 @@ form.addEventListener('submit', event => {
         form.reset();
         atualizarDestinoFormulario();
         campoData.value = dataPadraoParaMes();
-        informarFormulario('Despesa salva neste navegador.');
+        informarFormulario('Despesa salva neste navegador.', false, true);
         popover.hidePopover?.();
     } catch (erro) {
         informarFormulario(erro.message || 'Não foi possível salvar a despesa.', true);

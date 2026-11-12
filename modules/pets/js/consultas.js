@@ -73,7 +73,9 @@ function formatarData(iso) {
 function atualizarUrl(id) {
     const url = new URL(window.location.href);
 
-    if (paginaLista && todosPetsSelecionados) url.searchParams.set('todos', '1');
+    if ((paginaLista && todosPetsSelecionados) || seletor.value === '__todos__') {
+        url.searchParams.set('todos', '1');
+    }
     else url.searchParams.delete('todos');
     if (id) url.searchParams.set('petId', id);
     else url.searchParams.delete('petId');
@@ -111,7 +113,7 @@ const selecaoMultipla = formulario ? criarSelecaoMultipla(seletor) : null;
 function informar(mensagem, erro = false) {
     status.hidden = !mensagem;
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
 }
 
@@ -148,15 +150,19 @@ function carregarPets() {
     // Se a URL contém um petId, tenta localizar esse pet.
     const idQuery = new URLSearchParams(location.search).get('petId');
     const petQuery = pets.find(pet => pet.id === idQuery);
+    const todosNaUrl = new URLSearchParams(location.search).get('todos') === '1';
 
     // Seleciona o pet da URL ou, se só houver um, seleciona esse pet.
-    if (paginaLista && (modoAnterior === "__todos__" || new URLSearchParams(location.search).get("todos") === "1") && pets.length > 1) {
+    if (paginaLista && (modoAnterior === '__todos__' || todosNaUrl || !petQuery) && pets.length > 1) {
         seletor.value = "__todos__";
         seletor.dispatchEvent(new Event("change"));
     } else {
         selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
     }
-    if (!paginaLista && modoAnterior.startsWith("__") && [...seletor.options].some(opcao => opcao.value === modoAnterior)) {
+    if (!paginaLista && pets.length > 1 && todosNaUrl) {
+        seletor.value = "__todos__";
+        seletor.dispatchEvent(new Event("change"));
+    } else if (!paginaLista && modoAnterior.startsWith("__") && [...seletor.options].some(opcao => opcao.value === modoAnterior)) {
         seletor.value = modoAnterior;
         seletor.dispatchEvent(new Event("change"));
     }
@@ -186,16 +192,18 @@ function selecionarPet(pet) {
 
 // Acrescenta o pet selecionado aos links que levam ao cadastro de consulta.
 function prepararLinkCadastro() {
-    const destino = petAtual
-        ? `cadastrar-consulta.html?petId=${encodeURIComponent(petAtual.id)}`
-        : 'cadastrar-consulta.html';
-    window.keeperhubModuleConfig.addUrl = `/modules/pets/components/${destino}`;
+    const parametros = new URLSearchParams();
+    if (petAtual) parametros.set('petId', petAtual.id);
+    else if (todosPetsSelecionados) parametros.set('todos', '1');
+    const sufixo = parametros.size ? '?' + parametros.toString() : '';
+    const destino = 'cadastrar-consulta.html' + sufixo;
+
+    window.keeperhubModuleConfig.addUrl =
+        '/modules/pets/components/' + destino;
     document
         .querySelectorAll('a[href*="cadastrar-consulta.html"]')
         .forEach(link => {
-            link.href = petAtual
-                ? `cadastrar-consulta.html?petId=${encodeURIComponent(petAtual.id)}`
-                : 'cadastrar-consulta.html';
+            link.href = destino;
         });
 }
 
@@ -330,6 +338,7 @@ function atualizarFormulario() {
             ? 'Selecione um pet para continuar.'
             : 'Cadastre um pet antes de agendar uma consulta.';
         aviso.hidden = false;
+        aviso.dataset.estado = pets.length ? 'informativo' : 'erro';
 
         informar(
             pets.length
@@ -342,6 +351,7 @@ function atualizarFormulario() {
             ? `A consulta será salva para ${petsAlvo.length} pets na sua conta.`
             : 'Os dados serão salvos na sua conta.';
         aviso.hidden = false;
+        aviso.dataset.estado = 'informativo';
         informar('');
     }
 
@@ -447,6 +457,7 @@ function configurarFormulario() {
             // Se houver falha, mostra o erro e reabilita o botão.
             aviso.textContent =
                 erro.message || 'Não foi possível salvar a consulta.';
+            aviso.dataset.estado = 'erro';
             salvando = false;
             botao.disabled = !petsAlvo.length;
         }

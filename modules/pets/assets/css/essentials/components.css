@@ -1,0 +1,217 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: essentials/components.css
+Estilos estruturais e componentes reutilizados pelas páginas do módulo.
+Depende de: shared/styles/variables.css, essentials/variables.css
+Usado por: folhas CSS das páginas de Pets
+================================================== */
+
+/* ==================================================
+BASE DA PÁGINA
+Aplica o tema nativo dos controles e os limites do conteúdo.
+================================================== */
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+body {
+    min-width: 280px;
+    min-height: 100vh;
+}
+
+body > main {
+    font-size: 14px;
+}
+
+/* ==================================================
+CABEÇALHO E NAVEGAÇÃO ENTRE MÓDULOS
+Padroniza a aba ativa e o título das páginas de Pets.
+================================================== */
+.modules-nav-wrapper .modules-nav-item.active {
+    color: var(--pets-primary-readable);
+    background-color: var(--pets-primary-soft);
+    border-color: var(--pets-primary-border);
+}
+
+.section-header-section {
+    flex-wrap: wrap;
+    font-size: 1rem;
+}
+
+.section-header-title-area {
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.section-header-title {
+    overflow-wrap: anywhere;
+}
+
+/* ==================================================
+ESTRUTURA DOS FORMULÁRIOS
+Mantém os campos, legendas e linhas com espaçamento consistente.
+================================================== */
+.campo-formulario {
+    min-width: 0;
+    margin: 0 0 16px;
+    border: 0;
+}
+
+.campo-formulario label,
+.campo-formulario legend {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.linha-formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* ==================================================
+FOCO E ESTADOS DE FEEDBACK
+Usa o azul do módulo em campos focados e diferencia avisos,
+confirmações e erros com uma mensagem compacta.
+================================================== */
+html[data-theme] body input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
+html[data-theme] body select:focus,
+html[data-theme] body textarea:focus {
+    border-color: var(--tool-pets);
+    box-shadow: 0 0 0 2px var(--pets-primary-soft);
+}
+
+html[data-theme] body input[type="checkbox"],
+html[data-theme] body input[type="radio"] {
+    accent-color: var(--tool-pets);
+}
+
+html[data-theme] body button:focus-visible,
+html[data-theme] body a:focus-visible,
+html[data-theme] body input:focus-visible,
+html[data-theme] body select:focus-visible,
+html[data-theme] body textarea:focus-visible {
+    outline-color: var(--tool-pets);
+}
+
+body [role="status"][data-estado],
+body [role="alert"][data-estado] {
+    font-size: 0.75rem;
+    line-height: 1.45;
+}
+
+body [role="status"][data-estado="informativo"] {
+    color: var(--pets-primary-readable);
+}
+
+body [role="status"][data-estado="sucesso"] {
+    color: var(--pets-success);
+}
+
+body [role="status"][data-estado="erro"],
+body [role="alert"][data-estado="erro"] {
+    color: var(--pets-status-alerta);
+}
+
+.editar-pet {
+    width: min(100%, 1440px);
+    margin: 0 auto;
+    padding-bottom: 32px;
+}
+
+/* Texto acessível para leitores de tela sem ocupar espaço visual. */
+.somente-leitor-tela {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+}
+
+/* ==================================================
+AÇÕES DOS CARDS E FORMULÁRIOS
+Botões comuns de salvar, ações em texto e controles por ícone.
+================================================== */
+.botao-principal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 9px 16px;
+    color: var(--pill-text);
+    background: var(--pets-primary-fill);
+    border: 1px solid transparent;
+    border-radius: var(--pets-radius-pill);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    transition:
+        background-color var(--pets-transition),
+        box-shadow var(--pets-transition),
+        transform var(--pets-transition);
+}
+
+.botao-principal:hover:not(:disabled) {
+    background: var(--pets-primary-active);
+    box-shadow: 0 5px 14px var(--pets-primary-shadow);
+}
+
+.botao-principal:active:not(:disabled) {
+    background: var(--pets-primary-active);
+    transform: translateY(1px);
+}
+
+.botao-principal:disabled {
+    color: var(--text-muted);
+    background: var(--card-bg);
+    border-color: var(--border-color);
+    box-shadow: none;
+    transform: none;
+}
+
+.botao-texto {
+    color: var(--pets-primary-readable);
+    font-weight: 700;
+    transition: color var(--pets-transition);
+}
+
+.botao-texto:hover {
+    color: var(--text-color);
+}
+
+.botao-icone {
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    color: var(--text-muted);
+    background: transparent;
+    border-radius: 50%;
+    transition:
+        color var(--pets-transition),
+        background-color var(--pets-transition),
+        transform var(--pets-transition);
+}
+
+.botao-icone:hover {
+    color: var(--text-color);
+    background: var(--pets-neutral-hover);
+}
+
+.botao-icone:active {
+    transform: scale(0.94);
+}

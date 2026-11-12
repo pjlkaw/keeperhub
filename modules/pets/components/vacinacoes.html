@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="/shared/styles/btn-add.css" />
 		<!-- Estilos da página -->
 		<link rel="stylesheet" href="../assets/css/vacinacoes.css" />
+    <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 		<!-- Configuração do módulo -->
 		<script>
 			window.keeperhubModuleConfig = {
@@ -29,7 +30,7 @@
 				subtitle: "Acompanhe as vacinas do seu pet",
 				backUrl: "/modules/pets/index.html",
 				notificationsModule: "pets",
-				addUrl: "/modules/pets/components/adicionar-vacina.html",
+				addUrl: "/modules/pets/components/cadastrar-registro.html?tipo=vacina",
 			};
 		</script>
 		<script defer src="/shared/services/load-components.js"></script>
@@ -61,6 +62,12 @@
 						class="section-header-section"
 						id="headerSection"
 					></header>
+
+					<!-- Navegação entre medicações e vacinas -->
+					<nav class="abas-pet" aria-label="Tipo de registro">
+						<a href="medicacoes.html" class="abas-pet__link">Medicações</a>
+						<a href="vacinacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Vacinas</a>
+					</nav>
 
 					<!-- Próximas vacinas -->
 					<section
@@ -282,7 +289,5 @@
 				<!-- Scripts -->
 				<script type="module" src="../js/vacinacoes.js"></script>
 				<script src="/shared/services/theme.js"></script>
-			</div>
-		</div>
 	</body>
 </html>

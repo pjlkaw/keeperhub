@@ -1,57 +1,18 @@
-/* Estilos da página despesas.html.
- * Os componentes gerais continuam vindo de shared.
- */
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: despesas.css
+Estilos da listagem, resumo e formulário de despesas.
+Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
+Usado por: despesas.html
+================================================== */
 
-:root {
-  --pets-primary: var(--tool-pets);
-  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
-  --pets-primary-hover: color-mix(in srgb, var(--tool-pets) 85%, white);
-  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
-  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
-  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
-  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
-  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
-  --pets-bg: var(--bg-color);
-  --pets-surface: var(--card-bg);
-  --pets-surface-hover: color-mix(in srgb, var(--card-bg) 94%, var(--text-color));
-  --pets-surface-raised: color-mix(in srgb, var(--card-bg) 90%, var(--text-color));
-  --pets-border: var(--border-color);
-  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
-  --pets-text: var(--text-color);
-  --pets-text-muted: var(--text-muted);
-  --pets-label: var(--text-color);
-  --pets-neutral-hover: color-mix(in srgb, var(--text-color) 7%, transparent);
-  --pets-disabled-bg: var(--card-bg);
-  --pets-disabled-text: var(--text-muted);
-  --pets-on-primary: var(--pill-text);
-  --pets-radius-pill: 999px;
-  --pets-transition: 160ms ease;
-  --color-secondary: var(--tool-pets);
-  --color-section-primary: var(--tool-pets);
-  --color-section-bg-tint: var(--pets-primary-soft);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html[data-theme="light"] {
-  color-scheme: light;
-}
-
-body {
-  min-width: 280px;
-  min-height: 100vh;
-}
-
-body > main {
-  font-size: 14px;
-}
+@import url("./essentials/variables.css");
+@import url("./essentials/components.css");
 
 h1,
 h2,
 h3 {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-family: inherit;
 }
 
@@ -59,86 +20,13 @@ ul {
   list-style: none;
 }
 
-.botao-principal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 9px 16px;
-  color: var(--pets-on-primary);
-  background: var(--pets-primary-fill);
-  border: 1px solid transparent;
-  border-radius: var(--pets-radius-pill);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  transition: background-color var(--pets-transition),
-    box-shadow var(--pets-transition),
-    transform var(--pets-transition);
-}
-
-.botao-principal:hover:not(:disabled) {
-  background: var(--pets-primary-active);
-  box-shadow: 0 5px 14px var(--pets-primary-shadow);
-}
-
-.botao-principal:active:not(:disabled) {
-  background: var(--pets-primary-active);
-  transform: translateY(1px);
-}
-
-.botao-principal:disabled {
-  color: var(--text-muted);
-  background: var(--card-bg);
-  border-color: var(--border-color);
-  box-shadow: none;
-  transform: none;
-}
-
 main > .modules-nav-wrapper {
   margin-inline: 16px;
   padding-top: 16px;
 }
 
-.modules-nav-wrapper .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
-}
-
 main > .section-header-section {
   margin: 20px 16px 8px;
-}
-
-.section-header-section {
-  flex-wrap: wrap;
-  font-size: 1rem;
-}
-
-.section-header-title-area {
-  flex: 1 1 180px;
-  min-width: 0px;
-}
-
-.section-header-title {
-  overflow-wrap: anywhere;
-}
-
-.campo-formulario {
-  min-width: 0px;
-  margin: 0px 0px 16px;
-  border: 0px;
-}
-
-.campo-formulario label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--pets-label);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
@@ -152,27 +40,6 @@ textarea:focus {
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
 }
 
-.linha-formulario {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0px, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 370px) {
-  .linha-formulario {
-    grid-template-columns: 1fr;
-    gap: 0px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-::before,
-::after {
-    animation-iteration-count: 1 !important;
-  }
-}
-
 /* Cores e fonte herdadas da shared por meio da base de Pets. */
 
 .tema-despesas-pets {
@@ -180,6 +47,9 @@ textarea:focus {
   --despesas-raio: 14px;
 }
 
+/* ==================================================
+LAYOUT E RESUMO DAS DESPESAS
+================================================== */
 .pagina-despesas {
   width: min(100%, var(--despesas-largura));
   min-height: 100svh;
@@ -189,6 +59,9 @@ textarea:focus {
 }
 
 .despesas-navegar,
+/* ==================================================
+FORMULÁRIO DE NOVA DESPESA
+================================================== */
 .nova-despesa__fechar {
   display: grid;
   width: 44px;
@@ -212,9 +85,12 @@ textarea:focus {
 
 .resumo-despesas,
 .categoria-despesa,
+/* ==================================================
+LISTA DE LANÇAMENTOS
+================================================== */
 .lista-lancamentos {
-  background: var(--pets-surface);
-  border: 1px solid var(--pets-border);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--despesas-raio);
 }
 
@@ -253,7 +129,7 @@ textarea:focus {
 .categoria-despesa__nome,
 .grupo-despesas__subtotal,
 .lancamento__detalhes {
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 400;
 }
@@ -283,7 +159,7 @@ textarea:focus {
 }
 
 .resumo-despesas__linha strong {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-weight: 500;
 }
 
@@ -310,12 +186,12 @@ textarea:focus {
 }
 
 .resumo-despesas__progresso::-webkit-progress-value {
-  background: var(--pets-primary);
+  background: var(--tool-pets);
   border-radius: inherit;
 }
 
 .resumo-despesas__progresso::-moz-progress-bar {
-  background: var(--pets-primary);
+  background: var(--tool-pets);
   border-radius: inherit;
 }
 
@@ -338,7 +214,7 @@ textarea:focus {
 }
 
 .secao-despesas__titulo--discreto {
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.08em;
@@ -371,7 +247,7 @@ textarea:focus {
   border-radius: 9px;
 }
 
-.despesa-icone .despesa-glyph { font-size: 16px; line-height: 1; color: var(--pets-text-muted); }
+.despesa-icone .despesa-glyph { font-size: 16px; line-height: 1; color: var(--text-muted); }
 
 .categoria-despesa__percentual {
   align-self: center;
@@ -412,7 +288,7 @@ textarea:focus {
   font-weight: 400;
 }
 
-.grupo-despesas__cabecalho .despesa-glyph { flex: 0 0 14px; width: 14px; font-size: 14px; line-height: 1; color: #4285F4; }
+.grupo-despesas__cabecalho .despesa-glyph { flex: 0 0 14px; width: 14px; font-size: 14px; line-height: 1; color: var(--pets-vaccine); }
 
 .lista-lancamentos {
   padding: 4px 16px;
@@ -420,7 +296,7 @@ textarea:focus {
 
 /* Linhas discretas: a separação principal vem do espaçamento. */
 .lista-lancamentos > li + li {
-  border-top: 1px solid var(--pets-border);
+  border-top: 1px solid var(--border-color);
 }
 
 .lancamento {
@@ -481,8 +357,8 @@ textarea:focus {
   margin: auto;
   padding: 24px;
   overflow-y: auto;
-  color: var(--pets-text);
-  background: var(--pets-bg);
+  color: var(--text-color);
+  background: var(--bg-color);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--despesas-raio);
 }
@@ -509,8 +385,8 @@ textarea:focus {
 }
 
 .formulario-despesa__salvar:disabled {
-  color: var(--pets-disabled-text);
-  background: var(--pets-disabled-bg);
+  color: var(--text-muted);
+  background: var(--card-bg);
   box-shadow: none;
   opacity: 1;
   cursor: not-allowed;
@@ -518,67 +394,12 @@ textarea:focus {
 
 .nova-despesa__aviso {
   margin-top: 12px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 0.75rem;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .nova-despesa__fechar:hover {
-    background: var(--pets-primary-soft);
-  }
-
-  .categoria-despesa:hover {
-    background: var(--pets-surface-hover);
-    border-color: var(--pets-primary-border);
-    transform: translateY(-2px);
-  }
 }
 
 .categoria-despesa:active {
   transform: scale(0.98);
-}
-
-@media (min-width: 600px) {
-  .despesas-conteudo {
-    padding: 16px 24px;
-  }
-
-  .resumo-despesas {
-    padding: 16px 24px 24px;
-  }
-
-  .categorias-despesas {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-  }
-}
-
-@media (max-width: 359px) {
-  .despesas-conteudo {
-    padding-inline: 12px;
-  }
-
-  .categoria-despesa,
-  .lista-lancamentos {
-    padding-inline: 12px;
-  }
-
-  .lancamento {
-    grid-template-columns: 28px minmax(0, 1fr);
-    gap: 6px 8px;
-  }
-
-  .lancamento__icone {
-    grid-row: 1 / 3;
-    width: 28px;
-    height: 28px;
-  }
-
-  .lancamento__valor,
-  .lancamento__etiqueta {
-    grid-column: 2;
-    justify-self: start;
-  }
 }
 
 .seletor-pet-despesas {
@@ -589,7 +410,7 @@ textarea:focus {
 }
 
 .seletor-pet-despesas label {
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 0.75rem;
 }
 
@@ -597,15 +418,15 @@ textarea:focus {
   width: 100%;
   min-height: 44px;
   padding: 8px 12px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
-  border: 1px solid var(--pets-border);
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
 }
 
 #status-pet-despesas[data-estado="erro"],
 #mensagem-despesa[data-estado="erro"] {
-  color: #c90016;
+  color: var(--pets-status-alerta);
 }
 
 #status-pet-despesas {
@@ -622,10 +443,9 @@ textarea:focus {
 
 .lancamentos-vazios {
   padding: 14px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 0.8125rem;
 }
-
 
 .pagina-despesas > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-despesas) {
   position: relative;
@@ -637,9 +457,9 @@ textarea:focus {
   display: inline-block;
   margin-left: 6px;
   padding: 2px 7px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   background: var(--pets-neutral-hover);
-  border: 1px solid var(--pets-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-pill);
   font-size: 0.65rem;
   vertical-align: middle;
@@ -649,8 +469,8 @@ textarea:focus {
   width: 100%;
   min-height: 44px;
   padding: 8px 12px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
-  border: 1px solid var(--pets-border);
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
 }

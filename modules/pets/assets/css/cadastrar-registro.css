@@ -1,0 +1,10 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: cadastrar-registro.css
+Margem do seletor de tipo no formulário unificado.
+Usado por: components/cadastrar-registro.html
+================================================== */
+
+.tipo-registro {
+    margin: 16px;
+}

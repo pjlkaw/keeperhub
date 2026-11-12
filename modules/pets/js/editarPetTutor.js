@@ -19,10 +19,10 @@ const petId = new URLSearchParams(window.location.search).get('petId');
 let petAtual = null;
 let salvando = false;
 
-// Exibe uma mensagem de sucesso ou erro na página.
-function informar(mensagem, erro = false) {
+// Exibe uma orientação, uma confirmação ou um erro na página.
+function informar(mensagem, erro = false, sucesso = false) {
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
 
     // Informa leitores de tela sobre o tipo de mensagem exibida.
     status.setAttribute('role', erro ? 'alert' : 'status');
@@ -127,7 +127,7 @@ form.addEventListener('submit', async event => {
 
         // Atualiza os dados locais com o resultado salvo.
         petAtual = buscarPetPorId(petId);
-        informar('Dados do tutor salvos com sucesso.');
+        informar('Dados do tutor salvos com sucesso.', false, true);
         setTimeout(() => {
             if (status.textContent === 'Dados do tutor salvos com sucesso.') {
                 status.textContent = '';

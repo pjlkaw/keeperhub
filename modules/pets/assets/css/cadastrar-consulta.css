@@ -1,87 +1,17 @@
-/* Estilos da página cadastrar-consulta.html.
- * Os componentes gerais continuam vindo de shared.
- */
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: cadastrar-consulta.css
+Estilos do formulário de cadastro de consultas.
+Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
+Usado por: cadastrar-consulta.html
+================================================== */
 
-:root {
-  --pets-primary: var(--tool-pets);
-  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
-  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
-  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
-  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
-  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
-  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
-  --pets-surface-raised: color-mix(in srgb, var(--card-bg) 90%, var(--text-color));
-  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
-  --pets-text: var(--text-color);
-  --pets-label: var(--text-color);
-  --pets-on-primary: var(--pill-text);
-  --pets-shadow: color-mix(in srgb, black 35%, transparent);
-  --pets-radius-sm: 8px;
-  --pets-radius-pill: 999px;
-  --pets-transition: 160ms ease;
-  --color-secondary: var(--tool-pets);
-  --color-section-primary: var(--tool-pets);
-  --color-section-bg-tint: var(--pets-primary-soft);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html[data-theme="light"] {
-  color-scheme: light;
-}
-
-body {
-  min-width: 280px;
-  min-height: 100vh;
-}
-
-body > main {
-  font-size: 14px;
-}
+@import url("./essentials/variables.css");
+@import url("./essentials/components.css");
 
 h1 {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-family: inherit;
-}
-
-.botao-principal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 9px 16px;
-  color: var(--pets-on-primary);
-  background: var(--pets-primary-fill);
-  border: 1px solid transparent;
-  border-radius: var(--pets-radius-pill);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  transition: background-color var(--pets-transition),
-    box-shadow var(--pets-transition),
-    transform var(--pets-transition);
-}
-
-.botao-principal:hover:not(:disabled) {
-  background: var(--pets-primary-active);
-  box-shadow: 0 5px 14px var(--pets-primary-shadow);
-}
-
-.botao-principal:active:not(:disabled) {
-  background: var(--pets-primary-active);
-  transform: translateY(1px);
-}
-
-.botao-principal:disabled {
-  color: var(--text-muted);
-  background: var(--card-bg);
-  border-color: var(--border-color);
-  box-shadow: none;
-  transform: none;
 }
 
 main > .modules-nav-wrapper {
@@ -89,43 +19,8 @@ main > .modules-nav-wrapper {
   padding-top: 16px;
 }
 
-.modules-nav-wrapper .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
-}
-
 main > .section-header-section {
   margin: 20px 16px 8px;
-}
-
-.section-header-section {
-  flex-wrap: wrap;
-  font-size: 1rem;
-}
-
-.section-header-title-area {
-  flex: 1 1 180px;
-  min-width: 0px;
-}
-
-.section-header-title {
-  overflow-wrap: anywhere;
-}
-
-.campo-formulario {
-  min-width: 0px;
-  margin: 0px 0px 16px;
-  border: 0px;
-}
-
-.campo-formulario label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--pets-label);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
@@ -142,28 +37,13 @@ select:focus {
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
 }
 
-.linha-formulario {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0px, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 370px) {
-  .linha-formulario {
-    grid-template-columns: 1fr;
-    gap: 0px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-::before,
-::after {
-    animation-iteration-count: 1 !important;
-  }
-}
-
+/* ==================================================
+CAMPOS DO FORMULÁRIO DE CONSULTA
+================================================== */
 /* Adaptações de layout da consulta. */
+/* ==================================================
+LAYOUT DO CADASTRO
+================================================== */
 :is(.painel-medico, .adicionar-consulta) { width: 100%; margin-inline: auto; }
 :is(.painel-medico, .adicionar-consulta) ol { list-style: none; }
 :is(.painel-medico, .adicionar-consulta) .icone {
@@ -174,24 +54,21 @@ select:focus {
 :is(.painel-medico, .adicionar-consulta) .campo-formulario { margin-bottom: 24px; }
 :is(.painel-medico, .adicionar-consulta) textarea { min-height: 120px; }
 
-
-
 .adicionar-consulta { max-width: 600px; padding-bottom: 24px; }
 .formulario-adicionar-consulta { padding: 24px 16px; }
 .formulario-adicionar-consulta__enviar { width: 100%; border-radius: var(--pets-radius-pill); font-size: 0.875rem; }
-.adicionar-consulta .aviso-integracao { margin-top: 16px; color: var(--text-muted); font-size: 0.75rem; }
+.adicionar-consulta .aviso-integracao { margin-top: 16px; font-size: 0.75rem; }
 
 /* Seleção nativa do select; nenhuma dependência de JavaScript. */
 @supports selector(:has(*)) {
   .campo-formulario:has(#area-atuacao-outra) { display: none; }
   .formulario-adicionar-consulta:has(#area-atuacao option[value=outra]:checked) .campo-formulario:has(#area-atuacao-outra) { display: block; }
 }
-@media (min-width: 640px) {
-  .adicionar-consulta { margin-block: 24px; border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; }
-}
-
 
 /* Seletor de pet inserido pela lógica local de consultas. */
+/* ==================================================
+SELETOR DE PET E MENSAGENS
+================================================== */
 .seletor-pet-consultas {
   display: grid;
   gap: 8px;
@@ -199,7 +76,7 @@ select:focus {
 }
 
 .seletor-pet-consultas label {
-  color: var(--pets-label);
+  color: var(--text-color);
   font-size: 12px;
   font-weight: 700;
 }
@@ -208,14 +85,14 @@ select:focus {
   width: 100%;
   min-height: 44px;
   padding: 8px 12px;
-  color: var(--pets-text);
+  color: var(--text-color);
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
 }
 
 .seletor-pet-consultas [role="status"][data-estado="erro"] {
-  color: #ff7777;
+  color: var(--pets-status-alerta);
 }
 
 .seletor-pet-consultas [hidden],
