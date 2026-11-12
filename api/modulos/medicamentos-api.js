@@ -14,6 +14,8 @@ import {
 import {
   buscarReceita,
   criarReceita,
+  excluirAnexoReceita,
+  excluirReceita,
   listarReceitas,
 } from '../../server/repositories/medicamentos/receitas.js';
 import {
@@ -289,6 +291,24 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'DELETE') {
+      if (req.query?.acao === 'anexo') {
+        const id = idDaRequisicao(req);
+        if (!id) return res.status(400).json({ erro: 'Informe o anexo.' });
+        const removido = await excluirAnexoReceita(id, usuarioId);
+        return removido
+          ? res.status(204).end()
+          : res.status(404).json({ erro: 'Anexo não encontrado.' });
+      }
+
+      if (req.query?.acao === 'receita') {
+        const id = idDaRequisicao(req);
+        if (!id) return res.status(400).json({ erro: 'Informe a receita.' });
+        const removida = await excluirReceita(id, usuarioId);
+        return removida
+          ? res.status(204).end()
+          : res.status(404).json({ erro: 'Receita não encontrada.' });
+      }
+
       const id = idDaRequisicao(req);
       if (!id) return res.status(400).json({ erro: 'Informe o medicamento.' });
       const removido = await excluirMedicamento(id, usuarioId);

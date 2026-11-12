@@ -120,6 +120,18 @@ export async function salvarReceitaApi(dados) {
   return resposta.receita;
 }
 
+export async function excluirAnexoReceitaApi(id) {
+  await requisicao(`${URL_API}?acao=anexo&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+  receitasCache = null;
+}
+
+export async function excluirReceitaApi(id) {
+  await requisicao(`${URL_API}?acao=receita&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
+  receitasCache = receitasCache
+    ? receitasCache.filter((receita) => receita.id !== String(id))
+    : null;
+}
+
 export async function listarHabitosApi() {
   if (habitosCache) return habitosCache.map((habito) => ({ ...habito, conclusoes: [...habito.conclusoes] }));
   const resposta = await requisicao(`${URL_API}?acao=habitos`);
