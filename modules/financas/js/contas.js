@@ -1,5 +1,5 @@
-import { obterContas, obterTransacoes, proximoId, salvarContas, salvarTransacoes } from './dados.js';
-import { apiDisponivel, atualizarContaApi, criarContaApi, excluirContaApi, listarContasApi } from './api.js';
+import { obterContas, obterTransacoes } from './dados.js';
+import { atualizarContaApi, criarContaApi, excluirContaApi } from './api.js';
 
 export async function inicializarContas() {
     const formulario = document.getElementById('account-form');
@@ -7,35 +7,10 @@ export async function inicializarContas() {
     if (!formulario || !lista) return;
 
     let contaEmEdicao = null;
-    let contas = obterContas();
+    let contas = await obterContas();
     let transacoes = await obterTransacoes();
-    let usandoApi = false;
     const salvarBotao = formulario.querySelector('[type="submit"]');
     const cancelarEdicao = formulario.querySelector('.cancel-edit-button');
-
-    if (apiDisponivel()) {
-        try {
-            contas = await listarContasApi();
-            usandoApi = true;
-            salvarContas(contas);
-        } catch (erro) {
-            console.warn('API de contas indisponível; usando armazenamento local.', erro.message);
-        }
-    }
-
-    const migrarVinculos = () => {
-        let houveAlteracao = false;
-        transacoes = transacoes.map((transacao) => {
-            if (transacao.conta_id !== undefined && transacao.conta_id !== null) return transacao;
-            const conta = contas.find((item) => item.nome === transacao.conta_nome);
-            if (!conta) return transacao;
-            houveAlteracao = true;
-            return { ...transacao, conta_id: conta.id };
-        });
-        if (houveAlteracao) salvarTransacoes(transacoes);
-    };
-
-    migrarVinculos();
 
     const renderizar = () => {
         if (!contas.length) {
@@ -73,40 +48,22 @@ export async function inicializarContas() {
         const dados = new FormData(formulario);
         const conta = { nome: dados.get('name'), tipo: dados.get('type') };
         if (contaEmEdicao) {
-            const contaAnterior = contas.find((item) => item.id === contaEmEdicao);
-            if (usandoApi) {
-                try {
-                    await atualizarContaApi(contaEmEdicao, conta);
-                } catch (erro) {
-                    window.alert(erro.message);
-                    return;
-                }
+            try {
+                await atualizarContaApi(contaEmEdicao, conta);
+            } catch (erro) {
+                window.alert(erro.message);
+                return;
             }
             contas = contas.map((item) => item.id === contaEmEdicao ? { ...item, ...conta } : item);
-            if (contaAnterior && contaAnterior.nome !== conta.nome) {
-                transacoes = transacoes.map((transacao) => {
-                    const pertenceAConta = Number(transacao.conta_id) === Number(contaEmEdicao)
-                        || (transacao.conta_id === undefined && transacao.conta_nome === contaAnterior.nome);
-                    return pertenceAConta
-                        ? { ...transacao, conta_id: contaEmEdicao, conta_nome: conta.nome }
-                        : transacao;
-                });
-                salvarTransacoes(transacoes);
-            }
         } else {
-            if (usandoApi) {
-                try {
-                    const contaCriada = await criarContaApi(conta);
-                    contas.push({ id: contaCriada.id, ...conta });
-                } catch (erro) {
-                    window.alert(erro.message);
-                    return;
-                }
-            } else {
-                contas.push({ id: proximoId(contas), ...conta });
+            try {
+                const contaCriada = await criarContaApi(conta);
+                contas.push({ id: contaCriada.id, ...conta });
+            } catch (erro) {
+                window.alert(erro.message);
+                return;
             }
         }
-        salvarContas(contas);
         contaEmEdicao = null;
         formulario.reset();
         salvarBotao.textContent = 'Cadastrar conta';
@@ -137,16 +94,13 @@ export async function inicializarContas() {
             return;
         }
         if (!window.confirm(`Excluir a conta "${conta.nome}"?`)) return;
-        if (usandoApi) {
-            try {
-                await excluirContaApi(conta.id);
-            } catch (erro) {
-                window.alert(erro.message);
-                return;
-            }
+        try {
+            await excluirContaApi(conta.id);
+        } catch (erro) {
+            window.alert(erro.message);
+            return;
         }
         contas = contas.filter((registro) => registro.id !== conta.id);
-        salvarContas(contas);
         if (contaEmEdicao === conta.id) {
             contaEmEdicao = null;
             formulario.reset();

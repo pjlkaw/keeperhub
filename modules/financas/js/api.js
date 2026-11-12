@@ -1,11 +1,9 @@
-import { lerSessaoUsuario } from '../../../shared/services/usuario.js';
-
-function obterUsuarioId() {
-    return lerSessaoUsuario()?.id_usuario || null;
-}
-
 async function requisitar(url, options = {}) {
-    const resposta = await fetch(url, options);
+    const resposta = await fetch(url, {
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', ...options.headers },
+        ...options
+    });
     let dados = null;
     try {
         dados = resposta.status === 204 ? null : await resposta.json();
@@ -18,37 +16,19 @@ async function requisitar(url, options = {}) {
     return dados;
 }
 
-function urlContas(id) {
-    const usuarioId = obterUsuarioId();
-    if (!usuarioId) return null;
-    const parametros = new URLSearchParams({ usuario_id: String(usuarioId) });
+function urlRecurso(recurso, id) {
+    const parametros = new URLSearchParams({ recurso });
     if (id) parametros.set('id', String(id));
-    return `/api/financas/contas?${parametros}`;
-}
-
-function urlTransacoes(id) {
-    const usuarioId = obterUsuarioId();
-    if (!usuarioId) return null;
-    const parametros = new URLSearchParams({ usuario_id: String(usuarioId) });
-    if (id) parametros.set('id', String(id));
-    return `/api/financas/transacoes?${parametros}`;
-}
-
-export function apiDisponivel() {
-    return Boolean(obterUsuarioId());
+    return `/api/modulos/financas-api?${parametros}`;
 }
 
 export async function listarContasApi() {
-    const url = urlContas();
-    if (!url) throw new Error('Usuário não autenticado.');
-    const dados = await requisitar(url);
+    const dados = await requisitar(urlRecurso('contas'));
     return Array.isArray(dados?.contas) ? dados.contas : [];
 }
 
 export async function criarContaApi(conta) {
-    const url = urlContas();
-    if (!url) throw new Error('Usuário não autenticado.');
-    const dados = await requisitar(url, {
+    const dados = await requisitar(urlRecurso('contas'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome: conta.nome, tipo: conta.tipo })
@@ -57,9 +37,7 @@ export async function criarContaApi(conta) {
 }
 
 export async function atualizarContaApi(id, conta) {
-    const url = urlContas(id);
-    if (!url) throw new Error('Usuário não autenticado.');
-    return requisitar(url, {
+    return requisitar(urlRecurso('contas', id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome: conta.nome, tipo: conta.tipo })
@@ -67,15 +45,11 @@ export async function atualizarContaApi(id, conta) {
 }
 
 export async function excluirContaApi(id) {
-    const url = urlContas(id);
-    if (!url) throw new Error('Usuário não autenticado.');
-    return requisitar(url, { method: 'DELETE' });
+    return requisitar(urlRecurso('contas', id), { method: 'DELETE' });
 }
 
 export async function listarTransacoesApi() {
-    const url = urlTransacoes();
-    if (!url) throw new Error('Usuário não autenticado.');
-    const dados = await requisitar(url);
+    const dados = await requisitar(urlRecurso('transacoes'));
     return Array.isArray(dados?.transacoes) ? dados.transacoes : [];
 }
 
@@ -94,9 +68,7 @@ function corpoTransacao(transacao) {
 }
 
 export async function criarTransacaoApi(transacao) {
-    const url = urlTransacoes();
-    if (!url) throw new Error('Usuário não autenticado.');
-    return requisitar(url, {
+    return requisitar(urlRecurso('transacoes'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(corpoTransacao(transacao))
@@ -104,9 +76,7 @@ export async function criarTransacaoApi(transacao) {
 }
 
 export async function atualizarTransacaoApi(id, transacao) {
-    const url = urlTransacoes(id);
-    if (!url) throw new Error('Usuário não autenticado.');
-    return requisitar(url, {
+    return requisitar(urlRecurso('transacoes', id), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(corpoTransacao(transacao))
@@ -114,7 +84,5 @@ export async function atualizarTransacaoApi(id, transacao) {
 }
 
 export async function excluirTransacaoApi(id) {
-    const url = urlTransacoes(id);
-    if (!url) throw new Error('Usuário não autenticado.');
-    return requisitar(url, { method: 'DELETE' });
+    return requisitar(urlRecurso('transacoes', id), { method: 'DELETE' });
 }

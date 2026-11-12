@@ -1,5 +1,5 @@
-import { formatarMoeda, formatarData, obterTransacoes, salvarTransacoes } from './dados.js';
-import { apiDisponivel, atualizarTransacaoApi, excluirTransacaoApi } from './api.js';
+import { formatarMoeda, formatarData, obterTransacoes } from './dados.js';
+import { atualizarTransacaoApi, excluirTransacaoApi } from './api.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 
 function criarTransacao(transacao) {
@@ -177,17 +177,14 @@ export async function inicializarTransacoes() {
             botao.disabled = true;
             const transacao = transacoes.find((item) => String(item.id) === botao.dataset.id);
             if (!transacao) return;
-            if (apiDisponivel()) {
-                try {
-                    await atualizarTransacaoApi(transacao.id, { ...transacao, status: 'pago' });
-                } catch (erro) {
-                    botao.disabled = false;
-                    window.alert(erro.message);
-                    return;
-                }
+            try {
+                await atualizarTransacaoApi(transacao.id, { ...transacao, status: 'pago' });
+            } catch (erro) {
+                botao.disabled = false;
+                window.alert(erro.message);
+                return;
             }
             transacao.status = 'pago';
-            salvarTransacoes(transacoes);
             atualizar();
             return;
         }
@@ -202,16 +199,13 @@ export async function inicializarTransacoes() {
         if (!excluir) return;
         const transacao = transacoes.find((item) => String(item.id) === excluir.dataset.id);
         if (!transacao || !window.confirm(`Excluir a transação "${transacao.descricao}"?`)) return;
-        if (apiDisponivel()) {
-            try {
-                await excluirTransacaoApi(transacao.id);
-            } catch (erro) {
-                window.alert(erro.message);
-                return;
-            }
+        try {
+            await excluirTransacaoApi(transacao.id);
+        } catch (erro) {
+            window.alert(erro.message);
+            return;
         }
         transacoes = transacoes.filter((item) => String(item.id) !== excluir.dataset.id);
-        salvarTransacoes(transacoes);
         atualizar();
     });
     transacoes = await obterTransacoes();
