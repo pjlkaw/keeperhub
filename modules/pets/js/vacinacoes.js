@@ -125,11 +125,11 @@ function criarSeletor() {
 const { select: seletorPet, status } = criarSeletor();
 const selecaoMultipla = form ? criarSelecaoMultipla(seletorPet) : null;
 
-// Exibe uma mensagem de sucesso ou de erro na área de status.
+// Exibe uma orientação informativa ou uma mensagem de erro na área de status.
 function informar(mensagem, erro = false) {
     status.hidden = !mensagem;
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
 }
 
@@ -166,14 +166,18 @@ function carregarPets() {
     const petQuery = pets.find(
         pet => pet.id === new URLSearchParams(location.search).get('petId')
     );
+    const todosNaUrl = new URLSearchParams(location.search).get("todos") === "1";
 
-    if (paginaLista && (modoAnterior === "__todos__" || new URLSearchParams(location.search).get("todos") === "1") && pets.length > 1) {
+    if (paginaLista && (modoAnterior === "__todos__" || todosNaUrl || !petQuery) && pets.length > 1) {
         seletorPet.value = "__todos__";
         seletorPet.dispatchEvent(new Event("change"));
     } else {
         selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
     }
-    if (!paginaLista && modoAnterior.startsWith("__") && [...seletorPet.options].some(opcao => opcao.value === modoAnterior)) {
+    if (!paginaLista && pets.length > 1 && todosNaUrl) {
+        seletorPet.value = "__todos__";
+        seletorPet.dispatchEvent(new Event("change"));
+    } else if (!paginaLista && modoAnterior.startsWith("__") && [...seletorPet.options].some(opcao => opcao.value === modoAnterior)) {
         seletorPet.value = modoAnterior;
         seletorPet.dispatchEvent(new Event("change"));
     }
@@ -474,11 +478,13 @@ function atualizarFormulario() {
             : 'Cadastre um pet antes de registrar uma vacina.';
 
         aviso.textContent = mensagem;
+        aviso.dataset.estado = pets.length ? 'informativo' : 'erro';
         informar(mensagem, !pets.length);
     } else {
         aviso.textContent = petsAlvo.length > 1
             ? `A vacina será registrada para ${petsAlvo.length} pets na sua conta.`
             : 'O registro será salvo na sua conta.';
+        aviso.dataset.estado = 'informativo';
         informar('');
     }
 }
@@ -553,6 +559,7 @@ function configurarFormulario() {
         // Exige que ambas as opções tenham sido selecionadas.
         if (!escolhida || !frequencia) {
             aviso.textContent = 'Selecione a vacina e a frequência.';
+            aviso.dataset.estado = 'erro';
             informar('Selecione a vacina e a frequência.', true);
             form.reportValidity();
             return;
@@ -625,6 +632,7 @@ function configurarFormulario() {
             // Se o salvamento falhar, mostra o erro e reabilita o botão.
             aviso.textContent =
                 erro.message || 'Não foi possível salvar a vacina.';
+            aviso.dataset.estado = 'erro';
             salvando = false;
             botao.disabled = !petsAlvo.length;
         }

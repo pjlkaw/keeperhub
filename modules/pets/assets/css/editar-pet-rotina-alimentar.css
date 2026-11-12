@@ -1,57 +1,18 @@
-/* Estilos da página editar-pet-rotina-alimentar.html.
- * Os componentes gerais continuam vindo de shared.
- */
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: editar-pet-rotina-alimentar.css
+Estilos de edição da rotina alimentar e observações do pet.
+Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
+Usado por: editar-pet-rotina-alimentar.html
+================================================== */
 
-:root {
-  --pets-primary: var(--tool-pets);
-  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
-  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
-  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
-  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
-  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
-  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
-  --pets-surface: var(--card-bg);
-  --pets-border: var(--border-color);
-  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
-  --pets-text: var(--text-color);
-  --pets-text-soft: var(--text-muted);
-  --pets-text-muted: var(--text-muted);
-  --pets-label: var(--text-color);
-  --pets-neutral-hover: color-mix(in srgb, var(--text-color) 7%, transparent);
-  --pets-control-bg: var(--card-bg);
-  --pets-panel-bg: var(--card-bg);
-  --pets-fixed-bar-bg: var(--header-bg);
-  --pets-on-primary: var(--pill-text);
-  --pets-radius-sm: 8px;
-  --pets-radius-md: 12px;
-  --pets-radius-pill: 999px;
-  --pets-transition: 160ms ease;
-  --color-secondary: var(--tool-pets);
-  --color-section-primary: var(--tool-pets);
-  --color-section-bg-tint: var(--pets-primary-soft);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html[data-theme="light"] {
-  color-scheme: light;
-}
-
-body {
-  min-width: 280px;
-  min-height: 100vh;
-}
-
-body > main {
-  font-size: 14px;
-}
+@import url("./essentials/variables.css");
+@import url("./essentials/components.css");
 
 h1,
 h2,
 h3 {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-family: inherit;
 }
 
@@ -59,115 +20,20 @@ ul {
   list-style: none;
 }
 
-.botao-icone {
-  display: inline-grid;
-  place-items: center;
-  padding: 0px;
-  color: var(--pets-text-soft);
-  background: transparent;
-  border-radius: 50%;
-  transition: color var(--pets-transition),
-    background-color var(--pets-transition),
-    transform var(--pets-transition);
-}
-
-.botao-icone:hover {
-  color: var(--pets-text);
-  background: var(--pets-neutral-hover);
-}
-
-.botao-icone:active {
-  transform: scale(0.94);
-}
-
-.botao-principal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 9px 16px;
-  color: var(--pets-on-primary);
-  background: var(--pets-primary-fill);
-  border: 1px solid transparent;
-  border-radius: var(--pets-radius-pill);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  transition: background-color var(--pets-transition),
-    box-shadow var(--pets-transition),
-    transform var(--pets-transition);
-}
-
-.botao-principal:hover:not(:disabled) {
-  background: var(--pets-primary-active);
-  box-shadow: 0 5px 14px var(--pets-primary-shadow);
-}
-
-.botao-principal:active:not(:disabled) {
-  background: var(--pets-primary-active);
-  transform: translateY(1px);
-}
-
-.botao-principal:disabled {
-  color: var(--text-muted);
-  background: var(--card-bg);
-  border-color: var(--border-color);
-  box-shadow: none;
-  transform: none;
-}
-
-.botao-texto {
-  color: var(--pets-primary-readable);
-  font-weight: 700;
-  transition: color var(--pets-transition);
-}
-
-.botao-texto:hover {
-  color: var(--text-color);
-}
-
-.editar-pet {
-  width: min(100%, 1440px);
-  margin: 0px auto;
-  padding-bottom: 32px;
-}
-
 main > .modules-nav-wrapper {
   margin-inline: 16px;
   padding-top: 16px;
-}
-
-.modules-nav-wrapper .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
 }
 
 main > .section-header-section {
   margin: 20px 16px 8px;
 }
 
-.section-header-section {
-  flex-wrap: wrap;
-  font-size: 1rem;
-}
-
-.section-header-title-area {
-  flex: 1 1 180px;
-  min-width: 0px;
-}
-
-.section-header-title {
-  overflow-wrap: anywhere;
-}
-
 .abas-pet {
   display: grid;
   grid-template-columns: repeat(3, minmax(0px, 1fr));
   padding: 0px 16px;
-  border-bottom: 1px solid var(--pets-border);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .abas-pet__link {
@@ -176,18 +42,18 @@ main > .section-header-section {
   min-height: 52px;
   place-items: center;
   padding: 10px 6px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 12px;
   text-align: center;
   transition: color var(--pets-transition);
 }
 
 .abas-pet__link:hover {
-  color: var(--pets-text);
+  color: var(--text-color);
 }
 
 .abas-pet__link--ativo {
-  color: var(--pets-text);
+  color: var(--text-color);
 }
 
 .abas-pet__link--ativo::after {
@@ -196,23 +62,8 @@ main > .section-header-section {
   bottom: -1px;
   left: 0px;
   height: 2px;
-  background: var(--pets-primary);
+  background: var(--tool-pets);
   content: "";
-}
-
-.campo-formulario {
-  min-width: 0px;
-  margin: 0px 0px 16px;
-  border: 0px;
-}
-
-.campo-formulario label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--pets-label);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]) {
@@ -222,21 +73,6 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
 textarea:focus {
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
-}
-
-@media (max-width: 370px) {
-  .abas-pet__link {
-    padding-inline: 2px;
-    font-size: 11px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-::before,
-::after {
-    animation-iteration-count: 1 !important;
-  }
 }
 
 /* Rotina alimentar: cores locais baseadas em shared/styles/variables.css. */
@@ -257,8 +93,8 @@ textarea:focus {
 .observacoes-rotina {
   min-width: 0;
   padding: 20px;
-  background: var(--pets-panel-bg);
-  border: 1px solid var(--pets-border);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-md);
 }
 
@@ -273,7 +109,7 @@ textarea:focus {
 
 .lista-refeicoes__cabecalho h2,
 .observacoes-rotina label {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-family: inherit;
   font-size: 18px;
   font-weight: 500;
@@ -311,8 +147,8 @@ textarea:focus {
   gap: 8px;
   min-height: 64px;
   padding: 8px;
-  background: var(--pets-control-bg);
-  border: 1px solid var(--pets-border);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
 }
 
@@ -321,7 +157,7 @@ textarea:focus {
 .cartao-refeicao__relogio {
   width: 20px;
   height: 20px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   background-color: currentColor;
   background: none;
 }
@@ -341,7 +177,7 @@ textarea:focus {
 .cartao-refeicao__horario {
   display: block;
   margin-top: 3px;
-  color: var(--pets-text-soft);
+  color: var(--text-muted);
   font-size: 12px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -369,8 +205,8 @@ textarea:focus {
   width: 100%;
   min-height: 110px;
   padding: 12px;
-  color: var(--pets-text);
-  background: var(--pets-control-bg);
+  color: var(--text-color);
+  background: var(--card-bg);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--pets-radius-sm);
   font-size: 14px;
@@ -380,11 +216,11 @@ textarea:focus {
 }
 
 .observacoes-rotina textarea::placeholder {
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
 }
 
 .observacoes-rotina textarea:focus {
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
   box-shadow: 0 0 0 3px var(--pets-primary-soft);
 }
 
@@ -395,8 +231,8 @@ textarea:focus {
   bottom: 0;
   left: 0;
   padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
-  background: var(--pets-fixed-bar-bg);
-  border-top: 1px solid var(--pets-border);
+  background: var(--header-bg);
+  border-top: 1px solid var(--border-color);
   backdrop-filter: blur(12px);
 }
 
@@ -408,42 +244,6 @@ textarea:focus {
   font-size: 12px;
 }
 
-@media (min-width: 600px) {
-  .formulario-rotina-alimentar {
-    padding: 24px 24px 0;
-  }
-
-  .lista-refeicoes,
-  .observacoes-rotina {
-    padding: 28px;
-  }
-
-  .cartao-refeicao {
-    gap: 12px;
-    padding: 10px 12px;
-  }
-
-  .cartao-refeicao__acoes .botao-icone {
-    width: 44px;
-  }
-
-  .acoes-rotina-alimentar {
-    padding-inline: 24px;
-  }
-}
-
-@media (max-width: 370px) {
-  .lista-refeicoes,
-  .observacoes-rotina {
-    padding: 20px 16px;
-  }
-
-  .editar-pet--rotina-alimentar .abas-pet__link {
-    padding-inline: 2px;
-    font-size: 11px;
-  }
-}
-
 .editar-pet--rotina-alimentar [hidden] {
   display: none;
 }
@@ -451,14 +251,14 @@ textarea:focus {
 #nova-refeicao {
   margin-bottom: 16px;
   padding: 16px;
-  background: var(--pets-control-bg);
-  border: 1px solid var(--pets-primary);
+  background: var(--card-bg);
+  border: 1px solid var(--tool-pets);
   border-radius: var(--pets-radius-sm);
 }
 
 .cartao-refeicao--edicao {
   padding: 16px;
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
 }
 
 .editor-refeicao {
@@ -471,7 +271,7 @@ textarea:focus {
 
 .editor-refeicao__titulo {
   margin-bottom: 16px;
-  color: var(--pets-text);
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 600;
 }
@@ -490,15 +290,15 @@ textarea:focus {
   min-width: 0;
   min-height: 46px;
   padding: 10px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
+  color: var(--text-color);
+  background: var(--card-bg);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--pets-radius-sm);
   font-size: 16px;
 }
 
 .editar-pet--rotina-alimentar .editor-refeicao .campo-formulario input:is([type='text'], [type='time']):focus {
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
   box-shadow: 0 0 0 3px var(--pets-primary-soft);
 }
 
@@ -516,14 +316,14 @@ textarea:focus {
 }
 
 .editor-refeicao .botao-secundario {
-  color: var(--pets-text);
-  background: var(--pets-surface);
+  color: var(--text-color);
+  background: var(--card-bg);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--pets-radius-pill);
 }
 
 .refeicoes-vazias {
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
@@ -533,9 +333,9 @@ textarea:focus {
   align-items: center;
   gap: 8px 16px;
   padding: 12px 16px;
-  color: var(--pets-text);
+  color: var(--text-color);
   background: var(--pets-primary-soft);
-  border: 1px solid var(--pets-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
   font-size: 13px;
 }
@@ -547,14 +347,7 @@ textarea:focus {
   border: 0;
 }
 
-@media (min-width: 600px) {
-  .editor-refeicao__campos {
-    grid-template-columns: minmax(0, 1fr) 150px;
-  }
-}
-
-.cartao-refeicao__relogio { display: grid; place-items: center; background: none; color: var(--pets-text-muted); font-size: 20px; line-height: 1; }
-
+.cartao-refeicao__relogio { display: grid; place-items: center; background: none; color: var(--text-muted); font-size: 20px; line-height: 1; }
 
 /* Opções rápidas de refeição no editor da rotina alimentar. */
 .editor-refeicao__opcoes-campo {
@@ -567,11 +360,14 @@ textarea:focus {
 
 .editor-refeicao__opcoes-campo > legend {
   margin-bottom: 10px;
-  color: var(--pets-label);
+  color: var(--text-color);
   font-size: 12px;
   font-weight: 700;
 }
 
+/* ==================================================
+OPÇÕES DO FORMULÁRIO
+================================================== */
 .opcoes-refeicao {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
@@ -586,8 +382,8 @@ textarea:focus {
   justify-content: center;
   margin: 0;
   padding: 8px 10px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
+  color: var(--text-color);
+  background: var(--card-bg);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--pets-radius-sm);
   font-size: 12px;
@@ -605,11 +401,11 @@ textarea:focus {
 .opcao-refeicao:has(input:checked) {
   color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
 }
 
 .opcao-refeicao:has(input:focus-visible) {
-  outline: 2px solid var(--pets-primary);
+  outline: 2px solid var(--tool-pets);
   outline-offset: 2px;
 }
 

@@ -1,51 +1,17 @@
-/* Estilos da página cadastrar-rotina.html.
- * Os componentes gerais continuam vindo de shared.
- */
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: cadastrar-rotina.css
+Estilos do formulário de cadastro de rotina alimentar.
+Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
+Usado por: cadastrar-rotina.html
+================================================== */
 
-:root {
-  --pets-primary: var(--tool-pets);
-  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
-  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
-  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
-  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
-  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
-  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
-  --pets-surface: var(--card-bg);
-  --pets-border: var(--border-color);
-  --pets-text: var(--text-color);
-  --pets-text-muted: var(--text-muted);
-  --pets-label: var(--text-color);
-  --pets-panel-bg: var(--card-bg);
-  --pets-on-primary: var(--pill-text);
-  --pets-radius-sm: 8px;
-  --pets-radius-md: 12px;
-  --pets-radius-pill: 999px;
-  --pets-transition: 160ms ease;
-  --color-secondary: var(--tool-pets);
-  --color-section-primary: var(--tool-pets);
-  --color-section-bg-tint: var(--pets-primary-soft);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html[data-theme="light"] {
-  color-scheme: light;
-}
-
-body {
-  min-width: 280px;
-  min-height: 100vh;
-}
-
-body > main {
-  font-size: 14px;
-}
+@import url("./essentials/variables.css");
+@import url("./essentials/components.css");
 
 h1,
 h2 {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-family: inherit;
 }
 
@@ -53,97 +19,13 @@ ul {
   list-style: none;
 }
 
-.botao-principal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 44px;
-  padding: 9px 16px;
-  color: var(--pets-on-primary);
-  background: var(--pets-primary-fill);
-  border: 1px solid transparent;
-  border-radius: var(--pets-radius-pill);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  transition: background-color var(--pets-transition),
-    box-shadow var(--pets-transition),
-    transform var(--pets-transition);
-}
-
-.botao-principal:hover:not(:disabled) {
-  background: var(--pets-primary-active);
-  box-shadow: 0 5px 14px var(--pets-primary-shadow);
-}
-
-.botao-principal:active:not(:disabled) {
-  background: var(--pets-primary-active);
-  transform: translateY(1px);
-}
-
-.botao-principal:disabled {
-  color: var(--text-muted);
-  background: var(--card-bg);
-  border-color: var(--border-color);
-  box-shadow: none;
-  transform: none;
-}
-
-.botao-texto {
-  color: var(--pets-primary-readable);
-  font-weight: 700;
-  transition: color var(--pets-transition);
-}
-
-.botao-texto:hover {
-  color: var(--text-color);
-}
-
 main > .modules-nav-wrapper {
   margin-inline: 16px;
   padding-top: 16px;
 }
 
-.modules-nav-wrapper .modules-nav-item.active {
-  color: var(--pets-primary-readable);
-  background-color: var(--pets-primary-soft);
-  border-color: var(--pets-primary-border);
-}
-
 main > .section-header-section {
   margin: 20px 16px 8px;
-}
-
-.section-header-section {
-  flex-wrap: wrap;
-  font-size: 1rem;
-}
-
-.section-header-title-area {
-  flex: 1 1 180px;
-  min-width: 0px;
-}
-
-.section-header-title {
-  overflow-wrap: anywhere;
-}
-
-.campo-formulario {
-  min-width: 0px;
-  margin: 0px 0px 16px;
-  border: 0px;
-}
-
-.campo-formulario label,
-.campo-formulario legend {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--pets-label);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]) {
@@ -154,29 +36,11 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
 }
 
-.linha-formulario {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0px, 1fr));
-  gap: 16px;
-}
-
-@media (max-width: 370px) {
-  .linha-formulario {
-    grid-template-columns: 1fr;
-    gap: 0px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-::before,
-::after {
-    animation-iteration-count: 1 !important;
-  }
-}
-
 /* Tela de cadastro das atividades e acesso à rotina alimentar. */
 
+/* ==================================================
+ESTRUTURA DA ROTINA
+================================================== */
 .adicionar-rotina {
   width: min(100%, 720px);
   min-height: 100vh;
@@ -188,21 +52,21 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 .adicionar-rotina__higiene {
   margin: 22px 16px 0;
   padding: 20px;
-  background: var(--pets-panel-bg);
-  border: 1px solid var(--pets-border);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-md);
 }
 
 .adicionar-rotina__alimentacao h2,
 .adicionar-rotina__higiene h2 {
-  color: var(--pets-text);
+  color: var(--text-color);
   font-size: 18px;
   font-weight: 500;
 }
 
 .adicionar-rotina__alimentacao p {
   margin-top: 8px;
-  color: var(--pets-text-muted);
+  color: var(--text-muted);
   font-size: 13px;
   line-height: 1.6;
 }
@@ -229,6 +93,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 }
 
 /* Seleção das atividades e frequências, com as cores do tema compartilhado. */
+/* ==================================================
+OPÇÕES DE ATIVIDADES E FREQUÊNCIAS
+================================================== */
 .adicionar-rotina :is(.opcoes-atividade, .opcoes-frequencia) {
   display: grid;
   gap: 10px;
@@ -244,9 +111,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   min-height: 48px;
   margin: 0;
   padding: 12px;
-  color: var(--pets-text);
-  background: var(--pets-surface);
-  border: 1px solid var(--pets-border);
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
   cursor: pointer;
   transition: background-color var(--pets-transition), border-color var(--pets-transition), box-shadow var(--pets-transition), transform var(--pets-transition);
@@ -265,9 +132,9 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   padding: 0;
   display: grid;
   place-items: center;
-  border: 2px solid var(--pets-text-muted);
+  border: 2px solid var(--text-muted);
   border-radius: 50%;
-  background: var(--pets-surface);
+  background: var(--card-bg);
   cursor: pointer;
   transition: border-color var(--pets-transition);
 }
@@ -280,13 +147,13 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--pets-primary);
+  background: var(--tool-pets);
   transform: translate(-50%, -50%) scale(0);
   transition: transform 180ms ease-out;
 }
 
 .adicionar-rotina input[type='radio']:checked {
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
 }
 
 .adicionar-rotina input[type='radio']:checked::before {
@@ -294,35 +161,12 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 }
 
 .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:checked) {
-  border-color: var(--pets-primary);
+  border-color: var(--tool-pets);
   background: var(--pets-primary-soft);
   box-shadow: 0 4px 12px var(--pets-primary-shadow);
 }
 
 .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:focus-visible) {
-  outline: 2px solid var(--pets-primary);
+  outline: 2px solid var(--tool-pets);
   outline-offset: 2px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):hover {
-    border-color: var(--pets-primary);
-    transform: translateY(-2px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao),
-  .adicionar-rotina input[type='radio'],
-  .adicionar-rotina input[type='radio']::before {
-    transition: none;
-  }
-}
-
-@media (min-width: 600px) {
-  .adicionar-rotina__alimentacao,
-  .adicionar-rotina__higiene {
-    margin-inline: 24px;
-    padding: 28px;
-  }
 }

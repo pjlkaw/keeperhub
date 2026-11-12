@@ -114,11 +114,11 @@ function criarSeletor() {
 const { select: seletorPet, status } = criarSeletor();
 const selecaoMultipla = form ? criarSelecaoMultipla(seletorPet) : null;
 
-// Exibe uma mensagem de sucesso ou de erro.
+// Exibe uma orientação informativa ou uma mensagem de erro.
 function informar(mensagem, erro = false) {
     status.hidden = !mensagem;
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
 }
 
@@ -189,6 +189,7 @@ function carregarPets() {
     const petQuery = pets.find(
         pet => pet.id === new URLSearchParams(location.search).get('petId')
     );
+    const todosNaUrl = new URLSearchParams(location.search).get("todos") === "1";
 
     // Em lista com vários pets, abre por padrão a visão geral.
     if (paginaLista && !petQuery && pets.length > 1) {
@@ -196,7 +197,10 @@ function carregarPets() {
     } else {
         selecionarPet(petQuery ?? (pets.length === 1 ? pets[0] : null));
     }
-    if (!paginaLista && modoAnterior.startsWith("__") && [...seletorPet.options].some(opcao => opcao.value === modoAnterior)) {
+    if (!paginaLista && pets.length > 1 && todosNaUrl) {
+        seletorPet.value = "__todos__";
+        seletorPet.dispatchEvent(new Event("change"));
+    } else if (!paginaLista && modoAnterior.startsWith("__") && [...seletorPet.options].some(opcao => opcao.value === modoAnterior)) {
         seletorPet.value = modoAnterior;
         seletorPet.dispatchEvent(new Event("change"));
     }
@@ -495,11 +499,13 @@ function atualizarFormulario() {
             : 'Cadastre um pet antes de adicionar uma medicação.';
 
         aviso.textContent = mensagem;
+        aviso.dataset.estado = pets.length ? 'informativo' : 'erro';
         informar(mensagem, !pets.length);
     } else {
         aviso.textContent = petsAlvo.length > 1
             ? 'A medicação será salva para ' + petsAlvo.length + ' pets.'
             : 'A medicação será salva neste navegador.';
+        aviso.dataset.estado = 'informativo';
         informar('');
     }
 }
@@ -627,6 +633,7 @@ function configurarFormulario() {
             // Mostra o erro e libera o botão para uma nova tentativa.
             aviso.textContent =
                 erro.message || 'Não foi possível salvar a medicação.';
+            aviso.dataset.estado = 'erro';
             botao.disabled = false;
         }
     });

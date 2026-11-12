@@ -1,3 +1,14 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: selecao-pets.css
+Estilos do seletor de pets e das opções de seleção múltipla.
+Depende de: shared/styles/variables.css
+Usado por: formulários com seleção de pets
+================================================== */
+
+/* ==================================================
+PLACEHOLDERS E CONTROLES DO FORMULÁRIO
+================================================== */
 select:has(> option[value=""][disabled][hidden]:checked) {
   color: var(--text-muted);
 }
@@ -13,6 +24,9 @@ select:has(> option[value=""][disabled][hidden]):focus,
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--tool-pets) 20%, transparent);
 }
 
+/* ==================================================
+SELEÇÃO MÚLTIPLA DE PETS
+================================================== */
 .selecao-pets {
   min-width: 0;
   padding: 0;

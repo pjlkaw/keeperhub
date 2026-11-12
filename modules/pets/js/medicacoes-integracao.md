@@ -1,6 +1,6 @@
 # Medicações de Pets
 
-As páginas `components/medicacoes.html` e `components/cadastrar-medicacao.html`
+As páginas `components/medicacoes.html` e `components/cadastrar-registro.html?tipo=medicamento`
 usam `js/medicacoes.js`. Os registros são vinculados ao pet e persistidos em
 `pet.medicacoes` por `js/armazenamento.js` no `localStorage`.
 

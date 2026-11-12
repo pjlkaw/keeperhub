@@ -1,0 +1,652 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: essentials/responsive.css
+Regras responsivas consolidadas das páginas Pets.
+Depende de: shared/styles/variables.css
+Usado por: páginas do módulo Pets
+================================================== */
+
+/* Regras de vacinacoes.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de vacinacoes.css */
+@media (min-width: 700px) {
+  .destaques-vacinas,
+  .cronograma-vacinas,
+  .historico-vacinas {
+    margin-inline: 24px;
+  }
+
+  .destaques-vacinas > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Regras de vacinacoes.css */
+@media (max-width: 359px) {
+  .cartao-destaque-vacina {
+    padding: 20px;
+  }
+
+  .cartao-destaque-vacina__nome {
+    font-size: 18px;
+  }
+
+  .vacinacoes-pet .item-vacina {
+    column-gap: 10px;
+  }
+
+  .cronograma-vacinas .item-vacina {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+
+  .cronograma-vacinas .item-vacina > .icone {
+    width: 32px;
+    height: 32px;
+    grid-row: 1 / 4;
+  }
+
+  .cronograma-vacinas > ul::before {
+    left: 31px;
+  }
+
+  .cronograma-vacinas li + li .item-vacina::after {
+    left: 42px;
+  }
+
+  .vacinacoes-pet .etiqueta-status {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: start;
+  }
+}
+
+/* Regras de rotina-diaria.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de rotina-diaria.css */
+@media (min-width: 600px) {
+  .rotina-diaria__hoje,
+  .higiene-bem-estar,
+  .rotina-alimentar,
+  .anotacoes-comportamento {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}
+
+/* Regras de receitas.css */
+@media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* Regras de receitas.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de receitas.css */
+@media (max-width: 359px) {
+  .cartao-receita { grid-template-columns: 40px minmax(0, 1fr); }
+  .cartao-receita__acoes {
+    grid-column: 2;
+    min-height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Regras de pets-modulo-principal.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de pets-modulo-principal.css */
+@media (min-width: 600px) {
+  .pagina-pets {
+    padding: 24px 24px 0;
+  }
+
+  .painel-pets {
+    padding-bottom: 48px;
+  }
+
+  .cartao-resumo-pet {
+    grid-template-columns: 82px minmax(0, 1fr) auto;
+    grid-template-areas: 'foto informacoes editar';
+    align-items: center;
+    min-height: 142px;
+    padding: 20px;
+  }
+
+  .cartao-resumo-pet__foto {
+    width: 82px;
+    height: 82px;
+  }
+
+  .cartao-resumo-pet__informacoes {
+    padding-right: 0;
+  }
+
+  .cartao-resumo-pet__editar {
+    align-self: center;
+  }
+
+  .acoes-rapidas-pet > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .acao-rapida {
+    grid-template-columns: 38px minmax(0, 1fr);
+    min-height: 88px;
+  }
+
+  .acao-rapida > .icone {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Regras de pets-modulo-principal.css */
+@media (max-width: 370px) {
+  .pagina-pets {
+    padding-inline: 11px;
+  }
+
+  .cartao-resumo-pet {
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 8px 11px;
+    padding-inline: 12px;
+  }
+
+  .cartao-resumo-pet__foto {
+    width: 58px;
+    height: 58px;
+  }
+
+  .cartao-resumo-pet__nome {
+    font-size: 18px;
+  }
+
+  .acao-rapida {
+    grid-template-columns: 30px minmax(0, 1fr);
+    column-gap: 7px;
+    min-height: 76px;
+    padding: 11px 9px;
+  }
+
+  .acao-rapida > .icone {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Regras de medicacoes.css */
+@media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* Regras de medicacoes.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de medicacoes.css */
+@media (max-width: 359px) {
+  .cartao-medicacao { grid-template-columns: 40px minmax(0, 1fr); }
+  .cartao-medicacao .etiqueta-status { grid-column: 2; width: fit-content; }
+}
+
+/* Regras de editar-pet-tutor.css */
+@media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* Regras de editar-pet-tutor.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de editar-pet-tutor.css */
+@media (min-width: 600px) {
+  .formulario-editar-pet {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}
+
+/* Regras de editar-pet-tutor.css */
+@media (max-width: 430px) {
+  .formulario-editar-pet {
+    padding: 16px;
+  }
+}
+
+/* Regras de editar-pet-rotina-alimentar.css */
+@media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* Regras de editar-pet-rotina-alimentar.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de editar-pet-rotina-alimentar.css */
+@media (min-width: 600px) {
+  .formulario-rotina-alimentar {
+    padding: 24px 24px 0;
+  }
+
+  .lista-refeicoes,
+  .observacoes-rotina {
+    padding: 28px;
+  }
+
+  .cartao-refeicao {
+    gap: 12px;
+    padding: 10px 12px;
+  }
+
+  .cartao-refeicao__acoes .botao-icone {
+    width: 44px;
+  }
+
+  .acoes-rotina-alimentar {
+    padding-inline: 24px;
+  }
+}
+
+/* Regras de editar-pet-rotina-alimentar.css */
+@media (max-width: 370px) {
+  .lista-refeicoes,
+  .observacoes-rotina {
+    padding: 20px 16px;
+  }
+
+  .editar-pet--rotina-alimentar .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+}
+
+/* Regras de editar-pet-rotina-alimentar.css */
+@media (min-width: 600px) {
+  .editor-refeicao__campos {
+    grid-template-columns: minmax(0, 1fr) 150px;
+  }
+}
+
+/* Regras de editar-pet-informacoes.css */
+@media (min-width: 600px) {
+  .opcoes-especies {
+    margin-inline: 0px;
+    padding-inline: 0px;
+  }
+}
+
+/* Regras de editar-pet-informacoes.css */
+@media (max-width: 370px) {
+  .abas-pet__link {
+    padding-inline: 2px;
+    font-size: 11px;
+  }
+
+  .linha-formulario {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+
+/* Regras de editar-pet-informacoes.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de editar-pet-informacoes.css */
+@media (min-width: 600px) {
+  .painel-informacoes-pet {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+
+  .acoes-informacoes-pet {
+    padding-inline: 24px;
+  }
+}
+
+/* Regras de editar-pet-informacoes.css */
+@media (max-width: 430px) {
+  .painel-informacoes-pet {
+    padding: 20px;
+  }
+}
+
+/* Regras de despesas.css */
+@media (max-width: 370px) {
+  .linha-formulario {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+
+/* Regras de despesas.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de despesas.css */
+@media (hover: hover) and (pointer: fine) {
+  .nova-despesa__fechar:hover {
+    background: var(--pets-primary-soft);
+  }
+
+  .categoria-despesa:hover {
+    background: var(--pets-surface-hover);
+    border-color: var(--pets-primary-border);
+    transform: translateY(-2px);
+  }
+}
+
+/* Regras de despesas.css */
+@media (min-width: 600px) {
+  .despesas-conteudo {
+    padding: 16px 24px;
+  }
+
+  .resumo-despesas {
+    padding: 16px 24px 24px;
+  }
+
+  .categorias-despesas {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Regras de despesas.css */
+@media (max-width: 359px) {
+  .despesas-conteudo {
+    padding-inline: 12px;
+  }
+
+  .categoria-despesa,
+  .lista-lancamentos {
+    padding-inline: 12px;
+  }
+
+  .lancamento {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 6px 8px;
+  }
+
+  .lancamento__icone {
+    grid-row: 1 / 3;
+    width: 28px;
+    height: 28px;
+  }
+
+  .lancamento__valor,
+  .lancamento__etiqueta {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* Regras de consultas-exames.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de cadastrar-rotina.css */
+@media (max-width: 370px) {
+  .linha-formulario {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+
+/* Regras de cadastrar-rotina.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de cadastrar-rotina.css */
+@media (hover: hover) and (pointer: fine) {
+  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):hover {
+    border-color: var(--pets-primary);
+    transform: translateY(-2px);
+  }
+}
+
+/* Regras de cadastrar-rotina.css */
+@media (prefers-reduced-motion: reduce) {
+  .adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao),
+  .adicionar-rotina input[type='radio'],
+  .adicionar-rotina input[type='radio']::before {
+    transition: none;
+  }
+}
+
+/* Regras de cadastrar-rotina.css */
+@media (min-width: 600px) {
+  .adicionar-rotina__alimentacao,
+  .adicionar-rotina__higiene {
+    margin-inline: 24px;
+    padding: 28px;
+  }
+}
+
+/* Regras de cadastrar-pet.css */
+@media (min-width: 600px) {
+  .opcoes-especies {
+    margin-inline: 0px;
+    padding-inline: 0px;
+  }
+}
+
+/* Regras de cadastrar-pet.css */
+@media (max-width: 370px) {
+  .linha-formulario {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+
+/* Regras de cadastrar-pet.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de cadastrar-pet.css */
+@media (min-width: 600px) {
+  .formulario-editar-pet {
+    padding: 8px 16px 0;
+  }
+}
+
+/* Regras de cadastrar-medicacao.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de cadastrar-medicacao.css */
+@media (min-width: 640px) {
+  .adicionar-medicacao {
+    min-height: auto;
+    margin-block: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+  }
+}
+
+/* Regras de cadastrar-consulta.css */
+@media (max-width: 370px) {
+  .linha-formulario {
+    grid-template-columns: 1fr;
+    gap: 0px;
+  }
+}
+
+/* Regras de cadastrar-consulta.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de cadastrar-consulta.css */
+@media (min-width: 640px) {
+  .adicionar-consulta { margin-block: 24px; border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; }
+}
+
+/* Regras de adicionar-vacina.css */
+@media (prefers-reduced-motion: reduce) {
+  *,
+::before,
+::after {
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Regras de adicionar-vacina.css */
+@media (hover: hover) and (pointer: fine) {
+  .formulario-adicionar-vacina .opcoes-nome-vacina__opcao:hover,
+  .formulario-adicionar-vacina .opcoes-frequencia__opcao:hover {
+    background-color: var(--pets-surface-hover);
+    border-color: var(--pets-primary-border);
+    transform: translateY(-2px);
+  }
+
+  .formulario-adicionar-vacina .opcoes-nome-vacina__opcao:has(input:checked):hover {
+    background-color: var(--pets-primary-hover);
+    border-color: var(--pets-primary-hover);
+  }
+
+  .formulario-adicionar-vacina .opcoes-frequencia__opcao:has(input:checked):hover {
+    background-color: var(--pets-primary-soft);
+    border-color: var(--tool-pets);
+  }
+}
+
+/* Regras de adicionar-vacina.css */
+@media (min-width: 640px) {
+  .adicionar-vacina {
+    min-height: auto;
+    margin-block: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+  }
+}
+
+/* Regras de adicionar-vacina.css */
+@media (max-width: 520px) {
+  .formulario-adicionar-vacina {
+    padding-inline: 16px;
+  }
+
+  .opcoes-nome-vacina {
+    flex-wrap: nowrap;
+    margin-inline: -16px;
+    padding: 3px 16px 10px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 16px;
+    scroll-snap-type: inline proximity;
+    scrollbar-width: none;
+  }
+
+  .opcoes-nome-vacina::-webkit-scrollbar {
+    display: none;
+  }
+
+  .opcoes-nome-vacina li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+/* Regras de adicionar-vacina.css */
+@media (prefers-reduced-motion: reduce) {
+  .adicionar-vacina *,
+  .adicionar-vacina *::before,
+  .adicionar-vacina *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

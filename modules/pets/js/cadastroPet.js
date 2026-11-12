@@ -15,10 +15,10 @@ let enviando = false;
 // Impede escolher uma data de nascimento no futuro.
 document.getElementById('data-nascimento').max = dataDeHoje();
 
-// Mostra uma mensagem na página e indica se ela representa sucesso ou erro.
-function informar(mensagem, erro = false) {
+// Mostra uma orientação, uma confirmação ou um erro na página.
+function informar(mensagem, erro = false, sucesso = false) {
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
 
     // Define o comportamento acessível da mensagem para leitores de tela.
     status.setAttribute('role', erro ? 'alert' : 'status');
@@ -119,7 +119,7 @@ form.addEventListener('submit', async function (event) {
         form.reset();
 
         // Informa que o cadastro deu certo e que o painel será aberto.
-        informar('Pet cadastrado com sucesso! Abrindo o painel…');
+        informar('Pet cadastrado com sucesso! Abrindo o painel…', false, true);
     } catch (erro) {
         // Se o salvamento falhar, libera o formulário para uma nova tentativa.
         enviando = false;

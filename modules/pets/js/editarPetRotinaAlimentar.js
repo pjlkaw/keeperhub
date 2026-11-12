@@ -61,13 +61,13 @@ function novoIdRefeicao() {
     return 'refeicao-' + Date.now() + '-' + Math.random().toString(36).slice(2);
 }
 
-// Exibe uma mensagem de sucesso ou de erro.
-function informar(mensagem, erro = false) {
+// Exibe uma orientação, uma confirmação ou um erro.
+function informar(mensagem, erro = false, sucesso = false) {
     // Mostra a caixa de aviso apenas se houver uma mensagem.
     statusBox.hidden = !mensagem;
 
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
 
     // Informa leitores de tela sobre a mensagem.
     status.setAttribute('role', erro ? 'alert' : 'status');
@@ -465,7 +465,7 @@ form.addEventListener('submit', event => {
         ultimaExclusao = null;
         renderizarRefeicoes();
 
-        informar('Rotina alimentar salva com sucesso.');
+        informar('Rotina alimentar salva com sucesso.', false, true);
     } catch (erro) {
         // Mostra o erro recebido ou uma mensagem padrão.
         informar(erro.message || 'Não foi possível salvar a rotina alimentar.', true);

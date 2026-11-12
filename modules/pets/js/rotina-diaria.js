@@ -134,6 +134,7 @@ function selecionarPet(pet) {
     }
 
     const podeTrocarPet = !seletorSecao.hidden;
+    status.dataset.estado = 'informativo';
     status.textContent = podeTrocarPet
         ? (pet ? 'Nenhuma rotina para o pet selecionado.' : 'Selecione um pet para consultar a rotina.')
         : '';

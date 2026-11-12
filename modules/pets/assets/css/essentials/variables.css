@@ -1,0 +1,52 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: essentials/variables.css
+Variáveis derivadas e medidas próprias do módulo Pets.
+Depende de: shared/styles/variables.css
+Usado por: CSS das páginas de Pets
+================================================== */
+
+/* Tokens derivados do azul Pets e medidas reutilizadas. */
+:root {
+  --pets-primary-readable: color-mix(in srgb, var(--tool-pets) 55%, var(--text-color));
+  --pets-primary-hover: color-mix(in srgb, var(--tool-pets) 85%, white);
+  --pets-primary-active: color-mix(in srgb, var(--tool-pets) 75%, black);
+  --pets-primary-fill: color-mix(in srgb, var(--tool-pets) 85%, black);
+  --pets-primary-soft: color-mix(in srgb, var(--tool-pets) 14%, transparent);
+  --pets-primary-border: color-mix(in srgb, var(--tool-pets) 50%, transparent);
+  --pets-primary-shadow: color-mix(in srgb, var(--tool-pets) 25%, transparent);
+  --pets-surface-hover: color-mix(in srgb, var(--card-bg) 94%, var(--text-color));
+  --pets-radius-pill: 999px;
+  --pets-transition: 160ms ease;
+  --pets-surface-raised: color-mix(in srgb, var(--card-bg) 90%, var(--text-color));
+  --pets-border-strong: color-mix(in srgb, var(--card-bg) 75%, var(--text-muted));
+  --pets-radius-sm: 8px;
+  --pets-status-alerta: #c90016;
+  --pets-radius-md: 12px;
+  --pets-neutral-icon-filter: none;
+  --pets-neutral-hover: color-mix(in srgb, var(--text-color) 7%, transparent);
+  --pets-status-continuo: var(--tool-medicamentos);
+  --pets-status-temporario: var(--tool-pets);
+  --pets-photo-start: var(--pets-surface-raised);
+  --pets-photo-end: var(--card-bg);
+  /* Cores dos ícones de atalhos, com contraste ajustado abaixo por tema. */
+  --pets-appointment: #10b981;
+  --pets-medication: #c084fc;
+  --pets-routine: #fb923c;
+  --pets-expenses: #eef442;
+  --pets-vaccine: #4285f4;
+  --pets-medication-action: #4184f2;
+  --pets-success: #22c55e;
+  --pets-content-width: 980px;
+}
+
+/* Tons mais escuros para manter a leitura dos ícones no tema claro. */
+html[data-theme="light"] {
+  --pets-appointment: #047857;
+  --pets-medication: #7e22ce;
+  --pets-routine: #c2410c;
+  --pets-expenses: #687000;
+  --pets-vaccine: #1d4ed8;
+  --pets-medication-action: #1d4ed8;
+  --pets-success: #15803d;
+}

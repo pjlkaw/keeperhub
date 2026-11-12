@@ -27,10 +27,10 @@ let fotoSelecionada = null;
 let leituraFoto = Promise.resolve(null);
 let enviando = false;
 
-// Exibe uma mensagem de sucesso ou de erro na página.
-function informar(mensagem, erro = false) {
+// Exibe uma orientação, uma confirmação ou um erro na página.
+function informar(mensagem, erro = false, sucesso = false) {
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
 
     // Ajuda leitores de tela a identificar o tipo de mensagem.
     status.setAttribute('role', erro ? 'alert' : 'status');
@@ -308,7 +308,7 @@ form.addEventListener('submit', async event => {
         campoFoto.value = '';
         leituraFoto = Promise.resolve(null);
         mostrarFoto(petAtual.foto, petAtual.nome);
-        informar('Alterações salvas com sucesso.');
+        informar('Alterações salvas com sucesso.', false, true);
     } catch (erro) {
         // Mostra o erro recebido ou uma mensagem padrão.
         informar(erro.message || 'Não foi possível salvar as alterações.', true);
