@@ -120,6 +120,15 @@ export async function salvarReceitaApi(dados) {
   return resposta.receita;
 }
 
+export async function adicionarAnexoReceitaApi(id, anexo) {
+  const resposta = await requisicao(`${URL_API}?acao=anexo&id=${encodeURIComponent(id)}`, {
+    method: 'POST',
+    body: JSON.stringify(anexo),
+  });
+  receitasCache = null;
+  return resposta.receita;
+}
+
 export async function excluirAnexoReceitaApi(id) {
   await requisicao(`${URL_API}?acao=anexo&id=${encodeURIComponent(id)}`, { method: 'DELETE' });
   receitasCache = null;

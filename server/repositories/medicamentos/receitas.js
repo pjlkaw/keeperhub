@@ -145,6 +145,61 @@ export async function criarReceita(usuarioId, dados) {
   }
 }
 
+export async function adicionarAnexoReceita(usuarioId, idReceita, dados) {
+  const anexo = validarAnexo(dados);
+  const [receitas] = await db.execute(
+    'SELECT id_receita FROM receita WHERE id_receita = ? AND usuario_id = ? LIMIT 1',
+    [idReceita, usuarioId],
+  );
+  if (!receitas.length) {
+    const erro = new Error('Receita não encontrada.');
+    erro.statusCode = 404;
+    throw erro;
+  }
+
+  const [resumo] = await db.execute(
+    `SELECT COUNT(*) AS quantidade, COALESCE(SUM(tamanho_bytes), 0) AS tamanho
+       FROM arquivo
+      WHERE usuario_id = ? AND entidade_tipo = 'receita' AND entidade_id = ?`,
+    [usuarioId, idReceita],
+  );
+  if (Number(resumo[0]?.quantidade || 0) >= 10) {
+    const erro = new Error('A receita pode ter até 10 anexos.');
+    erro.statusCode = 400;
+    throw erro;
+  }
+  if (Number(resumo[0]?.tamanho || 0) + anexo.buffer.length > MAX_ANEXO_BYTES) {
+    const erro = new Error('Os anexos precisam ter até 1 MB no total.');
+    erro.statusCode = 400;
+    throw erro;
+  }
+
+  let url = '';
+  try {
+    url = (await put(`usuarios/${usuarioId}/receitas/${randomUUID()}-${anexo.nome}`, anexo.buffer, {
+      access: 'public',
+      contentType: anexo.tipo,
+    })).url;
+    await db.execute(
+      `INSERT INTO arquivo
+        (usuario_id, entidade_tipo, entidade_id, nome_original, mime_type, tamanho_bytes, url)
+       VALUES (?, 'receita', ?, ?, ?, ?, ?)`,
+      [usuarioId, idReceita, anexo.nome.slice(0, 255), anexo.tipo, anexo.buffer.length, url],
+    );
+  } catch (erro) {
+    if (url) {
+      try {
+        await del(url);
+      } catch (erroBlob) {
+        console.error('Não foi possível limpar o anexo após falha no banco:', erroBlob);
+      }
+    }
+    throw erro;
+  }
+
+  return buscarReceita(idReceita, usuarioId);
+}
+
 export async function excluirAnexoReceita(idArquivo, usuarioId) {
   const [arquivos] = await db.execute(
     `SELECT id_arquivo AS id, url
