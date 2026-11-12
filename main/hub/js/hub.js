@@ -152,6 +152,7 @@ function userLoadContent(user) {
     userImage.hidden = true;
     userImage.removeAttribute('src');
     userImage.onerror = null;
+    userImage.style.display = "flex";
   }
 
   const userIcon = document.getElementById('userIcon');
