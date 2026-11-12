@@ -12,11 +12,16 @@ import {
   CODIGOS_VACINA,
   cadastrarVacina,
   listarVacinasPorPet,
+  atualizarVacinas,
+  marcarVacinasAplicadas,
+  excluirVacinas,
 } from '../../server/repositories/pets/vacinas.js';
 import {
   CODIGOS_ESPECIALIDADE,
   alterarLembreteConsulta,
   cadastrarConsulta,
+  atualizarConsultas,
+  excluirConsultas,
   listarConsultasPorPet,
   registrarConsultaRealizada,
   registrarConsultasRealizadas,
@@ -263,6 +268,56 @@ export function criarHandlerPets(deps) {
         });
       }
 
+      if (req.method === 'PUT' && req.query?.acao === 'vacina') {
+        const validacao = validarVacina(body, deps.hoje?.());
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+          return res.status(400).json({ erro: 'Informe as vacinas válidas.' });
+        }
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem)
+          ? body.petIdsOrigem.map(Number)
+          : validacao.petIds;
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às vacinas.' });
+        }
+        const resultado = await repositorio.atualizarVacinas(
+          ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              vacinas: Object.fromEntries(resultado.vacinasPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Vacina não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'vacina-realizada') {
+        const ids = id
+          ? [id]
+          : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+          return res.status(400).json({ erro: 'Informe as vacinas válidas.' });
+        }
+        const vacinasPorPet = await repositorio.marcarVacinasAplicadas(ids, usuarioId);
+        return vacinasPorPet
+          ? res.status(200).json({ vacinas: Object.fromEntries(vacinasPorPet) })
+          : res.status(404).json({ erro: 'Vacina agendada não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'vacina') {
+        const ids = id ? [id] : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+          return res.status(400).json({ erro: 'Informe as vacinas válidas.' });
+        }
+        const vacinasPorPet = await repositorio.excluirVacinas(ids, usuarioId);
+        return vacinasPorPet
+          ? res.status(200).json({ vacinas: Object.fromEntries(vacinasPorPet) })
+          : res.status(404).json({ erro: 'Vacina não encontrada.' });
+      }
+
       if (req.method === 'POST' && req.query?.acao === 'consulta') {
         const validacao = validarConsulta(body, deps.hoje?.());
         if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
@@ -272,6 +327,43 @@ export function criarHandlerPets(deps) {
           consultas: Object.fromEntries(resultado.consultasPorPet),
           criados: resultado.criados,
         });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'consulta') {
+        const validacao = validarConsulta(body, deps.hoje?.());
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+          return res.status(400).json({ erro: 'Informe as consultas válidas.' });
+        }
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem)
+          ? body.petIdsOrigem.map(Number)
+          : validacao.petIds;
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às consultas.' });
+        }
+        const resultado = await repositorio.atualizarConsultas(
+          ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              consultas: Object.fromEntries(resultado.consultasPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Consulta não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'consulta') {
+        const ids = id ? [id] : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
+          return res.status(400).json({ erro: 'Informe as consultas válidas.' });
+        }
+        const consultasPorPet = await repositorio.excluirConsultas(ids, usuarioId);
+        return consultasPorPet
+          ? res.status(200).json({ consultas: Object.fromEntries(consultasPorPet) })
+          : res.status(404).json({ erro: 'Consulta não encontrada.' });
       }
 
       if (req.method === 'PUT' && req.query?.acao === 'consulta-lembrete') {
@@ -353,7 +445,8 @@ export default criarHandlerPets({
   repositorio: {
     atualizarPet, buscarPet, criarPet, desativarPet, listarPets, salvarTutor,
     listarVacinasPorPet, cadastrarVacina,
-    listarConsultasPorPet, cadastrarConsulta, alterarLembreteConsulta, registrarConsultaRealizada,
+    atualizarVacinas, marcarVacinasAplicadas, excluirVacinas,
+    listarConsultasPorPet, cadastrarConsulta, atualizarConsultas, excluirConsultas, alterarLembreteConsulta, registrarConsultaRealizada,
     registrarConsultasRealizadas,
   },
   usuarioDaSessao,

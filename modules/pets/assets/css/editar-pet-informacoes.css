@@ -308,6 +308,13 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   margin: 0 auto;
 }
 
+/* Deixa a ação de exclusão visível no rodapé, sem competir com salvar. */
+.acoes-informacoes-pet__excluir {
+  display: block;
+  margin: 8px auto 0;
+  color: var(--text-muted);
+}
+
 .acoes-informacoes-pet .status-formulario {
   width: min(100%, 688px);
   min-height: 18px;

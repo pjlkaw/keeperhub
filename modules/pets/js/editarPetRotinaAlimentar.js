@@ -2,6 +2,7 @@
 
 // Importa as funções para atualizar um pet e buscá-lo pelo ID.
 import { atualizarPet, buscarPetPorId } from './armazenamento.js';
+import { confirmarExclusao } from './confirmar-exclusao.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
 // Os dados principais dos pets vêm da API; carrega antes de montar a página.
@@ -12,6 +13,7 @@ await carregarPetsDoServidor();
 // Busca no HTML o formulário e os elementos que a página vai atualizar.
 const form = document.getElementById('formulario-rotina-alimentar');
 const statusBox = document.getElementById('aviso-rotina');
+const caixaDesfazer = document.getElementById('aviso-desfazer-rotina');
 const status = document.getElementById('status-rotina');
 const botaoDesfazer = document.getElementById('desfazer-exclusao');
 const botaoAdicionar = document.getElementById('adicionar-refeicao');
@@ -28,10 +30,10 @@ const botaoSalvar = form.querySelector('[type="submit"]');
 const petId = new URLSearchParams(window.location.search).get('petId');
 
 // Guarda os dados do pet, a lista de refeições,
-// a refeição excluída mais recentemente e o estado do salvamento.
+// as exclusões que ainda podem ser desfeitas e o estado do salvamento.
 let petAtual = null;
 let refeicoes = [];
-let ultimaExclusao = null;
+const exclusoesPendentes = [];
 let salvando = false;
 
 const OPCOES_REFEICAO = {
@@ -72,8 +74,9 @@ function informar(mensagem, erro = false, sucesso = false) {
     // Informa leitores de tela sobre a mensagem.
     status.setAttribute('role', erro ? 'alert' : 'status');
 
-    // Só mostra o botão "desfazer" se houver uma exclusão que possa ser revertida.
-    botaoDesfazer.hidden = !ultimaExclusao;
+    // Mantém o desfazer separado do aviso sobre o estado do formulário.
+    caixaDesfazer.hidden = exclusoesPendentes.length === 0;
+    botaoDesfazer.hidden = exclusoesPendentes.length === 0;
 }
 
 // Indica que existem alterações no formulário que ainda precisam ser salvas.
@@ -339,7 +342,7 @@ function carregarPet() {
 botaoAdicionar.addEventListener('click', () => abrirEditor());
 
 // Usa um único listener para os botões dos cartões da lista.
-lista.addEventListener('click', event => {
+lista.addEventListener('click', async event => {
     // Descobre se o clique ocorreu em um botão dentro de um cartão.
     const botao = event.target.closest('button');
     const cartao = event.target.closest('.cartao-refeicao');
@@ -360,13 +363,19 @@ lista.addEventListener('click', event => {
 
     // Se o botão clicado for o de remover, exclui a refeição da lista em memória.
     if (botao.classList.contains('cartao-refeicao__remover')) {
+        const confirmado = await confirmarExclusao({
+            titulo: 'Excluir refeição?',
+            mensagem: `A refeição ${refeicao.nome} será removida da rotina do pet.`
+        });
+        if (!confirmado) return;
+
         // Se essa refeição estiver aberta no editor, fecha o editor primeiro.
         const editorAberto = editorContainer.querySelector('.editor-refeicao');
         if (editorAberto?.dataset.refeicaoId === refeicao.id) fecharEditor();
 
-        // Guarda a refeição e sua posição para permitir desfazer a exclusão.
+        // Guarda cada exclusão pendente, permitindo desfazer uma por vez.
         const indice = refeicoes.findIndex(item => item.id === refeicao.id);
-        ultimaExclusao = { refeicao, indice };
+        exclusoesPendentes.push({ refeicao, indice });
 
         // Remove a refeição da lista e atualiza a interface.
         refeicoes.splice(indice, 1);
@@ -374,26 +383,25 @@ lista.addEventListener('click', event => {
 
         // A exclusão ainda precisa ser salva. A pessoa também pode desfazê-la.
         marcarAlteracoes('Refeição removida. Você pode desfazer ou salvar as alterações.');
-        botaoDesfazer.hidden = false;
     }
 });
 
-// Desfaz a exclusão mais recente, se houver uma.
+// Desfaz a exclusão pendente mais recente.
 botaoDesfazer.addEventListener('click', () => {
-    if (!ultimaExclusao) return;
+    const exclusao = exclusoesPendentes.pop();
+    if (!exclusao) return;
 
     // Reinsere a refeição na posição em que estava.
     // Math.min evita usar um índice maior que o tamanho atual da lista.
-    const indice = Math.min(ultimaExclusao.indice, refeicoes.length);
-    refeicoes.splice(indice, 0, ultimaExclusao.refeicao);
-
-    // Limpa o registro de exclusão desfeita.
-    ultimaExclusao = null;
+    const indice = Math.min(exclusao.indice, refeicoes.length);
+    refeicoes.splice(indice, 0, exclusao.refeicao);
 
     // Ordena por horário, atualiza a lista e avisa que ainda é preciso salvar.
     refeicoes.sort((a, b) => a.horario.localeCompare(b.horario));
     renderizarRefeicoes();
-    marcarAlteracoes('Exclusão desfeita. Salve as alterações para persistir.');
+    marcarAlteracoes(exclusoesPendentes.length
+        ? 'Última exclusão desfeita. Ainda há alterações para salvar ou desfazer.'
+        : 'Exclusão desfeita. Salve as alterações para persistir.');
 });
 
 // Avisa que existem alterações quando as observações são editadas.
@@ -413,6 +421,9 @@ form.addEventListener('input', event => {
     if (typeof event.target.setCustomValidity === 'function') {
         event.target.setCustomValidity('');
         event.target.removeAttribute('aria-invalid');
+    }
+    if (status.dataset.estado === 'erro' && event.target.checkValidity()) {
+        informar('');
     }
 });
 
@@ -462,7 +473,7 @@ form.addEventListener('submit', event => {
 
         // Recarrega a lista a partir dos dados salvos e limpa a opção de desfazer.
         refeicoes = normalizarRefeicoes(petAtual.rotinaAlimentar?.refeicoes);
-        ultimaExclusao = null;
+        exclusoesPendentes.length = 0;
         renderizarRefeicoes();
 
         informar('Rotina alimentar salva com sucesso.', false, true);

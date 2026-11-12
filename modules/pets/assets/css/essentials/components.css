@@ -194,6 +194,144 @@ Botões comuns de salvar, ações em texto e controles por ícone.
     color: var(--text-color);
 }
 
+/* Mantém os botões de ação nos cartões com a aparência dos links do módulo. */
+button.botao-texto {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+/* Ações dos cartões ficam juntas e não quebram rótulos no meio das palavras. */
+.acoes-cartao-registro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    margin-top: 10px;
+}
+
+.acoes-cartao-registro > :is(a, button) {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    line-height: 1.3;
+}
+
+/* Identifica os pets associados a um registro em listas e históricos. */
+.etiqueta-pets-registro {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 3px 7px;
+    color: var(--text-muted);
+    background: var(--pets-neutral-hover);
+    border: 1px solid var(--border-color);
+    border-radius: var(--pets-radius-pill);
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1.2;
+    vertical-align: middle;
+}
+
+/* Confirmações de exclusão seguem o tema do módulo em todos os formulários. */
+.confirmacao-exclusao {
+    width: min(320px, calc(100% - 32px));
+    max-width: none;
+    margin: auto;
+    padding: 12px;
+    color: var(--text-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--pets-radius-md);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.confirmacao-exclusao::backdrop {
+    background: rgba(0, 0, 0, 0.64);
+    backdrop-filter: blur(3px);
+}
+
+.confirmacao-exclusao__titulo {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 0.875rem;
+}
+
+.confirmacao-exclusao__mensagem {
+    margin: 5px 0 8px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.confirmacao-exclusao__acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.confirmacao-exclusao__acoes button {
+    min-height: 32px;
+    padding-inline: 10px;
+    font-size: 0.75rem;
+    border-radius: var(--pets-radius-pill);
+}
+
+.confirmacao-exclusao__acoes .botao-secundario {
+    color: var(--text-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+/* Aviso compacto de exclusão pendente com ação para desfazer. */
+.aviso-exclusao-pendente {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 12px 0;
+    padding: 10px 12px;
+    color: var(--pets-primary-readable);
+    background: var(--pets-primary-soft);
+    border: 1px solid var(--pets-primary-border);
+    border-radius: var(--pets-radius-md);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.aviso-exclusao-pendente__mensagem {
+    min-width: 0;
+    margin: 0;
+}
+
+.aviso-exclusao-pendente__botao {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 12px;
+    color: var(--pets-primary-readable);
+    background: transparent;
+    border: 1px solid var(--pets-primary-border);
+    border-radius: var(--pets-radius-pill);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.aviso-exclusao-pendente__botao:hover {
+    background: var(--pets-primary-soft);
+}
+
+.aviso-exclusao-pendente__botao:focus-visible {
+    outline: 2px solid var(--tool-pets);
+    outline-offset: 2px;
+}
+
+.aviso-exclusao-pendente__botao:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
 .botao-icone {
     display: inline-grid;
     place-items: center;

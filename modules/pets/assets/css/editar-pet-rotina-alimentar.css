@@ -81,6 +81,7 @@ textarea:focus {
   width: min(100%, 720px);
   min-height: 100vh;
   padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  font-size: 14px;
 }
 
 .formulario-rotina-alimentar {
@@ -111,7 +112,7 @@ textarea:focus {
 .observacoes-rotina label {
   color: var(--text-color);
   font-family: inherit;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
 }
@@ -168,7 +169,7 @@ textarea:focus {
 
 .cartao-refeicao__titulo {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.3;
   overflow-wrap: anywhere;
@@ -209,7 +210,7 @@ textarea:focus {
   background: var(--card-bg);
   border: 1px solid var(--pets-border-strong);
   border-radius: var(--pets-radius-sm);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.6;
   resize: vertical;
   scroll-margin-block: 24px 110px;
@@ -272,7 +273,7 @@ textarea:focus {
 .editor-refeicao__titulo {
   margin-bottom: 16px;
   color: var(--text-color);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -324,6 +325,7 @@ textarea:focus {
 
 .refeicoes-vazias {
   color: var(--text-muted);
+  font-size: 13px;
   line-height: 1.6;
 }
 
@@ -337,7 +339,20 @@ textarea:focus {
   background: var(--pets-primary-soft);
   border: 1px solid var(--border-color);
   border-radius: var(--pets-radius-sm);
-  font-size: 13px;
+  font-size: 12px;
+}
+
+.aviso-rotina--desfazer {
+  margin-top: 8px;
+  padding-block: 6px;
+}
+
+.aviso-rotina--desfazer .botao-texto {
+  color: var(--pets-primary-readable);
+}
+
+#status-rotina {
+  margin: 0;
 }
 
 .aviso-rotina .botao-texto {

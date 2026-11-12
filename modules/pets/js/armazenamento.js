@@ -61,12 +61,12 @@ export function definirPetDoBanco(pet) {
 }
 
 // Substitui na memória as consultas devolvidas pela API (objeto { idDoPet: [consultas] }).
-export function definirConsultasDoBanco(consultasPorPet, criados) {
+export function definirConsultasDoBanco(consultasPorPet, idsDoGrupo) {
     if (!petsDoBanco || !consultasPorPet) return;
-    guardarGrupo('consultas', criados);
+    guardarGrupo('consultas', idsDoGrupo);
     petsDoBanco = petsDoBanco.map(pet => ({
         ...pet,
-        consultas: Array.isArray(consultasPorPet[pet.id]) ? consultasPorPet[pet.id] : (pet.consultas ?? [])
+        consultas: Array.isArray(consultasPorPet[pet.id]) ? consultasPorPet[pet.id] : []
     }));
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
@@ -87,12 +87,12 @@ export function definirConsultaDoBanco(consulta) {
 }
 
 // Substitui na memória as vacinas devolvidas pela API (objeto { idDoPet: [vacinas] }).
-export function definirVacinasDoBanco(vacinasPorPet, criados) {
+export function definirVacinasDoBanco(vacinasPorPet, idsDoGrupo) {
     if (!petsDoBanco || !vacinasPorPet) return;
-    guardarGrupo('vacinas', criados);
+    guardarGrupo('vacinas', idsDoGrupo);
     petsDoBanco = petsDoBanco.map(pet => ({
         ...pet,
-        vacinas: Array.isArray(vacinasPorPet[pet.id]) ? vacinasPorPet[pet.id] : (pet.vacinas ?? [])
+        vacinas: Array.isArray(vacinasPorPet[pet.id]) ? vacinasPorPet[pet.id] : []
     }));
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
@@ -156,6 +156,27 @@ function guardarGrupo(campo, criados) {
         localStorage.setItem(GRUPOS_STORAGE_KEY, JSON.stringify(grupos));
     } catch {
         // A gravação no servidor já terminou; o card pode aparecer separado.
+    }
+}
+
+// Separa um registro editado individualmente de um cadastro feito para vários pets.
+export function separarRegistrosDoGrupo(campo, ids) {
+    if (!Array.isArray(ids) || !ids.length) return;
+    const grupos = lerGrupos();
+    const gruposDoCampo = { ...(grupos[campo] ?? {}) };
+    let alterado = false;
+    for (const id of ids) {
+        if (Object.hasOwn(gruposDoCampo, String(id))) {
+            delete gruposDoCampo[String(id)];
+            alterado = true;
+        }
+    }
+    if (!alterado) return;
+    grupos[campo] = gruposDoCampo;
+    try {
+        localStorage.setItem(GRUPOS_STORAGE_KEY, JSON.stringify(grupos));
+    } catch {
+        // O dado principal já está salvo no servidor; só perde a junção visual.
     }
 }
 
