@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { carregarUsuarioAtual } from '../../../shared/services/usuario.js';
+import { carregarUsuarioAtual, listarModulosUsuario } from '../../../shared/services/usuario.js';
 
 // CHATBOT
 function initializeChatbot() {
@@ -124,10 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // A API valida o cookie no servidor; o cache local nao concede acesso.
   carregarUsuarioAtual()
-    .then((usuario) => userLoadContent({
-      name: usuario.nome_usuario,
-      foto_usuario: usuario.foto_usuario
-    }))
+    .then(async (usuario) => {
+      userLoadContent({ name: usuario.nome_usuario, foto_usuario: usuario.foto_usuario });
+      const modulos = await listarModulosUsuario();
+      aplicarAcessosModulos(new Set(modulos.map((modulo) => modulo.codigo)));
+    })
     .catch((error) => {
       if (error.status === 401) {
         window.location.replace('../entrar/index.html');
@@ -135,6 +136,21 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('[Hub] Nao foi possivel validar a sessao:', error);
       }
     });
+
+    function aplicarAcessosModulos(modulosAtivos) {
+      document.querySelectorAll('[id^="hub-card-"]').forEach((card) => {
+        const codigo = card.id.replace('hub-card-', '');
+        const ativo = modulosAtivos.has(codigo);
+        card.toggleAttribute('aria-disabled', !ativo);
+        card.classList.toggle('module-card-locked', !ativo);
+        if (!ativo) {
+          card.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.location.href = '../compra/index.html';
+          });
+        }
+      });
+    }
 });
 
 function userLoadContent(user) {

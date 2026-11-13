@@ -100,4 +100,18 @@ export async function encerrarSessaoUsuario() {
     } finally {
         try { localStorage.removeItem(AUTH_STORAGE_KEY); } catch { /* cache opcional */ }
     }
+
+    export async function listarModulosUsuario() {
+        const dados = await requisitarJson('/api/modulos/acesso');
+        return dados.modulos;
+    }
+
+    export async function salvarModulosUsuario(modulos, periodo) {
+        const dados = await requisitarJson('/api/modulos/acesso', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ modulos, periodo })
+        });
+        return dados.modulos;
+    }
 }

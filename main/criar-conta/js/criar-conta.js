@@ -7,14 +7,17 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario } from '../../../shared/services/usuario.js';
+import { criarUsuario, salvarModulosUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
-async function realizarCadastro(usuario) {
+async function realizarCadastro(usuario, selecao) {
   try {
     await criarUsuario(usuario);
-    window.location.href = '../hub/index.html';
+    if (selecao.modulos.length) {
+      await salvarModulosUsuario(selecao.modulos, selecao.periodo);
+    }
+    window.location.href = '../home/index.html';
   } catch (erro) {
     console.error('[Cadastro] Falha ao criar conta:', erro);
     alertShared(erro.message || 'Não foi possível criar a conta. Tente novamente.');
@@ -40,6 +43,12 @@ function setupSignupForm() {
   const submitBtn = document.getElementById('btn-submit-signup');
   const completionStatus = document.getElementById('signup-completion-status');
   let isSubmitting = false;
+  const parametrosCompra = new URLSearchParams(window.location.search);
+  const modulosSelecionados = [...new Set((parametrosCompra.get('modulos') || '').split(',')
+    .map((modulo) => modulo.trim())
+    .filter(Boolean))];
+  const periodoSelecionado = parametrosCompra.get('periodo') === 'anual' ? 'anual' : 'mensal';
+  const modoCadastro = parametrosCompra.get('modo') === 'teste' ? 'teste' : 'compra';
 
   const nameError = document.getElementById('name-error');
   const emailError = document.getElementById('email-error');
@@ -275,8 +284,9 @@ function setupSignupForm() {
           email_usuario: emailVal,
           numero_usuario: phoneDigits,
           genero_usuario: sexoVal,
-          senha_usuario: passVal
-        });
+          senha_usuario: passVal,
+          modo: modoCadastro
+        }, { modulos: modulosSelecionados, periodo: periodoSelecionado });
       } finally {
         isSubmitting = false;
         if (submitBtn) {

@@ -115,6 +115,17 @@ As imagens são validadas no backend com `sharp` quanto ao formato, tamanho e
 dimensões. O `nsfwjs` classifica o conteúdo localmente e rejeita imagens com
 probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
+## Módulos selecionados
+
+Execute [`docs/modulos-acesso.sql`](./modulos-acesso.sql) no mesmo banco da
+aplicação. Ele cria o catálogo de módulos e a tabela `usuario_modulo`, que
+guarda os módulos ativos de cada usuário e o período escolhido. Se a tabela
+`usuario_modulo` já existia, execute também
+[`docs/modulos-acesso-migracao.sql`](./modulos-acesso-migracao.sql) para
+adicionar a origem e a data de expiração do teste. A tela de compra não
+processa pagamentos: depois do cadastro, a seleção é salva pela API e o Hub
+libera somente os módulos ativos.
+
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 
 ```js

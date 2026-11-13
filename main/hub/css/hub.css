@@ -434,6 +434,11 @@ a.module-card,
   cursor: pointer;
 }
 
+.module-card-locked {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
 .module-card:focus-visible {
   outline: 2px solid var(--color-secondary, #01ab8e);
   outline-offset: 2px;

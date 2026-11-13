@@ -9,6 +9,7 @@ import {
   criarCookieSessao, origemDaRequisicaoValida, usuarioDaSessao,
   validarConfiguracaoSessao
 } from '../server/auth-session.js';
+import { salvarAcessosUsuario } from '../server/repositories/modulos.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar', 'outro'];
@@ -95,6 +96,14 @@ async function criarConta(body, res) {
     senha_usuario: await hashPassword(dados.senha_usuario)
   });
   const usuario = await buscarUsuario(resultado.insertId);
+  if (body.modo === 'teste') {
+    await salvarAcessosUsuario(
+      usuario.id_usuario,
+      ['financas', 'despensa', 'pets', 'medicamentos'],
+      'mensal',
+      'teste'
+    );
+  }
   // O cadastro inicia a sessão sem expor uma credencial ao JavaScript da página.
   criarCookieSessao(res, usuario.id_usuario);
   return res.status(201).json({ usuario });

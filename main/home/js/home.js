@@ -42,6 +42,17 @@ function prepararFormularioTeste() {
 function setupHomeInteractions() {
   prepararFormularioTeste();
   const themeToggle = document.getElementById('theme-toggle');
+  const headerCta = document.getElementById('btn-header-cta');
+
+  carregarUsuarioAtual()
+    .then(() => {
+      if (!headerCta) return;
+      headerCta.textContent = 'Escolher módulos';
+      headerCta.href = '../compra/index.html';
+    })
+    .catch((erro) => {
+      if (erro.status !== 401) console.error('[Home] Não foi possível validar a sessão:', erro);
+    });
 
   function atualizarBotaoTema() {
     if (!themeToggle) return;
@@ -71,4 +82,6 @@ if (document.readyState === 'loading') {
 } else {
   setupHomeInteractions();
 }
+
+import { carregarUsuarioAtual } from '../../../shared/services/usuario.js';
 

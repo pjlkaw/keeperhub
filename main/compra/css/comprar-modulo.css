@@ -164,6 +164,65 @@ html[data-theme="light"] .nome-marca-claro {
   margin-top: 36px;
 }
 
+.seletor-periodo {
+  margin: 0 0 28px;
+  padding: 0;
+  border: 0;
+}
+
+.seletor-periodo legend {
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+.ajuda-periodo {
+  margin-bottom: 12px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+.opcoes-periodo {
+  display: inline-flex;
+  gap: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--card-bg);
+  padding: 5px;
+}
+
+.opcao-periodo {
+  position: relative;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.opcao-periodo input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.opcao-periodo:has(input:checked) {
+  background: color-mix(in srgb, var(--cor-principal) 16%, var(--card-bg));
+  color: var(--text-color);
+}
+
+.opcao-periodo:has(input:focus-visible) {
+  outline: 2px solid var(--cor-principal);
+  outline-offset: 2px;
+}
+
+.opcao-periodo small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+}
+
 .grupo-modulos {
   min-width: 0;
   border: 0;
@@ -190,7 +249,7 @@ html[data-theme="light"] .nome-marca-claro {
   --cor-modulo: var(--cor-principal);
   position: relative;
   display: flex;
-  min-height: 132px;
+  min-height: 154px;
   align-items: center;
   gap: 18px;
   overflow: hidden;
@@ -257,6 +316,13 @@ html[data-theme="light"] .nome-marca-claro {
   color: var(--text-muted);
   font-size: 0.875rem;
   line-height: 1.5;
+}
+
+.preco-modulo {
+  margin-top: 3px;
+  color: var(--cor-modulo);
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .estado-selecao {
@@ -328,6 +394,10 @@ html[data-theme="light"] .nome-marca-claro {
   line-height: 1.6;
 }
 
+.nota-pacote {
+  margin-top: 8px;
+}
+
 .rodape {
   flex-shrink: 0;
 }
@@ -370,7 +440,7 @@ html[data-theme="light"] .botao-teste {
   }
 
   .cartao-modulo {
-    min-height: 148px;
+    min-height: 164px;
     padding: 26px;
   }
 }
@@ -390,7 +460,7 @@ html[data-theme="light"] .botao-teste {
   }
 
   .cartao-modulo {
-    min-height: 112px;
+    min-height: 134px;
     padding: 18px;
   }
 

@@ -7,6 +7,7 @@ import {
   idValido as idTransacaoValido, listarTransacoes, STATUS, TIPOS
 } from '../../server/repositories/financas/transacoes.js';
 import { origemDaRequisicaoValida, usuarioDaSessao } from '../../server/auth-session.js';
+import { usuarioTemAcesso } from '../../server/repositories/modulos.js';
 
 function erro(res, status, mensagem) {
   return res.status(status).json({ erro: mensagem });
@@ -48,6 +49,9 @@ export default async function handler(req, res) {
     : idTransacaoValido(req.query?.id);
 
   try {
+    if (!(await usuarioTemAcesso(usuarioId, 'financas'))) {
+      return erro(res, 403, 'O módulo Finanças não está ativo para esta conta.');
+    }
     if (recurso === 'contas') {
       if (req.method === 'GET') return res.status(200).json({ contas: await listarContas(usuarioId) });
       if (req.method === 'DELETE') {

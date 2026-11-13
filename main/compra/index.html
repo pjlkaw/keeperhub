@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KeeperHub | Escolha seus módulos</title>
-    <meta name="description" content="Escolha os módulos do KeeperHub que fazem sentido para sua rotina.">
+    <title>KeeperHub | Planos e preços</title>
+    <meta name="description" content="Compare os planos individuais e o pacote KeeperHub com quatro módulos.">
     <meta name="author" content="KeeperHub">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0b0b0d">
@@ -38,8 +38,7 @@
                 </a>
                 <nav class="acesso" id="header-actions" aria-label="Acesso e Cadastro">
                     <a href="../entrar/index.html" class="botao-entrar" id="btn-header-login"><i
-                            class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span
-                            class="sr-only">Entrar</span></a>
+                            class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></a>
                     <a href="../criar-conta/index.html" class="botao-criar" id="btn-header-cta">Criar</a>
                 </nav>
             </div>
@@ -59,12 +58,16 @@
             <section class="selecao-modulos" aria-labelledby="titulo-principal">
                 <div class="container">
                     <p class="etiqueta-secao">KeeperHub</p>
-                    <h1 class="titulo-principal" id="titulo-principal">Escolha seus módulos.</h1>
-                    <p class="texto-principal">Selecione as áreas que quer organizar. Você pode ajustar sua escolha
-                        antes de continuar.</p>
+                    <h1 class="titulo-principal" id="titulo-principal">Escolha como quer usar o KeeperHub.</h1>
 
-                    <!-- Dados comerciais e destino do CTA devem ser conectados quando forem definidos. -->
                     <form class="formulario-modulos" action="../criar-conta/index.html" method="get">
+                        <fieldset class="seletor-periodo" aria-describedby="ajuda-periodo">
+                            <legend>Período de cobrança</legend>
+                            <div class="opcoes-periodo">
+                                <label class="opcao-periodo"><input type="radio" name="periodo" value="mensal" checked><span>Mensal</span></label>
+                                <label class="opcao-periodo"><input type="radio" name="periodo" value="anual"><span>Anual <small>economize cerca de 17%</small></span></label>
+                            </div>
+                        </fieldset>
                         <fieldset class="grupo-modulos" aria-describedby="ajuda-selecao">
                             <legend class="sr-only">Módulos do KeeperHub</legend>
                             <p class="ajuda-selecao" id="ajuda-selecao">Marque um ou mais módulos para ver sua seleção.
@@ -73,44 +76,44 @@
                                 <li>
                                     <label class="cartao-modulo cartao-financas" for="modulo-financas">
                                         <input class="seletor-modulo" type="checkbox" id="modulo-financas" name="modulo"
-                                            value="financas">
+                                            value="financas" data-monthly="12.90" data-annual="129">
                                         <img src="../assets/img/logo-financas.png" alt="" class="icone-modulo"
                                             width="72" height="48">
                                         <span class="conteudo-cartao"><span class="nome-modulo">Finanças</span><span
-                                                class="texto-modulo">Organize gastos e saldo.</span></span>
+                                                class="texto-modulo">Organize gastos e saldo.</span><span class="preco-modulo" data-price-monthly="R$ 12,90/mês" data-price-annual="R$ 129/ano">R$ 12,90/mês</span></span>
                                         <span class="estado-selecao" aria-hidden="true">Selecionar</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="cartao-modulo cartao-despensa" for="modulo-despensa">
                                         <input class="seletor-modulo" type="checkbox" id="modulo-despensa" name="modulo"
-                                            value="despensa">
+                                            value="despensa" data-monthly="7.90" data-annual="79">
                                         <img src="../assets/img/logo-despensa.png" alt="" class="icone-modulo"
                                             width="72" height="48">
                                         <span class="conteudo-cartao"><span class="nome-modulo">Despensa</span><span
-                                                class="texto-modulo">Controle estoque e validade.</span></span>
+                                                class="texto-modulo">Controle estoque e validade.</span><span class="preco-modulo" data-price-monthly="R$ 7,90/mês" data-price-annual="R$ 79/ano">R$ 7,90/mês</span></span>
                                         <span class="estado-selecao" aria-hidden="true">Selecionar</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="cartao-modulo cartao-pets" for="modulo-pets">
                                         <input class="seletor-modulo" type="checkbox" id="modulo-pets" name="modulo"
-                                            value="pets">
+                                            value="pets" data-monthly="9.90" data-annual="99">
                                         <img src="../assets/img/logo-pets.png" alt="" class="icone-modulo" width="72"
                                             height="48">
                                         <span class="conteudo-cartao"><span class="nome-modulo">Pets</span><span
-                                                class="texto-modulo">Cuide da rotina dos seus pets.</span></span>
+                                                class="texto-modulo">Cuide da rotina dos seus pets.</span><span class="preco-modulo" data-price-monthly="R$ 9,90/mês" data-price-annual="R$ 99/ano">R$ 9,90/mês</span></span>
                                         <span class="estado-selecao" aria-hidden="true">Selecionar</span>
                                     </label>
                                 </li>
                                 <li>
                                     <label class="cartao-modulo cartao-medicamentos" for="modulo-medicamentos">
                                         <input class="seletor-modulo" type="checkbox" id="modulo-medicamentos"
-                                            name="modulo" value="medicamentos">
+                                            name="modulo" value="medicamentos" data-monthly="9.90" data-annual="99">
                                         <img src="../assets/img/logo-medicamentos.png" alt="" class="icone-modulo"
                                             width="72" height="48">
                                         <span class="conteudo-cartao"><span class="nome-modulo">Medicamentos</span><span
-                                                class="texto-modulo">Controle horários e doses.</span></span>
+                                                class="texto-modulo">Controle horários e doses.</span><span class="preco-modulo" data-price-monthly="R$ 9,90/mês" data-price-annual="R$ 99/ano">R$ 9,90/mês</span></span>
                                         <span class="estado-selecao" aria-hidden="true">Selecionar</span>
                                     </label>
                                 </li>
@@ -120,15 +123,12 @@
                         <section class="resumo-escolha" aria-labelledby="titulo-resumo">
                             <div>
                                 <h2 id="titulo-resumo">Sua seleção</h2>
-                                <p>Os valores e condições serão exibidos aqui quando estiverem configurados.</p>
+                                <p id="texto-resumo">Selecione um ou mais módulos para ver o valor. Com os quatro, o pacote sai por R$ 29,90/mês.</p>
                             </div>
-                            <p class="valor-configuravel"><span class="sr-only">Preço: </span><span
-                                    aria-label="Preço a definir">A definir</span></p>
-                            <button class="botao-teste" type="submit">Continuar</button>
+                            <p class="valor-configuravel"><span class="sr-only">Preço: </span><span id="valor-selecao" aria-live="polite">R$ 0,00</span></p>
+                            <button class="botao-teste" id="continuar-compra" type="submit">Criar conta grátis</button>
                         </section>
                     </form>
-                    <p class="nota-planos">Preços, período de cobrança e condições de acesso serão informados antes da
-                        confirmação.</p>
                 </div>
             </section>
         </main>
@@ -151,7 +151,7 @@
         </footer>
     </div>
     <script src="../../shared/services/theme.js"></script>
-    <!-- Opcional: conectar JS de seleção/resumo quando o fluxo e os dados forem definidos. -->
+    <script type="module" src="js/compra.js"></script>
 
 
 </body>

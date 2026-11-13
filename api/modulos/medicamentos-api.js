@@ -25,6 +25,7 @@ import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
+import { usuarioTemAcesso } from '../../server/repositories/modulos.js';
 
 const TIPOS_USO = ['continuo', 'temporario', 'eventual'];
 const FREQUENCIAS = ['diario', 'especifico', 'intervalo'];
@@ -135,6 +136,9 @@ export default async function handler(req, res) {
     const usuarioId = usuarioDaSessao(req);
     if (!usuarioId) {
       return res.status(401).json({ erro: 'Entre na sua conta para continuar.' });
+    }
+    if (!(await usuarioTemAcesso(usuarioId, 'medicamentos'))) {
+      return res.status(403).json({ erro: 'O módulo Medicamentos não está ativo para esta conta.' });
     }
 
     if (req.method === 'GET') {
