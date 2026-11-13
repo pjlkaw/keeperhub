@@ -107,6 +107,7 @@ SELETOR DE PET E ESTADO DA ROTINA
 .rotina-diaria__hoje,
 .higiene-bem-estar,
 .rotina-alimentar,
+.lazer,
 .anotacoes-comportamento {
   margin: 22px 16px 0;
   padding: 20px;
@@ -332,3 +333,63 @@ ANOTAÇÕES DE COMPORTAMENTO
 .linha-tempo-rotina__item--pendente .icone { color: var(--text-muted); font-size: 18px; }
 .cartao-higiene > .icone { display: grid; place-items: center; color: var(--pets-vaccine); font-size: 20px; line-height: 1; }
 .anotacoes-comportamento__enviar .icone { color: var(--text-muted); font-size: 18px; line-height: 1; }
+
+/* ==================================================
+LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
+================================================== */
+.linha-tempo-rotina__item {
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+}
+
+.linha-tempo-rotina__nome {
+  overflow-wrap: anywhere;
+}
+
+.linha-tempo-rotina__item .etiqueta-status {
+  white-space: nowrap;
+}
+
+.cartao-rotina {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 8px;
+  min-height: 54px;
+  padding: 10px 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--pets-radius-sm);
+}
+
+.cartao-rotina__informacoes {
+  min-width: 0;
+}
+
+.cartao-rotina__titulo {
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.cartao-rotina__resumo,
+.cartao-rotina__observacao {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.cartao-rotina__horario {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ==== KEEPERHUB — MÓDULO PETS / rotina-diaria.css / Lazer em telas maiores ==== */
+@media (min-width: 600px) {
+    .lazer {
+        margin-inline: 24px;
+        padding: 28px;
+    }
+}

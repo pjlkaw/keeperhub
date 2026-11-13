@@ -31,6 +31,7 @@
     </script>
     <script defer src="/shared/services/load-components.js"></script>
     <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css">
     <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 </head>
 <body>
@@ -58,38 +59,46 @@
             <p id="status-rotina-diaria" role="status" hidden></p>
         </section>
 
-        <!-- Atividades do dia (pendente) -->
+        <!-- Atividades do dia -->
         <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading" hidden>
             <h2 id="hoje-heading">Hoje</h2>
 
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
             </ul>
-            <p class="rotina-diaria__vazia" data-vazio="atividades" hidden>Nenhuma atividade diária cadastrada.</p>
-
-            <a href="cadastrar-rotina.html" data-manter-pet class="link-editar">Editar</a>
-        </section>
-
-        <!-- Higiene e bem-estar (sem gravação) -->
-        <section class="card higiene-bem-estar" aria-labelledby="higiene-heading" hidden>
-            <h2 id="higiene-heading">Higiene e Bem-estar</h2>
-
-            <ul></ul>
-            <p class="rotina-diaria__vazia" data-vazio="higiene" hidden>Nenhum cuidado de higiene cadastrado.</p>
-
-            <a href="cadastrar-rotina.html#higiene-heading" data-manter-pet class="link-editar">Editar</a>
+            <p class="rotina-diaria__vazia" data-vazio="atividades" hidden>Nenhuma atividade para hoje.</p>
         </section>
 
         <!-- Refeições salvas -->
         <section class="card rotina-alimentar" aria-labelledby="rotina-alimentar-heading" hidden>
             <header class="rotina-alimentar__cabecalho">
                 <h2 id="rotina-alimentar-heading">Rotina Alimentar</h2>
-                <a href="editar-pet-rotina-alimentar.html?origem=rotina-diaria" class="link-editar" data-manter-pet>Editar refeições</a>
+                <a href="cadastrar-rotina.html?tipo=alimentar" class="link-editar" data-manter-pet>Adicionar rotina</a>
             </header>
             <ul class="rotina-alimentar__lista" id="resumo-refeicoes">
             </ul>
             <p class="rotina-alimentar__mensagem" id="resumo-refeicoes-vazio" hidden>Nenhuma refeição cadastrada.</p>
             <p class="rotina-alimentar__mensagem" id="resumo-refeicoes-mensagem" role="status" hidden></p>
             <p class="rotina-alimentar__observacoes" id="resumo-refeicoes-observacoes" hidden></p>
+        </section>
+
+        <!-- Higiene e bem-estar -->
+        <section class="card higiene-bem-estar" aria-labelledby="higiene-heading" hidden>
+            <h2 id="higiene-heading">Higiene e Bem-estar</h2>
+
+            <ul></ul>
+            <p class="rotina-diaria__vazia" data-vazio="higiene" hidden>Nenhum cuidado de higiene cadastrado.</p>
+
+            <a href="cadastrar-rotina.html?tipo=higiene" data-manter-pet class="link-editar">Adicionar rotina</a>
+        </section>
+
+        <!-- Lazer -->
+        <section class="card lazer" aria-labelledby="lazer-heading" hidden>
+            <header class="rotina-alimentar__cabecalho">
+                <h2 id="lazer-heading">Lazer</h2>
+                <a href="cadastrar-rotina.html?tipo=lazer" class="link-editar" data-manter-pet>Adicionar rotina</a>
+            </header>
+            <ul class="rotina-alimentar__lista"></ul>
+            <p class="rotina-diaria__vazia" data-vazio="lazer" hidden>Nenhuma atividade de lazer cadastrada.</p>
         </section>
 
         <!-- Anotações (sem gravação) -->
@@ -114,16 +123,6 @@
     </main>
 
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar rotina" inert></section>
-
-    <!-- Modelo do resumo da refeição -->
-    <template id="modelo-refeicao-resumo">
-        <li>
-            <article class="card cartao-refeicao">
-                <h3 class="cartao-refeicao__titulo"></h3>
-                <time class="cartao-refeicao__horario"></time>
-            </article>
-        </li>
-    </template>
 
     <!-- Scripts -->
     <script type="module" src="../js/rotina-diaria.js"></script>

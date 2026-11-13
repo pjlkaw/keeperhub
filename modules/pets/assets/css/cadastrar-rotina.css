@@ -1,7 +1,7 @@
 /* ==================================================
 KEEPERHUB — MÓDULO PETS
 Arquivo: cadastrar-rotina.css
-Estilos do formulário de cadastro de rotina alimentar.
+Estilos do formulário único de rotina (higiene, alimentar e lazer).
 Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
 Usado por: cadastrar-rotina.html
 ================================================== */
@@ -9,8 +9,7 @@ Usado por: cadastrar-rotina.html
 @import url("./essentials/variables.css");
 @import url("./essentials/components.css");
 
-h1,
-h2 {
+h1 {
   color: var(--text-color);
   font-family: inherit;
 }
@@ -32,141 +31,108 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   min-height: 44px;
 }
 
-input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus {
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):focus,
+textarea:focus {
   box-shadow: 0 0 0 2px var(--pets-primary-soft);
 }
 
-/* Tela de cadastro das atividades e acesso à rotina alimentar. */
-
 /* ==================================================
-ESTRUTURA DA ROTINA
+ESTRUTURA DO FORMULÁRIO
 ================================================== */
 .adicionar-rotina {
-  width: min(100%, 720px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding-bottom: 40px;
+  width: min(100%, 600px);
+  min-height: 100svh;
+  margin-inline: auto;
+  padding-bottom: 24px;
 }
 
-.adicionar-rotina__alimentacao,
-.adicionar-rotina__higiene {
-  margin: 22px 16px 0;
-  padding: 20px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-md);
+.tipo-rotina {
+  margin: 16px;
 }
 
-.adicionar-rotina__alimentacao h2,
-.adicionar-rotina__higiene h2 {
-  color: var(--text-color);
-  font-size: 18px;
-  font-weight: 500;
+.tipo-rotina select:focus {
+  border-color: var(--tool-pets);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tool-pets) 20%, transparent);
 }
 
-.adicionar-rotina__alimentacao p {
-  margin-top: 8px;
-  color: var(--text-muted);
-  font-size: 13px;
-  line-height: 1.6;
+.formulario-adicionar-rotina {
+  padding: 24px 16px;
 }
 
-.acesso-alimentacao {
-  display: grid;
-  gap: 8px;
-  margin-top: 18px;
+.formulario-adicionar-rotina .campo-formulario {
+  margin-bottom: 24px;
 }
 
-.acesso-alimentacao .botao-principal,
-.acesso-alimentacao .botao-texto {
-  width: 100%;
-  text-align: center;
-}
-
-.acesso-alimentacao .botao-texto {
-  min-height: 44px;
-  padding: 12px 0;
-}
-
-.adicionar-rotina__higiene .formulario-higiene {
-  margin-top: 18px;
-}
-
-/* Seleção das atividades e frequências, com as cores do tema compartilhado. */
-/* ==================================================
-OPÇÕES DE ATIVIDADES E FREQUÊNCIAS
-================================================== */
-.adicionar-rotina :is(.opcoes-atividade, .opcoes-frequencia) {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-  padding: 4px;
-  list-style: none;
-}
-
-.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao) {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  margin: 0;
-  padding: 12px;
-  color: var(--text-color);
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-sm);
-  cursor: pointer;
-  transition: background-color var(--pets-transition), border-color var(--pets-transition), box-shadow var(--pets-transition), transform var(--pets-transition);
-}
-
-.adicionar-rotina input[type='radio'] {
-  box-sizing: border-box;
-  align-self: center;
-  appearance: none;
-  position: relative;
-  flex: 0 0 20px;
-  width: 20px;
-  height: 20px;
-  min-height: 0;
+/* Cada tipo é um grupo sem borda; só o tipo ativo aparece. */
+.grupo-tipo-rotina {
+  min-width: 0;
   margin: 0;
   padding: 0;
+  border: 0;
+}
+
+/* Dados e campos nunca ultrapassam a largura do formulário (iPhone). */
+.formulario-adicionar-rotina input:not([type="checkbox"]):not([type="radio"]),
+.formulario-adicionar-rotina textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.formulario-adicionar-rotina textarea {
+  min-height: 112px;
+}
+
+.formulario-adicionar-rotina [hidden] {
+  display: none !important;
+}
+
+/* Mensagem de erro de cada campo */
+.erro-campo {
+  margin: 8px 0 0;
+}
+
+.formulario-adicionar-rotina__enviar {
+  width: 100%;
+  font-size: 0.875rem;
+}
+
+.adicionar-rotina .aviso-integracao {
+  margin-top: 16px;
+  font-size: 0.75rem;
+}
+
+/* ==================================================
+SELETOR DE PET (mesmo padrão do formulário de medicamento)
+================================================== */
+.seletor-pet-rotina-cadastro {
   display: grid;
-  place-items: center;
-  border: 2px solid var(--text-muted);
-  border-radius: 50%;
+  gap: 8px;
+  margin: 16px;
+}
+
+.seletor-pet-rotina-cadastro label {
+  color: var(--text-color);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seletor-pet-rotina-cadastro select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--text-color);
   background: var(--card-bg);
-  cursor: pointer;
-  transition: border-color var(--pets-transition);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 }
 
-.adicionar-rotina input[type='radio']::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--tool-pets);
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 180ms ease-out;
+.seletor-pet-rotina-cadastro [role="status"][data-estado="erro"],
+.seletor-pet-rotina-cadastro [role="alert"][data-estado="erro"] {
+  color: var(--pets-status-alerta);
 }
 
-.adicionar-rotina input[type='radio']:checked {
-  border-color: var(--tool-pets);
-}
-
-.adicionar-rotina input[type='radio']:checked::before {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:checked) {
-  border-color: var(--tool-pets);
-  background: var(--pets-primary-soft);
-  box-shadow: 0 4px 12px var(--pets-primary-shadow);
-}
-
-.adicionar-rotina :is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):has(input:focus-visible) {
-  outline: 2px solid var(--tool-pets);
-  outline-offset: 2px;
+.seletor-pet-rotina-cadastro [hidden] {
+  display: none !important;
 }

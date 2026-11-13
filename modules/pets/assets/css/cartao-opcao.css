@@ -1,0 +1,190 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: cartao-opcao.css
+Cartão de opção (radio/checkbox), lista de opções e chips de seleção.
+Depende de: shared/styles/variables.css, shared/styles/components.css (.card)
+            e modules/pets/assets/css/essentials/variables.css
+Usado por: Tipo de Uso do medicamento, seleção de pets e formulário de rotina
+Carregar antes de essentials/responsive.css.
+================================================== */
+
+/* ==================================================
+LISTA DE OPÇÕES
+================================================== */
+.lista-opcoes {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ==================================================
+CARTÃO DE OPÇÃO
+================================================== */
+/* Classe repetida: vence `.campo-formulario label` (essentials/components.css) sem depender da ordem. */
+.cartao-opcao.cartao-opcao {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  align-content: center;
+  gap: 4px 16px;
+  min-height: 72px;
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.cartao-opcao.cartao-opcao--compacto {
+  min-height: 56px;
+}
+
+.cartao-opcao__titulo {
+  grid-column: 2;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.cartao-opcao__descricao {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Marcador azul (radio e checkbox) */
+.cartao-opcao input[type="radio"],
+.cartao-opcao input[type="checkbox"] {
+  box-sizing: border-box;
+  appearance: none;
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--text-muted);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color var(--pets-transition);
+}
+
+.cartao-opcao:has(.cartao-opcao__descricao) input[type="radio"],
+.cartao-opcao:has(.cartao-opcao__descricao) input[type="checkbox"] {
+  grid-row: 1 / span 2;
+}
+
+.cartao-opcao input[type="radio"]::before,
+.cartao-opcao input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--tool-pets);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform var(--pets-transition);
+}
+
+.cartao-opcao input[type="radio"]:checked,
+.cartao-opcao input[type="checkbox"]:checked {
+  border-color: var(--tool-pets);
+}
+
+.cartao-opcao input[type="radio"]:checked::before,
+.cartao-opcao input[type="checkbox"]:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Selecionado (seletor reforçado para vencer o hover do .card--interactive nos dois temas) */
+html .cartao-opcao.cartao-opcao:has(input:checked) {
+  background: color-mix(in srgb, var(--tool-pets) 10%, var(--card-bg));
+  border-color: var(--tool-pets);
+}
+
+.cartao-opcao:has(input:focus-visible) {
+  outline: 2px solid var(--tool-pets);
+  outline-offset: 2px;
+}
+
+/* Neutraliza o hover herdado de essentials/responsive.css (usa --pets-primary) */
+@media (hover: hover) and (pointer: fine) {
+  .adicionar-rotina .cartao-opcao:is(.opcoes-atividade__opcao, .opcoes-frequencia__opcao):hover {
+    border-color: var(--tool-pets);
+  }
+}
+
+/* ==================================================
+CHIPS DE OPÇÃO (ex.: dias da semana)
+================================================== */
+.chips-opcao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Classe repetida: vence `.campo-formulario label` (essentials/components.css). */
+.chips-opcao__item.chips-opcao__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  min-width: 48px;
+  margin: 0;
+  padding: 8px 16px;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--pets-transition), border-color var(--pets-transition);
+}
+
+.chips-opcao__item input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chips-opcao .chips-opcao__item.chips-opcao__item:has(input:checked) {
+  background: var(--pets-primary-soft);
+  border-color: var(--tool-pets);
+}
+
+.chips-opcao .chips-opcao__item:has(input:focus-visible) {
+  outline: 2px solid var(--tool-pets);
+  outline-offset: 2px;
+}
+
+/* ==================================================
+MOVIMENTO REDUZIDO
+================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .cartao-opcao.cartao-opcao,
+  .cartao-opcao input[type="radio"],
+  .cartao-opcao input[type="checkbox"],
+  .cartao-opcao input[type="radio"]::before,
+  .cartao-opcao input[type="checkbox"]::before,
+  .chips-opcao__item.chips-opcao__item {
+    transition: none;
+  }
+}

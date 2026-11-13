@@ -33,6 +33,7 @@
     <script src="../js/cadastrar-registro.js"></script>
     <script defer src="/shared/services/load-components.js"></script>
     <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css">
     <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 </head>
 <body>
@@ -63,26 +64,26 @@
 
                 <fieldset class="campo-formulario">
                     <legend>Tipo de Uso</legend>
-                    <ul class="opcoes-tipo-uso">
+                    <ul class="lista-opcoes">
                         <li>
-                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                            <label class="card card--interactive cartao-opcao">
                                 <input type="radio" name="tipo_uso" value="continuo">
-                                <span class="opcoes-tipo-uso__titulo">Contínuo</span>
-                                <span class="opcoes-tipo-uso__descricao">Uso diário, sem data para parar</span>
+                                <span class="cartao-opcao__titulo">Contínuo</span>
+                                <span class="cartao-opcao__descricao">Uso diário, sem data para parar</span>
                             </label>
                         </li>
                         <li>
-                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                            <label class="card card--interactive cartao-opcao">
                                 <input type="radio" name="tipo_uso" value="temporario">
-                                <span class="opcoes-tipo-uso__titulo">Temporário</span>
-                                <span class="opcoes-tipo-uso__descricao">Tratamento com data para acabar</span>
+                                <span class="cartao-opcao__titulo">Temporário</span>
+                                <span class="cartao-opcao__descricao">Tratamento com data para acabar</span>
                             </label>
                         </li>
                         <li>
-                            <label class="card card--interactive opcoes-tipo-uso__opcao">
+                            <label class="card card--interactive cartao-opcao">
                                 <input type="radio" name="tipo_uso" value="eventual">
-                                <span class="opcoes-tipo-uso__titulo">Eventual</span>
-                                <span class="opcoes-tipo-uso__descricao">Só quando necessário</span>
+                                <span class="cartao-opcao__titulo">Eventual</span>
+                                <span class="cartao-opcao__descricao">Só quando necessário</span>
                             </label>
                         </li>
                     </ul>

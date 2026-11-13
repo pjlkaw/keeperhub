@@ -2,7 +2,7 @@
 KEEPERHUB — MÓDULO PETS
 Arquivo: selecao-pets.css
 Estilos do seletor de pets e das opções de seleção múltipla.
-Depende de: shared/styles/variables.css
+Depende de: shared/styles/variables.css e cartao-opcao.css (itens da lista)
 Usado por: formulários com seleção de pets
 ================================================== */
 
@@ -51,43 +51,7 @@ SELEÇÃO MÚLTIPLA DE PETS
   margin: -3px;
 }
 
-.selecao-pets .selecao-pets__lista label {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  align-items: center;
-  gap: 16px;
-  min-height: 72px;
-  margin: 0;
-  padding: 12px 16px;
-  color: var(--text-color);
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  font-size: 0.875rem;
+/* Aparência dos itens vem de cartao-opcao.css (classe .cartao-opcao aplicada em selecao-pets.js). */
+.selecao-pets__lista .cartao-opcao {
   font-weight: 700;
-  overflow-wrap: anywhere;
-  cursor: pointer;
-}
-
-.selecao-pets__lista input[type="checkbox"] {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--text-muted);
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.selecao-pets__lista input[type="checkbox"]:checked {
-  background: radial-gradient(circle, var(--pill-bg) 4px, var(--pill-text) 5px);
-}
-
-.selecao-pets .selecao-pets__lista label:has(input:checked) {
-  background: color-mix(in srgb, var(--tool-pets) 10%, var(--card-bg));
-  border-color: var(--tool-pets);
-}
-
-.selecao-pets .selecao-pets__lista label:has(input:focus-visible) {
-  outline: 2px solid var(--tool-pets);
-  outline-offset: 2px;
 }

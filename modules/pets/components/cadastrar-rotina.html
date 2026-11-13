@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keeper Hub — Pets — Adicionar Rotina</title>
+    <title>Adicionar rotina • Pets • KeeperHub</title>
     <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
@@ -15,132 +15,327 @@
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/cadastrar-rotina.css">
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css">
     <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 
-    <!-- Configuração do módulo -->
+    <!-- Configuração do cabeçalho compartilhado -->
     <script>
       window.keeperhubModuleConfig = {
         module: 'pets',
         title: 'Adicionar Rotina',
-        subtitle: 'Organize os cuidados diários do seu pet',
+        subtitle: 'Organize os cuidados diários do seu pet.',
         backUrl: '/modules/pets/components/rotina-diaria.html',
         notificationsModule: 'pets'
       };
     </script>
-    <script src="/shared/services/load-components.js"></script>
+
+    <!-- Lógica da página (módulo ES, executa antes do load-components.js) -->
+    <script type="module" src="../js/cadastrar-rotina.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
 </head>
 <body>
-        <div class="app-page-wrapper">
-            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
-            <div class="app-container">
 
     <main class="adicionar-rotina">
 
         <!-- Navegação entre módulos -->
-        
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
-        <!-- Acesso à rotina alimentar -->
-        <section class="adicionar-rotina__alimentacao" aria-labelledby="alimentacao-heading">
-            <h2 id="alimentacao-heading">Alimentação</h2>
-            <p>Organize os nomes e horários das refeições na rotina alimentar do pet.</p>
-            <div class="acesso-alimentacao">
-                <a href="editar-pet-rotina-alimentar.html?origem=cadastrar-rotina&amp;acao=adicionar" class="botao-principal" data-manter-pet>Adicionar refeição</a>
-                <a href="editar-pet-rotina-alimentar.html?origem=cadastrar-rotina" class="botao-texto" data-manter-pet>Ver e editar refeições</a>
-            </div>
-        </section>
+        <div class="campo-formulario tipo-rotina">
+            <label for="tipo-rotina">Tipo de rotina</label>
+            <select id="tipo-rotina">
+                <option value="higiene">Higiene</option>
+                <option value="alimentar">Alimentar</option>
+                <option value="lazer">Lazer</option>
+            </select>
+        </div>
 
-        <!-- Higiene e bem-estar (sem gravação) -->
-        <section class="adicionar-rotina__higiene" aria-labelledby="higiene-heading">
-            <h2 id="higiene-heading">Higiene e Bem-estar</h2>
+        <!-- O seletor de pet é inserido aqui por cadastrar-rotina.js -->
+        <form class="formulario-adicionar-rotina" novalidate>
 
-            <form class="formulario-higiene">
+            <fieldset class="grupo-tipo-rotina" data-tipo="higiene">
+                <legend class="somente-leitor-tela">Rotina de higiene</legend>
 
-                <fieldset class="campo-formulario">
+                <fieldset class="campo-formulario" data-campo="atividade" aria-describedby="erro-higiene-atividade">
                     <legend>Atividade</legend>
-                    <ul class="opcoes-atividade">
+                    <ul class="lista-opcoes">
                         <li>
-                            <label class="opcoes-atividade__opcao">
-                                <input type="radio" name="atividade" value="banho">
-                                Banho
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_atividade" value="banho">
+                                <span class="cartao-opcao__titulo">Banho</span>
                             </label>
                         </li>
                         <li>
-                            <label class="opcoes-atividade__opcao">
-                                <input type="radio" name="atividade" value="banho_tosa">
-                                Banho e Tosa
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_atividade" value="banho_tosa">
+                                <span class="cartao-opcao__titulo">Banho e Tosa</span>
                             </label>
                         </li>
                         <li>
-                            <label class="opcoes-atividade__opcao">
-                                <input type="radio" name="atividade" value="corte_unha">
-                                Corte de Unha
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_atividade" value="corte_unha">
+                                <span class="cartao-opcao__titulo">Corte de Unha</span>
                             </label>
                         </li>
                         <li>
-                            <label class="opcoes-atividade__opcao">
-                                <input type="radio" name="atividade" value="escovacao">
-                                Escovação
-                            </label>
-                        </li>
-                        <li>
-                            <label class="opcoes-atividade__opcao">
-                                <input type="radio" name="atividade" value="passeio_matinal">
-                                Passeio Matinal
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_atividade" value="escovacao">
+                                <span class="cartao-opcao__titulo">Escovação</span>
                             </label>
                         </li>
                     </ul>
+                    <p id="erro-higiene-atividade" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </fieldset>
 
-                <fieldset class="campo-formulario">
+                <fieldset class="campo-formulario" data-campo="frequencia" aria-describedby="erro-higiene-frequencia">
                     <legend>Frequência</legend>
-                    <ul class="opcoes-frequencia">
+                    <ul class="lista-opcoes">
                         <li>
-                            <label class="opcoes-frequencia__opcao">
-                                <input type="radio" name="frequencia_higiene" value="semanal">
-                                Semanal
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_frequencia" value="semanal">
+                                <span class="cartao-opcao__titulo">Semanal (7 dias)</span>
                             </label>
                         </li>
                         <li>
-                            <label class="opcoes-frequencia__opcao">
-                                <input type="radio" name="frequencia_higiene" value="quinzenal">
-                                A cada 15 dias
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_frequencia" value="quinzenal">
+                                <span class="cartao-opcao__titulo">A cada 15 dias</span>
                             </label>
                         </li>
                         <li>
-                            <label class="opcoes-frequencia__opcao">
-                                <input type="radio" name="frequencia_higiene" value="mensal">
-                                Mensal
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="higiene_frequencia" value="mensal">
+                                <span class="cartao-opcao__titulo">Mensal</span>
                             </label>
                         </li>
                     </ul>
+                    <p id="erro-higiene-frequencia" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </fieldset>
 
-                <div class="linha-formulario">
-                    <div class="campo-formulario">
-                        <label for="data-atividade">Data</label>
-                        <input type="date" id="data-atividade" name="data_atividade">
-                    </div>
-
-                    <div class="campo-formulario">
-                        <label for="horario-atividade">Horário</label>
-                        <input type="time" id="horario-atividade" name="horario_atividade">
-                    </div>
+                <div class="campo-formulario" data-campo="data">
+                    <label for="higiene-data">Data da primeira ocorrência</label>
+                    <input type="date" id="higiene-data" name="higiene-data" aria-describedby="erro-higiene-data">
+                    <p id="erro-higiene-data" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
 
-                <button type="submit" class="botao-principal">
-                    Adicionar Atividade
-                </button>
+                <div class="campo-formulario" data-campo="horario">
+                    <label for="higiene-horario">Horário</label>
+                    <input type="time" id="higiene-horario" name="higiene-horario" aria-describedby="erro-higiene-horario">
+                    <p id="erro-higiene-horario" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
 
-            </form>
-        </section>
+                <div class="campo-formulario" data-campo="observacao">
+                    <label for="higiene-observacao">Observação (opcional)</label>
+                    <textarea id="higiene-observacao" name="higiene_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                </div>
+            </fieldset>
 
+            <fieldset class="grupo-tipo-rotina" data-tipo="alimentar" hidden inert>
+                <legend class="somente-leitor-tela">Rotina alimentar</legend>
+
+                <fieldset class="campo-formulario" data-campo="refeicao" aria-describedby="erro-alimentar-refeicao">
+                    <legend>Refeição</legend>
+                    <ul class="lista-opcoes">
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="alimentar_refeicao" value="cafe-da-manha">
+                                <span class="cartao-opcao__titulo">Café da manhã</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="alimentar_refeicao" value="almoco">
+                                <span class="cartao-opcao__titulo">Almoço</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="alimentar_refeicao" value="cafe-da-tarde">
+                                <span class="cartao-opcao__titulo">Café da tarde</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="alimentar_refeicao" value="jantar">
+                                <span class="cartao-opcao__titulo">Jantar</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="alimentar_refeicao" value="outro">
+                                <span class="cartao-opcao__titulo">Outro</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <p id="erro-alimentar-refeicao" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </fieldset>
+
+                <div class="campo-formulario" data-campo="refeicaoOutra" hidden>
+                    <label for="alimentar-refeicao-outra">Qual refeição?</label>
+                    <input type="text" id="alimentar-refeicao-outra" name="alimentar-refeicao-outra" placeholder="Ex: Lanche da noite" aria-describedby="erro-alimentar-refeicaoOutra">
+                    <p id="erro-alimentar-refeicaoOutra" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <div class="campo-formulario" data-campo="horario">
+                    <label for="alimentar-horario">Horário</label>
+                    <input type="time" id="alimentar-horario" name="alimentar-horario" aria-describedby="erro-alimentar-horario">
+                    <p id="erro-alimentar-horario" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <div class="campo-formulario" data-campo="observacao">
+                    <label for="alimentar-observacao">Observação (opcional)</label>
+                    <textarea id="alimentar-observacao" name="alimentar_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                </div>
+            </fieldset>
+
+            <fieldset class="grupo-tipo-rotina" data-tipo="lazer" hidden inert>
+                <legend class="somente-leitor-tela">Rotina de lazer</legend>
+
+                <fieldset class="campo-formulario" data-campo="atividade" aria-describedby="erro-lazer-atividade">
+                    <legend>Atividade</legend>
+                    <ul class="lista-opcoes">
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="passeio">
+                                <span class="cartao-opcao__titulo">Passeio</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="brincadeira">
+                                <span class="cartao-opcao__titulo">Brincadeira</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="parque">
+                                <span class="cartao-opcao__titulo">Parque ou praça</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="creche">
+                                <span class="cartao-opcao__titulo">Creche / Day care</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="adestramento">
+                                <span class="cartao-opcao__titulo">Adestramento</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_atividade" value="outro">
+                                <span class="cartao-opcao__titulo">Outro</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <p id="erro-lazer-atividade" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </fieldset>
+
+                <div class="campo-formulario" data-campo="atividadeOutra" hidden>
+                    <label for="lazer-atividade-outra">Qual atividade?</label>
+                    <input type="text" id="lazer-atividade-outra" name="lazer-atividade-outra" placeholder="Ex: Natação" aria-describedby="erro-lazer-atividadeOutra">
+                    <p id="erro-lazer-atividadeOutra" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <fieldset class="campo-formulario" data-campo="frequencia" aria-describedby="erro-lazer-frequencia">
+                    <legend>Frequência</legend>
+                    <ul class="lista-opcoes">
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_frequencia" value="diaria">
+                                <span class="cartao-opcao__titulo">Todo dia</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_frequencia" value="dias_semana">
+                                <span class="cartao-opcao__titulo">Dias da semana</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                <input type="radio" name="lazer_frequencia" value="uma_vez">
+                                <span class="cartao-opcao__titulo">Uma vez</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <p id="erro-lazer-frequencia" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </fieldset>
+
+                <fieldset class="campo-formulario" data-campo="diasSemana" aria-describedby="erro-lazer-diasSemana" hidden>
+                    <legend>Dias da semana</legend>
+                    <div class="chips-opcao">
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="1">
+                            <span>Seg</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="2">
+                            <span>Ter</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="3">
+                            <span>Qua</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="4">
+                            <span>Qui</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="5">
+                            <span>Sex</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="6">
+                            <span>Sáb</span>
+                        </label>
+                        <label class="chips-opcao__item">
+                            <input type="checkbox" name="lazer_dias" value="0">
+                            <span>Dom</span>
+                        </label>
+                    </div>
+                    <p id="erro-lazer-diasSemana" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </fieldset>
+
+                <div class="campo-formulario" data-campo="data" hidden>
+                    <label for="lazer-data">Data</label>
+                    <input type="date" id="lazer-data" name="lazer-data" aria-describedby="erro-lazer-data">
+                    <p id="erro-lazer-data" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <div class="campo-formulario" data-campo="horario">
+                    <label for="lazer-horario">Horário</label>
+                    <input type="time" id="lazer-horario" name="lazer-horario" aria-describedby="erro-lazer-horario">
+                    <p id="erro-lazer-horario" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <div class="campo-formulario" data-campo="duracaoMin">
+                    <label for="lazer-duracao">Duração em minutos (opcional)</label>
+                    <input type="number" id="lazer-duracao" name="lazer_duracao" min="1" step="1" inputmode="numeric" placeholder="Ex: 30" aria-describedby="erro-lazer-duracaoMin">
+                    <p id="erro-lazer-duracaoMin" class="erro-campo" role="alert" data-estado="erro" hidden></p>
+                </div>
+
+                <div class="campo-formulario" data-campo="observacao">
+                    <label for="lazer-observacao">Observação (opcional)</label>
+                    <textarea id="lazer-observacao" name="lazer_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="botao-principal formulario-adicionar-rotina__enviar" aria-describedby="aviso-integracao-rotina" disabled>
+                Salvar rotina
+            </button>
+
+            <p id="aviso-integracao-rotina" class="aviso-integracao" role="status" aria-live="polite" data-estado="informativo">A rotina será salva neste navegador.</p>
+
+        </form>
     </main>
 
-    <!-- Tema -->
     <script src="/shared/services/theme.js"></script>
-
-    </body>
+</body>
 </html>
