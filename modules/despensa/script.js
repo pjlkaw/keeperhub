@@ -1,11 +1,13 @@
 import { atualizarNoContent } from "/shared/services/no-content.js";
 import { confirmarAcao } from "./js/confirmar.js";
+import { alertShared } from "/shared/services/interface.js";
+import { listarProdutos, salvarProduto, excluirProduto } from "./js/api.js";
 
 /* =====================================================
    KEEPERHUB — DESPENSA / INDEX.JS
 
    Responsável por:
-   - Ler e salvar produtos no localStorage;
+   - Ler e salvar produtos no banco (via js/api.js);
    - Cadastrar produtos;
    - Editar produtos;
    - Excluir produtos;
@@ -14,12 +16,6 @@ import { confirmarAcao } from "./js/confirmar.js";
    - Compartilhar os dados com a página Vencimentos.
 ===================================================== */
 
-/* CHAVE DE ARMAZENAMENTO
-
-   IMPORTANTE:
-   A página Vencimentos utiliza exatamente a mesma chave.
-*/
-const STORAGE_KEY = "keeperHubProducts";
 
 /* ELEMENTOS HTML */
 const productList = document.getElementById("productList");
@@ -41,49 +37,41 @@ const categoryButtons = document.querySelectorAll("[data-category]");
 const productCounter = document.getElementById("contador-produtos");
 
 /* VARIÁVEIS DE CONTROLE */
-let products = loadProducts();
+let products = [];
 let selectedCategory = "Todos";
 let editingId = null;
 
 
 /* =====================================================
    CARREGAR PRODUTOS
-   Recupera os produtos que já estão salvos no navegador.
+   Busca os produtos do usuário no banco. A API devolve
+   { id, nome, categoria, quantidade, validade } e a tela
+   usa { id, name, category, quantity, expiry }.
 ===================================================== */
 
-function loadProducts() {
+async function carregarProdutos() {
 
     try {
 
-        const saved = JSON.parse(
-            localStorage.getItem(STORAGE_KEY) || "[]"
-        );
+        const doBanco = await listarProdutos();
 
-        return Array.isArray(saved) ? saved : [];
+        products = doBanco.map(produto => ({
+            id: produto.id,
+            name: produto.nome,
+            category: produto.categoria,
+            quantity: produto.quantidade,
+            expiry: produto.validade
+        }));
 
     } catch (error) {
 
         console.error("Erro ao carregar produtos:", error);
 
-        return [];
+        alertShared(error.message);
 
     }
 
-}
-
-
-/* =====================================================
-   SALVAR PRODUTOS
-   Salva todos os produtos no localStorage.
-   A página Vencimentos também consulta esse armazenamento.
-===================================================== */
-
-function saveProducts() {
-
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(products)
-    );
+    renderProducts();
 
 }
 
@@ -159,7 +147,7 @@ cancelButton.addEventListener(
    A página Vencimentos consegue ler esses mesmos dados.
 ===================================================== */
 
-productForm.addEventListener("submit", function (event) {
+productForm.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
@@ -188,65 +176,37 @@ productForm.addEventListener("submit", function (event) {
     }
 
 
-    /* SE ESTIVER EDITANDO UM PRODUTO */
+    /* SALVA NO BANCO (cadastro ou edição) */
 
-    if (editingId !== null) {
+    const botaoSalvar = productForm.querySelector('[type="submit"]');
 
-        const product = products.find(
-            item => item.id === editingId
+    if (botaoSalvar) botaoSalvar.disabled = true;
+
+    try {
+
+        await salvarProduto(
+            {
+                nome: name,
+                categoria: category,
+                quantidade: quantity,
+                validade: expiry
+            },
+            editingId
         );
 
-        if (product) {
+        closeProductModal();
 
-            product.name = name;
+        await carregarProdutos();
 
-            product.category = category;
+    } catch (error) {
 
-            product.quantity = quantity;
+        alertShared(error.message);
 
-            product.expiry = expiry;
+    } finally {
 
-        }
-
-    }
-
-
-    /* SE ESTIVER CADASTRANDO UM NOVO PRODUTO */
-
-    else {
-
-        const newProduct = {
-
-            id: (window.crypto && crypto.randomUUID)
-                ? crypto.randomUUID()
-                : String(Date.now()),
-
-            name: name,
-
-            category: category,
-
-            quantity: quantity,
-
-            expiry: expiry
-
-        };
-
-        products.push(newProduct);
+        if (botaoSalvar) botaoSalvar.disabled = false;
 
     }
-
-
-    /* SALVA OS DADOS COMPARTILHADOS */
-
-    saveProducts();
-
-    /* Atualiza os cartões da página Produtos */
-
-    renderProducts();
-
-    /* Fecha o formulário */
-
-    closeProductModal();
 
 });
 
@@ -294,13 +254,17 @@ async function deleteProduct(id) {
 
     if (!confirmation) return;
 
-    products = products.filter(
-        item => String(item.id) !== String(id)
-    );
+    try {
 
-    saveProducts();
+        await excluirProduto(id);
 
-    renderProducts();
+        await carregarProdutos();
+
+    } catch (error) {
+
+        alertShared(error.message);
+
+    }
 
 }
 
@@ -369,7 +333,7 @@ function updateProductCounter() {
     if (productCounter) {
 
         productCounter.textContent =
-            `${products.length} produto(s) cadastrado(s)`;
+            products.length === 1 ? "1 item" : `${products.length} itens`;
 
     }
 
@@ -661,7 +625,7 @@ if (clearSearch) {
 
 /* =====================================================
    INICIAR PÁGINA
-   Carrega os produtos salvos assim que a página abre.
+   Carrega os produtos do banco assim que a página abre.
 ===================================================== */
 
-renderProducts();
+carregarProdutos();

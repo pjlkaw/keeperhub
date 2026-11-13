@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Medicamentos — Despensa — KeeperHub</title>
+
+    <!-- Carrega os ícones utilizados na página -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Carrega os estilos compartilhados do projeto -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
+
+    <!-- Carrega os estilos da despensa e da página de medicamentos -->
+    <link rel="stylesheet" href="/modules/despensa/assets/css/layout.css">
+    <link rel="stylesheet" href="/modules/despensa/assets/css/medicamentos.css">
+
+    <!-- Carrega o serviço responsável pelo tema -->
+    <script src="/shared/services/theme.js" defer></script>
+
+    <!-- Define as informações e os caminhos do módulo.
+         O cadastro de medicamentos é feito no módulo Medicamentos. -->
+    <script>
+        window.keeperhubModuleConfig = {
+            module: 'despensa',
+            title: 'Medicamentos',
+            subtitle: 'Estoque e validade dos seus medicamentos',
+            backUrl: '../index.html',
+            notificationsModule: 'despensa',
+            addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
+        };
+    </script>
+
+    <!-- Carrega os componentes compartilhados do projeto -->
+    <script src="/shared/services/load-components.js" defer></script>
+
+    <!-- Controla o estoque dos medicamentos -->
+    <script type="module" src="/modules/despensa/js/medicamentos.js"></script>
+
+</head>
+
+<body class="despensa" data-pagina="medicamentos">
+
+    <!-- Modal de confirmação compartilhado -->
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
+
+    <!-- Botão de adicionar compartilhado (leva ao cadastro em Medicamentos) -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
+
+    <div class="app-page-wrapper">
+
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+
+        <div class="app-container">
+
+            <!-- Exibe mensagens de aviso e confirmação -->
+            <section id="alertFromShared" class="alert" role="status" aria-live="polite"></section>
+
+            <!-- Exibe o cabeçalho da página -->
+            <header class="section-header-section" id="headerSection"></header>
+
+            <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+            <section class="no-content-section" id="no-content-section" aria-label="Nenhum medicamento cadastrado" hidden></section>
+
+            <!-- Agrupa o conteúdo principal da página -->
+            <main class="despensa-conteudo" id="main-content">
+
+                <!-- Explica de onde vêm os medicamentos -->
+                <p class="medicamentos-aviso">
+                    O cadastro é feito no módulo Medicamentos. Aqui você controla o estoque.
+                </p>
+
+                <!-- O JavaScript adiciona os medicamentos e seus lotes -->
+                <section
+                    id="listaMedicamentos"
+                    class="lista-medicamentos"
+                    aria-live="polite">
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <!-- Formulário de repor / dar baixa -->
+    <dialog id="modalEstoque" class="estoque-modal" aria-labelledby="tituloModalEstoque">
+
+        <form id="formEstoque">
+
+            <header class="estoque-modal-header">
+
+                <h2 id="tituloModalEstoque">Repor estoque</h2>
+
+                <button type="button" id="fecharModalEstoque" class="estoque-fechar" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </header>
+
+            <p id="descricaoModalEstoque" class="estoque-modal-descricao"></p>
+
+            <label for="quantidadeEstoque">Quantidade</label>
+            <input id="quantidadeEstoque" type="number" min="0.01" step="0.01" required>
+
+            <!-- Só aparece ao repor -->
+            <div id="campoValidade">
+                <label for="validadeEstoque">Validade (opcional)</label>
+                <input id="validadeEstoque" type="date">
+            </div>
+
+            <footer class="estoque-modal-footer">
+
+                <button type="button" id="cancelarModalEstoque" class="estoque-cancelar">
+                    Cancelar
+                </button>
+
+                <button type="submit" id="salvarModalEstoque" class="estoque-salvar">
+                    Salvar
+                </button>
+
+            </footer>
+
+        </form>
+
+    </dialog>
+
+</body>
+
+</html>
