@@ -7,17 +7,14 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario, salvarModulosUsuario } from '../../../shared/services/usuario.js';
+import { criarUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
-async function realizarCadastro(usuario, selecao) {
+async function realizarCadastro(usuario) {
   try {
     await criarUsuario(usuario);
-    if (selecao.modulos.length) {
-      await salvarModulosUsuario(selecao.modulos, selecao.periodo);
-    }
-    window.location.href = '../home/index.html';
+    window.location.href = '../hub/index.html';
   } catch (erro) {
     console.error('[Cadastro] Falha ao criar conta:', erro);
     alertShared(erro.message || 'Não foi possível criar a conta. Tente novamente.');
@@ -44,11 +41,15 @@ function setupSignupForm() {
   const completionStatus = document.getElementById('signup-completion-status');
   let isSubmitting = false;
   const parametrosCompra = new URLSearchParams(window.location.search);
-  const modulosSelecionados = [...new Set((parametrosCompra.get('modulos') || '').split(',')
-    .map((modulo) => modulo.trim())
+  const modulosSelecionados = [...new Set((parametrosCompra.get('modulos') || '')
+    .split(',')
+    .map((codigo) => codigo.trim())
     .filter(Boolean))];
-  const periodoSelecionado = parametrosCompra.get('periodo') === 'anual' ? 'anual' : 'mensal';
-  const modoCadastro = parametrosCompra.get('modo') === 'teste' ? 'teste' : 'compra';
+  const periodoSelecionado = parametrosCompra.get('periodo') || 'mensal';
+  const modoParametro = parametrosCompra.get('modo');
+  const modoCadastro = ['teste', 'compra'].includes(modoParametro)
+    ? modoParametro
+    : 'cadastro';
 
   const nameError = document.getElementById('name-error');
   const emailError = document.getElementById('email-error');
@@ -285,8 +286,10 @@ function setupSignupForm() {
           numero_usuario: phoneDigits,
           genero_usuario: sexoVal,
           senha_usuario: passVal,
-          modo: modoCadastro
-        }, { modulos: modulosSelecionados, periodo: periodoSelecionado });
+          modo: modoCadastro,
+          modulos: modulosSelecionados,
+          periodo: periodoSelecionado
+        });
       } finally {
         isSubmitting = false;
         if (submitBtn) {

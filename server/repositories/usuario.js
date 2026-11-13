@@ -3,8 +3,8 @@
 
 import db from '../db.js';
 
-export async function buscarUsuario(id) {
-    const [usuarios] = await db.query(
+export async function buscarUsuario(id, executor = db) {
+    const [usuarios] = await executor.query(
         `SELECT id_usuario, nome_usuario, email_usuario, telefone AS numero_usuario,
             genero_usuario, foto_usuario
         FROM usuario WHERE id_usuario = ? LIMIT 1`,
@@ -52,14 +52,14 @@ export async function buscarSenhaUsuario(id) {
     return usuarios[0] ?? null;
 }
 
-export async function criarUsuario(usuario) {
+export async function criarUsuario(usuario, executor = db) {
     const {
         numero_usuario,
         foto_usuario,
         ...dados
     } = usuario;
 
-    const [result] = await db.query('INSERT INTO usuario SET ?', [{
+    const [result] = await executor.query('INSERT INTO usuario SET ?', [{
         ...dados,
         telefone: numero_usuario,
         foto_usuario

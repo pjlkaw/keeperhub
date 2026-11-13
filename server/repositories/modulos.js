@@ -7,12 +7,13 @@ export const MODULOS_VALIDOS = new Set([
   'medicamentos',
 ]);
 
-export async function listarAcessosUsuario(usuarioId) {
-  const [rows] = await db.query(
+export async function listarAcessosUsuario(usuarioId, executor = db) {
+  const [rows] = await executor.query(
     `SELECT m.codigo, m.nome, um.periodo, um.status, um.origem, um.expira_em
      FROM usuario_modulo um
      INNER JOIN modulo m ON m.id_modulo = um.modulo_id
-     WHERE um.usuario_id = ? AND um.status = 'ativo' AND m.ativo = 1
+     WHERE um.usuario_id = ? AND um.status = 'ativo'
+       AND um.origem IN ('teste', 'compra') AND m.ativo = 1
        AND (um.expira_em IS NULL OR um.expira_em > NOW())
      ORDER BY m.id_modulo`,
     [usuarioId]
@@ -26,7 +27,8 @@ export async function usuarioTemAcesso(usuarioId, codigo) {
     `SELECT 1
      FROM usuario_modulo um
      INNER JOIN modulo m ON m.id_modulo = um.modulo_id
-     WHERE um.usuario_id = ? AND m.codigo = ? AND um.status = 'ativo' AND m.ativo = 1
+     WHERE um.usuario_id = ? AND m.codigo = ? AND um.status = 'ativo'
+       AND um.origem IN ('teste', 'compra') AND m.ativo = 1
        AND (um.expira_em IS NULL OR um.expira_em > NOW())
      LIMIT 1`,
     [usuarioId, codigo]
@@ -34,18 +36,11 @@ export async function usuarioTemAcesso(usuarioId, codigo) {
   return rows.length > 0;
 }
 
-export async function salvarAcessosUsuario(usuarioId, codigos, periodo, origem = 'compra') {
-  const conexao = await db.getConnection();
+export async function salvarAcessosUsuario(usuarioId, codigos, periodo, origem = 'compra', conexaoExterna = null) {
+  const propriaConexao = !conexaoExterna;
+  const conexao = conexaoExterna || await db.getConnection();
   try {
-    await conexao.beginTransaction();
-    await conexao.query(
-      `UPDATE usuario_modulo um
-       INNER JOIN modulo m ON m.id_modulo = um.modulo_id
-       SET um.status = 'inativo'
-       WHERE um.usuario_id = ?`,
-      [usuarioId]
-    );
-
+    if (propriaConexao) await conexao.beginTransaction();
     for (const codigo of codigos) {
       await conexao.query(
         `INSERT INTO usuario_modulo
@@ -62,13 +57,13 @@ export async function salvarAcessosUsuario(usuarioId, codigos, periodo, origem =
         [usuarioId, periodo, origem, origem, codigo, periodo, origem, origem]
       );
     }
-    await conexao.commit();
+    if (propriaConexao) await conexao.commit();
   } catch (erro) {
-    await conexao.rollback();
+    if (propriaConexao) await conexao.rollback();
     throw erro;
   } finally {
-    conexao.release();
+    if (propriaConexao) conexao.release();
   }
-  return listarAcessosUsuario(usuarioId);
+  return listarAcessosUsuario(usuarioId, propriaConexao ? db : conexao);
 }
 

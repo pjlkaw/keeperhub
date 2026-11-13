@@ -386,6 +386,13 @@ html[data-theme="light"] .nome-marca-claro {
   cursor: pointer;
 }
 
+.resumo-escolha .botao-teste:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
 .nota-planos {
   max-width: 690px;
   margin-top: 14px;

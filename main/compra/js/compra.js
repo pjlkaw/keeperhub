@@ -11,7 +11,8 @@ if (formularioPlanos) {
   const valorSelecao = document.getElementById('valor-selecao');
   const textoResumo = document.getElementById('texto-resumo');
   const botaoContinuar = document.getElementById('continuar-compra');
-  let usuarioConectado = false;
+  const avisoCompra = document.getElementById('aviso-compra');
+  let estadoSessao = 'verificando';
   const formatarReais = valor => new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -46,11 +47,23 @@ if (formularioPlanos) {
 
   const verificacaoSessao = carregarUsuarioAtual()
     .then(() => {
-      usuarioConectado = true;
-      if (botaoContinuar) botaoContinuar.textContent = 'Ativar módulos selecionados';
+      estadoSessao = 'autenticado';
+      if (botaoContinuar) {
+        botaoContinuar.textContent = 'Criar plano e liberar módulos';
+      }
+      if (avisoCompra) {
+        avisoCompra.textContent = 'Ao confirmar, os módulos selecionados serão registrados no seu plano e liberados.';
+      }
     })
     .catch((erro) => {
-      if (erro.status !== 401) console.error('[Compra] Não foi possível validar a sessão:', erro);
+      if (erro.status === 401) {
+        estadoSessao = 'anonimo';
+        return;
+      }
+      estadoSessao = 'erro';
+      console.error('[Compra] Não foi possível validar a sessão:', erro);
+      if (botaoContinuar) botaoContinuar.disabled = true;
+      if (avisoCompra) avisoCompra.textContent = 'Não foi possível validar sua sessão. Atualize a página e tente novamente.';
     });
 
   formularioPlanos.addEventListener('submit', async (event) => {
@@ -64,23 +77,27 @@ if (formularioPlanos) {
     }
     const periodo = periodos.find((opcao) => opcao.checked)?.value || 'mensal';
     await verificacaoSessao;
-    if (usuarioConectado) {
+    if (estadoSessao === 'autenticado') {
       event.preventDefault();
       if (botaoContinuar) {
         botaoContinuar.disabled = true;
-        botaoContinuar.textContent = 'Salvando seleção...';
+        botaoContinuar.textContent = 'Salvando plano...';
       }
       try {
         await salvarModulosUsuario(selecionados, periodo);
-        window.location.href = '../home/index.html';
+        window.location.href = '../hub/index.html';
       } catch (erro) {
-        console.error('[Compra] Falha ao salvar módulos:', erro);
-        textoResumo.textContent = erro.message || 'Não foi possível salvar os módulos selecionados.';
+        console.error('[Compra] Falha ao salvar o plano:', erro);
+        if (avisoCompra) avisoCompra.textContent = erro.message || 'Não foi possível salvar o plano selecionado.';
         if (botaoContinuar) {
           botaoContinuar.disabled = false;
-          botaoContinuar.textContent = 'Ativar módulos selecionados';
+          botaoContinuar.textContent = 'Criar plano e liberar módulos';
         }
       }
+      return;
+    }
+    if (estadoSessao !== 'anonimo') {
+      event.preventDefault();
       return;
     }
 

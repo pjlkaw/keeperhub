@@ -9,7 +9,8 @@ import {
   criarCookieSessao, origemDaRequisicaoValida, usuarioDaSessao,
   validarConfiguracaoSessao
 } from '../server/auth-session.js';
-import { salvarAcessosUsuario } from '../server/repositories/modulos.js';
+import { MODULOS_VALIDOS, salvarAcessosUsuario } from '../server/repositories/modulos.js';
+import db from '../server/db.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar', 'outro'];
@@ -87,22 +88,50 @@ async function criarConta(body, res) {
   }
 
   const { dados } = validacao;
+  const modo = body.modo === 'teste' || body.modo === 'compra' ? body.modo : 'cadastro';
+  const periodo = body.periodo === 'anual' ? 'anual' : 'mensal';
+  const modulosEscolhidos = [...new Set(Array.isArray(body.modulos) ? body.modulos : [])];
+  if (modo === 'compra' && (!modulosEscolhidos.length ||
+      modulosEscolhidos.some((codigo) => typeof codigo !== 'string' || !MODULOS_VALIDOS.has(codigo)) ||
+      !['mensal', 'anual'].includes(body.periodo))) {
+    return res.status(400).json({ erro: 'Selecione módulos válidos e um período para criar o plano.' });
+  }
   if (await buscarUsuarioPorEmail(dados.email_usuario)) {
     return res.status(409).json({ erro: 'Já existe uma conta com este email.' });
   }
 
-  const resultado = await criarUsuario({
-    ...dados,
-    senha_usuario: await hashPassword(dados.senha_usuario)
-  });
-  const usuario = await buscarUsuario(resultado.insertId);
-  if (body.modo === 'teste') {
-    await salvarAcessosUsuario(
-      usuario.id_usuario,
-      ['financas', 'despensa', 'pets', 'medicamentos'],
-      'mensal',
-      'teste'
-    );
+  const senhaHash = await hashPassword(dados.senha_usuario);
+  const conexao = await db.getConnection();
+  let resultado;
+  let usuario;
+  let transacaoAberta = false;
+  try {
+    await conexao.beginTransaction();
+    transacaoAberta = true;
+    resultado = await criarUsuario({
+      ...dados,
+      senha_usuario: senhaHash
+    }, conexao);
+    if (modo === 'teste' || modo === 'compra') {
+      await salvarAcessosUsuario(
+        resultado.insertId,
+        modo === 'teste'
+          ? ['financas', 'despensa', 'pets', 'medicamentos']
+          : modulosEscolhidos,
+        periodo,
+        modo,
+        conexao
+      );
+    }
+    usuario = await buscarUsuario(resultado.insertId, conexao);
+    if (!usuario) throw new Error('A conta criada nao pode ser recuperada.');
+    await conexao.commit();
+    transacaoAberta = false;
+  } catch (erro) {
+    if (transacaoAberta) await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
   }
   // O cadastro inicia a sessão sem expor uma credencial ao JavaScript da página.
   criarCookieSessao(res, usuario.id_usuario);

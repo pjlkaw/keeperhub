@@ -118,13 +118,14 @@ probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 ## Módulos selecionados
 
 Execute [`docs/modulos-acesso.sql`](./modulos-acesso.sql) no mesmo banco da
-aplicação. Ele cria o catálogo de módulos e a tabela `usuario_modulo`, que
-guarda os módulos ativos de cada usuário e o período escolhido. Se a tabela
-`usuario_modulo` já existia, execute também
-[`docs/modulos-acesso-migracao.sql`](./modulos-acesso-migracao.sql) para
-adicionar a origem e a data de expiração do teste. A tela de compra não
-processa pagamentos: depois do cadastro, a seleção é salva pela API e o Hub
-libera somente os módulos ativos.
+aplicação para criar o catálogo de módulos e a tabela `usuario_modulo`. Se essa
+tabela já existia sem as colunas `origem` e `expira_em`, execute também
+[`docs/modulos-acesso-migracao.sql`](./modulos-acesso-migracao.sql). O teste
+grátis é concedido pelo servidor e expira em 30 dias. Ao confirmar módulos e
+período na tela de compra, a API grava as aquisições em `usuario_modulo` e o Hub
+libera o acesso. Esse fluxo registra planos no KeeperHub, mas não processa
+pagamentos reais. O cadastro com uma seleção de módulos grava a conta e o plano
+na mesma transação.
 
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 
