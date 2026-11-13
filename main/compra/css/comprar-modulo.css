@@ -489,7 +489,7 @@ html[data-theme="light"] .botao-teste {
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 450px) {
   .simbolo-marca {
     height: 34px;
   }
