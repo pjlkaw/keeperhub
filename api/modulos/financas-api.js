@@ -108,6 +108,9 @@ export default async function handler(req, res) {
   } catch (exception) {
     if (exception.status === 400) return erro(res, 400, exception.message);
     console.error('Erro na API de finanças:', exception);
+    if (exception.code === 'ACCOUNT_HAS_TRANSACTIONS') {
+      return erro(res, 409, exception.message);
+    }
     if (exception.code === 'ACCOUNT_NOT_FOUND') return erro(res, 400, exception.message);
     if (exception.code === 'ER_DUP_ENTRY') return erro(res, 409, 'Já existe um registro com estes dados.');
     return erro(res, 500, 'Erro ao acessar os dados financeiros.');
