@@ -385,3 +385,11 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
   font-size: 12px;
   font-weight: 600;
 }
+
+/* ==== KEEPERHUB — MÓDULO PETS / rotina-diaria.css / Lazer em telas maiores ==== */
+@media (min-width: 600px) {
+    .lazer {
+        margin-inline: 24px;
+        padding: 28px;
+    }
+}

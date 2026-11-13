@@ -1,6 +1,6 @@
 // Exibe somente dados de rotina que foram salvos no cadastro do pet.
 import { listarPets } from './armazenamento.js';
-import { CATALOGO, itensDoDia, tituloRotina } from './rotinas.js';
+import { itensDoDia, tituloRotina } from './rotinas.js';
 import { removerRotina, rotinasDoPet } from './rotinas-armazenamento.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -256,10 +256,11 @@ main.addEventListener('click', async event => {
         const chave = chaveExclusao(pet, tipo, registro.id);
         avisarRotinas('');
         exclusoesPendentes.add(chave);
+        const secao = botao.closest('section');
         renderizarRotina(pet);
 
         oferecerDesfazerExclusao({
-            antesDe: botao.closest('section'),
+            antesDe: secao,
             mensagem: 'Rotina removida da lista.',
             aoDesfazer() {
                 exclusoesPendentes.delete(chave);

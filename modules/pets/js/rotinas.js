@@ -225,6 +225,8 @@ export function itensDoDia(pet, dia) {
     };
     for (const tipo of TIPOS_ROTINA) {
         for (const registro of fontes[tipo]) {
+            if (typeof registro.horario !== 'string' || !registro.horario) continue;
+            if (tipo === 'alimentar' && (typeof registro.nome !== 'string' || !registro.nome.trim())) continue;
             if (!ocorreNoDia(tipo, registro, dia)) continue;
             itens.push({
                 tipo,
