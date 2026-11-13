@@ -22,6 +22,7 @@ export function criarSelecaoMultipla(seletor) {
             if (pets.length > 2) seletor.add(new Option('Selecionar vários pets…', '__selecionar__'));
             lista.replaceChildren(...pets.map(pet => {
                 const opcao = document.createElement('label');
+                opcao.className = 'cartao-opcao';
                 const input = document.createElement('input');
                 input.type = 'checkbox';
                 input.value = pet.id;
