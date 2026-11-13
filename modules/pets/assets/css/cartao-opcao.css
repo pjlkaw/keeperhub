@@ -137,7 +137,8 @@ CHIPS DE OPÇÃO (ex.: dias da semana)
   gap: 8px;
 }
 
-.chips-opcao__item {
+/* Classe repetida: vence `.campo-formulario label` (essentials/components.css). */
+.chips-opcao__item.chips-opcao__item {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -164,7 +165,7 @@ CHIPS DE OPÇÃO (ex.: dias da semana)
   pointer-events: none;
 }
 
-.chips-opcao .chips-opcao__item:has(input:checked) {
+.chips-opcao .chips-opcao__item.chips-opcao__item:has(input:checked) {
   background: var(--pets-primary-soft);
   border-color: var(--tool-pets);
 }
