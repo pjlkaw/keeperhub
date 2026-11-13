@@ -1,9 +1,14 @@
 async function requisitar(url, options = {}) {
-    const resposta = await fetch(url, {
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json', ...options.headers },
-        ...options
-    });
+    let resposta;
+    try {
+        resposta = await fetch(url, {
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', ...options.headers },
+            ...options
+        });
+    } catch (erro) {
+        throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.', { cause: erro });
+    }
     let dados = null;
     try {
         dados = resposta.status === 204 ? null : await resposta.json();
@@ -11,7 +16,9 @@ async function requisitar(url, options = {}) {
         dados = null;
     }
     if (!resposta.ok) {
-        throw new Error(dados?.erro || 'Não foi possível acessar a API de Finanças.');
+        const erro = new Error(dados?.erro || 'Não foi possível acessar as finanças.');
+        erro.status = resposta.status;
+        throw erro;
     }
     return dados;
 }

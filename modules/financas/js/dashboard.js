@@ -176,7 +176,7 @@ async function configurarBotaoAdicionar() {
 export async function inicializarDashboard() {
     if (!document.querySelector('.preview-balance')) return;
 
-    configurarBotaoAdicionar();
+    await configurarBotaoAdicionar();
     const transacoes = await obterTransacoes();
     atualizarNoContent(transacoes.length > 0);
     const referencia = new Date();

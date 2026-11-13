@@ -433,3 +433,39 @@ body.finance-page .finance-back {
 	border-radius: 0 !important;
 	background: transparent !important;
 }
+
+/* ---- Estado de erro de acesso (sem login ou falha de carregamento) ---- */
+
+.app-container.finance-access-failed > :not(.section-header-section):not(.finance-access-error):not(.btn-add-section) {
+	display: none;
+}
+
+.finance-access-error {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 24px 0;
+}
+
+.finance-access-error__message {
+	color: var(--danger-color, #dc3545);
+	font-size: 13px;
+}
+
+.finance-access-error__button {
+	min-height: 44px;
+	padding: 9px 16px;
+	border: 0;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 700;
+	color: var(--pill-text);
+	background: var(--tool-financas);
+	cursor: pointer;
+}
+
+.finance-access-error__button:disabled {
+	opacity: .6;
+	cursor: wait;
+}
