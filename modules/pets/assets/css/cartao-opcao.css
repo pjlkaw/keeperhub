@@ -179,12 +179,12 @@ CHIPS DE OPÇÃO (ex.: dias da semana)
 MOVIMENTO REDUZIDO
 ================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .cartao-opcao,
+  .cartao-opcao.cartao-opcao,
   .cartao-opcao input[type="radio"],
   .cartao-opcao input[type="checkbox"],
   .cartao-opcao input[type="radio"]::before,
   .cartao-opcao input[type="checkbox"]::before,
-  .chips-opcao__item {
+  .chips-opcao__item.chips-opcao__item {
     transition: none;
   }
 }
