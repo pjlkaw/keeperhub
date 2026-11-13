@@ -12,6 +12,20 @@ function erro(res, status, mensagem) {
   return res.status(status).json({ erro: mensagem });
 }
 
+function falhaValidacao(mensagem) {
+  const exception = new Error(mensagem);
+  exception.status = 400;
+  throw exception;
+}
+
+function dataValida(valor) {
+  if (typeof valor !== 'string' || valor.length !== 10 || !/^\d{4}-\d{2}-\d{2}$/.test(valor)) {
+    return false;
+  }
+  const data = new Date(`${valor}T00:00:00.000Z`);
+  return Number.isFinite(data.getTime()) && data.toISOString().slice(0, 10) === valor;
+}
+
 function dadosConta(body) {
   const nome = typeof body.nome === 'string' ? body.nome.trim() : '';
   const tipo = normalizarTipoConta(body.tipo);
@@ -19,18 +33,28 @@ function dadosConta(body) {
 }
 
 function dadosTransacao(body) {
-  const valor = Number(body.valor);
+  const valorOriginal = Number(body.valor);
+  const valor = Number.isFinite(valorOriginal)
+    ? Math.round((valorOriginal + Number.EPSILON) * 100) / 100
+    : NaN;
   const contaId = idTransacaoValido(body.conta_id);
   const tipo = String(body.tipo || '');
   const status = String(body.status || 'pending');
   const descricao = typeof body.descricao === 'string' ? body.descricao.trim() : '';
   const data = typeof body.data === 'string' ? body.data : '';
-  if (!contaId || !TIPOS.has(tipo) || !STATUS.has(status) || !Number.isFinite(valor) ||
-      valor <= 0 || !descricao || !/^\d{4}-\d{2}-\d{2}$/.test(data)) return null;
+  const vencimento = body.vencimento === null || body.vencimento === undefined || body.vencimento === ''
+    ? null
+    : body.vencimento;
+
+  if (!dataValida(data)) falhaValidacao('Data inválida.');
+  if (vencimento !== null && !dataValida(vencimento)) falhaValidacao('Vencimento inválido.');
+  if (!Number.isFinite(valor) || valor <= 0) falhaValidacao('Valor inválido.');
+  if (!contaId || !TIPOS.has(tipo) || !STATUS.has(status) || !descricao) return null;
+
   return {
     conta_id: contaId, tipo, valor, descricao,
     categoria: typeof body.categoria === 'string' ? body.categoria.trim() || null : null,
-    data, vencimento: body.vencimento || null, status,
+    data, vencimento, status,
     observacoes: typeof body.observacoes === 'string' ? body.observacoes.trim() || null : null
   };
 }
@@ -82,6 +106,7 @@ export default async function handler(req, res) {
 
     return erro(res, 400, 'Recurso financeiro inválido.');
   } catch (exception) {
+    if (exception.status === 400) return erro(res, 400, exception.message);
     console.error('Erro na API de finanças:', exception);
     if (exception.code === 'ACCOUNT_NOT_FOUND') return erro(res, 400, exception.message);
     if (exception.code === 'ER_DUP_ENTRY') return erro(res, 409, 'Já existe um registro com estes dados.');
