@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { loginUsuario } from '../../../shared/api/usuario.js';
+import { loginUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 function validarInformacoesLogin(email, senha) {
@@ -35,6 +35,13 @@ async function realizarLogin(email, senha) {
 }
 
 function setupLoginForm() {
+  const googleButton = document.getElementById('btn-login-google');
+  if (googleButton) {
+    googleButton.addEventListener('click', () => {
+      window.location.href = '/api/auth/google';
+    });
+  }
+
   const emailInput = document.getElementById('email');
   const passwordInput = document.getElementById('password');
   const submitBtn = document.getElementById('btn-submit-login');

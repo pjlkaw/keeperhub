@@ -1,15 +1,11 @@
-# Consultas, exames e laudos — integração atual e pendências
+# Consultas, exames e laudos
 
-Consultas e seu histórico são persistidos localmente por `js/consultas.js` em
-`pet.consultas`, usando `js/armazenamento.js`. O cadastro aceita data passada e
-pode gravar uma mesma consulta em todos os pets ou numa seleção de pets.
+Consultas são persistidas na tabela `consulta` pela API de Pets. O cadastro,
+a edição e a conclusão do atendimento preservam a validação da conta e dos pets.
+Cards criados para vários pets podem ser editados juntos; na visão de um pet,
+editar um registro o separa do grupo visual.
 
-A seção **Exames e Laudos** não contém registros de demonstração. Ela apresenta
-um estado vazio até a integração de upload e persistência. Upload, visualização,
-download e “Ver todos” ainda não estão conectados. O histórico médico estático
-também precisa ser substituído por dados reais.
+A seção **Exames e Laudos** ainda não persiste arquivos. O lembrete da consulta
+guarda a preferência, mas não agenda notificações do sistema.
 
-O controle **Lembrar** salva uma preferência local, mas ainda não agenda
-notificações do navegador. A confirmação do atendimento salva resumo e status no
-registro do pet; a atualização de consultas criadas para vários pets permanece
-uma decisão funcional pendente.
+Detalhes das rotas e das colunas estão em [`js/consultas-integracao.md`](js/consultas-integracao.md).

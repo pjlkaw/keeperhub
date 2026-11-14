@@ -4,7 +4,9 @@
 import { buscarPetPorId, carregarPets, definirPetDoBanco } from './armazenamento.js';
 
 // Importa a função que salva as alterações na API (banco de dados).
-import { atualizarPetApi } from './api.js';
+import { atualizarPetApi, excluirPetApi } from './api.js';
+import { confirmarExclusao } from './confirmar-exclusao.js';
+import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 
 // Importa as funções que padronizam e validam os dados do pet antes de salvar.
 import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet.js';
@@ -13,6 +15,7 @@ import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet
 const form = document.getElementById('formulario-informacoes-pet');
 const status = document.getElementById('status-informacoes-pet');
 const botao = form.querySelector('[type="submit"]');
+const botaoExcluir = document.getElementById('excluir-pet');
 const campoFoto = document.getElementById('foto-pet-edicao');
 const figuraFoto = form.querySelector('.foto-pet-edicao__visualizacao');
 const imagemFoto = document.getElementById('foto-pet-edicao-imagem');
@@ -27,10 +30,10 @@ let fotoSelecionada = null;
 let leituraFoto = Promise.resolve(null);
 let enviando = false;
 
-// Exibe uma mensagem de sucesso ou de erro na página.
-function informar(mensagem, erro = false) {
+// Exibe uma orientação, uma confirmação ou um erro na página.
+function informar(mensagem, erro = false, sucesso = false) {
     status.textContent = mensagem;
-    status.dataset.estado = erro ? 'erro' : 'sucesso';
+    status.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
 
     // Ajuda leitores de tela a identificar o tipo de mensagem.
     status.setAttribute('role', erro ? 'alert' : 'status');
@@ -116,6 +119,7 @@ function desabilitarFormulario() {
     [...form.elements].forEach(campo => {
         campo.disabled = true;
     });
+    botaoExcluir.disabled = true;
 }
 
 // Lê um arquivo de imagem e o converte para uma URL de dados Base64.
@@ -175,6 +179,7 @@ async function carregarPet() {
             desabilitarFormulario();
             return;
         }
+        botaoExcluir.disabled = false;
 
         // Preenche os campos com os dados encontrados.
         preencherFormulario(petAtual);
@@ -184,6 +189,43 @@ async function carregarPet() {
         desabilitarFormulario();
     }
 }
+
+// A API desativa o pet; os dados locais permanecem associados ao ID antigo.
+botaoExcluir.addEventListener('click', async () => {
+    if (!petAtual || enviando) return;
+    const confirmado = await confirmarExclusao({
+        titulo: 'Excluir pet?',
+        mensagem: `${petAtual.nome} deixará de aparecer na sua conta.`
+    });
+    if (!confirmado) return;
+
+    enviando = true;
+    botaoExcluir.disabled = true;
+    botaoExcluir.textContent = 'Exclusão pendente…';
+    form.inert = true;
+
+    oferecerDesfazerExclusao({
+        antesDe: form,
+        mensagem: `${petAtual.nome} será removido da conta.`,
+        aoDesfazer() {
+            enviando = false;
+            form.inert = false;
+            botaoExcluir.disabled = false;
+            botaoExcluir.textContent = 'Excluir pet';
+        },
+        async aoExcluir() {
+            await excluirPetApi(petId);
+            window.location.href = '/modules/pets/index.html';
+        },
+        aoFalhar(erro) {
+            informar(erro.message || 'Não foi possível excluir o pet.', true);
+            form.inert = false;
+            botaoExcluir.disabled = false;
+            botaoExcluir.textContent = 'Excluir pet';
+            enviando = false;
+        }
+    });
+});
 
 // Quando um campo muda, limpa a mensagem de validação personalizada anterior.
 form.addEventListener('input', event => {
@@ -308,7 +350,7 @@ form.addEventListener('submit', async event => {
         campoFoto.value = '';
         leituraFoto = Promise.resolve(null);
         mostrarFoto(petAtual.foto, petAtual.nome);
-        informar('Alterações salvas com sucesso.');
+        informar('Alterações salvas com sucesso.', false, true);
     } catch (erro) {
         // Mostra o erro recebido ou uma mensagem padrão.
         informar(erro.message || 'Não foi possível salvar as alterações.', true);

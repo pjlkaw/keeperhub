@@ -30,7 +30,7 @@
             subtitle: 'Sua despensa sob controle!',
             backUrl: '/main/hub/index.html',
             notificationsModule: 'despensa',
-            addUrl: '/modules/despensa/components/cadastrar.html'
+            addUrl: '#novo-produto'
         };
     </script>
 
@@ -42,6 +42,9 @@
     <script type="module" src="/modules/despensa/script.js"></script>
     <script type="module" src="/modules/despensa/js/index.js"></script>
 
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
+    <link rel="stylesheet" href="/shared/styles/btn-add.css">
+    <link rel="stylesheet" href="/shared/styles/no-content.css">
 </head>
 
 <body class="despensa" data-pagina="index">
@@ -54,203 +57,229 @@
         aria-live="polite">
     </section>
 
-    <div class="despensa-shell">
+    <!-- Modal de confirmação compartilhado (substitui o confirm do navegador) -->
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
 
-        <!-- Reserva o espaço da navegação entre módulos -->
-        <nav
-            id="modules-nav-wrapper"
-            class="modules-nav-wrapper"
-            aria-label="Navegação entre módulos">
-        </nav>
+    <!-- Botão de adicionar compartilhado -->
+    <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-despensa)"></section>
 
-        <!-- Exibe o título e a descrição da página -->
-        <header class="section-header-section" id="headerSection">
+    <div class="app-page-wrapper">
 
-            <div class="section-header-title-area">
+        <!-- Navegação entre módulos -->
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
 
-                <div class="section-header-top-row">
+        <div class="app-container">
 
-                    <h1 id="pageNameH1" class="section-header-title">
-                        Despensa
-                    </h1>
+
+            <!-- Exibe o título e a descrição da página -->
+            <header class="section-header-section" id="headerSection">
+
+                <div class="section-header-title-area">
+
+                    <div class="section-header-top-row">
+
+                        <h1 id="pageNameH1" class="section-header-title">
+                            Despensa
+                        </h1>
+
+                    </div>
+
+                    <div class="section-header-meta">
+
+                        <span id="pageSubtittleSpan">
+                            Sua despensa sob controle!
+                        </span>
+
+                    </div>
 
                 </div>
 
-                <div class="section-header-meta">
+            </header>
 
-                    <span id="pageSubtittleSpan">
-                        Sua despensa sob controle!
-                    </span>
+            <!-- Tela "sem conteúdo" compartilhada (o JS mostra/esconde) -->
+            <section class="no-content-section" id="no-content-section" aria-label="Nenhum produto cadastrado" hidden></section>
 
-                </div>
+            <!-- Agrupa o conteúdo principal da despensa -->
+            <main class="despensa-conteudo" id="main-content">
 
-            </div>
+                <!-- Apresenta os atalhos e o resumo da despensa -->
+                <section aria-labelledby="resumo-titulo">
 
-        </header>
+                    <h2 id="resumo-titulo" class="visually-hidden">
+                        Resumo da despensa
+                    </h2>
 
-        <!-- Agrupa o conteúdo principal da despensa -->
-        <main class="despensa-conteudo" id="main-content">
+                    <div class="despensa-resumo">
 
-            <!-- Apresenta os atalhos e o resumo da despensa -->
-            <section aria-labelledby="resumo-titulo">
+                        <!-- Direciona para a lista de produtos cadastrados -->
+                        <a
+                            href="#produtos-cadastrados"
+                            class="card card--interactive summary-card">
 
-                <h2 id="resumo-titulo" class="visually-hidden">
-                    Resumo da despensa
-                </h2>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-regular fa-square-check"></i>
+                            </span>
 
-                <div class="despensa-resumo">
+                            <strong>Produtos</strong>
 
-                    <!-- Direciona para a lista de produtos cadastrados -->
-                    <a
-                        href="#produtos-cadastrados"
-                        class="card card--interactive summary-card">
+                            <span id="contador-produtos">0 itens</span>
 
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-regular fa-square-check"></i>
-                        </span>
+                        </a>
 
-                        <span>Produtos</span>
+                        <!-- Direciona para o controle de vencimentos -->
+                        <a
+                            href="components/vencimento.html"
+                            class="card card--interactive summary-card">
 
-                        <strong id="contador-produtos">
-                            0 produtos cadastrados
-                        </strong>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-regular fa-calendar"></i>
+                            </span>
 
-                    </a>
+                            <strong>Vencimentos</strong>
 
-                    <!-- Direciona para o controle de vencimentos -->
-                    <a
-                        href="components/vencimento.html"
-                        class="card card--interactive summary-card">
+                            <span>Ver validades</span>
 
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-regular fa-calendar"></i>
-                        </span>
+                        </a>
 
-                        <span>Vencimento</span>
+                        <!-- Direciona para a checklist de compras -->
+                        <a
+                            href="components/checklist.html"
+                            class="card card--interactive summary-card">
 
-                    </a>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-solid fa-list-ul"></i>
+                            </span>
 
-                    <!-- Direciona para a checklist de compras -->
-                    <a
-                        href="components/checklist.html"
-                        class="card card--interactive summary-card">
+                            <strong>Checklist</strong>
 
-                        <span class="summary-icon" aria-hidden="true">
-                            <i class="fa-solid fa-list-ul"></i>
-                        </span>
+                            <span>Ver lista</span>
 
-                        <span>Checklist</span>
+                        </a>
 
-                    </a>
+                        <!-- Direciona para o estoque de medicamentos -->
+                        <a
+                            href="components/medicamentos.html"
+                            class="card card--interactive summary-card">
 
-                </div>
+                            <span class="summary-icon" aria-hidden="true">
+                                <i class="fa-solid fa-pills"></i>
+                            </span>
 
-            </section>
+                            <strong>Medicamentos</strong>
 
-            <!-- Exibe os produtos cadastrados -->
-            <section
-                id="produtos-cadastrados"
-                aria-labelledby="produtos-titulo">
+                            <span>Ver estoque</span>
 
-                <h2 id="produtos-titulo">
-                    Produtos
-                </h2>
+                        </a>
 
-                <!-- Permite pesquisar produtos pelo nome -->
-                <section class="search-container">
-
-                    <input
-                        type="search"
-                        id="searchInput"
-                        class="input"
-                        placeholder="Buscar produtos..."
-                        autocomplete="off"
-                        aria-label="Buscar produtos">
+                    </div>
 
                 </section>
 
-                <!-- Filtra os produtos pela categoria selecionada -->
-                <nav
-                    class="categories"
-                    aria-label="Categorias de produtos">
+                <!-- Exibe os produtos cadastrados -->
+                <section
+                    id="produtos-cadastrados"
+                    aria-labelledby="produtos-titulo">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Todos">
+                    <h2 id="produtos-titulo">
+                        Produtos
+                    </h2>
 
-                        Todos
+                    <!-- Permite pesquisar produtos pelo nome -->
+                    <section class="search-container">
 
-                    </button>
+                        <input
+                            type="search"
+                            id="searchInput"
+                            class="input"
+                            placeholder="Buscar produtos..."
+                            autocomplete="off"
+                            aria-label="Buscar produtos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Laticínios">
+                    </section>
 
-                        Laticínios
+                    <!-- Filtra os produtos pela categoria selecionada -->
+                    <nav
+                        class="categories"
+                        aria-label="Categorias de produtos">
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Todos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Grãos">
+                            Todos
 
-                        Grãos
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Laticínios">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Bebidas">
+                            Laticínios
 
-                        Bebidas
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Grãos">
 
-                    <button
-                        type="button"
-                        class="card card--interactive"
-                        data-category="Limpeza">
+                            Grãos
 
-                        Limpeza
+                        </button>
 
-                    </button>
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Bebidas">
 
-                </nav>
+                            Bebidas
 
-                <!-- Área onde os produtos cadastrados são exibidos -->
-                <section class="products-section">
+                        </button>
 
-                    <section
-                        class="product-list"
-                        id="productList"
-                        aria-live="polite">
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Limpeza">
 
-                        <p class="empty-message">
-                            Nenhum produto cadastrado.
-                        </p>
+                            Limpeza
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="card card--interactive"
+                            data-category="Hortifruti">
+
+                            Hortifruti
+
+                        </button>
+
+                    </nav>
+
+                    <!-- Área onde os produtos cadastrados são exibidos -->
+                    <section class="products-section">
+
+                        <section
+                            class="product-list"
+                            id="productList"
+                            aria-live="polite">
+
+                            <p class="empty-message">
+                                Nenhum produto cadastrado.
+                            </p>
+
+                        </section>
 
                     </section>
 
                 </section>
 
-            </section>
 
-            <!-- Abre o formulário para cadastrar um produto -->
-            <button
-                type="button"
-                class="btn btn-primary add-button"
-                id="addButton"
-                aria-label="Adicionar produto">
+            </main>
 
-                <i class="fa-solid fa-plus"></i>
-
-            </button>
-
-        </main>
+        </div>
 
     </div>
 
@@ -306,6 +335,7 @@
                     <option value="Grãos">Grãos</option>
                     <option value="Bebidas">Bebidas</option>
                     <option value="Limpeza">Limpeza</option>
+                    <option value="Hortifruti">Hortifruti</option>
                     <option value="Outros">Outros</option>
 
                 </select>

@@ -3,7 +3,7 @@
  * Carrega e salva os dados do usuário pela API.
  */
 
-import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/api/usuario.js';
+import { atualizarUsuarioAtual, carregarUsuarioAtual } from '../../../../../shared/services/usuario.js';
 import { alertShared } from '../../../../../shared/services/interface.js';
 
 const FALLBACK_PROFILE = {

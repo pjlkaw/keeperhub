@@ -1,5 +1,4 @@
 import { formatarData, formatarMoeda, obterContas, obterTransacoes } from './dados.js';
-import { apiDisponivel, listarContasApi } from './api.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 
 const ICONE_CATEGORIA = {
@@ -156,14 +155,7 @@ function atualizarRecentes(transacoes) {
 }
 
 async function configurarBotaoAdicionar() {
-    let contas = obterContas();
-    if (apiDisponivel()) {
-        try {
-            contas = await listarContasApi();
-        } catch (erro) {
-            console.warn('API de contas indisponível; usando contas locais.', erro.message);
-        }
-    }
+    const contas = await obterContas();
 
     const atualizarLink = () => {
         const botao = document.querySelector('#btn-add');

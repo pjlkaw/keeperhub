@@ -1,9 +1,18 @@
+import { atualizarNoContent } from "/shared/services/no-content.js";
+import { confirmarAcao } from "./confirmar.js";
+import {
+    listarChecklist,
+    adicionarItemChecklist,
+    marcarComprado,
+    removerItemChecklist,
+    limparChecklist
+} from "./api.js";
+import { alertShared } from "/shared/services/interface.js";
+
 
 /* =================================
    CHECKLIST - KEEPERHUB
 ================================= */
-
-const CHAVE = "keeperhub_checklist_compras";
 
 // ELEMENTOS HTML
 
@@ -20,7 +29,7 @@ const buscaInput = document.getElementById("buscaProduto");
 
 const modal = document.getElementById("modalProduto");
 
-const abrirModal = document.getElementById("abrirModal");
+const btnAddSection = document.getElementById("btn-add-section");
 const fecharModal = document.getElementById("fecharModal");
 const cancelarModal = document.getElementById("cancelarModal");
 
@@ -28,77 +37,30 @@ const limparLista = document.getElementById("limparLista");
 
 // ESTADOS
 
-let lista = carregarLista();
+let lista = [];
 
 let filtroAtual = "todos";
 let buscaAtual = "";
 
 // =================================
-// CARREGAR DADOS
+// CARREGAR DADOS (banco, via js/api.js)
 // =================================
 
-function carregarLista() {
+async function carregarLista() {
 
     try {
 
-        const dados = localStorage.getItem(CHAVE);
-
-        if (!dados) {
-            return [];
-        }
-
-        const produtos = JSON.parse(dados);
-
-        if (!Array.isArray(produtos)) {
-            return [];
-        }
-
-        return produtos.filter(produto =>
-            produto &&
-            typeof produto.nome === "string" &&
-            typeof produto.id === "string"
-        ).map(produto => ({
-            id: produto.id,
-            nome: produto.nome,
-            quantidade: Number(produto.quantidade) || 1,
-            categoria: produto.categoria || "Outros",
-            comprado: Boolean(produto.comprado)
-        }));
+        lista = await listarChecklist();
 
     } catch (erro) {
 
-        console.error("Erro ao carregar produtos:", erro);
+        console.error("Erro ao carregar a lista:", erro);
 
-        return [];
-
-    }
-
-}
-
-// =================================
-// SALVAR DADOS
-// =================================
-
-function salvarLista() {
-
-    try {
-
-        localStorage.setItem(
-            CHAVE,
-            JSON.stringify(lista)
-        );
-
-        return true;
-
-    } catch (erro) {
-
-        console.error("Erro ao salvar produtos:", erro);
-
-        alert("Não foi possível salvar sua lista.");
-
-        return false;
+        alertShared(erro.message);
 
     }
+
+    renderizarLista();
 
 }
 
@@ -158,13 +120,33 @@ function criarElementoProduto(produto) {
         `Marcar ${produto.nome} como comprado`
     );
 
-    checkbox.addEventListener("change", () => {
+    checkbox.addEventListener("change", async () => {
 
-        produto.comprado = checkbox.checked;
+        // COMPRADO → o servidor cria o produto na despensa
+        // DESMARCADO → o servidor remove o produto criado
+        const comprado = checkbox.checked;
 
-        salvarLista();
+        checkbox.disabled = true;
 
-        renderizarLista();
+        try {
+
+            await marcarComprado(produto.id, comprado);
+
+            alertShared(
+                comprado
+                    ? `${produto.nome} adicionado aos seus produtos.`
+                    : `${produto.nome} removido dos seus produtos.`
+            );
+
+        } catch (erro) {
+
+            console.error("Erro ao atualizar o item:", erro);
+
+            alertShared(erro.message);
+
+        }
+
+        await carregarLista();
 
     });
 
@@ -203,21 +185,25 @@ function criarElementoProduto(produto) {
         `Remover ${produto.nome}`
     );
 
-    remover.addEventListener("click", () => {
+    remover.addEventListener("click", async () => {
 
-        const confirmar = confirm(
+        const confirmar = await confirmarAcao(
             `Deseja remover ${produto.nome} da lista?`
         );
 
         if (!confirmar) return;
 
-        lista = lista.filter(
-            item => item.id !== produto.id
-        );
+        try {
 
-        salvarLista();
+            await removerItemChecklist(produto.id);
 
-        renderizarLista();
+        } catch (erro) {
+
+            alertShared(erro.message);
+
+        }
+
+        await carregarLista();
 
     });
 
@@ -238,6 +224,9 @@ function criarElementoProduto(produto) {
 function renderizarLista() {
 
     listaElement.replaceChildren();
+
+    // MOSTRA O NO-CONTENT QUANDO A LISTA ESTÁ VAZIA
+    atualizarNoContent(lista.length > 0);
 
     const filtrados = lista.filter(produto => {
 
@@ -318,7 +307,13 @@ function abrirFormulario() {
 
 }
 
-abrirModal.addEventListener("click", abrirFormulario);
+// O btn-add compartilhado é carregado pelo load-components.js;
+// o clique é capturado na seção para abrir o modal
+btnAddSection.addEventListener("click", event => {
+    if (!event.target.closest("#btn-add")) return;
+    event.preventDefault();
+    abrirFormulario();
+});
 
 // =================================
 // FECHAR MODAL
@@ -338,7 +333,7 @@ cancelarModal.addEventListener("click", fecharFormulario);
 // CADASTRAR PRODUTO
 // =================================
 
-form.addEventListener("submit", evento => {
+form.addEventListener("submit", async evento => {
 
     evento.preventDefault();
 
@@ -386,33 +381,25 @@ form.addEventListener("submit", evento => {
 
     }
 
-    // NOVO PRODUTO
+    // SALVAR NO BANCO
 
-    const novoProduto = {
+    const botaoSalvar = form.querySelector('[type="submit"]');
 
-        id: crypto.randomUUID
-            ? crypto.randomUUID()
-            : `${Date.now()}-${Math.random()}`,
+    if (botaoSalvar) botaoSalvar.disabled = true;
 
-        nome: nome,
+    try {
 
-        quantidade: quantidade,
+        await adicionarItemChecklist({ nome, quantidade, categoria });
 
-        categoria: categoria,
+    } catch (erro) {
 
-        comprado: false
-
-    };
-
-    lista.push(novoProduto);
-
-    // SALVAR
-
-    if (!salvarLista()) {
-
-        lista.pop();
+        alertShared(erro.message);
 
         return;
+
+    } finally {
+
+        if (botaoSalvar) botaoSalvar.disabled = false;
 
     }
 
@@ -430,13 +417,11 @@ form.addEventListener("submit", evento => {
 
     buscaInput.value = "";
 
-    // ATUALIZAR TELA
-
-    renderizarLista();
-
-    // FECHAR MODAL
+    // FECHAR MODAL E ATUALIZAR TELA
 
     modal.close();
+
+    await carregarLista();
 
 });
 
@@ -472,23 +457,31 @@ document.querySelectorAll(".filter").forEach(botao => {
 // LIMPAR LISTA INTEIRA
 // =================================
 
-limparLista.addEventListener("click", () => {
+limparLista.addEventListener("click", async () => {
 
     if (lista.length === 0) {
 
-        alert("Sua lista já está vazia.");
+        alertShared("Sua lista já está vazia.");
 
         return;
 
     }
 
-    const confirmar = confirm(
+    const confirmar = await confirmarAcao(
         "Deseja apagar todos os produtos da lista?"
     );
 
     if (!confirmar) return;
 
-    lista = [];
+    try {
+
+        await limparChecklist();
+
+    } catch (erro) {
+
+        alertShared(erro.message);
+
+    }
 
     buscaAtual = "";
 
@@ -496,9 +489,7 @@ limparLista.addEventListener("click", () => {
 
     buscaInput.value = "";
 
-    if (!salvarLista()) return;
-
-    renderizarLista();
+    await carregarLista();
 
 });
 
@@ -506,4 +497,4 @@ limparLista.addEventListener("click", () => {
 // INICIALIZAÇÃO
 // =================================
 
-renderizarLista();
+carregarLista();

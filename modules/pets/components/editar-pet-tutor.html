@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
     <!-- Estilos da página -->
     <link rel="stylesheet" href="../assets/css/editar-pet-tutor.css">
+    <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 
     <!-- Configuração do módulo -->
     <script>
@@ -29,11 +30,14 @@
     <script src="/shared/services/load-components.js"></script>
 </head>
 <body>
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
 
     <main class="editar-pet editar-pet--tutor" data-pet-id="">
 
         <!-- Navegação entre módulos -->
-        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+        
 
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
@@ -41,7 +45,6 @@
         <!-- Abas de edição -->
         <nav class="abas-pet" aria-label="Seções do pet">
             <a href="editar-pet-informacoes.html" class="abas-pet__link">Informações</a>
-            <a href="editar-pet-rotina-alimentar.html" class="abas-pet__link">Rotina Alimentar</a>
             <a href="editar-pet-tutor.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Tutor</a>
         </nav>
 
@@ -82,6 +85,6 @@
     <script type="module" src="../js/editarPetTutor.js"></script>
 
     <script src="/shared/services/theme.js"></script>
-</body>
+    </body>
 </html>
 

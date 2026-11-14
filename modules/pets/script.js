@@ -48,8 +48,9 @@ function criarCartao(pet) {
         })} kg`;
 
     // Apresenta o gênero de forma legível.
-    cartao.querySelector('[data-pet-genero]').textContent =
-        pet.genero === 'femea' ? 'Fêmea' : 'Macho';
+    const femea = pet.genero === 'femea';
+    cartao.querySelector('[data-pet-genero]').textContent = femea ? 'Fêmea' : 'Macho';
+    cartao.querySelector('[data-pet-icone-genero]').classList.add(femea ? 'fa-venus' : 'fa-mars');
 
     // Busca a figura e a imagem do cartão.
     const figura = cartao.querySelector('figure');

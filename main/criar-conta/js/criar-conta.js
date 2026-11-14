@@ -7,7 +7,7 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario } from '../../../shared/api/usuario.js';
+import { criarUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
@@ -24,6 +24,13 @@ async function realizarCadastro(usuario) {
 }
 
 function setupSignupForm() {
+  const googleButton = document.getElementById('btn-signup-google');
+  if (googleButton) {
+    googleButton.addEventListener('click', () => {
+      window.location.href = '/api/auth/google';
+    });
+  }
+
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
   const telefoneInput = document.getElementById('telefone');

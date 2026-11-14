@@ -5,19 +5,6 @@
    Carregue por último, depois do CSS da página, para preservar a cascata.
    ================================================== */
 
-:root {
-	--finance-column-width: 420px;
-}
-
-body.landing-page {
-	--finance-column-width: 440px;
-	background-color: var(--bg-color);
-}
-
-.app-shell {
-	--finance-column-width: 390px;
-}
-
 html[data-theme] #modules-nav-wrapper .modules-nav-item.active {
 	color: var(--tool-financas);
 	background: color-mix(in srgb, var(--tool-financas) 14%, transparent);

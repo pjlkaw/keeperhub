@@ -32,7 +32,7 @@ contém as ferramentas.
 
 ## Caminho de um pedido ao servidor
 
-1. O JavaScript da página chama uma função de `shared/api/` (ou chama a rota
+1. O JavaScript da página chama uma função de `shared/services/` (ou chama a rota
    diretamente, se ainda não houver um cliente compartilhado).
 2. O arquivo correspondente em `api/` recebe o pedido. Por exemplo,
    `api/login.js` corresponde a `/api/login`.
@@ -46,7 +46,7 @@ O navegador não deve importar `server/` nem conectar diretamente ao banco.
 
 - Tela: `main/entrar/index.html`
 - Interações da tela: `main/entrar/js/entrar.js`
-- Cliente HTTP compartilhado: `shared/api/usuario.js`
+- Cliente HTTP compartilhado: `shared/services/usuario.js`
 - Rota HTTP: `api/login.js`
 - Consulta de usuário: `server/repositories/usuario.js`
 - Conexão com o banco: `server/db.js`

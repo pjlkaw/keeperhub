@@ -28,8 +28,8 @@
     <script src="/shared/services/load-components.js"></script>
 </head>
 <body class="finance-page">
-  <main class="finance-shell reports-screen">
-    <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper finance-modules-nav" aria-label="Navegação entre módulos"><div class="modules-nav-bar">
     <a href="/modules/financas/index.html" data-module="financas" class="modules-nav-item active">
         <img src="/shared/img/logo-financas.png" alt="" class="modules-nav-item-icon" width="14" height="14" />
         Finanças
@@ -47,6 +47,9 @@
         Medicamentos
     </a>
 </div></nav>
+            <div class="app-container">
+  <main class="finance-shell reports-screen">
+    
 <header class="section-header-section" id="headerSection"></header>
     <section class="no-content-section" id="no-content-section" aria-label="Nenhuma transação cadastrada" hidden></section>
     <nav class="finance-tabs" aria-label="Seções de finanças"><a href="../index.html">Visão geral</a><a href="transacoes.html">Transações</a><a class="active" href="relatorios.html" aria-current="page">Relatórios</a><a href="contas.html">Contas</a><a href="vencimentos.html">Vencimentos</a><a href="nova-transacao.html">Nova transação</a></nav>
@@ -64,5 +67,8 @@
     </section>
   </main>
   <script type="module" src="../script.js"></script>
-</body>
+
+            </div>
+        </div>
+    </body>
 </html>

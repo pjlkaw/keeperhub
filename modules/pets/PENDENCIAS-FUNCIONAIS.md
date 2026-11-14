@@ -67,8 +67,14 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
   `pet.rotinaAlimentar` no `localStorage`.
 - [x] Permitir selecionar o pet quando há mais de um e manter o pet atual nos
   links para a edição da rotina alimentar.
-- [ ] A tela de cadastro de rotina ainda não persiste atividades de higiene e
-  bem-estar; a linha do dia e esses cuidados exibem estados vazios até essa
-  integração existir.
+- [x] O cadastro de rotina é um formulário único (higiene, alimentar e lazer), no
+  padrão do formulário de medicamento, com seleção de pets. A persistência de
+  higiene e lazer está feita (`rotinaHigiene` e `rotinaLazer` no pet), assim como
+  a da rotina alimentar (`rotinaAlimentar.refeicoes`).
+- [x] A edição e a remoção das rotinas passaram para a Rotina diária; a aba
+  "Rotina Alimentar" e a página `editar-pet-rotina-alimentar.html` foram
+  removidas do Editar pet.
+- [ ] As rotinas são salvas apenas localmente, no navegador (`localStorage`).
+  A integração com o MySQL (tabelas e rotas de API) continua pendente.
 - [ ] As anotações de comportamento ainda não são persistidas; o campo de
   anotação não grava dados no momento.

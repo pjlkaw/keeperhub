@@ -55,23 +55,58 @@ export async function salvarTutorApi(id, { nomeTutor, telefone }) {
 }
 
 // dados: { petIds, nome, nomePersonalizado, data, frequencia, proximaDose, clinica, horario, observacao }
-// Retorna as vacinas atualizadas, agrupadas pelo id do pet.
+// Retorna as vacinas por pet e os IDs criados neste envio.
 export async function cadastrarVacinaApi(dados) {
-    const resposta = await requisicao(`${URL_API}?acao=vacina`, {
+    return requisicao(`${URL_API}?acao=vacina`, {
         method: 'POST',
         body: JSON.stringify(dados),
     });
-    return resposta.vacinas ?? {};
+}
+
+export async function atualizarVacinasApi(dados) {
+    return requisicao(`${URL_API}?acao=vacina`, {
+        method: 'PUT',
+        body: JSON.stringify(dados),
+    });
+}
+
+export async function marcarVacinasAplicadasApi(ids) {
+    return requisicao(`${URL_API}?acao=vacina-realizada`, {
+        method: 'PUT',
+        body: JSON.stringify({ ids }),
+    });
+}
+
+export async function excluirVacinasApi(ids) {
+    const resposta = await requisicao(`${URL_API}?acao=vacina`, {
+        method: 'DELETE',
+        body: JSON.stringify({ ids }),
+    });
+    return resposta.vacinas;
 }
 
 // dados: { petIds, medico, especialidade, especialidadePersonalizada, clinica, data, horario, lembrar }
-// Retorna as consultas atualizadas, agrupadas pelo id do pet.
+// Retorna as consultas por pet e os IDs criados neste envio.
 export async function cadastrarConsultaApi(dados) {
-    const resposta = await requisicao(`${URL_API}?acao=consulta`, {
+    return requisicao(`${URL_API}?acao=consulta`, {
         method: 'POST',
         body: JSON.stringify(dados),
     });
-    return resposta.consultas ?? {};
+}
+
+export async function atualizarConsultasApi(dados) {
+    return requisicao(`${URL_API}?acao=consulta`, {
+        method: 'PUT',
+        body: JSON.stringify(dados),
+    });
+}
+
+export async function excluirConsultasApi(ids) {
+    const resposta = await requisicao(`${URL_API}?acao=consulta`, {
+        method: 'DELETE',
+        body: JSON.stringify({ ids }),
+    });
+    return resposta.consultas;
 }
 
 export async function alterarLembreteConsultaApi(idConsulta, lembrar) {
@@ -88,6 +123,14 @@ export async function registrarConsultaRealizadaApi(idConsulta, resumo) {
         body: JSON.stringify({ resumo }),
     });
     return resposta.consulta;
+}
+
+export async function registrarConsultasRealizadasApi(ids, resumo) {
+    const resposta = await requisicao(`${URL_API}?acao=consulta-realizada`, {
+        method: 'PUT',
+        body: JSON.stringify({ ids, resumo }),
+    });
+    return resposta.consultas;
 }
 
 export async function excluirPetApi(id) {

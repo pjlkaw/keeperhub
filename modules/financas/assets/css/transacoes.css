@@ -12,35 +12,6 @@
     display: none !important;
 }
 
-.finance-shell {
-    width: min(420px, 100%);
-    min-height: 100vh;
-    margin: 0 auto;
-}
-
-.transactions-list-screen {
-    min-height: 100vh;
-    color: var(--text-color);
-    background: var(--bg-color);
-}
-
-.transactions-header {
-    display: flex;
-    align-items: center;
-    height: 73px;
-    padding: 16px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.transactions-header h1 {
-    flex: 1;
-    margin: 0;
-    padding-right: 40px;
-    text-align: center;
-    font-size: 24px;
-    line-height: 32px;
-}
-
 .transactions-list-screen .finance-tabs {
     border-bottom: 0;
     scrollbar-width: none;

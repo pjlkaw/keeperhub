@@ -4,6 +4,7 @@ export const AUTH_STORAGE_KEY = 'keeperhub-auth-session';
 // HttpOnly emitido pelo servidor, que nao pode ser lido nem fabricado pelo JavaScript.
 function criarSessao(usuario) {
     const sessao = {
+        id_usuario: usuario.id_usuario,
         name: usuario.nome_usuario,
         email: usuario.email_usuario,
         phone: usuario.numero_usuario || '',

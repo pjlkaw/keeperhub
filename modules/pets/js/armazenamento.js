@@ -1,12 +1,13 @@
 // Armazenamento do módulo Pets.
-// Os dados principais do pet (nome, espécie, raça, nascimento, peso, gênero, foto e tutor)
-// as vacinas e as consultas vêm do banco pela API. Medicações, despesas e rotina alimentar
+// Os dados principais do pet, as vacinas e as consultas vêm do banco pela API.
+// Medicações, despesas e rotina alimentar
 // ainda ficam no localStorage deste navegador, guardadas pelo id do pet no banco,
 // até que cada parte ganhe sua própria API.
 import { listarPetsApi } from './api.js';
 
 // Chave dos dados que continuam locais, separados por id do pet.
 export const PETS_STORAGE_KEY = 'keeperhub-pets-dados-locais';
+const GRUPOS_STORAGE_KEY = 'keeperhub-pets-grupos';
 
 // Campos que pertencem ao banco e não podem ser gravados no localStorage.
 const CAMPOS_DO_BANCO = new Set([
@@ -17,9 +18,21 @@ const CAMPOS_DO_BANCO = new Set([
 // Estado da página: pets carregados da API e o erro da última tentativa.
 let petsDoBanco = null;
 let erroCarregamento = null;
+let carregamentoEmAndamento = null;
 
 // Busca os pets na API e guarda na memória. Deve ser chamada antes de listar.
-export async function carregarPets() {
+// Chamadas simultâneas compartilham a mesma busca, como no cadastro unificado.
+export function carregarPets({ reutilizar = false } = {}) {
+    if (reutilizar && petsDoBanco) return Promise.resolve(true);
+    if (!carregamentoEmAndamento) {
+        carregamentoEmAndamento = buscarPetsDoServidor().finally(() => {
+            carregamentoEmAndamento = null;
+        });
+    }
+    return carregamentoEmAndamento;
+}
+
+async function buscarPetsDoServidor() {
     try {
         const pets = await listarPetsApi();
         petsDoBanco = pets.map(pet => ({ ...pet, id: String(pet.id) }));
@@ -48,11 +61,12 @@ export function definirPetDoBanco(pet) {
 }
 
 // Substitui na memória as consultas devolvidas pela API (objeto { idDoPet: [consultas] }).
-export function definirConsultasDoBanco(consultasPorPet) {
+export function definirConsultasDoBanco(consultasPorPet, idsDoGrupo) {
     if (!petsDoBanco || !consultasPorPet) return;
+    guardarGrupo('consultas', idsDoGrupo);
     petsDoBanco = petsDoBanco.map(pet => ({
         ...pet,
-        consultas: Array.isArray(consultasPorPet[pet.id]) ? consultasPorPet[pet.id] : (pet.consultas ?? [])
+        consultas: Array.isArray(consultasPorPet[pet.id]) ? consultasPorPet[pet.id] : []
     }));
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
@@ -73,11 +87,12 @@ export function definirConsultaDoBanco(consulta) {
 }
 
 // Substitui na memória as vacinas devolvidas pela API (objeto { idDoPet: [vacinas] }).
-export function definirVacinasDoBanco(vacinasPorPet) {
+export function definirVacinasDoBanco(vacinasPorPet, idsDoGrupo) {
     if (!petsDoBanco || !vacinasPorPet) return;
+    guardarGrupo('vacinas', idsDoGrupo);
     petsDoBanco = petsDoBanco.map(pet => ({
         ...pet,
-        vacinas: Array.isArray(vacinasPorPet[pet.id]) ? vacinasPorPet[pet.id] : (pet.vacinas ?? [])
+        vacinas: Array.isArray(vacinasPorPet[pet.id]) ? vacinasPorPet[pet.id] : []
     }));
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
@@ -120,9 +135,62 @@ function somenteCamposLocais(dados) {
     );
 }
 
-// Junta os dados do banco com os dados locais de cada pet.
-function combinar(pet, dadosLocais) {
-    return { ...(dadosLocais[pet.id] ?? {}), ...pet };
+function lerGrupos() {
+    try {
+        const grupos = JSON.parse(localStorage.getItem(GRUPOS_STORAGE_KEY) ?? '{}');
+        if (grupos && typeof grupos === 'object' && !Array.isArray(grupos)) return grupos;
+    } catch {
+        // Os registros do banco continuam disponíveis sem o agrupamento visual.
+    }
+    return {};
+}
+
+// Associa somente os IDs devolvidos pelo mesmo cadastro na API.
+function guardarGrupo(campo, criados) {
+    if (!Array.isArray(criados) || criados.length < 2) return;
+    const grupos = lerGrupos();
+    const gruposDoCampo = { ...grupos[campo] };
+    for (const id of criados) gruposDoCampo[id] = String(criados[0]);
+    grupos[campo] = gruposDoCampo;
+    try {
+        localStorage.setItem(GRUPOS_STORAGE_KEY, JSON.stringify(grupos));
+    } catch {
+        // A gravação no servidor já terminou; o card pode aparecer separado.
+    }
+}
+
+// Separa um registro editado individualmente de um cadastro feito para vários pets.
+export function separarRegistrosDoGrupo(campo, ids) {
+    if (!Array.isArray(ids) || !ids.length) return;
+    const grupos = lerGrupos();
+    const gruposDoCampo = { ...(grupos[campo] ?? {}) };
+    let alterado = false;
+    for (const id of ids) {
+        if (Object.hasOwn(gruposDoCampo, String(id))) {
+            delete gruposDoCampo[String(id)];
+            alterado = true;
+        }
+    }
+    if (!alterado) return;
+    grupos[campo] = gruposDoCampo;
+    try {
+        localStorage.setItem(GRUPOS_STORAGE_KEY, JSON.stringify(grupos));
+    } catch {
+        // O dado principal já está salvo no servidor; só perde a junção visual.
+    }
+}
+
+// Junta os dados locais ao pet e aplica o agrupamento visual aos registros da API.
+function combinar(pet, dadosLocais, grupos) {
+    const combinado = { ...(dadosLocais[pet.id] ?? {}), ...pet };
+    for (const campo of ['consultas', 'vacinas']) {
+        if (!Array.isArray(pet[campo]) || !grupos[campo]) continue;
+        combinado[campo] = pet[campo].map(registro => {
+            const grupoId = grupos[campo][registro.id];
+            return typeof grupoId === 'string' ? { ...registro, grupoId } : registro;
+        });
+    }
+    return combinado;
 }
 
 // Retorna os pets do usuário. Lança erro se carregarPets() não tiver funcionado.
@@ -131,7 +199,8 @@ export function listarPets() {
         throw erroCarregamento ?? new Error('Não foi possível carregar os pets do servidor.');
     }
     const dadosLocais = lerDadosLocais();
-    return petsDoBanco.map(pet => combinar(pet, dadosLocais));
+    const grupos = lerGrupos();
+    return petsDoBanco.map(pet => combinar(pet, dadosLocais, grupos));
 }
 
 // Busca um pet pelo identificador usado nas URLs do módulo.
@@ -159,7 +228,8 @@ export function atualizarVariosPets(atualizacoes) {
     }
     gravarDadosLocais(dadosLocais);
 
-    return ids.map(id => combinar(petsDoBanco.find(pet => pet.id === id), dadosLocais));
+    const grupos = lerGrupos();
+    return ids.map(id => combinar(petsDoBanco.find(pet => pet.id === id), dadosLocais, grupos));
 }
 
 // Atualiza os dados locais de um pet, mantendo a assinatura usada pelo restante do módulo.
