@@ -168,7 +168,7 @@ function userLoadContent(user) {
     userImage.hidden = true;
     userImage.removeAttribute('src');
     userImage.onerror = null;
-    userImage.style.display = "flex";
+    userImage.style.display = 'none';
   }
 
   const userIcon = document.getElementById('userIcon');
@@ -187,11 +187,13 @@ function userLoadContent(user) {
     userImage.onerror = () => {
       userImage.hidden = true;
       userImage.removeAttribute('src');
+      userImage.style.display = 'none';
       if (userIcon) userIcon.style.display = '';
     };
     if (userIcon) userIcon.style.display = 'none';
     userImage.src = foto;
     userImage.hidden = false;
+    userImage.style.display = '';
   }
 
 }
