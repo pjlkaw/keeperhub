@@ -15,6 +15,7 @@ function prepararFormularioTeste() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   formulario.addEventListener('submit', (evento) => {
+    if (usuarioAutenticadoNaHome) return;
     const email = campoEmail.value.trim();
     if (!email || !emailRegex.test(email)) {
       evento.preventDefault();
@@ -42,6 +43,54 @@ function prepararFormularioTeste() {
 function setupHomeInteractions() {
   prepararFormularioTeste();
   const themeToggle = document.getElementById('theme-toggle');
+  const headerCta = document.getElementById('btn-header-cta');
+
+  let estadoConta = 'verificando';
+  const verificacaoConta = carregarUsuarioAtual()
+    .then(() => {
+      estadoConta = 'autenticado';
+      usuarioAutenticadoNaHome = true;
+      const campoEmail = document.getElementById('trial-email');
+      if (campoEmail) campoEmail.required = false;
+      if (!headerCta) return;
+      headerCta.textContent = 'Escolher módulos';
+      headerCta.href = '../compra/index.html';
+    })
+    .catch((erro) => {
+      estadoConta = erro.status === 401 ? 'anonimo' : 'erro';
+      if (erro.status !== 401) console.error('[Home] Não foi possível validar a sessão:', erro);
+    });
+
+  const ativarTeste = async (evento) => {
+    evento.preventDefault();
+    const origem = evento.currentTarget;
+    await verificacaoConta;
+    if (estadoConta === 'anonimo') {
+      if (origem instanceof HTMLFormElement) {
+        if (!origem.reportValidity()) return;
+        const destino = new URL(origem.action, window.location.href);
+        new FormData(origem).forEach((valor, chave) => destino.searchParams.set(chave, String(valor)));
+        window.location.href = destino.toString();
+      } else {
+        window.location.href = origem.href;
+      }
+      return;
+    }
+    if (estadoConta !== 'autenticado') {
+      window.alert('Não foi possível validar sua sessão. Atualize a página e tente novamente.');
+      return;
+    }
+    try {
+      await ativarTesteGratis();
+      window.location.href = '../hub/index.html';
+    } catch (erro) {
+      window.alert(erro.message || 'Não foi possível ativar o teste grátis.');
+    }
+  };
+  document.querySelector('.formulario-teste')?.addEventListener('submit', ativarTeste);
+  document.querySelectorAll('a[href*="modo=teste"]').forEach((link) => {
+    link.addEventListener('click', ativarTeste);
+  });
 
   function atualizarBotaoTema() {
     if (!themeToggle) return;
@@ -71,4 +120,8 @@ if (document.readyState === 'loading') {
 } else {
   setupHomeInteractions();
 }
+
+import { carregarUsuarioAtual, ativarTesteGratis } from '../../../shared/services/usuario.js';
+
+let usuarioAutenticadoNaHome = false;
 

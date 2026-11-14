@@ -69,7 +69,8 @@ body {
 
 .botao-entrar,
 .botao-criar,
-.botao-teste {
+.botao-teste,
+.botao-comprar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -162,6 +163,12 @@ h3 {
 .botao-teste {
   background: var(--cor-modulo);
   color: #f4f4f5;
+}
+
+.botao-comprar {
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-muted);
 }
 
 .botao-teste:hover,
