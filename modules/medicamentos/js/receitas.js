@@ -1,5 +1,6 @@
 import { listarRegistros } from "./armazenamento.js";
 import {
+    adicionarAnexoReceitaApi,
     buscarReceitaApi,
     excluirAnexoReceitaApi,
     excluirReceitaApi,
@@ -10,6 +11,12 @@ import { mostrarRetornoFormulario } from "./formularios.js";
 import { alertShared } from "/shared/services/interface.js";
 
 const tamanhoMaximoAnexos = 1024 * 1024;
+const tiposAnexoPermitidos = new Set([
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+]);
 
 function confirmarAcao(mensagem) {
     return new Promise((resolver) => {
@@ -232,58 +239,7 @@ async function mostrarDetalhesReceita() {
         if (valores[0]) valores[0].textContent = receita.especialidade || "Não informada";
         if (valores[1]) valores[1].textContent = formatarData(receita.data);
         if (valores[2]) valores[2].textContent = medicamentoDaReceita(receita);
-        const secaoAnexos = document.querySelector("#attachment-title")?.closest(".med-card-section");
-        const listaAnexos = secaoAnexos?.querySelector(".med-routine-list");
-        if (listaAnexos) {
-            listaAnexos.replaceChildren();
-            (receita.anexos ?? []).forEach((anexo) => {
-                const item = document.createElement("div");
-                item.className = "med-attachment-item";
-
-                const link = document.createElement("a");
-                link.className = "med-routine-item med-attachment-link";
-                link.href = anexo.url;
-                link.download = anexo.nome;
-                link.target = "_blank";
-                link.rel = "noopener";
-                link.innerHTML = '<i class="fa-solid fa-paperclip med-routine-icon" aria-hidden="true"></i>';
-                const nome = document.createElement("span");
-                nome.textContent = anexo.nome;
-                link.append(nome);
-
-                const remover = document.createElement("button");
-                remover.type = "button";
-                remover.className = "btn-meds-remove-attachment";
-                remover.setAttribute("aria-label", `Remover anexo ${anexo.nome}`);
-                remover.title = "Remover anexo";
-                remover.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
-                remover.addEventListener("click", async (evento) => {
-                    evento.preventDefault();
-                    evento.stopPropagation();
-                    if (!await confirmarAcao(`Remover o anexo ${anexo.nome}?`)) return;
-
-                    remover.disabled = true;
-                    try {
-                        await excluirAnexoReceitaApi(anexo.id);
-                        item.remove();
-                        if (!listaAnexos.querySelector(".med-attachment-item")) {
-                            mostrarListaAnexosVazia(listaAnexos);
-                        }
-                        alertShared("Anexo removido com sucesso.");
-                    } catch (erro) {
-                        remover.disabled = false;
-                        alertShared(erro.message);
-                    }
-                });
-
-                item.append(link, remover);
-                listaAnexos.append(item);
-            });
-
-            if (!receita.anexos?.length) {
-                mostrarListaAnexosVazia(listaAnexos);
-            }
-        }
+        renderizarAnexos(receita);
     } catch (erro) {
         const principal = document.querySelector("#main-content");
         if (principal) {
@@ -297,11 +253,102 @@ async function mostrarDetalhesReceita() {
     }
 }
 
-function mostrarListaAnexosVazia(lista) {
+function renderizarAnexos(receita) {
+    const secaoAnexos = document.querySelector("#attachment-title")?.closest(".med-card-section");
+    const listaAnexos = secaoAnexos?.querySelector(".med-routine-list");
+    if (!listaAnexos) return;
+
+    listaAnexos.replaceChildren();
+    if (!receita.anexos?.length) {
+        mostrarListaAnexosVazia(listaAnexos, receita.id);
+        return;
+    }
+
+    receita.anexos.forEach((anexo) => {
+        const item = document.createElement("div");
+        item.className = "med-attachment-item";
+
+        const link = document.createElement("a");
+        link.className = "med-routine-item med-attachment-link";
+        link.href = anexo.url;
+        link.download = anexo.nome;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.innerHTML = '<i class="fa-solid fa-paperclip med-routine-icon" aria-hidden="true"></i>';
+        const nome = document.createElement("span");
+        nome.textContent = anexo.nome;
+        link.append(nome);
+
+        const remover = document.createElement("button");
+        remover.type = "button";
+        remover.className = "btn-meds-remove-attachment";
+        remover.setAttribute("aria-label", `Remover anexo ${anexo.nome}`);
+        remover.title = "Remover anexo";
+        remover.innerHTML = '<i class="fa-solid fa-trash-can" aria-hidden="true"></i>';
+        remover.addEventListener("click", async (evento) => {
+            evento.preventDefault();
+            evento.stopPropagation();
+            if (!await confirmarAcao(`Remover o anexo ${anexo.nome}?`)) return;
+
+            remover.disabled = true;
+            try {
+                await excluirAnexoReceitaApi(anexo.id);
+                const receitaAtualizada = await buscarReceitaApi(receita.id);
+                renderizarAnexos(receitaAtualizada);
+                alertShared("Anexo removido com sucesso.");
+            } catch (erro) {
+                remover.disabled = false;
+                alertShared(erro.message);
+            }
+        });
+
+        item.append(link, remover);
+        listaAnexos.append(item);
+    });
+}
+
+function mostrarListaAnexosVazia(lista, idReceita) {
     const mensagem = document.createElement("p");
     mensagem.className = "meds-empty-state";
     mensagem.textContent = "Nenhum arquivo anexado.";
-    lista.append(mensagem);
+
+    const adicionar = document.createElement("button");
+    adicionar.type = "button";
+    adicionar.className = "btn-meds-action";
+    adicionar.innerHTML = '<i class="fa-solid fa-paperclip" aria-hidden="true"></i><span>Adicionar anexo</span>';
+
+    const seletor = document.createElement("input");
+    seletor.type = "file";
+    seletor.accept = ".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp";
+    seletor.hidden = true;
+    adicionar.addEventListener("click", () => seletor.click());
+    seletor.addEventListener("change", async () => {
+        const arquivo = seletor.files?.[0];
+        seletor.value = "";
+        if (!arquivo) return;
+        if (!tiposAnexoPermitidos.has(arquivo.type)) {
+            alertShared("Escolha um PDF ou uma imagem válida.");
+            return;
+        }
+        if (arquivo.size > tamanhoMaximoAnexos) {
+            alertShared("O anexo precisa ter até 1 MB.");
+            return;
+        }
+
+        adicionar.disabled = true;
+        try {
+            const anexo = await lerArquivo(arquivo);
+            await adicionarAnexoReceitaApi(idReceita, anexo);
+            const receitaAtualizada = await buscarReceitaApi(idReceita);
+            renderizarAnexos(receitaAtualizada);
+            alertShared("Anexo adicionado com sucesso.");
+        } catch (erro) {
+            adicionar.disabled = false;
+            alertShared(erro.message || "Não foi possível adicionar o anexo.");
+        }
+    });
+
+    lista.append(mensagem, adicionar, seletor);
 }
 
 function configurarExclusaoReceita(receita) {

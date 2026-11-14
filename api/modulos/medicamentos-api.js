@@ -12,6 +12,7 @@ import {
   salvarRegistroUso,
 } from '../../server/repositories/medicamentos/medicamentos.js';
 import {
+  adicionarAnexoReceita,
   buscarReceita,
   criarReceita,
   excluirAnexoReceita,
@@ -232,6 +233,13 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST' && req.query?.acao === 'receita') {
       const receita = await criarReceita(usuarioId, req.body || {});
+      return res.status(201).json({ receita });
+    }
+
+    if (req.method === 'POST' && req.query?.acao === 'anexo') {
+      const id = idDaRequisicao(req);
+      if (!id) return res.status(400).json({ erro: 'Informe a receita.' });
+      const receita = await adicionarAnexoReceita(usuarioId, id, req.body || {});
       return res.status(201).json({ receita });
     }
 
