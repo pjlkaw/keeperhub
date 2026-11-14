@@ -43,9 +43,9 @@ Esse arquivo **não deve ser enviado para o GitHub**, pois contém as credenciai
 Adicione as informações de conexão fornecidas pela equipe:
 
 ```env
-DB_HOST=keeperhub-pedrorochabispo-dd37.j.aivencloud.com
-DB_PORT=14796
-DB_USER=avnadmin
+DB_HOST=SEU_HOST
+DB_PORT=SUA_PORTA
+DB_USER=SEU_USUARIO
 DB_PASSWORD=SUA_SENHA
 DB_NAME=defaultdb
 ```

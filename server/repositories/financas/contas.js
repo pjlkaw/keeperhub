@@ -51,8 +51,27 @@ export async function atualizarConta(usuarioId, contaId, dados) {
 export async function excluirConta(usuarioId, contaId) {
     const [resultado] = await db.query(
         `UPDATE conta SET ativo = 0
-         WHERE id_conta = ? AND usuario_id = ? AND ativo = 1`,
+         WHERE id_conta = ? AND usuario_id = ? AND ativo = 1
+           AND NOT EXISTS (
+               SELECT 1
+               FROM lancamento
+               WHERE conta_id = conta.id_conta
+           )`,
         [contaId, usuarioId]
     );
+    if (resultado.affectedRows) return resultado;
+
+    const [contas] = await db.query(
+        `SELECT id_conta
+         FROM conta
+         WHERE id_conta = ? AND usuario_id = ? AND ativo = 1
+         LIMIT 1`,
+        [contaId, usuarioId]
+    );
+    if (contas[0]) {
+        const exception = new Error('Esta conta possui transações vinculadas e não pode ser excluída.');
+        exception.code = 'ACCOUNT_HAS_TRANSACTIONS';
+        throw exception;
+    }
     return resultado;
 }
