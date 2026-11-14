@@ -115,6 +115,18 @@ As imagens são validadas no backend com `sharp` quanto ao formato, tamanho e
 dimensões. O `nsfwjs` classifica o conteúdo localmente e rejeita imagens com
 probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
+## Módulos selecionados
+
+Execute [`docs/modulos-acesso.sql`](./modulos-acesso.sql) no mesmo banco da
+aplicação para criar o catálogo de módulos e a tabela `usuario_modulo`. Se essa
+tabela já existia sem as colunas `origem` e `expira_em`, execute também
+[`docs/modulos-acesso-migracao.sql`](./modulos-acesso-migracao.sql). O teste
+grátis é concedido pelo servidor e expira em 30 dias. Ao confirmar módulos e
+período na tela de compra, a API grava as aquisições em `usuario_modulo` e o Hub
+libera o acesso. Esse fluxo registra planos no KeeperHub, mas não processa
+pagamentos reais. O cadastro com uma seleção de módulos grava a conta e o plano
+na mesma transação.
+
 Um repositório importa o pool por um caminho relativo. Por exemplo, em `server/repositories/usuario.js`:
 
 ```js

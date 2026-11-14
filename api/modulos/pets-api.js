@@ -30,6 +30,7 @@ import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
+import { usuarioTemAcesso } from '../../server/repositories/modulos.js';
 
 const ESPECIES = [
   'cachorro', 'gato', 'passaro', 'cavalo', 'reptil',
@@ -222,6 +223,9 @@ export function criarHandlerPets(deps) {
       const usuarioId = deps.usuarioDaSessao(req);
       if (!usuarioId) {
         return res.status(401).json({ erro: 'Entre na sua conta para continuar.' });
+      }
+      if (deps.verificarAcesso && !(await deps.verificarAcesso(usuarioId, 'pets'))) {
+        return res.status(403).json({ erro: 'O módulo Pets não está ativo para esta conta.' });
       }
 
       const id = idDaRequisicao(req);
@@ -451,5 +455,6 @@ export default criarHandlerPets({
   },
   usuarioDaSessao,
   origemDaRequisicaoValida,
+  verificarAcesso: usuarioTemAcesso,
   prepararFoto: prepararFotoPadrao,
 });

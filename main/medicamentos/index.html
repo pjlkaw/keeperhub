@@ -64,6 +64,7 @@
   <link rel="stylesheet" href="../../shared/styles/variables.css" />
   <link rel="stylesheet" href="../../shared/styles/header-page.css" />
   <link rel="stylesheet" href="css/medicamentos.css" />
+  <link rel="stylesheet" href="/main/css/account-header.css" />
   <link rel="stylesheet" href="../../shared/styles/rodape.css" />
 </head>
   <body>
@@ -75,7 +76,7 @@
           <img class="nome-marca nome-marca-claro" src="../assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" width="90" height="30" />
         </a>
         <nav class="acesso" aria-label="Acesso e cadastro">
-          <a class="botao-entrar" href="../entrar/index.html">Entrar</a>
+          <a class="botao-entrar" id="btn-header-login" href="../entrar/index.html">Entrar</a>
           <a class="botao-criar" href="../criar-conta/index.html">Criar</a>
         </nav>
       </div>
@@ -100,7 +101,8 @@
         <h1 class="titulo-principal" id="titulo-principal">Sua rotina de medicamentos mais organizada.</h1>
         <p class="texto-principal">Organize seus medicamentos, acompanhe estoque e validade e configure lembretes para horários e doses importantes da sua rotina.</p>
         <div class="acoes">
-          <a class="botao-teste" href="../criar-conta/index.html">Experimentar por 30 dias</a>
+          <a class="botao-teste" href="../criar-conta/index.html?modo=teste">Experimentar por 30 dias</a>
+          <a class="botao-comprar" href="../compra/index.html">Comprar</a>
         </div>
       </section>
 
@@ -194,7 +196,7 @@
       <section class="chamada-teste container" aria-labelledby="titulo-teste">
         <h2 class="titulo-secao" id="titulo-teste">Comece a organizar sua rotina de medicamentos.</h2>
         <p>Experimente o KeeperHub gratuitamente por 30 dias.</p>
-        <a class="botao-teste" href="../criar-conta/index.html">Experimentar por 30 dias</a>
+        <a class="botao-teste" href="../criar-conta/index.html?modo=teste">Experimentar por 30 dias</a>
       </section>
     </main>
 
@@ -217,5 +219,6 @@
     </footer>
 
     <script src="../../shared/services/theme.js"></script>
+    <script type="module" src="/main/js/account-header.js"></script>
   </body>
 </html>

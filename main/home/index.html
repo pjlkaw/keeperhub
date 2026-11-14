@@ -86,6 +86,7 @@
     <link rel="stylesheet" href="../../shared/styles/components.css" />
     <link rel="stylesheet" href="../../shared/styles/header-page.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="/main/css/account-header.css" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="../../shared/styles/rodape.css" />
@@ -101,7 +102,7 @@
             <img src="../assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub" class="nome-marca nome-marca-claro" width="90" height="30" />
           </a>
           <nav class="acesso" id="header-actions" aria-label="Acesso e Cadastro">
-            <a href="../entrar/index.html" class="botao-entrar" id="btn-header-login"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+            <a href="../entrar/index.html" class="botao-entrar" id="btn-header-login" aria-label="Entrar na sua conta" title="Entrar na sua conta"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></a>
             <a href="../criar-conta/index.html" class="botao-criar" id="btn-header-cta">Criar</a>
           </nav>
         </div>
@@ -127,6 +128,7 @@
               Organize o que importa.
             </p>
             <form class="formulario-teste" action="../criar-conta/index.html" method="get">
+              <input type="hidden" name="modo" value="teste" />
               <label for="trial-email">Teste grátis por 30 dias</label>
               <div class="campos-teste">
                 <div class="campo-email-teste">
@@ -218,7 +220,7 @@
           <div class="container">
             <h2 class="titulo-secao" id="titulo-teste">Comece pelo que importa para você.</h2>
             <p>Experimente o KeeperHub gratuitamente por 30 dias.</p>
-            <a class="botao-teste" href="../criar-conta/index.html">Experimentar por 30 dias</a>
+            <a class="botao-teste" href="../criar-conta/index.html?modo=teste">Experimentar por 30 dias</a>
           </div>
         </section>
       </main>
@@ -248,6 +250,7 @@
 
     <!-- Scripts Exclusivos da Home (Modular ESM) -->
     <script type="module" src="js/home.js"></script>
+    <script type="module" src="/main/js/account-header.js"></script>
   </body>
 </html>
 

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.add('module-access-pending');</script>
+    <style>html.module-access-pending body { visibility: hidden; }</style>
 
     <title>Despensa — KeeperHub</title>
 
@@ -39,8 +41,7 @@
     <script src="/shared/services/load-components.js"></script>
 
     <!-- Carrega os scripts responsáveis pelo funcionamento da despensa -->
-    <script type="module" src="/modules/despensa/script.js"></script>
-    <script type="module" src="/modules/despensa/js/index.js"></script>
+    <script type="module" src="/modules/despensa/js/guard.js"></script>
 
     <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
     <link rel="stylesheet" href="/shared/styles/btn-add.css">

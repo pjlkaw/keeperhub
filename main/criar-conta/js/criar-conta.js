@@ -40,6 +40,16 @@ function setupSignupForm() {
   const submitBtn = document.getElementById('btn-submit-signup');
   const completionStatus = document.getElementById('signup-completion-status');
   let isSubmitting = false;
+  const parametrosCompra = new URLSearchParams(window.location.search);
+  const modulosSelecionados = [...new Set((parametrosCompra.get('modulos') || '')
+    .split(',')
+    .map((codigo) => codigo.trim())
+    .filter(Boolean))];
+  const periodoSelecionado = parametrosCompra.get('periodo') || 'mensal';
+  const modoParametro = parametrosCompra.get('modo');
+  const modoCadastro = ['teste', 'compra'].includes(modoParametro)
+    ? modoParametro
+    : 'cadastro';
 
   const nameError = document.getElementById('name-error');
   const emailError = document.getElementById('email-error');
@@ -275,7 +285,10 @@ function setupSignupForm() {
           email_usuario: emailVal,
           numero_usuario: phoneDigits,
           genero_usuario: sexoVal,
-          senha_usuario: passVal
+          senha_usuario: passVal,
+          modo: modoCadastro,
+          modulos: modulosSelecionados,
+          periodo: periodoSelecionado
         });
       } finally {
         isSubmitting = false;
