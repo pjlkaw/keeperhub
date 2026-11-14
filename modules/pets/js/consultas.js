@@ -332,7 +332,7 @@ function renderizarLista() {
             '<li class="consulta-vazia">Nenhuma consulta futura cadastrada.</li>';
     }
 
-    futuras.forEach((consulta, indice) => {
+    futuras.forEach(consulta => {
         const id = escapar(consulta.id);
         consultasExibidas.set(String(consulta.id), consulta.membros);
         const especialidadeConsulta = consulta.especialidade === 'outra'
@@ -340,16 +340,40 @@ function renderizarLista() {
             : nomeEspecialidade[consulta.especialidade] ?? consulta.especialidadePersonalizada;
         const detalheMedico = [especialidadeConsulta ?? '', consulta.clinica ?? '']
             .filter(Boolean)
-            .join(' · ');
+            .join(' · ') || 'Local não informado';
+        const etiquetaPets = consulta.nomesPets?.length
+            ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
+            : '';
+        const dataHora = [formatarData(consulta.data), consulta.horario].filter(Boolean).join(' · ');
         const item = document.createElement('li');
 
-        item.innerHTML = `<article class="card cartao-consulta${indice === 0 ? ' cartao-consulta--destaque' : ''}" data-consulta-id="${id}">
-            <h3 class="cartao-consulta__veterinario">${escapar(consulta.medico)}${todosPetsSelecionados ? " · " + escapar(consulta.nomesPets.join(", ")) : ""}</h3>
-            <p class="cartao-consulta__local"><i class="fa-solid fa-location-dot icone" aria-hidden="true"></i>${escapar(detalheMedico || 'Local não informado')}</p>
-            <p class="cartao-consulta__data-hora"><span class="cartao-consulta__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>${escapar(formatarData(consulta.data))}</span><span class="cartao-consulta__horario"><i class="fa-regular fa-clock icone" aria-hidden="true"></i>${escapar(consulta.horario || '')}</span></p>
-            <div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div>
-            <details class="confirmar-consulta"><summary class="confirmar-consulta__acionador">Registrar atendimento</summary><form class="confirmar-consulta__formulario" data-form-historico><div class="campo-formulario"><label for="resumo-${id}">Resumo da consulta</label><textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea></div><button type="submit" class="botao-principal">Salvar no Histórico</button></form></details>
-        </article>`;
+        item.innerHTML = `
+            <article class="card cartao-consulta" data-consulta-id="${id}">
+                <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
+                <div class="cartao-consulta__informacoes">
+                    <h3 class="linha-tempo-medica__titulo cartao-consulta__veterinario">
+                        ${escapar(consulta.medico)}${etiquetaPets}
+                    </h3>
+                    <p class="linha-tempo-medica__data">
+                        <time datetime="${escapar(consulta.data)}">${escapar(dataHora)}</time>
+                    </p>
+                    <p class="linha-tempo-medica__descricao">${escapar(detalheMedico)}</p>
+                    <div class="acoes-cartao-registro">
+                        <a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a>
+                        <button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button>
+                        <details class="confirmar-consulta">
+                            <summary class="confirmar-consulta__acionador">Registrar atendimento</summary>
+                            <form class="confirmar-consulta__formulario" data-form-historico>
+                                <div class="campo-formulario">
+                                    <label for="resumo-${id}">Resumo da consulta</label>
+                                    <textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea>
+                                </div>
+                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </div>
+                </div>
+            </article>`;
         proximas.append(item);
     });
 
@@ -360,10 +384,11 @@ function renderizarLista() {
 
     realizadas.forEach(consulta => {
         const item = document.createElement('li');
+        item.className = 'item-historico-pets';
         const etiquetaPets = consulta.nomesPets?.length
             ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
             : '';
-        item.innerHTML = `<article class="linha-tempo-medica__item"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data">${escapar(formatarData(consulta.data))}</p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
+        item.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(consulta.data)}">Consulta em ${escapar(formatarData(consulta.data))}</time></p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
         historico.append(item);
     });
 }

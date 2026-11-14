@@ -58,11 +58,7 @@ LAYOUT E RESUMO DAS DESPESAS
   font-variant-numeric: tabular-nums;
 }
 
-.despesas-navegar,
-/* ==================================================
-FORMULÁRIO DE NOVA DESPESA
-================================================== */
-.nova-despesa__fechar {
+.despesas-navegar {
   display: grid;
   width: 44px;
   height: 44px;
@@ -247,7 +243,7 @@ LISTA DE LANÇAMENTOS
   border-radius: 9px;
 }
 
-.despesa-icone .despesa-glyph { font-size: 16px; line-height: 1; color: var(--text-muted); }
+.despesa-icone .icone-despesa { font-size: 16px; line-height: 1; color: var(--text-muted); }
 
 .categoria-despesa__percentual {
   align-self: center;
@@ -288,7 +284,7 @@ LISTA DE LANÇAMENTOS
   font-weight: 400;
 }
 
-.grupo-despesas__cabecalho .despesa-glyph { flex: 0 0 14px; width: 14px; font-size: 14px; line-height: 1; color: var(--pets-vaccine); }
+.grupo-despesas__cabecalho .icone-despesa { flex: 0 0 14px; width: 14px; font-size: 14px; line-height: 1; color: var(--pets-vaccine); }
 
 .lista-lancamentos {
   padding: 4px 16px;
@@ -323,6 +319,10 @@ LISTA DE LANÇAMENTOS
   line-height: 1.4;
 }
 
+.lancamento__titulo .etiqueta-pets-registro {
+  margin-left: 0;
+}
+
 .lancamento__detalhes {
   margin-top: 3px;
   font-size: 0.75rem;
@@ -338,64 +338,117 @@ LISTA DE LANÇAMENTOS
   color: var(--pets-primary-readable);
 }
 
-.lancamento__etiqueta {
-  padding: 4px 8px;
-  color: var(--pets-primary-readable);
-  background: var(--pets-primary-soft);
-  border: 1px solid var(--pets-primary-border);
-  border-radius: var(--pets-radius-pill);
+.resumo-despesas__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.resumo-despesas__meta > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.resumo-despesas__meta > div strong {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.resumo-despesas__botao-meta {
+  display: flex;
+  width: fit-content;
+  min-height: 36px;
+  padding: 8px 12px;
+  margin: 12px 0 0 auto;
   font-size: 0.6875rem;
   white-space: nowrap;
 }
 
-/* Formulário fora do fluxo: o conteúdo inicial segue o desenho enviado. */
-.nova-despesa {
-  position: fixed;
-  inset: 0;
-  width: min(560px, calc(100% - 32px));
-  max-height: calc(100dvh - 48px);
-  margin: auto;
-  padding: 24px;
-  overflow-y: auto;
-  color: var(--text-color);
-  background: var(--bg-color);
-  border: 1px solid var(--pets-border-strong);
-  border-radius: var(--despesas-raio);
+.resumo-despesas__meta-aviso {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.45;
 }
 
-.nova-despesa::backdrop {
-  background: rgb(0 0 0 / 70%);
-}
-
-.nova-despesa__cabecalho {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.formulario-meta-despesas {
+  display: grid;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-color);
 }
 
-.nova-despesa__cabecalho h2 {
-  font-size: 1.125rem;
+.formulario-meta-despesas[hidden] {
+  display: none !important;
 }
 
-.formulario-despesa__salvar {
-  width: 100%;
-  font-size: 0.875rem;
+.campo-pet-meta[hidden] {
+  display: none !important;
 }
 
-.formulario-despesa__salvar:disabled {
+#grupo-progresso-orcamento[hidden],
+#linha-saldo-orcamento[hidden],
+#resumo-meta-valor[hidden],
+#aviso-meta-despesas[hidden],
+.feedback-despesas[hidden],
+.despesas-vazias[hidden] {
+  display: none !important;
+}
+
+.formulario-meta-despesas .campo-formulario {
+  margin: 0;
+}
+
+.formulario-meta-despesas__acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.formulario-meta-despesas__acoes button {
+  min-height: 40px;
+  padding-inline: 14px;
+}
+
+#mensagem-meta-despesas {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+#mensagem-meta-despesas[data-estado="erro"] {
+  color: var(--pets-status-alerta);
+}
+
+#mensagem-meta-despesas[data-estado="sucesso"] {
+  color: var(--pets-success);
+}
+
+.resumo-despesas__livre[data-estourado="true"] strong {
+  color: var(--pets-status-alerta);
+}
+
+.feedback-despesas {
+  margin: 0 16px 12px;
+  padding: 10px 12px;
+  color: var(--pets-primary-readable);
+  background: var(--pets-primary-soft);
+  border: 1px solid var(--pets-primary-border);
+  border-radius: var(--pets-radius-md);
+  font-size: 0.75rem;
+}
+
+.despesas-vazias {
+  padding: 16px;
   color: var(--text-muted);
   background: var(--card-bg);
-  box-shadow: none;
-  opacity: 1;
-  cursor: not-allowed;
-}
-
-.nova-despesa__aviso {
-  margin-top: 12px;
-  color: var(--text-muted);
-  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--despesas-raio);
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
 
 .categoria-despesa:active {
@@ -424,8 +477,7 @@ LISTA DE LANÇAMENTOS
   border-radius: var(--pets-radius-sm);
 }
 
-#status-pet-despesas[data-estado="erro"],
-#mensagem-despesa[data-estado="erro"] {
+#status-pet-despesas[data-estado="erro"] {
   color: var(--pets-status-alerta);
 }
 
@@ -437,7 +489,8 @@ LISTA DE LANÇAMENTOS
 #status-pet-despesas:empty {
   display: none;
 }
-.despesas-conteudo[hidden] {
+.despesas-conteudo[hidden],
+.despesas-conteudo > [hidden] {
   display: none !important;
 }
 
@@ -453,13 +506,3 @@ LISTA DE LANÇAMENTOS
 }
 .pagina-despesas .despesas-conteudo[hidden],
 .pagina-despesas .seletor-pet-despesas[hidden] { display: none !important; }
-.destino-despesa[hidden] { display: none !important; }
-.destino-despesa select {
-  width: 100%;
-  min-height: 44px;
-  padding: 8px 12px;
-  color: var(--text-color);
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--pets-radius-sm);
-}

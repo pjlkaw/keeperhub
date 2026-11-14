@@ -1,6 +1,6 @@
-// Cadastro, resumo mensal e extrato local das despesas dos pets.
-import { listarPets } from './armazenamento.js';
-import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, removerRegistrosDosPets, salvarEdicaoRegistroLocal } from './selecao-pets.js';
+// Resumo mensal, metas por pet e extrato local das despesas.
+import { atualizarPet, listarPets } from './armazenamento.js';
+import { listarDespesas, excluirDespesa as excluirDespesaDoRepositorio } from './despesas-repositorio.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
@@ -17,25 +17,45 @@ const secaoSeletor = seletorPet.closest('.seletor-pet-despesas');
 const statusPet = document.getElementById('status-pet-despesas');
 const conteudo = document.querySelector('.despesas-conteudo');
 const botaoAdicionar = document.getElementById('btn-add-section');
-const popover = document.getElementById('nova-despesa');
-const form = document.getElementById('formulario-despesa');
-const statusForm = document.getElementById('mensagem-despesa');
-const botaoSalvar = form.querySelector('[data-acao="salvar-despesa"]');
-const campoData = document.getElementById('data-despesa');
-const destinoDespesa = document.getElementById('destino-despesa');
-const seletorDestino = document.getElementById('pet-destino-despesa');
-const selecaoMultipla = criarSelecaoMultipla(seletorDestino);
+const formularioMeta = document.getElementById('formulario-meta-despesas');
+const botaoEditarMeta = document.getElementById('editar-meta-despesas');
+const botaoCancelarMeta = document.getElementById('cancelar-meta-despesas');
+const campoPetMeta = document.getElementById('campo-pet-meta');
+const seletorPetMeta = document.getElementById('pet-meta-despesas');
+const campoValorMeta = document.getElementById('valor-meta-despesas');
+const rotuloMeta = document.getElementById('rotulo-meta-despesas');
+const rotuloValorMeta = document.getElementById('rotulo-valor-meta');
+const mensagemMeta = document.getElementById('mensagem-meta-despesas');
+const avisoMeta = document.getElementById('aviso-meta-despesas');
+const grupoProgresso = document.getElementById('grupo-progresso-orcamento');
+const linhaSaldo = document.getElementById('linha-saldo-orcamento');
+const listaVazia = document.getElementById('despesas-vazias');
+const observadorBotaoAdicionar = new MutationObserver(() => {
+    const link = botaoAdicionar.querySelector('#btn-add');
+    if (link && window.keeperhubModuleConfig?.addUrl) {
+        link.href = window.keeperhubModuleConfig.addUrl;
+    }
+});
+observadorBotaoAdicionar.observe(botaoAdicionar, { childList: true, subtree: true });
 
 const CATEGORIAS = ['alimentacao', 'saude', 'higiene', 'lazer'];
-const ORCAMENTO_MENSAL_PADRAO = 60000;
+const META_GERAL_STORAGE_KEY = 'keeperhub-pets-despesas-meta-geral';
 let pets = [];
 let petAtual = null;
 let todosPetsSelecionados = false;
 let mesAtual = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-let salvando = false;
-let despesaEmEdicao = null;
-const despesasEditaveis = new Map();
 const exclusoesPendentes = new Set();
+const categoriaExclusaoPendentePorId = new Map();
+const despesasRemoviveis = new Map();
+let renderizacaoAtual = 0;
+let timerFeedbackDespesa = null;
+let timerFeedbackMeta = null;
+
+const mesInformado = new URLSearchParams(window.location.search).get('mes');
+if (/^\d{4}-(0[1-9]|1[0-2])$/.test(mesInformado ?? '')) {
+    const [ano, mes] = mesInformado.split('-').map(Number);
+    mesAtual = new Date(ano, mes - 1, 1);
+}
 
 // Converte uma data para a chave AAAA-MM usada no filtro mensal e nos orçamentos.
 function chaveMes(data) {
@@ -53,6 +73,33 @@ function formatarMoeda(centavos) {
         style: 'currency',
         currency: 'BRL'
     }).format(centavos / 100);
+}
+
+// Lê as metas mensais que valem para todos os pets em conjunto.
+function metasGeraisDeDespesas() {
+    try {
+        const metas = JSON.parse(localStorage.getItem(META_GERAL_STORAGE_KEY) ?? '{}');
+        return metas && typeof metas === 'object' && !Array.isArray(metas) ? metas : {};
+    } catch {
+        return {};
+    }
+}
+
+function metaGeralDoMes(mes) {
+    const valor = Number(metasGeraisDeDespesas()[mes]);
+    return Number.isSafeInteger(valor) && valor > 0 ? valor : null;
+}
+
+function salvarMetaGeral(mes, valorCentavos) {
+    try {
+        localStorage.setItem(META_GERAL_STORAGE_KEY, JSON.stringify({
+            ...metasGeraisDeDespesas(),
+            [mes]: valorCentavos
+        }));
+        return true;
+    } catch {
+        return false;
+    }
 }
 
 // Converte uma data ISO válida em uma data curta para os lançamentos.
@@ -74,48 +121,48 @@ function informarSelecao(mensagem, erro = false) {
     statusPet.setAttribute('role', erro ? 'alert' : 'status');
 }
 
-// Atualiza o aviso exibido dentro do formulário de despesa.
-function informarFormulario(mensagem, erro = false, sucesso = false) {
-    statusForm.textContent = mensagem;
-    statusForm.dataset.estado = erro ? 'erro' : sucesso ? 'sucesso' : 'informativo';
-    statusForm.setAttribute('role', erro ? 'alert' : 'status');
-}
-
 // Mantém o pet selecionado na URL sem recarregar a página.
 function atualizarUrlPet(id) {
     const url = new URL(window.location.href);
     if (id) url.searchParams.set('petId', id);
     else url.searchParams.delete('petId');
+    if (todosPetsSelecionados) url.searchParams.set('todos', '1');
+    else url.searchParams.delete('todos');
+    url.searchParams.set('mes', chaveMes(mesAtual));
     history.replaceState(null, '', url.pathname + url.search + url.hash);
 }
 
+function atualizarDestinoBotaoAdicionar() {
+    const parametros = new URLSearchParams({ mes: chaveMes(mesAtual) });
+    if (petAtual) parametros.set('petId', petAtual.id);
+    else if (todosPetsSelecionados) parametros.set('todos', '1');
+    const destino = '/modules/pets/components/cadastrar-despesa.html?' + parametros;
+    window.keeperhubModuleConfig.addUrl = destino;
+    const link = botaoAdicionar.querySelector('#btn-add');
+    if (link) link.href = destino;
+}
+
 // Descarta registros corrompidos ou incompatíveis antes de usá-los nos cálculos.
-function despesasValidas(pet) {
-    if (!Array.isArray(pet?.despesas)) return [];
-    return pet.despesas.filter(despesa =>
-        despesa &&
+function despesaValida(despesa) {
+    return despesa &&
         typeof despesa === 'object' &&
         !exclusoesPendentes.has(String(despesa.id)) &&
         validarData(despesa.data) &&
         CATEGORIAS.includes(despesa.categoria) &&
         Number.isSafeInteger(Number(despesa.valorCentavos)) &&
-        Number(despesa.valorCentavos) > 0
-    );
+        Number(despesa.valorCentavos) > 0;
 }
 
-// Retorna as despesas do pet atual ou de todos os pets, incluindo o nome do pet.
-function despesasDoEscopo() {
-    const escopo = todosPetsSelecionados ? pets : petAtual ? [petAtual] : [];
-    return agruparRegistros(escopo, despesasValidas).map(despesa => ({
-        ...despesa,
-        petNome: despesa.nomesPets.join(", ")
-    }));
+// Lê os lançamentos associados ao escopo atual pelo repositório de despesas.
+async function despesasDoEscopo() {
+    const idsPets = escopoAtual().map(pet => pet.id);
+    if (!idsPets.length) return [];
+    return (await listarDespesas(idsPets)).filter(despesaValida);
 }
 
-// Filtra as despesas visíveis para o mês que está selecionado na tela.
-function despesasDoMes() {
-    const mes = chaveMes(mesAtual);
-    return despesasDoEscopo().filter(despesa => despesa.data.slice(0, 7) === mes);
+// Filtra os lançamentos do mês selecionado.
+async function despesasDoMes(mes = chaveMes(mesAtual)) {
+    return (await despesasDoEscopo()).filter(despesa => despesa.data.slice(0, 7) === mes);
 }
 
 // Retorna o orçamento definido para o pet e mês, ou o valor padrão em centavos.
@@ -125,9 +172,7 @@ function orcamentoDoPet(pet, mes) {
         ? pet.orcamentosDespesas
         : {};
     const valor = Number(orcamentos[mes]);
-    return Number.isSafeInteger(valor) && valor >= 0
-        ? valor
-        : ORCAMENTO_MENSAL_PADRAO;
+    return Number.isSafeInteger(valor) && valor > 0 ? valor : null;
 }
 
 // Obtém os pets que participam dos totais e do extrato atuais.
@@ -142,6 +187,10 @@ function totalPorCategoria(despesas, categoria) {
         .reduce((total, despesa) => total + Number(despesa.valorCentavos), 0);
 }
 
+function categoriaTemExclusaoPendente(categoria) {
+    return [...categoriaExclusaoPendentePorId.values()].includes(categoria);
+}
+
 // Atualiza o resumo, o orçamento, o saldo e os totais de cada categoria.
 function atualizarResumo(despesas) {
     const totais = Object.fromEntries(CATEGORIAS.map(categoria => [
@@ -150,23 +199,25 @@ function atualizarResumo(despesas) {
     ]));
     const total = Object.values(totais).reduce((soma, valor) => soma + valor, 0);
     const mes = chaveMes(mesAtual);
-    const orcamento = escopoAtual().reduce(
-        (soma, pet) => soma + orcamentoDoPet(pet, mes),
-        0
-    );
-    // Saldo negativo indica que o total de despesas passou do orçamento.
-    const saldo = orcamento - total;
-    // Evita divisão por zero quando o orçamento é zero.
-    const percentual = orcamento > 0
-        ? total / orcamento * 100
-        : total > 0 ? 100 : 0;
+    const escopo = escopoAtual();
+    const metas = escopo.map(pet => orcamentoDoPet(pet, mes));
+    const metasIndividuaisCompletas = metas.length > 0 && metas.every(meta => meta !== null);
+    const metaConjunta = todosPetsSelecionados ? metaGeralDoMes(mes) : null;
+    const orcamento = todosPetsSelecionados
+        ? (metaConjunta ?? (metasIndividuaisCompletas ? metas.reduce((soma, meta) => soma + meta, 0) : null))
+        : (metas[0] ?? null);
+    const tipoMeta = todosPetsSelecionados
+        ? (metaConjunta !== null ? 'conjunta' : metasIndividuaisCompletas ? 'individual-combinada' : null)
+        : (orcamento !== null ? 'individual' : null);
+    const saldo = orcamento === null ? null : orcamento - total;
+    const percentual = orcamento > 0 ? total / orcamento * 100 : 0;
 
     // Atualiza o mês apresentado no cabeçalho e no elemento semântico <time>.
     const nomeMes = new Intl.DateTimeFormat('pt-BR', {
         month: 'long',
         year: 'numeric'
     }).format(mesAtual);
-    const titulo = document.getElementById('resumo-despesas-heading');
+    const titulo = document.getElementById('titulo-total-despesas');
     titulo.textContent = 'Total em ' + nomeMes.charAt(0).toLocaleUpperCase('pt-BR') + nomeMes.slice(1);
 
     const tempoMes = document.querySelector('.resumo-despesas__mes time');
@@ -182,26 +233,45 @@ function atualizarResumo(despesas) {
     valorTotal.value = (total / 100).toFixed(2);
     valorTotal.textContent = formatarMoeda(total);
 
-    const valorOrcamento = document.querySelector('.resumo-despesas__orcamento data');
-    valorOrcamento.value = (orcamento / 100).toFixed(2);
-    valorOrcamento.textContent = formatarMoeda(orcamento);
+    const resumoMetaValor = document.getElementById('resumo-meta-valor');
+    const resumoMetaStatus = document.getElementById('resumo-meta-status');
+    const temMeta = orcamento !== null && orcamento > 0;
+    rotuloMeta.textContent = tipoMeta === 'conjunta'
+        ? 'Meta conjunta'
+        : tipoMeta === 'individual-combinada'
+            ? 'Metas individuais'
+            : 'Meta mensal';
+    resumoMetaValor.hidden = !temMeta;
+    resumoMetaValor.textContent = temMeta ? `/ ${formatarMoeda(orcamento)} de meta` : '';
+    resumoMetaStatus.textContent = temMeta
+        ? formatarMoeda(orcamento)
+        : todosPetsSelecionados && metas.some(meta => meta !== null)
+            ? `Metas individuais definidas para ${metas.filter(meta => meta !== null).length} de ${metas.length} pets`
+            : 'Nenhuma meta definida';
+    botaoEditarMeta.textContent = todosPetsSelecionados
+        ? (metaConjunta !== null ? 'Editar meta conjunta' : 'Definir meta para todos')
+        : (metas[0] !== null ? 'Editar meta' : 'Definir meta');
+    avisoMeta.hidden = temMeta;
+    avisoMeta.textContent = todosPetsSelecionados
+        ? 'Defina uma meta conjunta ou configure uma meta para cada pet.'
+        : 'Defina um limite para acompanhar os gastos deste mês.';
+    grupoProgresso.hidden = !temMeta;
+    linhaSaldo.hidden = !temMeta;
+    if (temMeta) {
+        const percentualExibido = Math.min(percentual, 100);
+        document.getElementById('percentual-orcamento').textContent =
+            `${new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(percentualExibido)}% consumido`;
+    }
 
-    document.querySelector('.resumo-despesas__linha strong').textContent =
-        `${new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(percentual)}% consumido`;
-
-    // A barra não pode ter máximo zero; nesse caso usa 1 apenas para exibição.
     const progresso = document.getElementById('progresso-orcamento');
     progresso.max = orcamento || 1;
     progresso.value = Math.min(total, orcamento || 1);
     progresso.textContent = `${Math.round(percentual)}%`;
-
-    const saldoData = document.querySelector('.resumo-despesas__livre data');
-    saldoData.value = (saldo / 100).toFixed(2);
-    saldoData.textContent = formatarMoeda(saldo);
-    const saldoTexto = saldoData.closest('strong').lastChild;
-    if (saldoTexto?.nodeType === Node.TEXT_NODE) {
-        saldoTexto.textContent = saldo >= 0 ? ' livres' : ' acima do teto';
-    }
+    const saldoElement = document.getElementById('saldo-orcamento');
+    saldoElement.textContent = saldo >= 0
+        ? `${formatarMoeda(saldo)} livres`
+        : `${formatarMoeda(Math.abs(saldo))} acima da meta`;
+    linhaSaldo.dataset.estourado = saldo < 0 ? 'true' : 'false';
 
     // Atualiza o percentual e o valor de cada cartão de categoria.
     document.querySelectorAll('.categoria-despesa').forEach(card => {
@@ -216,7 +286,7 @@ function atualizarResumo(despesas) {
     });
 
     document.querySelector('.secao-despesas__contador').textContent =
-        `${CATEGORIAS.filter(categoria => totais[categoria] > 0).length} grupos ativos`;
+        `${CATEGORIAS.filter(categoria => totais[categoria] > 0).length} categorias com gastos`;
     document.querySelector('.historico-despesas .secao-despesas__contador').textContent =
         `${despesas.length} ${despesas.length === 1 ? 'lançamento' : 'lançamentos'}`;
 }
@@ -231,6 +301,15 @@ function classeIcone(categoria) {
     }[categoria] || 'fa-receipt';
 }
 
+function urlFormularioDespesa(despesa) {
+    const url = new URL('/modules/pets/components/cadastrar-despesa.html', window.location.origin);
+    url.searchParams.set('id', despesa.id);
+    url.searchParams.set('mes', chaveMes(mesAtual));
+    if (todosPetsSelecionados) url.searchParams.set('todos', '1');
+    else if (petAtual) url.searchParams.set('petId', petAtual.id);
+    return url.pathname + url.search;
+}
+
 // Monta um item do extrato usando elementos de texto para não interpretar dados como HTML.
 function criarLancamento(despesa) {
     const item = document.createElement('li');
@@ -240,10 +319,10 @@ function criarLancamento(despesa) {
 
     const icone = document.createElement('span');
     icone.className = 'despesa-icone lancamento__icone';
-    const glyph = document.createElement('i');
-    glyph.className = `fa-solid despesa-glyph ${classeIcone(despesa.categoria)}`;
-    glyph.setAttribute('aria-hidden', 'true');
-    icone.append(glyph);
+    const iconeCategoria = document.createElement('i');
+    iconeCategoria.className = `fa-solid icone-despesa ${classeIcone(despesa.categoria)}`;
+    iconeCategoria.setAttribute('aria-hidden', 'true');
+    icone.append(iconeCategoria);
 
     const informacoes = document.createElement('div');
     informacoes.className = 'lancamento__informacoes';
@@ -279,17 +358,16 @@ function criarLancamento(despesa) {
     valor.textContent = formatarMoeda(Number(despesa.valorCentavos));
 
     artigo.append(icone, informacoes, valor);
-    const chaveEdicao = crypto.randomUUID();
-    despesasEditaveis.set(chaveEdicao, despesa);
-    const editar = document.createElement('button');
-    editar.type = 'button';
+    const chaveExclusao = String(despesa.id);
+    despesasRemoviveis.set(chaveExclusao, despesa);
+    const editar = document.createElement('a');
     editar.className = 'botao-texto';
-    editar.dataset.editarDespesa = chaveEdicao;
+    editar.href = urlFormularioDespesa(despesa);
     editar.textContent = 'Editar';
     const excluir = document.createElement('button');
     excluir.type = 'button';
     excluir.className = 'botao-texto';
-    excluir.dataset.excluirDespesa = chaveEdicao;
+    excluir.dataset.excluirDespesa = chaveExclusao;
     excluir.textContent = 'Excluir';
     const acoes = document.createElement('div');
     acoes.className = 'acoes-cartao-registro';
@@ -301,7 +379,7 @@ function criarLancamento(despesa) {
 
 // Agrupa os lançamentos por categoria e atualiza subtotais e estados vazios.
 function renderizarGrupos(despesas) {
-    despesasEditaveis.clear();
+    despesasRemoviveis.clear();
     CATEGORIAS.forEach(categoria => {
         const grupo = document.getElementById(`despesas-${categoria}`);
         const lista = grupo.querySelector('.lista-lancamentos');
@@ -315,93 +393,84 @@ function renderizarGrupos(despesas) {
         lista.replaceChildren();
 
         if (!linhas.length) {
-            const vazio = document.createElement('li');
-            vazio.className = 'lancamentos-vazios';
-            vazio.textContent = 'Nenhum lançamento neste mês.';
-            lista.append(vazio);
+            if (categoriaTemExclusaoPendente(categoria)) {
+                lista.hidden = true;
+            } else {
+                const vazio = document.createElement('li');
+                vazio.className = 'lancamentos-vazios';
+                vazio.textContent = 'Nenhum lançamento neste mês.';
+                lista.append(vazio);
+                lista.hidden = false;
+            }
         } else {
             lista.append(...linhas.map(criarLancamento));
+            lista.hidden = false;
         }
     });
 }
 
-// Prepara a escolha do pet de destino quando a despesa é criada na visão geral.
-function atualizarDestinoFormulario() {
-    const mostrarSelecao = todosPetsSelecionados || pets.length > 2;
-    destinoDespesa.hidden = !mostrarSelecao;
-    seletorDestino.required = mostrarSelecao;
-    seletorDestino.replaceChildren();
-
-    const inicial = document.createElement('option');
-    inicial.value = '';
-    inicial.textContent = 'Selecione um pet';
-    inicial.hidden = true;
-    inicial.disabled = true;
-    inicial.selected = true;
-    seletorDestino.append(inicial);
-    selecaoMultipla.preparar(pets, true);
-
-    pets.forEach(pet => {
-        const opcao = document.createElement('option');
-        opcao.value = pet.id;
-        opcao.textContent = pet.nome;
-        seletorDestino.append(opcao);
-    });
-
-    if (petAtual) seletorDestino.value = petAtual.id;
-    else if (todosPetsSelecionados && pets.length > 1) seletorDestino.value = '__todos__';
-    selecaoMultipla.selecionados(pets);
-}
-
-// Renderiza o mês atual ou mostra o estado compartilhado quando não há registros.
-function renderizarMes() {
+// Renderiza o mês e mantém o resumo acessível mesmo antes do primeiro lançamento.
+async function renderizarMes() {
+    const renderizacao = ++renderizacaoAtual;
     const escopo = escopoAtual();
-    const temDespesaNoEscopo = escopo.some(pet => despesasValidas(pet).length > 0);
-
-    if (!escopo.length || !temDespesaNoEscopo) {
-        const podeTrocarPet = pets.length > 1 && pets.some(pet => despesasValidas(pet).length);
+    if (!escopo.length) {
         conteudo.hidden = true;
-        secaoSeletor.hidden = !podeTrocarPet;
-        botaoAdicionar.hidden = pets.length === 0;
-        informarSelecao(podeTrocarPet ? 'Nenhuma despesa para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        secaoSeletor.hidden = true;
+        botaoAdicionar.hidden = true;
+        atualizarNoContent(false);
         return;
     }
 
     conteudo.hidden = false;
     secaoSeletor.hidden = pets.length < 2;
-    botaoAdicionar.hidden = false;
+    botaoAdicionar.hidden = pets.length === 0;
+    informarSelecao('');
     atualizarNoContent(true);
 
-    const despesas = despesasDoMes();
-    atualizarResumo(despesas);
-    renderizarGrupos(despesas);
-    document.querySelectorAll('.despesas-navegar').forEach(botao => {
-        botao.disabled = false;
-        botao.removeAttribute('title');
-    });
+    const mes = chaveMes(mesAtual);
+    try {
+        const despesas = await despesasDoMes(mes);
+        if (renderizacao !== renderizacaoAtual) return;
+
+        const temExclusaoPendente = exclusoesPendentes.size > 0;
+        atualizarResumo(despesas);
+        renderizarGrupos(despesas);
+        listaVazia.hidden = despesas.length > 0 || temExclusaoPendente;
+        document.querySelector('.despesas-conteudo > section[aria-labelledby="titulo-resumo-categorias"]').hidden = !despesas.length;
+        document.querySelector('.historico-despesas').hidden = !despesas.length && !temExclusaoPendente;
+        document.querySelectorAll('.despesas-navegar').forEach(botao => {
+            botao.disabled = false;
+            botao.removeAttribute('title');
+        });
+    } catch (erro) {
+        if (renderizacao === renderizacaoAtual) {
+            informarSelecao(erro.message || 'Não foi possível carregar as despesas.', true);
+        }
+    }
 }
 
 // Seleciona um pet e atualiza a página para mostrar somente os dados dele.
 function selecionarPet(pet, atualizarUrl = true) {
+    formularioMeta.hidden = true;
     petAtual = pet;
     todosPetsSelecionados = false;
     seletorPet.value = pet?.id ?? '';
     main.dataset.petId = pet?.id ?? '';
     if (atualizarUrl) atualizarUrlPet(pet?.id);
-    atualizarDestinoFormulario();
-    renderizarMes();
+    atualizarDestinoBotaoAdicionar();
+    void renderizarMes();
 }
 
 // Alterna para a visão agregada, reunindo os dados de todos os pets.
 function selecionarTodosPets() {
+    formularioMeta.hidden = true;
     petAtual = null;
     todosPetsSelecionados = true;
     seletorPet.value = '__todos__';
     main.dataset.petId = '';
     atualizarUrlPet(null);
-    atualizarDestinoFormulario();
-    renderizarMes();
+    atualizarDestinoBotaoAdicionar();
+    void renderizarMes();
 }
 
 // Carrega os pets, monta as opções do seletor e escolhe o escopo inicial.
@@ -433,10 +502,10 @@ function prepararSelecao() {
 
     seletorPet.disabled = pets.length === 0;
     botaoAdicionar.hidden = pets.length === 0;
-    botaoSalvar.disabled = pets.length === 0;
 
-    // Prioriza o pet informado na URL; sem ele, abre todos ou o único pet salvo.
-    const idDaUrl = new URLSearchParams(window.location.search).get('petId');
+    // Prioriza o pet da URL; sem filtro, mostra todos ou o único pet.
+    const parametros = new URLSearchParams(window.location.search);
+    const idDaUrl = parametros.get('petId');
     const petDaUrl = pets.find(pet => pet.id === idDaUrl);
     if (petDaUrl) {
         selecionarPet(petDaUrl, false);
@@ -448,23 +517,138 @@ function prepararSelecao() {
         petAtual = null;
         todosPetsSelecionados = false;
         main.dataset.petId = '';
-        atualizarDestinoFormulario();
-        renderizarMes();
+        atualizarDestinoBotaoAdicionar();
+        void renderizarMes();
     }
 }
 
-// Usa hoje no mês atual e o primeiro dia nos demais meses consultados.
-function dataPadraoParaMes() {
-    const hoje = new Date();
-    if (chaveMes(hoje) === chaveMes(mesAtual)) return dataLocalISO(hoje);
-    return `${mesAtual.getFullYear()}-${String(mesAtual.getMonth() + 1).padStart(2, '0')}-01`;
-}
-
-// Muda o mês selecionado, atualiza a data do formulário e redesenha o resumo.
+// Muda o mês selecionado e redesenha o resumo.
 function mudarMes(diferenca) {
     mesAtual = new Date(mesAtual.getFullYear(), mesAtual.getMonth() + diferenca, 1);
-    campoData.value = dataPadraoParaMes();
-    renderizarMes();
+    atualizarUrlPet(petAtual?.id);
+    atualizarDestinoBotaoAdicionar();
+    formularioMeta.hidden = true;
+    void renderizarMes();
+}
+
+function mostrarFeedbackDeCadastro() {
+    const url = new URL(window.location.href);
+    const resultado = url.searchParams.get('resultado');
+    if (resultado !== 'criada' && resultado !== 'atualizada') return;
+
+    const feedback = document.getElementById('feedback-despesas');
+    feedback.textContent = resultado === 'atualizada'
+        ? 'Despesa atualizada com sucesso.'
+        : 'Despesa registrada com sucesso.';
+    feedback.hidden = false;
+    if (timerFeedbackDespesa) window.clearTimeout(timerFeedbackDespesa);
+    timerFeedbackDespesa = window.setTimeout(() => {
+        feedback.hidden = true;
+        timerFeedbackDespesa = null;
+    }, 3000);
+    url.searchParams.delete('resultado');
+    history.replaceState(null, '', url.pathname + url.search + url.hash);
+}
+
+function destinoDaMeta() {
+    if (todosPetsSelecionados && seletorPetMeta.value === '__todos__') {
+        return { conjunta: true, pet: null };
+    }
+    const pet = todosPetsSelecionados
+        ? pets.find(item => item.id === seletorPetMeta.value) ?? null
+        : petAtual;
+    return { conjunta: false, pet };
+}
+
+function carregarValorMeta() {
+    const destino = destinoDaMeta();
+    const valor = destino.conjunta
+        ? metaGeralDoMes(chaveMes(mesAtual))
+        : destino.pet ? orcamentoDoPet(destino.pet, chaveMes(mesAtual)) : null;
+    campoValorMeta.value = valor ? (valor / 100).toFixed(2) : '';
+    rotuloValorMeta.textContent = destino.conjunta
+        ? 'Limite conjunto deste mês (R$)'
+        : 'Limite mensal para este pet (R$)';
+}
+
+function abrirEditorMeta() {
+    campoPetMeta.hidden = !todosPetsSelecionados;
+    seletorPetMeta.required = todosPetsSelecionados;
+    seletorPetMeta.replaceChildren();
+
+    if (todosPetsSelecionados) {
+        seletorPetMeta.append(
+            new Option('Todos os pets juntos', '__todos__'),
+            ...pets.map(pet => new Option(pet.nome, pet.id))
+        );
+        seletorPetMeta.value = '__todos__';
+        carregarValorMeta();
+    } else {
+        carregarValorMeta();
+    }
+
+    if (timerFeedbackMeta) window.clearTimeout(timerFeedbackMeta);
+    timerFeedbackMeta = null;
+    mensagemMeta.hidden = true;
+    formularioMeta.hidden = false;
+    (todosPetsSelecionados ? seletorPetMeta : campoValorMeta).focus();
+}
+
+function salvarMeta(event) {
+    event.preventDefault();
+    const destino = destinoDaMeta();
+    const valor = Number(campoValorMeta.value);
+    const valorCentavos = Math.round(valor * 100);
+
+    if (!destino.conjunta && !destino.pet) {
+        mensagemMeta.textContent = 'Selecione para quem vale esta meta.';
+        mensagemMeta.dataset.estado = 'erro';
+        mensagemMeta.hidden = false;
+        seletorPetMeta.focus();
+        return;
+    }
+    if (!Number.isFinite(valor) || valor <= 0 || !Number.isSafeInteger(valorCentavos)) {
+        mensagemMeta.textContent = 'Informe uma meta mensal maior que zero.';
+        mensagemMeta.dataset.estado = 'erro';
+        mensagemMeta.hidden = false;
+        campoValorMeta.focus();
+        return;
+    }
+
+    const mes = chaveMes(mesAtual);
+    const salvou = destino.conjunta
+        ? salvarMetaGeral(mes, valorCentavos)
+        : atualizarPet(destino.pet.id, {
+            orcamentosDespesas: {
+                ...(destino.pet.orcamentosDespesas && typeof destino.pet.orcamentosDespesas === 'object'
+                    ? destino.pet.orcamentosDespesas
+                    : {}),
+                [mes]: valorCentavos
+            }
+        });
+    if (!salvou) {
+        mensagemMeta.textContent = 'Não foi possível salvar a meta neste navegador.';
+        mensagemMeta.dataset.estado = 'erro';
+        mensagemMeta.hidden = false;
+        return;
+    }
+
+    pets = listarPets();
+    if (petAtual) petAtual = pets.find(item => item.id === petAtual.id) ?? null;
+    formularioMeta.hidden = false;
+    campoPetMeta.hidden = !todosPetsSelecionados;
+    mensagemMeta.textContent = destino.conjunta
+        ? 'Meta conjunta salva neste navegador.'
+        : 'Meta mensal salva neste navegador.';
+    mensagemMeta.dataset.estado = 'sucesso';
+    mensagemMeta.hidden = false;
+    campoValorMeta.value = (valorCentavos / 100).toFixed(2);
+    if (timerFeedbackMeta) window.clearTimeout(timerFeedbackMeta);
+    timerFeedbackMeta = window.setTimeout(() => {
+        if (mensagemMeta.dataset.estado === 'sucesso') mensagemMeta.hidden = true;
+        timerFeedbackMeta = null;
+    }, 3000);
+    void renderizarMes();
 }
 
 // Confirma o formato e a existência real da data informada.
@@ -474,71 +658,6 @@ function validarData(data) {
     return !Number.isNaN(valor.getTime()) && dataLocalISO(valor) === data;
 }
 
-// Valida os campos e normaliza o valor para centavos antes de salvar.
-function validarFormulario() {
-    const descricao = form.elements.descricao.value.trim();
-    const categoria = form.elements.categoria.value;
-    const valor = Number(form.elements.valor.value);
-    const data = campoData.value;
-    const estabelecimento = form.elements.estabelecimento.value.trim();
-    const observacoes = form.elements.observacoes.value.trim();
-    const valorCentavos = Math.round(valor * 100);
-
-    if (!descricao || descricao.length > 100) return { erro: 'Informe uma descrição com até 100 caracteres.' };
-    if (!CATEGORIAS.includes(categoria)) return { erro: 'Selecione uma categoria válida.' };
-    if (!Number.isFinite(valor) || valor <= 0 || !Number.isSafeInteger(valorCentavos)) {
-        return { erro: 'Informe um valor válido maior que zero.' };
-    }
-    if (!validarData(data)) return { erro: 'Informe uma data válida.' };
-    if (estabelecimento.length > 100 || observacoes.length > 500) {
-        return { erro: 'Confira o limite de caracteres dos campos opcionais.' };
-    }
-
-    return { dados: { descricao, categoria, valorCentavos, data, estabelecimento, observacoes } };
-}
-
-function salvarDespesa(dados, petsDestino) {
-    if (despesaEmEdicao) {
-        const membros = despesaEmEdicao.membros;
-        const atualizado = salvarEdicaoRegistroLocal(
-            membros.map(membro => membro.pet),
-            membros.map(membro => membro.registro.id),
-            petsDestino,
-            'despesas',
-            dados
-        );
-        if (!atualizado) {
-            throw new Error('A despesa não foi encontrada para atualizar.');
-        }
-    } else {
-        gravarRegistroDosPets(petsDestino, 'despesas', {
-            ...dados,
-            criadaEm: new Date().toISOString()
-        });
-    }
-    mesAtual = new Date(dados.data + "T12:00:00");
-}
-
-function abrirEdicaoDespesa(despesa) {
-    despesaEmEdicao = despesa;
-    form.reset();
-    atualizarDestinoFormulario();
-    const membros = despesa.membros;
-    const idsPets = membros.map(membro => membro.pet.id);
-    destinoDespesa.hidden = false;
-    selecaoMultipla.selecionarPets(pets, idsPets);
-
-    form.elements.descricao.value = despesa.descricao;
-    form.elements.categoria.value = despesa.categoria;
-    form.elements.valor.value = (Number(despesa.valorCentavos) / 100).toFixed(2);
-    campoData.value = despesa.data;
-    form.elements.estabelecimento.value = despesa.estabelecimento || '';
-    form.elements.observacoes.value = despesa.observacoes || '';
-    document.getElementById('nova-despesa-heading').textContent = 'Editar despesa';
-    botaoSalvar.textContent = 'Salvar alterações';
-    popover.showPopover();
-}
-
 async function excluirDespesa(despesa) {
     const confirmado = await confirmarExclusao({
         titulo: 'Excluir despesa?',
@@ -546,36 +665,47 @@ async function excluirDespesa(despesa) {
     });
     if (!confirmado) return;
 
-    const membros = despesa.membros;
-    const ids = membros.map(membro => String(membro.registro.id));
-    ids.forEach(id => exclusoesPendentes.add(id));
-    renderizarMes();
+    const grupo = document.getElementById(`despesas-${despesa.categoria}`);
+    const id = String(despesa.id);
+    const ids = [id];
+    ids.forEach(id => {
+        exclusoesPendentes.add(id);
+        categoriaExclusaoPendentePorId.set(id, despesa.categoria);
+    });
+    void renderizarMes();
+    // Mantém a categoria visível durante o prazo para desfazer, mesmo se era o último lançamento.
+    document.querySelector('.historico-despesas').hidden = false;
+    grupo.hidden = false;
 
     oferecerDesfazerExclusao({
-        antesDe: conteudo,
+        antesDe: grupo.querySelector('.lista-lancamentos'),
         mensagem: 'Despesa removida do extrato.',
         aoDesfazer() {
-            ids.forEach(id => exclusoesPendentes.delete(id));
-            renderizarMes();
+            ids.forEach(id => {
+                exclusoesPendentes.delete(id);
+                categoriaExclusaoPendentePorId.delete(id);
+            });
+            void renderizarMes();
         },
-        aoExcluir() {
-            const excluida = removerRegistrosDosPets(
-                membros.map(membro => membro.pet),
-                'despesas',
-                ids
-            );
+        async aoExcluir() {
+            const excluida = await excluirDespesaDoRepositorio(id, despesa.petIds);
             if (!excluida) throw new Error('Não foi possível excluir a despesa.');
-            ids.forEach(id => exclusoesPendentes.delete(id));
+            ids.forEach(id => {
+                exclusoesPendentes.delete(id);
+                categoriaExclusaoPendentePorId.delete(id);
+            });
+            await renderizarMes();
         },
         aoFalhar(erro) {
-            ids.forEach(id => exclusoesPendentes.delete(id));
-            renderizarMes();
+            ids.forEach(id => {
+                exclusoesPendentes.delete(id);
+                categoriaExclusaoPendentePorId.delete(id);
+            });
+            void renderizarMes();
             informarSelecao(erro.message || 'Não foi possível excluir a despesa.', true);
         }
     });
 }
-
-seletorDestino.addEventListener("change", () => selecaoMultipla.selecionados(pets));
 
 // Troca entre um pet específico e a visão conjunta de todos os pets.
 seletorPet.addEventListener('change', () => {
@@ -592,87 +722,21 @@ document.querySelector('[data-acao="mes-anterior"]')
 document.querySelector('[data-acao="mes-seguinte"]')
     .addEventListener('click', () => mudarMes(1));
 
-// Mostra um aviso quando o navegador detecta um campo inválido.
-form.addEventListener('invalid', event => {
-    event.target.setAttribute('aria-invalid', 'true');
-    informarFormulario('Confira os campos destacados e tente novamente.', true);
-}, true);
-
-// Limpa mensagens de erro depois que a pessoa corrige ou altera os campos.
-form.addEventListener('input', event => {
-    if (typeof event.target.setCustomValidity === 'function') event.target.setCustomValidity('');
-    event.target.removeAttribute('aria-invalid');
-    if (statusForm.dataset.estado === 'erro') informarFormulario('');
-});
-form.addEventListener('change', () => {
-    if (statusForm.dataset.estado === 'erro') informarFormulario('');
-});
-
-// Abre o formulário com o pet de destino e uma data compatível com o mês atual.
-botaoAdicionar.addEventListener('click', event => {
-    if (!event.target.closest('#btn-add')) return;
-    event.preventDefault();
-    form.reset();
-    despesaEmEdicao = null;
-    document.getElementById('nova-despesa-heading').textContent = 'Nova despesa';
-    botaoSalvar.textContent = 'Salvar despesa';
-    atualizarDestinoFormulario();
-    campoData.value = dataPadraoParaMes();
-    informarFormulario('Preencha os campos obrigatórios para registrar a despesa.');
-    popover.showPopover();
-});
-
 conteudo.addEventListener('click', event => {
-    const botaoEditar = event.target.closest('[data-editar-despesa]');
     const botaoExcluir = event.target.closest('[data-excluir-despesa]');
-    const chave = botaoEditar?.dataset.editarDespesa ?? botaoExcluir?.dataset.excluirDespesa;
-    const despesa = chave && despesasEditaveis.get(chave);
-    if (despesa && botaoEditar) abrirEdicaoDespesa(despesa);
+    const despesa = botaoExcluir && despesasRemoviveis.get(botaoExcluir.dataset.excluirDespesa);
     if (despesa && botaoExcluir) void excluirDespesa(despesa);
 });
 
-// Valida o envio, grava a despesa no pet escolhido e limpa o formulário.
-form.addEventListener('submit', event => {
-    event.preventDefault();
-    if (salvando) return;
-
-    const validacao = validarFormulario();
-    if (validacao.erro) {
-        informarFormulario(validacao.erro, true);
-        return;
-    }
-    if (!form.reportValidity()) return;
-
-    const petsDestino = selecaoMultipla.selecionados(pets);
-    if (!petsDestino.length) {
-        informarFormulario('Selecione o pet ao qual esta despesa pertence.', true);
-        seletorDestino.focus();
-        return;
-    }
-
-    salvando = true;
-    botaoSalvar.disabled = true;
-    botaoSalvar.textContent = 'Salvando…';
-    try {
-        const estavaEditando = Boolean(despesaEmEdicao);
-        salvarDespesa(validacao.dados, petsDestino);
-        if (petsDestino.length > 1) selecionarTodosPets();
-        else selecionarPet(pets.find(pet => pet.id === petsDestino[0].id) ?? petsDestino[0]);
-        form.reset();
-        despesaEmEdicao = null;
-        document.getElementById('nova-despesa-heading').textContent = 'Nova despesa';
-        atualizarDestinoFormulario();
-        campoData.value = dataPadraoParaMes();
-        informarFormulario(estavaEditando ? 'Despesa atualizada neste navegador.' : 'Despesa salva neste navegador.', false, true);
-        popover.hidePopover?.();
-    } catch (erro) {
-        informarFormulario(erro.message || 'Não foi possível salvar a despesa.', true);
-    } finally {
-        salvando = false;
-        botaoSalvar.disabled = pets.length === 0;
-        botaoSalvar.textContent = 'Salvar despesa';
-    }
+botaoEditarMeta.addEventListener('click', () => {
+    if (formularioMeta.hidden) abrirEditorMeta();
+    else formularioMeta.hidden = true;
 });
+botaoCancelarMeta.addEventListener('click', () => {
+    formularioMeta.hidden = true;
+});
+seletorPetMeta.addEventListener('change', carregarValorMeta);
+formularioMeta.addEventListener('submit', salvarMeta);
 
 // Atualiza os dados e o seletor se outra tela cadastrar ou alterar um pet.
 window.addEventListener('keeperhub:pets-atualizados', () => {
@@ -686,13 +750,12 @@ window.addEventListener('keeperhub:pets-atualizados', () => {
 // Prepara a tela e exibe erros sem apagar os dados existentes caso o carregamento falhe.
 try {
     prepararSelecao();
-    campoData.value = dataPadraoParaMes();
     botaoAdicionar.inert = false;
+    mostrarFeedbackDeCadastro();
 } catch (erro) {
     seletorPet.disabled = true;
     conteudo.hidden = true;
     botaoAdicionar.hidden = true;
-    botaoSalvar.disabled = true;
     atualizarNoContent(true);
     informarSelecao(erro.message || 'Não foi possível carregar os pets.', true);
 }

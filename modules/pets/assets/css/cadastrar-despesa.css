@@ -1,0 +1,150 @@
+/* ==================================================
+KEEPERHUB — MÓDULO PETS
+Arquivo: cadastrar-despesa.css
+Estilos do formulário de criação e edição de despesas.
+Depende de: shared/styles/variables.css, essentials/components.css
+Usado por: components/cadastrar-despesa.html
+================================================== */
+
+@import url("./essentials/variables.css");
+@import url("./essentials/components.css");
+
+/* ==================================================
+ESTRUTURA DO FORMULÁRIO
+================================================== */
+.cadastro-despesa {
+    width: min(100%, 600px);
+    min-height: 100svh;
+    margin-inline: auto;
+    padding-bottom: 24px;
+}
+
+.cadastro-despesa > .section-header-section {
+    margin: 20px 16px 8px;
+}
+
+.formulario-despesa {
+    padding: 24px 16px;
+}
+
+.formulario-despesa .campo-formulario {
+    margin-bottom: 22px;
+}
+
+.formulario-despesa input:not([type="radio"]):not([type="checkbox"]),
+.formulario-despesa select,
+.formulario-despesa textarea {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.formulario-despesa textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.formulario-despesa [hidden] {
+    display: none !important;
+}
+
+.formulario-despesa label span {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+/* ==================================================
+SELEÇÃO DE PETS E CATEGORIA
+================================================== */
+.seletor-pet-despesa {
+    display: grid;
+    gap: 8px;
+}
+
+.seletor-pet-despesa label,
+.campo-categoria-despesa legend {
+    color: var(--text-color);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.seletor-pet-despesa select {
+    min-height: 44px;
+    padding: 8px 12px;
+    color: var(--text-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--pets-radius-sm);
+}
+
+.orientacao-pet-despesa {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.campo-categoria-despesa {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+}
+
+.campo-categoria-despesa legend {
+    margin-bottom: 10px;
+}
+
+.lista-categorias-despesa {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+}
+
+.lista-categorias-despesa > li {
+    min-width: 0;
+}
+
+.lista-categorias-despesa .cartao-opcao {
+    min-height: 68px;
+    padding: 10px;
+}
+
+.lista-categorias-despesa .cartao-opcao__titulo {
+    font-size: 13px;
+}
+
+.lista-categorias-despesa .cartao-opcao__descricao {
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+/* ==================================================
+SALVAR E FEEDBACK
+================================================== */
+.formulario-despesa__salvar {
+    width: 100%;
+    font-size: 0.875rem;
+}
+
+.formulario-despesa__aviso {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+#mensagem-despesa[data-estado="erro"] {
+    color: var(--pets-status-alerta);
+}
+
+#mensagem-despesa[data-estado="sucesso"] {
+    color: var(--pets-success);
+}
+
+@media (max-width: 360px) {
+    .lista-categorias-despesa {
+        grid-template-columns: 1fr;
+    }
+}

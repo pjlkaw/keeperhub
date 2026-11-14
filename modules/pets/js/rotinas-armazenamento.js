@@ -156,3 +156,30 @@ export function removerRotina(tipo, pet, id) {
     const rotinaAlimentar = removerRefeicao(rotinaAlimentarDe(atual), String(id));
     return Boolean(atualizarVariosPets({ [atual.id]: { rotinaAlimentar } }));
 }
+
+// Remove os membros de um grupo compartilhado no mesmo salvamento local.
+export function removerRotinas(tipo, membros) {
+    if (!CAMPOS_OPCIONAIS[tipo] || !Array.isArray(membros) || !membros.length) return false;
+    const atuais = listarPets();
+    const atualizacoes = {};
+
+    for (const membro of membros) {
+        const petId = String(membro?.pet?.id ?? '');
+        const id = String(membro?.registro?.id ?? '');
+        const pet = atuais.find(item => item.id === petId);
+        if (!pet || !id || !rotinasDoPet(pet, tipo).some(item => String(item.id) === id)) return false;
+
+        if (tipo === 'alimentar') {
+            const rotina = atualizacoes[petId]?.rotinaAlimentar ?? rotinaAlimentarDe(pet);
+            atualizacoes[petId] = { rotinaAlimentar: removerRefeicao(rotina, id) };
+        } else {
+            const campo = CAMPO_ROTINA[tipo];
+            const registros = atualizacoes[petId]?.[campo] ?? rotinasDoPet(pet, tipo);
+            atualizacoes[petId] = {
+                [campo]: registros.filter(item => String(item.id) !== id)
+            };
+        }
+    }
+
+    return Boolean(atualizarVariosPets(atualizacoes));
+}
