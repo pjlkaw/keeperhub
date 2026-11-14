@@ -116,3 +116,12 @@ export async function salvarModulosUsuario(modulos, periodo) {
     });
     return dados.modulos;
 }
+
+export async function ativarTesteGratis() {
+    const dados = await requisitarJson('/api/modulos/acesso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modo: 'teste' })
+    });
+    return dados.modulos;
+}
