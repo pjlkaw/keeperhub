@@ -296,6 +296,10 @@
   display: block;
 }
 
+.app-header-avatar-img[hidden] {
+  display: none !important;
+}
+
 .app-header-brand-name {
   font-size: 1.125rem;
   /* 18px */
