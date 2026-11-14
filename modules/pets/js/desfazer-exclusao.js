@@ -7,13 +7,14 @@ Usado por: consultas, vacinas, medicações, despesas e cadastro do pet
 ================================================== */
 
 // Insere o aviso antes do elemento indicado e executa a exclusão após o prazo.
+const TEMPO_PARA_DESFAZER = 7000;
+
 export function oferecerDesfazerExclusao({
     antesDe,
     mensagem,
     aoDesfazer,
     aoExcluir,
-    aoFalhar,
-    duracao = 7000
+    aoFalhar
 }) {
     const aviso = document.createElement('div');
     aviso.className = 'aviso-exclusao-pendente';
@@ -43,7 +44,7 @@ export function oferecerDesfazerExclusao({
         } finally {
             aviso.remove();
         }
-    }, duracao);
+    }, TEMPO_PARA_DESFAZER);
 
     desfazer.addEventListener('click', () => {
         window.clearTimeout(temporizador);

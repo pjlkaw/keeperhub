@@ -1,7 +1,7 @@
 // Cadastro, busca e organização local das medicações dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { listarPets } from './armazenamento.js';
+import { atualizarVariosPets, listarPets } from './armazenamento.js';
 import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, registrosDoPet, removerRegistrosDosPets, salvarEdicaoRegistroLocal } from './selecao-pets.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -44,6 +44,7 @@ let registroEmEdicao = null;
 let petsOrigemEdicao = [];
 const medicacoesEditaveis = new Map();
 const exclusoesPendentes = new Set();
+let timerFeedbackMedicao = null;
 
 // Retorna a data local de hoje no formato AAAA-MM-DD.
 function dataHoje() {
@@ -143,6 +144,48 @@ function informar(mensagem, erro = false) {
     status.textContent = mensagem;
     status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
+}
+
+function informarPorDoisSegundos(mensagem) {
+    if (timerFeedbackMedicao) window.clearTimeout(timerFeedbackMedicao);
+    informar(mensagem);
+    timerFeedbackMedicao = window.setTimeout(() => {
+        if (status.textContent === mensagem && status.dataset.estado !== 'erro') informar('');
+        timerFeedbackMedicao = null;
+    }, 2000);
+}
+
+function atualizarRegistrosConcluidos(membros, restaurar = false) {
+    const atualizacoes = {};
+    const porPet = new Map();
+    for (const membro of membros) {
+        const idPet = String(membro.pet.id);
+        if (!porPet.has(idPet)) porPet.set(idPet, { pet: membro.pet, registros: new Map() });
+        porPet.get(idPet).registros.set(String(membro.registro.id), membro.registro);
+    }
+
+    for (const [idPet, grupo] of porPet) {
+        const registros = registrosDoPet(grupo.pet, 'medicacoes');
+        const ids = new Set(grupo.registros.keys());
+        if ([...ids].some(id => !registros.some(registro => String(registro.id) === id))) return false;
+        atualizacoes[idPet] = {
+            medicacoes: registros.map(registro => {
+                const original = grupo.registros.get(String(registro.id));
+                if (!original) return registro;
+                if (restaurar) return original;
+                return { ...registro, concluidaEm: dataHoje() };
+            })
+        };
+    }
+    return Boolean(atualizarVariosPets(atualizacoes));
+}
+
+function membrosDaMedicacao(medicacao) {
+    if (!medicacao.grupoId) return medicacao.membros;
+    const membrosDoGrupo = pets.flatMap(pet => registrosDoPet(pet, 'medicacoes')
+        .filter(registro => registro.grupoId === medicacao.grupoId)
+        .map(registro => ({ pet, registro })));
+    return membrosDoGrupo.length ? membrosDoGrupo : medicacao.membros;
 }
 
 // Oculta temporariamente as medicações que ainda podem ser restauradas.
@@ -372,6 +415,7 @@ function criarCartao(medicacao) {
 // Cria o cartão histórico com o visual da linha do tempo médica.
 function criarCartaoHistorico(medicacao) {
     const li = document.createElement('li');
+    li.className = 'item-historico-pets';
     const chave = crypto.randomUUID();
     const etiquetaPets = medicacao.nomesPets?.length
         ? `<span class="etiqueta-pets-registro">${escapar(medicacao.nomesPets.join(', '))}</span>`
@@ -388,7 +432,7 @@ function criarCartaoHistorico(medicacao) {
     ].filter(Boolean).map(escapar).join(' · ');
 
     medicacoesEditaveis.set(chave, medicacao);
-    li.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-medicacao"><i class="fa-solid fa-pills icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(medicacao.nome)}${etiquetaPets}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(dataDeConclusao(medicacao))}">Concluído em ${escapar(formatarData(dataDeConclusao(medicacao)))}</time></p><p class="linha-tempo-medica__descricao">${detalhes || 'Detalhes não informados.'}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoMedicacao(medicacao))}">Editar</a><button type="button" class="botao-texto" data-excluir-medicacao="${chave}">Excluir</button></div></div></article>`;
+    li.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--medicacao"><i class="fa-solid fa-pills icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(medicacao.nome)}${etiquetaPets}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(dataDeConclusao(medicacao))}">Concluído em ${escapar(formatarData(dataDeConclusao(medicacao)))}</time></p><p class="linha-tempo-medica__descricao">${detalhes || 'Detalhes não informados.'}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoMedicacao(medicacao))}">Editar</a><button type="button" class="botao-texto" data-excluir-medicacao="${chave}">Excluir</button></div></div></article>`;
 
     return li;
 }
@@ -752,19 +796,32 @@ if (paginaLista) {
         const medicacaoParaConcluir = botaoConcluir &&
             medicacoesEditaveis.get(botaoConcluir.dataset.concluirMedicacao);
         if (medicacaoParaConcluir) {
-            const membros = medicacaoParaConcluir.membros;
-            const concluida = salvarEdicaoRegistroLocal(
-                membros.map(membro => membro.pet),
-                membros.map(membro => membro.registro.id),
-                membros.map(membro => membro.pet),
-                'medicacoes',
-                { concluidaEm: dataHoje() }
-            );
+            const membros = membrosDaMedicacao(medicacaoParaConcluir);
+            const concluida = atualizarRegistrosConcluidos(membros);
             if (!concluida) {
                 informar('Não foi possível concluir o tratamento.', true);
                 return;
             }
-            informar('Tratamento concluído. Ele foi movido para o Histórico.');
+            renderizarLista();
+            informarPorDoisSegundos('Tratamento concluído. Ele foi movido para o Histórico.');
+            const indiceGrupo = { continuo: 0, temporario: 1, eventual: 2 }[medicacaoParaConcluir.tipoUso];
+            const listaOrigem = main.querySelectorAll('.grupo-medicacoes ul')[indiceGrupo];
+            oferecerDesfazerExclusao({
+                antesDe: listaOrigem,
+                mensagem: 'Tratamento concluído.',
+                aoDesfazer() {
+                    if (!atualizarRegistrosConcluidos(membros, true)) {
+                        informar('Não foi possível desfazer a conclusão.', true);
+                        return;
+                    }
+                    renderizarLista();
+                    informarPorDoisSegundos('Conclusão desfeita.');
+                },
+                aoExcluir() {},
+                aoFalhar(erro) {
+                    informar(erro.message || 'Não foi possível concluir o tratamento.', true);
+                }
+            });
             return;
         }
 

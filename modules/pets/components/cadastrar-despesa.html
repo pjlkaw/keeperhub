@@ -1,0 +1,121 @@
+<!doctype html>
+<!-- Formulário padrão de Pets para cadastrar ou editar um lançamento local de despesa. -->
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar despesa • Pets • KeeperHub</title>
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/variables.css" />
+    <link rel="stylesheet" href="/shared/styles/reset.css" />
+    <link rel="stylesheet" href="/shared/styles/components.css" />
+    <link rel="stylesheet" href="/shared/styles/header-page.css" />
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css" />
+
+    <!-- Estilos de Pets -->
+    <link rel="stylesheet" href="../assets/css/cadastrar-despesa.css" />
+    <link rel="stylesheet" href="../assets/css/selecao-pets.css" />
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css" />
+    <link rel="stylesheet" href="../assets/css/essentials/responsive.css" />
+
+    <!-- Configuração do cabeçalho compartilhado -->
+    <script>
+      window.keeperhubModuleConfig = {
+        module: 'pets',
+        title: 'Registrar despesa',
+        subtitle: 'Anote um gasto e acompanhe o orçamento do seu pet.',
+        backUrl: '/modules/pets/components/despesas.html',
+        notificationsModule: 'pets'
+      };
+    </script>
+    <!-- Lógica da página (módulo ES, executa antes do load-components.js) -->
+    <script type="module" src="../js/cadastrar-despesa.js"></script>
+    <script defer src="/shared/services/load-components.js"></script>
+</head>
+<body>
+    <div class="app-page-wrapper">
+        <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+        <div class="app-container">
+            <main class="cadastro-despesa">
+                <header class="section-header-section" id="headerSection"></header>
+
+                <form class="formulario-despesa" id="formulario-despesa" novalidate>
+                    <section class="campo-formulario seletor-pet-despesa" aria-labelledby="rotulo-pet-despesa">
+                        <label id="rotulo-pet-despesa" for="pet-destino-despesa">Pet(s) desta despesa</label>
+                        <select id="pet-destino-despesa" required aria-describedby="orientacao-pet-despesa mensagem-despesa">
+                            <option value="" selected disabled>Selecione um pet</option>
+                        </select>
+                        <p class="orientacao-pet-despesa" id="orientacao-pet-despesa">Se foi compartilhado, selecione todos os pets envolvidos. O valor aparece no histórico de cada um e conta uma vez no total geral.</p>
+                    </section>
+
+                    <div class="campo-formulario">
+                        <label for="descricao-despesa">O que foi comprado ou feito?</label>
+                        <input type="text" id="descricao-despesa" name="descricao" maxlength="100" placeholder="Ex.: Ração, consulta veterinária" required />
+                    </div>
+
+                    <fieldset class="campo-formulario campo-categoria-despesa">
+                        <legend>Categoria</legend>
+                        <ul class="lista-opcoes lista-categorias-despesa">
+                            <li>
+                                <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                    <input type="radio" name="categoria" value="alimentacao" required />
+                                    <span class="cartao-opcao__titulo">Alimentação</span>
+                                    <span class="cartao-opcao__descricao">Ração, petiscos e suplementos</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                    <input type="radio" name="categoria" value="saude" />
+                                    <span class="cartao-opcao__titulo">Saúde</span>
+                                    <span class="cartao-opcao__descricao">Consultas, exames e remédios</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                    <input type="radio" name="categoria" value="higiene" />
+                                    <span class="cartao-opcao__titulo">Higiene e estética</span>
+                                    <span class="cartao-opcao__descricao">Banho, tosa e cuidados</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="card card--interactive cartao-opcao cartao-opcao--compacto">
+                                    <input type="radio" name="categoria" value="lazer" />
+                                    <span class="cartao-opcao__titulo">Lazer e recreação</span>
+                                    <span class="cartao-opcao__descricao">Passeios e atividades</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </fieldset>
+
+                    <div class="campo-formulario">
+                        <label for="valor-despesa">Valor (R$)</label>
+                        <input type="number" id="valor-despesa" name="valor" inputmode="decimal" min="0.01" step="0.01" placeholder="0,00" required />
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="data-despesa">Data do gasto</label>
+                        <input type="date" id="data-despesa" name="data" required />
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="estabelecimento-despesa">Estabelecimento <span>(opcional)</span></label>
+                        <input type="text" id="estabelecimento-despesa" name="estabelecimento" maxlength="100" placeholder="Ex.: Clínica veterinária" />
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="observacoes-despesa">Observações <span>(opcional)</span></label>
+                        <textarea id="observacoes-despesa" name="observacoes" rows="3" maxlength="500" placeholder="Detalhes que queira guardar sobre este gasto"></textarea>
+                    </div>
+
+                    <button class="botao-principal formulario-despesa__salvar" type="submit" id="salvar-despesa" disabled>Salvar despesa</button>
+                    <p class="aviso-integracao formulario-despesa__aviso" id="mensagem-despesa" role="status" aria-live="polite">As despesas ficam salvas neste navegador.</p>
+                </form>
+            </main>
+        </div>
+    </div>
+    <script src="/shared/services/theme.js"></script>
+</body>
+</html>

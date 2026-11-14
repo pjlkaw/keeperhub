@@ -14,6 +14,7 @@ import {
   listarVacinasPorPet,
   atualizarVacinas,
   marcarVacinasAplicadas,
+  desfazerVacinasAplicadas,
   excluirVacinas,
 } from '../../server/repositories/pets/vacinas.js';
 import {
@@ -311,6 +312,26 @@ export function criarHandlerPets(deps) {
           : res.status(404).json({ erro: 'Vacina agendada não encontrada.' });
       }
 
+      if (req.method === 'PUT' && req.query?.acao === 'vacina-desfazer-realizada') {
+        const anteriores = Array.isArray(body.anteriores) ? body.anteriores : [];
+        const ids = anteriores.map(item => Number(item?.id));
+        if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(ids).size !== ids.length || anteriores.some(item => !item || typeof item !== 'object' ||
+              (item.dataAplicacao && !dataISOValida(item.dataAplicacao)) ||
+              (item.proximaDose && !dataISOValida(item.proximaDose)))) {
+          return res.status(400).json({ erro: 'Não foi possível restaurar o agendamento.' });
+        }
+        const anterioresValidadas = anteriores.map((item, indice) => ({
+          id: ids[indice],
+          dataAplicacao: item.dataAplicacao || '',
+          proximaDose: item.proximaDose || '',
+        }));
+        const vacinasPorPet = await repositorio.desfazerVacinasAplicadas(ids, anterioresValidadas, usuarioId);
+        return vacinasPorPet
+          ? res.status(200).json({ vacinas: Object.fromEntries(vacinasPorPet) })
+          : res.status(404).json({ erro: 'A vacinação não pode mais ser desfeita.' });
+      }
+
       if (req.method === 'DELETE' && req.query?.acao === 'vacina') {
         const ids = id ? [id] : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
         if (!ids.length || ids.length > 50 || ids.some(valor => !Number.isSafeInteger(valor) || valor <= 0)) {
@@ -449,7 +470,7 @@ export default criarHandlerPets({
   repositorio: {
     atualizarPet, buscarPet, criarPet, desativarPet, listarPets, salvarTutor,
     listarVacinasPorPet, cadastrarVacina,
-    atualizarVacinas, marcarVacinasAplicadas, excluirVacinas,
+    atualizarVacinas, marcarVacinasAplicadas, desfazerVacinasAplicadas, excluirVacinas,
     listarConsultasPorPet, cadastrarConsulta, atualizarConsultas, excluirConsultas, alterarLembreteConsulta, registrarConsultaRealizada,
     registrarConsultasRealizadas,
   },

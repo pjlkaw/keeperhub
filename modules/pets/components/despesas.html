@@ -27,7 +27,7 @@
         subtitle: 'Acompanhe os gastos com o seu pet',
         backUrl: '/modules/pets/index.html',
         notificationsModule: 'pets',
-        addUrl: '#nova-despesa'
+        addUrl: '/modules/pets/components/cadastrar-despesa.html?todos=1'
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
@@ -40,7 +40,7 @@
             <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
             <div class="app-container">
     <!-- Estado vazio -->
-    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma despesa cadastrada"></section>
+    <section class="no-content-section" id="no-content-section" aria-label="Nenhuma despesa cadastrada" hidden></section>
     <main class="pagina-despesas" id="conteudo-principal" data-pet-id="">
       <!-- Navegação entre módulos -->
       
@@ -54,41 +54,67 @@
         <select id="pet-despesas" aria-describedby="status-pet-despesas"></select>
         <p id="status-pet-despesas" role="status" aria-live="polite" hidden></p>
       </section>
+      <p class="feedback-despesas" id="feedback-despesas" role="status" aria-live="polite" hidden></p>
 
       <div class="despesas-conteudo">
         <!-- Resumo mensal -->
-        <section class="card resumo-despesas" aria-labelledby="resumo-despesas-heading">
+        <section class="card resumo-despesas" aria-labelledby="titulo-total-despesas">
           <nav class="resumo-despesas__mes" aria-label="Mês das despesas">
-            <button class="despesas-navegar" type="button" aria-label="Mês anterior" title="Troca de mês disponível após integração" data-acao="mes-anterior" disabled><span aria-hidden="true">‹</span></button>
+            <button class="despesas-navegar" type="button" aria-label="Mês anterior" data-acao="mes-anterior" disabled><span aria-hidden="true">‹</span></button>
             <time datetime=""><span></span><span></span></time>
-            <button class="despesas-navegar" type="button" aria-label="Próximo mês" title="Troca de mês disponível após integração" data-acao="mes-seguinte" disabled><span aria-hidden="true">›</span></button>
+            <button class="despesas-navegar" type="button" aria-label="Próximo mês" data-acao="mes-seguinte" disabled><span aria-hidden="true">›</span></button>
           </nav>
-          <h2 class="resumo-despesas__rotulo" id="resumo-despesas-heading">Total do mês</h2>
+          <h2 class="resumo-despesas__rotulo" id="titulo-total-despesas">Total do mês</h2>
           <p class="resumo-despesas__total">
             <data class="resumo-despesas__valor" value="0.00">R$ 0,00</data>
-            <span class="resumo-despesas__orcamento">/ <data value="600.00">R$ 600,00</data> previsto</span>
+            <span class="resumo-despesas__orcamento" id="resumo-meta-valor" hidden></span>
           </p>
-          <div class="resumo-despesas__linha">
-            <label for="progresso-orcamento">Compromisso do teto</label>
-            <strong>0% consumido</strong>
+          <div class="resumo-despesas__progresso-grupo" id="grupo-progresso-orcamento" hidden>
+            <div class="resumo-despesas__linha">
+              <span>Consumo da meta</span>
+              <strong id="percentual-orcamento">0% consumido</strong>
+            </div>
+            <progress class="resumo-despesas__progresso" id="progresso-orcamento" value="0" max="1">0%</progress>
           </div>
-          <progress class="resumo-despesas__progresso" id="progresso-orcamento" value="0" max="600">0%</progress>
-          <p class="resumo-despesas__linha resumo-despesas__livre">
+          <p class="resumo-despesas__linha resumo-despesas__livre" id="linha-saldo-orcamento" hidden>
             <span>Disponível no mês</span>
-            <strong><data value="600.00">R$ 600,00</data> livres</strong>
+            <strong id="saldo-orcamento"></strong>
           </p>
+          <div class="resumo-despesas__meta">
+            <div>
+              <span class="resumo-despesas__rotulo" id="rotulo-meta-despesas">Meta mensal</span>
+              <strong id="resumo-meta-status">Nenhuma meta definida</strong>
+            </div>
+          </div>
+          <p class="resumo-despesas__meta-aviso" id="aviso-meta-despesas" hidden></p>
+          <button class="botao-principal resumo-despesas__botao-meta" type="button" id="editar-meta-despesas">Definir meta</button>
+          <form class="formulario-meta-despesas" id="formulario-meta-despesas" novalidate hidden>
+            <div class="campo-formulario" id="campo-pet-meta" hidden>
+              <label for="pet-meta-despesas" id="rotulo-seletor-meta">Aplicar meta a</label>
+              <select id="pet-meta-despesas"></select>
+            </div>
+            <div class="campo-formulario">
+              <label for="valor-meta-despesas" id="rotulo-valor-meta">Limite mensal (R$)</label>
+              <input type="number" id="valor-meta-despesas" min="0.01" step="0.01" inputmode="decimal" placeholder="Ex.: 300,00" required>
+            </div>
+            <div class="formulario-meta-despesas__acoes">
+              <button class="botao-secundario" type="button" id="cancelar-meta-despesas">Cancelar</button>
+              <button class="botao-principal" type="submit">Salvar meta</button>
+            </div>
+            <p id="mensagem-meta-despesas" role="status" hidden></p>
+          </form>
         </section>
 
         <!-- Totais por categoria -->
-        <section aria-labelledby="categorias-despesas-heading">
+        <section aria-labelledby="titulo-resumo-categorias">
           <header class="secao-despesas__cabecalho">
-            <h2 class="secao-despesas__titulo secao-despesas__titulo--discreto" id="categorias-despesas-heading">Divisão por área</h2>
-            <span class="secao-despesas__contador">0 grupos ativos</span>
+            <h2 class="secao-despesas__titulo secao-despesas__titulo--discreto" id="titulo-resumo-categorias">Resumo por categoria</h2>
+            <span class="secao-despesas__contador">0 categorias com gastos</span>
           </header>
           <ul class="categorias-despesas">
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-alimentacao">
-                <span class="despesa-icone"><i class="fa-solid fa-bowl-food despesa-glyph" aria-hidden="true"></i></span>
+                <span class="despesa-icone"><i class="fa-solid fa-bowl-food icone-despesa" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">0%</span>
                 <span class="categoria-despesa__nome">Alimentação</span>
                 <data class="categoria-despesa__valor" value="0.00">R$ 0,00</data>
@@ -96,7 +122,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-saude">
-                <span class="despesa-icone"><i class="fa-solid fa-heart-pulse despesa-glyph" aria-hidden="true"></i></span>
+                <span class="despesa-icone"><i class="fa-solid fa-heart-pulse icone-despesa" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">0%</span>
                 <span class="categoria-despesa__nome">Saúde</span>
                 <data class="categoria-despesa__valor" value="0.00">R$ 0,00</data>
@@ -104,7 +130,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-higiene">
-                <span class="despesa-icone"><i class="fa-solid fa-soap despesa-glyph" aria-hidden="true"></i></span>
+                <span class="despesa-icone"><i class="fa-solid fa-soap icone-despesa" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">0%</span>
                 <span class="categoria-despesa__nome">Higiene</span>
                 <data class="categoria-despesa__valor" value="0.00">R$ 0,00</data>
@@ -112,7 +138,7 @@
             </li>
             <li>
               <a class="card card--interactive categoria-despesa" href="#despesas-lazer">
-                <span class="despesa-icone"><i class="fa-solid fa-bone despesa-glyph" aria-hidden="true"></i></span>
+                <span class="despesa-icone"><i class="fa-solid fa-bone icone-despesa" aria-hidden="true"></i></span>
                 <span class="categoria-despesa__percentual">0%</span>
                 <span class="categoria-despesa__nome">Lazer</span>
                 <data class="categoria-despesa__valor" value="0.00">R$ 0,00</data>
@@ -122,97 +148,49 @@
         </section>
 
         <!-- Extrato por categoria -->
-        <section class="historico-despesas" aria-labelledby="historico-despesas-heading">
+        <section class="historico-despesas" aria-labelledby="titulo-extrato-despesas">
           <header class="secao-despesas__cabecalho">
-            <h2 class="secao-despesas__titulo" id="historico-despesas-heading">Extrato Detalhado</h2>
+            <h2 class="secao-despesas__titulo" id="titulo-extrato-despesas">Extrato Detalhado</h2>
             <span class="secao-despesas__contador">0 lançamentos</span>
           </header>
 
-          <section class="grupo-despesas" id="despesas-alimentacao" aria-labelledby="alimentacao-heading">
+          <section class="grupo-despesas" id="despesas-alimentacao" aria-labelledby="titulo-categoria-alimentacao">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="alimentacao-heading"><i class="fa-solid fa-bowl-food despesa-glyph" aria-hidden="true"></i>Alimentação</h3>
+              <h3 id="titulo-categoria-alimentacao"><i class="fa-solid fa-bowl-food icone-despesa" aria-hidden="true"></i>Alimentação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="0.00">R$ 0,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
             </ul>
           </section>
-          <section class="grupo-despesas" id="despesas-higiene" aria-labelledby="higiene-heading">
+          <section class="grupo-despesas" id="despesas-higiene" aria-labelledby="titulo-categoria-higiene">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="higiene-heading"><i class="fa-solid fa-soap despesa-glyph" aria-hidden="true"></i>Higiene e Estética</h3>
+              <h3 id="titulo-categoria-higiene"><i class="fa-solid fa-soap icone-despesa" aria-hidden="true"></i>Higiene e Estética</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="0.00">R$ 0,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
             </ul>
           </section>
-          <section class="grupo-despesas" id="despesas-lazer" aria-labelledby="lazer-heading">
+          <section class="grupo-despesas" id="despesas-lazer" aria-labelledby="titulo-categoria-lazer">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="lazer-heading"><i class="fa-solid fa-bone despesa-glyph" aria-hidden="true"></i>Lazer e Recreação</h3>
+              <h3 id="titulo-categoria-lazer"><i class="fa-solid fa-bone icone-despesa" aria-hidden="true"></i>Lazer e Recreação</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="0.00">R$ 0,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
             </ul>
           </section>
-          <section class="grupo-despesas" id="despesas-saude" aria-labelledby="saude-heading">
+          <section class="grupo-despesas" id="despesas-saude" aria-labelledby="titulo-categoria-saude">
             <header class="grupo-despesas__cabecalho">
-              <h3 id="saude-heading"><i class="fa-solid fa-heart-pulse despesa-glyph" aria-hidden="true"></i>Cuidados com a Saúde</h3>
+              <h3 id="titulo-categoria-saude"><i class="fa-solid fa-heart-pulse icone-despesa" aria-hidden="true"></i>Cuidados com a Saúde</h3>
               <p class="grupo-despesas__subtotal">Subtotal <data value="0.00">R$ 0,00</data></p>
             </header>
             <ul class="card lista-lancamentos">
             </ul>
           </section>
         </section>
+        <p class="despesas-vazias" id="despesas-vazias" hidden>Nenhuma despesa neste mês. Use o botão + para registrar a primeira.</p>
       </div>
 
 
-      <!-- Formulário de nova despesa -->
-      <section class="nova-despesa" id="nova-despesa" popover aria-labelledby="nova-despesa-heading">
-        <header class="nova-despesa__cabecalho">
-          <h2 id="nova-despesa-heading">Nova despesa</h2>
-          <button class="nova-despesa__fechar" type="button" popovertarget="nova-despesa" popovertargetaction="hide" aria-label="Fechar formulário"><span aria-hidden="true">×</span></button>
-        </header>
-        <form class="formulario-despesa" id="formulario-despesa" aria-describedby="mensagem-despesa">
-          <div class="campo-formulario destino-despesa" id="destino-despesa" hidden>
-            <label for="pet-destino-despesa">Pet desta despesa</label>
-            <select id="pet-destino-despesa" name="pet_destino" required>
-              <option value="" selected disabled>Selecione um pet</option>
-            </select>
-          </div>
-          <div class="campo-formulario">
-            <label for="descricao-despesa">Descrição</label>
-            <input type="text" id="descricao-despesa" name="descricao" maxlength="100" placeholder="Ex.: Ração da Luna" required />
-          </div>
-          <div class="campo-formulario">
-            <label for="categoria-despesa">Categoria</label>
-            <select id="categoria-despesa" name="categoria" required>
-              <option value="" disabled selected>Selecione a categoria</option>
-              <option value="alimentacao">Alimentação</option>
-              <option value="saude">Cuidados com a Saúde</option>
-              <option value="higiene">Higiene e Estética</option>
-              <option value="lazer">Lazer e Recreação</option>
-            </select>
-          </div>
-          <div class="linha-formulario">
-            <div class="campo-formulario">
-              <label for="valor-despesa">Valor (R$)</label>
-              <input type="number" id="valor-despesa" name="valor" inputmode="decimal" min="0.01" step="0.01" placeholder="0,00" required />
-            </div>
-            <div class="campo-formulario">
-              <label for="data-despesa">Data</label>
-              <input type="date" id="data-despesa" name="data" required />
-            </div>
-          </div>
-          <div class="campo-formulario">
-            <label for="estabelecimento-despesa">Estabelecimento (opcional)</label>
-            <input type="text" id="estabelecimento-despesa" name="estabelecimento" maxlength="100" placeholder="Onde foi realizada a compra?" />
-          </div>
-          <div class="campo-formulario">
-            <label for="observacoes-despesa">Observações (opcional)</label>
-            <textarea id="observacoes-despesa" name="observacoes" rows="3" maxlength="500"></textarea>
-          </div>
-          <button class="botao-principal formulario-despesa__salvar" type="submit" data-acao="salvar-despesa" disabled>Salvar despesa</button>
-          <p class="nova-despesa__aviso" id="mensagem-despesa" role="status" data-estado="informativo">Preencha os campos obrigatórios para registrar a despesa.</p>
-        </form>
-      </section>
     </main>
 
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-pets)" aria-label="Adicionar despesa" inert></section>

@@ -116,10 +116,49 @@ SELETOR DE PET E ESTADO DA ROTINA
   border-radius: var(--pets-radius-md);
 }
 
+.rotina-diaria__hoje {
+  border-color: var(--pets-primary-border);
+  border-top: 2px solid var(--tool-pets);
+}
+
 .rotina-diaria h2 {
   color: var(--text-color);
   font-size: 18px;
   font-weight: 500;
+}
+
+/* Títulos e ícones dão identidade às seções sem alterar o formato dos cards. */
+.rotina-diaria__titulo-secao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rotina-diaria__icone-secao {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+  color: var(--tool-pets);
+  background: var(--pets-primary-soft);
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+.rotina-diaria__icone-secao--alimentar {
+  color: var(--pets-success);
+  background: color-mix(in srgb, var(--pets-success) 14%, transparent);
+}
+
+.rotina-diaria__icone-secao--higiene {
+  color: var(--pets-appointment);
+  background: color-mix(in srgb, var(--pets-appointment) 14%, transparent);
+}
+
+.rotina-diaria__icone-secao--lazer {
+  color: var(--pets-routine);
+  background: color-mix(in srgb, var(--pets-routine) 14%, transparent);
 }
 
 .rotina-diaria__vazia {
@@ -165,6 +204,11 @@ LINHA DO TEMPO DE CUIDADOS
 .linha-tempo-rotina__informacoes,
 .cartao-higiene__informacoes {
   min-width: 0;
+}
+
+.linha-tempo-rotina__informacoes {
+  display: grid;
+  gap: 2px;
 }
 
 .linha-tempo-rotina__nome,
@@ -300,6 +344,7 @@ ANOTAÇÕES DE COMPORTAMENTO
   bottom: 10px;
   width: 28px;
   height: 28px;
+  min-height: 28px;
 }
 
 .anotacoes-comportamento__enviar .icone {
@@ -345,6 +390,18 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
   overflow-wrap: anywhere;
 }
 
+.linha-tempo-rotina__pets {
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.linha-tempo-rotina__editar {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.6875rem;
+}
+
 .linha-tempo-rotina__item .etiqueta-status {
   white-space: nowrap;
 }
@@ -369,6 +426,13 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
   font-size: 13px;
   font-weight: 700;
   overflow-wrap: anywhere;
+}
+
+/* A etiqueta fica junto ao título e quebra alinhada quando não couber. */
+.cartao-rotina__titulo .etiqueta-pets-registro {
+  max-width: 100%;
+  margin-left: 0;
+  vertical-align: middle;
 }
 
 .cartao-rotina__resumo,

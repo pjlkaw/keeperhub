@@ -44,7 +44,6 @@ main > .section-header-section {
   --vacinas-largura: 720px;
   --vacinas-raio: var(--pets-radius-sm);
   --vacinas-alerta: var(--pets-status-alerta);
-  --vacinas-barra-neutra: var(--text-muted);
   --vacinas-icone-neutro: var(--text-muted);
   --vacinas-texto-aplicada: var(--text-muted);
 }
@@ -66,7 +65,6 @@ LAYOUT E PRÓXIMAS VACINAS
 /* Ícones Font Awesome no HTML; a base só controla alinhamento e escala. */
 .vacinacoes-pet .icone { display: inline-grid; flex: 0 0 auto; width: 20px; height: 20px; place-items: center; background-image: none; color: var(--vacinas-icone-neutro); font-size: 20px; line-height: 1; }
 .destaques-vacinas,
-.cronograma-vacinas,
 /* ==================================================
 HISTÓRICO DE VACINAS
 ================================================== */
@@ -87,15 +85,29 @@ HISTÓRICO DE VACINAS
 }
 
 .destaques-vacinas > h2,
-.cronograma-vacinas > h2,
 .historico-vacinas > h2 {
   font-size: 18px;
   font-weight: 500;
   line-height: 1.4;
 }
 
+.historico-vacinas > h2 { margin-bottom: 8px; }
+
+/* Centraliza a seringa no círculo dos cartões do histórico de vacinas. */
+.vacinacoes-pet .historico-vacinas .cartao-historico-pets--vacina > .icone {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: var(--pets-vaccine);
+  background: color-mix(in srgb, var(--pets-vaccine) 14%, transparent);
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+}
+
 /* ==================================================
-VACINAS EM DESTAQUE E PROGRESSO
+ PRÓXIMAS VACINAS E DESTAQUES
 ================================================== */
 .cartao-destaque-vacina {
   position: relative;
@@ -105,10 +117,6 @@ VACINAS EM DESTAQUE E PROGRESSO
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--vacinas-raio);
-}
-
-.cartao-destaque-vacina--destaque {
-  border-color: var(--pets-primary-border);
 }
 
 .cartao-destaque-vacina__rotulo,
@@ -147,11 +155,22 @@ VACINAS EM DESTAQUE E PROGRESSO
   border-color: transparent;
 }
 
+.cartao-destaque-vacina__agenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+}
+
 .cartao-destaque-vacina__data {
   display: flex;
+  flex: 1 1 150px;
+  min-width: 0;
   align-items: center;
   gap: 6px;
-  margin-top: 16px;
+  margin: 0;
   color: var(--text-muted);
   font-size: 12px;
 }
@@ -161,67 +180,17 @@ VACINAS EM DESTAQUE E PROGRESSO
   height: 16px;
 }
 
-.vacinacoes-pet .barra-progresso {
-  height: 8px;
-  margin-top: 16px;
-  overflow: hidden;
-  background: var(--pets-surface-raised);
-  border-radius: var(--pets-radius-pill);
-}
-
-/* Percentuais ilustrativos da referência; atualização futura pelo backend. */
-.vacinacoes-pet .barra-progresso__preenchimento {
-  width: 30%;
-  height: 100%;
-  background: var(--vacinas-barra-neutra);
-  border-radius: inherit;
-}
-
-.cartao-destaque-vacina--destaque .barra-progresso__preenchimento {
-  width: 80%;
-  background: var(--tool-pets);
-}
-
 .cartao-destaque-vacina__contagem-regressiva {
-  position: relative;
-  z-index: 1;
-  margin-top: 16px;
-  color: var(--text-muted);
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 4px 8px;
+  color: var(--pets-primary-readable);
+  background: var(--pets-primary-soft);
+  border-radius: var(--pets-radius-pill);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: right;
-  text-transform: uppercase;
-}
-
-.cartao-destaque-vacina--destaque .cartao-destaque-vacina__contagem-regressiva {
-  color: var(--pets-primary-readable);
-}
-
-/* ==================================================
-CRONOGRAMA DE VACINAS
-================================================== */
-.cronograma-vacinas {
-  margin-top: 22px;
-}
-
-.cronograma-vacinas > ul {
-  position: relative;
-  margin-top: 16px;
-  padding: 4px 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--vacinas-raio);
-}
-
-.cronograma-vacinas > ul::before {
-  position: absolute;
-  top: 36px;
-  bottom: 36px;
-  left: 31px;
-  width: 1px;
-  background: var(--border-color);
-  content: '';
+  line-height: 1.3;
+  white-space: nowrap;
 }
 
 .vacinacoes-pet .item-vacina {
@@ -234,16 +203,6 @@ CRONOGRAMA DE VACINAS
   min-width: 0;
   min-height: 68px;
   padding-block: 12px;
-}
-
-.cronograma-vacinas li + li .item-vacina::after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 42px;
-  height: 1px;
-  background: var(--border-color);
-  content: '';
 }
 
 .item-vacina__informacoes {
@@ -355,34 +314,6 @@ CRONOGRAMA DE VACINAS
   margin-top: 22px;
 }
 
-.historico-vacinas > ul {
-  display: grid;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.historico-vacinas .item-vacina {
-  grid-template-columns: 32px minmax(0, 1fr);
-  gap: 4px 10px;
-  min-height: 64px;
-  padding: 12px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--vacinas-raio);
-}
-
-.historico-vacinas .item-vacina > .icone {
-  width: 32px;
-  height: 32px;
-  color: var(--vacinas-icone-neutro);
-  background: var(--pets-neutral-hover);
-  border-radius: 4px;
-}
-
-.historico-vacinas .item-vacina__detalhe {
-  font-size: 12px;
-}
-
 .cartao-destaque-vacina > .icone { display: grid; place-items: center; font-size: 18px; }
 .cartao-destaque-vacina--destaque > .icone { color: var(--pets-primary-readable); }
 .cartao-destaque-vacina__data .icone { color: var(--text-muted); font-size: 16px; }
@@ -390,7 +321,6 @@ CRONOGRAMA DE VACINAS
 .item-vacina--agendada > .icone { color: var(--pill-text); }
 .item-vacina--antirrabica > .icone { color: var(--vacinas-icone-neutro); }
 .item-vacina--aplicada > .icone { color: var(--vacinas-texto-aplicada); }
-.historico-vacinas .item-vacina > .icone { display: grid; place-items: center; font-size: 18px; }
 
 /* Seletor e estados vazios preenchidos pela agenda local. */
 /* ==================================================
@@ -406,7 +336,7 @@ SELETOR DE PET E ESTADOS VAZIOS
   display: none !important;
 }
 
-.vacinacoes-pet > :is(.destaques-vacinas, .cronograma-vacinas, .historico-vacinas)[hidden] {
+.vacinacoes-pet > :is(.destaques-vacinas, .historico-vacinas)[hidden] {
   display: none !important;
 }
 

@@ -181,13 +181,17 @@ GRUPOS DE USO E CARDS
 .grupo-medicacoes__titulo--temporario {
   color: color-mix(in srgb, var(--pets-status-temporario) 45%, var(--text-color));
 }
-.grupo-medicacoes ul { display: grid; gap: 8px; }
+.grupo-medicacoes__titulo--eventual {
+  color: var(--pets-border-strong);
+}
+.grupo-medicacoes ul:not(.lista-historico-pets) { display: grid; gap: 8px; }
 
 .cartao-medicacao {
+  position: relative;
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto;
-  gap: 8px;
-  min-height: 96px;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 8px 10px;
+  min-height: 0;
   align-items: start;
   border-left-width: 4px;
 }
@@ -196,8 +200,8 @@ GRUPOS DE USO E CARDS
 
 .cartao-medicacao > .icone {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: var(--pets-neutral-hover);
   border: 1px solid var(--border-color);
   border-radius: 50%;
@@ -205,10 +209,11 @@ GRUPOS DE USO E CARDS
 
 .cartao-medicacao__informacoes { min-width: 0; align-self: center; }
 .cartao-medicacao__nome {
+  padding-right: 78px;
   overflow-wrap: anywhere;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 .cartao-medicacao__informacoes :is(.cartao-medicacao__horario, .cartao-medicacao__dosagem) {
   margin-top: 4px;
@@ -237,6 +242,9 @@ GRUPOS DE USO E CARDS
   font-size: 0.75rem;
 }
 .etiqueta-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   display: inline-flex;
   min-height: 24px;
   align-items: center;
@@ -263,7 +271,8 @@ GRUPOS DE USO E CARDS
 }
 
 .cartao-medicacao > .icone { display: grid; place-items: center; color: var(--text-muted); font-size: 18px; line-height: 1; }
-.cartao-medicacao--temporario > .icone { color: var(--pets-medication); }
+.cartao-medicacao--continuo > .icone { color: var(--pets-success); }
+.cartao-medicacao--temporario > .icone { color: var(--pets-vaccine); }
 .cartao-medicacao__estoque .icone, .cartao-medicacao__termino .icone { color: var(--text-muted); font-size: 12px; line-height: 1; }
 
 /* Seletor do pet, filtro e estados da lista local. */
@@ -336,72 +345,6 @@ SELETOR DE PET E ESTADOS DA LISTA
 .pagina-medicacoes :is(.abas-pet, .barra-ferramentas-medicacoes, .grupo-medicacoes, .seletor-pet-medicacoes)[hidden] {
   display: none !important;
 }
-/* Histórico no formato da linha do tempo médica, com informações do remédio. */
-.grupo-medicacoes--historico ul.cartao-historico-medicacao__lista {
-  gap: 0;
-  padding: 16px;
-}
-
-.cartao-historico-medicacao__lista > li {
-  position: relative;
-  padding-left: 26px;
-}
-
-.cartao-historico-medicacao__lista > li:not(:last-child) {
-  padding-bottom: 18px;
-}
-
-.cartao-historico-medicacao__lista > li:not(:last-child)::before {
-  position: absolute;
-  top: 18px;
-  bottom: 0;
-  left: 8px;
-  width: 1px;
-  background: var(--border-color);
-  content: "";
-}
-
-.cartao-historico-medicacao > .icone {
-  position: absolute;
-  top: 1px;
-  left: 0;
-  display: grid;
-  width: 18px;
-  height: 18px;
-  place-items: center;
-  color: var(--pets-medication-action);
-  background: var(--pets-primary-soft);
-  border-radius: 50%;
-  font-size: 11px;
-}
-
-.cartao-historico-medicacao .linha-tempo-medica__conteudo {
-  min-width: 0;
-  overflow-wrap: anywhere;
-}
-
-.cartao-historico-medicacao .linha-tempo-medica__titulo {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.4;
-}
-
-.cartao-historico-medicacao .linha-tempo-medica__data {
-  margin-block: 8px;
-  padding: 4px 8px;
-  color: var(--text-color);
-  background: var(--pets-neutral-hover);
-  border-radius: var(--pets-radius-sm);
-  font-size: 0.75rem;
-}
-
-.cartao-historico-medicacao .linha-tempo-medica__descricao {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-
 /* ==================================================
 ATALHO PARA RECEITAS
 ================================================== */

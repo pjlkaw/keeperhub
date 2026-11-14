@@ -18,7 +18,6 @@ Usado por: páginas do módulo Pets
 /* Regras de vacinacoes.css */
 @media (min-width: 700px) {
   .destaques-vacinas,
-  .cronograma-vacinas,
   .historico-vacinas {
     margin-inline: 24px;
   }
@@ -40,24 +39,6 @@ Usado por: páginas do módulo Pets
 
   .vacinacoes-pet .item-vacina {
     column-gap: 10px;
-  }
-
-  .cronograma-vacinas .item-vacina {
-    grid-template-columns: 32px minmax(0, 1fr);
-  }
-
-  .cronograma-vacinas .item-vacina > .icone {
-    width: 32px;
-    height: 32px;
-    grid-row: 1 / 4;
-  }
-
-  .cronograma-vacinas > ul::before {
-    left: 31px;
-  }
-
-  .cronograma-vacinas li + li .item-vacina::after {
-    left: 42px;
   }
 
   .vacinacoes-pet .etiqueta-status {
