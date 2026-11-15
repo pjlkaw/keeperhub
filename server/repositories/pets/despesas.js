@@ -1,5 +1,6 @@
 // Consultas SQL das despesas dos pets. Cada despesa é um lançamento de Finanças
 // (valor, data, descrição) ligado a pet_despesa (pet, categoria, estabelecimento).
+import { randomUUID } from 'node:crypto';
 import db from '../../db.js';
 import { emTransacao } from './transacao.js';
 
@@ -24,6 +25,7 @@ export function mapearDespesa(linha) {
   return {
     id: String(linha.id),
     petId: String(linha.petId),
+    ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     descricao: linha.descricao || '',
     categoria: linha.categoria,
     valorCentavos: Math.round(Number(linha.valor) * 100),
@@ -43,7 +45,8 @@ export function dividirValor(totalCentavos, quantidade) {
 // Despesas de todos os pets ativos do usuário, agrupadas pelo id do pet.
 export async function listarDespesasPorPet(usuarioId, executor = db) {
   const [linhas] = await executor.execute(
-    `SELECT d.id_despesa AS id, d.pet_id AS petId, d.categoria, d.estabelecimento,
+    `SELECT d.id_despesa AS id, d.pet_id AS petId, d.grupo_id AS grupoId,
+            d.categoria, d.estabelecimento,
             l.descricao, l.valor, l.data, l.observacoes
        FROM pet_despesa d
        JOIN lancamento l ON l.id_lancamento = d.lancamento_id
@@ -107,7 +110,7 @@ async function categoriaPets(conexao, usuarioId) {
 }
 
 // Cria o lançamento em Finanças e a ligação em pet_despesa para um pet.
-async function inserirDespesa(conexao, usuarioId, petId, dados, valorCentavos) {
+async function inserirDespesa(conexao, usuarioId, petId, dados, valorCentavos, grupoId) {
   const contaId = await contaPets(conexao, usuarioId);
   const categoriaId = await categoriaPets(conexao, usuarioId);
   const [lancamento] = await conexao.execute(
@@ -117,9 +120,9 @@ async function inserirDespesa(conexao, usuarioId, petId, dados, valorCentavos) {
     [contaId, categoriaId, petId, valorCentavos / 100, dados.data, dados.descricao, dados.observacoes || null]
   );
   const [despesa] = await conexao.execute(
-    `INSERT INTO pet_despesa (pet_id, lancamento_id, categoria, estabelecimento)
-     VALUES (?, ?, ?, ?)`,
-    [petId, lancamento.insertId, dados.categoria, dados.estabelecimento || null]
+    `INSERT INTO pet_despesa (pet_id, lancamento_id, categoria, estabelecimento, grupo_id)
+     VALUES (?, ?, ?, ?, ?)`,
+    [petId, lancamento.insertId, dados.categoria, dados.estabelecimento || null, grupoId]
   );
   return String(despesa.insertId);
 }
@@ -149,8 +152,9 @@ export function cadastrarDespesa(usuarioId, petIds, dados) {
     if (!(await petsDoUsuario(conexao, usuarioId, petIds))) return null;
     const valores = dividirValor(dados.valorCentavos, petIds.length);
     const criados = [];
+    const grupoId = petIds.length > 1 ? randomUUID() : null;
     for (const [indice, petId] of petIds.entries()) {
-      criados.push(await inserirDespesa(conexao, usuarioId, petId, dados, valores.at(indice)));
+      criados.push(await inserirDespesa(conexao, usuarioId, petId, dados, valores.at(indice), grupoId));
     }
     const despesasPorPet = await listarDespesasPorPet(usuarioId, conexao);
     return { despesasPorPet, criados };
@@ -170,11 +174,12 @@ export function atualizarDespesas(ids, petIdsOrigem, petIdsDestino, usuarioId, d
     const destinos = new Set(petIdsDestino.map(String));
     const valores = dividirValor(dados.valorCentavos, petIdsDestino.length);
     const grupoIds = [];
+    const grupoId = petIdsDestino.length > 1 ? randomUUID() : null;
 
     for (const [indice, petId] of petIdsDestino.entries()) {
       const existente = registroPorPet.get(String(petId));
       if (!existente) {
-        grupoIds.push(await inserirDespesa(conexao, usuarioId, petId, dados, valores.at(indice)));
+        grupoIds.push(await inserirDespesa(conexao, usuarioId, petId, dados, valores.at(indice), grupoId));
         continue;
       }
       await conexao.execute(
@@ -183,8 +188,8 @@ export function atualizarDespesas(ids, petIdsOrigem, petIdsDestino, usuarioId, d
         [valores.at(indice) / 100, dados.data, dados.descricao, dados.observacoes || null, existente.lancamentoId]
       );
       await conexao.execute(
-        'UPDATE pet_despesa SET categoria = ?, estabelecimento = ? WHERE id_despesa = ?',
-        [dados.categoria, dados.estabelecimento || null, existente.id]
+        'UPDATE pet_despesa SET categoria = ?, estabelecimento = ?, grupo_id = ? WHERE id_despesa = ?',
+        [dados.categoria, dados.estabelecimento || null, grupoId, existente.id]
       );
       grupoIds.push(String(existente.id));
     }

@@ -1,4 +1,5 @@
 // Consultas SQL das medicações dos pets: listar, cadastrar, editar, concluir e excluir.
+import { randomUUID } from 'node:crypto';
 import db from '../../db.js';
 import { emTransacao } from './transacao.js';
 
@@ -19,6 +20,7 @@ export function mapearMedicacao(linha) {
   return {
     id: String(linha.id),
     petId: String(linha.petId),
+    ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     nome: linha.nome,
     tipoUso: linha.tipoUso,
     dosagem: linha.dosagem || '',
@@ -34,7 +36,8 @@ export function mapearMedicacao(linha) {
 // Medicações de todos os pets ativos do usuário, agrupadas pelo id do pet.
 export async function listarMedicacoesPorPet(usuarioId, executor = db) {
   const [linhas] = await executor.execute(
-    `SELECT m.id_pet_medicacao AS id, m.pet_id AS petId, m.nome, m.tipo_uso AS tipoUso,
+    `SELECT m.id_pet_medicacao AS id, m.pet_id AS petId, m.grupo_id AS grupoId,
+            m.nome, m.tipo_uso AS tipoUso,
             m.dosagem, m.horario_dose AS horarioDose, m.frequencia, m.data_fim AS dataFim,
             m.concluida_em AS concluidaEm, m.quantidade_estoque AS quantidadeEstoque,
             m.observacao
@@ -65,9 +68,9 @@ function valoresMedicacao(dados) {
 
 const INSERT_MEDICACAO = `
   INSERT INTO pet_medicacao
-    (pet_id, nome, tipo_uso, dosagem, horario_dose, frequencia, data_fim,
+    (pet_id, grupo_id, nome, tipo_uso, dosagem, horario_dose, frequencia, data_fim,
      quantidade_estoque, observacao)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
 // Confere, dentro da transação, que todos os pets são ativos e do usuário.
 async function petsDoUsuario(conexao, usuarioId, petIds) {
@@ -101,8 +104,9 @@ export function cadastrarMedicacao(usuarioId, petIds, dados) {
   return emTransacao(async conexao => {
     if (!(await petsDoUsuario(conexao, usuarioId, petIds))) return null;
     const criados = [];
+    const grupoId = petIds.length > 1 ? randomUUID() : null;
     for (const petId of petIds) {
-      const [resultado] = await conexao.execute(INSERT_MEDICACAO, [petId, ...valoresMedicacao(dados)]);
+      const [resultado] = await conexao.execute(INSERT_MEDICACAO, [petId, grupoId, ...valoresMedicacao(dados)]);
       criados.push(String(resultado.insertId));
     }
     const medicacoesPorPet = await listarMedicacoesPorPet(usuarioId, conexao);
@@ -123,20 +127,21 @@ export function atualizarMedicacoes(ids, petIdsOrigem, petIdsDestino, usuarioId,
     const registroPorPet = new Map(registros.map(registro => [String(registro.petId), registro]));
     const destinos = new Set(petIdsDestino.map(String));
     const grupoIds = [];
+    const grupoId = petIdsDestino.length > 1 ? randomUUID() : null;
 
     for (const petId of petIdsDestino) {
       const existente = registroPorPet.get(String(petId));
       if (existente) {
         await conexao.execute(
           `UPDATE pet_medicacao
-              SET nome = ?, tipo_uso = ?, dosagem = ?, horario_dose = ?, frequencia = ?,
+              SET grupo_id = ?, nome = ?, tipo_uso = ?, dosagem = ?, horario_dose = ?, frequencia = ?,
                   data_fim = ?, quantidade_estoque = ?, observacao = ?
             WHERE id_pet_medicacao = ?`,
-          [...valoresMedicacao(dados), existente.id]
+          [grupoId, ...valoresMedicacao(dados), existente.id]
         );
         grupoIds.push(String(existente.id));
       } else {
-        const [resultado] = await conexao.execute(INSERT_MEDICACAO, [petId, ...valoresMedicacao(dados)]);
+        const [resultado] = await conexao.execute(INSERT_MEDICACAO, [petId, grupoId, ...valoresMedicacao(dados)]);
         grupoIds.push(String(resultado.insertId));
       }
     }
