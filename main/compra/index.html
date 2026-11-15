@@ -1,0 +1,165 @@
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeeperHub | Planos e preços</title>
+    <meta name="description" content="Compare os planos individuais e o pacote KeeperHub com quatro módulos.">
+    <meta name="author" content="KeeperHub">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0b0b0d">
+    <meta name="color-scheme" content="dark light">
+
+    <!-- Os caminhos compartilhados seguem a mesma profundidade da página Home de referência. -->
+    <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png">
+    <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/components.css">
+    <link rel="stylesheet" href="../../shared/styles/header-page.css">
+    <link rel="stylesheet" href="css/comprar-modulo.css">
+    <link rel="stylesheet" href="/main/css/account-header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"
+        integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="../../shared/styles/rodape.css">
+</head>
+
+<body>
+    <div class="pagina" id="app-root">
+        <header class="cabecalho" id="site-header">
+            <div class="container">
+                <a href="../index.html" class="marca" id="header-brand-logo"
+                    aria-label="KeeperHub - Página Inicial">
+                    <img src="../assets/img/logo-home.png" alt="" class="simbolo-marca" width="50" height="40">
+                    <img src="../assets/img/logo-keeperhub-wordmark.png" alt="KeeperHub"
+                        class="nome-marca nome-marca-escuro" width="90" height="30">
+                    <img src="../assets/img/logo-keeperhub-wordmark-black.png" alt="KeeperHub"
+                        class="nome-marca nome-marca-claro" width="90" height="30">
+                </a>
+                <nav class="acesso" id="header-actions" aria-label="Acesso e Cadastro">
+                    <a href="../entrar/index.html" class="botao-entrar" id="btn-header-login"><i
+                            class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></a>
+                    <a href="../criar-conta/index.html" class="botao-criar" id="btn-header-cta">Criar</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="controle-tema container" id="theme-bar">
+            <button type="button" class="btn-header" id="theme-toggle" aria-label="Ativar tema claro"
+                title="Ativar tema claro" aria-pressed="false">
+                <img src="../../shared/img/icon-theme-sun.png" alt="" aria-hidden="true"
+                    class="theme-icon theme-icon-sun" width="18" height="18">
+                <img src="../../shared/img/icon-theme-moon.png" alt="" aria-hidden="true"
+                    class="theme-icon theme-icon-moon" width="18" height="18">
+            </button>
+        </div>
+
+        <main id="main-content">
+            <section class="selecao-modulos" aria-labelledby="titulo-principal">
+                <div class="container">
+                    <p class="etiqueta-secao">KeeperHub</p>
+                    <h1 class="titulo-principal" id="titulo-principal">Escolha como quer usar o KeeperHub.</h1>
+                    <p class="texto-principal">Selecione os módulos e o período para criar seu plano. Ao confirmar, o KeeperHub registra a escolha na sua conta e libera o acesso aos módulos selecionados.</p>
+
+                    <form class="formulario-modulos" action="../criar-conta/index.html" method="get">
+                        <fieldset class="seletor-periodo" aria-describedby="ajuda-periodo">
+                            <legend>Período de cobrança</legend>
+                            <div class="opcoes-periodo">
+                                <label class="opcao-periodo"><input type="radio" name="periodo" value="mensal" checked><span>Mensal</span></label>
+                                <label class="opcao-periodo"><input type="radio" name="periodo" value="anual"><span>Anual <small>economize cerca de 17%</small></span></label>
+                            </div>
+                        </fieldset>
+                        <fieldset class="grupo-modulos" aria-describedby="ajuda-selecao">
+                            <legend class="sr-only">Módulos do KeeperHub</legend>
+                            <p class="ajuda-selecao" id="ajuda-selecao">Marque um ou mais módulos para ver sua seleção.
+                            </p>
+                            <ul class="lista-modulos" aria-label="Módulos disponíveis">
+                                <li>
+                                    <label class="cartao-modulo cartao-financas" for="modulo-financas">
+                                        <input class="seletor-modulo" type="checkbox" id="modulo-financas" name="modulo"
+                                            value="financas" data-monthly="12.90" data-annual="129">
+                                        <img src="../assets/img/logo-financas.png" alt="" class="icone-modulo"
+                                            width="72" height="48">
+                                        <span class="conteudo-cartao"><span class="nome-modulo">Finanças</span><span
+                                                class="texto-modulo">Organize gastos e saldo.</span><span class="preco-modulo" data-price-monthly="R$ 12,90/mês" data-price-annual="R$ 129/ano">R$ 12,90/mês</span></span>
+                                        <span class="estado-selecao" aria-hidden="true">Selecionar</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="cartao-modulo cartao-despensa" for="modulo-despensa">
+                                        <input class="seletor-modulo" type="checkbox" id="modulo-despensa" name="modulo"
+                                            value="despensa" data-monthly="7.90" data-annual="79">
+                                        <img src="../assets/img/logo-despensa.png" alt="" class="icone-modulo"
+                                            width="72" height="48">
+                                        <span class="conteudo-cartao"><span class="nome-modulo">Despensa</span><span
+                                                class="texto-modulo">Controle estoque e validade.</span><span class="preco-modulo" data-price-monthly="R$ 7,90/mês" data-price-annual="R$ 79/ano">R$ 7,90/mês</span></span>
+                                        <span class="estado-selecao" aria-hidden="true">Selecionar</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="cartao-modulo cartao-pets" for="modulo-pets">
+                                        <input class="seletor-modulo" type="checkbox" id="modulo-pets" name="modulo"
+                                            value="pets" data-monthly="9.90" data-annual="99">
+                                        <img src="../assets/img/logo-pets.png" alt="" class="icone-modulo" width="72"
+                                            height="48">
+                                        <span class="conteudo-cartao"><span class="nome-modulo">Pets</span><span
+                                                class="texto-modulo">Cuide da rotina dos seus pets.</span><span class="preco-modulo" data-price-monthly="R$ 9,90/mês" data-price-annual="R$ 99/ano">R$ 9,90/mês</span></span>
+                                        <span class="estado-selecao" aria-hidden="true">Selecionar</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="cartao-modulo cartao-medicamentos" for="modulo-medicamentos">
+                                        <input class="seletor-modulo" type="checkbox" id="modulo-medicamentos"
+                                            name="modulo" value="medicamentos" data-monthly="9.90" data-annual="99">
+                                        <img src="../assets/img/logo-medicamentos.png" alt="" class="icone-modulo"
+                                            width="72" height="48">
+                                        <span class="conteudo-cartao"><span class="nome-modulo">Medicamentos</span><span
+                                                class="texto-modulo">Controle horários e doses.</span><span class="preco-modulo" data-price-monthly="R$ 9,90/mês" data-price-annual="R$ 99/ano">R$ 9,90/mês</span></span>
+                                        <span class="estado-selecao" aria-hidden="true">Selecionar</span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </fieldset>
+
+                        <section class="resumo-escolha" aria-labelledby="titulo-resumo">
+                            <div>
+                                <h2 id="titulo-resumo">Sua seleção</h2>
+                                <p id="texto-resumo">Selecione um ou mais módulos para ver o valor. Com os quatro, o pacote sai por R$ 29,90/mês.</p>
+                            </div>
+                            <p class="valor-configuravel"><span class="sr-only">Preço: </span><span id="valor-selecao" aria-live="polite">R$ 0,00</span></p>
+                            <button class="botao-teste" id="continuar-compra" type="submit">Criar Plano</button>
+                        </section>
+                    </form>
+                    <p class="nota-planos" id="aviso-compra" role="status" aria-live="polite">A contratação é registrada no KeeperHub; esta tela não processa pagamentos reais.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="rodape" id="site-footer">
+            <div class="container">
+                <div class="divisoria-rodape" aria-hidden="true"></div>
+                <div class="conteudo-rodape">
+                    <span class="marca-rodape" id="footer-brand">KeeperHub</span>
+                    <nav class="links-rodape" id="footer-nav" aria-label="Links institucionais">
+                        <a href="../privacidade/index.html" class="link-rodape" id="link-footer-privacy">Política de
+                            Privacidade</a>
+                        <a href="../termos/index.html" class="link-rodape" id="link-footer-terms">Termos de Uso</a>
+                        <a href="../contato/index.html" class="link-rodape" id="link-footer-contact">Contato</a>
+                        <a href="../faq/index.html" class="link-rodape" id="link-footer-faq">FAQ</a>
+                    </nav>
+                    <p class="direitos-rodape" id="footer-copyright">© 2026 KeeperHub. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="../../shared/services/theme.js"></script>
+    <script type="module" src="/main/js/account-header.js"></script>
+    <script type="module" src="js/compra.js"></script>
+
+
+</body>
+<div id="codex-browser-sidebar-comments-root"
+    style="position: fixed; inset: 0px; pointer-events: none; z-index: 2147483647;"></div>
+
+</html>

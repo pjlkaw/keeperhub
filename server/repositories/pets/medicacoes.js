@@ -152,13 +152,13 @@ export function atualizarMedicacoes(ids, petIdsOrigem, petIdsDestino, usuarioId,
   });
 }
 
-// Move as medicações para o histórico com a data de hoje.
-export function concluirMedicacoes(ids, usuarioId) {
+// Move as medicações para o histórico com a data de hoje (ou reabre, com concluir = false).
+export function concluirMedicacoes(ids, usuarioId, concluir = true) {
   return emTransacao(async conexao => {
     if (!(await medicacoesDoUsuario(conexao, usuarioId, ids))) return null;
     const marcadores = ids.map(() => '?').join(', ');
     await conexao.execute(
-      `UPDATE pet_medicacao SET concluida_em = CURDATE() WHERE id_pet_medicacao IN (${marcadores})`,
+      `UPDATE pet_medicacao SET concluida_em = ${concluir ? 'CURDATE()' : 'NULL'} WHERE id_pet_medicacao IN (${marcadores})`,
       ids
     );
     return listarMedicacoesPorPet(usuarioId, conexao);

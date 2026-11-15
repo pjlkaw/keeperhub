@@ -16,6 +16,7 @@ const form = document.getElementById('formulario-informacoes-pet');
 const status = document.getElementById('status-informacoes-pet');
 const botao = form.querySelector('[type="submit"]');
 const botaoExcluir = document.getElementById('excluir-pet');
+const rotuloBotaoExcluir = botaoExcluir.querySelector('span');
 const campoFoto = document.getElementById('foto-pet-edicao');
 const figuraFoto = form.querySelector('.foto-pet-edicao__visualizacao');
 const imagemFoto = document.getElementById('foto-pet-edicao-imagem');
@@ -201,7 +202,7 @@ botaoExcluir.addEventListener('click', async () => {
 
     enviando = true;
     botaoExcluir.disabled = true;
-    botaoExcluir.textContent = 'Exclusão pendente…';
+    rotuloBotaoExcluir.textContent = 'Exclusão pendente…';
     form.inert = true;
 
     oferecerDesfazerExclusao({
@@ -211,7 +212,7 @@ botaoExcluir.addEventListener('click', async () => {
             enviando = false;
             form.inert = false;
             botaoExcluir.disabled = false;
-            botaoExcluir.textContent = 'Excluir pet';
+            rotuloBotaoExcluir.textContent = 'Excluir pet';
         },
         async aoExcluir() {
             await excluirPetApi(petId);
@@ -221,7 +222,7 @@ botaoExcluir.addEventListener('click', async () => {
             informar(erro.message || 'Não foi possível excluir o pet.', true);
             form.inert = false;
             botaoExcluir.disabled = false;
-            botaoExcluir.textContent = 'Excluir pet';
+            rotuloBotaoExcluir.textContent = 'Excluir pet';
             enviando = false;
         }
     });

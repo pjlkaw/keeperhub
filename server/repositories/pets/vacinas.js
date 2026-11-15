@@ -211,6 +211,46 @@ export async function marcarVacinasAplicadas(ids, usuarioId) {
   });
 }
 
+// Restaura os dados de agendamento quando a pessoa desfaz a confirmação recente.
+export async function desfazerVacinasAplicadas(ids, anteriores, usuarioId) {
+  const conexao = await db.getConnection();
+  try {
+    await conexao.beginTransaction();
+    const marcadores = ids.map(() => '?').join(', ');
+    const [registros] = await conexao.execute(
+      `SELECT v.id_vacina AS id, v.status
+         FROM vacina v
+         JOIN pet p ON p.id_pet = v.pet_id
+        WHERE p.usuario_id = ? AND p.ativo = 1 AND v.id_vacina IN (${marcadores})
+        FOR UPDATE`,
+      [usuarioId, ...ids]
+    );
+    if (registros.length !== ids.length || registros.some(registro => registro.status !== 'aplicada')) {
+      await conexao.rollback();
+      return null;
+    }
+
+    for (const anterior of anteriores) {
+      await conexao.execute(
+        `UPDATE vacina v
+           JOIN pet p ON p.id_pet = v.pet_id
+            SET v.status = 'agendada', v.data_aplicacao = ?, v.data_proxima_dose = ?
+          WHERE v.id_vacina = ? AND p.usuario_id = ? AND p.ativo = 1`,
+        [anterior.dataAplicacao || null, anterior.proximaDose || null, anterior.id, usuarioId]
+      );
+    }
+
+    const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
+    await conexao.commit();
+    return vacinasPorPet;
+  } catch (erro) {
+    await conexao.rollback();
+    throw erro;
+  } finally {
+    conexao.release();
+  }
+}
+
 // Exclui registros selecionados depois de conferir que todos pertencem à conta.
 export async function excluirVacinas(ids, usuarioId) {
   return emTransacao(async conexao => {

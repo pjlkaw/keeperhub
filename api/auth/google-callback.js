@@ -72,7 +72,7 @@ export default async function handler(req, res) {
     }
 
     criarCookieSessao(res, usuarioId);
-    return res.redirect(302, '/main/hub/index.html');
+    return res.redirect(302, '/main/home/index.html');
   } catch (erro) {
     console.error('Erro no callback do Google:', erro);
     return redirectError(res, 'Não foi possível concluir o login com Google.');

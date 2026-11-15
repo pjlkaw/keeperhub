@@ -1,8 +1,21 @@
 # Despesas de Pets
 
-A tela está em `components/despesas.html`, com lógica em `js/despesas.js`. As
-despesas ficam no banco e chegam pela API `api/modulos/pets-api.js`: a listagem de
+A lista fica em `components/despesas.html` (`js/despesas.js`) e o cadastro/edição em
+`components/cadastrar-despesa.html` (`js/cadastrar-despesa.js`). As duas telas usam só
+`js/despesas-repositorio.js`, que grava pela API `api/modulos/pets-api.js`; a listagem de
 pets (`GET`) já traz `pet.despesas` de cada animal.
+
+## Contrato entre telas e repositório
+
+- `listarDespesas(petIds)`: lista as despesas dos pets informados (agrupadas).
+- `buscarDespesa(id)`: busca o lançamento com todos os pets associados.
+- `criarDespesa(petIds, dados)`: cria a despesa para os pets selecionados.
+- `atualizarDespesa(id, petIds, dados)`: atualiza os campos e os pets vinculados.
+- `excluirDespesa(id, petIds)`: remove a despesa dos pets informados.
+
+Uma despesa cadastrada para vários pets aparece uma vez na visão "Todos os pets"
+(agrupada por `grupoId`, guardado em `keeperhub-pets-grupos`) e em cada pet quando o
+filtro é individual. O valor mostrado é a soma das partes dos pets incluídos.
 
 ## Como fica no banco
 
@@ -14,37 +27,25 @@ Cada despesa é também um lançamento do módulo Finanças:
   `estabelecimento`.
 
 Na primeira despesa, a API cria para o usuário a conta "Pets" (tipo carteira) e a
-categoria financeira "Pets"; as próximas despesas reutilizam as duas. Assim os
-gastos dos pets aparecem também em Finanças.
+categoria financeira "Pets"; as próximas reutilizam as duas. Quando a despesa é de
+vários pets, o valor total é dividido entre eles (os centavos que sobram ficam com os
+primeiros), e o total em Finanças é o valor realmente gasto.
 
-Quando a despesa é registrada para vários pets, o valor total é dividido entre
-eles (os centavos que sobram ficam com os primeiros). O card agrupado mostra a
-soma, e o total em Finanças é o valor realmente gasto.
+Rotas: `POST ?acao=despesa` cadastra; `PUT ?acao=despesa` edita, divide o valor de novo
+e permite trocar os pets (`ids` + `petIdsOrigem`); `DELETE ?acao=despesa` exclui a
+despesa e o lançamento. Todas rodam em transação e conferem que os pets e as despesas
+são do usuário. O valor trafega em centavos (`valorCentavos`).
 
-## Rotas
+## Metas mensais
 
-- `POST ?acao=despesa` cadastra para um ou vários pets;
-- `PUT ?acao=despesa` edita, divide o valor de novo e permite trocar os pets
-  associados (`ids` + `petIdsOrigem`);
-- `DELETE ?acao=despesa` exclui a despesa e o lançamento correspondente.
+A meta de cada pet fica na tabela `pet_orcamento` (`pet_id`, `mes` `AAAA-MM`, `valor`
+DECIMAL(10,2); um valor por pet e mês), gravada por `PUT ?acao=orcamento` (`petId`,
+`mes`, `valorCentavos`); a listagem traz `pet.orcamentosDespesas`
+(`{ 'AAAA-MM': centavos }`). Sem meta salva, o pet fica sem limite no mês.
 
-Todas rodam em transação e conferem que os pets e as despesas são do usuário. O
-valor trafega em centavos (`valorCentavos`), como a tela já calculava.
-
-## Orçamento mensal
-
-O orçamento fica na tabela `pet_orcamento` (`pet_id`, `mes` no formato `AAAA-MM`,
-`valor` DECIMAL(10,2); um valor por pet e mês). A listagem de pets traz
-`pet.orcamentosDespesas` (`{ 'AAAA-MM': centavos }`) e a rota `PUT ?acao=orcamento`
-(`petId`, `mes`, `valorCentavos`) grava ou troca o valor do mês. Na tela, com um pet
-selecionado, o valor "previsto" abre um campo para editar o orçamento do mês exibido;
-em "Todos os pets" o previsto é a soma e não pode ser editado. Mês sem valor salvo
-usa o padrão de R$ 600,00 por pet; zero é aceito.
+A meta conjunta ("Todos os pets juntos") ainda fica só neste navegador
+(`localStorage`), porque a tabela guarda um valor por pet.
 
 ## O que continua de fora
 
-A consulta programada de exemplo não é registrada como despesa. Despesas e
-orçamentos salvos antes só no navegador não foram migrados.
-
-Os PNGs originais das categorias foram preservados na pasta `assets/img/`, mas
-os ícones exibidos agora são Font Awesome.
+Despesas e metas salvas antes só no navegador não foram migradas.

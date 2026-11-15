@@ -1,0 +1,20 @@
+#btn-header-login.is-account-link {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+}
+
+#btn-header-login.is-account-link svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#btn-header-login.is-account-link:hover {
+  border-color: var(--text-muted);
+}

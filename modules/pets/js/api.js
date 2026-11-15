@@ -77,6 +77,13 @@ export async function marcarVacinasAplicadasApi(ids) {
     });
 }
 
+export async function desfazerVacinasAplicadasApi(anteriores) {
+    return requisicao(`${URL_API}?acao=vacina-desfazer-realizada`, {
+        method: 'PUT',
+        body: JSON.stringify({ anteriores }),
+    });
+}
+
 export async function excluirVacinasApi(ids) {
     const resposta = await requisicao(`${URL_API}?acao=vacina`, {
         method: 'DELETE',
@@ -150,10 +157,11 @@ export async function atualizarMedicacoesApi(dados) {
     });
 }
 
-export async function concluirMedicacoesApi(ids) {
+// concluida = false reabre o tratamento (usado pelo "Desfazer" da conclusão).
+export async function concluirMedicacoesApi(ids, concluida = true) {
     const resposta = await requisicao(`${URL_API}?acao=medicacao-concluida`, {
         method: 'PUT',
-        body: JSON.stringify({ ids }),
+        body: JSON.stringify({ ids, concluida }),
     });
     return resposta.medicacoes;
 }

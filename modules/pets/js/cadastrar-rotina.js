@@ -19,7 +19,7 @@ const parametros = new URLSearchParams(location.search);
 const tipoParametro = parametros.get('tipo');
 const tipoInicial = TIPOS_ROTINA.includes(tipoParametro) ? tipoParametro : 'higiene';
 const petOrigem = parametros.get('petId');
-const todosNaOrigem = !petOrigem && parametros.get('todos') === '1';
+const todosNaOrigem = parametros.get('todos') === '1';
 const idEdicao = parametros.get('id');
 const modoEdicao = Boolean(idEdicao);
 
@@ -368,7 +368,11 @@ async function enviar(event) {
     }
 
     const destino = new URL('rotina-diaria.html', location.href);
-    destino.searchParams.set('petId', petsAlvo[0].id);
+    if (todosNaOrigem || seletorPet.value === '__todos__') {
+        destino.searchParams.set('todos', '1');
+    } else {
+        destino.searchParams.set('petId', petsAlvo[0].id);
+    }
     location.href = destino.href;
 }
 

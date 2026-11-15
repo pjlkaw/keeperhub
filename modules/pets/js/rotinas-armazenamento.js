@@ -111,3 +111,16 @@ export async function removerRotina(tipo, pet, id) {
     });
     return true;
 }
+
+// Remove a rotina de todos os pets de um grupo compartilhado ("Todos os pets"), numa só chamada à API.
+export async function removerRotinas(tipo, membros) {
+    if (!GRUPO_DA_ROTINA[tipo] || !Array.isArray(membros) || !membros.length) return false;
+    const ids = membros.map(membro => String(membro?.registro?.id ?? '')).filter(Boolean);
+    if (ids.length !== membros.length) return false;
+    await gravarNoServidor(tipo, async () => {
+        const rotinas = await excluirRotinasApi(tipo, ids.map(Number));
+        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], ids);
+        return { rotinas };
+    });
+    return true;
+}

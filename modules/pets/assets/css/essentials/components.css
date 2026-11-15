@@ -234,6 +234,94 @@ button.botao-texto {
     vertical-align: middle;
 }
 
+/* ==================================================
+HISTÓRICO DE REGISTROS
+Usa o mesmo cartão e linha do tempo em medicações,
+vacinas e consultas, mantendo a cor de cada assunto.
+================================================== */
+.lista-historico-pets {
+    display: grid;
+    gap: 0;
+    padding: 16px;
+    list-style: none;
+}
+
+.lista-historico-pets > .item-historico-pets {
+    position: relative;
+    min-width: 0;
+    padding-left: 26px;
+}
+
+.lista-historico-pets > .item-historico-pets:not(:last-child) {
+    padding-bottom: 18px;
+}
+
+.lista-historico-pets > .item-historico-pets:not(:last-child)::before {
+    position: absolute;
+    top: 18px;
+    bottom: 0;
+    left: 8px;
+    width: 1px;
+    background: var(--border-color);
+    content: "";
+}
+
+.cartao-historico-pets .linha-tempo-medica__conteudo {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.lista-historico-pets .cartao-historico-pets > .icone {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    display: grid;
+    width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.lista-historico-pets .cartao-historico-pets--medicacao > .icone {
+    color: var(--pets-medication-action);
+    background: var(--pets-primary-soft);
+}
+
+.lista-historico-pets .cartao-historico-pets--vacina > .icone {
+    color: var(--pets-vaccine);
+    background: color-mix(in srgb, var(--pets-vaccine) 14%, transparent);
+}
+
+.lista-historico-pets .cartao-historico-pets--consulta > .icone {
+    color: var(--pets-appointment);
+    background: color-mix(in srgb, var(--pets-appointment) 14%, transparent);
+}
+
+.cartao-historico-pets .linha-tempo-medica__titulo {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.cartao-historico-pets .linha-tempo-medica__data {
+    margin-block: 8px;
+    padding: 4px 8px;
+    color: var(--text-color);
+    background: var(--pets-neutral-hover);
+    border-radius: var(--pets-radius-sm);
+    font-size: 0.75rem;
+}
+
+.cartao-historico-pets .linha-tempo-medica__descricao {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
 /* Confirmações de exclusão seguem o tema do módulo em todos os formulários. */
 .confirmacao-exclusao {
     width: min(320px, calc(100% - 32px));

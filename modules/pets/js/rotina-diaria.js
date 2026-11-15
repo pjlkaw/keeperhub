@@ -2,11 +2,12 @@
 import { definirObservacoesDoBanco, listarPets } from './armazenamento.js';
 import { atualizarObservacaoApi, cadastrarObservacaoApi, excluirObservacaoApi } from './api.js';
 import { itensDoDia, tituloRotina } from './rotinas.js';
-import { removerRotina, rotinasDoPet } from './rotinas-armazenamento.js';
+import { removerRotina, removerRotinas, rotinasDoPet } from './rotinas-armazenamento.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
+import { agruparRegistros } from './selecao-pets.js';
 
 // Os dados principais dos pets vêm da API; carrega antes de montar a página.
 // Se falhar, listarPets() lança o erro e a página mostra a mensagem.
@@ -30,6 +31,7 @@ const secoesConteudo = [
 // Mantém em memória os pets disponíveis e o pet atualmente consultado.
 let pets = [];
 let petAtual = null;
+let mostrandoTodos = false;
 
 // Rotinas removidas que ainda podem ser restauradas (chave: pet:tipo:id) e dados dos botões Remover.
 const exclusoesPendentes = new Set();
@@ -62,10 +64,12 @@ function diaMes(iso) {
 }
 
 // Atualiza o pet na URL sem recarregar a página.
-function atualizarUrl(id) {
+function atualizarUrl(id, todos = false) {
     const url = new URL(location.href);
     if (id) url.searchParams.set('petId', id);
     else url.searchParams.delete('petId');
+    if (todos) url.searchParams.set('todos', '1');
+    else url.searchParams.delete('todos');
     history.replaceState(null, '', url.pathname + url.search + url.hash);
 }
 
@@ -152,30 +156,23 @@ function resumoFrequencia(tipo, registro) {
     return texto;
 }
 
-// Nomes dos pets que compartilham o registro (mesmo grupoId na mesma lista de rotina).
-function nomesDoGrupo(tipo, registro) {
-    if (!registro.grupoId) return [];
-    return listarPets()
-        .filter(pet => rotinasDoPet(pet, tipo).some(item => item?.grupoId === registro.grupoId))
-        .map(pet => pet.nome);
-}
-
 // Monta o endereço do formulário para adicionar (sem registro) ou editar uma rotina.
-function urlFormulario(tipo, pet, registro) {
+function urlFormulario(tipo, pet, registro, voltarParaTodos = false) {
     const url = new URL('cadastrar-rotina.html', location.href);
     url.searchParams.set('tipo', tipo);
     url.searchParams.set('petId', pet.id);
+    if (voltarParaTodos) url.searchParams.set('todos', '1');
     if (registro) url.searchParams.set('id', registro.id);
     return url.pathname.split('/').pop() + url.search;
 }
 
 // Cria o cartão de uma rotina com resumo, observação e ações.
-function criarCartaoRotina(pet, tipo, registro) {
+function criarCartaoRotina(pet, tipo, registro, membros = [{ pet, registro }], todos = false) {
     const li = document.createElement('li');
     const titulo = tituloRotina(tipo, registro).trim() || NOMES_TIPO[tipo];
     const resumo = resumoFrequencia(tipo, registro);
-    const nomes = nomesDoGrupo(tipo, registro);
-    const etiqueta = nomes.length > 1
+    const nomes = membros.map(membro => membro.pet.nome);
+    const etiqueta = nomes.length
         ? `<span class="etiqueta-pets-registro">${escapar(nomes.join(', '))}</span>`
         : '';
     const observacao = typeof registro.observacao === 'string' && registro.observacao.trim()
@@ -185,42 +182,63 @@ function criarCartaoRotina(pet, tipo, registro) {
     let acoes = '';
     if (registro.id !== undefined && registro.id !== null && registro.id !== '') {
         const chave = crypto.randomUUID();
-        rotinasRemoviveis.set(chave, { pet, tipo, registro, titulo });
-        acoes = `<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlFormulario(tipo, pet, registro))}">Editar</a><button type="button" class="botao-texto" data-remover-rotina="${chave}">Remover</button></div>`;
+        rotinasRemoviveis.set(chave, { pet, tipo, registro, titulo, membros });
+        acoes = `<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlFormulario(tipo, pet, registro, todos))}">Editar</a><button type="button" class="botao-texto" data-remover-rotina="${chave}">Remover</button></div>`;
     }
 
-    li.innerHTML = `<article class="card cartao-rotina"><div class="cartao-rotina__informacoes"><h3 class="cartao-rotina__titulo">${escapar(titulo)}${etiqueta}</h3>${resumo ? `<p class="cartao-rotina__resumo">${escapar(resumo)}</p>` : ''}${observacao}${acoes}</div><time class="cartao-rotina__horario" datetime="${escapar(registro.horario)}">${escapar(registro.horario)}</time></article>`;
+    li.innerHTML = `<article class="card cartao-rotina"><div class="cartao-rotina__informacoes"><h3 class="cartao-rotina__titulo">${escapar(titulo)}${etiqueta ? ` ${etiqueta}` : ''}</h3>${resumo ? `<p class="cartao-rotina__resumo">${escapar(resumo)}</p>` : ''}${observacao}${acoes}</div><time class="cartao-rotina__horario" datetime="${escapar(registro.horario)}">${escapar(registro.horario)}</time></article>`;
     return li;
 }
 
 // Cria um item da linha "Hoje": horário, título e tipo da rotina.
-function criarItemHoje(item) {
+function criarItemHoje(item, nomesPets = [], petPadrao = null) {
     const li = document.createElement('li');
     li.className = 'linha-tempo-rotina__item';
-    li.innerHTML = `<time class="linha-tempo-rotina__horario" datetime="${escapar(item.horario)}">${escapar(item.horario)}</time><div class="linha-tempo-rotina__informacoes"><p class="linha-tempo-rotina__nome">${escapar(item.titulo || NOMES_TIPO[item.tipo])}</p></div><span class="etiqueta-status">${NOMES_TIPO[item.tipo]}</span>`;
+    const identificacaoPet = mostrandoTodos && nomesPets.length
+        ? (nomesPets.length > 1 ? `${nomesPets.length} pets` : nomesPets[0])
+        : '';
+    const pets = identificacaoPet
+        ? `<span class="linha-tempo-rotina__pets">${escapar(identificacaoPet)}</span>`
+        : '';
+    const membro = item.membros?.[0];
+    const pet = membro?.pet ?? petPadrao;
+    const registro = membro?.registro?.registro ?? item.registro;
+    const editar = item.tipo === 'alimentar' && pet && registro?.id !== undefined && registro.id !== null && registro.id !== ''
+        ? `<a class="botao-texto linha-tempo-rotina__editar" href="${escapar(urlFormulario('alimentar', pet, registro, mostrandoTodos))}">Editar</a>`
+        : '';
+    li.innerHTML = `<time class="linha-tempo-rotina__horario" datetime="${escapar(item.horario)}">${escapar(item.horario)}</time><div class="linha-tempo-rotina__informacoes"><p class="linha-tempo-rotina__nome">${escapar(item.titulo || NOMES_TIPO[item.tipo])}</p>${pets}${editar}</div><span class="etiqueta-status">${NOMES_TIPO[item.tipo]}</span>`;
     return li;
 }
 
 // Propaga o pet selecionado para os links de edição e para o botão de adicionar.
 function atualizarLinks() {
-    const petQuery = petAtual ? `?petId=${encodeURIComponent(petAtual.id)}` : '';
+    const parametros = new URLSearchParams();
+    if (petAtual) parametros.set('petId', petAtual.id);
+    else if (mostrandoTodos) parametros.set('todos', '1');
+    const consulta = parametros.size ? `?${parametros}` : '';
 
     main.querySelectorAll('a[data-manter-pet]').forEach(link => {
         const url = new URL(link.getAttribute('href'), location.href);
         if (petAtual) url.searchParams.set('petId', petAtual.id);
         else url.searchParams.delete('petId');
+        if (mostrandoTodos) url.searchParams.set('todos', '1');
+        else url.searchParams.delete('todos');
         link.href = url.pathname.split('/').pop() + url.search + url.hash;
     });
 
-    const destino = `/modules/pets/components/cadastrar-rotina.html${petQuery}`;
+    const destino = `/modules/pets/components/cadastrar-rotina.html${consulta}`;
     window.keeperhubModuleConfig.addUrl = destino;
     const linkAdicionar = botaoAdicionar.querySelector('#btn-add');
     if (linkAdicionar) linkAdicionar.href = destino;
 }
 
 // Preenche os cartões com as rotinas salvas do pet.
-function renderizarRotina(pet) {
-    const observacoes = observacoesDoPet(pet);
+function renderizarRotina(petsVisiveis, todos = false) {
+    const observacoes = petsVisiveis
+        .map(pet => ({ nome: pet.nome, texto: observacoesDoPet(pet) }))
+        .filter(item => item.texto)
+        .map(item => todos ? `${item.nome}: ${item.texto}` : item.texto)
+        .join('\n');
     const campoObservacoes = document.getElementById('resumo-refeicoes-observacoes');
     const listaAtividades = document.getElementById('linha-tempo-rotina');
     const listaAnotacoes = main.querySelector('.anotacoes-comportamento__lista');
@@ -237,11 +255,17 @@ function renderizarRotina(pet) {
 
     rotinasRemoviveis.clear();
 
-    // Higiene, alimentação e lazer: todos os registros do pet.
+    // Em "Todos os pets", agrupa uma rotina compartilhada em um único cartão.
     for (const tipo of ['higiene', 'alimentar', 'lazer']) {
-        const registros = registrosDoTipo(pet, tipo);
-        listas[tipo].replaceChildren(...registros.map(registro => criarCartaoRotina(pet, tipo, registro)));
-        vazios[tipo].hidden = registros.length > 0;
+        const grupos = todos
+            ? agruparRegistros(petsVisiveis, pet => registrosDoTipo(pet, tipo))
+            : registrosDoTipo(petsVisiveis[0], tipo).map(registro => ({ ...registro, membros: [{ pet: petsVisiveis[0], registro }] }));
+        grupos.sort((a, b) => a.horario.localeCompare(b.horario));
+        listas[tipo].replaceChildren(...grupos.map(grupo => {
+            const membro = grupo.membros[0];
+            return criarCartaoRotina(membro.pet, tipo, membro.registro, grupo.membros, todos);
+        }));
+        vazios[tipo].hidden = grupos.length > 0;
     }
 
     // Observações antigas da rotina alimentar: somente leitura.
@@ -249,18 +273,34 @@ function renderizarRotina(pet) {
     campoObservacoes.hidden = !observacoes;
 
     // "Hoje": só o que ocorre na data local de hoje, em ordem de horário.
-    const itensHoje = itensDoDia(pet, new Date())
-        .filter(item => !exclusoesPendentes.has(chaveExclusao(pet, item.tipo, item.registro.id)));
-    listaAtividades.replaceChildren(...itensHoje.map(criarItemHoje));
+    const itensPorPet = petsVisiveis.map(pet => ({
+        pet,
+        itens: itensDoDia(pet, new Date()).filter(item =>
+            !exclusoesPendentes.has(chaveExclusao(pet, item.tipo, item.registro.id))
+        )
+    }));
+    const itensHoje = todos
+        ? agruparRegistros(
+            petsVisiveis,
+            pet => (itensPorPet.find(item => item.pet.id === pet.id)?.itens ?? [])
+                .map(item => ({ ...item, grupoId: item.registro.grupoId })),
+            item => item.tipo
+        )
+        : itensPorPet[0].itens.map(item => ({ ...item, nomesPets: [petsVisiveis[0].nome] }));
+    itensHoje.sort((a, b) => a.horario.localeCompare(b.horario));
+    listaAtividades.replaceChildren(...itensHoje.map(item =>
+        criarItemHoje(item, item.nomesPets, petsVisiveis[0])
+    ));
     main.querySelector('[data-vazio="atividades"]').hidden = itensHoje.length > 0;
 
-    // Notas de comportamento do pet, da mais nova para a mais antiga.
+    // Notas de comportamento: são de um pet só; em "Todos os pets" a seção fica oculta.
     notasRemoviveis.clear();
-    const notas = notasDoPet(pet);
-    listaAnotacoes.replaceChildren(...notas.map(nota => criarItemNota(pet, nota)));
+    const notas = todos ? [] : notasDoPet(petsVisiveis[0]);
+    listaAnotacoes.replaceChildren(...notas.map(nota => criarItemNota(petsVisiveis[0], nota)));
     main.querySelector('[data-vazio="anotacoes"]').hidden = notas.length > 0;
 
     secoesConteudo.forEach(secao => { secao.hidden = false; });
+    main.querySelector('.anotacoes-comportamento').hidden = todos;
     atualizarNoContent(true);
 }
 
@@ -278,37 +318,43 @@ main.addEventListener('click', async event => {
     if (!alvo) return;
 
     try {
-        const { pet, tipo, registro, titulo } = alvo;
+        const { pet, tipo, registro, titulo, membros } = alvo;
+        const removerGrupo = mostrandoTodos;
+        const alvos = removerGrupo ? membros : [{ pet, registro }];
         const confirmado = await confirmarExclusao({
             titulo: 'Remover rotina?',
-            mensagem: `A rotina ${titulo} será removida de ${pet.nome}.`,
+            mensagem: removerGrupo && alvos.length > 1
+                ? `A rotina ${titulo} será removida de ${alvos.map(item => item.pet.nome).join(', ')}.`
+                : `A rotina ${titulo} será removida de ${pet.nome}.`,
             confirmar: 'Remover'
         });
         if (!confirmado) return;
 
-        const chave = chaveExclusao(pet, tipo, registro.id);
+        const chaves = alvos.map(item => chaveExclusao(item.pet, tipo, item.registro.id));
         avisarRotinas('');
-        exclusoesPendentes.add(chave);
+        chaves.forEach(chave => exclusoesPendentes.add(chave));
         const secao = botao.closest('section');
-        renderizarRotina(pet);
+        renderizarSelecaoAtual();
 
         oferecerDesfazerExclusao({
             antesDe: secao,
             mensagem: 'Rotina removida da lista.',
             aoDesfazer() {
-                exclusoesPendentes.delete(chave);
-                if (petAtual?.id === pet.id) renderizarRotina(pet);
+                chaves.forEach(chave => exclusoesPendentes.delete(chave));
+                renderizarSelecaoAtual();
             },
             async aoExcluir() {
-                const removida = await removerRotina(tipo, pet, registro.id);
+                const removida = removerGrupo
+                    ? await removerRotinas(tipo, alvos)
+                    : await removerRotina(tipo, pet, registro.id);
                 if (!removida) throw new Error('Não foi possível remover a rotina.');
-                exclusoesPendentes.delete(chave);
+                chaves.forEach(chave => exclusoesPendentes.delete(chave));
                 pets = listarPets();
-                if (petAtual?.id === pet.id) selecionarPet(pets.find(item => item.id === pet.id) ?? null);
+                renderizarSelecaoAtual();
             },
             aoFalhar(erro) {
-                exclusoesPendentes.delete(chave);
-                if (petAtual?.id === pet.id) renderizarRotina(pet);
+                chaves.forEach(chave => exclusoesPendentes.delete(chave));
+                renderizarSelecaoAtual();
                 avisarRotinas(erro.message || 'Não foi possível remover a rotina.');
             }
         });
@@ -409,14 +455,14 @@ main.addEventListener('click', async event => {
         const chave = chaveExclusao(pet, 'nota', nota.id);
         avisarNotas('');
         exclusoesPendentes.add(chave);
-        renderizarRotina(pet);
+        renderizarSelecaoAtual();
 
         oferecerDesfazerExclusao({
             antesDe: listaAnotacoes(),
             mensagem: 'Observação removida da lista.',
             aoDesfazer() {
                 exclusoesPendentes.delete(chave);
-                if (petAtual?.id === pet.id) renderizarRotina(pet);
+                if (petAtual?.id === pet.id) renderizarSelecaoAtual();
             },
             async aoExcluir() {
                 definirObservacoesDoBanco(await excluirObservacaoApi(nota.id));
@@ -425,7 +471,7 @@ main.addEventListener('click', async event => {
             },
             aoFalhar(erro) {
                 exclusoesPendentes.delete(chave);
-                if (petAtual?.id === pet.id) renderizarRotina(pet);
+                if (petAtual?.id === pet.id) renderizarSelecaoAtual();
                 avisarNotas(erro.message || 'Não foi possível remover a observação.');
             }
         });
@@ -439,36 +485,45 @@ function listaAnotacoes() {
 }
 
 // Seleciona um pet e decide entre exibir a rotina ou o no-content compartilhado.
-function selecionarPet(pet) {
-    if (pet?.id !== petAtual?.id) sairDaEdicaoNota();
-    petAtual = pet;
-    seletorPet.value = pet?.id ?? '';
-    main.dataset.petId = pet?.id ?? '';
-    atualizarUrl(pet?.id);
-    atualizarLinks();
-
-    if (pet && temRotinaSalva(pet)) {
+function renderizarSelecaoAtual() {
+    const petsVisiveis = mostrandoTodos ? pets : petAtual ? [petAtual] : [];
+    if (petsVisiveis.length && petsVisiveis.some(temRotinaSalva)) {
         status.hidden = true;
         status.textContent = '';
-        renderizarRotina(pet);
+        renderizarRotina(petsVisiveis, mostrandoTodos);
         return;
     }
 
     const podeTrocarPet = !seletorSecao.hidden;
     status.dataset.estado = 'informativo';
     status.textContent = podeTrocarPet
-        ? (pet ? 'Nenhuma rotina para o pet selecionado.' : 'Selecione um pet para consultar a rotina.')
+        ? (petsVisiveis.length ? 'Nenhuma rotina para o pet selecionado.' : 'Selecione um pet para consultar a rotina.')
         : '';
     status.hidden = !podeTrocarPet;
     secoesConteudo.forEach(secao => { secao.hidden = true; });
     atualizarNoContent(podeTrocarPet);
 }
 
+function selecionarPet(valor) {
+    mostrandoTodos = valor === '__todos__';
+    const pet = mostrandoTodos ? null : valor && typeof valor === 'object'
+        ? valor
+        : pets.find(item => item.id === valor) ?? null;
+    if (mostrandoTodos || pet?.id !== petAtual?.id) sairDaEdicaoNota();
+    petAtual = pet;
+    seletorPet.value = mostrandoTodos ? '__todos__' : pet?.id ?? '';
+    main.dataset.petId = pet?.id ?? '';
+    atualizarUrl(pet?.id, mostrandoTodos);
+    atualizarLinks();
+    renderizarSelecaoAtual();
+}
+
 // Carrega os pets, prepara o seletor e define o pet inicial quando possível.
 function iniciar() {
     try {
         pets = listarPets();
-        const idInformado = new URLSearchParams(location.search).get('petId');
+        const parametros = new URLSearchParams(location.search);
+        const idInformado = parametros.get('petId');
         const petInformado = pets.find(pet => pet.id === idInformado) ?? null;
         const temRotinaEmAlgumPet = pets.some(temRotinaSalva);
 
@@ -477,7 +532,8 @@ function iniciar() {
         seletorSecao.hidden = pets.length < 2 || !temRotinaEmAlgumPet;
         botaoAdicionar.hidden = pets.length === 0;
 
-        // Cria uma opção de texto para cada pet disponível.
+        // Permite filtrar um pet ou consultar os registros de todos juntos.
+        if (pets.length > 1) seletorPet.append(new Option('Todos os pets', '__todos__'));
         pets.forEach(pet => {
             const opcao = document.createElement('option');
             opcao.value = pet.id;
@@ -486,12 +542,13 @@ function iniciar() {
         });
 
         seletorPet.addEventListener('change', () => {
-            selecionarPet(pets.find(pet => pet.id === seletorPet.value) ?? null);
+            selecionarPet(seletorPet.value);
         });
 
-        // Usa o pet indicado na URL ou seleciona automaticamente o único pet.
-        const petInicial = petInformado ?? (pets.length === 1 ? pets[0] : null);
-        selecionarPet(petInicial);
+        // Respeita o pet vindo da tela anterior; sem filtro, começa em Todos os pets.
+        if (petInformado) selecionarPet(petInformado);
+        else if (pets.length > 1 && temRotinaEmAlgumPet) selecionarPet('__todos__');
+        else selecionarPet(pets.length === 1 ? pets[0] : null);
         botaoAdicionar.inert = false;
 
     } catch (erro) {

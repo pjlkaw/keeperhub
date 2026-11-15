@@ -25,7 +25,7 @@ async function realizarLogin(email, senha) {
   try {
     await loginUsuario(email, senha);
     console.log('[Login] Login realizado com sucesso:', email);
-    window.location.href = '../hub/index.html';
+    window.location.href = '../home/index.html';
   } catch (erro) {
     console.error('[Login] Falha ao realizar login:', erro);
     alertShared(erro.message || 'Não foi possível entrar. Tente novamente.');

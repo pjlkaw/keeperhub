@@ -61,7 +61,10 @@
 
         <!-- Atividades do dia -->
         <section class="card rotina-diaria__hoje" aria-labelledby="hoje-heading" hidden>
-            <h2 id="hoje-heading">Hoje</h2>
+            <h2 class="rotina-diaria__titulo-secao" id="hoje-heading">
+                <i class="fa-solid fa-calendar-day rotina-diaria__icone-secao rotina-diaria__icone-secao--hoje" aria-hidden="true"></i>
+                Hoje
+            </h2>
 
             <ul class="linha-tempo-rotina" id="linha-tempo-rotina">
             </ul>
@@ -71,7 +74,10 @@
         <!-- Refeições salvas -->
         <section class="card rotina-alimentar" aria-labelledby="rotina-alimentar-heading" hidden>
             <header class="rotina-alimentar__cabecalho">
-                <h2 id="rotina-alimentar-heading">Rotina Alimentar</h2>
+                <h2 class="rotina-diaria__titulo-secao" id="rotina-alimentar-heading">
+                    <i class="fa-solid fa-bowl-food rotina-diaria__icone-secao rotina-diaria__icone-secao--alimentar" aria-hidden="true"></i>
+                    Rotina Alimentar
+                </h2>
                 <a href="cadastrar-rotina.html?tipo=alimentar" class="link-editar" data-manter-pet>Adicionar rotina</a>
             </header>
             <ul class="rotina-alimentar__lista" id="resumo-refeicoes">
@@ -83,7 +89,10 @@
 
         <!-- Higiene e bem-estar -->
         <section class="card higiene-bem-estar" aria-labelledby="higiene-heading" hidden>
-            <h2 id="higiene-heading">Higiene e Bem-estar</h2>
+            <h2 class="rotina-diaria__titulo-secao" id="higiene-heading">
+                <i class="fa-solid fa-soap rotina-diaria__icone-secao rotina-diaria__icone-secao--higiene" aria-hidden="true"></i>
+                Higiene e Bem-estar
+            </h2>
 
             <ul></ul>
             <p class="rotina-diaria__vazia" data-vazio="higiene" hidden>Nenhum cuidado de higiene cadastrado.</p>
@@ -94,7 +103,10 @@
         <!-- Lazer -->
         <section class="card lazer" aria-labelledby="lazer-heading" hidden>
             <header class="rotina-alimentar__cabecalho">
-                <h2 id="lazer-heading">Lazer</h2>
+                <h2 class="rotina-diaria__titulo-secao" id="lazer-heading">
+                    <i class="fa-solid fa-bone rotina-diaria__icone-secao rotina-diaria__icone-secao--lazer" aria-hidden="true"></i>
+                    Lazer
+                </h2>
                 <a href="cadastrar-rotina.html?tipo=lazer" class="link-editar" data-manter-pet>Adicionar rotina</a>
             </header>
             <ul class="rotina-alimentar__lista"></ul>
@@ -108,8 +120,8 @@
             <form class="anotacoes-comportamento__formulario">
                 <label for="nova-observacao" class="somente-leitor-tela">Adicionar nova observação</label>
                 <textarea id="nova-observacao" name="nova_observacao" maxlength="1000" placeholder="Adicionar nova observação..."></textarea>
-                <button type="submit" class="botao-icone anotacoes-comportamento__enviar" aria-label="Enviar observação">
-                    <i class="fa-solid fa-paper-plane icone" aria-hidden="true"></i>
+                <button type="submit" class="botao-icone anotacoes-comportamento__enviar" aria-label="Adicionar observação">
+                    <i class="fa-solid fa-check icone" aria-hidden="true"></i>
                 </button>
             </form>
             <div class="anotacoes-comportamento__edicao" data-edicao-nota hidden>
