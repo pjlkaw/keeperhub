@@ -1,108 +1,51 @@
-# Integração das despesas de Pets com Finanças
+# Despesas de Pets
 
-## Situação atual
+A lista fica em `components/despesas.html` (`js/despesas.js`) e o cadastro/edição em
+`components/cadastrar-despesa.html` (`js/cadastrar-despesa.js`). As duas telas usam só
+`js/despesas-repositorio.js`, que grava pela API `api/modulos/pets-api.js`; a listagem de
+pets (`GET`) já traz `pet.despesas` de cada animal.
 
-As despesas ainda são locais. As telas chamam `despesas-repositorio.js`, que
-preserva os dados em `pet.despesas` por meio do armazenamento local do módulo
-Pets. A camada apresenta à tela um lançamento com `id`, `descricao`,
-`categoria`, `valorCentavos`, `data`, `estabelecimento`, `observacoes`,
-`criadaEm`, `petIds` e `petNome`.
+## Contrato entre telas e repositório
 
-O repositório tem operações assíncronas de listar, buscar, criar, editar e
-excluir. A tela não precisa conhecer os IDs locais repetidos usados para
-representar um lançamento compartilhado entre pets. O agrupamento local usa
-`grupoId`; o lançamento aparece uma vez na visão de todos e em cada pet
-associado quando o filtro é individual.
+- `listarDespesas(petIds)`: lista as despesas dos pets informados (agrupadas).
+- `buscarDespesa(id)`: busca o lançamento com todos os pets associados.
+- `criarDespesa(petIds, dados)`: cria a despesa para os pets selecionados.
+- `atualizarDespesa(id, petIds, dados)`: atualiza os campos e os pets vinculados.
+- `excluirDespesa(id, petIds)`: remove a despesa dos pets informados.
 
-Nenhuma rota ou tabela foi alterada para esta preparação. `despesas.js` e
-`cadastrar-despesa.js` não enviam as despesas para a API de Finanças.
+Uma despesa cadastrada para vários pets aparece uma vez na visão "Todos os pets"
+(agrupada por `grupoId`, guardado em `keeperhub-pets-grupos`) e em cada pet quando o
+filtro é individual. O valor mostrado é a soma das partes dos pets incluídos.
 
-## Contrato atual entre telas e repositório
+## Como fica no banco
 
-O módulo usa estas operações de `despesas-repositorio.js`:
+Cada despesa é também um lançamento do módulo Finanças:
 
-- `listarDespesas(petIds)`: lista as despesas relacionadas aos pets informados.
-- `buscarDespesa(id)`: busca o lançamento e todos os pets associados.
-- `criarDespesa(petIds, dados)`: cria uma despesa para os pets selecionados.
-- `atualizarDespesa(id, petIds, dados)`: atualiza os campos e os vínculos.
-- `excluirDespesa(id, petIds)`: remove os vínculos selecionados. A remoção
-  iniciada pela visão de todos os pets inclui os pets associados àquele
-  lançamento.
+- `lancamento` guarda valor, data, descrição e observações, com `tipo = 'despesa'`,
+  `status = 'pago'` e `pet_id` preenchido;
+- `pet_despesa` liga o pet ao lançamento (`lancamento_id`) e guarda `categoria` e
+  `estabelecimento`.
 
-As operações são assíncronas para permitir que a implementação local seja
-substituída por chamadas HTTP. O formato que as telas usam mantém o valor em
-centavos e as categorias próprias de Pets.
+Na primeira despesa, a API cria para o usuário a conta "Pets" (tipo carteira) e a
+categoria financeira "Pets"; as próximas reutilizam as duas. Quando a despesa é de
+vários pets, o valor total é dividido entre eles (os centavos que sobram ficam com os
+primeiros), e o total em Finanças é o valor realmente gasto.
 
-## Integração desejada
+Rotas: `POST ?acao=despesa` cadastra; `PUT ?acao=despesa` edita, divide o valor de novo
+e permite trocar os pets (`ids` + `petIdsOrigem`); `DELETE ?acao=despesa` exclui a
+despesa e o lançamento. Todas rodam em transação e conferem que os pets e as despesas
+são do usuário. O valor trafega em centavos (`valorCentavos`).
 
-Uma despesa cadastrada em Pets deve ser uma única transação no módulo Finanças,
-associada a um ou mais pets. Finanças soma a transação uma vez; Pets mostra o
-mesmo lançamento nos pets vinculados. Os dois módulos passam a ler e alterar a
-mesma fonte de dados.
+## Metas mensais
 
-A API existente de Finanças trabalha com `lancamento`, exige `conta_id` e
-recebe `tipo`, `valor` decimal, `descricao`, `categoria`, `data`, `vencimento`,
-`status` e `observacoes`. Ela ainda não recebe os pets associados nem possui um
-campo específico para o estabelecimento da despesa. O endpoint atual ignora
-campos adicionais que não estejam no validador.
+A meta de cada pet fica na tabela `pet_orcamento` (`pet_id`, `mes` `AAAA-MM`, `valor`
+DECIMAL(10,2); um valor por pet e mês), gravada por `PUT ?acao=orcamento` (`petId`,
+`mes`, `valorCentavos`); a listagem traz `pet.orcamentosDespesas`
+(`{ 'AAAA-MM': centavos }`). Sem meta salva, o pet fica sem limite no mês.
 
-Uma proposta de dados para a operação originada em Pets:
+A meta conjunta ("Todos os pets juntos") ainda fica só neste navegador
+(`localStorage`), porque a tabela guarda um valor por pet.
 
-```json
-{
-  "origem": "pets",
-  "pet_ids": ["id-do-pet"],
-  "conta_id": 12,
-  "tipo": "despesa",
-  "valor": 125.00,
-  "descricao": "Banho",
-  "categoria": "higiene",
-  "data": "2026-11-14",
-  "status": "pago",
-  "estabelecimento": "Cobasi",
-  "observacoes": null
-}
-```
+## O que continua de fora
 
-Este exemplo é um contrato proposto, não uma rota ou schema aprovado. A API
-deve obter o usuário pela sessão, validar a conta e todos os pets desse usuário
-e gravar a transação e seus vínculos em uma transação de banco. O navegador
-nunca deve enviar `usuario_id` como autoridade.
-
-## Decisões para alinhar com a API
-
-1. Definir o vínculo banco entre `lancamento` e `pet`. Como um lançamento pode
-   envolver vários pets, uma tabela de associação é a opção mais flexível.
-2. Definir como a pessoa escolhe a `conta_id` no cadastro de Pets: selecionar
-   uma conta ou usar uma conta padrão escolhida em Finanças.
-3. Definir o status inicial. O formulário de Pets hoje não pergunta se a
-   despesa está paga; Finanças distingue `pending` e `pago`.
-4. Definir o armazenamento de `estabelecimento` e o mapeamento das categorias
-   `alimentacao`, `saude`, `higiene` e `lazer` para as categorias financeiras.
-5. Alinhar edição e exclusão entre os módulos. Ao remover uma transação em
-   Finanças, ela também deve deixar de aparecer em Pets. Na visão de um pet,
-   excluir pode remover só o vínculo daquele pet; na visão de todos, pode
-   remover o lançamento inteiro e todos os vínculos.
-6. Preservar a opção “Desfazer”: a exclusão em Pets só é efetivada depois do
-   prazo de 7 segundos. Se a API excluir definitivamente, a chamada deve ocorrer
-   quando esse prazo acabar.
-
-## Dados locais existentes
-
-O cadastro compartilhado local cria cópias por pet e usa o mesmo `grupoId`.
-Na migração, cada grupo precisa virar uma transação financeira, com todos os
-seus pets associados; registros sem `grupoId` são despesas individuais. A
-migração precisa ser idempotente e só remover os dados locais depois de
-confirmar que foram gravados e conferidos no servidor.
-
-As metas mensais (`orcamentosDespesas`) são configurações de acompanhamento,
-não transações. A meta conjunta atual fica no `localStorage` e deve ter uma
-decisão de persistência separada.
-
-## Referências do projeto
-
-- A camada usada pelas telas: `modules/pets/js/despesas-repositorio.js`.
-- A rota financeira atual: `api/modulos/financas-api.js`.
-- A persistência de transações: `server/repositories/financas/transacoes.js`.
-- `docs/financas-db.sql` é um exemplo comentado com nomes de tabelas antigos;
-  o repositório atual usa `lancamento`, `conta` e `categoria_financeira`.
+Despesas e metas salvas antes só no navegador não foram migradas.

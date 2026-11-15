@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeper Hub — Pets — Exame ou Laudo</title>
+    <link rel="icon" type="image/png" href="/shared/img/logo-pets.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Estilos compartilhados -->
+    <link rel="stylesheet" href="/shared/styles/variables.css">
+    <link rel="stylesheet" href="/shared/styles/reset.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="/shared/styles/header-page.css">
+    <link rel="stylesheet" href="/shared/styles/navbar-modules.css">
+    <!-- Estilos da página (mesmo formulário do cadastro de consulta) -->
+    <link rel="stylesheet" href="../assets/css/cadastrar-consulta.css">
+
+    <!-- Configuração do módulo: título e retorno mudam na edição e com o pet da URL. -->
+    <script>
+      (function () {
+        const parametros = new URLSearchParams(location.search);
+        const edicao = parametros.has('id');
+        const petId = parametros.get('petId');
+        window.keeperhubModuleConfig = {
+          module: 'pets',
+          title: edicao ? 'Editar exame' : 'Adicionar exame',
+          subtitle: edicao ? 'Atualize os dados e os anexos do exame' : 'Guarde exames e laudos do seu pet',
+          backUrl: '/modules/pets/components/consultas-exames.html' + (petId ? '?petId=' + encodeURIComponent(petId) : ''),
+          notificationsModule: 'pets'
+        };
+      })();
+    </script>
+    <script src="/shared/services/load-components.js"></script>
+    <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
+</head>
+<body>
+        <div class="app-page-wrapper">
+            <nav id="modules-nav-wrapper" class="modules-nav-wrapper" aria-label="Navegação entre módulos"></nav>
+            <div class="app-container">
+
+    <main class="adicionar-consulta">
+
+        <!-- Cabeçalho da página -->
+        <header class="section-header-section" id="headerSection"></header>
+
+        <!-- Cadastro do exame -->
+        <form class="formulario-adicionar-consulta formulario-exame" novalidate>
+
+            <div class="campo-formulario">
+                <label for="pet-exame">Pet</label>
+                <select id="pet-exame" name="pet" required>
+                    <option value="" selected disabled hidden>Selecione um pet</option>
+                </select>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="nome-exame">Nome do exame</label>
+                <input type="text" id="nome-exame" name="nome" maxlength="150" placeholder="Ex: Hemograma completo" required>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="data-exame">Data do exame (opcional)</label>
+                <input type="date" id="data-exame" name="data">
+            </div>
+
+            <div class="campo-formulario">
+                <label for="resultado-exame">Resultado (opcional)</label>
+                <textarea id="resultado-exame" name="resultado" maxlength="5000" placeholder="Ex: Valores dentro do normal"></textarea>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="observacao-exame">Observação (opcional)</label>
+                <textarea id="observacao-exame" name="observacao" maxlength="2000" placeholder="Ex: Repetir em 6 meses"></textarea>
+            </div>
+
+            <div class="campo-formulario">
+                <label for="anexos-exame">Laudo ou fotos (opcional)</label>
+                <input type="file" id="anexos-exame" name="anexos" multiple accept="application/pdf,image/jpeg,image/png,image/webp" aria-describedby="ajuda-anexos-exame">
+                <p id="ajuda-anexos-exame" class="ajuda-anexos-exame">PDF, JPG, PNG ou WEBP. Até 10 arquivos e 1 MB no total.</p>
+                <ul class="anexos-exame" data-anexos-salvos hidden></ul>
+            </div>
+
+            <button type="submit" class="botao-principal formulario-adicionar-consulta__enviar" aria-describedby="aviso-exame" disabled>
+                Salvar exame
+            </button>
+
+            <p id="aviso-exame" class="aviso-integracao" role="status" aria-live="polite" data-estado="informativo">O exame será salvo na sua conta.</p>
+        </form>
+
+    </main>
+
+            </div>
+        </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../js/cadastrar-exame.js"></script>
+    <script src="/shared/services/theme.js"></script>
+    </body>
+</html>

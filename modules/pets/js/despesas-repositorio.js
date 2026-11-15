@@ -2,23 +2,20 @@
 KEEPERHUB — MÓDULO PETS
 Arquivo: despesas-repositorio.js
 Lê e altera despesas por uma interface própria do módulo.
-Hoje usa o armazenamento local; a implementação poderá ser
-substituída pela API sem mudar as telas de despesas.
-Depende de: armazenamento.js, selecao-pets.js
+As despesas ficam no banco (tabela pet_despesa, com lançamento em Finanças)
+e são gravadas pela API; a leitura usa os pets já carregados na memória.
+Depende de: armazenamento.js, api.js, selecao-pets.js
 Usado por: despesas.js, cadastrar-despesa.js
 ================================================== */
 
-import { listarPets } from './armazenamento.js';
-import {
-    agruparRegistros,
-    gravarRegistroDosPets,
-    removerRegistrosDosPets,
-    salvarEdicaoRegistroLocal
-} from './selecao-pets.js';
+import { definirDespesasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { atualizarDespesasApi, cadastrarDespesaApi, excluirDespesasApi } from './api.js';
+import { agruparRegistros } from './selecao-pets.js';
 
 const CAMPO_DESPESAS = 'despesas';
 
 // Normaliza uma despesa agrupada para o formato usado pelas telas.
+// O valor da despesa é a soma das partes de cada pet incluído no grupo.
 function normalizarDespesa(grupo) {
     const registro = grupo.membros[0]?.registro;
     if (!registro) return null;
@@ -26,12 +23,15 @@ function normalizarDespesa(grupo) {
     return {
         ...registro,
         id: String(grupo.grupoId ?? registro.id),
+        valorCentavos: grupo.membros.reduce(
+            (soma, { registro: membro }) => soma + Number(membro.valorCentavos || 0), 0
+        ),
         petIds: grupo.membros.map(({ pet }) => String(pet.id)),
         petNome: grupo.nomesPets.join(', ')
     };
 }
 
-// Agrupa os registros locais de acordo com os pets associados a eles.
+// Agrupa os registros de acordo com os pets associados a eles (mesmo cadastro para vários pets).
 function agruparDespesas(pets) {
     return agruparRegistros(pets, pet =>
         Array.isArray(pet?.[CAMPO_DESPESAS])
@@ -61,35 +61,30 @@ export async function buscarDespesa(id) {
     return grupo ? normalizarDespesa(grupo) : null;
 }
 
-// Cria um lançamento para os pets selecionados.
+// Cria um lançamento para os pets selecionados (o valor total é dividido entre eles).
 export async function criarDespesa(petIds, dados) {
-    const ids = new Set((Array.isArray(petIds) ? petIds : []).map(String));
-    const pets = listarPets().filter(pet => ids.has(String(pet.id)));
-    if (!pets.length || pets.length !== ids.size) {
-        throw new Error('Não foi possível localizar todos os pets selecionados.');
-    }
-
-    gravarRegistroDosPets(pets, CAMPO_DESPESAS, {
-        ...dados,
-        criadaEm: new Date().toISOString()
-    });
+    const ids = [...new Set((Array.isArray(petIds) ? petIds : []).map(String))];
+    if (!ids.length) throw new Error('Não foi possível localizar todos os pets selecionados.');
+    const resposta = await cadastrarDespesaApi({ ...dados, petIds: ids.map(Number) });
+    definirDespesasDoBanco(resposta.despesas, resposta.criados);
 }
 
 // Atualiza os dados e os pets associados ao lançamento.
 export async function atualizarDespesa(id, petIds, dados) {
-    const petsAtuais = listarPets();
-    const grupo = localizarGrupo(petsAtuais, id);
-    const idsDestino = new Set((Array.isArray(petIds) ? petIds : []).map(String));
-    const petsDestino = petsAtuais.filter(pet => idsDestino.has(String(pet.id)));
-    if (!grupo || !petsDestino.length || petsDestino.length !== idsDestino.size) return false;
+    const grupo = localizarGrupo(listarPets(), id);
+    const destino = [...new Set((Array.isArray(petIds) ? petIds : []).map(String))];
+    if (!grupo || !destino.length) return false;
 
-    return salvarEdicaoRegistroLocal(
-        grupo.membros.map(({ pet }) => pet),
-        grupo.membros.map(({ registro }) => registro.id),
-        petsDestino,
-        CAMPO_DESPESAS,
-        dados
-    );
+    const ids = grupo.membros.map(({ registro }) => String(registro.id));
+    const resposta = await atualizarDespesasApi({
+        ...dados,
+        ids: ids.map(Number),
+        petIdsOrigem: grupo.membros.map(({ pet }) => Number(pet.id)),
+        petIds: destino.map(Number)
+    });
+    separarRegistrosDoGrupo(CAMPO_DESPESAS, ids);
+    definirDespesasDoBanco(resposta.despesas, resposta.grupoIds);
+    return true;
 }
 
 // Remove o lançamento dos pets visíveis no filtro atual.
@@ -103,9 +98,9 @@ export async function excluirDespesa(id, petIds) {
         : grupo.membros;
     if (!membros.length) return false;
 
-    return removerRegistrosDosPets(
-        membros.map(({ pet }) => pet),
-        CAMPO_DESPESAS,
-        membros.map(({ registro }) => registro.id)
-    );
+    const ids = membros.map(({ registro }) => String(registro.id));
+    const despesas = await excluirDespesasApi(ids.map(Number));
+    separarRegistrosDoGrupo(CAMPO_DESPESAS, ids);
+    definirDespesasDoBanco(despesas);
+    return true;
 }

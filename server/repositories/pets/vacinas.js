@@ -1,5 +1,6 @@
 ﻿// Consultas SQL de vacinação dos pets: listar e cadastrar vacinas do usuário autenticado.
 import db from '../../db.js';
+import { emTransacao } from './transacao.js';
 
 // Códigos usados pela tela de vacinas. Outros nomes são vacinas personalizadas ("outra").
 export const CODIGOS_VACINA = [
@@ -65,9 +66,7 @@ export async function listarVacinasPorPet(usuarioId, executor = db) {
 // Grava a mesma vacina para um ou vários pets numa transação.
 // Retorna null se algum pet não pertencer ao usuário.
 export async function cadastrarVacina(usuarioId, petIds, dados) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
 
     const marcadores = petIds.map(() => '?').join(', ');
     const [pets] = await conexao.execute(
@@ -76,7 +75,6 @@ export async function cadastrarVacina(usuarioId, petIds, dados) {
       [usuarioId, ...petIds]
     );
     if (pets.length !== petIds.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -97,21 +95,13 @@ export async function cadastrarVacina(usuarioId, petIds, dados) {
     }
 
     const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return { vacinasPorPet, criados };
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Atualiza uma vacina e seus pets associados dentro de uma transação.
 export async function atualizarVacinas(ids, petIdsOrigem, petIdsDestino, usuarioId, dados) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
       `SELECT v.id_vacina AS id, v.pet_id AS petId
@@ -123,7 +113,6 @@ export async function atualizarVacinas(ids, petIdsOrigem, petIdsDestino, usuario
     );
     const petsPorId = new Map(registros.map(registro => [String(registro.id), String(registro.petId)]));
     if (registros.length !== ids.length || ids.some((id, indice) => petsPorId.get(String(id)) !== String(petIdsOrigem[indice]))) {
-      await conexao.rollback();
       return null;
     }
 
@@ -135,7 +124,6 @@ export async function atualizarVacinas(ids, petIdsOrigem, petIdsDestino, usuario
       [usuarioId, ...petIdsDestino]
     );
     if (petsDestino.length !== petIdsDestino.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -187,21 +175,13 @@ export async function atualizarVacinas(ids, petIdsOrigem, petIdsDestino, usuario
     }
 
     const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return { vacinasPorPet, grupoIds };
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Confirma em conjunto somente aplicações que ainda estão agendadas.
 export async function marcarVacinasAplicadas(ids, usuarioId) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
       `SELECT v.id_vacina AS id, v.status
@@ -212,7 +192,6 @@ export async function marcarVacinasAplicadas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     if (registros.length !== ids.length || registros.some(registro => registro.status !== 'agendada')) {
-      await conexao.rollback();
       return null;
     }
 
@@ -228,14 +207,8 @@ export async function marcarVacinasAplicadas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return vacinasPorPet;
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Restaura os dados de agendamento quando a pessoa desfaz a confirmação recente.
@@ -280,9 +253,7 @@ export async function desfazerVacinasAplicadas(ids, anteriores, usuarioId) {
 
 // Exclui registros selecionados depois de conferir que todos pertencem à conta.
 export async function excluirVacinas(ids, usuarioId) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
       `SELECT v.id_vacina AS id
@@ -293,7 +264,6 @@ export async function excluirVacinas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     if (registros.length !== ids.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -304,12 +274,6 @@ export async function excluirVacinas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     const vacinasPorPet = await listarVacinasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return vacinasPorPet;
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }

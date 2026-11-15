@@ -129,7 +129,8 @@
 
                 <div class="campo-formulario" data-campo="observacao">
                     <label for="higiene-observacao">Observação (opcional)</label>
-                    <textarea id="higiene-observacao" name="higiene_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                    <textarea id="higiene-observacao" name="higiene_observacao" maxlength="500" placeholder="Detalhes adicionais sobre esta rotina..." aria-describedby="erro-higiene-observacao"></textarea>
+                    <p id="erro-higiene-observacao" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
             </fieldset>
 
@@ -175,7 +176,7 @@
 
                 <div class="campo-formulario" data-campo="refeicaoOutra" hidden>
                     <label for="alimentar-refeicao-outra">Qual refeição?</label>
-                    <input type="text" id="alimentar-refeicao-outra" name="alimentar-refeicao-outra" placeholder="Ex: Lanche da noite" aria-describedby="erro-alimentar-refeicaoOutra">
+                    <input type="text" id="alimentar-refeicao-outra" name="alimentar-refeicao-outra" maxlength="120" placeholder="Ex: Lanche da noite" aria-describedby="erro-alimentar-refeicaoOutra">
                     <p id="erro-alimentar-refeicaoOutra" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
 
@@ -187,7 +188,8 @@
 
                 <div class="campo-formulario" data-campo="observacao">
                     <label for="alimentar-observacao">Observação (opcional)</label>
-                    <textarea id="alimentar-observacao" name="alimentar_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                    <textarea id="alimentar-observacao" name="alimentar_observacao" maxlength="500" placeholder="Detalhes adicionais sobre esta rotina..." aria-describedby="erro-alimentar-observacao"></textarea>
+                    <p id="erro-alimentar-observacao" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
             </fieldset>
 
@@ -239,7 +241,7 @@
 
                 <div class="campo-formulario" data-campo="atividadeOutra" hidden>
                     <label for="lazer-atividade-outra">Qual atividade?</label>
-                    <input type="text" id="lazer-atividade-outra" name="lazer-atividade-outra" placeholder="Ex: Natação" aria-describedby="erro-lazer-atividadeOutra">
+                    <input type="text" id="lazer-atividade-outra" name="lazer-atividade-outra" maxlength="120" placeholder="Ex: Natação" aria-describedby="erro-lazer-atividadeOutra">
                     <p id="erro-lazer-atividadeOutra" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
 
@@ -317,13 +319,14 @@
 
                 <div class="campo-formulario" data-campo="duracaoMin">
                     <label for="lazer-duracao">Duração em minutos (opcional)</label>
-                    <input type="number" id="lazer-duracao" name="lazer_duracao" min="1" step="1" inputmode="numeric" placeholder="Ex: 30" aria-describedby="erro-lazer-duracaoMin">
+                    <input type="number" id="lazer-duracao" name="lazer_duracao" min="1" max="65535" step="1" inputmode="numeric" placeholder="Ex: 30" aria-describedby="erro-lazer-duracaoMin">
                     <p id="erro-lazer-duracaoMin" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
 
                 <div class="campo-formulario" data-campo="observacao">
                     <label for="lazer-observacao">Observação (opcional)</label>
-                    <textarea id="lazer-observacao" name="lazer_observacao" placeholder="Detalhes adicionais sobre esta rotina..."></textarea>
+                    <textarea id="lazer-observacao" name="lazer_observacao" maxlength="500" placeholder="Detalhes adicionais sobre esta rotina..." aria-describedby="erro-lazer-observacao"></textarea>
+                    <p id="erro-lazer-observacao" class="erro-campo" role="alert" data-estado="erro" hidden></p>
                 </div>
             </fieldset>
 
@@ -331,7 +334,7 @@
                 Salvar rotina
             </button>
 
-            <p id="aviso-integracao-rotina" class="aviso-integracao" role="status" aria-live="polite" data-estado="informativo">A rotina será salva neste navegador.</p>
+            <p id="aviso-integracao-rotina" class="aviso-integracao" role="status" aria-live="polite" data-estado="informativo">A rotina será salva na sua conta.</p>
 
         </form>
     </main>

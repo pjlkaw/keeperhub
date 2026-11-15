@@ -1,5 +1,6 @@
 ﻿// Consultas SQL das consultas veterinárias: listar, cadastrar, lembrete e histórico do usuário autenticado.
 import db from '../../db.js';
+import { emTransacao } from './transacao.js';
 
 // Códigos usados pela tela de consultas. Outros textos são especialidades personalizadas ("outra").
 export const CODIGOS_ESPECIALIDADE = [
@@ -86,9 +87,7 @@ async function buscarConsulta(idConsulta, usuarioId) {
 // Grava a mesma consulta para um ou vários pets numa transação.
 // Retorna null se algum pet não pertencer ao usuário.
 export async function cadastrarConsulta(usuarioId, petIds, dados) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
 
     const marcadores = petIds.map(() => '?').join(', ');
     const [pets] = await conexao.execute(
@@ -97,7 +96,6 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
       [usuarioId, ...petIds]
     );
     if (pets.length !== petIds.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -117,21 +115,13 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
     }
 
     const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return { consultasPorPet, criados };
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Atualiza uma consulta e seus pets associados dentro de uma transação.
 export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuarioId, dados) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
       `SELECT c.id_consulta AS id, c.pet_id AS petId,
@@ -144,7 +134,6 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
     );
     const petsPorId = new Map(registros.map(registro => [String(registro.id), String(registro.petId)]));
     if (registros.length !== ids.length || ids.some((id, indice) => petsPorId.get(String(id)) !== String(petIdsOrigem[indice]))) {
-      await conexao.rollback();
       return null;
     }
 
@@ -156,7 +145,6 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
       [usuarioId, ...petIdsDestino]
     );
     if (petsDestino.length !== petIdsDestino.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -210,21 +198,13 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
     }
 
     const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return { consultasPorPet, grupoIds };
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Exclui consultas depois de conferir a propriedade de todos os IDs recebidos.
 export async function excluirConsultas(ids, usuarioId) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
       `SELECT c.id_consulta AS id
@@ -235,7 +215,6 @@ export async function excluirConsultas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     if (registros.length !== ids.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -246,14 +225,8 @@ export async function excluirConsultas(ids, usuarioId) {
       [usuarioId, ...ids]
     );
     const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return consultasPorPet;
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }
 
 // Liga ou desliga o lembrete de uma consulta do usuário.
@@ -284,9 +257,7 @@ export async function registrarConsultaRealizada(idConsulta, usuarioId, resumo) 
 
 // Conclui os registros do card juntos, depois de verificar todos os IDs.
 export async function registrarConsultasRealizadas(ids, usuarioId, resumo) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
+  return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const filtro = `p.usuario_id = ? AND p.ativo = 1 AND c.id_consulta IN (${marcadores})`;
     const parametros = [usuarioId, ...ids];
@@ -298,7 +269,6 @@ export async function registrarConsultasRealizadas(ids, usuarioId, resumo) {
       parametros
     );
     if (consultas.length !== ids.length) {
-      await conexao.rollback();
       return null;
     }
 
@@ -310,12 +280,6 @@ export async function registrarConsultasRealizadas(ids, usuarioId, resumo) {
       [resumo || null, ...parametros]
     );
     const consultasPorPet = await listarConsultasPorPet(usuarioId, conexao);
-    await conexao.commit();
     return consultasPorPet;
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
+  });
 }

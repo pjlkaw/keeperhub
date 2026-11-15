@@ -1,5 +1,8 @@
 // Organização do módulo Pets: administrar animais e os dados do tutor.
-// Vacinas e consultas também vêm do banco. Medicações, despesas e rotinas ainda ficam no navegador.
+// Vacinas, consultas, exames e receitas (com anexos no Vercel Blob), medicações, despesas, rotinas
+// (higiene, lazer e alimentar) e notas de comportamento também vêm do banco.
+// Cada despesa de pet é também um lançamento em Finanças (conta e categoria "Pets").
+// O orçamento mensal das despesas fica em pet_orcamento (um valor por pet e mês).
 import {
   atualizarPet,
   buscarPet,
@@ -28,6 +31,58 @@ import {
   registrarConsultasRealizadas,
 } from '../../server/repositories/pets/consultas.js';
 import {
+  TIPOS_USO,
+  atualizarMedicacoes,
+  cadastrarMedicacao,
+  concluirMedicacoes,
+  excluirMedicacoes,
+  listarMedicacoesPorPet,
+} from '../../server/repositories/pets/medicacoes.js';
+import {
+  CATEGORIAS_DESPESA,
+  atualizarDespesas,
+  cadastrarDespesa,
+  excluirDespesas,
+  listarDespesasPorPet,
+} from '../../server/repositories/pets/despesas.js';
+import {
+  TIPOS_ROTINA,
+  atualizarRotinas,
+  cadastrarRotina,
+  excluirRotinas,
+  listarRotinasPorPet,
+} from '../../server/repositories/pets/rotinas.js';
+import {
+  TAMANHO_MAXIMO_OBSERVACAO,
+  atualizarObservacao,
+  cadastrarObservacao,
+  excluirObservacao,
+  listarObservacoesPorPet,
+} from '../../server/repositories/pets/observacoes.js';
+import {
+  LIMITES_EXAME,
+  atualizarExame,
+  cadastrarExame,
+  excluirExame,
+  listarExamesPorPet,
+  validarAnexoExame,
+} from '../../server/repositories/pets/exames.js';
+import {
+  MES_VALIDO,
+  ORCAMENTO_MAXIMO_CENTAVOS,
+  listarOrcamentosPorPet,
+  salvarOrcamento,
+} from '../../server/repositories/pets/orcamentos.js';
+import {
+  LIMITES_RECEITA,
+  atualizarReceita,
+  cadastrarReceita,
+  concluirReceita,
+  excluirReceita,
+  listarReceitasPorPet,
+} from '../../server/repositories/pets/receitas.js';
+import { LIMITES_ANEXOS, validarAnexo } from '../../server/repositories/pets/anexos.js';
+import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
@@ -55,6 +110,116 @@ function dataISOValida(valor) {
 
 function hojeEmSaoPaulo() {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
+}
+
+// Data e hora atuais de Brasília no formato do MySQL ('AAAA-MM-DD HH:MM:SS').
+export function agoraEmSaoPaulo(agora = new Date()) {
+  const partes = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Sao_Paulo', hourCycle: 'h23',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+    }).formatToParts(agora).map(parte => [parte.type, parte.value])
+  );
+  return `${partes.year}-${partes.month}-${partes.day} ${partes.hour}:${partes.minute}:${partes.second}`;
+}
+
+// Dados de um exame (o pet é conferido na rota de cadastro). Anexos viram buffers.
+export function validarExame(body) {
+  const nome = texto(body.nome);
+  const data = texto(body.data);
+  const resultado = texto(body.resultado);
+  const observacao = texto(body.observacao);
+  if (!nome || nome.length > LIMITES_EXAME.nome) {
+    return { erro: `Informe o nome do exame (até ${LIMITES_EXAME.nome} caracteres).` };
+  }
+  if (data && (!dataISOValida(data) || data < '1900-01-01' || data > hojeEmSaoPaulo())) {
+    return { erro: 'Informe uma data válida, que não seja no futuro.' };
+  }
+  if (resultado.length > LIMITES_EXAME.resultado) {
+    return { erro: `O resultado pode ter até ${LIMITES_EXAME.resultado} caracteres.` };
+  }
+  if (observacao.length > LIMITES_EXAME.observacao) {
+    return { erro: `A observação pode ter até ${LIMITES_EXAME.observacao} caracteres.` };
+  }
+  const brutos = Array.isArray(body.anexos) ? body.anexos : [];
+  if (brutos.length > LIMITES_EXAME.anexos) {
+    return { erro: `O exame pode ter até ${LIMITES_EXAME.anexos} anexos.` };
+  }
+  let anexos;
+  try {
+    anexos = brutos.map(validarAnexoExame);
+  } catch (erro) {
+    return { erro: erro.message };
+  }
+  const removerAnexos = Array.isArray(body.removerAnexos)
+    ? [...new Set(body.removerAnexos.map(Number))].filter(valor => Number.isSafeInteger(valor) && valor > 0)
+    : [];
+  return { dados: { nome, data, resultado, observacao }, anexos, removerAnexos };
+}
+
+// Dados de uma receita (o pet é conferido na rota de cadastro). Anexos viram buffers.
+export function validarReceita(body, hoje = hojeEmSaoPaulo()) {
+  const nome = texto(body.nome);
+  const veterinario = texto(body.veterinario);
+  const dataEmissao = texto(body.dataEmissao);
+  const dataValidade = texto(body.dataValidade);
+  const observacao = texto(body.observacao);
+  if (!nome || nome.length > LIMITES_RECEITA.nome) {
+    return { erro: `Informe o nome da receita ou do medicamento (até ${LIMITES_RECEITA.nome} caracteres).` };
+  }
+  if (veterinario.length > LIMITES_RECEITA.veterinario) {
+    return { erro: `O nome do veterinário pode ter até ${LIMITES_RECEITA.veterinario} caracteres.` };
+  }
+  if (dataEmissao && (!dataISOValida(dataEmissao) || dataEmissao < '1900-01-01' || dataEmissao > hoje)) {
+    return { erro: 'Informe uma data de emissão válida, que não seja no futuro.' };
+  }
+  if (dataValidade && (!dataISOValida(dataValidade) || dataValidade < '1900-01-01')) {
+    return { erro: 'Informe uma validade válida.' };
+  }
+  if (dataEmissao && dataValidade && dataValidade < dataEmissao) {
+    return { erro: 'A validade não pode ser antes da emissão.' };
+  }
+  if (observacao.length > LIMITES_RECEITA.observacao) {
+    return { erro: `A observação pode ter até ${LIMITES_RECEITA.observacao} caracteres.` };
+  }
+  const brutos = Array.isArray(body.anexos) ? body.anexos : [];
+  if (brutos.length > LIMITES_ANEXOS.quantidade) {
+    return { erro: `A receita pode ter até ${LIMITES_ANEXOS.quantidade} anexos.` };
+  }
+  let anexos;
+  try {
+    anexos = brutos.map(validarAnexo);
+  } catch (erro) {
+    return { erro: erro.message };
+  }
+  const removerAnexos = Array.isArray(body.removerAnexos)
+    ? [...new Set(body.removerAnexos.map(Number))].filter(valor => Number.isSafeInteger(valor) && valor > 0)
+    : [];
+  return { dados: { nome, veterinario, dataEmissao, dataValidade, observacao }, anexos, removerAnexos };
+}
+
+// Orçamento de um pet num mês: { petId, mes: 'AAAA-MM', valorCentavos (inteiro >= 0) }.
+export function validarOrcamento(body) {
+  const petId = Number(body.petId);
+  const mes = texto(body.mes);
+  const valorCentavos = Number(body.valorCentavos);
+  if (!Number.isSafeInteger(petId) || petId <= 0) return { erro: 'Selecione um pet válido.' };
+  if (!MES_VALIDO.test(mes) || mes < '1900-01') return { erro: 'Informe um mês válido.' };
+  if (!Number.isSafeInteger(valorCentavos) || valorCentavos < 0 || valorCentavos > ORCAMENTO_MAXIMO_CENTAVOS) {
+    return { erro: 'Informe um valor de orçamento válido (zero ou mais).' };
+  }
+  return { petId, mes, valorCentavos };
+}
+
+// Texto de uma nota de comportamento: obrigatório e com limite.
+export function validarTextoObservacao(body) {
+  const textoNota = texto(body.texto);
+  if (!textoNota) return { erro: 'Escreva a observação antes de enviar.' };
+  if (textoNota.length > TAMANHO_MAXIMO_OBSERVACAO) {
+    return { erro: `A observação pode ter até ${TAMANHO_MAXIMO_OBSERVACAO} caracteres.` };
+  }
+  return { texto: textoNota };
 }
 
 // Mesmas regras de modules/pets/js/validacao-pet.js, repetidas no servidor.
@@ -181,6 +346,194 @@ export function validarConsulta(body, hoje = hojeEmSaoPaulo()) {
   };
 }
 
+// Valida uma medicação. Horário só vale para uso contínuo; frequência e data final, para temporário.
+export function validarMedicacao(body) {
+  const petIds = Array.isArray(body.petIds)
+    ? [...new Set(body.petIds.map(Number))]
+    : [];
+  const nome = texto(body.nome);
+  const tipoUso = texto(body.tipoUso);
+  const dosagem = texto(body.dosagem);
+  const horarioDose = texto(body.horarioDose);
+  const frequencia = texto(body.frequencia);
+  const dataFim = texto(body.dataFim);
+  const observacao = texto(body.observacao);
+  const estoque = body.quantidadeEstoque;
+
+  if (!petIds.length || petIds.length > 50 || petIds.some(id => !Number.isSafeInteger(id) || id <= 0)) {
+    return { erro: 'Selecione ao menos um pet válido.' };
+  }
+  if (!nome || nome.length > 150) return { erro: 'Informe o nome do medicamento (até 150 caracteres).' };
+  if (!TIPOS_USO.includes(tipoUso)) return { erro: 'Selecione o tipo de uso.' };
+  if (!dosagem || dosagem.length > 100) return { erro: 'Informe a dosagem (até 100 caracteres).' };
+  if (tipoUso === 'continuo' && !HORARIO_VALIDO.test(horarioDose)) {
+    return { erro: 'Informe o horário da dose no formato HH:mm.' };
+  }
+  if (tipoUso === 'temporario') {
+    if (!frequencia || frequencia.length > 80) return { erro: 'Informe a frequência (até 80 caracteres).' };
+    if (!dataISOValida(dataFim)) return { erro: 'Informe até quando vai o tratamento.' };
+  }
+  const quantidadeEstoque = estoque === null || estoque === undefined || estoque === ''
+    ? null
+    : Number(estoque);
+  if (quantidadeEstoque !== null &&
+      (!Number.isFinite(quantidadeEstoque) || quantidadeEstoque < 0 || quantidadeEstoque > 1000000)) {
+    return { erro: 'Informe uma quantidade em estoque válida.' };
+  }
+  if (observacao.length > 2000) return { erro: 'A observação pode ter até 2000 caracteres.' };
+
+  return {
+    petIds,
+    dados: {
+      nome, tipoUso, dosagem,
+      horarioDose: tipoUso === 'continuo' ? horarioDose : '',
+      frequencia: tipoUso === 'temporario' ? frequencia : '',
+      dataFim: tipoUso === 'temporario' ? dataFim : '',
+      quantidadeEstoque: quantidadeEstoque === null ? null : Math.round(quantidadeEstoque * 100) / 100,
+      observacao,
+    },
+  };
+}
+
+// Valida uma despesa. O valor chega em centavos e é o total (dividido entre os pets ao gravar).
+export function validarDespesa(body) {
+  const petIds = Array.isArray(body.petIds)
+    ? [...new Set(body.petIds.map(Number))]
+    : [];
+  const descricao = texto(body.descricao);
+  const categoria = texto(body.categoria);
+  const data = texto(body.data);
+  const estabelecimento = texto(body.estabelecimento);
+  const observacoes = texto(body.observacoes);
+  const valorCentavos = Number(body.valorCentavos);
+
+  if (!petIds.length || petIds.length > 50 || petIds.some(id => !Number.isSafeInteger(id) || id <= 0)) {
+    return { erro: 'Selecione ao menos um pet válido.' };
+  }
+  if (!descricao || descricao.length > 100) return { erro: 'Informe uma descrição com até 100 caracteres.' };
+  if (!CATEGORIAS_DESPESA.includes(categoria)) return { erro: 'Selecione uma categoria válida.' };
+  if (!Number.isSafeInteger(valorCentavos) || valorCentavos <= 0 || valorCentavos > 999999999999) {
+    return { erro: 'Informe um valor válido maior que zero.' };
+  }
+  if (valorCentavos < petIds.length) return { erro: 'O valor é pequeno demais para dividir entre os pets.' };
+  if (!dataISOValida(data) || data < '1900-01-01') return { erro: 'Informe uma data válida.' };
+  if (estabelecimento.length > 100 || observacoes.length > 500) {
+    return { erro: 'Confira o limite de caracteres dos campos opcionais.' };
+  }
+
+  return { petIds, dados: { descricao, categoria, valorCentavos, data, estabelecimento, observacoes } };
+}
+
+// Mesmos catálogos de modules/pets/js/rotinas.js, repetidos no servidor.
+const CATALOGO_ROTINAS = {
+  higiene: {
+    atividades: {
+      banho: 'Banho',
+      banho_tosa: 'Banho e Tosa',
+      corte_unha: 'Corte de Unha',
+      escovacao: 'Escovação',
+    },
+    frequencias: ['semanal', 'quinzenal', 'mensal'],
+  },
+  lazer: {
+    atividades: {
+      passeio: 'Passeio',
+      brincadeira: 'Brincadeira',
+      parque: 'Parque ou praça',
+      creche: 'Creche / Day care',
+      adestramento: 'Adestramento',
+      outro: 'Outro',
+    },
+    frequencias: ['diaria', 'dias_semana', 'uma_vez'],
+  },
+};
+const DURACAO_MAXIMA = 65535; // coluna SMALLINT UNSIGNED
+
+// Mesmas regras de validarRotina (modules/pets/js/rotinas.js). Recebe o registro já validado na tela.
+// Para higiene e lazer, "nome" guarda o texto mostrado: o rótulo da atividade ou o nome digitado em "Outro".
+export function validarRotinaApi(body) {
+  const tipo = texto(body.tipo);
+  if (!TIPOS_ROTINA.includes(tipo)) return { erro: 'Tipo de rotina inválido.' };
+
+  const petIds = Array.isArray(body.petIds)
+    ? [...new Set(body.petIds.map(Number))]
+    : [];
+  if (!petIds.length || petIds.length > 50 || petIds.some(id => !Number.isSafeInteger(id) || id <= 0)) {
+    return { erro: 'Selecione ao menos um pet válido.' };
+  }
+
+  const horario = texto(body.horario);
+  const observacao = texto(body.observacao);
+  if (!HORARIO_VALIDO.test(horario)) return { erro: 'Informe um horário válido (HH:MM).' };
+  if (observacao.length > 500) return { erro: 'A observação pode ter até 500 caracteres.' };
+
+  if (tipo === 'alimentar') {
+    const nome = texto(body.nome);
+    if (!nome || nome.length > 120) return { erro: 'Informe o nome da refeição com até 120 caracteres.' };
+    return { tipo, petIds, dados: { nome, horario, observacao } };
+  }
+
+  const catalogo = CATALOGO_ROTINAS[tipo];
+  const atividade = texto(body.atividade);
+  if (!Object.hasOwn(catalogo.atividades, atividade)) return { erro: 'Escolha a atividade.' };
+  let nome = catalogo.atividades[atividade];
+  if (atividade === 'outro') {
+    nome = texto(body.atividadeOutra);
+    if (!nome || nome.length > 120) return { erro: 'Informe qual é a atividade com até 120 caracteres.' };
+  }
+
+  const frequencia = texto(body.frequencia);
+  if (!catalogo.frequencias.includes(frequencia)) return { erro: 'Escolha a frequência.' };
+
+  let data = '';
+  if (tipo === 'higiene' || frequencia === 'uma_vez') {
+    data = texto(body.data);
+    if (!dataISOValida(data) || data < '1900-01-01') return { erro: 'Informe uma data válida.' };
+  }
+
+  let diasSemana = [];
+  if (tipo === 'lazer' && frequencia === 'dias_semana') {
+    const dias = Array.isArray(body.diasSemana) ? body.diasSemana.map(Number) : [];
+    diasSemana = [...new Set(dias)].filter(dia => Number.isInteger(dia) && dia >= 0 && dia <= 6)
+      .sort((a, b) => a - b);
+    if (!diasSemana.length) return { erro: 'Escolha pelo menos um dia da semana.' };
+  }
+
+  let duracaoMin = null;
+  if (tipo === 'lazer' && body.duracaoMin != null && String(body.duracaoMin).trim() !== '') {
+    duracaoMin = Number(body.duracaoMin);
+    if (!Number.isInteger(duracaoMin) || duracaoMin < 1) {
+      return { erro: 'Informe a duração em minutos (maior que zero).' };
+    }
+    if (duracaoMin > DURACAO_MAXIMA) {
+      return { erro: `A duração pode ter no máximo ${DURACAO_MAXIMA} minutos.` };
+    }
+  }
+
+  return {
+    tipo,
+    petIds,
+    dados: { atividade, nome, frequencia, data, diasSemana, horario, duracaoMin, observacao },
+  };
+}
+
+// Campos de rotina que o front já usa em cada pet (rotinas.js / rotinas-armazenamento.js).
+function camposDeRotina(rotinas) {
+  return {
+    rotinaHigiene: rotinas?.higiene || [],
+    rotinaLazer: rotinas?.lazer || [],
+    rotinaAlimentar: { refeicoes: rotinas?.refeicoes || [] },
+  };
+}
+
+// IDs de registros vindos do corpo (ou do ?id=), sem repetição e com limite.
+function idsDoCorpo(id, body) {
+  const ids = id ? [id] : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+  return ids.length && ids.length <= 50 && ids.every(valor => Number.isSafeInteger(valor) && valor > 0)
+    ? ids
+    : null;
+}
+
 // A foto chega em Base64; é validada e enviada ao Vercel Blob. Só a URL vai para o banco.
 // Os módulos de imagem são carregados sob demanda para não pesar nas demais requisições.
 async function prepararFotoPadrao(foto) {
@@ -242,16 +595,33 @@ export function criarHandlerPets(deps) {
             : res.status(404).json({ erro: 'Pet não encontrado.' });
         }
         // A lista já leva as vacinas de cada pet, usadas pelas telas do módulo.
-        const [pets, vacinasPorPet, consultasPorPet] = await Promise.all([
+        const [
+          pets, vacinasPorPet, consultasPorPet, medicacoesPorPet, despesasPorPet, rotinasPorPet, observacoesPorPet,
+          examesPorPet, orcamentosPorPet, receitasPorPet,
+        ] = await Promise.all([
           repositorio.listarPets(usuarioId),
           repositorio.listarVacinasPorPet(usuarioId),
           repositorio.listarConsultasPorPet(usuarioId),
+          repositorio.listarMedicacoesPorPet(usuarioId),
+          repositorio.listarDespesasPorPet(usuarioId),
+          repositorio.listarRotinasPorPet(usuarioId),
+          repositorio.listarObservacoesPorPet(usuarioId),
+          repositorio.listarExamesPorPet(usuarioId),
+          repositorio.listarOrcamentosPorPet(usuarioId),
+          repositorio.listarReceitasPorPet(usuarioId),
         ]);
         return res.status(200).json({
           pets: pets.map(pet => ({
             ...pet,
             vacinas: vacinasPorPet.get(pet.id) || [],
             consultas: consultasPorPet.get(pet.id) || [],
+            medicacoes: medicacoesPorPet.get(pet.id) || [],
+            despesas: despesasPorPet.get(pet.id) || [],
+            ...camposDeRotina(rotinasPorPet.get(pet.id)),
+            observacoes: observacoesPorPet.get(pet.id) || [],
+            exames: examesPorPet.get(pet.id) || [],
+            orcamentosDespesas: orcamentosPorPet.get(pet.id) || {},
+            receitas: receitasPorPet.get(pet.id) || [],
           })),
         });
       }
@@ -341,6 +711,263 @@ export function criarHandlerPets(deps) {
         return vacinasPorPet
           ? res.status(200).json({ vacinas: Object.fromEntries(vacinasPorPet) })
           : res.status(404).json({ erro: 'Vacina não encontrada.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'despesa') {
+        const validacao = validarDespesa(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarDespesa(usuarioId, validacao.petIds, validacao.dados);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          despesas: Object.fromEntries(resultado.despesasPorPet),
+          criados: resultado.criados,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'despesa') {
+        const validacao = validarDespesa(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = idsDoCorpo(null, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as despesas válidas.' });
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem) ? body.petIdsOrigem.map(Number) : [];
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às despesas.' });
+        }
+        const resultado = await repositorio.atualizarDespesas(
+          ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              despesas: Object.fromEntries(resultado.despesasPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Despesa não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'despesa') {
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as despesas válidas.' });
+        const despesasPorPet = await repositorio.excluirDespesas(ids, usuarioId);
+        return despesasPorPet
+          ? res.status(200).json({ despesas: Object.fromEntries(despesasPorPet) })
+          : res.status(404).json({ erro: 'Despesa não encontrada.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'receita') {
+        const petId = Number(body.petId);
+        if (!Number.isSafeInteger(petId) || petId <= 0) return res.status(400).json({ erro: 'Selecione um pet válido.' });
+        const validacao = validarReceita(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarReceita(usuarioId, petId, validacao.dados, validacao.anexos);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          receitas: Object.fromEntries(resultado.receitasPorPet),
+          criado: resultado.criado,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'receita') {
+        if (!id) return res.status(400).json({ erro: 'Informe a receita.' });
+        const validacao = validarReceita(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const receitasPorPet = await repositorio.atualizarReceita(
+          id, usuarioId, validacao.dados, validacao.anexos, validacao.removerAnexos
+        );
+        return receitasPorPet
+          ? res.status(200).json({ receitas: Object.fromEntries(receitasPorPet) })
+          : res.status(404).json({ erro: 'Receita não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'receita-concluida') {
+        if (!id) return res.status(400).json({ erro: 'Informe a receita.' });
+        const data = body.concluida === false ? null : hojeEmSaoPaulo();
+        const receitasPorPet = await repositorio.concluirReceita(id, usuarioId, data);
+        return receitasPorPet
+          ? res.status(200).json({ receitas: Object.fromEntries(receitasPorPet) })
+          : res.status(404).json({ erro: 'Receita não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'receita') {
+        if (!id) return res.status(400).json({ erro: 'Informe a receita.' });
+        const receitasPorPet = await repositorio.excluirReceita(id, usuarioId);
+        return receitasPorPet
+          ? res.status(200).json({ receitas: Object.fromEntries(receitasPorPet) })
+          : res.status(404).json({ erro: 'Receita não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'orcamento') {
+        const validacao = validarOrcamento(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const orcamentosPorPet = await repositorio.salvarOrcamento(
+          usuarioId, validacao.petId, validacao.mes, validacao.valorCentavos
+        );
+        return orcamentosPorPet
+          ? res.status(200).json({ orcamentos: Object.fromEntries(orcamentosPorPet) })
+          : res.status(404).json({ erro: 'Pet não encontrado.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'exame') {
+        const petId = Number(body.petId);
+        if (!Number.isSafeInteger(petId) || petId <= 0) return res.status(400).json({ erro: 'Selecione um pet válido.' });
+        const validacao = validarExame(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarExame(usuarioId, petId, validacao.dados, validacao.anexos);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          exames: Object.fromEntries(resultado.examesPorPet),
+          criado: resultado.criado,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'exame') {
+        if (!id) return res.status(400).json({ erro: 'Informe o exame.' });
+        const validacao = validarExame(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const examesPorPet = await repositorio.atualizarExame(
+          id, usuarioId, validacao.dados, validacao.anexos, validacao.removerAnexos
+        );
+        return examesPorPet
+          ? res.status(200).json({ exames: Object.fromEntries(examesPorPet) })
+          : res.status(404).json({ erro: 'Exame não encontrado.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'exame') {
+        if (!id) return res.status(400).json({ erro: 'Informe o exame.' });
+        const examesPorPet = await repositorio.excluirExame(id, usuarioId);
+        return examesPorPet
+          ? res.status(200).json({ exames: Object.fromEntries(examesPorPet) })
+          : res.status(404).json({ erro: 'Exame não encontrado.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'observacao') {
+        const petId = Number(body.petId);
+        if (!Number.isSafeInteger(petId) || petId <= 0) return res.status(400).json({ erro: 'Selecione um pet válido.' });
+        const validacao = validarTextoObservacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarObservacao(usuarioId, petId, validacao.texto, agoraEmSaoPaulo());
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          observacoes: Object.fromEntries(resultado.observacoesPorPet),
+          criado: resultado.criado,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'observacao') {
+        if (!id) return res.status(400).json({ erro: 'Informe a observação.' });
+        const validacao = validarTextoObservacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const observacoesPorPet = await repositorio.atualizarObservacao(id, usuarioId, validacao.texto);
+        return observacoesPorPet
+          ? res.status(200).json({ observacoes: Object.fromEntries(observacoesPorPet) })
+          : res.status(404).json({ erro: 'Observação não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'observacao') {
+        if (!id) return res.status(400).json({ erro: 'Informe a observação.' });
+        const observacoesPorPet = await repositorio.excluirObservacao(id, usuarioId);
+        return observacoesPorPet
+          ? res.status(200).json({ observacoes: Object.fromEntries(observacoesPorPet) })
+          : res.status(404).json({ erro: 'Observação não encontrada.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'rotina') {
+        const validacao = validarRotinaApi(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarRotina(
+          usuarioId, validacao.tipo, validacao.petIds, validacao.dados
+        );
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          rotinas: Object.fromEntries(resultado.rotinasPorPet),
+          criados: resultado.criados,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'rotina') {
+        const validacao = validarRotinaApi(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = idsDoCorpo(null, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as rotinas válidas.' });
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem) ? body.petIdsOrigem.map(Number) : [];
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às rotinas.' });
+        }
+        const resultado = await repositorio.atualizarRotinas(
+          validacao.tipo, ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              rotinas: Object.fromEntries(resultado.rotinasPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Rotina não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'rotina') {
+        const tipo = texto(body.tipo);
+        if (!TIPOS_ROTINA.includes(tipo)) return res.status(400).json({ erro: 'Tipo de rotina inválido.' });
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as rotinas válidas.' });
+        const rotinasPorPet = await repositorio.excluirRotinas(tipo, ids, usuarioId);
+        return rotinasPorPet
+          ? res.status(200).json({ rotinas: Object.fromEntries(rotinasPorPet) })
+          : res.status(404).json({ erro: 'Rotina não encontrada.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'medicacao') {
+        const validacao = validarMedicacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarMedicacao(usuarioId, validacao.petIds, validacao.dados);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          medicacoes: Object.fromEntries(resultado.medicacoesPorPet),
+          criados: resultado.criados,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'medicacao') {
+        const validacao = validarMedicacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = idsDoCorpo(null, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem) ? body.petIdsOrigem.map(Number) : [];
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às medicações.' });
+        }
+        const resultado = await repositorio.atualizarMedicacoes(
+          ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              medicacoes: Object.fromEntries(resultado.medicacoesPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'medicacao-concluida') {
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        // concluida = false desfaz a conclusão (botão "Desfazer" da tela de medicações).
+        const medicacoesPorPet = await repositorio.concluirMedicacoes(ids, usuarioId, body.concluida !== false);
+        return medicacoesPorPet
+          ? res.status(200).json({ medicacoes: Object.fromEntries(medicacoesPorPet) })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'medicacao') {
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        const medicacoesPorPet = await repositorio.excluirMedicacoes(ids, usuarioId);
+        return medicacoesPorPet
+          ? res.status(200).json({ medicacoes: Object.fromEntries(medicacoesPorPet) })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
       }
 
       if (req.method === 'POST' && req.query?.acao === 'consulta') {
@@ -473,6 +1100,13 @@ export default criarHandlerPets({
     atualizarVacinas, marcarVacinasAplicadas, desfazerVacinasAplicadas, excluirVacinas,
     listarConsultasPorPet, cadastrarConsulta, atualizarConsultas, excluirConsultas, alterarLembreteConsulta, registrarConsultaRealizada,
     registrarConsultasRealizadas,
+    listarMedicacoesPorPet, cadastrarMedicacao, atualizarMedicacoes, concluirMedicacoes, excluirMedicacoes,
+    listarDespesasPorPet, cadastrarDespesa, atualizarDespesas, excluirDespesas,
+    listarRotinasPorPet, cadastrarRotina, atualizarRotinas, excluirRotinas,
+    listarObservacoesPorPet, cadastrarObservacao, atualizarObservacao, excluirObservacao,
+    listarExamesPorPet, cadastrarExame, atualizarExame, excluirExame,
+    listarOrcamentosPorPet, salvarOrcamento,
+    listarReceitasPorPet, cadastrarReceita, atualizarReceita, concluirReceita, excluirReceita,
   },
   usuarioDaSessao,
   origemDaRequisicaoValida,

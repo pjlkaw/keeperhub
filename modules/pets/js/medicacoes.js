@@ -1,8 +1,14 @@
-// Cadastro, busca e organização local das medicações dos pets.
+// Cadastro, busca e organização das medicações dos pets (salvas no banco pela API).
 
-// Importa as funções para atualizar um pet e listar os pets salvos.
-import { atualizarVariosPets, listarPets } from './armazenamento.js';
-import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, registrosDoPet, removerRegistrosDosPets, salvarEdicaoRegistroLocal } from './selecao-pets.js';
+// Importa as funções para listar os pets e atualizar as medicações na memória.
+import { definirMedicacoesDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import {
+    atualizarMedicacoesApi,
+    cadastrarMedicacaoApi,
+    concluirMedicacoesApi,
+    excluirMedicacoesApi
+} from './api.js';
+import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
@@ -153,31 +159,6 @@ function informarPorDoisSegundos(mensagem) {
         if (status.textContent === mensagem && status.dataset.estado !== 'erro') informar('');
         timerFeedbackMedicao = null;
     }, 2000);
-}
-
-function atualizarRegistrosConcluidos(membros, restaurar = false) {
-    const atualizacoes = {};
-    const porPet = new Map();
-    for (const membro of membros) {
-        const idPet = String(membro.pet.id);
-        if (!porPet.has(idPet)) porPet.set(idPet, { pet: membro.pet, registros: new Map() });
-        porPet.get(idPet).registros.set(String(membro.registro.id), membro.registro);
-    }
-
-    for (const [idPet, grupo] of porPet) {
-        const registros = registrosDoPet(grupo.pet, 'medicacoes');
-        const ids = new Set(grupo.registros.keys());
-        if ([...ids].some(id => !registros.some(registro => String(registro.id) === id))) return false;
-        atualizacoes[idPet] = {
-            medicacoes: registros.map(registro => {
-                const original = grupo.registros.get(String(registro.id));
-                if (!original) return registro;
-                if (restaurar) return original;
-                return { ...registro, concluidaEm: dataHoje() };
-            })
-        };
-    }
-    return Boolean(atualizarVariosPets(atualizacoes));
 }
 
 function membrosDaMedicacao(medicacao) {
@@ -624,7 +605,7 @@ function atualizarFormulario() {
     } else {
         aviso.textContent = petsAlvo.length > 1
             ? 'A medicação será salva para ' + petsAlvo.length + ' pets.'
-            : 'A medicação será salva neste navegador.';
+            : 'A medicação será salva na sua conta.';
         aviso.dataset.estado = 'informativo';
         informar('');
     }
@@ -690,7 +671,7 @@ function configurarFormulario() {
     });
 
     // Valida e salva os dados quando o formulário é enviado.
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
         event.preventDefault();
 
         // Não cadastra a medicação sem um pet selecionado.
@@ -736,8 +717,7 @@ function configurarFormulario() {
                 ? null
                 : Number(estoqueTexto),
 
-            observacao: form.elements.observacao_medicamento.value.trim(),
-            criadaEm: modoEdicao ? registroEmEdicao?.criadaEm : new Date().toISOString()
+            observacao: form.elements.observacao_medicamento.value.trim()
         };
 
         // Desabilita o botão para evitar envios duplicados.
@@ -746,18 +726,17 @@ function configurarFormulario() {
         try {
             const petDestinoId = petsAlvo[0].id;
             const quantidadePets = petsAlvo.length;
-            if (modoEdicao) {
-                const atualizado = salvarEdicaoRegistroLocal(
-                    petsOrigemEdicao,
-                    idsEdicao,
-                    petsAlvo,
-                    'medicacoes',
-                    medicamento
-                );
-                if (!atualizado) throw new Error('A medicação não foi encontrada para atualizar.');
-            } else {
-                gravarRegistroDosPets(petsAlvo, "medicacoes", medicamento);
-            }
+            // A API grava um registro por pet escolhido; na edição, ajusta os pets associados.
+            const dadosMedicacao = { ...medicamento, petIds: petsAlvo.map(pet => Number(pet.id)) };
+            const resposta = modoEdicao
+                ? await atualizarMedicacoesApi({
+                    ...dadosMedicacao,
+                    ids: idsEdicao.map(Number),
+                    petIdsOrigem: petsOrigemEdicao.map(pet => Number(pet.id))
+                })
+                : await cadastrarMedicacaoApi(dadosMedicacao);
+            if (modoEdicao) separarRegistrosDoGrupo('medicacoes', idsEdicao);
+            definirMedicacoesDoBanco(resposta.medicacoes, resposta.grupoIds ?? resposta.criados);
             if (modoEdicao) {
                 location.href = quantidadePets > 1
                     ? "medicacoes.html?todos=1"
@@ -807,9 +786,13 @@ if (paginaLista) {
             const posicaoAviso = capturarPosicaoDoAviso(botaoConcluir);
             const grupoOrigem = botaoConcluir.closest('.grupo-medicacoes');
             const membros = membrosDaMedicacao(medicacaoParaConcluir);
-            const concluida = atualizarRegistrosConcluidos(membros);
-            if (!concluida) {
-                informar('Não foi possível concluir o tratamento.', true);
+            const ids = membros.map(membro => Number(membro.registro.id));
+            botaoConcluir.disabled = true;
+            try {
+                definirMedicacoesDoBanco(await concluirMedicacoesApi(ids));
+            } catch (erro) {
+                botaoConcluir.disabled = false;
+                informar(erro.message || 'Não foi possível concluir o tratamento.', true);
                 return;
             }
             renderizarLista();
@@ -818,13 +801,13 @@ if (paginaLista) {
             oferecerDesfazerExclusao({
                 posicao: posicaoAviso,
                 mensagem: 'Tratamento concluído.',
-                aoDesfazer() {
-                    if (!atualizarRegistrosConcluidos(membros, true)) {
-                        informar('Não foi possível desfazer a conclusão.', true);
-                        return;
+                async aoDesfazer() {
+                    try {
+                        definirMedicacoesDoBanco(await concluirMedicacoesApi(ids, false));
+                        informarPorDoisSegundos('Conclusão desfeita.');
+                    } catch (erro) {
+                        informar(erro.message || 'Não foi possível desfazer a conclusão.', true);
                     }
-                    renderizarLista();
-                    informarPorDoisSegundos('Conclusão desfeita.');
                 },
                 aoExcluir() {},
                 aoFalhar(erro) {
@@ -859,14 +842,11 @@ if (paginaLista) {
                 ids.forEach(id => exclusoesPendentes.delete(id));
                 renderizarLista();
             },
-            aoExcluir() {
-                const excluida = removerRegistrosDosPets(
-                    membros.map(membro => membro.pet),
-                    'medicacoes',
-                    ids
-                );
-                if (!excluida) throw new Error('Não foi possível excluir a medicação.');
+            async aoExcluir() {
+                const medicacoes = await excluirMedicacoesApi(ids.map(Number));
                 ids.forEach(id => exclusoesPendentes.delete(id));
+                separarRegistrosDoGrupo('medicacoes', ids);
+                definirMedicacoesDoBanco(medicacoes);
             },
             aoFalhar(erro) {
                 ids.forEach(id => exclusoesPendentes.delete(id));

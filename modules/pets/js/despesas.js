@@ -1,5 +1,6 @@
 // Resumo mensal, metas por pet e extrato local das despesas.
-import { atualizarPet, listarPets } from './armazenamento.js';
+import { definirOrcamentosDoBanco, listarPets } from './armazenamento.js';
+import { salvarOrcamentoApi } from './api.js';
 import { listarDespesas, excluirDespesa as excluirDespesaDoRepositorio } from './despesas-repositorio.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -594,7 +595,7 @@ function abrirEditorMeta() {
     (todosPetsSelecionados ? seletorPetMeta : campoValorMeta).focus();
 }
 
-function salvarMeta(event) {
+async function salvarMeta(event) {
     event.preventDefault();
     const destino = destinoDaMeta();
     const valor = Number(campoValorMeta.value);
@@ -615,19 +616,22 @@ function salvarMeta(event) {
         return;
     }
 
+    // A meta de cada pet fica no banco (pet_orcamento); a meta conjunta ainda fica neste navegador.
     const mes = chaveMes(mesAtual);
-    const salvou = destino.conjunta
-        ? salvarMetaGeral(mes, valorCentavos)
-        : atualizarPet(destino.pet.id, {
-            orcamentosDespesas: {
-                ...(destino.pet.orcamentosDespesas && typeof destino.pet.orcamentosDespesas === 'object'
-                    ? destino.pet.orcamentosDespesas
-                    : {}),
-                [mes]: valorCentavos
-            }
-        });
+    let salvou = false;
+    let erroMeta = '';
+    if (destino.conjunta) {
+        salvou = salvarMetaGeral(mes, valorCentavos);
+    } else {
+        try {
+            definirOrcamentosDoBanco(await salvarOrcamentoApi(destino.pet.id, mes, valorCentavos));
+            salvou = true;
+        } catch (erro) {
+            erroMeta = erro.message;
+        }
+    }
     if (!salvou) {
-        mensagemMeta.textContent = 'Não foi possível salvar a meta neste navegador.';
+        mensagemMeta.textContent = erroMeta || 'Não foi possível salvar a meta.';
         mensagemMeta.dataset.estado = 'erro';
         mensagemMeta.hidden = false;
         return;
@@ -639,7 +643,7 @@ function salvarMeta(event) {
     campoPetMeta.hidden = !todosPetsSelecionados;
     mensagemMeta.textContent = destino.conjunta
         ? 'Meta para todos os pets salva neste navegador.'
-        : 'Meta mensal salva neste navegador.';
+        : 'Meta mensal salva na sua conta.';
     mensagemMeta.dataset.estado = 'sucesso';
     mensagemMeta.hidden = false;
     campoValorMeta.value = (valorCentavos / 100).toFixed(2);

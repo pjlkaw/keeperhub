@@ -1,72 +1,66 @@
 /* ==========================================================================
    KEEPERHUB — MÓDULO PETS
    Arquivo: js/rotinas-armazenamento.js
-   Função: persistência local das rotinas (higiene, alimentar e lazer).
+   Função: salvar, editar e remover as rotinas (higiene, alimentar e lazer)
+   pela API, mantendo a memória da página e o agrupamento visual atualizados.
    ========================================================================== */
 
-import { atualizarVariosPets, listarPets } from './armazenamento.js';
 import {
-    gravarRegistroDosPets,
-    registrosDoPet,
-    removerRegistrosDosPets,
-    salvarEdicaoRegistroLocal
-} from './selecao-pets.js';
-import { adicionarRefeicao, removerRefeicao, substituirRefeicao } from './rotinas.js';
+    GRUPO_DA_ROTINA,
+    carregarPets,
+    definirRotinasDoBanco,
+    listarPets,
+    separarRegistrosDoGrupo
+} from './armazenamento.js';
+import { atualizarRotinasApi, cadastrarRotinaApi, excluirRotinasApi } from './api.js';
+import { registrosDoPet } from './selecao-pets.js';
 
 export const CAMPO_ROTINA = { higiene: 'rotinaHigiene', lazer: 'rotinaLazer' };
-
-// Campos opcionais: se o usuário limpar, o valor antigo não pode sobreviver à mesclagem.
-const CAMPOS_OPCIONAIS = {
-    higiene: ['observacao', 'duracaoMin', 'atividadeOutra', 'diasSemana', 'data'],
-    lazer: ['observacao', 'duracaoMin', 'atividadeOutra', 'diasSemana', 'data'],
-    alimentar: ['observacao']
-};
 
 export function rotinasDoPet(pet, tipo) {
     if (tipo === 'alimentar') return registrosDoPet(pet?.rotinaAlimentar, 'refeicoes');
     return registrosDoPet(pet, CAMPO_ROTINA[tipo]);
 }
 
-// Marca como undefined (descartado na serialização) todo opcional ausente no novo registro.
-function limparOpcionaisAusentes(tipo, registro) {
-    const resultado = { ...registro };
-    for (const campo of CAMPOS_OPCIONAIS[tipo] ?? []) {
-        if (!(campo in registro) || registro[campo] === undefined) resultado[campo] = undefined;
+// Cada resposta da API traz a foto das rotinas no momento em que foi gerada. Se duas
+// gravações correm juntas (ex.: duas remoções seguidas), a resposta que chega por último
+// pode ser a mais antiga; então, quando a última delas termina, a lista é recarregada.
+let gravacoesEmAndamento = 0;
+let houveSobreposicao = false;
+
+async function gravarNoServidor(tipo, chamada, idsDoGrupo) {
+    gravacoesEmAndamento += 1;
+    if (gravacoesEmAndamento > 1) houveSobreposicao = true;
+    try {
+        const { rotinas, grupo } = await chamada();
+        definirRotinasDoBanco(rotinas, tipo, grupo ?? idsDoGrupo);
+        if (gravacoesEmAndamento === 1 && houveSobreposicao) {
+            houveSobreposicao = false;
+            await carregarPets();
+        }
+    } finally {
+        gravacoesEmAndamento -= 1;
+        if (gravacoesEmAndamento === 0) houveSobreposicao = false;
     }
-    return resultado;
 }
 
-function rotinaAlimentarDe(pet) {
-    return pet?.rotinaAlimentar && typeof pet.rotinaAlimentar === 'object' ? pet.rotinaAlimentar : {};
+function idsNumericos(lista) {
+    return lista.map(item => Number(typeof item === 'object' ? item?.id : item));
 }
 
-export function salvarRotina(tipo, pets, registro) {
-    if (!Array.isArray(pets) || !pets.length || !CAMPOS_OPCIONAIS[tipo]) {
+// Cadastra a mesma rotina para um ou vários pets. Lança erro se a API recusar.
+export async function salvarRotina(tipo, pets, registro) {
+    if (!Array.isArray(pets) || !pets.length || !GRUPO_DA_ROTINA[tipo]) {
         throw new Error('Não foi possível localizar todos os pets selecionados.');
     }
-    const base = { ...registro, criadaEm: registro.criadaEm ?? new Date().toISOString() };
-
-    if (tipo !== 'alimentar') {
-        gravarRegistroDosPets(pets, CAMPO_ROTINA[tipo], base);
-        return;
-    }
-
-    const atuais = listarPets();
-    const grupoId = pets.length > 1 ? crypto.randomUUID() : undefined;
-    const atualizacoes = {};
-    for (const alvo of pets) {
-        const pet = atuais.find(item => item.id === alvo.id);
-        if (!pet) throw new Error('Não foi possível localizar todos os pets selecionados.');
-        const refeicao = { ...base, id: crypto.randomUUID(), grupoId };
-        atualizacoes[pet.id] = { rotinaAlimentar: adicionarRefeicao(rotinaAlimentarDe(pet), refeicao) };
-    }
-    if (!atualizarVariosPets(atualizacoes)) {
-        throw new Error('Não foi possível salvar a rotina alimentar.');
-    }
+    await gravarNoServidor(tipo, async () => {
+        const resposta = await cadastrarRotinaApi({ ...registro, tipo, petIds: idsNumericos(pets) });
+        return { rotinas: resposta.rotinas, grupo: resposta.criados };
+    });
 }
 
 export function buscarMembrosDaRotina(tipo, petId, id) {
-    if (!CAMPOS_OPCIONAIS[tipo]) return null;
+    if (!GRUPO_DA_ROTINA[tipo]) return null;
     const todos = listarPets();
     const pet = todos.find(item => item.id === String(petId));
     const registro = rotinasDoPet(pet, tipo).find(item => String(item.id) === String(id));
@@ -87,99 +81,46 @@ export function buscarMembrosDaRotina(tipo, petId, id) {
     return { pets, ids };
 }
 
-function editarAlimentar(petsOrigem, idsOrigem, petsDestino, dados) {
-    const atuais = listarPets();
-    const origens = new Map();
-    for (let i = 0; i < idsOrigem.length; i += 1) {
-        const petId = String(petsOrigem[i]?.id ?? '');
-        const registroId = String(idsOrigem[i] ?? '');
-        const pet = atuais.find(item => item.id === petId);
-        const refeicao = rotinasDoPet(pet, 'alimentar').find(item => String(item.id) === registroId);
-        if (!pet || !refeicao || origens.has(petId)) return false;
-        origens.set(petId, { pet, refeicao, registroId });
-    }
-
-    const destinos = new Map();
-    for (const item of petsDestino) {
-        const petId = String(item?.id ?? '');
-        const pet = atuais.find(atual => atual.id === petId);
-        if (!pet || destinos.has(petId)) return false;
-        destinos.set(petId, pet);
-    }
-
-    const modelo = origens.values().next().value;
-    const grupoId = destinos.size > 1 ? crypto.randomUUID() : undefined;
-    const atualizacoes = {};
-
-    for (const [petId, origem] of origens) {
-        if (destinos.has(petId)) continue;
-        atualizacoes[petId] = { rotinaAlimentar: removerRefeicao(rotinaAlimentarDe(origem.pet), origem.registroId) };
-    }
-
-    for (const [petId, pet] of destinos) {
-        const origem = origens.get(petId);
-        const rotina = rotinaAlimentarDe(pet);
-        if (origem) {
-            const novos = { ...dados, criadaEm: origem.refeicao.criadaEm ?? dados.criadaEm, grupoId };
-            atualizacoes[petId] = { rotinaAlimentar: substituirRefeicao(rotina, origem.registroId, novos) };
-        } else {
-            const nova = {
-                ...modelo.refeicao,
-                ...dados,
-                id: crypto.randomUUID(),
-                criadaEm: dados.criadaEm ?? modelo.refeicao.criadaEm,
-                grupoId
-            };
-            atualizacoes[petId] = { rotinaAlimentar: adicionarRefeicao(rotina, nova) };
-        }
-    }
-
-    return Boolean(atualizarVariosPets(atualizacoes));
-}
-
-export function editarRotina(tipo, petsOrigem, idsOrigem, petsDestino, registro) {
-    if (!CAMPOS_OPCIONAIS[tipo] || !Array.isArray(petsOrigem) || !Array.isArray(idsOrigem) ||
+// Edita a rotina de todos os pets do grupo; pets que saem perdem o registro e pets que entram ganham um.
+export async function editarRotina(tipo, petsOrigem, idsOrigem, petsDestino, registro) {
+    if (!GRUPO_DA_ROTINA[tipo] || !Array.isArray(petsOrigem) || !Array.isArray(idsOrigem) ||
         !Array.isArray(petsDestino) || !petsOrigem.length || !idsOrigem.length || !petsDestino.length) {
         return false;
     }
-    const dados = limparOpcionaisAusentes(tipo, registro);
-    if (tipo === 'alimentar') return editarAlimentar(petsOrigem, idsOrigem, petsDestino, dados);
-    return salvarEdicaoRegistroLocal(petsOrigem, idsOrigem, petsDestino, CAMPO_ROTINA[tipo], dados);
+    await gravarNoServidor(tipo, async () => {
+        const resposta = await atualizarRotinasApi({
+            ...registro,
+            tipo,
+            ids: idsNumericos(idsOrigem),
+            petIdsOrigem: idsNumericos(petsOrigem),
+            petIds: idsNumericos(petsDestino)
+        });
+        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], idsOrigem.map(String));
+        return { rotinas: resposta.rotinas, grupo: resposta.grupoIds };
+    });
+    return true;
 }
 
-export function removerRotina(tipo, pet, id) {
-    if (!pet || !CAMPOS_OPCIONAIS[tipo]) return false;
-    if (tipo !== 'alimentar') return removerRegistrosDosPets([pet], CAMPO_ROTINA[tipo], [id]);
-
-    const atual = listarPets().find(item => item.id === String(pet.id));
-    if (!atual || !rotinasDoPet(atual, 'alimentar').some(item => String(item.id) === String(id))) return false;
-    const rotinaAlimentar = removerRefeicao(rotinaAlimentarDe(atual), String(id));
-    return Boolean(atualizarVariosPets({ [atual.id]: { rotinaAlimentar } }));
+// Remove a rotina só do pet informado; os outros pets do grupo continuam com ela.
+export async function removerRotina(tipo, pet, id) {
+    if (!pet || !GRUPO_DA_ROTINA[tipo]) return false;
+    await gravarNoServidor(tipo, async () => {
+        const rotinas = await excluirRotinasApi(tipo, [Number(id)]);
+        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], [String(id)]);
+        return { rotinas };
+    });
+    return true;
 }
 
-// Remove os membros de um grupo compartilhado no mesmo salvamento local.
-export function removerRotinas(tipo, membros) {
-    if (!CAMPOS_OPCIONAIS[tipo] || !Array.isArray(membros) || !membros.length) return false;
-    const atuais = listarPets();
-    const atualizacoes = {};
-
-    for (const membro of membros) {
-        const petId = String(membro?.pet?.id ?? '');
-        const id = String(membro?.registro?.id ?? '');
-        const pet = atuais.find(item => item.id === petId);
-        if (!pet || !id || !rotinasDoPet(pet, tipo).some(item => String(item.id) === id)) return false;
-
-        if (tipo === 'alimentar') {
-            const rotina = atualizacoes[petId]?.rotinaAlimentar ?? rotinaAlimentarDe(pet);
-            atualizacoes[petId] = { rotinaAlimentar: removerRefeicao(rotina, id) };
-        } else {
-            const campo = CAMPO_ROTINA[tipo];
-            const registros = atualizacoes[petId]?.[campo] ?? rotinasDoPet(pet, tipo);
-            atualizacoes[petId] = {
-                [campo]: registros.filter(item => String(item.id) !== id)
-            };
-        }
-    }
-
-    return Boolean(atualizarVariosPets(atualizacoes));
+// Remove a rotina de todos os pets de um grupo compartilhado ("Todos os pets"), numa só chamada à API.
+export async function removerRotinas(tipo, membros) {
+    if (!GRUPO_DA_ROTINA[tipo] || !Array.isArray(membros) || !membros.length) return false;
+    const ids = membros.map(membro => String(membro?.registro?.id ?? '')).filter(Boolean);
+    if (ids.length !== membros.length) return false;
+    await gravarNoServidor(tipo, async () => {
+        const rotinas = await excluirRotinasApi(tipo, ids.map(Number));
+        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], ids);
+        return { rotinas };
+    });
+    return true;
 }

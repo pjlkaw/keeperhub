@@ -49,6 +49,9 @@ export const CATALOGO = {
 };
 
 const REGEX_HORARIO = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+// Mesmos limites das colunas do banco, conferidos também na API.
+export const LIMITES_ROTINA = { nome: 120, observacao: 500, duracaoMin: 65535 };
 const REGEX_DATA = /^(\d{4})-(\d{2})-(\d{2})$/;
 
 function texto(valor) {
@@ -98,6 +101,9 @@ export function validarRotina(tipo, dados) {
 
     const horario = texto(d.horario);
     const observacao = texto(d.observacao);
+    if (observacao.length > LIMITES_ROTINA.observacao) {
+        erros.observacao = `A observação pode ter até ${LIMITES_ROTINA.observacao} caracteres.`;
+    }
 
     if (tipo === 'alimentar') {
         const refeicao = texto(d.refeicao);
@@ -106,7 +112,9 @@ export function validarRotina(tipo, dados) {
         } else if (refeicao === 'outro') {
             const outra = texto(d.refeicaoOutra);
             if (!outra) erros.refeicaoOutra = 'Informe o nome da refeição.';
-            else registro.nome = outra;
+            else if (outra.length > LIMITES_ROTINA.nome) {
+                erros.refeicaoOutra = `Use até ${LIMITES_ROTINA.nome} caracteres.`;
+            } else registro.nome = outra;
         } else {
             registro.nome = catalogo.refeicoes[refeicao];
         }
@@ -125,7 +133,9 @@ export function validarRotina(tipo, dados) {
             if (tipo === 'lazer' && atividade === 'outro') {
                 const outra = texto(d.atividadeOutra);
                 if (!outra) erros.atividadeOutra = 'Informe qual é a atividade.';
-                else registro.atividadeOutra = outra;
+                else if (outra.length > LIMITES_ROTINA.nome) {
+                    erros.atividadeOutra = `Use até ${LIMITES_ROTINA.nome} caracteres.`;
+                } else registro.atividadeOutra = outra;
             }
         }
 
@@ -159,6 +169,8 @@ export function validarRotina(tipo, dados) {
                 const minutos = Number(bruto);
                 if (!/^\d+$/.test(bruto) || !Number.isInteger(minutos) || minutos < 1) {
                     erros.duracaoMin = 'Informe a duração em minutos (maior que zero).';
+                } else if (minutos > LIMITES_ROTINA.duracaoMin) {
+                    erros.duracaoMin = `A duração pode ter no máximo ${LIMITES_ROTINA.duracaoMin} minutos.`;
                 } else {
                     registro.duracaoMin = minutos;
                 }
