@@ -341,7 +341,7 @@ LISTA DE LANÇAMENTOS
 .resumo-despesas__meta {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin-top: 12px;
 }
@@ -362,7 +362,7 @@ LISTA DE LANÇAMENTOS
   width: fit-content;
   min-height: 36px;
   padding: 8px 12px;
-  margin: 12px 0 0 auto;
+  margin: 0;
   font-size: 0.6875rem;
   white-space: nowrap;
 }

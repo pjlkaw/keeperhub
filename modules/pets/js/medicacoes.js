@@ -10,7 +10,7 @@ import {
 } from './api.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -388,7 +388,7 @@ function criarCartao(medicacao) {
 
     const chave = crypto.randomUUID();
     medicacoesEditaveis.set(chave, medicacao);
-    li.innerHTML = `<article class="card cartao-medicacao cartao-medicacao--${tipo}${baixo ? ' cartao-medicacao--estoque-baixo' : ''}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="cartao-medicacao__informacoes"><h3 class="cartao-medicacao__nome">${escapar(medicacao.nome)}${etiquetaPet}</h3><p class="cartao-medicacao__dosagem">${escapar(detalhe || 'Dosagem não informada')}</p>${detalhesEstoque}${termino}${medicacao.observacao ? `<p class="cartao-medicacao__observacao">${escapar(medicacao.observacao)}</p>` : ''}<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoMedicacao(medicacao))}">Editar</a><button type="button" class="botao-texto" data-concluir-medicacao="${chave}">Concluir tratamento</button><button type="button" class="botao-texto" data-excluir-medicacao="${chave}">Excluir</button></div></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${status}</span></article>`;
+    li.innerHTML = `<article class="card cartao-medicacao cartao-medicacao--${tipo}${baixo ? ' cartao-medicacao--estoque-baixo' : ''}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="cartao-medicacao__informacoes"><h3 class="cartao-medicacao__nome">${escapar(medicacao.nome)}${etiquetaPet}</h3><p class="cartao-medicacao__dosagem">${escapar(detalhe || 'Dosagem não informada')}</p>${detalhesEstoque}${termino}${medicacao.observacao ? `<p class="cartao-medicacao__observacao">${escapar(medicacao.observacao)}</p>` : ''}<div class="acoes-cartao-registro cartao-medicacao__acoes"><div class="cartao-medicacao__acoes-links"><a class="botao-texto" href="${escapar(urlEdicaoMedicacao(medicacao))}">Editar</a><button type="button" class="botao-texto" data-excluir-medicacao="${chave}">Excluir</button></div><button type="button" class="botao-texto botao-acao-pet" data-concluir-medicacao="${chave}">Concluir tratamento</button></div></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${status}</span></article>`;
 
     return li;
 }
@@ -428,6 +428,11 @@ function renderizarLista() {
     const escopo = todosPetsSelecionados
         ? pets
         : petAtual ? [petAtual] : [];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'medicacoes').some(medicacao =>
+            exclusoesPendentes.has(String(medicacao.id))
+        )
+    );
     const registrosDoEscopo = agruparRegistros(
         escopo,
         medicacoesVisiveis,
@@ -437,11 +442,14 @@ function renderizarLista() {
     if (!registrosDoEscopo.length) {
         const podeTrocarPet = pets.length > 1 && pets.some(pet => medicacoesVisiveis(pet).length);
         seletorSecao.hidden = !podeTrocarPet;
-        toolbar.hidden = true;
+        // Deixa a área do aviso visível enquanto a última medicação pode ser restaurada.
+        toolbar.hidden = !exclusaoPendenteNoEscopo;
 
         grupos.forEach(grupo => { grupo.hidden = true; });
-        informar(podeTrocarPet ? 'Nenhuma medicação para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma medicação para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -775,6 +783,8 @@ if (paginaLista) {
         const medicacaoParaConcluir = botaoConcluir &&
             medicacoesEditaveis.get(botaoConcluir.dataset.concluirMedicacao);
         if (medicacaoParaConcluir) {
+            const posicaoAviso = capturarPosicaoDoAviso(botaoConcluir);
+            const grupoOrigem = botaoConcluir.closest('.grupo-medicacoes');
             const membros = membrosDaMedicacao(medicacaoParaConcluir);
             const ids = membros.map(membro => Number(membro.registro.id));
             botaoConcluir.disabled = true;
@@ -785,11 +795,11 @@ if (paginaLista) {
                 informar(erro.message || 'Não foi possível concluir o tratamento.', true);
                 return;
             }
+            renderizarLista();
+            if (grupoOrigem) grupoOrigem.hidden = false;
             informarPorDoisSegundos('Tratamento concluído. Ele foi movido para o Histórico.');
-            const indiceGrupo = { continuo: 0, temporario: 1, eventual: 2 }[medicacaoParaConcluir.tipoUso];
-            const listaOrigem = main.querySelectorAll('.grupo-medicacoes ul')[indiceGrupo];
             oferecerDesfazerExclusao({
-                antesDe: listaOrigem,
+                posicao: posicaoAviso,
                 mensagem: 'Tratamento concluído.',
                 async aoDesfazer() {
                     try {
@@ -810,6 +820,8 @@ if (paginaLista) {
         const botao = event.target.closest('[data-excluir-medicacao]');
         const medicacao = botao && medicacoesEditaveis.get(botao.dataset.excluirMedicacao);
         if (!medicacao) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const grupoOrigem = botao.closest('.grupo-medicacoes');
 
         const confirmado = await confirmarExclusao({
             titulo: 'Excluir medicação?',
@@ -821,9 +833,10 @@ if (paginaLista) {
         const ids = membros.map(membro => String(membro.registro.id));
         ids.forEach(id => exclusoesPendentes.add(id));
         renderizarLista();
+        if (grupoOrigem) grupoOrigem.hidden = false;
 
         oferecerDesfazerExclusao({
-            antesDe: main.querySelector('.barra-ferramentas-medicacoes'),
+            posicao: posicaoAviso,
             mensagem: 'Medicação removida da lista.',
             aoDesfazer() {
                 ids.forEach(id => exclusoesPendentes.delete(id));

@@ -193,6 +193,26 @@ HISTÓRICO DE VACINAS
   white-space: nowrap;
 }
 
+/* Agrupa Editar e Excluir; deixa a confirmação da aplicação na linha abaixo. */
+.cartao-destaque-vacina__acoes {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.cartao-destaque-vacina__acoes-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cartao-destaque-vacina__acoes-links > :is(a, button) {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
 .vacinacoes-pet .item-vacina {
   position: relative;
   display: grid;

@@ -61,6 +61,12 @@ Mantém os campos, legendas e linhas com espaçamento consistente.
     border: 0;
 }
 
+.campo-formulario > :is(input, select, textarea) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
 .campo-formulario label,
 .campo-formulario legend {
     display: block;
@@ -217,6 +223,39 @@ button.botao-texto {
     white-space: nowrap;
     font-size: 0.75rem;
     line-height: 1.3;
+}
+
+/* Destaca ações que concluem ou confirmam um cuidado. */
+.acoes-cartao-registro > .botao-acao-pet,
+.cartao-consulta__acoes .botao-acao-pet {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    color: var(--pill-text);
+    background: var(--pets-primary-fill);
+    border: 1px solid transparent;
+    border-radius: var(--pets-radius-pill);
+    font: inherit;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+}
+
+.acoes-cartao-registro > .botao-acao-pet:hover:not(:disabled),
+.cartao-consulta__acoes .botao-acao-pet:hover {
+    color: var(--pill-text);
+    background: var(--pets-primary-active);
+}
+
+.acoes-cartao-registro > .botao-acao-pet:focus-visible,
+.cartao-consulta__acoes .botao-acao-pet:focus-visible {
+    outline: 2px solid var(--tool-pets);
+    outline-offset: 2px;
 }
 
 /* Identifica os pets associados a um registro em listas e históricos. */

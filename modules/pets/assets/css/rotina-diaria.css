@@ -117,8 +117,8 @@ SELETOR DE PET E ESTADO DA ROTINA
 }
 
 .rotina-diaria__hoje {
-  border-color: var(--pets-primary-border);
-  border-top: 2px solid var(--tool-pets);
+  border: 0;
+  border-top: 4px solid var(--pets-status-temporario);
 }
 
 .rotina-diaria h2 {
@@ -423,7 +423,7 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
 }
 
 .cartao-rotina__titulo {
-  font-size: 13px;
+  font-size: 0.875rem;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
@@ -439,7 +439,7 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
 .cartao-rotina__observacao {
   margin-top: 4px;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 0.8125rem;
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
@@ -452,7 +452,8 @@ LINHA "HOJE" E CARTÕES DE ROTINA (higiene, alimentar e lazer)
 
 /* ==== KEEPERHUB — MÓDULO PETS / rotina-diaria.css / Lazer em telas maiores ==== */
 @media (min-width: 600px) {
-    .lazer {
+    .lazer,
+    .anotacoes-comportamento {
         margin-inline: 24px;
         padding: 28px;
     }
