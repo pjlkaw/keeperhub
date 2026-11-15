@@ -101,22 +101,24 @@
             <p class="rotina-diaria__vazia" data-vazio="lazer" hidden>Nenhuma atividade de lazer cadastrada.</p>
         </section>
 
-        <!-- Anotações (sem gravação) -->
+        <!-- Notas de comportamento (salvas no banco, por pet) -->
         <section class="card anotacoes-comportamento" aria-labelledby="notas-heading" hidden>
             <h2 id="notas-heading">Notas de Comportamento</h2>
 
             <form class="anotacoes-comportamento__formulario">
                 <label for="nova-observacao" class="somente-leitor-tela">Adicionar nova observação</label>
-                <textarea id="nova-observacao" name="nova_observacao" placeholder="Adicionar nova observação..."></textarea>
+                <textarea id="nova-observacao" name="nova_observacao" maxlength="1000" placeholder="Adicionar nova observação..."></textarea>
                 <button type="submit" class="botao-icone anotacoes-comportamento__enviar" aria-label="Enviar observação">
                     <i class="fa-solid fa-paper-plane icone" aria-hidden="true"></i>
                 </button>
             </form>
+            <div class="anotacoes-comportamento__edicao" data-edicao-nota hidden>
+                <button type="button" class="botao-texto" data-cancelar-nota>Cancelar edição</button>
+            </div>
+            <p id="anotacoes-mensagem" class="aviso-integracao" role="status" aria-live="polite" data-estado="erro" hidden></p>
 
             <ul class="anotacoes-comportamento__lista"></ul>
             <p class="rotina-diaria__vazia" data-vazio="anotacoes" hidden>Nenhuma anotação cadastrada.</p>
-
-            <a href="#" class="link-editar">Editar</a>
         </section>
 
 

@@ -17,9 +17,9 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 - [x] Remover os cartões fictícios de exames e laudos e deixar a lista com estado
   vazio até existirem registros reais. A página também usa o no-content
   compartilhado no primeiro cadastro, antes de existir consulta registrada.
-- [ ] Integrar o upload, a persistência, a visualização e o download de exames e
-  laudos. “Ver todos” também aguarda comportamento real. Parte do histórico médico
-  ainda usa exemplos estáticos e precisa ser substituída por registros reais.
+- [x] Exames e laudos são salvos no MySQL (`pet_exame`), com anexos no Vercel Blob
+  (tabela `arquivo`); ver `js/consultas-integracao.md`.
+- [ ] “Ver todos” ainda aguarda comportamento real.
 - [ ] Decidir se a confirmação de consulta criada para vários pets deve atualizar
   todos os registros do mesmo `grupoId` ou somente o pet aberto.
 
@@ -45,8 +45,8 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 
 - Os cadastros de consultas, vacinas e medicações são mantidos no `localStorage`
   deste navegador; não sincronizam entre dispositivos.
-- Receitas, certificados de vacina e anexos de exames ainda precisam de seus
-  fluxos de arquivo e persistência definidos.
+- Receitas e exames já têm anexos (Vercel Blob + tabela `arquivo`); certificados de
+  vacina ainda precisam de seu fluxo de arquivo.
 
 ## Despesas
 
@@ -56,8 +56,9 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
   Ao cadastrar a partir dela, a pessoa escolhe a qual pet atribuir o gasto para
   evitar duplicar uma compra compartilhada sem rateio definido.
 - [x] A tela usa o no-content compartilhado quando o escopo não possui despesas.
-- [ ] Definir uma interface para editar o orçamento mensal atualmente padrão em
-  R$ 600,00 por pet, e ações para editar/remover lançamentos já salvos.
+- [x] O orçamento mensal de cada pet é editável na tela (toque no "previsto") e
+  fica salvo no MySQL (`pet_orcamento`), um valor por pet e mês; sem valor, usa
+  R$ 600,00. Editar e remover lançamentos já salvos também funciona.
 
 ## Rotinas diárias
 
@@ -74,7 +75,8 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 - [x] A edição e a remoção das rotinas passaram para a Rotina diária; a aba
   "Rotina Alimentar" e a página `editar-pet-rotina-alimentar.html` foram
   removidas do Editar pet.
-- [ ] As rotinas são salvas apenas localmente, no navegador (`localStorage`).
-  A integração com o MySQL (tabelas e rotas de API) continua pendente.
-- [ ] As anotações de comportamento ainda não são persistidas; o campo de
-  anotação não grava dados no momento.
+- [x] As rotinas são salvas no MySQL pela API: higiene e lazer em `pet_rotina` e
+  refeições em `pet_refeicao` (ver `js/rotinas-integracao.md`). A observação geral
+  da rotina alimentar ainda fica no `localStorage`.
+- [x] As notas de comportamento são salvas no MySQL (`pet_observacao`), com
+  editar e remover (com desfazer) em cada nota.

@@ -169,6 +169,25 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 LISTAS DE RECEITAS
 ================================================== */
 .receitas-lista { padding-inline: 16px; }
+.receitas-lista[hidden], .barra-ferramentas-medicacoes[hidden], .seletor-pet-receitas[hidden], .status-receitas[hidden] { display: none; }
+.seletor-pet-receitas { display: grid; gap: 8px; margin: 16px; }
+.seletor-pet-receitas label { color: var(--text-color); font-size: 12px; font-weight: 700; }
+.seletor-pet-receitas select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  color: var(--text-color);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+.status-receitas { margin: 8px 16px; color: var(--text-muted); font-size: 0.8125rem; }
+.status-receitas[data-estado="erro"] { color: var(--pets-status-alerta); }
+.receitas-vazia { color: var(--text-muted); font-size: 0.8125rem; padding: 8px 0; }
+.cartao-receita__anexos { display: grid; gap: 4px; margin-top: 6px; }
+.cartao-receita__anexos a { color: var(--tool-pets); font-size: 0.75rem; overflow-wrap: anywhere; }
+.cartao-receita__observacao { margin-top: 6px; color: var(--text-muted); font-size: 0.75rem; white-space: pre-line; }
+.cartao-receita .acoes-cartao-registro .botao-texto { padding: 0; border: 0; background: none; color: var(--tool-pets); cursor: pointer; }
 .receitas-lista + .receitas-lista { margin-top: 24px; }
 .receitas-lista__cabecalho {
   display: flex;

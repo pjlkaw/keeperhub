@@ -99,3 +99,15 @@ SELETOR DE PET E MENSAGENS
 .campo-formulario[hidden] {
   display: none !important;
 }
+
+/* ==================================================
+CADASTRO DE EXAME (cadastrar-exame.html usa este formulário)
+================================================== */
+.formulario-exame textarea { min-height: 88px; }
+.ajuda-anexos-exame { margin-top: 4px; color: var(--text-muted); font-size: 0.75rem; }
+.anexos-exame { display: grid; gap: 4px; margin-top: 8px; }
+.anexos-exame[hidden] { display: none; }
+.anexo-exame { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.8125rem; }
+.anexo-exame a { color: var(--tool-pets); overflow-wrap: anywhere; }
+.anexo-exame--removido a { color: var(--text-muted); text-decoration: line-through; }
+.anexo-exame .botao-texto { flex: none; padding: 0; background: none; border: 0; color: var(--tool-pets); font-size: 0.75rem; cursor: pointer; }

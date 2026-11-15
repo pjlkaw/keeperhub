@@ -218,7 +218,7 @@ function atualizarFormulario() {
     } else {
         aviso.textContent = petsAlvo.length > 1
             ? 'A rotina será salva para ' + petsAlvo.length + ' pets.'
-            : 'A rotina será salva neste navegador.';
+            : 'A rotina será salva na sua conta.';
         aviso.dataset.estado = 'informativo';
         informar('');
     }
@@ -341,7 +341,7 @@ function carregarEdicao() {
 // ==================================================
 // ENVIO
 // ==================================================
-function enviar(event) {
+async function enviar(event) {
     event.preventDefault();
     if (rotinaNaoEncontrada || !petsAlvo.length) return;
 
@@ -356,10 +356,10 @@ function enviar(event) {
     botao.disabled = true;
     try {
         if (modoEdicao) {
-            const salvou = editarRotina(tipo, petsOrigemEdicao, idsOrigemEdicao, petsAlvo, resultado.registro);
+            const salvou = await editarRotina(tipo, petsOrigemEdicao, idsOrigemEdicao, petsAlvo, resultado.registro);
             if (!salvou) throw new Error('Não foi possível salvar as alterações.');
         } else {
-            salvarRotina(tipo, petsAlvo, resultado.registro);
+            await salvarRotina(tipo, petsAlvo, resultado.registro);
         }
     } catch (erro) {
         botao.disabled = false;

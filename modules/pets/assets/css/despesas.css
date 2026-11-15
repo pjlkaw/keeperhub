@@ -116,6 +116,30 @@ LISTA DE LANÇAMENTOS
   display: block;
 }
 
+/* Orçamento do mês: o valor "previsto" vira um botão de edição quando há um pet selecionado. */
+.resumo-despesas__editar-orcamento {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.resumo-despesas__editar-orcamento:not(:disabled) data { color: var(--tool-pets); text-decoration: underline dotted; }
+.resumo-despesas__editar-orcamento .fa-pen { font-size: 0.625rem; }
+.resumo-despesas__editar-orcamento:disabled { cursor: default; }
+.resumo-despesas__editar-orcamento:disabled .fa-pen { display: none; }
+.orcamento-despesas { display: grid; gap: 6px; margin-block: 8px 16px; font-size: 0.75rem; }
+.orcamento-despesas[hidden], .orcamento-despesas__mensagem[hidden] { display: none; }
+.orcamento-despesas__linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.orcamento-despesas__linha input { flex: 1 1 120px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; color: var(--text-color); }
+.orcamento-despesas__botao { padding: 8px 12px; border: 0; border-radius: 8px; background: var(--tool-pets); color: #fff; font-size: 0.75rem; cursor: pointer; }
+.orcamento-despesas__botao--secundario { background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); }
+.orcamento-despesas__mensagem { color: var(--danger-color, #e5484d); }
+
 .despesas-navegar:disabled {
   opacity: 0.65;
   cursor: not-allowed;

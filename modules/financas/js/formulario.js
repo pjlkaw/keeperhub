@@ -56,7 +56,13 @@ export async function inicializarFormulario() {
         });
         campos.description.value = transacaoEmEdicao.descricao || '';
         campos.date.value = transacaoEmEdicao.data || campos.date.value;
-        campos.category.value = transacaoEmEdicao.categoria || campos.category.value;
+        const categoriaAtual = transacaoEmEdicao.categoria;
+        // Categorias criadas fora desta tela (ex.: "Pets") não estão na lista fixa;
+        // entram como opção para o lançamento abrir com a categoria dele.
+        if (categoriaAtual && ![...campos.category.options].some((opcao) => opcao.value === categoriaAtual)) {
+            campos.category.add(new Option(categoriaAtual, categoriaAtual));
+        }
+        campos.category.value = categoriaAtual || campos.category.value;
         campos.account.value = String(transacaoEmEdicao.conta_id
             || contas.find((conta) => conta.nome === transacaoEmEdicao.conta_nome)?.id
             || '');

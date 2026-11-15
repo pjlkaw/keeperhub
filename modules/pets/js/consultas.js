@@ -4,6 +4,7 @@ import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, regis
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
+import { examesDoEscopo, examesDoPet, prepararExames, renderizarExames } from './exames-lista.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -267,7 +268,8 @@ function renderizarLista() {
     prepararLinkCadastro();
     consultasExibidas.clear();
 
-    const temConsultaEmAlgumPet = pets.some(pet => consultasVisiveis(pet).length > 0);
+    // Exames também contam como conteúdo da página (um pet pode ter só exames).
+    const temConsultaEmAlgumPet = pets.some(pet => consultasVisiveis(pet).length > 0 || examesDoPet(pet, false).length > 0);
 
     // Sem pet selecionado, só mostra uma orientação se já houver registros
     // em algum pet; no primeiro cadastro usa o no-content compartilhado.
@@ -297,7 +299,7 @@ function renderizarLista() {
                 .localeCompare(`${b.data ?? ''} ${b.horario ?? ''}`)
         );
 
-    if (!consultas.length) {
+    if (!consultas.length && !examesDoEscopo(escopo, false).length) {
         proximas.replaceChildren();
         historico.replaceChildren();
         secoesConteudo.forEach(secao => { secao.hidden = true; });
@@ -314,6 +316,11 @@ function renderizarLista() {
     secoesConteudo.forEach(secao => { secao.hidden = false; });
     atualizarNoContent(true);
     informar('');
+    renderizarExames(mainPainel.querySelector('.exames-medicos'), {
+        escopo,
+        todos: todosPetsSelecionados,
+        petAtual
+    });
 
     // Usa a data local de hoje para separar consultas futuras das anteriores.
     const agora = dataLocalISO();
@@ -550,6 +557,11 @@ if (paginaLista) {
     mainPainel
         .querySelectorAll('.confirmar-consulta__formulario')
         .forEach(form => form.remove());
+
+    prepararExames(mainPainel.querySelector('.exames-medicos'), {
+        aoAtualizar: renderizarLista,
+        informar
+    });
 
     mainPainel.addEventListener('click', async event => {
         const botao = event.target.closest('[data-excluir-consulta]');

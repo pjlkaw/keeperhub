@@ -1,8 +1,8 @@
 // Armazenamento do módulo Pets.
-// Os dados principais do pet, as vacinas, as consultas e as medicações vêm do banco pela API.
-// Despesas e rotina alimentar
-// ainda ficam no localStorage deste navegador, guardadas pelo id do pet no banco,
-// até que cada parte ganhe sua própria API.
+// Os dados principais do pet, as vacinas, as consultas, os exames, as receitas, as medicações, as despesas,
+// o orçamento mensal das despesas, as rotinas (higiene, lazer e alimentar) e as notas de
+// comportamento vêm do banco pela API. A observação geral da rotina alimentar ainda fica no
+// localStorage deste navegador, guardada pelo id do pet no banco.
 import { listarPetsApi } from './api.js';
 
 // Chave dos dados que continuam locais, separados por id do pet.
@@ -12,8 +12,13 @@ const GRUPOS_STORAGE_KEY = 'keeperhub-pets-grupos';
 // Campos que pertencem ao banco e não podem ser gravados no localStorage.
 const CAMPOS_DO_BANCO = new Set([
     'id', 'nome', 'especie', 'raca', 'dataNascimento',
-    'peso', 'genero', 'foto', 'contatoEmergencia', 'vacinas', 'consultas', 'medicacoes'
+    'peso', 'genero', 'foto', 'contatoEmergencia', 'vacinas', 'consultas', 'medicacoes', 'despesas',
+    'rotinaHigiene', 'rotinaLazer', 'rotinaAlimentar', 'observacoes', 'exames', 'orcamentosDespesas', 'receitas'
 ]);
+
+// Campo de cada tipo de rotina no pet e no agrupamento visual (keeperhub-pets-grupos).
+const CAMPOS_ROTINA = ['rotinaHigiene', 'rotinaLazer'];
+export const GRUPO_DA_ROTINA = { higiene: 'rotinaHigiene', lazer: 'rotinaLazer', alimentar: 'refeicoes' };
 
 // Estado da página: pets carregados da API e o erro da última tentativa.
 let petsDoBanco = null;
@@ -55,6 +60,10 @@ export function definirPetDoBanco(pet) {
         if (!Array.isArray(normalizado.vacinas)) normalizado.vacinas = lista[indice].vacinas;
         if (!Array.isArray(normalizado.consultas)) normalizado.consultas = lista[indice].consultas;
         if (!Array.isArray(normalizado.medicacoes)) normalizado.medicacoes = lista[indice].medicacoes;
+        if (!Array.isArray(normalizado.despesas)) normalizado.despesas = lista[indice].despesas;
+        for (const campo of [...CAMPOS_ROTINA, 'rotinaAlimentar', 'observacoes', 'exames', 'orcamentosDespesas', 'receitas']) {
+            if (!(campo in normalizado)) normalizado[campo] = lista[indice][campo];
+        }
     }
     if (indice === -1) lista.push(normalizado);
     else lista[indice] = normalizado;
@@ -87,6 +96,17 @@ export function definirConsultaDoBanco(consulta) {
     return petAlterado ? buscarPetPorId(petAlterado.id) : null;
 }
 
+// Substitui na memória as despesas devolvidas pela API (objeto { idDoPet: [despesas] }).
+export function definirDespesasDoBanco(despesasPorPet, idsDoGrupo) {
+    if (!petsDoBanco || !despesasPorPet) return;
+    guardarGrupo('despesas', idsDoGrupo);
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        despesas: Array.isArray(despesasPorPet[pet.id]) ? despesasPorPet[pet.id] : []
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
 // Substitui na memória as medicações devolvidas pela API (objeto { idDoPet: [medicações] }).
 export function definirMedicacoesDoBanco(medicacoesPorPet, idsDoGrupo) {
     if (!petsDoBanco || !medicacoesPorPet) return;
@@ -94,6 +114,65 @@ export function definirMedicacoesDoBanco(medicacoesPorPet, idsDoGrupo) {
     petsDoBanco = petsDoBanco.map(pet => ({
         ...pet,
         medicacoes: Array.isArray(medicacoesPorPet[pet.id]) ? medicacoesPorPet[pet.id] : []
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
+// Substitui na memória as rotinas devolvidas pela API (objeto { idDoPet: { higiene, lazer, refeicoes } }).
+// tipo indica onde guardar o agrupamento dos IDs criados ou editados juntos.
+export function definirRotinasDoBanco(rotinasPorPet, tipo, idsDoGrupo) {
+    if (!petsDoBanco || !rotinasPorPet) return;
+    if (GRUPO_DA_ROTINA[tipo]) guardarGrupo(GRUPO_DA_ROTINA[tipo], idsDoGrupo);
+    petsDoBanco = petsDoBanco.map(pet => {
+        const rotinas = rotinasPorPet[pet.id] ?? {};
+        return {
+            ...pet,
+            rotinaHigiene: Array.isArray(rotinas.higiene) ? rotinas.higiene : [],
+            rotinaLazer: Array.isArray(rotinas.lazer) ? rotinas.lazer : [],
+            rotinaAlimentar: { refeicoes: Array.isArray(rotinas.refeicoes) ? rotinas.refeicoes : [] }
+        };
+    });
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
+// Substitui na memória as receitas devolvidas pela API (objeto { idDoPet: [receitas] }).
+export function definirReceitasDoBanco(receitasPorPet) {
+    if (!petsDoBanco || !receitasPorPet) return;
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        receitas: Array.isArray(receitasPorPet[pet.id]) ? receitasPorPet[pet.id] : []
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
+// Substitui na memória os orçamentos devolvidos pela API (objeto { idDoPet: { 'AAAA-MM': centavos } }).
+export function definirOrcamentosDoBanco(orcamentosPorPet) {
+    if (!petsDoBanco || !orcamentosPorPet) return;
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        orcamentosDespesas: orcamentosPorPet[pet.id] && typeof orcamentosPorPet[pet.id] === 'object'
+            ? orcamentosPorPet[pet.id]
+            : {}
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
+// Substitui na memória os exames devolvidos pela API (objeto { idDoPet: [exames] }).
+export function definirExamesDoBanco(examesPorPet) {
+    if (!petsDoBanco || !examesPorPet) return;
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        exames: Array.isArray(examesPorPet[pet.id]) ? examesPorPet[pet.id] : []
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
+}
+
+// Substitui na memória as notas de comportamento devolvidas pela API (objeto { idDoPet: [notas] }).
+export function definirObservacoesDoBanco(observacoesPorPet) {
+    if (!petsDoBanco || !observacoesPorPet) return;
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        observacoes: Array.isArray(observacoesPorPet[pet.id]) ? observacoesPorPet[pet.id] : []
     }));
     window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
@@ -194,13 +273,25 @@ export function separarRegistrosDoGrupo(campo, ids) {
 
 // Junta os dados locais ao pet e aplica o agrupamento visual aos registros da API.
 function combinar(pet, dadosLocais, grupos) {
-    const combinado = { ...(dadosLocais[pet.id] ?? {}), ...pet };
-    for (const campo of ['consultas', 'vacinas', 'medicacoes']) {
-        if (!Array.isArray(pet[campo]) || !grupos[campo]) continue;
-        combinado[campo] = pet[campo].map(registro => {
+    const local = dadosLocais[pet.id] ?? {};
+    const combinado = { ...local, ...pet };
+    const comGrupo = (campo, lista) => (grupos[campo]
+        ? lista.map(registro => {
             const grupoId = grupos[campo][registro.id];
             return typeof grupoId === 'string' ? { ...registro, grupoId } : registro;
-        });
+        })
+        : lista);
+    for (const campo of ['consultas', 'vacinas', 'medicacoes', 'despesas', ...CAMPOS_ROTINA]) {
+        if (!Array.isArray(pet[campo])) continue;
+        combinado[campo] = comGrupo(campo, pet[campo]);
+    }
+    // As refeições vêm do banco; a observação geral da rotina alimentar continua local.
+    if (pet.rotinaAlimentar && typeof pet.rotinaAlimentar === 'object') {
+        const alimentarLocal = local.rotinaAlimentar && typeof local.rotinaAlimentar === 'object'
+            ? local.rotinaAlimentar
+            : {};
+        const refeicoes = Array.isArray(pet.rotinaAlimentar.refeicoes) ? pet.rotinaAlimentar.refeicoes : [];
+        combinado.rotinaAlimentar = { ...alimentarLocal, refeicoes: comGrupo('refeicoes', refeicoes) };
     }
     return combinado;
 }
@@ -221,7 +312,7 @@ export function buscarPetPorId(id) {
     return listarPets().find(pet => pet.id === id) ?? null;
 }
 
-// Atualiza os dados locais (consultas, vacinas, medicações, despesas, rotina...) de vários pets.
+// Atualiza os dados locais (rotina alimentar, orçamentos de despesas...) de vários pets.
 // Campos do banco são ignorados aqui: use as funções de js/api.js para alterá-los.
 export function atualizarVariosPets(atualizacoes) {
     if (!atualizacoes || typeof atualizacoes !== 'object' || Array.isArray(atualizacoes)) {

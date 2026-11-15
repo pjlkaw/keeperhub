@@ -1,5 +1,6 @@
 // Consultas SQL das medicações dos pets: listar, cadastrar, editar, concluir e excluir.
 import db from '../../db.js';
+import { emTransacao } from './transacao.js';
 
 export const TIPOS_USO = ['continuo', 'temporario', 'eventual'];
 
@@ -93,25 +94,6 @@ async function medicacoesDoUsuario(conexao, usuarioId, ids) {
     [usuarioId, ...ids]
   );
   return registros.length === ids.length ? registros : null;
-}
-
-async function emTransacao(acao) {
-  const conexao = await db.getConnection();
-  try {
-    await conexao.beginTransaction();
-    const resultado = await acao(conexao);
-    if (resultado === null) {
-      await conexao.rollback();
-      return null;
-    }
-    await conexao.commit();
-    return resultado;
-  } catch (erro) {
-    await conexao.rollback();
-    throw erro;
-  } finally {
-    conexao.release();
-  }
 }
 
 // Grava a mesma medicação para um ou vários pets. Retorna null se algum pet não for do usuário.

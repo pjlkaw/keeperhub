@@ -23,5 +23,20 @@ A lista separa uso contínuo, tratamentos temporários, uso eventual e o histór
 (tratamentos concluídos ou temporários com data final anterior a hoje), com a
 visão "Todos os pets", busca e filtro por tipo. O estoque baixo é sinalizado
 quando restam duas unidades ou menos. O fluxo não agenda horários, não registra
-doses administradas e não envia notificações. Receitas e anexos seguem como uma
-etapa separada.
+doses administradas e não envia notificações. As receitas ficam numa página própria
+(ver abaixo).
+
+## Receitas dos pets
+
+A página `components/receitas.html` (link "Ver receitas" em Medicações) usa `js/receitas.js`;
+o cadastro e a edição ficam em `components/cadastrar-receita.html` (`js/cadastrar-receita.js`).
+A receita é de um pet só e não fica ligada a uma medicação. Dados na tabela `pet_receita`
+(`nome` até 150, `veterinario` até 150, `data_emissao` não futura, `data_validade` não
+anterior à emissão, `concluida_em` e `observacao` até 2000). A lista separa "Receitas
+Ativas" (sem validade ou com validade em dia) e "Histórico" (expiradas ou concluídas), tem
+busca por nome ou veterinário e as ações Editar, Concluir/Reabrir e Remover (com desfazer).
+Os anexos (PDF, JPG, PNG ou WEBP; até 10 arquivos e 1 MB no total) vão para o Vercel Blob e
+ficam na tabela `arquivo` com `entidade_tipo = 'pet_receita'`, pelo mesmo módulo dos anexos
+de exames (`server/repositories/pets/anexos.js`). Rotas: `POST ?acao=receita`, `PUT
+?acao=receita&id=`, `PUT ?acao=receita-concluida&id=` (`concluida: true | false`) e
+`DELETE ?acao=receita&id=`. A listagem de pets traz `pet.receitas` com os `anexos`.

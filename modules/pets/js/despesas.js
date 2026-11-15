@@ -1,6 +1,7 @@
-// Cadastro, resumo mensal e extrato local das despesas dos pets.
-import { listarPets } from './armazenamento.js';
-import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, removerRegistrosDosPets, salvarEdicaoRegistroLocal } from './selecao-pets.js';
+// Cadastro, resumo mensal e extrato das despesas dos pets (salvas no banco pela API).
+import { definirDespesasDoBanco, definirOrcamentosDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { atualizarDespesasApi, cadastrarDespesaApi, excluirDespesasApi, salvarOrcamentoApi } from './api.js';
+import { agruparRegistros, criarSelecaoMultipla } from './selecao-pets.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
@@ -106,8 +107,12 @@ function despesasValidas(pet) {
 // Retorna as despesas do pet atual ou de todos os pets, incluindo o nome do pet.
 function despesasDoEscopo() {
     const escopo = todosPetsSelecionados ? pets : petAtual ? [petAtual] : [];
+    // Uma despesa de vários pets é dividida entre eles no banco; o card agrupado mostra a soma.
     return agruparRegistros(escopo, despesasValidas).map(despesa => ({
         ...despesa,
+        valorCentavos: despesa.membros.reduce(
+            (soma, membro) => soma + Number(membro.registro.valorCentavos), 0
+        ),
         petNome: despesa.nomesPets.join(", ")
     }));
 }
@@ -185,6 +190,12 @@ function atualizarResumo(despesas) {
     const valorOrcamento = document.querySelector('.resumo-despesas__orcamento data');
     valorOrcamento.value = (orcamento / 100).toFixed(2);
     valorOrcamento.textContent = formatarMoeda(orcamento);
+
+    // O orçamento só é editado com um pet selecionado; em "Todos os pets" é a soma.
+    const botaoOrcamento = document.querySelector('[data-acao="editar-orcamento"]');
+    const umPet = !todosPetsSelecionados && Boolean(petAtual);
+    botaoOrcamento.disabled = !umPet;
+    botaoOrcamento.title = umPet ? 'Editar o orçamento deste mês' : 'Selecione um pet para editar o orçamento';
 
     document.querySelector('.resumo-despesas__linha strong').textContent =
         `${new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(percentual)}% consumido`;
@@ -384,6 +395,7 @@ function renderizarMes() {
 
 // Seleciona um pet e atualiza a página para mostrar somente os dados dele.
 function selecionarPet(pet, atualizarUrl = true) {
+    if (pet?.id !== petAtual?.id) fecharOrcamento?.();
     petAtual = pet;
     todosPetsSelecionados = false;
     seletorPet.value = pet?.id ?? '';
@@ -395,6 +407,7 @@ function selecionarPet(pet, atualizarUrl = true) {
 
 // Alterna para a visão agregada, reunindo os dados de todos os pets.
 function selecionarTodosPets() {
+    fecharOrcamento();
     petAtual = null;
     todosPetsSelecionados = true;
     seletorPet.value = '__todos__';
@@ -460,8 +473,61 @@ function dataPadraoParaMes() {
     return `${mesAtual.getFullYear()}-${String(mesAtual.getMonth() + 1).padStart(2, '0')}-01`;
 }
 
+// ==================================================
+// ORÇAMENTO DO MÊS (um valor por pet e mês, salvo no banco)
+// ==================================================
+const formOrcamento = document.querySelector('[data-form-orcamento]');
+const campoOrcamento = document.getElementById('valor-orcamento');
+const mensagemOrcamento = formOrcamento.querySelector('[data-mensagem-orcamento]');
+
+function informarOrcamento(mensagem) {
+    mensagemOrcamento.textContent = mensagem;
+    mensagemOrcamento.hidden = !mensagem;
+}
+
+function fecharOrcamento() {
+    formOrcamento.hidden = true;
+    informarOrcamento('');
+}
+
+document.querySelector('[data-acao="editar-orcamento"]').addEventListener('click', () => {
+    if (!petAtual || todosPetsSelecionados) return;
+    campoOrcamento.value = (orcamentoDoPet(petAtual, chaveMes(mesAtual)) / 100).toFixed(2);
+    informarOrcamento('');
+    formOrcamento.hidden = false;
+    campoOrcamento.focus();
+    campoOrcamento.select();
+});
+
+formOrcamento.querySelector('[data-acao="cancelar-orcamento"]').addEventListener('click', fecharOrcamento);
+
+formOrcamento.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!petAtual || todosPetsSelecionados) return;
+    const valor = Number(campoOrcamento.value);
+    const valorCentavos = Math.round(valor * 100);
+    if (campoOrcamento.value.trim() === '' || !Number.isFinite(valor) || valor < 0 ||
+        !Number.isSafeInteger(valorCentavos)) {
+        informarOrcamento('Informe um valor válido (zero ou mais).');
+        campoOrcamento.focus();
+        return;
+    }
+    const botao = formOrcamento.querySelector('[type="submit"]');
+    botao.disabled = true;
+    try {
+        const orcamentos = await salvarOrcamentoApi(petAtual.id, chaveMes(mesAtual), valorCentavos);
+        fecharOrcamento();
+        definirOrcamentosDoBanco(orcamentos);
+    } catch (erro) {
+        informarOrcamento(erro.message || 'Não foi possível salvar o orçamento.');
+    } finally {
+        botao.disabled = false;
+    }
+});
+
 // Muda o mês selecionado, atualiza a data do formulário e redesenha o resumo.
 function mudarMes(diferenca) {
+    fecharOrcamento();
     mesAtual = new Date(mesAtual.getFullYear(), mesAtual.getMonth() + diferenca, 1);
     campoData.value = dataPadraoParaMes();
     renderizarMes();
@@ -497,24 +563,22 @@ function validarFormulario() {
     return { dados: { descricao, categoria, valorCentavos, data, estabelecimento, observacoes } };
 }
 
-function salvarDespesa(dados, petsDestino) {
+// Grava pela API: o valor total é dividido entre os pets e vira lançamento em Finanças.
+async function salvarDespesa(dados, petsDestino) {
+    const dadosDespesa = { ...dados, petIds: petsDestino.map(pet => Number(pet.id)) };
     if (despesaEmEdicao) {
         const membros = despesaEmEdicao.membros;
-        const atualizado = salvarEdicaoRegistroLocal(
-            membros.map(membro => membro.pet),
-            membros.map(membro => membro.registro.id),
-            petsDestino,
-            'despesas',
-            dados
-        );
-        if (!atualizado) {
-            throw new Error('A despesa não foi encontrada para atualizar.');
-        }
-    } else {
-        gravarRegistroDosPets(petsDestino, 'despesas', {
-            ...dados,
-            criadaEm: new Date().toISOString()
+        const ids = membros.map(membro => String(membro.registro.id));
+        const resposta = await atualizarDespesasApi({
+            ...dadosDespesa,
+            ids: ids.map(Number),
+            petIdsOrigem: membros.map(membro => Number(membro.pet.id))
         });
+        separarRegistrosDoGrupo('despesas', ids);
+        definirDespesasDoBanco(resposta.despesas, resposta.grupoIds);
+    } else {
+        const resposta = await cadastrarDespesaApi(dadosDespesa);
+        definirDespesasDoBanco(resposta.despesas, resposta.criados);
     }
     mesAtual = new Date(dados.data + "T12:00:00");
 }
@@ -558,14 +622,11 @@ async function excluirDespesa(despesa) {
             ids.forEach(id => exclusoesPendentes.delete(id));
             renderizarMes();
         },
-        aoExcluir() {
-            const excluida = removerRegistrosDosPets(
-                membros.map(membro => membro.pet),
-                'despesas',
-                ids
-            );
-            if (!excluida) throw new Error('Não foi possível excluir a despesa.');
+        async aoExcluir() {
+            const despesas = await excluirDespesasApi(ids.map(Number));
             ids.forEach(id => exclusoesPendentes.delete(id));
+            separarRegistrosDoGrupo('despesas', ids);
+            definirDespesasDoBanco(despesas);
         },
         aoFalhar(erro) {
             ids.forEach(id => exclusoesPendentes.delete(id));
@@ -632,7 +693,7 @@ conteudo.addEventListener('click', event => {
 });
 
 // Valida o envio, grava a despesa no pet escolhido e limpa o formulário.
-form.addEventListener('submit', event => {
+form.addEventListener('submit', async event => {
     event.preventDefault();
     if (salvando) return;
 
@@ -655,7 +716,9 @@ form.addEventListener('submit', event => {
     botaoSalvar.textContent = 'Salvando…';
     try {
         const estavaEditando = Boolean(despesaEmEdicao);
-        salvarDespesa(validacao.dados, petsDestino);
+        await salvarDespesa(validacao.dados, petsDestino);
+        // Depois de salvar, usa os pets da memória já atualizada pela API.
+        pets = listarPets();
         if (petsDestino.length > 1) selecionarTodosPets();
         else selecionarPet(pets.find(pet => pet.id === petsDestino[0].id) ?? petsDestino[0]);
         form.reset();
@@ -663,7 +726,7 @@ form.addEventListener('submit', event => {
         document.getElementById('nova-despesa-heading').textContent = 'Nova despesa';
         atualizarDestinoFormulario();
         campoData.value = dataPadraoParaMes();
-        informarFormulario(estavaEditando ? 'Despesa atualizada neste navegador.' : 'Despesa salva neste navegador.', false, true);
+        informarFormulario(estavaEditando ? 'Despesa atualizada na sua conta.' : 'Despesa salva na sua conta.', false, true);
         popover.hidePopover?.();
     } catch (erro) {
         informarFormulario(erro.message || 'Não foi possível salvar a despesa.', true);

@@ -66,8 +66,18 @@
           <h2 class="resumo-despesas__rotulo" id="resumo-despesas-heading">Total do mês</h2>
           <p class="resumo-despesas__total">
             <data class="resumo-despesas__valor" value="0.00">R$ 0,00</data>
-            <span class="resumo-despesas__orcamento">/ <data value="600.00">R$ 600,00</data> previsto</span>
+            <span class="resumo-despesas__orcamento">/ <button type="button" class="resumo-despesas__editar-orcamento" data-acao="editar-orcamento" aria-label="Editar o orçamento do mês"><data value="600.00">R$ 600,00</data> previsto <i class="fa-solid fa-pen" aria-hidden="true"></i></button></span>
           </p>
+          <!-- Orçamento do pet no mês exibido (salvo no banco, tabela pet_orcamento) -->
+          <form class="orcamento-despesas" data-form-orcamento hidden>
+            <label for="valor-orcamento">Orçamento do mês (R$)</label>
+            <div class="orcamento-despesas__linha">
+              <input type="number" id="valor-orcamento" name="valor_orcamento" inputmode="decimal" min="0" step="0.01" placeholder="0,00" required>
+              <button type="submit" class="orcamento-despesas__botao">Salvar</button>
+              <button type="button" class="orcamento-despesas__botao orcamento-despesas__botao--secundario" data-acao="cancelar-orcamento">Cancelar</button>
+            </div>
+            <p class="orcamento-despesas__mensagem" data-mensagem-orcamento role="status" aria-live="polite" hidden></p>
+          </form>
           <div class="resumo-despesas__linha">
             <label for="progresso-orcamento">Compromisso do teto</label>
             <strong>0% consumido</strong>
