@@ -1,4 +1,5 @@
 ﻿// Consultas SQL das consultas veterinárias: listar, cadastrar, lembrete e histórico do usuário autenticado.
+import { randomUUID } from 'node:crypto';
 import db from '../../db.js';
 import { emTransacao } from './transacao.js';
 
@@ -38,6 +39,7 @@ export function mapearConsulta(linha) {
   return {
     id: String(linha.id),
     petId: String(linha.petId),
+    ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     medico: linha.veterinario || '',
     especialidade: codigo ? linha.especialidade : 'outra',
     especialidadePersonalizada: codigo ? '' : (linha.especialidade || ''),
@@ -53,7 +55,8 @@ export function mapearConsulta(linha) {
 
 const SELECT_CONSULTA = `
   SELECT c.id_consulta AS id, c.pet_id AS petId, c.data AS dataHora, c.status,
-         c.realizada_em AS realizadaEm, c.veterinario, c.especialidade,
+         c.realizada_em AS realizadaEm, c.grupo_id AS grupoId,
+         c.veterinario, c.especialidade,
          c.clinica, c.lembrete_ativo AS lembrete, c.observacoes
     FROM consulta c
     JOIN pet p ON p.id_pet = c.pet_id
@@ -100,14 +103,15 @@ export async function cadastrarConsulta(usuarioId, petIds, dados) {
     }
 
     const criados = [];
+    const grupoId = petIds.length > 1 ? randomUUID() : null;
     for (const petId of petIds) {
       const [resultado] = await conexao.execute(
         `INSERT INTO consulta
-          (pet_id, data, status, realizada_em, veterinario, especialidade, clinica, lembrete_ativo)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          (pet_id, data, status, realizada_em, grupo_id, veterinario, especialidade, clinica, lembrete_ativo)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           petId, `${dados.data} ${dados.horario}:00`, dados.status,
-          dados.status === 'realizada' ? new Date() : null,
+          dados.status === 'realizada' ? new Date() : null, grupoId,
           dados.medico, dados.especialidade, dados.clinica, dados.lembrar ? 1 : 0,
         ]
       );
@@ -124,7 +128,7 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
   return emTransacao(async conexao => {
     const marcadores = ids.map(() => '?').join(', ');
     const [registros] = await conexao.execute(
-      `SELECT c.id_consulta AS id, c.pet_id AS petId,
+      `SELECT c.id_consulta AS id, c.pet_id AS petId, c.grupo_id AS grupoId,
               c.lembrete_ativo AS lembrete, c.observacoes, c.realizada_em AS realizadaEm
          FROM consulta c
          JOIN pet p ON p.id_pet = c.pet_id
@@ -151,18 +155,19 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
     const registrosPorPet = new Map(registros.map(registro => [String(registro.petId), registro]));
     const petIdsDestinoSet = new Set(petIdsDestino.map(String));
     const grupoIds = [];
+    const grupoId = petIdsDestino.length > 1 ? randomUUID() : null;
     for (const petId of petIdsDestino) {
       const existente = registrosPorPet.get(String(petId));
       if (existente) {
         await conexao.execute(
           `UPDATE consulta c
              JOIN pet p ON p.id_pet = c.pet_id
-              SET c.data = ?, c.status = ?,
+              SET c.data = ?, c.status = ?, c.grupo_id = ?,
                   c.realizada_em = IF(? = 'realizada', COALESCE(c.realizada_em, NOW()), NULL),
                   c.veterinario = ?, c.especialidade = ?, c.clinica = ?
             WHERE c.id_consulta = ? AND p.usuario_id = ? AND p.ativo = 1`,
           [
-            `${dados.data} ${dados.horario}:00`, dados.status, dados.status,
+            `${dados.data} ${dados.horario}:00`, dados.status, grupoId, dados.status,
             dados.medico, dados.especialidade, dados.clinica, existente.id, usuarioId,
           ]
         );
@@ -174,11 +179,11 @@ export async function atualizarConsultas(ids, petIdsOrigem, petIdsDestino, usuar
       const realizadaEm = dados.status === 'realizada' ? (modelo.realizadaEm || new Date()) : null;
       const [resultado] = await conexao.execute(
         `INSERT INTO consulta
-          (pet_id, data, status, realizada_em, veterinario, especialidade,
+          (pet_id, data, status, realizada_em, grupo_id, veterinario, especialidade,
            clinica, lembrete_ativo, observacoes)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
-          petId, `${dados.data} ${dados.horario}:00`, dados.status, realizadaEm,
+          petId, `${dados.data} ${dados.horario}:00`, dados.status, realizadaEm, grupoId,
           dados.medico, dados.especialidade, dados.clinica,
           modelo.lembrete ? 1 : 0, modelo.observacoes || null,
         ]

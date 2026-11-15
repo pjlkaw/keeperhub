@@ -1,4 +1,5 @@
 // Consultas SQL das rotinas dos pets: higiene e lazer (pet_rotina) e alimentar (pet_refeicao).
+import { randomUUID } from 'node:crypto';
 import db from '../../db.js';
 import { emTransacao } from './transacao.js';
 
@@ -43,6 +44,7 @@ export function mapearRotina(linha) {
   const rotina = {
     id: String(linha.id),
     petId: String(linha.petId),
+    ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     atividade: linha.atividade || '',
     frequencia: linha.frequencia || '',
     horario: horarioParaTexto(linha.horario),
@@ -65,6 +67,7 @@ export function mapearRefeicao(linha) {
   const refeicao = {
     id: String(linha.id),
     petId: String(linha.petId),
+    ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     nome: linha.nome,
     horario: horarioParaTexto(linha.horario),
   };
@@ -76,7 +79,8 @@ export function mapearRefeicao(linha) {
 export async function listarRotinasPorPet(usuarioId, executor = db) {
   const [[rotinas], [refeicoes]] = await Promise.all([
     executor.execute(
-      `SELECT r.id_pet_rotina AS id, r.pet_id AS petId, r.tipo, r.atividade, r.nome,
+      `SELECT r.id_pet_rotina AS id, r.pet_id AS petId, r.grupo_id AS grupoId,
+              r.tipo, r.atividade, r.nome,
               r.frequencia, r.dias_semana AS diasSemana, r.data_inicio AS dataInicio,
               r.horario, r.duracao_min AS duracaoMin, r.observacao
          FROM pet_rotina r
@@ -86,7 +90,8 @@ export async function listarRotinasPorPet(usuarioId, executor = db) {
       [usuarioId]
     ),
     executor.execute(
-      `SELECT f.id_refeicao AS id, f.pet_id AS petId, f.nome, f.horario, f.observacao
+      `SELECT f.id_refeicao AS id, f.pet_id AS petId, f.grupo_id AS grupoId,
+              f.nome, f.horario, f.observacao
          FROM pet_refeicao f
          JOIN pet p ON p.id_pet = f.pet_id
         WHERE p.usuario_id = ? AND p.ativo = 1 AND f.ativo = 1
@@ -120,13 +125,13 @@ function valoresRotina(tipo, dados) {
 
 function sqlInsert(tipo) {
   const { tabela, colunas } = tabelaDo(tipo);
-  const marcadores = ['?', ...colunas.map(() => '?')].join(', ');
-  return `INSERT INTO ${tabela} (pet_id, ${colunas.join(', ')}) VALUES (${marcadores})`;
+  const marcadores = ['?', '?', ...colunas.map(() => '?')].join(', ');
+  return `INSERT INTO ${tabela} (pet_id, grupo_id, ${colunas.join(', ')}) VALUES (${marcadores})`;
 }
 
 function sqlUpdate(tipo) {
   const { tabela, id, colunas } = tabelaDo(tipo);
-  return `UPDATE ${tabela} SET ${colunas.map(coluna => `${coluna} = ?`).join(', ')} WHERE ${id} = ?`;
+  return `UPDATE ${tabela} SET grupo_id = ?, ${colunas.map(coluna => `${coluna} = ?`).join(', ')} WHERE ${id} = ?`;
 }
 
 // Confere, dentro da transação, que todos os pets são ativos e do usuário.
@@ -163,8 +168,9 @@ export function cadastrarRotina(usuarioId, tipo, petIds, dados) {
   return emTransacao(async conexao => {
     if (!(await petsDoUsuario(conexao, usuarioId, petIds))) return null;
     const criados = [];
+    const grupoId = petIds.length > 1 ? randomUUID() : null;
     for (const petId of petIds) {
-      const [resultado] = await conexao.execute(sqlInsert(tipo), [petId, ...valoresRotina(tipo, dados)]);
+      const [resultado] = await conexao.execute(sqlInsert(tipo), [petId, grupoId, ...valoresRotina(tipo, dados)]);
       criados.push(String(resultado.insertId));
     }
     const rotinasPorPet = await listarRotinasPorPet(usuarioId, conexao);
@@ -186,14 +192,15 @@ export function atualizarRotinas(tipo, ids, petIdsOrigem, petIdsDestino, usuario
     const registroPorPet = new Map(registros.map(registro => [String(registro.petId), registro]));
     const destinos = new Set(petIdsDestino.map(String));
     const grupoIds = [];
+    const grupoId = petIdsDestino.length > 1 ? randomUUID() : null;
 
     for (const petId of petIdsDestino) {
       const existente = registroPorPet.get(String(petId));
       if (existente) {
-        await conexao.execute(sqlUpdate(tipo), [...valoresRotina(tipo, dados), existente.id]);
+        await conexao.execute(sqlUpdate(tipo), [grupoId, ...valoresRotina(tipo, dados), existente.id]);
         grupoIds.push(String(existente.id));
       } else {
-        const [resultado] = await conexao.execute(sqlInsert(tipo), [petId, ...valoresRotina(tipo, dados)]);
+        const [resultado] = await conexao.execute(sqlInsert(tipo), [petId, grupoId, ...valoresRotina(tipo, dados)]);
         grupoIds.push(String(resultado.insertId));
       }
     }

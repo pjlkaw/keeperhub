@@ -2,7 +2,7 @@
 import { carregarPets, definirReceitasDoBanco, listarPets } from './armazenamento.js';
 import { concluirReceitaApi, excluirReceitaApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 
 const main = document.querySelector('.pagina-receitas');
@@ -145,6 +145,15 @@ function atualizarLinks() {
     window.keeperhubModuleConfig.addUrl = destino;
     const linkAdicionar = document.querySelector('#btn-add-section #btn-add');
     if (linkAdicionar) linkAdicionar.href = destino;
+
+    main.querySelectorAll('.abas-pet a').forEach(link => {
+        const aba = new URL(link.href, location.href);
+        aba.searchParams.delete('petId');
+        aba.searchParams.delete('todos');
+        if (seletor.value === TODOS) aba.searchParams.set('todos', '1');
+        else if (seletor.value) aba.searchParams.set('petId', seletor.value);
+        link.href = `${aba.pathname.split('/').pop()}${aba.search}`;
+    });
 }
 
 function montarSeletor() {
@@ -193,10 +202,11 @@ main.addEventListener('click', async event => {
     });
     if (!confirmado) return;
 
+    const posicao = capturarPosicaoDoAviso(remover);
     exclusoesPendentes.add(id);
     renderizar();
     oferecerDesfazerExclusao({
-        antesDe: secaoAtivas,
+        posicao,
         mensagem: 'Receita removida da lista.',
         aoDesfazer() {
             exclusoesPendentes.delete(id);

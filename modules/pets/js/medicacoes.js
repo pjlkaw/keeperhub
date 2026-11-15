@@ -190,12 +190,12 @@ function atualizarLinks() {
     if (botaoAdicionar) botaoAdicionar.href = destinoCadastro.href;
 
     // Acrescenta o ID do pet às abas da página.
-    document.querySelectorAll('.abas-pet a, .atalho-receitas a').forEach(link => {
+    document.querySelectorAll('.abas-pet a').forEach(link => {
         const destino = new URL(link.href, location.href);
 
         if (petAtual) destino.searchParams.set('petId', petAtual.id);
         else destino.searchParams.delete('petId');
-        if (todosPetsSelecionados && destino.pathname.endsWith('/vacinacoes.html')) destino.searchParams.set('todos', '1');
+        if (todosPetsSelecionados && /\/(vacinacoes|receitas)\.html$/.test(destino.pathname)) destino.searchParams.set('todos', '1');
         else destino.searchParams.delete('todos');
 
         // Mantém apenas o nome do arquivo e os parâmetros da URL.

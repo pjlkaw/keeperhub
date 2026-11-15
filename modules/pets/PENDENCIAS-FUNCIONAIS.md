@@ -43,15 +43,20 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 
 ## Armazenamento e integrações
 
-- Os cadastros de consultas, vacinas e medicações são mantidos no `localStorage`
-  deste navegador; não sincronizam entre dispositivos.
-- Receitas e exames já têm anexos (Vercel Blob + tabela `arquivo`); certificados de
-  vacina ainda precisam de seu fluxo de arquivo.
+- Pets, consultas, vacinas, medicações, despesas, rotinas, exames, receitas e metas
+  são carregados do banco pela API. O agrupamento visual de registros criados para
+  vários pets e observações antigas da rotina alimentar ainda ficam no navegador.
+- [ ] Importar dados de pets que estavam no `localStorage` antes da integração com a
+  API. Até essa migração, registros locais antigos podem não aparecer na tela.
+- Receitas e exames usam anexos no Vercel Blob e metadados na tabela `arquivo`.
+  Anexos novos exigem o store privado configurado; os arquivos antigos públicos
+  precisam de migração para revogar os links públicos anteriores.
+- Certificados de vacina ainda precisam de seu fluxo de arquivo.
 
 ## Despesas
 
-- [x] Lançamentos por pet são persistidos no `localStorage`; resumo, orçamento
-  mensal padrão, categorias, extrato e navegação entre meses usam os dados salvos.
+- [x] Lançamentos por pet são persistidos no MySQL pela API; resumo, orçamento,
+  categorias, extrato e navegação entre meses usam os dados salvos.
 - [x] A visão agregada de todos os pets identifica o animal em cada lançamento.
   Ao cadastrar a partir dela, a pessoa escolhe a qual pet atribuir o gasto para
   evitar duplicar uma compra compartilhada sem rateio definido.
@@ -78,5 +83,3 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 - [x] As rotinas são salvas no MySQL pela API: higiene e lazer em `pet_rotina` e
   refeições em `pet_refeicao` (ver `js/rotinas-integracao.md`). A observação geral
   da rotina alimentar ainda fica no `localStorage`.
-- [x] As notas de comportamento são salvas no MySQL (`pet_observacao`), com
-  editar e remover (com desfazer) em cada nota.
