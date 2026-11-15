@@ -70,8 +70,7 @@ Usado por: páginas do módulo Pets
 @media (min-width: 600px) {
   .rotina-diaria__hoje,
   .higiene-bem-estar,
-  .rotina-alimentar,
-  .anotacoes-comportamento {
+  .rotina-alimentar {
     margin-inline: 24px;
     padding: 28px;
   }

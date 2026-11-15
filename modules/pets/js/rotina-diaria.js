@@ -23,8 +23,7 @@ const secoesConteudo = [
     main.querySelector('.rotina-diaria__hoje'),
     main.querySelector('.higiene-bem-estar'),
     main.querySelector('.rotina-alimentar'),
-    main.querySelector('.lazer'),
-    main.querySelector('.anotacoes-comportamento')
+    main.querySelector('.lazer')
 ];
 
 // Mantém em memória os pets disponíveis e o pet atualmente consultado.
@@ -94,7 +93,7 @@ function observacoesDoPet(pet) {
         : '';
 }
 
-// Considera que há rotina cadastrada se existir refeição, higiene, lazer ou observação.
+// Considera que há rotina cadastrada se existir refeição, higiene, lazer ou observação alimentar.
 // Rotinas aguardando "Desfazer" ainda contam, para a página não sumir sob o aviso.
 function temRotinaSalva(pet) {
     return ['higiene', 'alimentar', 'lazer'].some(tipo => registrosDoTipo(pet, tipo, false).length > 0) ||
@@ -210,7 +209,6 @@ function renderizarRotina(petsVisiveis, todos = false) {
         .join('\n');
     const campoObservacoes = document.getElementById('resumo-refeicoes-observacoes');
     const listaAtividades = document.getElementById('linha-tempo-rotina');
-    const listaAnotacoes = main.querySelector('.anotacoes-comportamento__lista');
     const listas = {
         higiene: main.querySelector('.higiene-bem-estar > ul'),
         alimentar: document.getElementById('resumo-refeicoes'),
@@ -261,10 +259,6 @@ function renderizarRotina(petsVisiveis, todos = false) {
         criarItemHoje(item, item.nomesPets, petsVisiveis[0])
     ));
     main.querySelector('[data-vazio="atividades"]').hidden = itensHoje.length > 0;
-
-    // Notas de comportamento ainda não possuem persistência neste fluxo.
-    listaAnotacoes.replaceChildren();
-    main.querySelector('[data-vazio="anotacoes"]').hidden = false;
 
     secoesConteudo.forEach(secao => { secao.hidden = false; });
     atualizarNoContent(true);

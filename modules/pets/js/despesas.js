@@ -237,7 +237,7 @@ function atualizarResumo(despesas) {
     const resumoMetaStatus = document.getElementById('resumo-meta-status');
     const temMeta = orcamento !== null && orcamento > 0;
     rotuloMeta.textContent = tipoMeta === 'conjunta'
-        ? 'Meta conjunta'
+        ? 'Meta para todos os pets'
         : tipoMeta === 'individual-combinada'
             ? 'Metas individuais'
             : 'Meta mensal';
@@ -249,11 +249,11 @@ function atualizarResumo(despesas) {
             ? `Metas individuais definidas para ${metas.filter(meta => meta !== null).length} de ${metas.length} pets`
             : 'Nenhuma meta definida';
     botaoEditarMeta.textContent = todosPetsSelecionados
-        ? (metaConjunta !== null ? 'Editar meta conjunta' : 'Definir meta para todos')
+        ? (metaConjunta !== null ? 'Editar meta para todos' : 'Definir meta para todos')
         : (metas[0] !== null ? 'Editar meta' : 'Definir meta');
     avisoMeta.hidden = temMeta;
     avisoMeta.textContent = todosPetsSelecionados
-        ? 'Defina uma meta conjunta ou configure uma meta para cada pet.'
+        ? 'Defina uma meta para todos os pets ou configure uma meta para cada pet.'
         : 'Defina um limite para acompanhar os gastos deste mês.';
     grupoProgresso.hidden = !temMeta;
     linhaSaldo.hidden = !temMeta;
@@ -638,7 +638,7 @@ function salvarMeta(event) {
     formularioMeta.hidden = false;
     campoPetMeta.hidden = !todosPetsSelecionados;
     mensagemMeta.textContent = destino.conjunta
-        ? 'Meta conjunta salva neste navegador.'
+        ? 'Meta para todos os pets salva neste navegador.'
         : 'Meta mensal salva neste navegador.';
     mensagemMeta.dataset.estado = 'sucesso';
     mensagemMeta.hidden = false;
