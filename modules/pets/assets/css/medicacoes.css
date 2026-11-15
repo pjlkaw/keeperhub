@@ -241,6 +241,25 @@ GRUPOS DE USO E CARDS
   color: color-mix(in srgb, var(--pets-status-alerta) 65%, var(--text-color));
   font-size: 0.75rem;
 }
+/* Alinha Editar e Excluir juntos; concluir o tratamento fica abaixo. */
+.cartao-medicacao__acoes {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.cartao-medicacao__acoes-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cartao-medicacao__acoes-links > :is(a, button) {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
 .etiqueta-status {
   position: absolute;
   top: 12px;

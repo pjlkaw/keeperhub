@@ -3,7 +3,7 @@ import { listarPets } from './armazenamento.js';
 import { itensDoDia, tituloRotina } from './rotinas.js';
 import { removerRotina, removerRotinas, rotinasDoPet } from './rotinas-armazenamento.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 import { agruparRegistros } from './selecao-pets.js';
@@ -23,8 +23,7 @@ const secoesConteudo = [
     main.querySelector('.rotina-diaria__hoje'),
     main.querySelector('.higiene-bem-estar'),
     main.querySelector('.rotina-alimentar'),
-    main.querySelector('.lazer'),
-    main.querySelector('.anotacoes-comportamento')
+    main.querySelector('.lazer')
 ];
 
 // Mantém em memória os pets disponíveis e o pet atualmente consultado.
@@ -94,7 +93,7 @@ function observacoesDoPet(pet) {
         : '';
 }
 
-// Considera que há rotina cadastrada se existir refeição, higiene, lazer ou observação.
+// Considera que há rotina cadastrada se existir refeição, higiene, lazer ou observação alimentar.
 // Rotinas aguardando "Desfazer" ainda contam, para a página não sumir sob o aviso.
 function temRotinaSalva(pet) {
     return ['higiene', 'alimentar', 'lazer'].some(tipo => registrosDoTipo(pet, tipo, false).length > 0) ||
@@ -210,7 +209,6 @@ function renderizarRotina(petsVisiveis, todos = false) {
         .join('\n');
     const campoObservacoes = document.getElementById('resumo-refeicoes-observacoes');
     const listaAtividades = document.getElementById('linha-tempo-rotina');
-    const listaAnotacoes = main.querySelector('.anotacoes-comportamento__lista');
     const listas = {
         higiene: main.querySelector('.higiene-bem-estar > ul'),
         alimentar: document.getElementById('resumo-refeicoes'),
@@ -262,10 +260,6 @@ function renderizarRotina(petsVisiveis, todos = false) {
     ));
     main.querySelector('[data-vazio="atividades"]').hidden = itensHoje.length > 0;
 
-    // Notas de comportamento ainda não possuem persistência neste fluxo.
-    listaAnotacoes.replaceChildren();
-    main.querySelector('[data-vazio="anotacoes"]').hidden = false;
-
     secoesConteudo.forEach(secao => { secao.hidden = false; });
     atualizarNoContent(true);
 }
@@ -297,13 +291,18 @@ main.addEventListener('click', async event => {
         if (!confirmado) return;
 
         const chaves = alvos.map(item => chaveExclusao(item.pet, tipo, item.registro.id));
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
         avisarRotinas('');
         chaves.forEach(chave => exclusoesPendentes.add(chave));
         const secao = botao.closest('section');
         renderizarSelecaoAtual();
+        if (secao) {
+            secao.hidden = false;
+            secao.querySelector('[data-vazio], #resumo-refeicoes-vazio')?.setAttribute('hidden', '');
+        }
 
         oferecerDesfazerExclusao({
-            antesDe: secao,
+            posicao: posicaoAviso,
             mensagem: 'Rotina removida da lista.',
             aoDesfazer() {
                 chaves.forEach(chave => exclusoesPendentes.delete(chave));

@@ -2,7 +2,7 @@
 import { definirConsultasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
 import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, registrarConsultasRealizadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
@@ -96,6 +96,23 @@ function formatarData(iso) {
     return new Intl.DateTimeFormat('pt-BR', {
         dateStyle: 'medium'
     }).format(new Date(iso + 'T12:00:00'));
+}
+
+// Calcula os dias até a consulta usando datas locais, sem depender do fuso UTC.
+function textoDiasAteConsulta(iso, hoje = dataLocalISO()) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(iso ?? '')) return '';
+
+    const dias = Math.ceil(
+        (new Date(`${iso}T12:00:00`) - new Date(`${hoje}T12:00:00`)) / 86400000
+    );
+
+    if (dias === 0) return 'Hoje';
+    if (dias < 0) {
+        const atraso = Math.abs(dias);
+        return `Há ${atraso} ${atraso === 1 ? 'dia' : 'dias'}`;
+    }
+
+    return `Faltam ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
 }
 
 // Atualiza o parâmetro petId da URL sem recarregar a página.
@@ -290,6 +307,11 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'consultas').some(consulta =>
+            exclusoesPendentes.has(String(consulta.id))
+        )
+    );
     const consultas = agruparRegistros(escopo, consultasVisiveis,
         consulta => consulta.status === "realizada" ? "realizada" : "pendente")
         .sort((a, b) =>
@@ -302,10 +324,13 @@ function renderizarLista() {
         historico.replaceChildren();
         secoesConteudo.forEach(secao => { secao.hidden = true; });
         const podeTrocarPet = temConsultaEmAlgumPet && pets.length > 1;
+        // Mantém o aviso de desfazer visível até a exclusão terminar ou ser cancelada.
         seletorSecao.hidden = !podeTrocarPet;
         botaoAdicionar.hidden = false;
-        informar(podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -338,31 +363,36 @@ function renderizarLista() {
         const especialidadeConsulta = consulta.especialidade === 'outra'
             ? consulta.especialidadePersonalizada
             : nomeEspecialidade[consulta.especialidade] ?? consulta.especialidadePersonalizada;
-        const detalheMedico = [especialidadeConsulta ?? '', consulta.clinica ?? '']
+        const detalhesConsulta = [especialidadeConsulta ?? '', consulta.clinica ?? '']
             .filter(Boolean)
-            .join(' · ') || 'Local não informado';
+            .join(' · ');
         const etiquetaPets = consulta.nomesPets?.length
             ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
             : '';
+        const profissional = consulta.medico?.trim() || 'Profissional não informado';
         const dataHora = [formatarData(consulta.data), consulta.horario].filter(Boolean).join(' · ');
+        const contagemRegressiva = textoDiasAteConsulta(consulta.data);
         const item = document.createElement('li');
 
         item.innerHTML = `
             <article class="card cartao-consulta" data-consulta-id="${id}">
                 <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
                 <div class="cartao-consulta__informacoes">
-                    <h3 class="linha-tempo-medica__titulo cartao-consulta__veterinario">
-                        ${escapar(consulta.medico)}${etiquetaPets}
-                    </h3>
-                    <p class="linha-tempo-medica__data">
-                        <time datetime="${escapar(consulta.data)}">${escapar(dataHora)}</time>
-                    </p>
-                    <p class="linha-tempo-medica__descricao">${escapar(detalheMedico)}</p>
-                    <div class="acoes-cartao-registro">
+                    <p class="cartao-consulta__rotulo">Consulta agendada</p>
+                    <h3 class="cartao-consulta__veterinario">${escapar(profissional)}${etiquetaPets}</h3>
+                    <div class="cartao-consulta__agenda">
+                        <p class="cartao-consulta__data">
+                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
+                            <time datetime="${escapar(consulta.data)}">${escapar(dataHora)}</time>
+                        </p>
+                        <p class="cartao-consulta__contagem-regressiva">${escapar(contagemRegressiva)}</p>
+                    </div>
+                    ${detalhesConsulta ? `<p class="cartao-consulta__detalhes">${escapar(detalhesConsulta)}</p>` : ''}
+                    <div class="acoes-cartao-registro cartao-consulta__acoes">
                         <a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a>
                         <button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button>
                         <details class="confirmar-consulta">
-                            <summary class="confirmar-consulta__acionador">Registrar atendimento</summary>
+                            <summary class="confirmar-consulta__acionador botao-acao-pet">Registrar atendimento</summary>
                             <form class="confirmar-consulta__formulario" data-form-historico>
                                 <div class="campo-formulario">
                                     <label for="resumo-${id}">Resumo da consulta</label>
@@ -579,6 +609,8 @@ if (paginaLista) {
     mainPainel.addEventListener('click', async event => {
         const botao = event.target.closest('[data-excluir-consulta]');
         if (!botao) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const secaoOrigem = botao.closest('.consultas, .historico-medico');
         const ids = botao.dataset.excluirConsulta.split(',').filter(Boolean).map(Number);
         const confirmado = await confirmarExclusao({
             titulo: 'Excluir consulta?',
@@ -589,10 +621,10 @@ if (paginaLista) {
         const idsTexto = ids.map(String);
         idsTexto.forEach(id => exclusoesPendentes.add(id));
         renderizarLista();
-        mainPainel.querySelector('.consultas').hidden = false;
+        if (secaoOrigem) secaoOrigem.hidden = false;
 
         oferecerDesfazerExclusao({
-            antesDe: mainPainel.querySelector('.consultas > ul'),
+            posicao: posicaoAviso,
             mensagem: 'Consulta removida da lista.',
             aoDesfazer() {
                 idsTexto.forEach(id => exclusoesPendentes.delete(id));

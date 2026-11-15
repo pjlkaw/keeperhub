@@ -2,7 +2,7 @@
 import { atualizarPet, listarPets } from './armazenamento.js';
 import { listarDespesas, excluirDespesa as excluirDespesaDoRepositorio } from './despesas-repositorio.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -237,7 +237,7 @@ function atualizarResumo(despesas) {
     const resumoMetaStatus = document.getElementById('resumo-meta-status');
     const temMeta = orcamento !== null && orcamento > 0;
     rotuloMeta.textContent = tipoMeta === 'conjunta'
-        ? 'Meta conjunta'
+        ? 'Meta para todos os pets'
         : tipoMeta === 'individual-combinada'
             ? 'Metas individuais'
             : 'Meta mensal';
@@ -249,11 +249,11 @@ function atualizarResumo(despesas) {
             ? `Metas individuais definidas para ${metas.filter(meta => meta !== null).length} de ${metas.length} pets`
             : 'Nenhuma meta definida';
     botaoEditarMeta.textContent = todosPetsSelecionados
-        ? (metaConjunta !== null ? 'Editar meta conjunta' : 'Definir meta para todos')
+        ? (metaConjunta !== null ? 'Editar meta para todos' : 'Definir meta para todos')
         : (metas[0] !== null ? 'Editar meta' : 'Definir meta');
     avisoMeta.hidden = temMeta;
     avisoMeta.textContent = todosPetsSelecionados
-        ? 'Defina uma meta conjunta ou configure uma meta para cada pet.'
+        ? 'Defina uma meta para todos os pets ou configure uma meta para cada pet.'
         : 'Defina um limite para acompanhar os gastos deste mês.';
     grupoProgresso.hidden = !temMeta;
     linhaSaldo.hidden = !temMeta;
@@ -638,7 +638,7 @@ function salvarMeta(event) {
     formularioMeta.hidden = false;
     campoPetMeta.hidden = !todosPetsSelecionados;
     mensagemMeta.textContent = destino.conjunta
-        ? 'Meta conjunta salva neste navegador.'
+        ? 'Meta para todos os pets salva neste navegador.'
         : 'Meta mensal salva neste navegador.';
     mensagemMeta.dataset.estado = 'sucesso';
     mensagemMeta.hidden = false;
@@ -658,27 +658,30 @@ function validarData(data) {
     return !Number.isNaN(valor.getTime()) && dataLocalISO(valor) === data;
 }
 
-async function excluirDespesa(despesa) {
+async function excluirDespesa(despesa, botaoExcluir) {
     const confirmado = await confirmarExclusao({
         titulo: 'Excluir despesa?',
         mensagem: `A despesa ${despesa.descricao} será removida do extrato.`
     });
     if (!confirmado) return;
 
+    const posicaoAviso = capturarPosicaoDoAviso(botaoExcluir);
     const grupo = document.getElementById(`despesas-${despesa.categoria}`);
+    const lista = grupo.querySelector('.lista-lancamentos');
     const id = String(despesa.id);
     const ids = [id];
     ids.forEach(id => {
         exclusoesPendentes.add(id);
         categoriaExclusaoPendentePorId.set(id, despesa.categoria);
     });
-    void renderizarMes();
-    // Mantém a categoria visível durante o prazo para desfazer, mesmo se era o último lançamento.
+    await renderizarMes();
+    // Mantém a categoria e a lista visíveis para substituir o lançamento pelo aviso.
     document.querySelector('.historico-despesas').hidden = false;
     grupo.hidden = false;
+    lista.hidden = false;
 
     oferecerDesfazerExclusao({
-        antesDe: grupo.querySelector('.lista-lancamentos'),
+        posicao: posicaoAviso,
         mensagem: 'Despesa removida do extrato.',
         aoDesfazer() {
             ids.forEach(id => {
@@ -725,7 +728,7 @@ document.querySelector('[data-acao="mes-seguinte"]')
 conteudo.addEventListener('click', event => {
     const botaoExcluir = event.target.closest('[data-excluir-despesa]');
     const despesa = botaoExcluir && despesasRemoviveis.get(botaoExcluir.dataset.excluirDespesa);
-    if (despesa && botaoExcluir) void excluirDespesa(despesa);
+    if (despesa && botaoExcluir) void excluirDespesa(despesa, botaoExcluir);
 });
 
 botaoEditarMeta.addEventListener('click', () => {
