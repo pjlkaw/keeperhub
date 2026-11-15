@@ -4,7 +4,7 @@
 import { atualizarVariosPets, listarPets } from './armazenamento.js';
 import { agruparRegistros, criarSelecaoMultipla, gravarRegistroDosPets, registrosDoPet, removerRegistrosDosPets, salvarEdicaoRegistroLocal } from './selecao-pets.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -447,6 +447,11 @@ function renderizarLista() {
     const escopo = todosPetsSelecionados
         ? pets
         : petAtual ? [petAtual] : [];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'medicacoes').some(medicacao =>
+            exclusoesPendentes.has(String(medicacao.id))
+        )
+    );
     const registrosDoEscopo = agruparRegistros(
         escopo,
         medicacoesVisiveis,
@@ -456,11 +461,14 @@ function renderizarLista() {
     if (!registrosDoEscopo.length) {
         const podeTrocarPet = pets.length > 1 && pets.some(pet => medicacoesVisiveis(pet).length);
         seletorSecao.hidden = !podeTrocarPet;
-        toolbar.hidden = true;
+        // Deixa a área do aviso visível enquanto a última medicação pode ser restaurada.
+        toolbar.hidden = !exclusaoPendenteNoEscopo;
 
         grupos.forEach(grupo => { grupo.hidden = true; });
-        informar(podeTrocarPet ? 'Nenhuma medicação para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma medicação para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -796,6 +804,8 @@ if (paginaLista) {
         const medicacaoParaConcluir = botaoConcluir &&
             medicacoesEditaveis.get(botaoConcluir.dataset.concluirMedicacao);
         if (medicacaoParaConcluir) {
+            const posicaoAviso = capturarPosicaoDoAviso(botaoConcluir);
+            const grupoOrigem = botaoConcluir.closest('.grupo-medicacoes');
             const membros = membrosDaMedicacao(medicacaoParaConcluir);
             const concluida = atualizarRegistrosConcluidos(membros);
             if (!concluida) {
@@ -803,11 +813,10 @@ if (paginaLista) {
                 return;
             }
             renderizarLista();
+            if (grupoOrigem) grupoOrigem.hidden = false;
             informarPorDoisSegundos('Tratamento concluído. Ele foi movido para o Histórico.');
-            const indiceGrupo = { continuo: 0, temporario: 1, eventual: 2 }[medicacaoParaConcluir.tipoUso];
-            const listaOrigem = main.querySelectorAll('.grupo-medicacoes ul')[indiceGrupo];
             oferecerDesfazerExclusao({
-                antesDe: listaOrigem,
+                posicao: posicaoAviso,
                 mensagem: 'Tratamento concluído.',
                 aoDesfazer() {
                     if (!atualizarRegistrosConcluidos(membros, true)) {
@@ -828,6 +837,8 @@ if (paginaLista) {
         const botao = event.target.closest('[data-excluir-medicacao]');
         const medicacao = botao && medicacoesEditaveis.get(botao.dataset.excluirMedicacao);
         if (!medicacao) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const grupoOrigem = botao.closest('.grupo-medicacoes');
 
         const confirmado = await confirmarExclusao({
             titulo: 'Excluir medicação?',
@@ -839,9 +850,10 @@ if (paginaLista) {
         const ids = membros.map(membro => String(membro.registro.id));
         ids.forEach(id => exclusoesPendentes.add(id));
         renderizarLista();
+        if (grupoOrigem) grupoOrigem.hidden = false;
 
         oferecerDesfazerExclusao({
-            antesDe: main.querySelector('.barra-ferramentas-medicacoes'),
+            posicao: posicaoAviso,
             mensagem: 'Medicação removida da lista.',
             aoDesfazer() {
                 ids.forEach(id => exclusoesPendentes.delete(id));

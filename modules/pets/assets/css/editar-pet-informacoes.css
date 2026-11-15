@@ -310,37 +310,40 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   margin: 0 auto;
 }
 
-/* Deixa a ação de exclusão visível no rodapé, sem competir com salvar. */
-.acoes-informacoes-pet__excluir {
+.painel-informacoes-pet__excluir {
   display: flex;
-  width: max-content;
-  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 40px;
-  margin: 8px auto 0;
-  padding: 0 14px;
+  min-height: 32px;
+  margin: 0 0 4px;
+  padding: 0 12px;
   color: var(--pets-status-alerta);
   background: transparent;
   border: 1px solid color-mix(in srgb, var(--pets-status-alerta) 38%, var(--border-color));
   border-radius: var(--pets-radius-pill);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   transition: background-color var(--pets-transition), border-color var(--pets-transition);
 }
 
-.acoes-informacoes-pet__excluir:hover:not(:disabled) {
+.painel-informacoes-pet__excluir[hidden] {
+  display: none;
+}
+
+.painel-informacoes-pet__excluir:hover:not(:disabled) {
   background: color-mix(in srgb, var(--pets-status-alerta) 8%, transparent);
   border-color: var(--pets-status-alerta);
 }
 
-.acoes-informacoes-pet__excluir:focus-visible {
+.painel-informacoes-pet__excluir:focus-visible {
   outline: 2px solid var(--pets-status-alerta);
   outline-offset: 2px;
 }
 
-.acoes-informacoes-pet__excluir:disabled {
+.painel-informacoes-pet__excluir:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }

@@ -6,6 +6,15 @@ Depende de: shared/styles/variables.css
 Usado por: páginas do módulo Pets
 ================================================== */
 
+/* Empilha campos lado a lado antes que os controles nativos do celular
+   percam espaço para exibir a data, o horário ou os números. */
+@media (max-width: 480px) {
+  .linha-formulario {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
 /* Regras de vacinacoes.css */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -61,6 +61,12 @@ Mantém os campos, legendas e linhas com espaçamento consistente.
     border: 0;
 }
 
+.campo-formulario > :is(input, select, textarea) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
 .campo-formulario label,
 .campo-formulario legend {
     display: block;

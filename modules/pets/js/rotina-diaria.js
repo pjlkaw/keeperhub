@@ -3,7 +3,7 @@ import { listarPets } from './armazenamento.js';
 import { itensDoDia, tituloRotina } from './rotinas.js';
 import { removerRotina, removerRotinas, rotinasDoPet } from './rotinas-armazenamento.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 import { agruparRegistros } from './selecao-pets.js';
@@ -297,13 +297,18 @@ main.addEventListener('click', async event => {
         if (!confirmado) return;
 
         const chaves = alvos.map(item => chaveExclusao(item.pet, tipo, item.registro.id));
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
         avisarRotinas('');
         chaves.forEach(chave => exclusoesPendentes.add(chave));
         const secao = botao.closest('section');
         renderizarSelecaoAtual();
+        if (secao) {
+            secao.hidden = false;
+            secao.querySelector('[data-vazio], #resumo-refeicoes-vazio')?.setAttribute('hidden', '');
+        }
 
         oferecerDesfazerExclusao({
-            antesDe: secao,
+            posicao: posicaoAviso,
             mensagem: 'Rotina removida da lista.',
             aoDesfazer() {
                 chaves.forEach(chave => exclusoesPendentes.delete(chave));

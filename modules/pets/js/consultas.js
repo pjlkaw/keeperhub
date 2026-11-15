@@ -2,7 +2,7 @@
 import { definirConsultasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
 import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, registrarConsultasRealizadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
@@ -290,6 +290,11 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'consultas').some(consulta =>
+            exclusoesPendentes.has(String(consulta.id))
+        )
+    );
     const consultas = agruparRegistros(escopo, consultasVisiveis,
         consulta => consulta.status === "realizada" ? "realizada" : "pendente")
         .sort((a, b) =>
@@ -302,10 +307,13 @@ function renderizarLista() {
         historico.replaceChildren();
         secoesConteudo.forEach(secao => { secao.hidden = true; });
         const podeTrocarPet = temConsultaEmAlgumPet && pets.length > 1;
+        // Mantém o aviso de desfazer visível até a exclusão terminar ou ser cancelada.
         seletorSecao.hidden = !podeTrocarPet;
         botaoAdicionar.hidden = false;
-        informar(podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -579,6 +587,8 @@ if (paginaLista) {
     mainPainel.addEventListener('click', async event => {
         const botao = event.target.closest('[data-excluir-consulta]');
         if (!botao) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const secaoOrigem = botao.closest('.consultas, .historico-medico');
         const ids = botao.dataset.excluirConsulta.split(',').filter(Boolean).map(Number);
         const confirmado = await confirmarExclusao({
             titulo: 'Excluir consulta?',
@@ -589,10 +599,10 @@ if (paginaLista) {
         const idsTexto = ids.map(String);
         idsTexto.forEach(id => exclusoesPendentes.add(id));
         renderizarLista();
-        mainPainel.querySelector('.consultas').hidden = false;
+        if (secaoOrigem) secaoOrigem.hidden = false;
 
         oferecerDesfazerExclusao({
-            antesDe: mainPainel.querySelector('.consultas > ul'),
+            posicao: posicaoAviso,
             mensagem: 'Consulta removida da lista.',
             aoDesfazer() {
                 idsTexto.forEach(id => exclusoesPendentes.delete(id));
