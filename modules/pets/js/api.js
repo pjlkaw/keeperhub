@@ -290,29 +290,6 @@ export async function excluirExameApi(id) {
     return resposta.exames;
 }
 
-// Notas de comportamento: uma por pet, com data e hora definidas pelo servidor.
-export async function cadastrarObservacaoApi(petId, texto) {
-    return requisicao(`${URL_API}?acao=observacao`, {
-        method: 'POST',
-        body: JSON.stringify({ petId: Number(petId), texto }),
-    });
-}
-
-export async function atualizarObservacaoApi(id, texto) {
-    const resposta = await requisicao(`${URL_API}?acao=observacao&id=${encodeURIComponent(id)}`, {
-        method: 'PUT',
-        body: JSON.stringify({ texto }),
-    });
-    return resposta.observacoes;
-}
-
-export async function excluirObservacaoApi(id) {
-    const resposta = await requisicao(`${URL_API}?acao=observacao&id=${encodeURIComponent(id)}`, {
-        method: 'DELETE',
-    });
-    return resposta.observacoes;
-}
-
 export async function excluirPetApi(id) {
     await requisicao(urlDoPet(id), { method: 'DELETE' });
 }

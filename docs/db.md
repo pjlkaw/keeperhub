@@ -115,6 +115,12 @@ As imagens são validadas no backend com `sharp` quanto ao formato, tamanho e
 dimensões. O `nsfwjs` classifica o conteúdo localmente e rejeita imagens com
 probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
+## Módulo Pets
+
+O módulo Pets usa as tabelas `pet_exame` e `pet_receita` para os registros médicos.
+O DDL correspondente está em [`docs/pets-registros-medicos.sql`](./pets-registros-medicos.sql).
+Os anexos usam a tabela compartilhada `arquivo`.
+
 ## Módulos selecionados
 
 Execute [`docs/modulos-acesso.sql`](./modulos-acesso.sql) no mesmo banco da

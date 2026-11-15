@@ -1,6 +1,6 @@
 // Organização do módulo Pets: administrar animais e os dados do tutor.
 // Vacinas, consultas, exames e receitas (com anexos no Vercel Blob), medicações, despesas, rotinas
-// (higiene, lazer e alimentar) e notas de comportamento também vêm do banco.
+// (higiene, lazer e alimentar) também vêm do banco.
 // Cada despesa de pet é também um lançamento em Finanças (conta e categoria "Pets").
 // O orçamento mensal das despesas fica em pet_orcamento (um valor por pet e mês).
 import {
@@ -52,13 +52,6 @@ import {
   excluirRotinas,
   listarRotinasPorPet,
 } from '../../server/repositories/pets/rotinas.js';
-import {
-  TAMANHO_MAXIMO_OBSERVACAO,
-  atualizarObservacao,
-  cadastrarObservacao,
-  excluirObservacao,
-  listarObservacoesPorPet,
-} from '../../server/repositories/pets/observacoes.js';
 import {
   LIMITES_EXAME,
   atualizarExame,
@@ -210,16 +203,6 @@ export function validarOrcamento(body) {
     return { erro: 'Informe um valor de orçamento válido (zero ou mais).' };
   }
   return { petId, mes, valorCentavos };
-}
-
-// Texto de uma nota de comportamento: obrigatório e com limite.
-export function validarTextoObservacao(body) {
-  const textoNota = texto(body.texto);
-  if (!textoNota) return { erro: 'Escreva a observação antes de enviar.' };
-  if (textoNota.length > TAMANHO_MAXIMO_OBSERVACAO) {
-    return { erro: `A observação pode ter até ${TAMANHO_MAXIMO_OBSERVACAO} caracteres.` };
-  }
-  return { texto: textoNota };
 }
 
 // Mesmas regras de modules/pets/js/validacao-pet.js, repetidas no servidor.
@@ -596,7 +579,7 @@ export function criarHandlerPets(deps) {
         }
         // A lista já leva as vacinas de cada pet, usadas pelas telas do módulo.
         const [
-          pets, vacinasPorPet, consultasPorPet, medicacoesPorPet, despesasPorPet, rotinasPorPet, observacoesPorPet,
+          pets, vacinasPorPet, consultasPorPet, medicacoesPorPet, despesasPorPet, rotinasPorPet,
           examesPorPet, orcamentosPorPet, receitasPorPet,
         ] = await Promise.all([
           repositorio.listarPets(usuarioId),
@@ -605,7 +588,6 @@ export function criarHandlerPets(deps) {
           repositorio.listarMedicacoesPorPet(usuarioId),
           repositorio.listarDespesasPorPet(usuarioId),
           repositorio.listarRotinasPorPet(usuarioId),
-          repositorio.listarObservacoesPorPet(usuarioId),
           repositorio.listarExamesPorPet(usuarioId),
           repositorio.listarOrcamentosPorPet(usuarioId),
           repositorio.listarReceitasPorPet(usuarioId),
@@ -618,7 +600,6 @@ export function criarHandlerPets(deps) {
             medicacoes: medicacoesPorPet.get(pet.id) || [],
             despesas: despesasPorPet.get(pet.id) || [],
             ...camposDeRotina(rotinasPorPet.get(pet.id)),
-            observacoes: observacoesPorPet.get(pet.id) || [],
             exames: examesPorPet.get(pet.id) || [],
             orcamentosDespesas: orcamentosPorPet.get(pet.id) || {},
             receitas: receitasPorPet.get(pet.id) || [],
@@ -839,37 +820,6 @@ export function criarHandlerPets(deps) {
         return examesPorPet
           ? res.status(200).json({ exames: Object.fromEntries(examesPorPet) })
           : res.status(404).json({ erro: 'Exame não encontrado.' });
-      }
-
-      if (req.method === 'POST' && req.query?.acao === 'observacao') {
-        const petId = Number(body.petId);
-        if (!Number.isSafeInteger(petId) || petId <= 0) return res.status(400).json({ erro: 'Selecione um pet válido.' });
-        const validacao = validarTextoObservacao(body);
-        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
-        const resultado = await repositorio.cadastrarObservacao(usuarioId, petId, validacao.texto, agoraEmSaoPaulo());
-        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
-        return res.status(201).json({
-          observacoes: Object.fromEntries(resultado.observacoesPorPet),
-          criado: resultado.criado,
-        });
-      }
-
-      if (req.method === 'PUT' && req.query?.acao === 'observacao') {
-        if (!id) return res.status(400).json({ erro: 'Informe a observação.' });
-        const validacao = validarTextoObservacao(body);
-        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
-        const observacoesPorPet = await repositorio.atualizarObservacao(id, usuarioId, validacao.texto);
-        return observacoesPorPet
-          ? res.status(200).json({ observacoes: Object.fromEntries(observacoesPorPet) })
-          : res.status(404).json({ erro: 'Observação não encontrada.' });
-      }
-
-      if (req.method === 'DELETE' && req.query?.acao === 'observacao') {
-        if (!id) return res.status(400).json({ erro: 'Informe a observação.' });
-        const observacoesPorPet = await repositorio.excluirObservacao(id, usuarioId);
-        return observacoesPorPet
-          ? res.status(200).json({ observacoes: Object.fromEntries(observacoesPorPet) })
-          : res.status(404).json({ erro: 'Observação não encontrada.' });
       }
 
       if (req.method === 'POST' && req.query?.acao === 'rotina') {
@@ -1103,7 +1053,6 @@ export default criarHandlerPets({
     listarMedicacoesPorPet, cadastrarMedicacao, atualizarMedicacoes, concluirMedicacoes, excluirMedicacoes,
     listarDespesasPorPet, cadastrarDespesa, atualizarDespesas, excluirDespesas,
     listarRotinasPorPet, cadastrarRotina, atualizarRotinas, excluirRotinas,
-    listarObservacoesPorPet, cadastrarObservacao, atualizarObservacao, excluirObservacao,
     listarExamesPorPet, cadastrarExame, atualizarExame, excluirExame,
     listarOrcamentosPorPet, salvarOrcamento,
     listarReceitasPorPet, cadastrarReceita, atualizarReceita, concluirReceita, excluirReceita,

@@ -25,9 +25,9 @@
         module: 'pets',
         title: 'Receitas - Pets',
         subtitle: 'Consulte as receitas do seu pet',
-        backUrl: '/modules/pets/components/medicacoes.html' + location.search,
+        backUrl: '/modules/pets/index.html',
         notificationsModule: 'pets',
-        addUrl: '/modules/pets/components/cadastrar-receita.html' + location.search
+        addUrl: '/modules/pets/components/cadastrar-receita.html'
       };
     </script>
     <script defer src="/shared/services/load-components.js"></script>
@@ -44,6 +44,12 @@
 
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
+
+        <nav class="abas-pet" aria-label="Tipo de registro">
+            <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
+            <a href="receitas.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Receitas</a>
+            <a href="vacinacoes.html" class="abas-pet__link">Vacinas</a>
+        </nav>
 
         <!-- Pet e busca -->
         <section class="seletor-pet-receitas" aria-label="Pet das receitas" hidden>

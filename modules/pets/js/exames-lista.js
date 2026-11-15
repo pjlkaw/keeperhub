@@ -2,7 +2,7 @@
 import { definirExamesDoBanco } from './armazenamento.js';
 import { excluirExameApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 
 // Exames aguardando o prazo do "Desfazer" (escondidos da lista).
 const exclusoesPendentes = new Set();
@@ -91,10 +91,11 @@ export function prepararExames(secao, { aoAtualizar, informar }) {
         });
         if (!confirmado) return;
 
+        const posicao = capturarPosicaoDoAviso(botao);
         exclusoesPendentes.add(id);
         aoAtualizar();
         oferecerDesfazerExclusao({
-            antesDe: secao.querySelector(':scope > ul'),
+            posicao,
             mensagem: 'Exame removido da lista.',
             aoDesfazer() {
                 exclusoesPendentes.delete(id);

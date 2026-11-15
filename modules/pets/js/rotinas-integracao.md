@@ -29,14 +29,4 @@ opção de desfazer; os outros pets do grupo continuam com ela.
 
 A observação geral da rotina alimentar (`rotinaAlimentar.observacoes`) ainda fica no
 localStorage. Rotinas que existiam só no navegador antes desta integração não são
-migradas para o banco.
-
-## Notas de comportamento
-
-A seção "Notas de Comportamento" da Rotina diária grava na tabela `pet_observacao`
-(`pet_id`, `data` DATETIME e `texto`, até 1000 caracteres). A nota é sempre de um pet
-só; a data e a hora são as de Brasília no momento do cadastro, definidas pelo servidor,
-e não mudam ao editar. A listagem de pets traz `pet.observacoes` (da mais nova para a
-mais antiga). Rotas: `POST ?acao=observacao` (`petId` + `texto`), `PUT
-?acao=observacao&id=` (`texto`) e `DELETE ?acao=observacao&id=`. Um pet que só tem
-notas também mostra a página da rotina.
+migradas automaticamente para o banco.

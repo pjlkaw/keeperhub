@@ -9,6 +9,23 @@ export const LIMITES_ANEXOS = {
 };
 export const TIPOS_ANEXO = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 const ENTIDADES = new Set(['exame', 'pet_receita']);
+const tokenPrivado = () => process.env.PETS_BLOB_READ_WRITE_TOKEN;
+const ASSINATURAS_ANEXO = {
+  'application/pdf': buffer => buffer.subarray(0, 5).toString('ascii') === '%PDF-',
+  'image/jpeg': buffer => buffer.length >= 3 && buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff,
+  'image/png': buffer => buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
+  'image/webp': buffer => buffer.length >= 12 && buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP',
+};
+
+function exigirTokenPrivado() {
+  const token = tokenPrivado();
+  if (!token) {
+    const erro = new Error('O armazenamento privado de documentos ainda não está configurado.');
+    erro.statusCode = 503;
+    throw erro;
+  }
+  return token;
+}
 
 function entidadeValida(entidade) {
   if (!ENTIDADES.has(entidade)) throw new Error(`Tipo de anexo desconhecido: ${entidade}`);
@@ -34,6 +51,9 @@ export function validarAnexo(anexo) {
   if (!buffer.length || buffer.length > LIMITES_ANEXOS.bytesTotais) {
     throw erroDeEntrada('Os anexos precisam ter até 1 MB no total.');
   }
+  if (!ASSINATURAS_ANEXO[anexo.tipo](buffer)) {
+    throw erroDeEntrada('O conteúdo do arquivo não corresponde ao formato informado.');
+  }
   return { nome: anexo.nome.trim().slice(0, 255), tipo: anexo.tipo, buffer };
 }
 
@@ -49,7 +69,10 @@ export function conferirLimitesAnexos(quantidade, bytes) {
 export async function apagarDoBlob(urls) {
   for (const url of urls) {
     try {
-      await del(url);
+      const privado = String(url).includes('.private.blob.vercel-storage.com');
+      const token = privado ? tokenPrivado() : process.env.BLOB_READ_WRITE_TOKEN;
+      if (token) await del(url, { token });
+      else if (!privado) await del(url);
     } catch (erro) {
       console.error('Não foi possível apagar o anexo no Blob:', erro);
     }
@@ -65,11 +88,14 @@ function nomeParaCaminho(nome) {
 
 // Envia os arquivos ao Blob antes da transação; se algum falhar, apaga os já enviados.
 export async function enviarAnexos(usuarioId, pasta, anexos) {
+  if (!anexos.length) return [];
   const enviados = [];
+  const token = exigirTokenPrivado();
   try {
     for (const anexo of anexos) {
       const { url } = await put(`usuarios/${usuarioId}/${pasta}/${randomUUID()}-${nomeParaCaminho(anexo.nome)}`, anexo.buffer, {
-        access: 'public',
+        access: 'private',
+        token,
         contentType: anexo.tipo,
       });
       enviados.push({ ...anexo, url });
@@ -123,7 +149,7 @@ export async function listarAnexosPorRegistro(executor, usuarioId, entidade) {
       nome: arquivo.nome,
       tipo: arquivo.tipo,
       tamanho: Number(arquivo.tamanho || 0),
-      url: arquivo.url,
+      url: `/api/modulos/pets-arquivo?id=${encodeURIComponent(arquivo.id)}`,
     });
     porRegistro.set(chave, lista);
   }

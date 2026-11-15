@@ -28,14 +28,16 @@ doses administradas e não envia notificações. As receitas ficam numa página 
 
 ## Receitas dos pets
 
-A página `components/receitas.html` (link "Ver receitas" em Medicações) usa `js/receitas.js`;
+A página `components/receitas.html` (aba "Receitas" ao lado de Medicações e Vacinas) usa `js/receitas.js`;
 o cadastro e a edição ficam em `components/cadastrar-receita.html` (`js/cadastrar-receita.js`).
-A receita é de um pet só e não fica ligada a uma medicação. Dados na tabela `pet_receita`
+A receita pertence a um pet e não fica ligada a uma medicação. A navegação usa as abas
+Medicações, Receitas e Vacinas, preservando o pet selecionado entre elas. Dados na tabela `pet_receita`
 (`nome` até 150, `veterinario` até 150, `data_emissao` não futura, `data_validade` não
 anterior à emissão, `concluida_em` e `observacao` até 2000). A lista separa "Receitas
-Ativas" (sem validade ou com validade em dia) e "Histórico" (expiradas ou concluídas), tem
+Ativas" (sem validade ou com validade futura ou de hoje) e "Histórico" (expiradas ou concluídas), tem
 busca por nome ou veterinário e as ações Editar, Concluir/Reabrir e Remover (com desfazer).
-Os anexos (PDF, JPG, PNG ou WEBP; até 10 arquivos e 1 MB no total) vão para o Vercel Blob e
+O status expirada decorre da validade; concluída é uma ação manual e pode ser reaberta. Os anexos
+(PDF, JPG, PNG ou WEBP; até 10 arquivos e 1 MB no total) vão para o Vercel Blob privado e
 ficam na tabela `arquivo` com `entidade_tipo = 'pet_receita'`, pelo mesmo módulo dos anexos
 de exames (`server/repositories/pets/anexos.js`). Rotas: `POST ?acao=receita`, `PUT
 ?acao=receita&id=`, `PUT ?acao=receita-concluida&id=` (`concluida: true | false`) e
