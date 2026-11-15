@@ -133,6 +133,39 @@ export async function registrarConsultasRealizadasApi(ids, resumo) {
     return resposta.consultas;
 }
 
+// dados: { petIds, nome, tipoUso, dosagem, horarioDose, frequencia, dataFim, quantidadeEstoque, observacao }
+// Retorna as medicações por pet e os IDs criados neste envio.
+export async function cadastrarMedicacaoApi(dados) {
+    return requisicao(`${URL_API}?acao=medicacao`, {
+        method: 'POST',
+        body: JSON.stringify(dados),
+    });
+}
+
+// dados: os mesmos do cadastro + ids (registros editados) e petIdsOrigem (pet de cada id).
+export async function atualizarMedicacoesApi(dados) {
+    return requisicao(`${URL_API}?acao=medicacao`, {
+        method: 'PUT',
+        body: JSON.stringify(dados),
+    });
+}
+
+export async function concluirMedicacoesApi(ids) {
+    const resposta = await requisicao(`${URL_API}?acao=medicacao-concluida`, {
+        method: 'PUT',
+        body: JSON.stringify({ ids }),
+    });
+    return resposta.medicacoes;
+}
+
+export async function excluirMedicacoesApi(ids) {
+    const resposta = await requisicao(`${URL_API}?acao=medicacao`, {
+        method: 'DELETE',
+        body: JSON.stringify({ ids }),
+    });
+    return resposta.medicacoes;
+}
+
 export async function excluirPetApi(id) {
     await requisicao(urlDoPet(id), { method: 'DELETE' });
 }

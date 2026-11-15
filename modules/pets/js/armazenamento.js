@@ -1,6 +1,6 @@
 // Armazenamento do módulo Pets.
-// Os dados principais do pet, as vacinas e as consultas vêm do banco pela API.
-// Medicações, despesas e rotina alimentar
+// Os dados principais do pet, as vacinas, as consultas e as medicações vêm do banco pela API.
+// Despesas e rotina alimentar
 // ainda ficam no localStorage deste navegador, guardadas pelo id do pet no banco,
 // até que cada parte ganhe sua própria API.
 import { listarPetsApi } from './api.js';
@@ -12,7 +12,7 @@ const GRUPOS_STORAGE_KEY = 'keeperhub-pets-grupos';
 // Campos que pertencem ao banco e não podem ser gravados no localStorage.
 const CAMPOS_DO_BANCO = new Set([
     'id', 'nome', 'especie', 'raca', 'dataNascimento',
-    'peso', 'genero', 'foto', 'contatoEmergencia', 'vacinas', 'consultas'
+    'peso', 'genero', 'foto', 'contatoEmergencia', 'vacinas', 'consultas', 'medicacoes'
 ]);
 
 // Estado da página: pets carregados da API e o erro da última tentativa.
@@ -54,6 +54,7 @@ export function definirPetDoBanco(pet) {
     if (indice !== -1) {
         if (!Array.isArray(normalizado.vacinas)) normalizado.vacinas = lista[indice].vacinas;
         if (!Array.isArray(normalizado.consultas)) normalizado.consultas = lista[indice].consultas;
+        if (!Array.isArray(normalizado.medicacoes)) normalizado.medicacoes = lista[indice].medicacoes;
     }
     if (indice === -1) lista.push(normalizado);
     else lista[indice] = normalizado;
@@ -84,6 +85,17 @@ export function definirConsultaDoBanco(consulta) {
         return petAlterado;
     });
     return petAlterado ? buscarPetPorId(petAlterado.id) : null;
+}
+
+// Substitui na memória as medicações devolvidas pela API (objeto { idDoPet: [medicações] }).
+export function definirMedicacoesDoBanco(medicacoesPorPet, idsDoGrupo) {
+    if (!petsDoBanco || !medicacoesPorPet) return;
+    guardarGrupo('medicacoes', idsDoGrupo);
+    petsDoBanco = petsDoBanco.map(pet => ({
+        ...pet,
+        medicacoes: Array.isArray(medicacoesPorPet[pet.id]) ? medicacoesPorPet[pet.id] : []
+    }));
+    window.dispatchEvent(new Event('keeperhub:pets-atualizados'));
 }
 
 // Substitui na memória as vacinas devolvidas pela API (objeto { idDoPet: [vacinas] }).
@@ -183,7 +195,7 @@ export function separarRegistrosDoGrupo(campo, ids) {
 // Junta os dados locais ao pet e aplica o agrupamento visual aos registros da API.
 function combinar(pet, dadosLocais, grupos) {
     const combinado = { ...(dadosLocais[pet.id] ?? {}), ...pet };
-    for (const campo of ['consultas', 'vacinas']) {
+    for (const campo of ['consultas', 'vacinas', 'medicacoes']) {
         if (!Array.isArray(pet[campo]) || !grupos[campo]) continue;
         combinado[campo] = pet[campo].map(registro => {
             const grupoId = grupos[campo][registro.id];

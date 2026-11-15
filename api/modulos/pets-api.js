@@ -1,5 +1,5 @@
 // Organização do módulo Pets: administrar animais e os dados do tutor.
-// Vacinas e consultas também vêm do banco. Medicações, despesas e rotinas ainda ficam no navegador.
+// Vacinas, consultas e medicações também vêm do banco. Despesas e rotinas ainda ficam no navegador.
 import {
   atualizarPet,
   buscarPet,
@@ -26,6 +26,14 @@ import {
   registrarConsultaRealizada,
   registrarConsultasRealizadas,
 } from '../../server/repositories/pets/consultas.js';
+import {
+  TIPOS_USO,
+  atualizarMedicacoes,
+  cadastrarMedicacao,
+  concluirMedicacoes,
+  excluirMedicacoes,
+  listarMedicacoesPorPet,
+} from '../../server/repositories/pets/medicacoes.js';
 import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
@@ -179,6 +187,63 @@ export function validarConsulta(body, hoje = hojeEmSaoPaulo()) {
   };
 }
 
+// Valida uma medicação. Horário só vale para uso contínuo; frequência e data final, para temporário.
+export function validarMedicacao(body) {
+  const petIds = Array.isArray(body.petIds)
+    ? [...new Set(body.petIds.map(Number))]
+    : [];
+  const nome = texto(body.nome);
+  const tipoUso = texto(body.tipoUso);
+  const dosagem = texto(body.dosagem);
+  const horarioDose = texto(body.horarioDose);
+  const frequencia = texto(body.frequencia);
+  const dataFim = texto(body.dataFim);
+  const observacao = texto(body.observacao);
+  const estoque = body.quantidadeEstoque;
+
+  if (!petIds.length || petIds.length > 50 || petIds.some(id => !Number.isSafeInteger(id) || id <= 0)) {
+    return { erro: 'Selecione ao menos um pet válido.' };
+  }
+  if (!nome || nome.length > 150) return { erro: 'Informe o nome do medicamento (até 150 caracteres).' };
+  if (!TIPOS_USO.includes(tipoUso)) return { erro: 'Selecione o tipo de uso.' };
+  if (!dosagem || dosagem.length > 100) return { erro: 'Informe a dosagem (até 100 caracteres).' };
+  if (tipoUso === 'continuo' && !HORARIO_VALIDO.test(horarioDose)) {
+    return { erro: 'Informe o horário da dose no formato HH:mm.' };
+  }
+  if (tipoUso === 'temporario') {
+    if (!frequencia || frequencia.length > 80) return { erro: 'Informe a frequência (até 80 caracteres).' };
+    if (!dataISOValida(dataFim)) return { erro: 'Informe até quando vai o tratamento.' };
+  }
+  const quantidadeEstoque = estoque === null || estoque === undefined || estoque === ''
+    ? null
+    : Number(estoque);
+  if (quantidadeEstoque !== null &&
+      (!Number.isFinite(quantidadeEstoque) || quantidadeEstoque < 0 || quantidadeEstoque > 1000000)) {
+    return { erro: 'Informe uma quantidade em estoque válida.' };
+  }
+  if (observacao.length > 2000) return { erro: 'A observação pode ter até 2000 caracteres.' };
+
+  return {
+    petIds,
+    dados: {
+      nome, tipoUso, dosagem,
+      horarioDose: tipoUso === 'continuo' ? horarioDose : '',
+      frequencia: tipoUso === 'temporario' ? frequencia : '',
+      dataFim: tipoUso === 'temporario' ? dataFim : '',
+      quantidadeEstoque: quantidadeEstoque === null ? null : Math.round(quantidadeEstoque * 100) / 100,
+      observacao,
+    },
+  };
+}
+
+// IDs de registros vindos do corpo (ou do ?id=), sem repetição e com limite.
+function idsDoCorpo(id, body) {
+  const ids = id ? [id] : Array.isArray(body.ids) ? [...new Set(body.ids.map(Number))] : [];
+  return ids.length && ids.length <= 50 && ids.every(valor => Number.isSafeInteger(valor) && valor > 0)
+    ? ids
+    : null;
+}
+
 // A foto chega em Base64; é validada e enviada ao Vercel Blob. Só a URL vai para o banco.
 // Os módulos de imagem são carregados sob demanda para não pesar nas demais requisições.
 async function prepararFotoPadrao(foto) {
@@ -237,16 +302,18 @@ export function criarHandlerPets(deps) {
             : res.status(404).json({ erro: 'Pet não encontrado.' });
         }
         // A lista já leva as vacinas de cada pet, usadas pelas telas do módulo.
-        const [pets, vacinasPorPet, consultasPorPet] = await Promise.all([
+        const [pets, vacinasPorPet, consultasPorPet, medicacoesPorPet] = await Promise.all([
           repositorio.listarPets(usuarioId),
           repositorio.listarVacinasPorPet(usuarioId),
           repositorio.listarConsultasPorPet(usuarioId),
+          repositorio.listarMedicacoesPorPet(usuarioId),
         ]);
         return res.status(200).json({
           pets: pets.map(pet => ({
             ...pet,
             vacinas: vacinasPorPet.get(pet.id) || [],
             consultas: consultasPorPet.get(pet.id) || [],
+            medicacoes: medicacoesPorPet.get(pet.id) || [],
           })),
         });
       }
@@ -316,6 +383,57 @@ export function criarHandlerPets(deps) {
         return vacinasPorPet
           ? res.status(200).json({ vacinas: Object.fromEntries(vacinasPorPet) })
           : res.status(404).json({ erro: 'Vacina não encontrada.' });
+      }
+
+      if (req.method === 'POST' && req.query?.acao === 'medicacao') {
+        const validacao = validarMedicacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const resultado = await repositorio.cadastrarMedicacao(usuarioId, validacao.petIds, validacao.dados);
+        if (!resultado) return res.status(404).json({ erro: 'Pet não encontrado.' });
+        return res.status(201).json({
+          medicacoes: Object.fromEntries(resultado.medicacoesPorPet),
+          criados: resultado.criados,
+        });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'medicacao') {
+        const validacao = validarMedicacao(body);
+        if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
+        const ids = idsDoCorpo(null, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        const petIdsOrigem = Array.isArray(body.petIdsOrigem) ? body.petIdsOrigem.map(Number) : [];
+        if (petIdsOrigem.length !== ids.length ||
+            petIdsOrigem.some(valor => !Number.isSafeInteger(valor) || valor <= 0) ||
+            new Set(petIdsOrigem).size !== petIdsOrigem.length) {
+          return res.status(400).json({ erro: 'A lista de pets de origem não corresponde às medicações.' });
+        }
+        const resultado = await repositorio.atualizarMedicacoes(
+          ids, petIdsOrigem, validacao.petIds, usuarioId, validacao.dados
+        );
+        return resultado
+          ? res.status(200).json({
+              medicacoes: Object.fromEntries(resultado.medicacoesPorPet),
+              grupoIds: resultado.grupoIds,
+            })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
+      }
+
+      if (req.method === 'PUT' && req.query?.acao === 'medicacao-concluida') {
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        const medicacoesPorPet = await repositorio.concluirMedicacoes(ids, usuarioId);
+        return medicacoesPorPet
+          ? res.status(200).json({ medicacoes: Object.fromEntries(medicacoesPorPet) })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
+      }
+
+      if (req.method === 'DELETE' && req.query?.acao === 'medicacao') {
+        const ids = idsDoCorpo(id, body);
+        if (!ids) return res.status(400).json({ erro: 'Informe as medicações válidas.' });
+        const medicacoesPorPet = await repositorio.excluirMedicacoes(ids, usuarioId);
+        return medicacoesPorPet
+          ? res.status(200).json({ medicacoes: Object.fromEntries(medicacoesPorPet) })
+          : res.status(404).json({ erro: 'Medicação não encontrada.' });
       }
 
       if (req.method === 'POST' && req.query?.acao === 'consulta') {
@@ -448,6 +566,7 @@ export default criarHandlerPets({
     atualizarVacinas, marcarVacinasAplicadas, excluirVacinas,
     listarConsultasPorPet, cadastrarConsulta, atualizarConsultas, excluirConsultas, alterarLembreteConsulta, registrarConsultaRealizada,
     registrarConsultasRealizadas,
+    listarMedicacoesPorPet, cadastrarMedicacao, atualizarMedicacoes, concluirMedicacoes, excluirMedicacoes,
   },
   usuarioDaSessao,
   origemDaRequisicaoValida,
