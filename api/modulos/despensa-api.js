@@ -38,6 +38,7 @@ import {
   origemDaRequisicaoValida,
   usuarioDaSessao,
 } from '../../server/auth-session.js';
+import { usuarioTemAcesso } from '../../server/repositories/modulos.js';
 
 export const CATEGORIAS = ['Laticínios', 'Grãos', 'Bebidas', 'Limpeza', 'Hortifruti', 'Outros'];
 const DATA_VALIDA = /^\d{4}-\d{2}-\d{2}$/;
@@ -228,6 +229,9 @@ export default async function handler(req, res) {
     }
     if (req.method !== 'GET' && !origemDaRequisicaoValida(req)) {
       return res.status(403).json({ erro: 'Origem da requisição não permitida.' });
+    }
+    if (!(await usuarioTemAcesso(usuarioId, 'despensa'))) {
+      return res.status(403).json({ erro: 'O módulo Despensa não está ativo para esta conta.' });
     }
 
     if (req.query?.recurso === 'checklist') return await tratarChecklist(req, res, usuarioId);
