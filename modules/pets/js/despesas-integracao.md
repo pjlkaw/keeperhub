@@ -14,7 +14,7 @@ pets (`GET`) já traz `pet.despesas` de cada animal.
 - `excluirDespesa(id, petIds)`: remove a despesa dos pets informados.
 
 Uma despesa cadastrada para vários pets aparece uma vez na visão "Todos os pets"
-(agrupada por `grupoId`, guardado em `keeperhub-pets-grupos`) e em cada pet quando o
+(agrupada pelo `grupo_id` salvo no banco) e em cada pet quando o
 filtro é individual. O valor mostrado é a soma das partes dos pets incluídos.
 
 ## Como fica no banco
@@ -43,8 +43,12 @@ DECIMAL(10,2); um valor por pet e mês), gravada por `PUT ?acao=orcamento` (`pet
 `mes`, `valorCentavos`); a listagem traz `pet.orcamentosDespesas`
 (`{ 'AAAA-MM': centavos }`). Sem meta salva, o pet fica sem limite no mês.
 
-A meta conjunta ("Todos os pets juntos") ainda fica só neste navegador
-(`localStorage`), porque a tabela guarda um valor por pet.
+A meta conjunta ("Todos os pets juntos") fica na tabela `pet_orcamento_geral`
+(`usuario_id`, `mes` `AAAA-MM`, `valor` DECIMAL(10,2); um valor por usuário e mês),
+lida por `GET ?acao=orcamento-geral` e gravada por `PUT ?acao=orcamento-geral`
+(`mes`, `valorCentavos`); as duas devolvem `orcamentoGeral` (`{ 'AAAA-MM': centavos }`).
+Se o navegador ainda tiver a meta conjunta antiga (`keeperhub-pets-despesas-meta-geral`),
+a tela de despesas envia os meses que a conta não tem e apaga a chave do navegador.
 
 ## O que continua de fora
 

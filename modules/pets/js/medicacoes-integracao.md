@@ -15,9 +15,9 @@ Rotas usadas pela tela:
 Todas conferem, numa transação, que os pets e as medicações pertencem ao usuário.
 Colunas usadas: `nome`, `tipo_uso` (`continuo`, `temporario` ou `eventual`),
 `dosagem`, `horario_dose` (uso contínuo), `frequencia` e `data_fim` (temporário),
-`concluida_em`, `quantidade_estoque` e `observacao`. O agrupamento visual de um
-cadastro feito para vários pets fica no navegador (`keeperhub-pets-grupos`), como
-em vacinas e consultas.
+`concluida_em`, `quantidade_estoque` e `observacao`. Um cadastro feito para vários
+pets guarda o mesmo `grupo_id` no banco e aparece como um card só, como em vacinas
+e consultas.
 
 A lista separa uso contínuo, tratamentos temporários, uso eventual e o histórico
 (tratamentos concluídos ou temporários com data final anterior a hoje), com a

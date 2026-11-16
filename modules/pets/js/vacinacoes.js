@@ -1,7 +1,7 @@
 // Cadastro, cronograma e histórico das vacinas dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { definirVacinasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { definirVacinasDoBanco, listarPets } from './armazenamento.js';
 import { atualizarVacinasApi, cadastrarVacinaApi, desfazerVacinasAplicadasApi, excluirVacinasApi, marcarVacinasAplicadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -605,8 +605,7 @@ function configurarFormulario() {
             const resposta = modoEdicao
                 ? await atualizarVacinasApi({ ...dadosVacina, ids: idsEdicao.map(Number) })
                 : await cadastrarVacinaApi(dadosVacina);
-            if (modoEdicao) separarRegistrosDoGrupo('vacinas', idsEdicao);
-            definirVacinasDoBanco(resposta.vacinas, resposta.grupoIds ?? resposta.criados);
+            definirVacinasDoBanco(resposta.vacinas);
             if (modoEdicao) {
                 const destino = new URL('vacinacoes.html', location.href);
                 if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
@@ -678,7 +677,6 @@ if (paginaLista) {
                 async aoExcluir() {
                     const vacinas = await excluirVacinasApi(ids);
                     idsTexto.forEach(id => exclusoesPendentes.delete(id));
-                    separarRegistrosDoGrupo('vacinas', idsTexto);
                     definirVacinasDoBanco(vacinas);
                 },
                 aoFalhar(erro) {

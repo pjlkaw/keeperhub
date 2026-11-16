@@ -44,8 +44,10 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 ## Armazenamento e integrações
 
 - Pets, consultas, vacinas, medicações, despesas, rotinas, exames, receitas e metas
-  são carregados do banco pela API. O agrupamento visual de registros criados para
-  vários pets e observações antigas da rotina alimentar ainda ficam no navegador.
+  são carregados do banco pela API. Registros criados para vários pets guardam o
+  mesmo `grupo_id` no banco. Nada do módulo fica salvo no navegador; as chaves
+  antigas (`keeperhub-pets-dados-locais`, `keeperhub-pets-grupos` e a meta conjunta)
+  são apagadas ao abrir o módulo, e a meta conjunta antiga vai para o banco antes.
 - [ ] Importar dados de pets que estavam no `localStorage` antes da integração com a
   API. Até essa migração, registros locais antigos podem não aparecer na tela.
 - Receitas e exames usam anexos no Vercel Blob e metadados na tabela `arquivo`.
@@ -70,7 +72,7 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 - [x] Remover os horários, cuidados e observações de demonstração da página.
 - [x] Mostrar o `no-content` compartilhado quando o pet não tem refeições ou
   observações da rotina alimentar salvas; a tela lê os dados atuais de
-  `pet.rotinaAlimentar` no `localStorage`.
+  `pet.rotinaAlimentar`, que vem do banco.
 - [x] Permitir selecionar o pet quando há mais de um e manter o pet atual nos
   links para a edição da rotina alimentar.
 - [x] O cadastro de rotina é um formulário único (higiene, alimentar e lazer), no
@@ -81,5 +83,4 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
   "Rotina Alimentar" e a página `editar-pet-rotina-alimentar.html` foram
   removidas do Editar pet.
 - [x] As rotinas são salvas no MySQL pela API: higiene e lazer em `pet_rotina` e
-  refeições em `pet_refeicao` (ver `js/rotinas-integracao.md`). A observação geral
-  da rotina alimentar ainda fica no `localStorage`.
+  refeições em `pet_refeicao` (ver `js/rotinas-integracao.md`).

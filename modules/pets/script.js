@@ -1,5 +1,5 @@
 ﻿// Importa as funções que carregam os pets da API e a chave dos dados locais.
-import { carregarPets, listarPets, PETS_STORAGE_KEY } from './js/armazenamento.js';
+import { carregarPets, listarPets } from './js/armazenamento.js';
 
 // Calcula a idade exibida a partir da data de nascimento.
 import { formatarIdadePet } from './js/idade-pet.js';
@@ -165,14 +165,6 @@ async function carregarPainel() {
 
 // Ao clicar no botão, tenta carregar o painel novamente.
 tentarNovamente.addEventListener('click', carregarPainel);
-
-// O evento "storage" ocorre quando o localStorage muda em outra aba
-// da mesma origem. Recarrega a lista se os dados dos pets mudarem.
-window.addEventListener('storage', event => {
-    if (event.key === PETS_STORAGE_KEY || event.key === null) {
-        carregarPainel();
-    }
-});
 
 // Atualiza a lista quando a pessoa volta a esta página pelo histórico
 // ou retorna de outra aba/janela do navegador.

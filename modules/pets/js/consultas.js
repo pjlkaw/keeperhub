@@ -1,5 +1,5 @@
 // Controla o cadastro, a listagem e o histórico das consultas dos pets.
-import { definirConsultasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { definirConsultasDoBanco, listarPets } from './armazenamento.js';
 import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, registrarConsultasRealizadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -565,8 +565,7 @@ function configurarFormulario() {
             const resposta = modoEdicao
                 ? await atualizarConsultasApi(dadosConsulta)
                 : await cadastrarConsultaApi(dadosConsulta);
-            if (modoEdicao) separarRegistrosDoGrupo('consultas', idsEdicao);
-            definirConsultasDoBanco(resposta.consultas, resposta.grupoIds ?? resposta.criados);
+            definirConsultasDoBanco(resposta.consultas);
             if (modoEdicao) {
                 const destino = new URL('consultas-exames.html', location.href);
                 if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
@@ -645,7 +644,6 @@ if (paginaLista) {
             async aoExcluir() {
                 const consultas = await excluirConsultasApi(ids);
                 idsTexto.forEach(id => exclusoesPendentes.delete(id));
-                separarRegistrosDoGrupo('consultas', idsTexto);
                 definirConsultasDoBanco(consultas);
             },
             aoFalhar(erro) {

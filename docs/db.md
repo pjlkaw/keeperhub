@@ -117,9 +117,14 @@ probabilidade de `Porn` ou `Hentai` igual ou superior a 75%.
 
 ## Módulo Pets
 
-O módulo Pets usa as tabelas `pet_exame` e `pet_receita` para os registros médicos.
-O DDL correspondente está em [`docs/pets-registros-medicos.sql`](./pets-registros-medicos.sql).
-Os anexos usam a tabela compartilhada `arquivo`.
+As tabelas do módulo Pets já estão criadas no banco: `pet`, `pet_contato`, `vacina`,
+`consulta`, `pet_medicacao`, `pet_despesa`, `pet_orcamento`, `pet_rotina`,
+`pet_refeicao`, `pet_observacao`, `pet_exame` e `pet_receita`. Os anexos usam a
+tabela compartilhada `arquivo`.
+
+Os registros feitos para vários pets guardam o mesmo `grupo_id` (`CHAR(36)`) em
+`consulta`, `vacina`, `pet_medicacao`, `pet_despesa`, `pet_rotina` e `pet_refeicao`.
+Excluir um pet apaga em cascata todos os registros dele.
 
 ## Módulos selecionados
 

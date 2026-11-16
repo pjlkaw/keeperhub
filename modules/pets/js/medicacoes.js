@@ -1,7 +1,7 @@
 // Cadastro, busca e organização das medicações dos pets (salvas no banco pela API).
 
 // Importa as funções para listar os pets e atualizar as medicações na memória.
-import { definirMedicacoesDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { definirMedicacoesDoBanco, listarPets } from './armazenamento.js';
 import {
     atualizarMedicacoesApi,
     cadastrarMedicacaoApi,
@@ -735,8 +735,7 @@ function configurarFormulario() {
                     petIdsOrigem: petsOrigemEdicao.map(pet => Number(pet.id))
                 })
                 : await cadastrarMedicacaoApi(dadosMedicacao);
-            if (modoEdicao) separarRegistrosDoGrupo('medicacoes', idsEdicao);
-            definirMedicacoesDoBanco(resposta.medicacoes, resposta.grupoIds ?? resposta.criados);
+            definirMedicacoesDoBanco(resposta.medicacoes);
             if (modoEdicao) {
                 location.href = quantidadePets > 1
                     ? "medicacoes.html?todos=1"
@@ -845,7 +844,6 @@ if (paginaLista) {
             async aoExcluir() {
                 const medicacoes = await excluirMedicacoesApi(ids.map(Number));
                 ids.forEach(id => exclusoesPendentes.delete(id));
-                separarRegistrosDoGrupo('medicacoes', ids);
                 definirMedicacoesDoBanco(medicacoes);
             },
             aoFalhar(erro) {

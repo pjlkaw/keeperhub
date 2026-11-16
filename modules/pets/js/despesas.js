@@ -1,6 +1,6 @@
 // Resumo mensal, metas por pet e extrato local das despesas.
 import { definirOrcamentosDoBanco, listarPets } from './armazenamento.js';
-import { salvarOrcamentoApi } from './api.js';
+import { listarOrcamentoGeralApi, salvarOrcamentoApi, salvarOrcamentoGeralApi } from './api.js';
 import { listarDespesas, excluirDespesa as excluirDespesaDoRepositorio } from './despesas-repositorio.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
 import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
@@ -76,31 +76,50 @@ function formatarMoeda(centavos) {
     }).format(centavos / 100);
 }
 
-// Lê as metas mensais que valem para todos os pets em conjunto.
-function metasGeraisDeDespesas() {
+// Metas mensais que valem para todos os pets em conjunto (tabela pet_orcamento_geral).
+let metasGerais = {};
+
+async function carregarMetasGerais() {
     try {
-        const metas = JSON.parse(localStorage.getItem(META_GERAL_STORAGE_KEY) ?? '{}');
-        return metas && typeof metas === 'object' && !Array.isArray(metas) ? metas : {};
+        metasGerais = await listarOrcamentoGeralApi();
     } catch {
-        return {};
+        metasGerais = {};
+        return;
+    }
+    await migrarMetasGeraisDoNavegador();
+}
+
+// Versões antigas guardavam a meta conjunta neste navegador: envia para a conta e apaga daqui.
+// Um mês que já tem meta na conta fica com o valor da conta.
+async function migrarMetasGeraisDoNavegador() {
+    let locais;
+    try {
+        locais = JSON.parse(localStorage.getItem(META_GERAL_STORAGE_KEY) ?? 'null');
+    } catch {
+        locais = null;
+    }
+    if (locais && typeof locais === 'object' && !Array.isArray(locais)) {
+        for (const [mes, valor] of Object.entries(locais)) {
+            const centavos = Number(valor);
+            if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(mes) || !Number.isSafeInteger(centavos) || centavos <= 0) continue;
+            if (Object.hasOwn(metasGerais, mes)) continue;
+            try {
+                metasGerais = await salvarOrcamentoGeralApi(mes, centavos);
+            } catch {
+                return; // Tenta de novo na próxima visita, sem perder o que está no navegador.
+            }
+        }
+    }
+    try {
+        localStorage.removeItem(META_GERAL_STORAGE_KEY);
+    } catch {
+        // Sem acesso ao navegador: a conta já tem as metas.
     }
 }
 
 function metaGeralDoMes(mes) {
-    const valor = Number(metasGeraisDeDespesas()[mes]);
+    const valor = Number(metasGerais[mes]);
     return Number.isSafeInteger(valor) && valor > 0 ? valor : null;
-}
-
-function salvarMetaGeral(mes, valorCentavos) {
-    try {
-        localStorage.setItem(META_GERAL_STORAGE_KEY, JSON.stringify({
-            ...metasGeraisDeDespesas(),
-            [mes]: valorCentavos
-        }));
-        return true;
-    } catch {
-        return false;
-    }
 }
 
 // Converte uma data ISO válida em uma data curta para os lançamentos.
@@ -616,19 +635,19 @@ async function salvarMeta(event) {
         return;
     }
 
-    // A meta de cada pet fica no banco (pet_orcamento); a meta conjunta ainda fica neste navegador.
+    // A meta de cada pet fica em pet_orcamento e a meta conjunta em pet_orcamento_geral.
     const mes = chaveMes(mesAtual);
     let salvou = false;
     let erroMeta = '';
-    if (destino.conjunta) {
-        salvou = salvarMetaGeral(mes, valorCentavos);
-    } else {
-        try {
+    try {
+        if (destino.conjunta) {
+            metasGerais = await salvarOrcamentoGeralApi(mes, valorCentavos);
+        } else {
             definirOrcamentosDoBanco(await salvarOrcamentoApi(destino.pet.id, mes, valorCentavos));
-            salvou = true;
-        } catch (erro) {
-            erroMeta = erro.message;
         }
+        salvou = true;
+    } catch (erro) {
+        erroMeta = erro.message;
     }
     if (!salvou) {
         mensagemMeta.textContent = erroMeta || 'Não foi possível salvar a meta.';
@@ -642,7 +661,7 @@ async function salvarMeta(event) {
     formularioMeta.hidden = false;
     campoPetMeta.hidden = !todosPetsSelecionados;
     mensagemMeta.textContent = destino.conjunta
-        ? 'Meta para todos os pets salva neste navegador.'
+        ? 'Meta para todos os pets salva na sua conta.'
         : 'Meta mensal salva na sua conta.';
     mensagemMeta.dataset.estado = 'sucesso';
     mensagemMeta.hidden = false;
@@ -753,6 +772,8 @@ window.addEventListener('keeperhub:pets-atualizados', () => {
         informarSelecao(erro.message || 'Não foi possível atualizar os pets.', true);
     }
 });
+
+await carregarMetasGerais();
 
 // Prepara a tela e exibe erros sem apagar os dados existentes caso o carregamento falhe.
 try {
