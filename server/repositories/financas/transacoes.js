@@ -39,7 +39,9 @@ export async function listarTransacoes(usuarioId) {
     const [transacoes] = await db.query(
         `SELECT l.id_lancamento AS id, l.tipo, l.valor, l.descricao,
                 cf.nome AS categoria, l.conta_id, c.nome AS conta_nome,
-                l.data, l.data_vencimento AS vencimento, l.status,
+                DATE_FORMAT(l.data, '%Y-%m-%d') AS data,
+                DATE_FORMAT(l.data_vencimento, '%Y-%m-%d') AS vencimento,
+                l.status,
                 l.observacoes
          FROM lancamento l
          INNER JOIN conta c ON c.id_conta = l.conta_id

@@ -19,10 +19,19 @@ export function idValido(valor) {
 
 export async function listarContas(usuarioId) {
     const [contas] = await db.query(
-        `SELECT id_conta AS id, nome, tipo
-         FROM conta
-         WHERE usuario_id = ? AND ativo = 1
-         ORDER BY nome ASC, id_conta ASC`,
+        `SELECT c.id_conta AS id, c.nome, c.tipo,
+                COALESCE(SUM(
+                    CASE l.tipo
+                        WHEN 'receita' THEN l.valor
+                        WHEN 'despesa' THEN -l.valor
+                        ELSE 0
+                    END
+                ), 0) AS saldo_atual
+         FROM conta c
+         LEFT JOIN lancamento l ON l.conta_id = c.id_conta
+         WHERE c.usuario_id = ? AND c.ativo = 1
+         GROUP BY c.id_conta, c.nome, c.tipo
+         ORDER BY c.nome ASC, c.id_conta ASC`,
         [usuarioId]
     );
     return contas.map((conta) => ({
