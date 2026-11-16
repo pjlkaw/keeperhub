@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0b0d" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="description" content="Organize seus lembretes no KeeperHub." />
+    <meta name="description" content="Veja os avisos dos seus módulos no KeeperHub." />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Lembretes | KeeperHub</title>
+    <title>Notificações | KeeperHub</title>
 
     <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32x32.png" />
@@ -40,65 +40,46 @@
     <header class="section-header-section" id="headerSection"></header>
       <main class="lembretes-conteudo" id="conteudo-principal">
         <form class="busca-lembretes" role="search">
-          <label for="buscar-lembretes" class="somente-leitor-tela">Buscar lembretes</label>
+          <label for="buscar-lembretes" class="somente-leitor-tela">Buscar avisos</label>
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="buscar-lembretes" type="search" placeholder="Buscar lembretes" autocomplete="off" />
+          <input id="buscar-lembretes" type="search" placeholder="Buscar avisos" autocomplete="off" />
         </form>
 
         <section aria-labelledby="titulo-categorias">
-          <h2 class="somente-leitor-tela" id="titulo-categorias">Categorias de lembretes</h2>
+          <h2 class="somente-leitor-tela" id="titulo-categorias">Filtrar avisos por módulo</h2>
           <div class="grade-categorias">
-            <button class="cartao-categoria cartao-categoria--pets" type="button" data-filtro="hoje">
+            <button class="cartao-categoria cartao-categoria--pets" type="button" data-modulo="pets">
               <img src="/shared/img/logo-pets-branco.png" width="30px">
               <strong>Pets</strong>
-              <span data-contador="hoje">0</span>
+              <span data-contador="pets">0</span>
             </button>
-            <button class="cartao-categoria cartao-categoria--medicamentos" type="button" data-filtro="todos">
+            <button class="cartao-categoria cartao-categoria--medicamentos" type="button" data-modulo="medicamentos">
               <img src="/shared/img/logo-medicamentos-branco.png" width="30px">
-              <strong> Medicamentos</strong>
-              <span data-contador="todos">0</span>
+              <strong>Medicamentos</strong>
+              <span data-contador="medicamentos">0</span>
             </button>
-            <button class="cartao-categoria cartao-categoria--financas" type="button" data-filtro="sinalizados">
+            <button class="cartao-categoria cartao-categoria--financas" type="button" data-modulo="financas">
               <img src="/shared/img/logo-financas-branco.png" width="30px">
               <strong>Finanças</strong>
-              <span data-contador="sinalizados">0</span>
+              <span data-contador="financas">0</span>
             </button>
-            <button class="cartao-categoria cartao-categoria--despensa" type="button" data-filtro="urgentes">
+            <button class="cartao-categoria cartao-categoria--despensa" type="button" data-modulo="despensa">
               <img src="/shared/img/logo-despensa-branco.png" width="30px">
               <strong>Despensa</strong>
-              <span data-contador="urgentes">0</span>
+              <span data-contador="despensa">0</span>
             </button>
-            <button class="cartao-categoria cartao-categoria--todos" type="button" data-filtro="concluidos">
+            <button class="cartao-categoria cartao-categoria--todos" type="button" data-modulo="todos">
               <i class="fa-solid fa-check" aria-hidden="true"></i>
-              <strong>Todos </strong>
-              <span data-contador="concluidos">0</span>
+              <strong>Todos</strong>
+              <span data-contador="todos">0</span>
             </button>
           </div>
         </section>
 
-        <section class="minhas-listas" aria-labelledby="titulo-listas">
-          <div class="minhas-listas__cabecalho">
-            <h2 id="titulo-listas">Minhas Listas</h2>
-            <button class="link-criar-lista" id="abrir-nova-lista-texto" type="button">Nova lista</button>
-          </div>
-
-          <div class="estado-vazio" id="estado-vazio">
-            <i class="fa-regular fa-rectangle-list" aria-hidden="true"></i>
-            <p>Nenhuma lista criada</p>
-            <span>Crie uma lista para começar a organizar seus lembretes.</span>
-          </div>
-
-          <ul class="listas-usuario" id="listas-usuario" aria-live="polite"></ul>
-        </section>
-
-        <section class="resultado-filtro" id="resultado-filtro" aria-live="polite" hidden>
-          <header>
-            <h2 id="titulo-filtro">Lembretes</h2>
-            <button class="resultado-filtro__fechar" id="fechar-filtro" type="button" aria-label="Fechar resultado">
-              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-          </header>
-          <p id="mensagem-filtro">Nenhum lembrete encontrado.</p>
+        <section class="avisos" aria-labelledby="titulo-avisos">
+          <h2 class="avisos__titulo" id="titulo-avisos">Todos os avisos</h2>
+          <p class="avisos__estado" id="avisos-estado" role="status" aria-live="polite">Carregando avisos...</p>
+          <div class="avisos__lista" id="avisos-lista"></div>
         </section>
       </main>
 
@@ -120,28 +101,11 @@
   </div>
 </footer>
 
-      <button class="botao-adicionar" id="abrir-nova-lista-fab" type="button" aria-label="Criar nova lista">
-        <i class="fa-solid fa-plus" aria-hidden="true"></i>
-      </button>
+      <div class="aviso-desfazer" id="aviso-desfazer" role="status" aria-live="polite" hidden>
+        <span id="aviso-desfazer-texto"></span>
+        <button type="button" id="aviso-desfazer-botao">Desfazer</button>
+      </div>
     </div>
-
-    <dialog class="modal-lista" id="modal-nova-lista" aria-labelledby="titulo-modal-lista">
-      <form method="dialog" class="modal-lista__conteudo" id="formulario-nova-lista">
-        <header>
-          <h2 id="titulo-modal-lista">Nova lista</h2>
-          <button class="modal-lista__fechar" type="button" id="fechar-modal" aria-label="Fechar">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </button>
-        </header>
-        <label for="nome-nova-lista">Nome da lista</label>
-        <input id="nome-nova-lista" name="nome" type="text" maxlength="50" placeholder="Ex.: Compras da semana" required />
-        <div class="modal-lista__acoes">
-          <button class="botao-secundario" type="button" id="cancelar-nova-lista">Cancelar</button>
-          <button class="botao-primario" type="submit">Criar lista</button>
-        </div>
-      </form>
-    </dialog>
-
     <script src="../../shared/services/theme.js"></script>
     <script src="/shared/services/notifications.js"></script>
   </body>
