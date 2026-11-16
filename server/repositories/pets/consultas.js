@@ -34,15 +34,16 @@ function dataHoraISO(valor) {
 // Converte a linha do banco para o formato que consultas.js já usa.
 export function mapearConsulta(linha) {
   const { data, horario } = partesDataHora(linha.dataHora);
-  const codigo = CODIGOS_ESPECIALIDADE.includes(linha.especialidade);
+  const especialidadeSalva = linha.especialidade || '';
+  const codigo = CODIGOS_ESPECIALIDADE.includes(especialidadeSalva);
   const realizadaEm = dataHoraISO(linha.realizadaEm);
   return {
     id: String(linha.id),
     petId: String(linha.petId),
     ...(linha.grupoId ? { grupoId: String(linha.grupoId) } : {}),
     medico: linha.veterinario || '',
-    especialidade: codigo ? linha.especialidade : 'outra',
-    especialidadePersonalizada: codigo ? '' : (linha.especialidade || ''),
+    especialidade: !especialidadeSalva ? '' : codigo ? especialidadeSalva : 'outra',
+    especialidadePersonalizada: codigo || !especialidadeSalva ? '' : especialidadeSalva,
     clinica: linha.clinica || '',
     data,
     horario,

@@ -23,7 +23,9 @@ Colunas usadas: `veterinario` (médico), `especialidade` (código, como
 `clinico_geral`, ou o texto digitado quando a opção é "Outra"), `clinica`,
 `data` (data e horário), `status` (`agendada` ou `realizada`), `realizada_em`,
 `lembrete_ativo` e `observacoes` (resumo do atendimento). Datas passadas já
-entram como realizadas. O lembrete guarda só a preferência: não agenda
+entram como realizadas. Médico, especialidade e clínica são opcionais; data e
+horário continuam obrigatórios. Se a especialidade "Outra" for escolhida, o
+texto da especialidade precisa ser preenchido. O lembrete guarda só a preferência: não agenda
 notificações do sistema.
 
 
