@@ -6,19 +6,8 @@
  * ==================================================
  */
 
-import { carregarUsuarioAtual, loginUsuario } from '../../../shared/services/usuario.js';
+import { loginUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
-
-// Se o usuário já estiver logado, redireciona diretamente para o Hub
-carregarUsuarioAtual()
-  .then(() => {
-    window.location.replace('../hub/index.html');
-  })
-  .catch((error) => {
-    if (error.status !== 401) {
-      console.error('[Login] Não foi possível verificar a sessão atual:', error);
-    }
-  });
 
 function validarInformacoesLogin(email, senha) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,7 +25,7 @@ async function realizarLogin(email, senha) {
   try {
     await loginUsuario(email, senha);
     console.log('[Login] Login realizado com sucesso:', email);
-    window.location.href = '../hub/index.html';
+    window.location.href = '../home/index.html';
   } catch (erro) {
     console.error('[Login] Falha ao realizar login:', erro);
     alertShared(erro.message || 'Não foi possível entrar. Tente novamente.');

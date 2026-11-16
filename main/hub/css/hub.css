@@ -423,10 +423,6 @@
   will-change: transform;
 }
 
-.module-card[hidden] {
-  display: none !important;
-}
-
 /* Personalize aqui a aparência dos cards com mais de 220px de altura. */
 .module-card.module-card-tall {
   padding: 16px 18px 18px 18px;
@@ -443,14 +439,8 @@ a.module-card,
 }
 
 .module-card-locked {
-  cursor: pointer;
-  opacity: 0.65;
-  border-style: dashed;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.module-card-locked:hover {
-  opacity: 0.88;
+  cursor: not-allowed;
+  opacity: 0.62;
 }
 
 .module-card:focus-visible {

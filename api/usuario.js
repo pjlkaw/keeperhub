@@ -211,9 +211,6 @@ export default async function handler(req, res) {
           return res.status(403).json({ erro: 'Request origin not allowed.' });
         }
         validarConfiguracaoSessao();
-        if (usuarioDaSessao(req)) {
-          return res.status(403).json({ erro: 'Você já possui uma sessão ativa. Saia da sua conta atual para criar uma nova conta.' });
-        }
         return await criarConta(body, res);
       case 'GET':
         return await obterUsuario(req, res);

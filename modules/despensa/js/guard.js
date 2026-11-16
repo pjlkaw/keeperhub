@@ -37,7 +37,6 @@ try {
     } else {
       raiz.classList.remove('module-access-pending');
       await import('../script.js');
-      await import('./index.js');
     }
   }
 } catch (erro) {

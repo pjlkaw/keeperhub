@@ -24,67 +24,21 @@ const configModule = window.keeperhubModuleConfig || {
     addUrl: '/modules/medicamentos/components/adicionar-medicamento.html'
 };
 
-const MODULOS_PROTEGIDOS = new Set(['financas', 'despensa', 'pets', 'medicamentos']);
-
-let promessaAcessos = null;
-function obterAcessosUsuario() {
-    if (!promessaAcessos) {
-        promessaAcessos = fetch('/api/modulos/acesso', {
-            credentials: 'same-origin',
-            cache: 'no-store'
-        }).then(async (resposta) => {
-            if (resposta.status === 401) {
-                window.location.replace('/main/entrar/index.html');
-                return null;
-            }
-            if (!resposta.ok) {
-                return null;
-            }
-            const dados = await resposta.json();
-            const modulos = Array.isArray(dados?.modulos) ? dados.modulos : [];
-            return new Set(modulos.map((m) => m.codigo));
-        }).catch((err) => {
-            console.error('[KeeperHub] Erro ao carregar acessos:', err);
-            return null;
-        });
-    }
-    return promessaAcessos;
-}
-
-if (MODULOS_PROTEGIDOS.has(configModule.module)) {
-    obterAcessosUsuario().then((modulosAtivos) => {
-        if (modulosAtivos && !modulosAtivos.has(configModule.module)) {
-            window.location.replace('/main/compra/index.html');
-        }
-    });
-}
-
 function carregarModulo() {
     fetch('/shared/components/navbar-section.html')
         .then(response => response.text())
-        .then(async data => {
+        .then(data => {
             const nav = document.getElementById('modules-nav-wrapper');
             if (!nav) return;
 
             nav.innerHTML = data;
 
             const moduloAtual = nav.querySelector(`[data-module="${configModule.module}"]`);
-            if (moduloAtual) {
-                moduloAtual.classList.add('active');
-                moduloAtual.setAttribute('aria-selected', 'true');
-                moduloAtual.setAttribute('tabindex', '0');
-            }
+            if (!moduloAtual) return;
 
-            const modulosAtivos = await obterAcessosUsuario();
-            if (modulosAtivos) {
-                nav.querySelectorAll('.modules-nav-item').forEach((item) => {
-                    const cod = item.getAttribute('data-module');
-                    if (cod && !modulosAtivos.has(cod)) {
-                        item.hidden = true;
-                        item.style.display = 'none';
-                    }
-                });
-            }
+            moduloAtual.classList.add('active');
+            moduloAtual.setAttribute('aria-selected', 'true');
+            moduloAtual.setAttribute('tabindex', '0');
         });
 
     fetch('/shared/components/header-page.html')
@@ -104,8 +58,7 @@ function carregarModulo() {
             if (pageSubtittle) pageSubtittle.textContent = configModule.subtitle;
             if (btnBackHeader) btnBackHeader.href = configModule.backUrl;
             if (btnNotifications) {
-                btnNotifications.href = `/shared/components/notifications.html?modulo=${configModule.notificationsModule}`;
-            }
+                 btnNotifications.href = `/shared/components/notifications.html?modulo=${configModule.notificationsModule}`;            }
         });
 
     fetch('/shared/components/no-content.html')
