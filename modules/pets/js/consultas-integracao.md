@@ -43,5 +43,5 @@ arquivos e 1 MB no total por exame) vão para o Vercel Blob e ficam registrados 
 A listagem de pets traz `pet.exames` com os `anexos` de cada um. Rotas: `POST
 ?acao=exame` (`petId` + dados + `anexos`), `PUT ?acao=exame&id=` (dados, `anexos` novos e
 `removerAnexos`) e `DELETE ?acao=exame&id=` (apaga também os arquivos do Blob). Um pet que
-só tem exames também mostra a página. Para enviar anexos localmente, o `vercel dev`
-precisa da variável `PETS_BLOB_READ_WRITE_TOKEN` configurada para um Blob privado.
+só tem exames também mostra a página. Anexos novos seguem o fluxo público e a conexão
+geral do Blob usada pelo módulo de Medicamentos; não exigem `PETS_BLOB_READ_WRITE_TOKEN`.

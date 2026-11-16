@@ -37,7 +37,7 @@ anterior à emissão, `concluida_em` e `observacao` até 2000). A lista separa "
 Ativas" (sem validade ou com validade futura ou de hoje) e "Histórico" (expiradas ou concluídas), tem
 busca por nome ou veterinário e as ações Editar, Concluir/Reabrir e Remover (com desfazer).
 O status expirada decorre da validade; concluída é uma ação manual e pode ser reaberta. Os anexos
-(PDF, JPG, PNG ou WEBP; até 10 arquivos e 1 MB no total) vão para o Vercel Blob privado e
+(PDF, JPG, PNG ou WEBP; até 10 arquivos e 1 MB no total) vão para o Vercel Blob público e
 ficam na tabela `arquivo` com `entidade_tipo = 'pet_receita'`, pelo mesmo módulo dos anexos
 de exames (`server/repositories/pets/anexos.js`). Rotas: `POST ?acao=receita`, `PUT
 ?acao=receita&id=`, `PUT ?acao=receita-concluida&id=` (`concluida: true | false`) e
