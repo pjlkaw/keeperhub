@@ -121,13 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
   observeModuleCardSizes();
   initializeChatbot();
   initializeChatbotMessaging();
+  prepararBloqueioDosCards();
 
   // A API valida o cookie no servidor; o cache local nao concede acesso.
   carregarUsuarioAtual()
     .then(async (usuario) => {
       userLoadContent({ name: usuario.nome_usuario, foto_usuario: usuario.foto_usuario });
       const modulos = await listarModulosUsuario();
-      aplicarAcessosModulos(new Set(modulos.map((modulo) => modulo.codigo)));
+      const modulosAtivos = new Set(modulos.map((modulo) => modulo.codigo));
+      aplicarAcessosModulos(modulosAtivos);
+      carregarResumoModulos(modulosAtivos);
     })
     .catch((error) => {
       if (error.status === 401) {
@@ -137,21 +140,142 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    function aplicarAcessosModulos(modulosAtivos) {
-      document.querySelectorAll('[id^="hub-card-"]').forEach((card) => {
-        const codigo = card.id.replace('hub-card-', '');
-        const ativo = modulosAtivos.has(codigo);
-        card.toggleAttribute('aria-disabled', !ativo);
-        card.classList.toggle('module-card-locked', !ativo);
-        if (!ativo) {
-          card.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = '../compra/index.html';
-          });
-        }
-      });
+  function aplicarAcessosModulos(modulosAtivos) {
+    let algumAtivo = false;
+    document.querySelectorAll('[id^="hub-card-"]').forEach((card) => {
+      const codigo = card.id.replace('hub-card-', '');
+      const ativo = modulosAtivos.has(codigo);
+      // O módulo desativado fica invisível
+      card.hidden = !ativo;
+      card.setAttribute('aria-disabled', String(!ativo));
+      if (ativo) {
+        algumAtivo = true;
+      }
+    });
+
+    let avisoSemModulos = document.getElementById('hub-aviso-sem-modulos');
+    if (!algumAtivo) {
+      if (!avisoSemModulos) {
+        avisoSemModulos = document.createElement('div');
+        avisoSemModulos.id = 'hub-aviso-sem-modulos';
+        avisoSemModulos.style.textAlign = 'center';
+        avisoSemModulos.style.padding = '32px 16px';
+        avisoSemModulos.style.backgroundColor = 'var(--card-bg, #16181D)';
+        avisoSemModulos.style.borderRadius = '16px';
+        avisoSemModulos.style.border = '1px solid var(--border-color, rgba(255, 255, 255, 0.08))';
+        avisoSemModulos.innerHTML = `
+          <p style="margin-bottom: 12px; font-weight: 500;">Você não possui nenhum módulo ativo no momento.</p>
+          <a href="/main/compra/index.html" style="display: inline-block; text-decoration: none; padding: 10px 20px; background-color: var(--color-brand, #01ab8e); color: #ffffff; border-radius: 8px; font-weight: 600;">Ver Planos Disponíveis</a>
+        `;
+        const stack = document.getElementById('modules-stack');
+        if (stack) stack.appendChild(avisoSemModulos);
+      } else {
+        avisoSemModulos.hidden = false;
+      }
+    } else if (avisoSemModulos) {
+      avisoSemModulos.hidden = true;
     }
+  }
 });
+
+async function carregarResumoModulos(modulosAtivos) {
+  // 1. Finanças
+  if (modulosAtivos.has('financas')) {
+    fetch('/api/modulos/financas-api?recurso=contas', { credentials: 'same-origin' })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((dados) => {
+        const contas = Array.isArray(dados?.contas) ? dados.contas : [];
+        const card = document.getElementById('hub-card-financas');
+        if (!card) return;
+        const valEl = card.querySelector('.module-card-val-title');
+        const subEl = card.querySelector('.module-card-sublabel');
+        if (contas.length > 0) {
+          const total = contas.reduce((acc, c) => acc + (Number(c.saldo_atual) || 0), 0);
+          const formatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(total);
+          if (valEl) valEl.textContent = formatado;
+          if (subEl) subEl.textContent = `${contas.length} ${contas.length === 1 ? 'conta ativa' : 'contas ativas'}`;
+        } else {
+          if (valEl) valEl.textContent = 'R$ 0,00';
+          if (subEl) subEl.textContent = 'Sem contas cadastradas';
+        }
+      })
+      .catch((error) => console.error('[Hub] Não foi possível carregar o resumo financeiro:', error));
+  }
+
+  // 2. Pets
+  if (modulosAtivos.has('pets')) {
+    fetch('/api/modulos/pets-api', { credentials: 'same-origin' })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((dados) => {
+        const pets = Array.isArray(dados?.pets) ? dados.pets : [];
+        const card = document.getElementById('hub-card-pets');
+        if (!card) return;
+        const nameEl = card.querySelector('.module-pets-name');
+        const subEl = card.querySelector('.module-card-sublabel');
+        if (pets.length > 0) {
+          if (nameEl) nameEl.textContent = pets[0].nome || `${pets.length} pets`;
+          if (subEl) subEl.textContent = `${pets.length} ${pets.length === 1 ? 'pet cadastrado' : 'pets cadastrados'}`;
+        } else {
+          if (nameEl) nameEl.textContent = 'Nenhum pet';
+          if (subEl) subEl.textContent = 'Toque para adicionar';
+        }
+      })
+      .catch((error) => console.error('[Hub] Não foi possível carregar o resumo de pets:', error));
+  }
+
+  // 3. Medicamentos
+  if (modulosAtivos.has('medicamentos')) {
+    fetch('/api/modulos/medicamentos-api', { credentials: 'same-origin' })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((dados) => {
+        const medicamentos = Array.isArray(dados?.medicamentos) ? dados.medicamentos : [];
+        const card = document.getElementById('hub-card-medicamentos');
+        if (!card) return;
+        const nameEl = card.querySelector('.meds-name-text');
+        const subEl = card.querySelector('.module-card-sublabel');
+        if (medicamentos.length > 0) {
+          if (nameEl) nameEl.textContent = medicamentos[0].nome || `${medicamentos.length} medicamentos`;
+          if (subEl) subEl.textContent = `${medicamentos.length} ${medicamentos.length === 1 ? 'medicamento ativo' : 'medicamentos ativos'}`;
+        } else {
+          if (nameEl) nameEl.textContent = 'Nenhum medicamento';
+          if (subEl) subEl.textContent = 'Toque para adicionar';
+        }
+      })
+      .catch((error) => console.error('[Hub] Não foi possível carregar o resumo de medicamentos:', error));
+  }
+
+  // 4. Despensa
+  if (modulosAtivos.has('despensa')) {
+    const card = document.getElementById('hub-card-despensa');
+    if (card) {
+      const valEl = card.querySelector('.module-card-val-title');
+      const subEl = card.querySelector('.module-card-sublabel');
+      if (valEl) valEl.textContent = 'Despensa ativa';
+      if (subEl) subEl.textContent = 'Controle de estoque';
+    }
+  }
+}
+
+function prepararBloqueioDosCards() {
+  document.querySelectorAll('[id^="hub-card-"]').forEach((card) => {
+    card.setAttribute('aria-disabled', 'true');
+    card.addEventListener('click', (event) => {
+      if (card.getAttribute('aria-disabled') === 'true' || card.classList.contains('module-card-locked')) {
+        event.preventDefault();
+        window.location.href = '/main/compra/index.html';
+      }
+    });
+  });
+}
 
 function userLoadContent(user) {
   if (!user) return;

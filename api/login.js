@@ -1,7 +1,7 @@
 import { atualizarUsuario, buscarUsuarioPorEmail } from '../server/repositories/usuario.js';
 import { hashPassword, verificarSenha } from '../server/password.js';
 import {
-  criarCookieSessao, origemDaRequisicaoValida, validarConfiguracaoSessao
+  criarCookieSessao, origemDaRequisicaoValida, usuarioDaSessao, validarConfiguracaoSessao
 } from '../server/auth-session.js';
 
 export default async function handler(req, res) {
@@ -14,6 +14,10 @@ export default async function handler(req, res) {
       return res.status(403).json({ erro: 'Request origin not allowed.' });
     }
     validarConfiguracaoSessao();
+
+    if (usuarioDaSessao(req)) {
+      return res.status(403).json({ erro: 'Você já está conectado em uma conta.' });
+    }
 
     const { email, senha } = req.body || {};
 

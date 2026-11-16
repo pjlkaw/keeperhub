@@ -51,6 +51,16 @@
     font-weight: 700;
 }
 
+.modules-nav-item.nav-item-locked {
+    opacity: 0.5;
+    cursor: pointer;
+    border-style: dashed;
+}
+
+.modules-nav-item.nav-item-locked:hover {
+    opacity: 0.8;
+}
+
 .modules-nav-item-icon {
     width: 14px;
     height: 14px;

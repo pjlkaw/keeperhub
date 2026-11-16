@@ -7,8 +7,19 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario } from '../../../shared/services/usuario.js';
+import { carregarUsuarioAtual, criarUsuario } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
+
+// Se o usuário já estiver logado, redireciona diretamente para o Hub
+carregarUsuarioAtual()
+  .then(() => {
+    window.location.replace('../hub/index.html');
+  })
+  .catch((error) => {
+    if (error.status !== 401) {
+      console.error('[Cadastro] Não foi possível verificar a sessão atual:', error);
+    }
+  });
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
 async function realizarCadastro(usuario) {
