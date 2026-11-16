@@ -15,3 +15,10 @@ autenticado para que os registros existentes continuem abrindo, mas esses objeto
 continuam acessíveis pela URL antiga até serem migrados para o store privado. Como os
 dados atuais são de teste, a migração desses arquivos pode ficar fora do escopo; a
 troca da URL exibida no KeeperHub não revoga um link público já emitido.
+
+## Validação atual
+
+Em 16/11/2026, o envio e a abertura de anexos no Blob privado ainda não foram
+validados localmente porque `PETS_BLOB_READ_WRITE_TOKEN` não está configurado no
+`.env.local`. Os fluxos de cadastro, edição e listagem estão implementados pela
+API/MySQL, mas isso não equivale à validação ponta a ponta de todas as telas.

@@ -32,12 +32,11 @@ const nomesTipo = {
     eventual: 'Eventual'
 };
 
-// Guarda os pets, o pet selecionado, o filtro ativo e o texto da busca.
+// Guarda os pets, o pet selecionado e o texto da busca.
 let pets = [];
 let petAtual = null;
 let todosPetsSelecionados = false;
 let petsAlvo = [];
-let filtroAtual = 'todos';
 let buscaAtual = '';
 const parametrosEdicao = new URLSearchParams(location.search);
 const idsEdicao = (parametrosEdicao.get('ids') || '').split(',').filter(Boolean);
@@ -314,19 +313,6 @@ function correspondeBusca(medicacao) {
     return termos.includes(semAcentos(buscaAtual));
 }
 
-// Verifica se uma medicação corresponde ao filtro selecionado.
-function correspondeFiltro(medicacao) {
-    const historico = estaNoHistorico(medicacao);
-
-    if (filtroAtual === 'historico') return historico;
-
-    // Mantém os concluídos disponíveis no grupo Histórico mesmo com outro filtro.
-    if (historico) return true;
-
-    return filtroAtual === 'todos' ||
-        medicacao.tipoUso === filtroAtual;
-}
-
 // Cria o cartão visual de uma medicação.
 function criarCartao(medicacao) {
     const tipo = medicacao.tipoUso;
@@ -458,10 +444,8 @@ function renderizarLista() {
 
     atualizarNoContent(true);
 
-    // Aplica busca e filtro aos registros do pet ou à visão geral.
-    const registros = registrosDoEscopo
-        .filter(correspondeBusca)
-        .filter(correspondeFiltro);
+    // Aplica a busca aos registros do pet ou à visão geral.
+    const registros = registrosDoEscopo.filter(correspondeBusca);
     const tipos = ['continuo', 'temporario', 'eventual'];
 
     // Preenche uso contínuo, temporário e eventual.
@@ -476,8 +460,8 @@ function renderizarLista() {
         if (!itens.length) {
             const vazio = document.createElement('li');
             vazio.className = 'medicacao-vazia';
-            vazio.textContent = buscaAtual || filtroAtual !== 'todos'
-                ? 'Nenhuma medicação corresponde à busca ou ao filtro.'
+            vazio.textContent = buscaAtual
+                ? 'Nenhuma medicação corresponde à busca.'
                 : 'Nenhuma medicação nesta categoria.';
             listas[indice].append(vazio);
         } else {
@@ -495,81 +479,31 @@ function renderizarLista() {
     if (!historico.length) {
         const vazio = document.createElement('li');
         vazio.className = 'medicacao-vazia';
-        vazio.textContent = buscaAtual || filtroAtual === 'historico'
-            ? 'Nenhum tratamento concluído corresponde à busca ou ao filtro.'
+        vazio.textContent = buscaAtual
+            ? 'Nenhum tratamento concluído corresponde à busca.'
             : 'Nenhum tratamento concluído.';
         listas[3].append(vazio);
     } else {
         historico.forEach(item => listas[3].append(criarCartaoHistorico(item)));
     }
 
-    // Mostra apenas a categoria solicitada, mantendo o histórico quando pertinente.
+    // Mantém as categorias visíveis para preservar a organização da lista.
     grupos.forEach((grupo, indice) => {
-        grupo.hidden = filtroAtual === 'historico'
-            ? indice !== 3
-            : filtroAtual !== 'todos' &&
-                indice !== tipos.indexOf(filtroAtual) &&
-                indice !== 3;
-
-        if (indice === 3 && filtroAtual !== 'historico') {
-            grupo.hidden = !historico.length && filtroAtual !== 'todos';
-        }
-
+        grupo.hidden = false;
         const temCartao = Boolean(listas[indice].querySelector('.cartao-medicacao'));
         if (!temCartao && buscaAtual) grupo.dataset.semResultados = 'true';
         else delete grupo.dataset.semResultados;
     });
 
-    if (!registros.length && (buscaAtual || filtroAtual !== 'todos')) {
-        informar('Nenhuma medicação corresponde à busca ou ao filtro.');
+    if (!registros.length && buscaAtual) {
+        informar('Nenhuma medicação corresponde à busca.');
     } else {
         informar('');
     }
 }
 
-// Cria os controles de filtro e busca da página de listagem.
-function montarFiltro() {
-    const toolbar = document.querySelector('.barra-ferramentas-medicacoes');
-    const botao = toolbar.querySelector(
-        '.barra-ferramentas-medicacoes__filtro'
-    );
-
-    // Cria um painel inicialmente oculto com as opções de filtro.
-    const painel = document.createElement('div');
-    painel.className = 'filtro-medicacoes';
-    painel.hidden = true;
-    painel.innerHTML =
-        '<label for="filtro-tipo-medicacao">Mostrar</label>' +
-        '<select id="filtro-tipo-medicacao">' +
-        '<option value="todos">Todas as medicações</option>' +
-        '<option value="continuo">Uso contínuo</option>' +
-        '<option value="temporario">Tratamentos temporários</option>' +
-        '<option value="eventual">Uso eventual</option>' +
-        '<option value="historico">Histórico</option>' +
-        '</select>';
-
-    toolbar.append(painel);
-
-    const select = painel.querySelector('select');
-
-    // Atualiza atributos acessíveis e o texto de ajuda do botão.
-    botao.setAttribute('aria-expanded', 'false');
-    botao.title = 'Filtrar medicações';
-
-    // Abre ou fecha o painel de filtro e foca o seletor quando ele abrir.
-    botao.addEventListener('click', () => {
-        painel.hidden = !painel.hidden;
-        botao.setAttribute('aria-expanded', String(!painel.hidden));
-
-        if (!painel.hidden) select.focus();
-    });
-
-    // Quando o filtro muda, atualiza os cartões.
-    select.addEventListener('change', () => {
-        filtroAtual = select.value;
-        renderizarLista();
-    });
-
+// Liga a busca textual da página de listagem.
+function montarBusca() {
     // Impede o envio padrão do formulário de busca.
     document.querySelector('.busca-medicacoes')
         .addEventListener('submit', event => event.preventDefault());
@@ -773,7 +707,7 @@ seletorPet.addEventListener('change', () => {
 });
 
 // Configura os controles apropriados para a página atual.
-if (paginaLista) montarFiltro();
+if (paginaLista) montarBusca();
 else configurarFormulario();
 
 if (paginaLista) {

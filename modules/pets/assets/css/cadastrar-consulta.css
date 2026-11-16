@@ -106,6 +106,7 @@ CADASTRO DE EXAME (cadastrar-exame.html usa este formulário)
 .formulario-exame textarea { min-height: 88px; }
 .ajuda-anexos-exame { margin-top: 4px; color: var(--text-muted); font-size: 0.75rem; }
 .seletor-anexos {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -139,6 +140,15 @@ CADASTRO DE EXAME (cadastrar-exame.html usa este formulário)
   font-weight: 600;
   cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.formulario-adicionar-consulta .campo-formulario .seletor-anexos__botao {
+  display: inline-flex;
+  width: auto;
+  min-height: 40px;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
 }
 .seletor-anexos__botao:hover { background: var(--pets-primary); color: var(--text-on-primary, #fff); }
 .seletor-anexos__input:focus-visible + .seletor-anexos__botao {

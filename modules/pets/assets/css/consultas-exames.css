@@ -282,6 +282,20 @@ ANEXOS DE EXAMES
 .cartao-exame__tamanho { color: var(--text-muted); font-size: 0.75rem; }
 .exames-medicos__cabecalho a.botao-texto { display: inline-flex; }
 .cartao-exame__data { color: var(--text-muted); font-size: 0.75rem; }
+.exames-medicos .cartao-exame .acoes-cartao-registro {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 14px;
+}
+.exames-medicos .cartao-exame .acoes-cartao-registro > :is(a, button) {
+  display: inline-flex;
+  width: auto;
+  min-height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  margin: 0;
+  text-align: left;
+}
 .cartao-exame .botao-icone {
   display: grid;
   width: 44px;

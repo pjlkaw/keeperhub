@@ -3,7 +3,9 @@ import * as nsfwjs from 'nsfwjs';
 import sharp from 'sharp';
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-const MAX_IMAGE_DIMENSION = 3000;
+// Permite fotos recentes de celular (inclusive 48 MP), sem aceitar imagens enormes.
+const MAX_IMAGE_DIMENSION = 10000;
+const MAX_IMAGE_PIXELS = 50_000_000;
 const NSFW_THRESHOLD = 0.75;
 const ALLOWED_FORMATS = new Set(['jpeg', 'png', 'webp']);
 
@@ -44,12 +46,16 @@ export async function validarFoto(dataUrl) {
     || !metadados.height
     || metadados.width > MAX_IMAGE_DIMENSION
     || metadados.height > MAX_IMAGE_DIMENSION
+    || metadados.width * metadados.height > MAX_IMAGE_PIXELS
   ) {
-    return { erro: 'A imagem não pode ultrapassar 3000x3000 pixels.' };
+    return { erro: 'A imagem deve ter até 10.000 pixels por lado e no máximo 50 megapixels.' };
   }
 
   const modelo = await carregarModelo();
+  // Reduz apenas a cópia usada na classificação; a foto armazenada mantém o enquadramento original.
   const pixels = await sharp(buffer)
+    .rotate()
+    .resize({ width: 512, height: 512, fit: 'inside', withoutEnlargement: true })
     .removeAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
@@ -66,7 +72,7 @@ export async function validarFoto(dataUrl) {
 
     return conteudoBloqueado
       ? { erro: 'A imagem contém conteúdo impróprio para foto de perfil.' }
-      : { buffer: await sharp(buffer).webp({ quality: 82 }).toBuffer(), contentType: 'image/webp' };
+      : { buffer: await sharp(buffer).rotate().webp({ quality: 82 }).toBuffer(), contentType: 'image/webp' };
   } finally {
     imagem.dispose();
   }
