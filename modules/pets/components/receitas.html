@@ -45,17 +45,19 @@
         <!-- Cabeçalho da página -->
         <header class="section-header-section" id="headerSection"></header>
 
+        <!-- Seletor de pet no mesmo lugar das páginas de Medicações e Vacinas -->
+        <section class="seletor-pet-receitas" aria-label="Pet das receitas" hidden>
+            <label for="pet-receitas">Pet</label>
+            <select id="pet-receitas" name="pet_receitas"></select>
+        </section>
+
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link">Medicações</a>
             <a href="receitas.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Receitas</a>
             <a href="vacinacoes.html" class="abas-pet__link">Vacinas</a>
         </nav>
 
-        <!-- Pet e busca -->
-        <section class="seletor-pet-receitas" aria-label="Pet das receitas" hidden>
-            <label for="pet-receitas">Pet</label>
-            <select id="pet-receitas" name="pet_receitas"></select>
-        </section>
+        <!-- Busca -->
         <div class="barra-ferramentas-medicacoes" hidden>
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-receita" class="somente-leitor-tela">Buscar receita</label>

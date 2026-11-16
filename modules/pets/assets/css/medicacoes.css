@@ -1,7 +1,7 @@
 /* ==================================================
 KEEPERHUB — MÓDULO PETS
 Arquivo: medicacoes.css
-Estilos das abas, filtros, cards e listas de medicamentos.
+Estilos das abas, busca, cards e listas de medicamentos.
 Depende de: shared/styles/variables.css, essentials/variables.css, essentials/components.css
 Usado por: medicacoes.html
 ================================================== */
@@ -89,7 +89,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 
 /* Layout de medicações. Cores, fonte e cards vêm de shared. */
 /* ==================================================
-ABAS, BUSCA E FILTRO
+ABAS E BUSCA
 ================================================== */
 .pagina-medicacoes {
   position: relative;
@@ -114,8 +114,7 @@ ABAS, BUSCA E FILTRO
 
 .barra-ferramentas-medicacoes {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 44px;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr);
   padding: 24px 16px 16px;
 }
 
@@ -142,22 +141,6 @@ ABAS, BUSCA E FILTRO
 .busca-medicacoes input {
   min-width: 0;
   text-indent: 28px;
-}
-
-.barra-ferramentas-medicacoes__filtro {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  padding: 0;
-}
-
-.barra-ferramentas-medicacoes__filtro .icone {
-  width: 16px;
-  height: 16px;
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1;
 }
 
 /* ==================================================
@@ -294,7 +277,7 @@ GRUPOS DE USO E CARDS
 .cartao-medicacao--temporario > .icone { color: var(--pets-vaccine); }
 .cartao-medicacao__estoque .icone, .cartao-medicacao__termino .icone { color: var(--text-muted); font-size: 12px; line-height: 1; }
 
-/* Seletor do pet, filtro e estados da lista local. */
+/* Seletor do pet e estados da lista. */
 /* ==================================================
 SELETOR DE PET E ESTADOS DA LISTA
 ================================================== */
@@ -304,15 +287,13 @@ SELETOR DE PET E ESTADOS DA LISTA
   margin: 16px;
 }
 
-.seletor-pet-medicacoes label,
-.filtro-medicacoes label {
+.seletor-pet-medicacoes label {
   color: var(--text-color);
   font-size: 12px;
   font-weight: 700;
 }
 
-.seletor-pet-medicacoes select,
-.filtro-medicacoes select {
+.seletor-pet-medicacoes select {
   width: 100%;
   min-height: 44px;
   padding: 8px 12px;
@@ -322,14 +303,6 @@ SELETOR DE PET E ESTADOS DA LISTA
   border-radius: 8px;
 }
 
-.filtro-medicacoes {
-  grid-column: 1 / -1;
-  display: grid;
-  gap: 8px;
-  padding-top: 8px;
-}
-
-.filtro-medicacoes[hidden],
 .seletor-pet-medicacoes [hidden],
 .formulario-adicionar-medicacao > .campo-formulario[hidden] {
   display: none !important;

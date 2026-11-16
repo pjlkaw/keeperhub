@@ -23,6 +23,7 @@ export const LIMITES_EXAME = {
   anexos: LIMITES_ANEXOS.quantidade,
   bytesTotais: LIMITES_ANEXOS.bytesTotais,
 };
+export const TIPOS_REGISTRO_EXAME = ['exame', 'laudo'];
 export { validarAnexo as validarAnexoExame };
 
 function dataParaTexto(valor) {
@@ -39,6 +40,7 @@ export function mapearExame(linha, anexos = []) {
   return {
     id: String(linha.id),
     petId: String(linha.petId),
+    tipoRegistro: linha.tipoRegistro || 'exame',
     nome: linha.nome,
     data: dataParaTexto(linha.dataExame),
     resultado: linha.resultado || '',
@@ -51,7 +53,7 @@ export function mapearExame(linha, anexos = []) {
 export async function listarExamesPorPet(usuarioId, executor = db) {
   const [[exames], anexosPorExame] = await Promise.all([
     executor.execute(
-      `SELECT e.id_exame AS id, e.pet_id AS petId, e.nome, e.data_exame AS dataExame,
+      `SELECT e.id_exame AS id, e.pet_id AS petId, e.tipo_registro AS tipoRegistro, e.nome, e.data_exame AS dataExame,
               e.resultado, e.observacao
          FROM pet_exame e
          JOIN pet p ON p.id_pet = e.pet_id
@@ -73,7 +75,7 @@ export async function listarExamesPorPet(usuarioId, executor = db) {
 }
 
 function valoresExame(dados) {
-  return [dados.nome, dados.data || null, dados.resultado || null, dados.observacao || null];
+  return [dados.tipoRegistro || 'exame', dados.nome, dados.data || null, dados.resultado || null, dados.observacao || null];
 }
 
 // Cadastra o exame de um pet com seus anexos. Retorna null se o pet não for do usuário.
@@ -88,8 +90,8 @@ export async function cadastrarExame(usuarioId, petId, dados, anexos = []) {
       );
       if (!pets.length) return null;
       const [inserido] = await conexao.execute(
-        `INSERT INTO pet_exame (pet_id, nome, data_exame, resultado, observacao)
-         VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO pet_exame (pet_id, tipo_registro, nome, data_exame, resultado, observacao)
+         VALUES (?, ?, ?, ?, ?, ?)`,
         [petId, ...valoresExame(dados)]
       );
       await gravarAnexos(conexao, usuarioId, ENTIDADE, inserido.insertId, enviados);
@@ -127,7 +129,7 @@ export async function atualizarExame(id, usuarioId, dados, novosAnexos = [], ids
     const resultado = await emTransacao(async conexao => {
       if (!(await exameDoUsuario(conexao, usuarioId, id))) return null;
       await conexao.execute(
-        `UPDATE pet_exame SET nome = ?, data_exame = ?, resultado = ?, observacao = ?
+        `UPDATE pet_exame SET tipo_registro = ?, nome = ?, data_exame = ?, resultado = ?, observacao = ?
           WHERE id_exame = ?`,
         [...valoresExame(dados), id]
       );

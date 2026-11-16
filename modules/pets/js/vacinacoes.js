@@ -403,12 +403,16 @@ function renderizarLista() {
                 ? 'Vence hoje'
                 : `Faltam ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
 
+        const observacao = typeof vacina.observacao === 'string' && vacina.observacao.trim()
+            ? `<p class="cartao-destaque-vacina__observacao"><strong>Observação:</strong> ${escapar(vacina.observacao.trim())}</p>`
+            : '';
+
         const li = document.createElement('li');
 
         // Insere os valores variáveis escapados para que sejam tratados como texto.
         // O primeiro cartão recebe uma classe visual de destaque.
         const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
-        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${etiquetaPets}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><div class="cartao-destaque-vacina__agenda"><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></div><div class="acoes-cartao-registro cartao-destaque-vacina__acoes"><div class="cartao-destaque-vacina__acoes-links"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div>${vacina.status === 'agendada' ? `<button type="button" class="botao-texto botao-acao-pet" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}</div></article>`;
+        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${etiquetaPets}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><div class="cartao-destaque-vacina__agenda"><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></div>${observacao}<div class="acoes-cartao-registro cartao-destaque-vacina__acoes"><div class="cartao-destaque-vacina__acoes-links"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div>${vacina.status === 'agendada' ? `<button type="button" class="botao-texto botao-acao-pet" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}</div></article>`;
 
         listaDestaques.append(li);
     }

@@ -18,6 +18,16 @@ const campos = {
 const listaSalvos = formulario.querySelector('[data-anexos-salvos]');
 const botao = formulario.querySelector('[type="submit"]');
 const aviso = document.getElementById('aviso-receita');
+const resumoAnexos = document.getElementById('resumo-anexos-receita');
+
+function atualizarResumoAnexos() {
+    const arquivos = [...campos.anexos.files];
+    resumoAnexos.textContent = arquivos.length === 0
+        ? 'Nenhum arquivo selecionado'
+        : arquivos.length === 1
+            ? arquivos[0].name
+            : `${arquivos.length} arquivos selecionados`;
+}
 
 const parametros = new URLSearchParams(location.search);
 const idEdicao = parametros.get('id');
@@ -58,6 +68,8 @@ listaSalvos.addEventListener('click', event => {
     else anexosParaRemover.add(id);
     desenharAnexosSalvos();
 });
+
+campos.anexos.addEventListener('change', atualizarResumoAnexos);
 
 function lerArquivo(arquivo) {
     return new Promise((resolver, rejeitar) => {
@@ -170,6 +182,7 @@ async function iniciar() {
             if (petUrl) campos.pet.value = petUrl.id;
             else if (pets.length === 1) campos.pet.value = pets[0].id;
         }
+        atualizarResumoAnexos();
         botao.disabled = false;
     } catch (erro) {
         informar(erro.message || 'Não foi possível carregar os pets.', true);

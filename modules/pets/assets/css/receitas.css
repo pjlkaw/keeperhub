@@ -113,8 +113,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
 
 .barra-ferramentas-medicacoes {
   display: grid;
-  grid-template-columns: minmax(0px, 1fr) 44px;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr);
   padding: 24px 16px 16px;
 }
 
@@ -142,23 +141,7 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="
   text-indent: 28px;
 }
 
-.barra-ferramentas-medicacoes__filtro {
-  display: grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  padding: 0px;
-}
-
-.barra-ferramentas-medicacoes__filtro .icone {
-  width: 16px;
-  height: 16px;
-  color: var(--text-muted);
-  font-size: 14px;
-  line-height: 1;
-}
-
-.cartao-medicacao__dosagem) {
+.cartao-medicacao__dosagem {
   margin-top: 4px;
   color: var(--text-muted);
   font-size: 0.75rem;
@@ -180,6 +163,12 @@ LISTAS DE RECEITAS
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+}
+.pagina-receitas > :is(.modules-nav-wrapper, .section-header-section, .seletor-pet-receitas) {
+  position: relative;
+  z-index: 52;
+  font-size: 14px;
+  line-height: 1;
 }
 .status-receitas { margin: 8px 16px; color: var(--text-muted); font-size: 0.8125rem; }
 .status-receitas[data-estado="erro"] { color: var(--pets-status-alerta); }
@@ -303,3 +292,52 @@ CARD, STATUS E AÇÕES DA RECEITA
 
 .cartao-receita > .icone { display: grid; place-items: center; color: var(--pets-vaccine); font-size: 16px; line-height: 1; }
 .cartao-receita__baixar .icone { color: var(--text-muted); font-size: 16px; line-height: 1; }
+
+.cartao-receita--ativa > .icone {
+  color: var(--pets-status-continuo);
+  background: color-mix(in srgb, var(--pets-status-continuo) 12%, var(--card-bg));
+  border-color: color-mix(in srgb, var(--pets-status-continuo) 35%, var(--border-color));
+}
+.cartao-receita__acoes-registro {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  margin-top: 10px;
+}
+.cartao-receita__acoes-links {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 14px;
+}
+.cartao-receita__acoes-links > :is(a, button) {
+  display: inline-flex;
+  width: auto;
+  min-height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.cartao-receita__acoes-registro > .botao-acao-pet {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  color: var(--pill-text);
+  background: var(--pets-primary-fill);
+  border: 1px solid transparent;
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  cursor: pointer;
+}
+.cartao-receita__acoes-registro > .botao-acao-pet:hover:not(:disabled) { background: var(--pets-primary-active); }
+.cartao-receita__acoes-registro > .botao-acao-pet:focus-visible {
+  outline: 2px solid var(--tool-pets);
+  outline-offset: 2px;
+}

@@ -8,6 +8,7 @@ const TIPOS = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 const formulario = document.querySelector('.formulario-exame');
 const campos = {
     pet: document.getElementById('pet-exame'),
+    tipo: document.getElementById('tipo-registro-exame'),
     nome: document.getElementById('nome-exame'),
     data: document.getElementById('data-exame'),
     resultado: document.getElementById('resultado-exame'),
@@ -17,6 +18,30 @@ const campos = {
 const listaSalvos = formulario.querySelector('[data-anexos-salvos]');
 const botao = formulario.querySelector('[type="submit"]');
 const aviso = document.getElementById('aviso-exame');
+const resumoAnexos = document.getElementById('resumo-anexos-exame');
+
+function atualizarTipoRegistro() {
+    const laudo = campos.tipo.value === 'laudo';
+    document.getElementById('rotulo-nome-exame').textContent = laudo ? 'Nome do laudo' : 'Nome do exame';
+    campos.nome.placeholder = laudo ? 'Ex: Laudo dermatológico' : 'Ex: Hemograma completo';
+    document.getElementById('rotulo-data-exame').textContent = laudo ? 'Data do laudo (opcional)' : 'Data do exame (opcional)';
+    document.getElementById('rotulo-resultado-exame').textContent = laudo ? 'Resumo do laudo (opcional)' : 'Resultado (opcional)';
+    campos.resultado.placeholder = laudo ? 'Resumo ou conclusão do laudo' : 'Ex: Valores dentro do normal';
+    document.getElementById('rotulo-anexos-exame').textContent = laudo ? 'Arquivo do laudo (opcional)' : 'Anexos do exame (opcional)';
+    botao.textContent = exameEmEdicao
+        ? 'Salvar alterações'
+        : laudo ? 'Salvar laudo' : 'Salvar exame';
+    aviso.textContent = laudo ? 'O laudo será salvo na sua conta.' : 'O exame será salvo na sua conta.';
+}
+
+function atualizarResumoAnexos() {
+    const arquivos = [...campos.anexos.files];
+    resumoAnexos.textContent = arquivos.length === 0
+        ? 'Nenhum arquivo selecionado'
+        : arquivos.length === 1
+            ? arquivos[0].name
+            : `${arquivos.length} arquivos selecionados`;
+}
 
 const parametros = new URLSearchParams(location.search);
 const idEdicao = parametros.get('id');
@@ -70,27 +95,34 @@ function lerArquivo(arquivo) {
 // Mesmas regras da API: nome obrigatório, data não futura e anexos dentro dos limites.
 function validar(arquivos) {
     const nome = campos.nome.value.trim();
+    const tipoRegistro = campos.tipo.value;
     if (!campos.pet.value) return { erro: 'Selecione o pet.', campo: campos.pet };
+    if (!['exame', 'laudo'].includes(tipoRegistro)) {
+        return { erro: 'Selecione se o registro é um exame ou laudo.', campo: campos.tipo };
+    }
     if (!nome || nome.length > LIMITES.nome) {
-        return { erro: `Informe o nome do exame (até ${LIMITES.nome} caracteres).`, campo: campos.nome };
+        return { erro: `Informe o nome do ${tipoRegistro} (até ${LIMITES.nome} caracteres).`, campo: campos.nome };
     }
     if (campos.data.value && campos.data.value > hojeLocal()) {
-        return { erro: 'A data do exame não pode ser no futuro.', campo: campos.data };
+        return { erro: `A data do ${tipoRegistro} não pode ser no futuro.`, campo: campos.data };
     }
     if (arquivos.some(arquivo => !TIPOS.includes(arquivo.type))) {
         return { erro: 'Envie o laudo em PDF, JPG, PNG ou WEBP.', campo: campos.anexos };
     }
     const mantidos = (exameEmEdicao?.anexos ?? []).filter(anexo => !anexosParaRemover.has(String(anexo.id)));
     if (mantidos.length + arquivos.length > LIMITES.anexos) {
-        return { erro: `O exame pode ter até ${LIMITES.anexos} anexos.`, campo: campos.anexos };
+        return { erro: `O ${tipoRegistro} pode ter até ${LIMITES.anexos} anexos.`, campo: campos.anexos };
     }
     const bytes = mantidos.reduce((soma, anexo) => soma + Number(anexo.tamanho || 0), 0) +
         arquivos.reduce((soma, arquivo) => soma + arquivo.size, 0);
     if (bytes > LIMITES.bytesTotais) {
         return { erro: 'Os anexos do exame precisam ter até 1 MB no total.', campo: campos.anexos };
     }
-    return { nome };
+    return { nome, tipoRegistro };
 }
+
+campos.tipo.addEventListener('change', atualizarTipoRegistro);
+campos.anexos.addEventListener('change', atualizarResumoAnexos);
 
 formulario.addEventListener('submit', async event => {
     event.preventDefault();
@@ -106,6 +138,7 @@ formulario.addEventListener('submit', async event => {
     informar('Salvando...');
     try {
         const dados = {
+            tipoRegistro: validacao.tipoRegistro,
             nome: validacao.nome,
             data: campos.data.value,
             resultado: campos.resultado.value.trim(),
@@ -148,6 +181,7 @@ async function iniciar() {
             }
             campos.pet.value = dono.id;
             campos.pet.disabled = true;
+            campos.tipo.value = exameEmEdicao.tipoRegistro || 'exame';
             campos.nome.value = exameEmEdicao.nome;
             campos.data.value = exameEmEdicao.data || '';
             campos.resultado.value = exameEmEdicao.resultado || '';
@@ -159,6 +193,8 @@ async function iniciar() {
             if (petUrl) campos.pet.value = petUrl.id;
             else if (pets.length === 1) campos.pet.value = pets[0].id;
         }
+        atualizarTipoRegistro();
+        atualizarResumoAnexos();
         botao.disabled = false;
     } catch (erro) {
         informar(erro.message || 'Não foi possível carregar os pets.', true);

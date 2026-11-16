@@ -91,10 +91,13 @@ function criarCartao({ pet, receita, estado }, mostrarPet) {
     const observacao = receita.observacao
         ? `<p class="cartao-receita__observacao">${escapar(receita.observacao)}</p>`
         : '';
-    const concluir = estado === 'concluida'
+    const reabrir = estado === 'concluida'
         ? `<button type="button" class="botao-texto" data-reabrir-receita="${escapar(receita.id)}">Reabrir</button>`
-        : `<button type="button" class="botao-texto" data-concluir-receita="${escapar(receita.id)}">Concluir</button>`;
-    li.innerHTML = `<article class="card cartao-receita cartao-receita--${estado}"><i class="fa-solid fa-prescription-bottle-medical icone" aria-hidden="true"></i><div class="cartao-receita__informacoes"><h3 class="cartao-receita__nome">${escapar(receita.nome)}${etiquetaPet}</h3>${receita.veterinario ? `<p class="cartao-receita__veterinario">${escapar(receita.veterinario)}</p>` : ''}<p class="cartao-receita__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>${escapar(textoData(receita, estado))}</p>${observacao}${listaAnexos}<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlCadastro(pet.id, receita.id))}">Editar</a>${concluir}<button type="button" class="botao-texto" data-excluir-receita="${escapar(receita.id)}">Remover</button></div></div><div class="cartao-receita__acoes"><span class="etiqueta-receita etiqueta-receita--${estado}">${ROTULOS[estado]}</span>${baixar}</div></article>`;
+        : '';
+    const concluir = estado !== 'concluida'
+        ? `<button type="button" class="botao-acao-pet" data-concluir-receita="${escapar(receita.id)}">Concluir receita</button>`
+        : '';
+    li.innerHTML = `<article class="card cartao-receita cartao-receita--${estado}"><i class="fa-solid fa-file-prescription icone" aria-hidden="true"></i><div class="cartao-receita__informacoes"><h3 class="cartao-receita__nome">${escapar(receita.nome)}${etiquetaPet}</h3>${receita.veterinario ? `<p class="cartao-receita__veterinario">${escapar(receita.veterinario)}</p>` : ''}<p class="cartao-receita__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>${escapar(textoData(receita, estado))}</p>${observacao}${listaAnexos}<div class="acoes-cartao-registro cartao-receita__acoes-registro"><div class="cartao-receita__acoes-links"><a class="botao-texto" href="${escapar(urlCadastro(pet.id, receita.id))}">Editar</a>${reabrir}<button type="button" class="botao-texto" data-excluir-receita="${escapar(receita.id)}">Remover</button></div>${concluir}</div></div><div class="cartao-receita__acoes"><span class="etiqueta-receita etiqueta-receita--${estado}">${ROTULOS[estado]}</span>${baixar}</div></article>`;
     return li;
 }
 

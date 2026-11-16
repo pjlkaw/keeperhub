@@ -105,6 +105,62 @@ CADASTRO DE EXAME (cadastrar-exame.html usa este formulário)
 ================================================== */
 .formulario-exame textarea { min-height: 88px; }
 .ajuda-anexos-exame { margin-top: 4px; color: var(--text-muted); font-size: 0.75rem; }
+.seletor-anexos {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  margin-top: 8px;
+}
+.seletor-anexos__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+}
+.seletor-anexos__botao {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  color: var(--pets-primary-readable);
+  background: var(--pets-primary-soft);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+.formulario-adicionar-consulta .campo-formulario .seletor-anexos__botao {
+  display: inline-flex;
+  width: auto;
+  min-height: 40px;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+}
+.seletor-anexos__botao:hover { background: var(--pets-primary); color: var(--text-on-primary, #fff); }
+.seletor-anexos__input:focus-visible + .seletor-anexos__botao {
+  outline: 2px solid var(--pets-primary);
+  outline-offset: 2px;
+}
+.seletor-anexos__resumo {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
 .anexos-exame { display: grid; gap: 4px; margin-top: 8px; }
 .anexos-exame[hidden] { display: none; }
 .anexo-exame { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.8125rem; }

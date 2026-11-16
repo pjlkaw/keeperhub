@@ -24,8 +24,8 @@
         const petId = parametros.get('petId');
         window.keeperhubModuleConfig = {
           module: 'pets',
-          title: edicao ? 'Editar exame' : 'Adicionar exame',
-          subtitle: edicao ? 'Atualize os dados e os anexos do exame' : 'Guarde exames e laudos do seu pet',
+          title: edicao ? 'Editar exame ou laudo' : 'Adicionar exame ou laudo',
+          subtitle: edicao ? 'Atualize os dados e os anexos do registro' : 'Guarde exames e laudos do seu pet',
           backUrl: '/modules/pets/components/consultas-exames.html' + (petId ? '?petId=' + encodeURIComponent(petId) : ''),
           notificationsModule: 'pets'
         };
@@ -55,17 +55,25 @@
             </div>
 
             <div class="campo-formulario">
-                <label for="nome-exame">Nome do exame</label>
+                <label for="tipo-registro-exame">Tipo de registro</label>
+                <select id="tipo-registro-exame" name="tipo_registro" required>
+                    <option value="exame">Exame</option>
+                    <option value="laudo">Laudo</option>
+                </select>
+            </div>
+
+            <div class="campo-formulario">
+                <label id="rotulo-nome-exame" for="nome-exame">Nome do exame</label>
                 <input type="text" id="nome-exame" name="nome" maxlength="150" placeholder="Ex: Hemograma completo" required>
             </div>
 
             <div class="campo-formulario">
-                <label for="data-exame">Data do exame (opcional)</label>
+                <label id="rotulo-data-exame" for="data-exame">Data do exame (opcional)</label>
                 <input type="date" id="data-exame" name="data">
             </div>
 
             <div class="campo-formulario">
-                <label for="resultado-exame">Resultado (opcional)</label>
+                <label id="rotulo-resultado-exame" for="resultado-exame">Resultado (opcional)</label>
                 <textarea id="resultado-exame" name="resultado" maxlength="5000" placeholder="Ex: Valores dentro do normal"></textarea>
             </div>
 
@@ -75,8 +83,12 @@
             </div>
 
             <div class="campo-formulario">
-                <label for="anexos-exame">Laudo ou fotos (opcional)</label>
-                <input type="file" id="anexos-exame" name="anexos" multiple accept="application/pdf,image/jpeg,image/png,image/webp" aria-describedby="ajuda-anexos-exame">
+                <label id="rotulo-anexos-exame" for="anexos-exame">Anexos do exame (opcional)</label>
+                <div class="seletor-anexos">
+                    <input class="seletor-anexos__input" type="file" id="anexos-exame" name="anexos" multiple accept="application/pdf,image/jpeg,image/png,image/webp" aria-describedby="ajuda-anexos-exame resumo-anexos-exame">
+                    <label class="seletor-anexos__botao" for="anexos-exame"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> Escolher arquivos</label>
+                    <span class="seletor-anexos__resumo" id="resumo-anexos-exame" data-anexos-selecionados aria-live="polite">Nenhum arquivo selecionado</span>
+                </div>
                 <p id="ajuda-anexos-exame" class="ajuda-anexos-exame">PDF, JPG, PNG ou WEBP. Até 10 arquivos e 1 MB no total.</p>
                 <ul class="anexos-exame" data-anexos-salvos hidden></ul>
             </div>
