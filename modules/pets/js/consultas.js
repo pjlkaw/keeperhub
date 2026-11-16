@@ -1,9 +1,10 @@
 // Controla o cadastro, a listagem e o histórico das consultas dos pets.
-import { definirConsultasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { definirConsultasDoBanco, listarPets } from './armazenamento.js';
 import { atualizarConsultasApi, cadastrarConsultaApi, excluirConsultasApi, registrarConsultasRealizadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
+import { examesDoEscopo, examesDoPet, prepararExames, renderizarExames } from './exames-lista.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
 
@@ -96,6 +97,23 @@ function formatarData(iso) {
     return new Intl.DateTimeFormat('pt-BR', {
         dateStyle: 'medium'
     }).format(new Date(iso + 'T12:00:00'));
+}
+
+// Calcula os dias até a consulta usando datas locais, sem depender do fuso UTC.
+function textoDiasAteConsulta(iso, hoje = dataLocalISO()) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(iso ?? '')) return '';
+
+    const dias = Math.ceil(
+        (new Date(`${iso}T12:00:00`) - new Date(`${hoje}T12:00:00`)) / 86400000
+    );
+
+    if (dias === 0) return 'Hoje';
+    if (dias < 0) {
+        const atraso = Math.abs(dias);
+        return `Há ${atraso} ${atraso === 1 ? 'dia' : 'dias'}`;
+    }
+
+    return `Faltam ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
 }
 
 // Atualiza o parâmetro petId da URL sem recarregar a página.
@@ -267,7 +285,8 @@ function renderizarLista() {
     prepararLinkCadastro();
     consultasExibidas.clear();
 
-    const temConsultaEmAlgumPet = pets.some(pet => consultasVisiveis(pet).length > 0);
+    // Exames também contam como conteúdo da página (um pet pode ter só exames).
+    const temConsultaEmAlgumPet = pets.some(pet => consultasVisiveis(pet).length > 0 || examesDoPet(pet, false).length > 0);
 
     // Sem pet selecionado, só mostra uma orientação se já houver registros
     // em algum pet; no primeiro cadastro usa o no-content compartilhado.
@@ -290,6 +309,11 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'consultas').some(consulta =>
+            exclusoesPendentes.has(String(consulta.id))
+        )
+    );
     const consultas = agruparRegistros(escopo, consultasVisiveis,
         consulta => consulta.status === "realizada" ? "realizada" : "pendente")
         .sort((a, b) =>
@@ -297,15 +321,18 @@ function renderizarLista() {
                 .localeCompare(`${b.data ?? ''} ${b.horario ?? ''}`)
         );
 
-    if (!consultas.length) {
+    if (!consultas.length && !examesDoEscopo(escopo, false).length) {
         proximas.replaceChildren();
         historico.replaceChildren();
         secoesConteudo.forEach(secao => { secao.hidden = true; });
         const podeTrocarPet = temConsultaEmAlgumPet && pets.length > 1;
+        // Mantém o aviso de desfazer visível até a exclusão terminar ou ser cancelada.
         seletorSecao.hidden = !podeTrocarPet;
         botaoAdicionar.hidden = false;
-        informar(podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma consulta para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -314,6 +341,11 @@ function renderizarLista() {
     secoesConteudo.forEach(secao => { secao.hidden = false; });
     atualizarNoContent(true);
     informar('');
+    renderizarExames(mainPainel.querySelector('.exames-medicos'), {
+        escopo,
+        todos: todosPetsSelecionados,
+        petAtual
+    });
 
     // Usa a data local de hoje para separar consultas futuras das anteriores.
     const agora = dataLocalISO();
@@ -332,24 +364,53 @@ function renderizarLista() {
             '<li class="consulta-vazia">Nenhuma consulta futura cadastrada.</li>';
     }
 
-    futuras.forEach((consulta, indice) => {
+    futuras.forEach(consulta => {
         const id = escapar(consulta.id);
         consultasExibidas.set(String(consulta.id), consulta.membros);
         const especialidadeConsulta = consulta.especialidade === 'outra'
             ? consulta.especialidadePersonalizada
             : nomeEspecialidade[consulta.especialidade] ?? consulta.especialidadePersonalizada;
-        const detalheMedico = [especialidadeConsulta ?? '', consulta.clinica ?? '']
+        const detalhesConsulta = [especialidadeConsulta ?? '', consulta.clinica ?? '']
             .filter(Boolean)
             .join(' · ');
+        const etiquetaPets = consulta.nomesPets?.length
+            ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
+            : '';
+        const profissional = consulta.medico?.trim() || 'Profissional não informado';
+        const dataHora = [formatarData(consulta.data), consulta.horario].filter(Boolean).join(' · ');
+        const contagemRegressiva = textoDiasAteConsulta(consulta.data);
         const item = document.createElement('li');
 
-        item.innerHTML = `<article class="card cartao-consulta${indice === 0 ? ' cartao-consulta--destaque' : ''}" data-consulta-id="${id}">
-            <h3 class="cartao-consulta__veterinario">${escapar(consulta.medico)}${todosPetsSelecionados ? " · " + escapar(consulta.nomesPets.join(", ")) : ""}</h3>
-            <p class="cartao-consulta__local"><i class="fa-solid fa-location-dot icone" aria-hidden="true"></i>${escapar(detalheMedico || 'Local não informado')}</p>
-            <p class="cartao-consulta__data-hora"><span class="cartao-consulta__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>${escapar(formatarData(consulta.data))}</span><span class="cartao-consulta__horario"><i class="fa-regular fa-clock icone" aria-hidden="true"></i>${escapar(consulta.horario || '')}</span></p>
-            <div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div>
-            <details class="confirmar-consulta"><summary class="confirmar-consulta__acionador">Registrar atendimento</summary><form class="confirmar-consulta__formulario" data-form-historico><div class="campo-formulario"><label for="resumo-${id}">Resumo da consulta</label><textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea></div><button type="submit" class="botao-principal">Salvar no Histórico</button></form></details>
-        </article>`;
+        item.innerHTML = `
+            <article class="card cartao-consulta" data-consulta-id="${id}">
+                <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
+                <div class="cartao-consulta__informacoes">
+                    <p class="cartao-consulta__rotulo">Consulta agendada</p>
+                    <h3 class="cartao-consulta__veterinario">${escapar(profissional)}${etiquetaPets}</h3>
+                    <div class="cartao-consulta__agenda">
+                        <p class="cartao-consulta__data">
+                            <i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i>
+                            <time datetime="${escapar(consulta.data)}">${escapar(dataHora)}</time>
+                        </p>
+                        <p class="cartao-consulta__contagem-regressiva">${escapar(contagemRegressiva)}</p>
+                    </div>
+                    ${detalhesConsulta ? `<p class="cartao-consulta__detalhes">${escapar(detalhesConsulta)}</p>` : ''}
+                    <div class="acoes-cartao-registro cartao-consulta__acoes">
+                        <a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a>
+                        <button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button>
+                        <details class="confirmar-consulta">
+                            <summary class="confirmar-consulta__acionador botao-acao-pet">Registrar atendimento</summary>
+                            <form class="confirmar-consulta__formulario" data-form-historico>
+                                <div class="campo-formulario">
+                                    <label for="resumo-${id}">Resumo da consulta</label>
+                                    <textarea id="resumo-${id}" name="resumo" placeholder="Diagnóstico, recomendações ou observações...">${escapar(consulta.resumo ?? '')}</textarea>
+                                </div>
+                                <button type="submit" class="botao-principal">Salvar no Histórico</button>
+                            </form>
+                        </details>
+                    </div>
+                </div>
+            </article>`;
         proximas.append(item);
     });
 
@@ -360,10 +421,12 @@ function renderizarLista() {
 
     realizadas.forEach(consulta => {
         const item = document.createElement('li');
+        item.className = 'item-historico-pets';
+        const profissional = consulta.medico?.trim() || 'Profissional não informado';
         const etiquetaPets = consulta.nomesPets?.length
             ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
             : '';
-        item.innerHTML = `<article class="linha-tempo-medica__item"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data">${escapar(formatarData(consulta.data))}</p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
+        item.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(profissional)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(consulta.data)}">Consulta em ${escapar(formatarData(consulta.data))}</time></p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
         historico.append(item);
     });
 }
@@ -425,10 +488,10 @@ function configurarFormulario() {
     // O campo de especialidade personalizada começa oculto.
     campoOutra.hidden = true;
 
-    // Marca os campos necessários como obrigatórios.
-    especialidade.required = true;
-    formulario.elements.nome_medico.required = true;
-    formulario.elements.clinica.required = true;
+    // Médico, especialidade e clínica podem ser informados depois.
+    especialidade.required = false;
+    formulario.elements.nome_medico.required = false;
+    formulario.elements.clinica.required = false;
     data.required = true;
     formulario.elements.horario_consulta.required = true;
     outra.required = false;
@@ -456,21 +519,11 @@ function configurarFormulario() {
         // Não cadastra se nenhum pet estiver selecionado.
         if (salvando || !petsAlvo.length) return;
 
-        // Confirma que campos de texto obrigatórios não estejam vazios
-        // depois de remover os espaços das pontas.
-        const camposTexto = [
-            formulario.elements.nome_medico,
-            formulario.elements.clinica
-        ];
-
-        // A especialidade personalizada também é obrigatória
-        // quando a opção "outra" está selecionada.
-        if (especialidade.value === 'outra') camposTexto.push(outra);
-
-        camposTexto.forEach(campo =>
-            campo.setCustomValidity(
-                campo.value.trim() ? '' : 'Preencha este campo.'
-            )
+        // Ao escolher "Outra", o usuário precisa informar qual especialidade.
+        outra.setCustomValidity(
+            especialidade.value === 'outra' && !outra.value.trim()
+                ? 'Informe a especialidade.'
+                : ''
         );
 
         // Pede ao navegador para mostrar erros dos campos inválidos.
@@ -486,11 +539,11 @@ function configurarFormulario() {
         const dadosConsulta = {
             petIds: petsAlvo.map(pet => pet.id),
             ...(modoEdicao ? { petIdsOrigem: petIdsEdicao.map(Number) } : {}),
-            medico: formulario.elements.nome_medico.value.trim(),
+            medico: formulario.elements.nome_medico.value.trim() || null,
             especialidade: especialidadeValor,
             especialidadePersonalizada:
                 especialidadeValor === 'outra' ? outra.value.trim() : '',
-            clinica: formulario.elements.clinica.value.trim(),
+            clinica: formulario.elements.clinica.value.trim() || null,
             data: data.value,
             horario: formulario.elements.horario_consulta.value,
             ...(modoEdicao ? { ids: idsEdicao.map(Number) } : {})
@@ -503,8 +556,7 @@ function configurarFormulario() {
             const resposta = modoEdicao
                 ? await atualizarConsultasApi(dadosConsulta)
                 : await cadastrarConsultaApi(dadosConsulta);
-            if (modoEdicao) separarRegistrosDoGrupo('consultas', idsEdicao);
-            definirConsultasDoBanco(resposta.consultas, resposta.grupoIds ?? resposta.criados);
+            definirConsultasDoBanco(resposta.consultas);
             if (modoEdicao) {
                 const destino = new URL('consultas-exames.html', location.href);
                 if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
@@ -551,9 +603,16 @@ if (paginaLista) {
         .querySelectorAll('.confirmar-consulta__formulario')
         .forEach(form => form.remove());
 
+    prepararExames(mainPainel.querySelector('.exames-medicos'), {
+        aoAtualizar: renderizarLista,
+        informar
+    });
+
     mainPainel.addEventListener('click', async event => {
         const botao = event.target.closest('[data-excluir-consulta]');
         if (!botao) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const secaoOrigem = botao.closest('.consultas, .historico-medico');
         const ids = botao.dataset.excluirConsulta.split(',').filter(Boolean).map(Number);
         const confirmado = await confirmarExclusao({
             titulo: 'Excluir consulta?',
@@ -564,10 +623,10 @@ if (paginaLista) {
         const idsTexto = ids.map(String);
         idsTexto.forEach(id => exclusoesPendentes.add(id));
         renderizarLista();
-        mainPainel.querySelector('.consultas').hidden = false;
+        if (secaoOrigem) secaoOrigem.hidden = false;
 
         oferecerDesfazerExclusao({
-            antesDe: mainPainel.querySelector('.consultas > ul'),
+            posicao: posicaoAviso,
             mensagem: 'Consulta removida da lista.',
             aoDesfazer() {
                 idsTexto.forEach(id => exclusoesPendentes.delete(id));
@@ -576,7 +635,6 @@ if (paginaLista) {
             async aoExcluir() {
                 const consultas = await excluirConsultasApi(ids);
                 idsTexto.forEach(id => exclusoesPendentes.delete(id));
-                separarRegistrosDoGrupo('consultas', idsTexto);
                 definirConsultasDoBanco(consultas);
             },
             aoFalhar(erro) {

@@ -1,4 +1,6 @@
 import { atualizarNoContent } from "/shared/services/no-content.js";
+import { alertShared } from "/shared/services/interface.js";
+import { listarParaVencimentos } from "./api.js";
 
 /* =====================================================
    KEEPERHUB — DESPENSA / VENCIMENTOS.JS
@@ -13,12 +15,6 @@ import { atualizarNoContent } from "/shared/services/no-content.js";
 ===================================================== */
 
 
-/* CHAVE DE ARMAZENAMENTO
-
-   Deve ser exatamente igual à chave utilizada no index.js.
-*/
-
-const STORAGE_KEY = "keeperHubProducts";
 
 
 /* ELEMENTOS HTML */
@@ -46,29 +42,53 @@ let filtroAtual = "todos";
 /* =====================================================
    BUSCAR PRODUTOS
 
-   Recupera os mesmos produtos cadastrados na página index.
+   Os produtos vêm do banco (mesma origem da tela inicial).
+   produtosCarregados guarda a última resposta da API.
 ===================================================== */
+
+let produtosCarregados = [];
 
 function getProducts() {
 
+    return produtosCarregados;
+
+}
+
+async function carregarProdutos() {
+
     try {
 
-        const saved = JSON.parse(
-            localStorage.getItem(STORAGE_KEY) || "[]"
-        );
+        // Produtos + lotes de medicamento (o estoque de medicamentos
+        // também é controlado pela Despensa)
+        const { produtos, medicamentos } = await listarParaVencimentos();
 
-        return Array.isArray(saved) ? saved : [];
+        produtosCarregados = [
+            ...produtos.map(produto => ({
+                id: produto.id,
+                name: produto.nome,
+                category: produto.categoria,
+                quantity: produto.quantidade,
+                expiry: produto.validade
+            })),
+            ...medicamentos.map(lote => ({
+                id: lote.id,
+                name: lote.nome,
+                category: "Medicamentos",
+                quantity: lote.quantidade,
+                unit: lote.unidade,
+                expiry: lote.validade
+            }))
+        ];
 
     } catch (error) {
 
-        console.error(
-            "Erro ao ler produtos para vencimentos:",
-            error
-        );
+        console.error("Erro ao ler produtos para vencimentos:", error);
 
-        return [];
+        alertShared(error.message);
 
     }
+
+    renderizarVencimentos();
 
 }
 
@@ -296,8 +316,10 @@ function criarCard(product) {
 
     informacoes.className = "card produto-info";
 
-    informacoes.textContent =
-        `${product.category} • ${product.quantity} unidade(s)`;
+    // Medicamento mostra a unidade de estoque (ex.: 10 comprimidos)
+    informacoes.textContent = product.unit
+        ? `${product.category} • ${Number(product.quantity).toLocaleString("pt-BR")} ${product.unit}`
+        : `${product.category} • ${product.quantity} unidade(s)`;
 
 
     /* ADICIONA OS ELEMENTOS AO CARTÃO */
@@ -452,22 +474,6 @@ botoesFiltro.forEach(botao => {
 });
 
 
-/* =====================================================
-   ATUALIZAÇÃO ENTRE ABAS
-
-   Se o localStorage for alterado em outra aba,
-   a página de vencimentos atualiza os dados.
-===================================================== */
-
-window.addEventListener("storage", event => {
-
-    if (event.key === STORAGE_KEY) {
-
-        renderizarVencimentos();
-
-    }
-
-});
 
 
 /* =====================================================
@@ -478,7 +484,7 @@ window.addEventListener("storage", event => {
 
 window.addEventListener(
     "focus",
-    renderizarVencimentos
+    carregarProdutos
 );
 
 
@@ -488,4 +494,4 @@ window.addEventListener(
    Executa a leitura assim que a página abre.
 ===================================================== */
 
-renderizarVencimentos();
+carregarProdutos();

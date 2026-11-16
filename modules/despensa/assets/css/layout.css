@@ -39,13 +39,32 @@
 }
 .despensa-conteudo {
     display: grid;
+    /* minmax(0, 1fr): a coluna nunca fica mais larga que a tela.
+       Sem isso, a fileira de filtros (que rola para o lado) esticava
+       a coluna e empurrava os cards e a busca para fora da tela. */
+    grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+}
+/* Texto só para leitor de tela (ex.: título "Resumo da despensa") */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 .despensa [hidden] {
     display: none !important;
 }
 .despensa h2 {
-    font-size: 1.125rem;
+    /* mesmo título de seção de Medicamentos (.meds-section-title) */
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     margin-bottom: 16px;
 }
 .despensa a {

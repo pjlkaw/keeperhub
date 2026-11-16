@@ -2,6 +2,7 @@ import {
   listarAcessosUsuario,
   MODULOS_VALIDOS,
   salvarAcessosUsuario,
+  ativarTesteGratis,
 } from '../../server/repositories/modulos.js';
 import { origemDaRequisicaoValida, usuarioDaSessao } from '../../server/auth-session.js';
 
@@ -24,6 +25,14 @@ export default async function handler(req, res) {
     }
 
     const body = req.body && typeof req.body === 'object' ? req.body : {};
+    if (req.method === 'POST' && body.modo === 'teste') {
+      const resultado = await ativarTesteGratis(usuarioId);
+      if (resultado.expirado) {
+        return res.status(409).json({ erro: 'O período de teste grátis desta conta já terminou.' });
+      }
+      return res.status(200).json({ modulos: resultado.modulos });
+    }
+
     const periodo = typeof body.periodo === 'string' ? body.periodo : '';
     const modulos = [...new Set(Array.isArray(body.modulos) ? body.modulos : [])];
     if (!PERIODOS_VALIDOS.has(periodo) || !modulos.length ||

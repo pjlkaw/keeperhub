@@ -10,6 +10,7 @@ import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 
 // Importa as funções que padronizam e validam os dados do pet antes de salvar.
 import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet.js';
+import { prepararFotoPet } from './processar-foto-pet.js';
 
 // Busca no HTML o formulário e os elementos usados pela página.
 const form = document.getElementById('formulario-informacoes-pet');
@@ -122,43 +123,6 @@ function desabilitarFormulario() {
     botaoExcluir.disabled = true;
 }
 
-// Lê um arquivo de imagem e o converte para uma URL de dados Base64.
-// Promise permite aguardar o resultado da leitura ou tratar um erro.
-function lerArquivoComoDataUrl(arquivo) {
-    return new Promise((resolve, reject) => {
-        // Aceita somente arquivos JPEG, PNG e WebP.
-        if (!['image/jpeg', 'image/png', 'image/webp'].includes(arquivo.type)) {
-            reject(new Error('Escolha uma imagem JPEG, PNG ou WebP.'));
-            return;
-        }
-
-        const leitor = new FileReader();
-
-        // Executado quando a leitura do arquivo termina.
-        leitor.addEventListener('load', () => {
-            // Confirma que o resultado é uma imagem Base64 válida.
-            if (
-                typeof leitor.result !== 'string' ||
-                !/^data:image\/(?:jpeg|png|webp);base64,/.test(leitor.result)
-            ) {
-                reject(new Error('Não foi possível ler a imagem selecionada.'));
-                return;
-            }
-
-            // Entrega o conteúdo da imagem para quem aguardou a Promise.
-            resolve(leitor.result);
-        }, { once: true });
-
-        // Avisa quem aguardou a Promise se o navegador não conseguir ler o arquivo.
-        leitor.addEventListener('error', () => {
-            reject(new Error('Não foi possível ler a imagem selecionada.'));
-        }, { once: true });
-
-        // Inicia a leitura do arquivo como uma URL de dados.
-        leitor.readAsDataURL(arquivo);
-    });
-}
-
 // Busca o pet usando o ID da URL e preenche o formulário.
 async function carregarPet() {
     try {
@@ -201,17 +165,17 @@ botaoExcluir.addEventListener('click', async () => {
 
     enviando = true;
     botaoExcluir.disabled = true;
-    botaoExcluir.textContent = 'Exclusão pendente…';
-    form.inert = true;
+    botaoExcluir.hidden = true;
+    botao.disabled = true;
 
     oferecerDesfazerExclusao({
-        antesDe: form,
+        antesDe: botaoExcluir,
         mensagem: `${petAtual.nome} será removido da conta.`,
         aoDesfazer() {
             enviando = false;
-            form.inert = false;
+            botaoExcluir.hidden = false;
             botaoExcluir.disabled = false;
-            botaoExcluir.textContent = 'Excluir pet';
+            botao.disabled = false;
         },
         async aoExcluir() {
             await excluirPetApi(petId);
@@ -219,9 +183,9 @@ botaoExcluir.addEventListener('click', async () => {
         },
         aoFalhar(erro) {
             informar(erro.message || 'Não foi possível excluir o pet.', true);
-            form.inert = false;
+            botaoExcluir.hidden = false;
             botaoExcluir.disabled = false;
-            botaoExcluir.textContent = 'Excluir pet';
+            botao.disabled = false;
             enviando = false;
         }
     });
@@ -257,16 +221,20 @@ campoFoto.addEventListener('change', () => {
     }
 
     // Lê o arquivo escolhido e, quando terminar, atualiza a prévia da foto.
-    leituraFoto = lerArquivoComoDataUrl(arquivo).then(foto => {
+    leituraFoto = prepararFotoPet(arquivo).then(foto => {
+        if (campoFoto.files?.[0] !== arquivo) return null;
         fotoSelecionada = foto;
         mostrarFoto(foto, form.elements.nome.value.trim() || petAtual.nome);
         informar('Prévia da foto atualizada. Salve as alterações para mantê-la.');
         return foto;
     }).catch(erro => {
         // Se a leitura falhar, limpa a seleção e mostra a mensagem de erro.
-        fotoSelecionada = null;
-        campoFoto.value = '';
-        informar(erro.message, true);
+        if (campoFoto.files?.[0] === arquivo) {
+            fotoSelecionada = null;
+            campoFoto.value = '';
+            if (petAtual) mostrarFoto(petAtual.foto, petAtual.nome);
+            informar(erro.message, true);
+        }
 
         // Mantém a rejeição para que o envio também possa tratar o erro.
         throw erro;
@@ -286,6 +254,21 @@ form.addEventListener('submit', async event => {
     // Não faz nada se já houver um envio em andamento
     // ou se nenhum pet tiver sido carregado.
     if (enviando || !petAtual) return;
+
+    // Aguarda a foto atual mesmo se outra tiver sido escolhida durante a leitura.
+    if (campoFoto.files?.length) {
+        try {
+            let leituraAtual;
+            do {
+                leituraAtual = leituraFoto;
+                await leituraAtual;
+            } while (campoFoto.files?.length && leituraAtual !== leituraFoto);
+        } catch (erro) {
+            informar(erro.message || 'Não foi possível preparar a foto.', true);
+            return;
+        }
+        if (enviando) return;
+    }
 
     // Busca as opções marcadas para espécie e gênero.
     const especieSelecionada = form.querySelector('[name="tipo_animal"]:checked');
@@ -331,14 +314,8 @@ form.addEventListener('submit', async event => {
     botao.textContent = 'Salvando…';
 
     try {
-        // Se há um arquivo selecionado, aguarda sua leitura
-        // e inclui a foto nos dados que serão salvos.
-        if (campoFoto.files?.length) {
-            dados.foto = await leituraFoto;
-        } else if (fotoSelecionada) {
-            // Usa a foto já lida, caso esteja selecionada.
-            dados.foto = fotoSelecionada;
-        }
+        // Inclui a foto otimizada nos dados que serão salvos.
+        if (fotoSelecionada) dados.foto = fotoSelecionada;
 
         // Salva as alterações na API. A foto nova vai em Base64 e volta como URL.
         const atualizado = await atualizarPetApi(petId, dados);

@@ -67,6 +67,7 @@ if (formularioPlanos) {
     });
 
   formularioPlanos.addEventListener('submit', async (event) => {
+    event.preventDefault();
     const selecionados = seletores
       .filter((seletor) => seletor.checked)
       .map((seletor) => seletor.value);

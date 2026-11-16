@@ -17,9 +17,9 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 - [x] Remover os cartões fictícios de exames e laudos e deixar a lista com estado
   vazio até existirem registros reais. A página também usa o no-content
   compartilhado no primeiro cadastro, antes de existir consulta registrada.
-- [ ] Integrar o upload, a persistência, a visualização e o download de exames e
-  laudos. “Ver todos” também aguarda comportamento real. Parte do histórico médico
-  ainda usa exemplos estáticos e precisa ser substituída por registros reais.
+- [x] Exames e laudos são salvos no MySQL (`pet_exame`), com anexos no Vercel Blob
+  (tabela `arquivo`); ver `js/consultas-integracao.md`.
+- [ ] “Ver todos” ainda aguarda comportamento real.
 - [ ] Decidir se a confirmação de consulta criada para vários pets deve atualizar
   todos os registros do mesmo `grupoId` ou somente o pet aberto.
 
@@ -43,32 +43,44 @@ precisam de decisão ou integração; ele não altera regras da pasta `shared`.
 
 ## Armazenamento e integrações
 
-- Os cadastros de consultas, vacinas e medicações são mantidos no `localStorage`
-  deste navegador; não sincronizam entre dispositivos.
-- Receitas, certificados de vacina e anexos de exames ainda precisam de seus
-  fluxos de arquivo e persistência definidos.
+- Pets, consultas, vacinas, medicações, despesas, rotinas, exames, receitas e metas
+  são carregados do banco pela API. Registros criados para vários pets guardam o
+  mesmo `grupo_id` no banco. Nada do módulo fica salvo no navegador; as chaves
+  antigas (`keeperhub-pets-dados-locais`, `keeperhub-pets-grupos` e a meta conjunta)
+  são apagadas ao abrir o módulo, e a meta conjunta antiga vai para o banco antes.
+- [ ] Importar dados de pets que estavam no `localStorage` antes da integração com a
+  API. Até essa migração, registros locais antigos podem não aparecer na tela.
+- Receitas e exames usam anexos no Vercel Blob e metadados na tabela `arquivo`.
+  Anexos novos exigem o store privado configurado; os arquivos antigos públicos
+  precisam de migração para revogar os links públicos anteriores.
+- Certificados de vacina ainda precisam de seu fluxo de arquivo.
 
 ## Despesas
 
-- [x] Lançamentos por pet são persistidos no `localStorage`; resumo, orçamento
-  mensal padrão, categorias, extrato e navegação entre meses usam os dados salvos.
+- [x] Lançamentos por pet são persistidos no MySQL pela API; resumo, orçamento,
+  categorias, extrato e navegação entre meses usam os dados salvos.
 - [x] A visão agregada de todos os pets identifica o animal em cada lançamento.
   Ao cadastrar a partir dela, a pessoa escolhe a qual pet atribuir o gasto para
   evitar duplicar uma compra compartilhada sem rateio definido.
 - [x] A tela usa o no-content compartilhado quando o escopo não possui despesas.
-- [ ] Definir uma interface para editar o orçamento mensal atualmente padrão em
-  R$ 600,00 por pet, e ações para editar/remover lançamentos já salvos.
+- [x] O orçamento mensal de cada pet é editável na tela (toque no "previsto") e
+  fica salvo no MySQL (`pet_orcamento`), um valor por pet e mês; sem valor, usa
+  R$ 600,00. Editar e remover lançamentos já salvos também funciona.
 
 ## Rotinas diárias
 
 - [x] Remover os horários, cuidados e observações de demonstração da página.
 - [x] Mostrar o `no-content` compartilhado quando o pet não tem refeições ou
   observações da rotina alimentar salvas; a tela lê os dados atuais de
-  `pet.rotinaAlimentar` no `localStorage`.
+  `pet.rotinaAlimentar`, que vem do banco.
 - [x] Permitir selecionar o pet quando há mais de um e manter o pet atual nos
   links para a edição da rotina alimentar.
-- [ ] A tela de cadastro de rotina ainda não persiste atividades de higiene e
-  bem-estar; a linha do dia e esses cuidados exibem estados vazios até essa
-  integração existir.
-- [ ] As anotações de comportamento ainda não são persistidas; o campo de
-  anotação não grava dados no momento.
+- [x] O cadastro de rotina é um formulário único (higiene, alimentar e lazer), no
+  padrão do formulário de medicamento, com seleção de pets. A persistência de
+  higiene e lazer está feita (`rotinaHigiene` e `rotinaLazer` no pet), assim como
+  a da rotina alimentar (`rotinaAlimentar.refeicoes`).
+- [x] A edição e a remoção das rotinas passaram para a Rotina diária; a aba
+  "Rotina Alimentar" e a página `editar-pet-rotina-alimentar.html` foram
+  removidas do Editar pet.
+- [x] As rotinas são salvas no MySQL pela API: higiene e lazer em `pet_rotina` e
+  refeições em `pet_refeicao` (ver `js/rotinas-integracao.md`).

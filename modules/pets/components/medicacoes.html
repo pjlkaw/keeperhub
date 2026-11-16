@@ -31,6 +31,7 @@
     </script>
     <script defer src="/shared/services/load-components.js"></script>
     <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css">
     <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 </head>
 <body>
@@ -49,20 +50,17 @@
 
         <nav class="abas-pet" aria-label="Tipo de registro">
             <a href="medicacoes.html" class="abas-pet__link abas-pet__link--ativo" aria-current="page">Medicações</a>
+            <a href="receitas.html" class="abas-pet__link">Receitas</a>
             <a href="vacinacoes.html" class="abas-pet__link">Vacinas</a>
         </nav>
-        <p class="atalho-receitas"><a href="receitas.html">Ver receitas</a></p>
 
-        <!-- Busca e filtros -->
+        <!-- Busca -->
         <div class="barra-ferramentas-medicacoes" hidden>
             <form class="busca-medicacoes" role="search">
                 <label for="buscar-medicacao" class="somente-leitor-tela">Buscar medicação</label>
                 <i class="fa-solid fa-magnifying-glass icone" aria-hidden="true"></i>
                 <input type="search" id="buscar-medicacao" name="buscar-medicacao" placeholder="Buscar medicação...">
             </form>
-            <button type="button" class="botao-icone barra-ferramentas-medicacoes__filtro" aria-label="Filtrar medicações">
-                <i class="fa-solid fa-filter icone" aria-hidden="true"></i>
-            </button>
         </div>
 
         <!-- Uso contínuo -->
@@ -160,9 +158,9 @@
         <section class="grupo-medicacoes grupo-medicacoes--historico" aria-labelledby="historico-heading" hidden>
             <h2 id="historico-heading" class="grupo-medicacoes__titulo">Histórico</h2>
 
-            <ul class="card linha-tempo-medica cartao-historico-medicacao__lista">
-                <li>
-                    <article class="linha-tempo-medica__item cartao-historico-medicacao">
+            <ul class="card linha-tempo-medica lista-historico-pets">
+                <li class="item-historico-pets">
+                    <article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--medicacao">
                         <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
                         <div class="linha-tempo-medica__conteudo">
                             <h3 class="linha-tempo-medica__titulo">Dipirona 500 mg<span class="etiqueta-pets-registro">Mantega</span></h3>
@@ -172,8 +170,8 @@
                     </article>
                 </li>
 
-                <li>
-                    <article class="linha-tempo-medica__item cartao-historico-medicacao">
+                <li class="item-historico-pets">
+                    <article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--medicacao">
                         <i class="fa-solid fa-pills icone" aria-hidden="true"></i>
                         <div class="linha-tempo-medica__conteudo">
                             <h3 class="linha-tempo-medica__titulo">Macrocéfalia<span class="etiqueta-pets-registro">Bibi</span></h3>

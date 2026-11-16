@@ -238,6 +238,7 @@ FOTO, DADOS E ENVIO DO CADASTRO
   min-height: 44px;
   margin: 0 auto 18px;
   padding: 8px 6px;
+  color: var(--pets-primary-readable);
   cursor: pointer;
   transition:
     color var(--pets-transition),
@@ -247,12 +248,6 @@ FOTO, DADOS E ENVIO DO CADASTRO
 .formulario-editar-pet__alterar-foto:hover {
   color: var(--pets-primary-hover);
   transform: translateY(-2px);
-}
-
-.formulario-editar-pet__alterar-foto[aria-disabled='true'] {
-  color: var(--text-muted);
-  cursor: default;
-  transform: none;
 }
 
 .formulario-editar-pet__enviar {

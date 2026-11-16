@@ -1,10 +1,10 @@
 // Cadastro, cronograma e histórico das vacinas dos pets.
 
 // Importa as funções para atualizar um pet e listar os pets salvos.
-import { definirVacinasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
-import { atualizarVacinasApi, cadastrarVacinaApi, excluirVacinasApi, marcarVacinasAplicadasApi } from './api.js';
+import { definirVacinasDoBanco, listarPets } from './armazenamento.js';
+import { atualizarVacinasApi, cadastrarVacinaApi, desfazerVacinasAplicadasApi, excluirVacinasApi, marcarVacinasAplicadasApi } from './api.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
-import { oferecerDesfazerExclusao } from './desfazer-exclusao.js';
+import { capturarPosicaoDoAviso, oferecerDesfazerExclusao } from './desfazer-exclusao.js';
 import { agruparRegistros, criarSelecaoMultipla, registrosDoPet } from './selecao-pets.js';
 import { atualizarNoContent } from '/shared/services/no-content.js';
 import { carregarPets as carregarPetsDoServidor } from './armazenamento.js';
@@ -46,6 +46,7 @@ let petsAlvo = [];
 let salvando = false;
 let todosPetsSelecionados = false;
 const exclusoesPendentes = new Set();
+let timerFeedbackVacina = null;
 const parametrosEdicao = new URLSearchParams(location.search);
 const idsEdicao = (parametrosEdicao.get('ids') || '').split(',').filter(Boolean);
 const petIdsEdicao = (parametrosEdicao.get('petIds') || '').split(',').filter(Boolean);
@@ -151,6 +152,15 @@ function informar(mensagem, erro = false) {
     status.textContent = mensagem;
     status.dataset.estado = erro ? 'erro' : 'informativo';
     status.setAttribute('role', erro ? 'alert' : 'status');
+}
+
+function informarPorDoisSegundos(mensagem) {
+    if (timerFeedbackVacina) window.clearTimeout(timerFeedbackVacina);
+    informar(mensagem);
+    timerFeedbackVacina = window.setTimeout(() => {
+        if (status.textContent === mensagem && status.dataset.estado !== 'erro') informar('');
+        timerFeedbackVacina = null;
+    }, 2000);
 }
 
 // Mantém ocultas da listagem as vacinas cuja exclusão ainda pode ser desfeita.
@@ -263,10 +273,9 @@ function listaVazia(texto) {
     return li;
 }
 
-// Desenha os destaques, o cronograma e o histórico de vacinas.
+// Desenha as próximas doses e o histórico de vacinas.
 function renderizarLista() {
     const listaDestaques = main.querySelector('.destaques-vacinas > ul');
-    const listaCronograma = main.querySelector('.cronograma-vacinas > ul');
     const listaHistorico = main.querySelector('.historico-vacinas > ul');
     const secaoSeletorPet = seletorPet.closest('.seletor-pet-vacinas');
 
@@ -289,13 +298,11 @@ function renderizarLista() {
 
     const secoesConteudo = [
         main.querySelector('.destaques-vacinas'),
-        main.querySelector('.cronograma-vacinas'),
         main.querySelector('.historico-vacinas')
     ];
 
     // Limpa as listas antes de renderizá-las novamente.
     listaDestaques.replaceChildren();
-    listaCronograma.replaceChildren();
     listaHistorico.replaceChildren();
 
     // Sem pet selecionado, mantém uma única orientação e esconde as listas.
@@ -312,13 +319,21 @@ function renderizarLista() {
     }
 
     const escopo = todosPetsSelecionados ? pets : [petAtual];
+    const exclusaoPendenteNoEscopo = escopo.some(pet =>
+        registrosDoPet(pet, 'vacinas').some(vacina =>
+            exclusoesPendentes.has(String(vacina.id))
+        )
+    );
     const registros = agruparRegistros(escopo, vacinasVisiveis);
     if (!registros.length) {
         const podeTrocarPet = existeVacina && pets.length > 1;
         secaoSeletorPet.hidden = !podeTrocarPet;
         secoesConteudo.forEach(secao => { secao.hidden = true; });
-        informar(podeTrocarPet ? 'Nenhuma vacina para o pet selecionado.' : '');
-        atualizarNoContent(podeTrocarPet);
+        // Mantém a área do aviso visível até confirmar ou desfazer a exclusão.
+        informar(exclusaoPendenteNoEscopo
+            ? ''
+            : podeTrocarPet ? 'Nenhuma vacina para o pet selecionado.' : '');
+        atualizarNoContent(podeTrocarPet || exclusaoPendenteNoEscopo);
         return;
     }
 
@@ -367,27 +382,13 @@ function renderizarLista() {
 
         const vencida = dias < 0;
 
-        // Calcula o progresso entre a data da aplicação e a próxima dose.
-        const inicioContagem = vacina.dataAplicacao || hoje;
-        const duracao =
-            new Date(dataPendencia + 'T12:00:00') -
-            new Date(inicioContagem + 'T12:00:00');
-
-        const decorrido =
-            new Date(hoje + 'T12:00:00') -
-            new Date(inicioContagem + 'T12:00:00');
-
-        // Agendamentos ainda não aplicados começam com progresso zero.
-        const progresso = vacina.status === 'agendada'
-            ? 0
-            : duracao <= 0
-                ? 100
-                : Math.max(0, Math.min(100, Math.round((decorrido / duracao) * 100)));
-
         // Usa o nome personalizado ou o nome amigável da vacina.
         const nome = vacina.nome === 'outra'
             ? vacina.nomePersonalizado
             : nomesVacina[vacina.nome] ?? vacina.nome;
+        const etiquetaPets = vacina.nomesPets?.length
+            ? `<span class="etiqueta-pets-registro">${escapar(vacina.nomesPets.join(', '))}</span>`
+            : '';
 
         // Define o rótulo da frequência e a mensagem de prazo.
         const frequencia = vacina.status === 'agendada'
@@ -402,72 +403,18 @@ function renderizarLista() {
                 ? 'Vence hoje'
                 : `Faltam ${dias} ${dias === 1 ? 'dia' : 'dias'}`;
 
+        const observacao = typeof vacina.observacao === 'string' && vacina.observacao.trim()
+            ? `<p class="cartao-destaque-vacina__observacao"><strong>Observação:</strong> ${escapar(vacina.observacao.trim())}</p>`
+            : '';
+
         const li = document.createElement('li');
 
         // Insere os valores variáveis escapados para que sejam tratados como texto.
         // O primeiro cartão recebe uma classe visual de destaque.
         const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
-        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><div class="barra-progresso" aria-hidden="true"><div class="barra-progresso__preenchimento" style="width:${progresso}%"></div></div><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a>${vacina.status === 'agendada' ? `<button type="button" class="botao-texto" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}<button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></article>`;
+        li.innerHTML = `<article class="card cartao-destaque-vacina${indice === 0 ? ' cartao-destaque-vacina--destaque' : ''}"><p class="cartao-destaque-vacina__rotulo">${escapar(frequencia)}</p><h3 class="cartao-destaque-vacina__nome">${escapar(nome)}${etiquetaPets}</h3><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><div class="cartao-destaque-vacina__agenda"><p class="cartao-destaque-vacina__data"><i class="fa-regular fa-calendar-days icone" aria-hidden="true"></i><time datetime="${escapar(dataPendencia)}">${escapar(formatarData(dataPendencia))}</time></p><p class="cartao-destaque-vacina__contagem-regressiva">${escapar(textoDias)}</p></div>${observacao}<div class="acoes-cartao-registro cartao-destaque-vacina__acoes"><div class="cartao-destaque-vacina__acoes-links"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div>${vacina.status === 'agendada' ? `<button type="button" class="botao-texto botao-acao-pet" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}</div></article>`;
 
         listaDestaques.append(li);
-    }
-
-    // Cria o cronograma a partir dos registros mais recentes.
-    const cronograma = maisRecentes.slice().sort((a, b) =>
-        String(a.dataAgendada ?? a.proximaDose ?? a.dataAplicacao)
-            .localeCompare(String(b.dataAgendada ?? b.proximaDose ?? b.dataAplicacao))
-    );
-
-    if (!cronograma.length) {
-        listaCronograma.append(listaVazia('Nenhuma vacina registrada.'));
-    }
-
-    for (const vacina of cronograma) {
-        const nome = vacina.nome === 'outra'
-            ? vacina.nomePersonalizado
-            : nomesVacina[vacina.nome] ?? vacina.nome;
-
-        const agendada = vacina.status === 'agendada' && Boolean(vacina.dataAgendada);
-        const temProxima = Boolean(vacina.proximaDose);
-        const dataAgendadaAtrasada = agendada && vacina.dataAgendada < hoje;
-        const atrasada = dataAgendadaAtrasada || (!agendada && temProxima && vacina.proximaDose < hoje);
-
-        // Agendamentos usam sua data marcada; registros aplicados usam a próxima dose.
-        const data = agendada
-            ? vacina.dataAgendada
-            : temProxima ? vacina.proximaDose : vacina.dataAplicacao;
-        const detalhe = agendada
-            ? `Agendada para ${formatarData(data)}`
-            : temProxima
-                ? `Próxima dose prevista para ${formatarData(data)}`
-                : `Aplicada em ${formatarData(data)}`;
-
-        // Define o texto, a classe e o ícone de acordo com a situação da vacina.
-        const statusTexto = atrasada
-            ? 'Atrasada'
-            : agendada || temProxima
-                ? 'Agendada'
-                : 'Aplicada';
-
-        const classeStatus = atrasada
-            ? 'atrasada'
-            : agendada || temProxima
-                ? 'agendada'
-                : 'aplicada';
-
-        const icone = atrasada
-            ? 'fa-triangle-exclamation'
-            : agendada || temProxima
-                ? 'fa-syringe'
-                : 'fa-circle-check';
-
-        const li = document.createElement('li');
-
-        // Cria a linha do cronograma com dados variáveis escapados.
-        const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
-        li.innerHTML = `<article class="item-vacina item-vacina--${classeStatus}"><i class="fa-solid ${icone} icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${todosPetsSelecionados ? " · " + escapar(vacina.nomesPets.join(", ")) : ""}</h3><p class="item-vacina__detalhe">${escapar(detalhe)}${vacina.clinica ? ` · ${escapar(vacina.clinica)}` : ''}${vacina.horario ? ` · ${escapar(vacina.horario)}` : ''}${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a>${agendada ? `<button type="button" class="botao-texto" data-marcar-vacina="${escapar(idsGrupo)}">Marcar aplicada</button>` : ''}<button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></div><span class="etiqueta-status etiqueta-status--${classeStatus}">${statusTexto}</span></article>`;
-
-        listaCronograma.append(li);
     }
 
     // Se ainda não houver aplicações, mostra uma mensagem no histórico.
@@ -484,13 +431,14 @@ function renderizarLista() {
             : nomesVacina[vacina.nome] ?? vacina.nome;
 
         const li = document.createElement('li');
+        li.className = 'item-historico-pets';
         const etiquetaPets = vacina.nomesPets?.length
             ? `<span class="etiqueta-pets-registro">${escapar(vacina.nomesPets.join(', '))}</span>`
             : '';
 
         // Mostra o nome, a data de aplicação e, se houver, a observação.
         const idsGrupo = vacina.membros.map(membro => membro.registro.id).join(',');
-        li.innerHTML = `<article class="card item-vacina item-vacina--registro"><i class="fa-solid fa-clock-rotate-left icone" aria-hidden="true"></i><div class="item-vacina__informacoes"><h3 class="item-vacina__nome">${escapar(nome)}${etiquetaPets}</h3><p class="item-vacina__detalhe">Aplicada em <time datetime="${escapar(vacina.dataAplicacao)}">${escapar(formatarData(vacina.dataAplicacao, { day: '2-digit', month: 'short', year: 'numeric' }))}</time>${vacina.observacao ? ` · ${escapar(vacina.observacao)}` : ''}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></div></article>`;
+        li.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--vacina"><i class="fa-solid fa-syringe icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(nome)}${etiquetaPets}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(vacina.dataAplicacao)}">Aplicada em ${escapar(formatarData(vacina.dataAplicacao, { day: '2-digit', month: 'short', year: 'numeric' }))}</time></p><p class="linha-tempo-medica__descricao">${escapar(vacina.observacao || 'Vacinação registrada.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoVacina(vacina))}">Editar</a><button type="button" class="botao-texto" data-excluir-vacina="${escapar(idsGrupo)}">Excluir</button></div></div></article>`;
 
         listaHistorico.append(li);
     }
@@ -661,8 +609,7 @@ function configurarFormulario() {
             const resposta = modoEdicao
                 ? await atualizarVacinasApi({ ...dadosVacina, ids: idsEdicao.map(Number) })
                 : await cadastrarVacinaApi(dadosVacina);
-            if (modoEdicao) separarRegistrosDoGrupo('vacinas', idsEdicao);
-            definirVacinasDoBanco(resposta.vacinas, resposta.grupoIds ?? resposta.criados);
+            definirVacinasDoBanco(resposta.vacinas);
             if (modoEdicao) {
                 const destino = new URL('vacinacoes.html', location.href);
                 if (petsAlvo.length > 1) destino.searchParams.set('todos', '1');
@@ -710,6 +657,8 @@ if (paginaLista) {
     main.addEventListener('click', async event => {
         const excluir = event.target.closest('[data-excluir-vacina]');
         if (excluir) {
+            const posicaoAviso = capturarPosicaoDoAviso(excluir);
+            const secaoOrigem = excluir.closest('.destaques-vacinas, .historico-vacinas');
             const ids = excluir.dataset.excluirVacina.split(',').filter(Boolean).map(Number);
             const confirmado = await confirmarExclusao({
                 titulo: 'Excluir vacina?',
@@ -720,9 +669,10 @@ if (paginaLista) {
             const idsTexto = ids.map(String);
             idsTexto.forEach(id => exclusoesPendentes.add(id));
             renderizarLista();
+            if (secaoOrigem) secaoOrigem.hidden = false;
 
             oferecerDesfazerExclusao({
-                antesDe: main.querySelector('.destaques-vacinas'),
+                posicao: posicaoAviso,
                 mensagem: 'Vacina removida da lista.',
                 aoDesfazer() {
                     idsTexto.forEach(id => exclusoesPendentes.delete(id));
@@ -731,7 +681,6 @@ if (paginaLista) {
                 async aoExcluir() {
                     const vacinas = await excluirVacinasApi(ids);
                     idsTexto.forEach(id => exclusoesPendentes.delete(id));
-                    separarRegistrosDoGrupo('vacinas', idsTexto);
                     definirVacinasDoBanco(vacinas);
                 },
                 aoFalhar(erro) {
@@ -745,12 +694,43 @@ if (paginaLista) {
 
         const botao = event.target.closest('[data-marcar-vacina]');
         if (!botao || botao.disabled) return;
+        const posicaoAviso = capturarPosicaoDoAviso(botao);
+        const secaoOrigem = botao.closest('.destaques-vacinas, .historico-vacinas');
         const ids = botao.dataset.marcarVacina.split(',').filter(Boolean).map(Number);
+        const anteriores = pets.flatMap(pet => registrosDoPet(pet, 'vacinas')
+            .filter(vacina => ids.includes(Number(vacina.id)))
+            .map(vacina => ({
+                id: Number(vacina.id),
+                dataAplicacao: vacina.dataAplicacao || '',
+                proximaDose: vacina.proximaDose || ''
+            })));
+        if (anteriores.length !== ids.length) {
+            informar('Não foi possível guardar os dados para permitir desfazer.', true);
+            return;
+        }
         botao.disabled = true;
         try {
             const resposta = await marcarVacinasAplicadasApi(ids);
             definirVacinasDoBanco(resposta.vacinas);
-            informar('Vacinação confirmada como aplicada.');
+            if (secaoOrigem) secaoOrigem.hidden = false;
+            informarPorDoisSegundos('Vacinação confirmada como aplicada.');
+            oferecerDesfazerExclusao({
+                posicao: posicaoAviso,
+                mensagem: 'Vacinação confirmada.',
+                aoDesfazer: async () => {
+                    try {
+                        const restauradas = await desfazerVacinasAplicadasApi(anteriores);
+                        definirVacinasDoBanco(restauradas.vacinas);
+                        informarPorDoisSegundos('Confirmação da vacinação desfeita.');
+                    } catch (erro) {
+                        informar(erro.message || 'Não foi possível desfazer a confirmação.', true);
+                    }
+                },
+                aoExcluir() {},
+                aoFalhar(erro) {
+                    informar(erro.message || 'Não foi possível confirmar a vacinação.', true);
+                }
+            });
         } catch (erro) {
             informar(erro.message || 'Não foi possível confirmar a vacinação.', true);
             botao.disabled = false;

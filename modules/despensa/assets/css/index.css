@@ -13,37 +13,58 @@ body {
     box-sizing: border-box;
 }
 
-/* Organiza os cards de resumo em três colunas */
+/* Organiza os cards de resumo em duas colunas (2 x 2) */
 .despensa-resumo {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
 
-/* Organiza o conteúdo dos cards de resumo */
+/* Cards de atalho no mesmo modelo dos atalhos de Finanças */
 .summary-card {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-height: 112px;
+    min-height: 165px;
+    padding: 24px;
+    color: var(--text-color);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: border-color .15s ease, transform .15s ease;
 }
 
-/* Define a aparência dos ícones dos cards de resumo */
+.summary-card:hover,
+.summary-card:focus-visible {
+    border-color: var(--tool-despensa);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+/* Ícone redondo do card */
 .summary-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    background-color: #a67b5b31;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    place-items: center;
+    color: var(--tool-despensa);
+    background: color-mix(in srgb, var(--tool-despensa) 14%, transparent);
     border-radius: 50%;
-    color: var(--accent);
     font-size: 24px;
 }
 
-/* Define o tamanho do contador de produtos */
-#contador-produtos {
-    font-size: 0.875rem;
+/* Título do card */
+.summary-card strong {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+/* Linha de apoio do card (ex.: "3 cadastrado(s)") */
+.summary-card > span:last-child {
+    margin-top: 5px;
+    color: var(--text-muted);
+    font-size: 16px;
 }
 
 /* Organiza o campo de pesquisa e seus elementos */
@@ -65,7 +86,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 6px;
     color: var(--text);
-    font-size: 12px;
+    font-size: 0.875rem; /* padrão de shared/styles/components.css */
     outline: none;
     box-sizing: border-box;
 }
@@ -114,7 +135,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 9px;
     color: var(--text);
-    font-size: 11px;
+    font-size: 0.875rem; /* padrão de shared/styles/components.css */
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
@@ -349,15 +370,4 @@ html[data-theme="light"] {
 .save-button {
     background: var(--accent);
     color: white;
-}
-
-@media (min-width: 600px) {
-	body {
-		display: flex;
-		justify-content: center;
-	}
-
-	.app-shell {
-		box-shadow: none;
-	}
 }

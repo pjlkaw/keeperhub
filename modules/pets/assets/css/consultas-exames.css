@@ -85,72 +85,143 @@ LAYOUT DA PÁGINA E CONSULTAS
   min-height: 44px;
   font-size: 0.75rem;
 }
-.consultas > ul { order: 2; display: grid; gap: 16px; }
+.consultas > ul { order: 2; display: grid; gap: 12px; }
 /* ==================================================
 CARDS E CONCLUSÃO DE CONSULTAS
 ================================================== */
-.cartao-consulta { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; }
+.cartao-consulta {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 0 10px;
+}
 .cartao-consulta > .icone {
-  position: relative;
-  width: 40px;
-  height: 40px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: var(--pets-appointment);
+  background: color-mix(in srgb, var(--pets-appointment) 12%, transparent);
   border-radius: 50%;
-  background-color: var(--pets-neutral-hover);
+  font-size: 11px;
 }
-.cartao-consulta__informacoes { align-self: center; min-width: 0; overflow-wrap: anywhere; }
-.cartao-consulta--destaque {
-  display: block;
-  border-top: 2px solid var(--tool-pets);
-  background: linear-gradient(120deg, var(--pets-primary-soft), var(--card-bg));
-}
-.cartao-consulta--destaque .cartao-consulta__veterinario { font-size: 1rem; }
-.cartao-consulta__local {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-top: 4px;
+.cartao-consulta__informacoes { min-width: 0; overflow-wrap: anywhere; }
+.cartao-consulta__rotulo {
+  margin: 0 0 4px;
   color: var(--text-muted);
   font-size: 0.75rem;
+  line-height: 1.3;
 }
-.cartao-consulta__local .icone {
-  width: 12px;
-  height: 14px;
-  background-image: none;
-  filter: var(--pets-neutral-icon-filter);
-}
-.cartao-consulta__data-hora {
+.painel-medico .cartao-consulta__veterinario {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.cartao-consulta__agenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  margin-top: 14px;
+}
+.cartao-consulta__data {
+  display: flex;
+  flex: 1 1 150px;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
   color: var(--text-muted);
   font-size: 0.75rem;
+  line-height: 1.4;
 }
-.cartao-consulta--destaque .cartao-consulta__data-hora { margin-top: 16px; }
-.cartao-consulta__data,
-.cartao-consulta__horario {
-  align-items: center;
-  gap: 8px;
+.cartao-consulta__data time { overflow-wrap: anywhere; }
+.cartao-consulta__data .icone {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+}
+.cartao-consulta__contagem-regressiva {
+  flex: 0 0 auto;
+  margin: 0;
   padding: 4px 8px;
   color: var(--pets-primary-readable);
   background: var(--pets-primary-soft);
   border-radius: var(--pets-radius-pill);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
 }
-.cartao-consulta__data-hora .icone { width: 12px; height: 12px; }
-.cartao-consulta__data .icone { background-image: none; filter: var(--pets-neutral-icon-filter); }
-.cartao-consulta__horario .icone { background-image: none; }
-.confirmar-consulta { grid-column: 1 / -1; margin-top: 16px; }
-.confirmar-consulta__acionador {
+.cartao-consulta__detalhes {
+  margin: 8px 0 0;
+  color: var(--text-color);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+/* Mantém Editar e Excluir lado a lado nos cartões do histórico médico. */
+.historico-medico .acoes-cartao-registro {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 14px;
+}
+.historico-medico .acoes-cartao-registro > :is(a, button) {
+  display: inline-flex;
+  width: auto;
+  min-height: 32px;
+  align-items: center;
+  margin: 0;
+  text-align: left;
+}
+/* Mantém as ações juntas e permite que o formulário expansível ocupe uma nova linha. */
+.cartao-consulta__acoes {
   display: flex;
-  min-height: 44px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: start;
+  gap: 4px 14px;
+  margin-top: 10px;
+}
+.cartao-consulta__acoes > :is(a.botao-texto, button.botao-texto) {
+  display: inline-flex;
+  height: 32px;
+  min-height: 32px;
+  align-items: center;
+  margin: 0;
+  padding-block: 0;
+  line-height: 1;
+}
+.confirmar-consulta {
+  flex: 0 0 100%;
+  margin: 0;
+}
+.confirmar-consulta[open] { flex-basis: 100%; }
+.confirmar-consulta__acionador {
+  display: inline-flex;
+  min-height: 30px;
   align-items: center;
   width: fit-content;
+  padding: 0 10px;
   color: var(--pets-primary-readable);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  background: var(--pets-primary-soft);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-pill);
+  list-style: none;
   cursor: pointer;
 }
-.confirmar-consulta__acionador:focus-visible { outline: 2px solid var(--tool-pets); outline-offset: 3px; }
-.confirmar-consulta__formulario { padding-top: 16px; }
+.confirmar-consulta__acionador::-webkit-details-marker { display: none; }
+.confirmar-consulta__acionador::marker { content: ''; }
+.confirmar-consulta__acionador:focus-visible { outline: 2px solid var(--tool-pets); outline-offset: 2px; }
+.confirmar-consulta__formulario { padding-top: 12px; }
+.confirmar-consulta__formulario .campo-formulario { margin-bottom: 12px; }
 /* ==================================================
 ANEXOS DE EXAMES
 ================================================== */
@@ -190,7 +261,41 @@ ANEXOS DE EXAMES
   background-size: 18px;
 }
 .cartao-exame__informacoes { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.cartao-exame { align-items: flex-start; padding-block: 16px; }
+.cartao-exame__nome { font-size: 0.9375rem; }
+.cartao-exame__resultado { margin-top: 8px; color: var(--text-muted); font-size: 0.875rem; line-height: 1.5; white-space: pre-line; }
+.cartao-exame__tipo {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  color: var(--text-muted);
+  background: var(--pets-surface-raised);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
+.cartao-exame__anexos { display: grid; gap: 4px; margin-top: 8px; }
+.cartao-exame__anexos a { color: var(--tool-pets); font-size: 0.8125rem; }
+.cartao-exame__tamanho { color: var(--text-muted); font-size: 0.75rem; }
+.exames-medicos__cabecalho a.botao-texto { display: inline-flex; }
 .cartao-exame__data { color: var(--text-muted); font-size: 0.75rem; }
+.exames-medicos .cartao-exame .acoes-cartao-registro {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 14px;
+}
+.exames-medicos .cartao-exame .acoes-cartao-registro > :is(a, button) {
+  display: inline-flex;
+  width: auto;
+  min-height: 32px;
+  flex: 0 0 auto;
+  align-items: center;
+  margin: 0;
+  text-align: left;
+}
 .cartao-exame .botao-icone {
   display: grid;
   width: 44px;
@@ -208,48 +313,12 @@ ANEXOS DE EXAMES
 /* ==================================================
 HISTÓRICO MÉDICO E ESTADOS VAZIOS
 ================================================== */
-.historico-medico > h2 { margin-bottom: 24px; }
-.linha-tempo-medica li { position: relative; padding-left: 24px; }
-.linha-tempo-medica li:not(:last-child) { padding-bottom: 24px; }
-.linha-tempo-medica li:not(:last-child)::before {
-  position: absolute;
-  left: 4px;
-  top: 10px;
-  bottom: -6px;
-  width: 1px;
-  background: var(--border-color);
-  content: '';
-}
-.linha-tempo-medica__item > .icone {
-  position: absolute;
-  top: 6px;
-  left: 0;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--text-muted);
-}
-.linha-tempo-medica li:first-child .linha-tempo-medica__item > .icone { background: var(--tool-pets); }
-.linha-tempo-medica__conteudo { overflow-wrap: anywhere; }
-.linha-tempo-medica__data {
-  margin-block: 8px;
-  padding: 4px 8px;
-  color: var(--text-color);
-  background: var(--pets-neutral-hover);
-  border-radius: var(--pets-radius-sm);
-  font-size: 0.75rem;
-}
-.linha-tempo-medica__descricao { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
+.historico-medico > h2 { margin-bottom: 8px; }
 
-.cartao-consulta > .icone,
-.cartao-consulta__local .icone,
-.cartao-consulta__data-hora .icone,
 .cartao-exame > .icone,
 .cartao-exame .botao-icone .icone {
   display: grid; place-items: center; line-height: 1;
 }
-.cartao-consulta > .icone { color: var(--text-muted); font-size: 18px; }
-.cartao-consulta__local .icone, .cartao-consulta__data-hora .icone { color: var(--text-muted); font-size: 12px; }
 .cartao-exame > .icone { color: var(--pets-vaccine); font-size: 16px; }
 .cartao-exame .botao-icone .icone { color: var(--text-muted); font-size: 16px; }
 

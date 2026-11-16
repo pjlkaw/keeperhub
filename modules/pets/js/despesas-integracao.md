@@ -1,41 +1,55 @@
-# Despesas de Pets — integração atual e próximos passos
+# Despesas de Pets
 
-A tela está em `components/despesas.html`, com lógica em `js/despesas.js`.
-A persistência atual usa o `localStorage` por meio de `js/armazenamento.js`;
-nenhum endpoint Node ou schema MySQL de despesas está conectado.
+A lista fica em `components/despesas.html` (`js/despesas.js`) e o cadastro/edição em
+`components/cadastrar-despesa.html` (`js/cadastrar-despesa.js`). As duas telas usam só
+`js/despesas-repositorio.js`, que grava pela API `api/modulos/pets-api.js`; a listagem de
+pets (`GET`) já traz `pet.despesas` de cada animal.
 
-## Funcionamento local atual
+## Contrato entre telas e repositório
 
-- A pessoa escolhe o pet na própria tela quando houver mais de um. Se houver
-  apenas um pet, ele é selecionado automaticamente. O ID segue na URL.
-- Despesas ficam em `pet.despesas` e guardam `id`, `descricao`, `categoria`,
-  `valorCentavos`, `data`, `estabelecimento`, `observacoes` e `criadaEm`.
-- O resumo, os subtotais, percentuais e extrato são calculados a partir dos
-  lançamentos locais do mês selecionado. O valor é guardado em centavos.
-- O orçamento continua com o padrão visual existente de R$ 600,00; se houver
-  valor em `pet.orcamentosDespesas[AAAA-MM]`, esse valor é usado para o mês.
-  A tela ainda não oferece edição de orçamento.
-- A consulta programada de exemplo não é registrada como despesa.
-- Cada lançamento pode ser editado ou excluído no próprio formulário. Ao editar,
-  é possível alterar os pets associados; os registros mantidos preservam seus
-  IDs, os desmarcados são removidos e os novos pets recebem uma cópia. Tudo fica
-  no `localStorage` deste navegador.
+- `listarDespesas(petIds)`: lista as despesas dos pets informados (agrupadas).
+- `buscarDespesa(id)`: busca o lançamento com todos os pets associados.
+- `criarDespesa(petIds, dados)`: cria a despesa para os pets selecionados.
+- `atualizarDespesa(id, petIds, dados)`: atualiza os campos e os pets vinculados.
+- `excluirDespesa(id, petIds)`: remove a despesa dos pets informados.
 
-## Próximos passos para uma API Node.js
+Uma despesa cadastrada para vários pets aparece uma vez na visão "Todos os pets"
+(agrupada pelo `grupo_id` salvo no banco) e em cada pet quando o
+filtro é individual. O valor mostrado é a soma das partes dos pets incluídos.
 
-- Definir schema e autorização de acesso por pet antes de criar rotas. O
-  repositório não contém uma tabela de despesas Pets.
-- Migrar leitura e gravação do `localStorage` para um endpoint autenticado,
-  preservando os campos e cálculos acima.
-- Definir como orçamentos mensais serão configurados e persistidos.
+## Como fica no banco
 
-## Referência visual
+Cada despesa é também um lançamento do módulo Finanças:
 
-Os números de Outubro/2024 (R$ 420,00 em despesas, teto de R$ 600,00 e saldo
-de R$ 180,00) eram dados de demonstração e foram removidos da interface. O
-teto de R$ 600,00 permanece como valor padrão visual enquanto não houver uma
-configuração de orçamento na tela. A consulta programada continua fora do
-extrato de despesas.
+- `lancamento` guarda valor, data, descrição e observações, com `tipo = 'despesa'`,
+  `status = 'pago'` e `pet_id` preenchido;
+- `pet_despesa` liga o pet ao lançamento (`lancamento_id`) e guarda `categoria` e
+  `estabelecimento`.
 
-Os PNGs originais das categorias foram preservados na pasta `assets/img/`, mas
-os ícones exibidos agora são Font Awesome.
+Na primeira despesa, a API cria para o usuário a conta "Pets" (tipo carteira) e a
+categoria financeira "Pets"; as próximas reutilizam as duas. Quando a despesa é de
+vários pets, o valor total é dividido entre eles (os centavos que sobram ficam com os
+primeiros), e o total em Finanças é o valor realmente gasto.
+
+Rotas: `POST ?acao=despesa` cadastra; `PUT ?acao=despesa` edita, divide o valor de novo
+e permite trocar os pets (`ids` + `petIdsOrigem`); `DELETE ?acao=despesa` exclui a
+despesa e o lançamento. Todas rodam em transação e conferem que os pets e as despesas
+são do usuário. O valor trafega em centavos (`valorCentavos`).
+
+## Metas mensais
+
+A meta de cada pet fica na tabela `pet_orcamento` (`pet_id`, `mes` `AAAA-MM`, `valor`
+DECIMAL(10,2); um valor por pet e mês), gravada por `PUT ?acao=orcamento` (`petId`,
+`mes`, `valorCentavos`); a listagem traz `pet.orcamentosDespesas`
+(`{ 'AAAA-MM': centavos }`). Sem meta salva, o pet fica sem limite no mês.
+
+A meta conjunta ("Todos os pets juntos") fica na tabela `pet_orcamento_geral`
+(`usuario_id`, `mes` `AAAA-MM`, `valor` DECIMAL(10,2); um valor por usuário e mês),
+lida por `GET ?acao=orcamento-geral` e gravada por `PUT ?acao=orcamento-geral`
+(`mes`, `valorCentavos`); as duas devolvem `orcamentoGeral` (`{ 'AAAA-MM': centavos }`).
+Se o navegador ainda tiver a meta conjunta antiga (`keeperhub-pets-despesas-meta-geral`),
+a tela de despesas envia os meses que a conta não tem e apaga a chave do navegador.
+
+## O que continua de fora
+
+Despesas e metas salvas antes só no navegador não foram migradas.

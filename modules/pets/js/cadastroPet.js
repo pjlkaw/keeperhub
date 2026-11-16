@@ -3,11 +3,55 @@ import { cadastrarPetApi } from './api.js';
 
 // Importa as funções que padronizam e verificam os dados do pet.
 import { dataDeHoje, padronizarDadosPet, validarDadosPet } from './validacao-pet.js';
+import { prepararFotoPet } from './processar-foto-pet.js';
 
 // Busca no HTML o formulário, a área de mensagens e o botão de cadastro.
 const form = document.getElementById('cadastro-pet-form');
 const status = document.getElementById('cadastro-pet-status');
 const botao = document.getElementById('btnCadastro');
+const campoFoto = document.getElementById('foto-pet');
+const figuraFoto = document.getElementById('foto-pet-preview');
+const imagemFoto = document.getElementById('foto-pet-imagem');
+
+let fotoSelecionada = null;
+let leituraFoto = Promise.resolve(null);
+
+function limparPreviaFoto() {
+    imagemFoto.removeAttribute('src');
+    imagemFoto.hidden = true;
+    figuraFoto.dataset.hasPhoto = 'false';
+}
+
+campoFoto.addEventListener('change', () => {
+    const arquivo = campoFoto.files?.[0];
+    if (!arquivo) {
+        fotoSelecionada = null;
+        leituraFoto = Promise.resolve(null);
+        limparPreviaFoto();
+        return;
+    }
+
+    fotoSelecionada = null;
+    leituraFoto = prepararFotoPet(arquivo).then(foto => {
+        if (campoFoto.files?.[0] !== arquivo) return null;
+        fotoSelecionada = foto;
+        imagemFoto.src = fotoSelecionada;
+        imagemFoto.alt = 'Prévia da foto do pet';
+        imagemFoto.hidden = false;
+        figuraFoto.dataset.hasPhoto = 'true';
+        informar('Prévia da foto atualizada. Ela será salva com o cadastro.');
+        return foto;
+    }).catch(erro => {
+        if (campoFoto.files?.[0] === arquivo) {
+            campoFoto.value = '';
+            fotoSelecionada = null;
+            limparPreviaFoto();
+            informar(erro.message, true);
+        }
+        throw erro;
+    });
+    leituraFoto.catch(() => {});
+});
 
 // Controla se um cadastro está em andamento.
 let enviando = false;
@@ -55,6 +99,21 @@ form.addEventListener('submit', async function (event) {
     // Evita que um segundo envio comece enquanto o primeiro ainda está em andamento.
     if (enviando) return;
 
+    // Aguarda o processamento da foto para não enviar o formulário antes do Base64.
+    if (campoFoto.files?.length) {
+        try {
+            let leituraAtual;
+            do {
+                leituraAtual = leituraFoto;
+                await leituraAtual;
+            } while (campoFoto.files?.length && leituraAtual !== leituraFoto);
+        } catch (erro) {
+            informar(erro.message || 'Não foi possível preparar a foto.', true);
+            return;
+        }
+        if (enviando) return;
+    }
+
     // Lê os valores dos campos.
     // trim() remove espaços extras no começo e no fim do texto.
     const nome = document.getElementById('nome').value.trim();
@@ -81,7 +140,8 @@ form.addEventListener('submit', async function (event) {
         raca: raca,
         dataNascimento: dataNascimento,
         peso: peso,
-        genero: genero
+        genero: genero,
+        ...(fotoSelecionada ? { foto: fotoSelecionada } : {})
     });
 
     // Valida os dados usando a função importada.
@@ -117,6 +177,9 @@ form.addEventListener('submit', async function (event) {
 
         // Limpa os campos do formulário após salvar.
         form.reset();
+        fotoSelecionada = null;
+        leituraFoto = Promise.resolve(null);
+        limparPreviaFoto();
 
         // Informa que o cadastro deu certo e que o painel será aberto.
         informar('Pet cadastrado com sucesso! Abrindo o painel…', false, true);

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../assets/css/essentials/layout.css">
     <link rel="stylesheet" href="../assets/css/essentials/components.css">
     <link rel="stylesheet" href="../assets/css/med-details.css">
+    <link rel="stylesheet" href="/shared/styles/modalConfirmation.css">
     <script>
         window.keeperhubModuleConfig = {
             module: 'medicamentos',
@@ -28,6 +29,9 @@
     <link rel="stylesheet" href="/shared/styles/btn-add.css">
 </head>
 <body>
+    <section id="confirmation-modal" class="modalConfirm" style="display: none;"></section>
+    <section id="alertFromShared" class="alert"></section>
+
     <section class="btn-add-section" id="btn-add-section" style="--btn-add-color: var(--tool-medicamentos)"></section>
     <div class="app-page-wrapper">
         <div class="app-container">
@@ -61,6 +65,13 @@
                         <h2 class="med-card-section-title" id="attachment-title">Anexos</h2>
                         <div class="med-routine-list"></div>
                     </section>
+
+                    <div class="med-actions-group">
+                        <button type="button" class="btn-meds-action btn-meds-action--danger" id="btn-delete-prescription">
+                            <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                            <span>Excluir receita</span>
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>

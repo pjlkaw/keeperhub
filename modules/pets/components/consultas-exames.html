@@ -31,6 +31,7 @@
     </script>
     <script defer src="/shared/services/load-components.js"></script>
     <link rel="stylesheet" href="../assets/css/selecao-pets.css">
+    <link rel="stylesheet" href="../assets/css/cartao-opcao.css">
     <link rel="stylesheet" href="../assets/css/essentials/responsive.css">
 </head>
 <body>
@@ -110,12 +111,12 @@
 
             <a href="cadastrar-consulta.html" class="link-editar">Adicionar</a>
         </section>
-        <!-- Exames e laudos (integração pendente) -->
+        <!-- Exames e laudos (salvos no banco; anexos no Vercel Blob) -->
         <section class="exames-medicos" aria-labelledby="exames-heading" hidden>
             <header class="exames-medicos__cabecalho">
                 <h2 id="exames-heading">Exames e Laudos</h2>
 
-                <button type="button" class="botao-texto" disabled title="Envio disponível após a integração de exames">Adicionar</button>
+                <a href="cadastrar-exame.html" class="botao-texto" data-adicionar-exame>Adicionar</a>
             </header>
 
             <ul>
@@ -127,10 +128,10 @@
         <section class="historico-medico" aria-labelledby="historico-medico-heading" hidden>
             <h2 id="historico-medico-heading">Histórico Médico</h2>
 
-            <ol class="card linha-tempo-medica">
-                <li>
-                    <article class="linha-tempo-medica__item">
-                        <span class="icone" aria-hidden="true"></span>
+            <ol class="card linha-tempo-medica lista-historico-pets">
+                <li class="item-historico-pets">
+                    <article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta">
+                        <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
                         <div class="linha-tempo-medica__conteudo">
                             <h3 class="linha-tempo-medica__titulo">Check-up Anual</h3>
                             <p class="linha-tempo-medica__data">10 Set 2023</p>
@@ -141,9 +142,9 @@
                     </article>
                 </li>
 
-                <li>
-                    <article class="linha-tempo-medica__item">
-                        <span class="icone" aria-hidden="true"></span>
+                <li class="item-historico-pets">
+                    <article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta">
+                        <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
                         <div class="linha-tempo-medica__conteudo">
                             <h3 class="linha-tempo-medica__titulo">Vacinação (V10)</h3>
                             <p class="linha-tempo-medica__data">15 Fev 2023</p>
@@ -154,9 +155,9 @@
                     </article>
                 </li>
 
-                <li>
-                    <article class="linha-tempo-medica__item">
-                        <span class="icone" aria-hidden="true"></span>
+                <li class="item-historico-pets">
+                    <article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta">
+                        <i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i>
                         <div class="linha-tempo-medica__conteudo">
                             <h3 class="linha-tempo-medica__titulo">Consulta de Emergência - Otite</h3>
                             <p class="linha-tempo-medica__data">05 Nov 2022</p>

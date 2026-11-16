@@ -6,6 +6,15 @@ Depende de: shared/styles/variables.css
 Usado por: páginas do módulo Pets
 ================================================== */
 
+/* Empilha campos lado a lado antes que os controles nativos do celular
+   percam espaço para exibir a data, o horário ou os números. */
+@media (max-width: 480px) {
+  .linha-formulario {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
 /* Regras de vacinacoes.css */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -18,7 +27,6 @@ Usado por: páginas do módulo Pets
 /* Regras de vacinacoes.css */
 @media (min-width: 700px) {
   .destaques-vacinas,
-  .cronograma-vacinas,
   .historico-vacinas {
     margin-inline: 24px;
   }
@@ -42,24 +50,6 @@ Usado por: páginas do módulo Pets
     column-gap: 10px;
   }
 
-  .cronograma-vacinas .item-vacina {
-    grid-template-columns: 32px minmax(0, 1fr);
-  }
-
-  .cronograma-vacinas .item-vacina > .icone {
-    width: 32px;
-    height: 32px;
-    grid-row: 1 / 4;
-  }
-
-  .cronograma-vacinas > ul::before {
-    left: 31px;
-  }
-
-  .cronograma-vacinas li + li .item-vacina::after {
-    left: 42px;
-  }
-
   .vacinacoes-pet .etiqueta-status {
     grid-column: 2;
     grid-row: 3;
@@ -80,8 +70,7 @@ Usado por: páginas do módulo Pets
 @media (min-width: 600px) {
   .rotina-diaria__hoje,
   .higiene-bem-estar,
-  .rotina-alimentar,
-  .anotacoes-comportamento {
+  .rotina-alimentar {
     margin-inline: 24px;
     padding: 28px;
   }

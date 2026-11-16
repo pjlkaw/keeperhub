@@ -1,14 +1,18 @@
 import { atualizarNoContent } from "/shared/services/no-content.js";
 import { confirmarAcao } from "./confirmar.js";
-import { adicionarProdutoComprado, removerProdutoComprado } from "./estoque.js";
+import {
+    listarChecklist,
+    adicionarItemChecklist,
+    marcarComprado,
+    removerItemChecklist,
+    limparChecklist
+} from "./api.js";
 import { alertShared } from "/shared/services/interface.js";
 
 
 /* =================================
    CHECKLIST - KEEPERHUB
 ================================= */
-
-const CHAVE = "keeperhub_checklist_compras";
 
 // ELEMENTOS HTML
 
@@ -33,79 +37,30 @@ const limparLista = document.getElementById("limparLista");
 
 // ESTADOS
 
-let lista = carregarLista();
+let lista = [];
 
 let filtroAtual = "todos";
 let buscaAtual = "";
 
 // =================================
-// CARREGAR DADOS
+// CARREGAR DADOS (banco, via js/api.js)
 // =================================
 
-function carregarLista() {
+async function carregarLista() {
 
     try {
 
-        const dados = localStorage.getItem(CHAVE);
-
-        if (!dados) {
-            return [];
-        }
-
-        const produtos = JSON.parse(dados);
-
-        if (!Array.isArray(produtos)) {
-            return [];
-        }
-
-        return produtos.filter(produto =>
-            produto &&
-            typeof produto.nome === "string" &&
-            typeof produto.id === "string"
-        ).map(produto => ({
-            id: produto.id,
-            nome: produto.nome,
-            quantidade: Number(produto.quantidade) || 1,
-            categoria: produto.categoria || "Outros",
-            comprado: Boolean(produto.comprado),
-            // id do produto criado na despensa quando o item foi comprado
-            produtoDespensaId: produto.produtoDespensaId || null
-        }));
+        lista = await listarChecklist();
 
     } catch (erro) {
 
-        console.error("Erro ao carregar produtos:", erro);
+        console.error("Erro ao carregar a lista:", erro);
 
-        return [];
-
-    }
-
-}
-
-// =================================
-// SALVAR DADOS
-// =================================
-
-function salvarLista() {
-
-    try {
-
-        localStorage.setItem(
-            CHAVE,
-            JSON.stringify(lista)
-        );
-
-        return true;
-
-    } catch (erro) {
-
-        console.error("Erro ao salvar produtos:", erro);
-
-        alert("Não foi possível salvar sua lista.");
-
-        return false;
+        alertShared(erro.message);
 
     }
+
+    renderizarLista();
 
 }
 
@@ -165,42 +120,33 @@ function criarElementoProduto(produto) {
         `Marcar ${produto.nome} como comprado`
     );
 
-    checkbox.addEventListener("change", () => {
+    checkbox.addEventListener("change", async () => {
 
-        produto.comprado = checkbox.checked;
+        // COMPRADO → o servidor cria o produto na despensa
+        // DESMARCADO → o servidor remove o produto criado
+        const comprado = checkbox.checked;
 
-        // COMPRADO → adiciona aos produtos da despensa
-        // DESMARCADO → desfaz, removendo o produto criado
+        checkbox.disabled = true;
+
         try {
 
-            if (produto.comprado) {
+            await marcarComprado(produto.id, comprado);
 
-                produto.produtoDespensaId =
-                    adicionarProdutoComprado(produto);
-
-                alertShared(`${produto.nome} adicionado aos seus produtos.`);
-
-            } else if (produto.produtoDespensaId) {
-
-                removerProdutoComprado(produto.produtoDespensaId);
-
-                produto.produtoDespensaId = null;
-
-                alertShared(`${produto.nome} removido dos seus produtos.`);
-
-            }
+            alertShared(
+                comprado
+                    ? `${produto.nome} adicionado aos seus produtos.`
+                    : `${produto.nome} removido dos seus produtos.`
+            );
 
         } catch (erro) {
 
-            console.error("Erro ao atualizar produtos da despensa:", erro);
+            console.error("Erro ao atualizar o item:", erro);
 
-            alertShared("Não foi possível atualizar seus produtos.");
+            alertShared(erro.message);
 
         }
 
-        salvarLista();
-
-        renderizarLista();
+        await carregarLista();
 
     });
 
@@ -247,13 +193,17 @@ function criarElementoProduto(produto) {
 
         if (!confirmar) return;
 
-        lista = lista.filter(
-            item => item.id !== produto.id
-        );
+        try {
 
-        salvarLista();
+            await removerItemChecklist(produto.id);
 
-        renderizarLista();
+        } catch (erro) {
+
+            alertShared(erro.message);
+
+        }
+
+        await carregarLista();
 
     });
 
@@ -383,7 +333,7 @@ cancelarModal.addEventListener("click", fecharFormulario);
 // CADASTRAR PRODUTO
 // =================================
 
-form.addEventListener("submit", evento => {
+form.addEventListener("submit", async evento => {
 
     evento.preventDefault();
 
@@ -431,33 +381,25 @@ form.addEventListener("submit", evento => {
 
     }
 
-    // NOVO PRODUTO
+    // SALVAR NO BANCO
 
-    const novoProduto = {
+    const botaoSalvar = form.querySelector('[type="submit"]');
 
-        id: crypto.randomUUID
-            ? crypto.randomUUID()
-            : `${Date.now()}-${Math.random()}`,
+    if (botaoSalvar) botaoSalvar.disabled = true;
 
-        nome: nome,
+    try {
 
-        quantidade: quantidade,
+        await adicionarItemChecklist({ nome, quantidade, categoria });
 
-        categoria: categoria,
+    } catch (erro) {
 
-        comprado: false
-
-    };
-
-    lista.push(novoProduto);
-
-    // SALVAR
-
-    if (!salvarLista()) {
-
-        lista.pop();
+        alertShared(erro.message);
 
         return;
+
+    } finally {
+
+        if (botaoSalvar) botaoSalvar.disabled = false;
 
     }
 
@@ -475,13 +417,11 @@ form.addEventListener("submit", evento => {
 
     buscaInput.value = "";
 
-    // ATUALIZAR TELA
-
-    renderizarLista();
-
-    // FECHAR MODAL
+    // FECHAR MODAL E ATUALIZAR TELA
 
     modal.close();
+
+    await carregarLista();
 
 });
 
@@ -521,7 +461,7 @@ limparLista.addEventListener("click", async () => {
 
     if (lista.length === 0) {
 
-        alert("Sua lista já está vazia.");
+        alertShared("Sua lista já está vazia.");
 
         return;
 
@@ -533,7 +473,15 @@ limparLista.addEventListener("click", async () => {
 
     if (!confirmar) return;
 
-    lista = [];
+    try {
+
+        await limparChecklist();
+
+    } catch (erro) {
+
+        alertShared(erro.message);
+
+    }
 
     buscaAtual = "";
 
@@ -541,9 +489,7 @@ limparLista.addEventListener("click", async () => {
 
     buscaInput.value = "";
 
-    if (!salvarLista()) return;
-
-    renderizarLista();
+    await carregarLista();
 
 });
 
@@ -551,4 +497,4 @@ limparLista.addEventListener("click", async () => {
 // INICIALIZAÇÃO
 // =================================
 
-renderizarLista();
+carregarLista();

@@ -52,41 +52,7 @@ ESTRUTURA DO FORMULÁRIO
 /* ==================================================
 OPÇÕES DE TIPO DE USO
 ================================================== */
-.opcoes-tipo-uso { display: grid; gap: 8px; }
-
-.formulario-adicionar-medicacao .opcoes-tipo-uso__opcao {
-  display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  gap: 4px 16px;
-  min-height: 72px;
-  align-content: center;
-  margin: 0;
-  cursor: pointer;
-}
-.opcoes-tipo-uso__opcao input {
-  grid-column: 1;
-  grid-row: 1 / span 2;
-  align-self: center;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-.opcoes-tipo-uso__titulo { grid-column: 2; font-size: 0.875rem; font-weight: 700; }
-.opcoes-tipo-uso__descricao {
-  grid-column: 2;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.4;
-}
-.formulario-adicionar-medicacao .opcoes-tipo-uso__opcao:has(input:checked) {
-  background: color-mix(in srgb, var(--tool-pets) 10%, var(--card-bg));
-  border-color: var(--tool-pets);
-}
-.opcoes-tipo-uso__opcao:has(input:focus-visible) {
-  outline: 2px solid var(--tool-pets);
-  outline-offset: 3px;
-}
+/* Aparência dos cartões vem de cartao-opcao.css (.lista-opcoes e .cartao-opcao). */
 
 /* A exibição condicional dos campos acompanha o tipo de uso selecionado. */
 .formulario-adicionar-medicacao > .campo-formulario:has(#horario-dose),

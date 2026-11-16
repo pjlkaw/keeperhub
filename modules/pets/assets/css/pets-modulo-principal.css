@@ -295,6 +295,14 @@ AÇÕES RÁPIDAS
   white-space: nowrap;
 }
 
+/* Mantém o nome completo do atalho de medicações e vacinas legível. */
+.acao-rapida--medicacao .acao-rapida__titulo {
+  overflow: visible;
+  line-height: 1.2;
+  text-overflow: clip;
+  white-space: normal;
+}
+
 .acao-rapida__descricao {
   grid-area: descricao;
   align-self: start;
