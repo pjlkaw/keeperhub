@@ -33,8 +33,10 @@ notificações do sistema.
 
 A seção "Exames e Laudos" de `components/consultas-exames.html` usa `js/exames-lista.js`;
 o cadastro e a edição ficam em `components/cadastrar-exame.html` (`js/cadastrar-exame.js`).
-O exame é de um pet só e não fica ligado a uma consulta (a coluna `consulta_id` continua
-vazia). Dados na tabela `pet_exame` (`nome` até 150, `data_exame` opcional e não futura,
+Cada registro é de um pet só e não fica ligado a uma consulta (a coluna `consulta_id` continua
+vazia). O campo `tipo_registro` distingue `exame` de `laudo` na mesma tabela `pet_exame`;
+registros anteriores à migração recebem o padrão `exame`. Dados da tabela incluem `nome` até 150,
+`data_exame` opcional e não futura,
 `resultado` até 5000, `observacao` até 2000). Os anexos (PDF, JPG, PNG ou WEBP; até 10
 arquivos e 1 MB no total por exame) vão para o Vercel Blob e ficam registrados na tabela
 `arquivo` com `entidade_tipo = 'exame'`, como os anexos de receita do módulo Medicamentos.
@@ -42,4 +44,4 @@ A listagem de pets traz `pet.exames` com os `anexos` de cada um. Rotas: `POST
 ?acao=exame` (`petId` + dados + `anexos`), `PUT ?acao=exame&id=` (dados, `anexos` novos e
 `removerAnexos`) e `DELETE ?acao=exame&id=` (apaga também os arquivos do Blob). Um pet que
 só tem exames também mostra a página. Para enviar anexos localmente, o `vercel dev`
-precisa da variável `BLOB_READ_WRITE_TOKEN`.
+precisa da variável `PETS_BLOB_READ_WRITE_TOKEN` configurada para um Blob privado.

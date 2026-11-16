@@ -264,6 +264,19 @@ ANEXOS DE EXAMES
 .cartao-exame { align-items: flex-start; padding-block: 16px; }
 .cartao-exame__nome { font-size: 0.9375rem; }
 .cartao-exame__resultado { margin-top: 8px; color: var(--text-muted); font-size: 0.875rem; line-height: 1.5; white-space: pre-line; }
+.cartao-exame__tipo {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  color: var(--text-muted);
+  background: var(--pets-surface-raised);
+  border: 1px solid var(--pets-border-strong);
+  border-radius: var(--pets-radius-pill);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  vertical-align: middle;
+}
 .cartao-exame__anexos { display: grid; gap: 4px; margin-top: 8px; }
 .cartao-exame__anexos a { color: var(--tool-pets); font-size: 0.8125rem; }
 .cartao-exame__tamanho { color: var(--text-muted); font-size: 0.75rem; }

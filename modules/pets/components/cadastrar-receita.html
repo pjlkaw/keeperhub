@@ -82,7 +82,11 @@
 
             <div class="campo-formulario">
                 <label for="anexos-receita">Arquivo da receita (opcional)</label>
-                <input type="file" id="anexos-receita" name="anexos" multiple accept="application/pdf,image/jpeg,image/png,image/webp" aria-describedby="ajuda-anexos-receita">
+                <div class="seletor-anexos">
+                    <input class="seletor-anexos__input" type="file" id="anexos-receita" name="anexos" multiple accept="application/pdf,image/jpeg,image/png,image/webp" aria-describedby="ajuda-anexos-receita resumo-anexos-receita">
+                    <label class="seletor-anexos__botao" for="anexos-receita"><i class="fa-solid fa-paperclip" aria-hidden="true"></i> Escolher arquivos</label>
+                    <span class="seletor-anexos__resumo" id="resumo-anexos-receita" data-anexos-selecionados aria-live="polite">Nenhum arquivo selecionado</span>
+                </div>
                 <p id="ajuda-anexos-receita" class="ajuda-anexos-exame">PDF, JPG, PNG ou WEBP. Até 10 arquivos e 1 MB no total.</p>
                 <ul class="anexos-exame" data-anexos-salvos hidden></ul>
             </div>

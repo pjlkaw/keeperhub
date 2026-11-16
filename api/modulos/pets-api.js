@@ -62,6 +62,7 @@ import {
 } from '../../server/repositories/pets/observacoes.js';
 import {
   LIMITES_EXAME,
+  TIPOS_REGISTRO_EXAME,
   atualizarExame,
   cadastrarExame,
   excluirExame,
@@ -129,15 +130,19 @@ export function agoraEmSaoPaulo(agora = new Date()) {
 
 // Dados de um exame (o pet é conferido na rota de cadastro). Anexos viram buffers.
 export function validarExame(body) {
+  const tipoRegistro = texto(body.tipoRegistro) || 'exame';
   const nome = texto(body.nome);
   const data = texto(body.data);
   const resultado = texto(body.resultado);
   const observacao = texto(body.observacao);
+  if (!TIPOS_REGISTRO_EXAME.includes(tipoRegistro)) {
+    return { erro: 'Selecione se o registro é um exame ou laudo.' };
+  }
   if (!nome || nome.length > LIMITES_EXAME.nome) {
-    return { erro: `Informe o nome do exame (até ${LIMITES_EXAME.nome} caracteres).` };
+    return { erro: `Informe o nome do ${tipoRegistro} (até ${LIMITES_EXAME.nome} caracteres).` };
   }
   if (data && (!dataISOValida(data) || data < '1900-01-01' || data > hojeEmSaoPaulo())) {
-    return { erro: 'Informe uma data válida, que não seja no futuro.' };
+    return { erro: `Informe uma data válida para o ${tipoRegistro}, que não seja no futuro.` };
   }
   if (resultado.length > LIMITES_EXAME.resultado) {
     return { erro: `O resultado pode ter até ${LIMITES_EXAME.resultado} caracteres.` };
@@ -147,7 +152,7 @@ export function validarExame(body) {
   }
   const brutos = Array.isArray(body.anexos) ? body.anexos : [];
   if (brutos.length > LIMITES_EXAME.anexos) {
-    return { erro: `O exame pode ter até ${LIMITES_EXAME.anexos} anexos.` };
+    return { erro: `O ${tipoRegistro} pode ter até ${LIMITES_EXAME.anexos} anexos.` };
   }
   let anexos;
   try {
@@ -158,7 +163,7 @@ export function validarExame(body) {
   const removerAnexos = Array.isArray(body.removerAnexos)
     ? [...new Set(body.removerAnexos.map(Number))].filter(valor => Number.isSafeInteger(valor) && valor > 0)
     : [];
-  return { dados: { nome, data, resultado, observacao }, anexos, removerAnexos };
+  return { dados: { tipoRegistro, nome, data, resultado, observacao }, anexos, removerAnexos };
 }
 
 // Dados de uma receita (o pet é conferido na rota de cadastro). Anexos viram buffers.

@@ -193,6 +193,19 @@ HISTÓRICO DE VACINAS
   white-space: nowrap;
 }
 
+.cartao-destaque-vacina__observacao {
+  margin: 12px 0 0;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.cartao-destaque-vacina__observacao strong {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
 /* Agrupa Editar e Excluir; deixa a confirmação da aplicação na linha abaixo. */
 .cartao-destaque-vacina__acoes {
   flex-direction: column;

@@ -122,6 +122,11 @@ As tabelas do módulo Pets já estão criadas no banco: `pet`, `pet_contato`, `v
 `pet_refeicao`, `pet_observacao`, `pet_exame` e `pet_receita`. Os anexos usam a
 tabela compartilhada `arquivo`.
 
+O cadastro de exames e laudos usa a mesma tabela `pet_exame`. Para distinguir os
+dois tipos, aplique uma vez [`docs/pets-exame-tipo-registro.sql`](./pets-exame-tipo-registro.sql)
+no banco compartilhado antes de publicar essa versão. Registros antigos recebem
+`exame` como tipo padrão; nenhuma tabela nova é criada.
+
 Os registros feitos para vários pets guardam o mesmo `grupo_id` (`CHAR(36)`) em
 `consulta`, `vacina`, `pet_medicacao`, `pet_despesa`, `pet_rotina` e `pet_refeicao`.
 Excluir um pet apaga em cascata todos os registros dele.

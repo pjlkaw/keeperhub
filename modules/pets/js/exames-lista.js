@@ -53,6 +53,7 @@ function urlCadastro(petId, exameId) {
 function criarCartao({ pet, exame }, mostrarPet) {
     const li = document.createElement('li');
     const etiqueta = mostrarPet ? `<span class="etiqueta-pets-registro">${escapar(pet.nome)}</span>` : '';
+    const tipo = exame.tipoRegistro === 'laudo' ? 'Laudo' : 'Exame';
     const resultado = exame.resultado
         ? `<p class="cartao-exame__resultado">${escapar(exame.resultado)}</p>`
         : '';
@@ -61,7 +62,7 @@ function criarCartao({ pet, exame }, mostrarPet) {
             `<li><a href="${escapar(anexo.url)}" target="_blank" rel="noopener noreferrer"><i class="fa-solid ${anexo.tipo === 'application/pdf' ? 'fa-file-pdf' : 'fa-file-image'}" aria-hidden="true"></i> ${escapar(anexo.nome)} <span class="cartao-exame__tamanho">(${formatarTamanho(anexo.tamanho)})</span></a></li>`
         ).join('')}</ul>`
         : '';
-    li.innerHTML = `<article class="card cartao-exame" data-exame-id="${escapar(exame.id)}"><i class="fa-solid fa-file-medical icone" aria-hidden="true"></i><div class="cartao-exame__informacoes"><h3 class="cartao-exame__nome">${escapar(exame.nome)}${etiqueta}</h3><p class="cartao-exame__data">${escapar(formatarData(exame.data))}</p>${resultado}${anexos}<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlCadastro(pet.id, exame.id))}">Editar</a><button type="button" class="botao-texto" data-excluir-exame="${escapar(exame.id)}">Remover</button></div></div></article>`;
+    li.innerHTML = `<article class="card cartao-exame" data-exame-id="${escapar(exame.id)}"><i class="fa-solid fa-file-medical icone" aria-hidden="true"></i><div class="cartao-exame__informacoes"><h3 class="cartao-exame__nome">${escapar(exame.nome)}<span class="cartao-exame__tipo">${tipo}</span>${etiqueta}</h3><p class="cartao-exame__data">${escapar(formatarData(exame.data))}</p>${resultado}${anexos}<div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlCadastro(pet.id, exame.id))}">Editar</a><button type="button" class="botao-texto" data-excluir-exame="${escapar(exame.id)}">Remover</button></div></div></article>`;
     return li;
 }
 
