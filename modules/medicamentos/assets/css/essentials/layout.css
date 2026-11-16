@@ -1,0 +1,10 @@
+.meds-main {
+    flex: 1;
+    padding: 4px 0 84px;
+}
+
+.meds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
