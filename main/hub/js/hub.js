@@ -209,6 +209,27 @@ function carregarResumoModulos(modulosAtivos) {
       })
       .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo de medicamentos:', erro));
   }
+
+  if (modulosAtivos.has('despensa')) {
+    requisitarResumo('/api/modulos/despensa-api')
+      .then((dados) => {
+        const produtos = Array.isArray(dados?.produtos) ? dados.produtos : [];
+        const card = document.getElementById('hub-card-despensa');
+        if (!card) return;
+        const valor = card.querySelector('.module-card-val-title');
+        const legenda = card.querySelector('.module-card-sublabel');
+        if (!valor || !legenda) return;
+        valor.textContent = produtos.length.toLocaleString('pt-BR');
+        if (produtos.length === 1) {
+          legenda.textContent = 'produto cadastrado';
+        } else if (produtos.length > 1) {
+          legenda.textContent = 'produtos cadastrados';
+        } else {
+          legenda.textContent = 'Sem produtos cadastrados';
+        }
+      })
+      .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo da despensa:', erro));
+  }
 }
 
 function userLoadContent(user) {
