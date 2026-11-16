@@ -422,10 +422,11 @@ function renderizarLista() {
     realizadas.forEach(consulta => {
         const item = document.createElement('li');
         item.className = 'item-historico-pets';
+        const profissional = consulta.medico?.trim() || 'Profissional não informado';
         const etiquetaPets = consulta.nomesPets?.length
             ? `<span class="etiqueta-pets-registro">${escapar(consulta.nomesPets.join(', '))}</span>`
             : '';
-        item.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(consulta.medico)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(consulta.data)}">Consulta em ${escapar(formatarData(consulta.data))}</time></p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
+        item.innerHTML = `<article class="linha-tempo-medica__item cartao-historico-pets cartao-historico-pets--consulta"><i class="fa-solid fa-stethoscope icone" aria-hidden="true"></i><div class="linha-tempo-medica__conteudo"><h3 class="linha-tempo-medica__titulo">${escapar(profissional)}${etiquetaPets}${consulta.status === 'realizada' ? '' : ' (não registrada como realizada)'}</h3><p class="linha-tempo-medica__data"><time datetime="${escapar(consulta.data)}">Consulta em ${escapar(formatarData(consulta.data))}</time></p><p class="linha-tempo-medica__descricao">${escapar(consulta.resumo || nomeEspecialidade[consulta.especialidade] || consulta.especialidadePersonalizada || 'Sem observações registradas.')}</p><div class="acoes-cartao-registro"><a class="botao-texto" href="${escapar(urlEdicaoConsulta(consulta))}">Editar</a><button type="button" class="botao-texto" data-excluir-consulta="${escapar(consulta.membros.map(membro => membro.registro.id).join(','))}">Excluir</button></div></div></article>`;
         historico.append(item);
     });
 }
@@ -487,10 +488,10 @@ function configurarFormulario() {
     // O campo de especialidade personalizada começa oculto.
     campoOutra.hidden = true;
 
-    // Marca os campos necessários como obrigatórios.
-    especialidade.required = true;
-    formulario.elements.nome_medico.required = true;
-    formulario.elements.clinica.required = true;
+    // Médico, especialidade e clínica podem ser informados depois.
+    especialidade.required = false;
+    formulario.elements.nome_medico.required = false;
+    formulario.elements.clinica.required = false;
     data.required = true;
     formulario.elements.horario_consulta.required = true;
     outra.required = false;
@@ -518,21 +519,11 @@ function configurarFormulario() {
         // Não cadastra se nenhum pet estiver selecionado.
         if (salvando || !petsAlvo.length) return;
 
-        // Confirma que campos de texto obrigatórios não estejam vazios
-        // depois de remover os espaços das pontas.
-        const camposTexto = [
-            formulario.elements.nome_medico,
-            formulario.elements.clinica
-        ];
-
-        // A especialidade personalizada também é obrigatória
-        // quando a opção "outra" está selecionada.
-        if (especialidade.value === 'outra') camposTexto.push(outra);
-
-        camposTexto.forEach(campo =>
-            campo.setCustomValidity(
-                campo.value.trim() ? '' : 'Preencha este campo.'
-            )
+        // Ao escolher "Outra", o usuário precisa informar qual especialidade.
+        outra.setCustomValidity(
+            especialidade.value === 'outra' && !outra.value.trim()
+                ? 'Informe a especialidade.'
+                : ''
         );
 
         // Pede ao navegador para mostrar erros dos campos inválidos.
@@ -548,11 +539,11 @@ function configurarFormulario() {
         const dadosConsulta = {
             petIds: petsAlvo.map(pet => pet.id),
             ...(modoEdicao ? { petIdsOrigem: petIdsEdicao.map(Number) } : {}),
-            medico: formulario.elements.nome_medico.value.trim(),
+            medico: formulario.elements.nome_medico.value.trim() || null,
             especialidade: especialidadeValor,
             especialidadePersonalizada:
                 especialidadeValor === 'outra' ? outra.value.trim() : '',
-            clinica: formulario.elements.clinica.value.trim(),
+            clinica: formulario.elements.clinica.value.trim() || null,
             data: data.value,
             horario: formulario.elements.horario_consulta.value,
             ...(modoEdicao ? { ids: idsEdicao.map(Number) } : {})
