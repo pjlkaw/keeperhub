@@ -1,24 +1,19 @@
 # Anexos médicos de Pets
 
-Receitas, exames e laudos usam registros na tabela `arquivo`; os metadados continuam no
-MySQL e os arquivos novos ficam em um Blob privado. A tabela guarda a URL do Blob,
-mas as telas recebem somente uma URL interna da API, que verifica a sessão, o
-acesso ao módulo e a propriedade do arquivo antes de transmiti-lo.
+Receitas, exames e laudos guardam os metadados na tabela `arquivo` do MySQL e os
+conteúdos no Vercel Blob, seguindo o fluxo já usado pelas receitas de Medicamentos.
+Novos anexos são enviados com acesso público e as telas recebem a URL do Blob.
+As URLs ficam acessíveis a qualquer pessoa que as possua.
 
-Configure `PETS_BLOB_READ_WRITE_TOKEN` nos ambientes local, Preview e Production
-com o token de um Blob Store privado. O token existente usado para fotos de perfil
-continua separado. Sem o token privado, o cadastro de metadados sem anexos continua
-disponível; a API rejeita o envio de arquivo com erro de configuração.
+O envio usa a conexão padrão do Blob do projeto (`BLOB_READ_WRITE_TOKEN` no ambiente
+local ou a conexão OIDC configurada no Vercel). Não é necessário configurar
+`PETS_BLOB_READ_WRITE_TOKEN` para os novos anexos. Os limites são 10 arquivos e 1 MB
+no total por registro, em PDF, JPG, PNG ou WEBP.
 
-Anexos antigos podem continuar apontando para Blob público. A API mantém o acesso
-autenticado para que os registros existentes continuem abrindo, mas esses objetos
-continuam acessíveis pela URL antiga até serem migrados para o store privado. Como os
-dados atuais são de teste, a migração desses arquivos pode ficar fora do escopo; a
-troca da URL exibida no KeeperHub não revoga um link público já emitido.
+Registros antigos que apontem para um Blob privado continuam usando a rota autenticada
+`/api/modulos/pets-arquivo`. Essa compatibilidade depende do token privado que criou
+esses arquivos; novos cadastros não usam esse caminho.
 
-## Validação atual
-
-Em 16/11/2026, o envio e a abertura de anexos no Blob privado ainda não foram
-validados localmente porque `PETS_BLOB_READ_WRITE_TOKEN` não está configurado no
-`.env.local`. Os fluxos de cadastro, edição e listagem estão implementados pela
-API/MySQL, mas isso não equivale à validação ponta a ponta de todas as telas.
+O envio local não foi validado ponta a ponta nesta revisão. A configuração do Blob
+geral existe no ambiente, mas ainda é necessário cadastrar um anexo e confirmar a
+abertura e exclusão reais para validar o fluxo completo.

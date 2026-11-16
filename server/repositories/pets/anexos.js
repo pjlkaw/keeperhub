@@ -17,16 +17,6 @@ const ASSINATURAS_ANEXO = {
   'image/webp': buffer => buffer.length >= 12 && buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP',
 };
 
-function exigirTokenPrivado() {
-  const token = tokenPrivado();
-  if (!token) {
-    const erro = new Error('O armazenamento privado de documentos ainda não está configurado.');
-    erro.statusCode = 503;
-    throw erro;
-  }
-  return token;
-}
-
 function entidadeValida(entidade) {
   if (!ENTIDADES.has(entidade)) throw new Error(`Tipo de anexo desconhecido: ${entidade}`);
   return entidade;
@@ -90,12 +80,10 @@ function nomeParaCaminho(nome) {
 export async function enviarAnexos(usuarioId, pasta, anexos) {
   if (!anexos.length) return [];
   const enviados = [];
-  const token = exigirTokenPrivado();
   try {
     for (const anexo of anexos) {
       const { url } = await put(`usuarios/${usuarioId}/${pasta}/${randomUUID()}-${nomeParaCaminho(anexo.nome)}`, anexo.buffer, {
-        access: 'private',
-        token,
+        access: 'public',
         contentType: anexo.tipo,
       });
       enviados.push({ ...anexo, url });
@@ -144,12 +132,21 @@ export async function listarAnexosPorRegistro(executor, usuarioId, entidade) {
   for (const arquivo of arquivos) {
     const chave = String(arquivo.registroId);
     const lista = porRegistro.get(chave) || [];
+    let urlPublica = false;
+    try {
+      const url = new URL(arquivo.url);
+      urlPublica = url.protocol === 'https:' && url.hostname.endsWith('.public.blob.vercel-storage.com');
+    } catch {
+      // URLs antigas inválidas continuam passando pela rota autenticada, que as rejeita.
+    }
     lista.push({
       id: String(arquivo.id),
       nome: arquivo.nome,
       tipo: arquivo.tipo,
       tamanho: Number(arquivo.tamanho || 0),
-      url: `/api/modulos/pets-arquivo?id=${encodeURIComponent(arquivo.id)}`,
+      url: urlPublica
+        ? arquivo.url
+        : `/api/modulos/pets-arquivo?id=${encodeURIComponent(arquivo.id)}`,
     });
     porRegistro.set(chave, lista);
   }

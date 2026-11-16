@@ -4,6 +4,7 @@ import db from '../../server/db.js';
 import { usuarioDaSessao } from '../../server/auth-session.js';
 import { usuarioTemAcesso } from '../../server/repositories/modulos.js';
 
+// Compatibilidade com anexos antigos; novos arquivos usam URLs públicas diretas do Blob.
 const TIPOS_PERMITIDOS = new Set(['application/pdf', 'image/jpeg', 'image/png', 'image/webp']);
 
 function urlPublicaLegada(valor) {
@@ -57,7 +58,7 @@ export default async function handler(req, res) {
       stream = resposta.body;
     } else {
       const token = process.env.PETS_BLOB_READ_WRITE_TOKEN;
-      if (!token) return res.status(503).json({ erro: 'O armazenamento privado de documentos não está configurado.' });
+      if (!token) return res.status(503).json({ erro: 'O acesso a este arquivo privado antigo não está configurado.' });
       const blob = await get(arquivo.url, { access: 'private', token });
       if (!blob || blob.statusCode !== 200) return res.status(404).json({ erro: 'Arquivo não encontrado.' });
       stream = blob.stream;
