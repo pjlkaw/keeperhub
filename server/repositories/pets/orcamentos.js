@@ -1,4 +1,5 @@
-// Orçamento mensal das despesas de cada pet (tabela pet_orcamento: um valor por pet e mês).
+// Orçamento mensal das despesas de cada pet (tabela pet_orcamento: um valor por pet e mês)
+// e meta conjunta de todos os pets do usuário (tabela pet_orcamento_geral).
 import db from '../../db.js';
 import { emTransacao } from './transacao.js';
 
@@ -39,4 +40,26 @@ export function salvarOrcamento(usuarioId, petId, mes, valorCentavos) {
     );
     return listarOrcamentosPorPet(usuarioId, conexao);
   });
+}
+
+// Meta mensal que vale para todos os pets do usuário em conjunto (tabela pet_orcamento_geral).
+// Retorna { 'AAAA-MM': centavos }.
+export async function listarOrcamentoGeral(usuarioId, executor = db) {
+  const [linhas] = await executor.execute(
+    `SELECT mes, ROUND(valor * 100) AS centavos
+       FROM pet_orcamento_geral
+      WHERE usuario_id = ?`,
+    [usuarioId]
+  );
+  return Object.fromEntries(linhas.map(linha => [linha.mes, Number(linha.centavos)]));
+}
+
+// Grava (ou troca) a meta conjunta do usuário no mês.
+export async function salvarOrcamentoGeral(usuarioId, mes, valorCentavos) {
+  await db.execute(
+    `INSERT INTO pet_orcamento_geral (usuario_id, mes, valor) VALUES (?, ?, ?)
+     ON DUPLICATE KEY UPDATE valor = VALUES(valor)`,
+    [usuarioId, mes, (valorCentavos / 100).toFixed(2)]
+  );
+  return listarOrcamentoGeral(usuarioId);
 }

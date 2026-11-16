@@ -266,6 +266,20 @@ export async function salvarOrcamentoApi(petId, mes, valorCentavos) {
     return resposta.orcamentos;
 }
 
+// Meta conjunta de todos os pets por mês, em centavos. Retorna { 'AAAA-MM': centavos }.
+export async function listarOrcamentoGeralApi() {
+    const resposta = await requisicao(`${URL_API}?acao=orcamento-geral`);
+    return resposta.orcamentoGeral ?? {};
+}
+
+export async function salvarOrcamentoGeralApi(mes, valorCentavos) {
+    const resposta = await requisicao(`${URL_API}?acao=orcamento-geral`, {
+        method: 'PUT',
+        body: JSON.stringify({ mes, valorCentavos }),
+    });
+    return resposta.orcamentoGeral ?? {};
+}
+
 // Exames: dados = { petId (só no cadastro), nome, data, resultado, observacao,
 // anexos: [{ nome, tipo, conteudo (data URL) }], removerAnexos: [ids] (só na edição) }.
 export async function cadastrarExameApi(dados) {
@@ -288,6 +302,29 @@ export async function excluirExameApi(id) {
         method: 'DELETE',
     });
     return resposta.exames;
+}
+
+// Notas de comportamento: uma por pet, com data e hora definidas pelo servidor.
+export async function cadastrarObservacaoApi(petId, texto) {
+    return requisicao(`${URL_API}?acao=observacao`, {
+        method: 'POST',
+        body: JSON.stringify({ petId: Number(petId), texto }),
+    });
+}
+
+export async function atualizarObservacaoApi(id, texto) {
+    const resposta = await requisicao(`${URL_API}?acao=observacao&id=${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        body: JSON.stringify({ texto }),
+    });
+    return resposta.observacoes;
+}
+
+export async function excluirObservacaoApi(id) {
+    const resposta = await requisicao(`${URL_API}?acao=observacao&id=${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+    });
+    return resposta.observacoes;
 }
 
 export async function excluirPetApi(id) {

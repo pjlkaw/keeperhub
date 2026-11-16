@@ -1,5 +1,6 @@
 // Exibe somente dados de rotina que foram salvos no cadastro do pet.
-import { listarPets } from './armazenamento.js';
+import { definirObservacoesDoBanco, listarPets } from './armazenamento.js';
+import { atualizarObservacaoApi, cadastrarObservacaoApi, excluirObservacaoApi } from './api.js';
 import { itensDoDia, tituloRotina } from './rotinas.js';
 import { removerRotina, removerRotinas, rotinasDoPet } from './rotinas-armazenamento.js';
 import { confirmarExclusao } from './confirmar-exclusao.js';
@@ -23,7 +24,8 @@ const secoesConteudo = [
     main.querySelector('.rotina-diaria__hoje'),
     main.querySelector('.higiene-bem-estar'),
     main.querySelector('.rotina-alimentar'),
-    main.querySelector('.lazer')
+    main.querySelector('.lazer'),
+    main.querySelector('.anotacoes-comportamento')
 ];
 
 // Mantém em memória os pets disponíveis e o pet atualmente consultado.
@@ -86,18 +88,41 @@ function registrosDoTipo(pet, tipo, ocultarPendentes = true) {
         .sort((a, b) => a.horario.localeCompare(b.horario));
 }
 
-// Retorna as observações alimentares salvas, removendo espaços nas pontas.
-function observacoesDoPet(pet) {
-    return typeof pet?.rotinaAlimentar?.observacoes === 'string'
-        ? pet.rotinaAlimentar.observacoes.trim()
-        : '';
+// Notas de comportamento do pet (já vêm da mais nova para a mais antiga).
+// Com ocultarPendentes, esconde as que estão aguardando o prazo do "Desfazer".
+function notasDoPet(pet, ocultarPendentes = true) {
+    return (Array.isArray(pet?.observacoes) ? pet.observacoes : [])
+        .filter(nota => nota && typeof nota.texto === 'string' && nota.texto.trim())
+        .filter(nota => !(ocultarPendentes && exclusoesPendentes.has(chaveExclusao(pet, 'nota', nota.id))));
 }
 
-// Considera rotina salva quando há refeição, higiene, lazer ou observação alimentar.
+// Considera que há rotina cadastrada se existir refeição, higiene, lazer ou nota.
 // Rotinas aguardando "Desfazer" ainda contam, para a página não sumir sob o aviso.
 function temRotinaSalva(pet) {
     return ['higiene', 'alimentar', 'lazer'].some(tipo => registrosDoTipo(pet, tipo, false).length > 0) ||
-        Boolean(observacoesDoPet(pet));
+        notasDoPet(pet, false).length > 0;
+}
+
+// 'AAAA-MM-DDTHH:MM' -> '15/11 às 00:30' (com o ano quando não for o ano atual).
+function dataHoraNota(valor) {
+    const partes = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(valor ?? '');
+    if (!partes) return '';
+    const [, ano, mes, dia, hora, minuto] = partes;
+    const data = Number(ano) === new Date().getFullYear() ? `${dia}/${mes}` : `${dia}/${mes}/${ano}`;
+    return `${data} às ${hora}:${minuto}`;
+}
+
+// Nota em edição (o texto volta para o campo e o envio passa a salvar a alteração).
+let notaEmEdicao = null;
+const notasRemoviveis = new Map();
+
+function criarItemNota(pet, nota) {
+    const li = document.createElement('li');
+    li.className = 'anotacao-comportamento';
+    const chave = crypto.randomUUID();
+    notasRemoviveis.set(chave, { pet, nota });
+    li.innerHTML = `<p class="anotacao-comportamento__texto">${escapar(nota.texto)}</p><time class="anotacao-comportamento__data-hora" datetime="${escapar(nota.data)}">${escapar(dataHoraNota(nota.data))}</time><div class="acoes-cartao-registro"><button type="button" class="botao-texto" data-editar-nota="${chave}">Editar</button><button type="button" class="botao-texto" data-remover-nota="${chave}">Remover</button></div>`;
+    return li;
 }
 
 // Resumo curto da frequência, em português.
@@ -202,13 +227,8 @@ function atualizarLinks() {
 
 // Preenche os cartões com as rotinas salvas do pet.
 function renderizarRotina(petsVisiveis, todos = false) {
-    const observacoes = petsVisiveis
-        .map(pet => ({ nome: pet.nome, texto: observacoesDoPet(pet) }))
-        .filter(item => item.texto)
-        .map(item => todos ? `${item.nome}: ${item.texto}` : item.texto)
-        .join('\n');
-    const campoObservacoes = document.getElementById('resumo-refeicoes-observacoes');
     const listaAtividades = document.getElementById('linha-tempo-rotina');
+    const listaAnotacoes = main.querySelector('.anotacoes-comportamento__lista');
     const listas = {
         higiene: main.querySelector('.higiene-bem-estar > ul'),
         alimentar: document.getElementById('resumo-refeicoes'),
@@ -235,10 +255,6 @@ function renderizarRotina(petsVisiveis, todos = false) {
         vazios[tipo].hidden = grupos.length > 0;
     }
 
-    // Observações antigas da rotina alimentar: somente leitura.
-    campoObservacoes.textContent = observacoes;
-    campoObservacoes.hidden = !observacoes;
-
     // "Hoje": só o que ocorre na data local de hoje, em ordem de horário.
     const itensPorPet = petsVisiveis.map(pet => ({
         pet,
@@ -260,7 +276,14 @@ function renderizarRotina(petsVisiveis, todos = false) {
     ));
     main.querySelector('[data-vazio="atividades"]').hidden = itensHoje.length > 0;
 
+    // Notas de comportamento: são de um pet só; em "Todos os pets" a seção fica oculta.
+    notasRemoviveis.clear();
+    const notas = todos ? [] : notasDoPet(petsVisiveis[0]);
+    listaAnotacoes.replaceChildren(...notas.map(nota => criarItemNota(petsVisiveis[0], nota)));
+    main.querySelector('[data-vazio="anotacoes"]').hidden = notas.length > 0;
+
     secoesConteudo.forEach(secao => { secao.hidden = false; });
+    main.querySelector('.anotacoes-comportamento').hidden = todos;
     atualizarNoContent(true);
 }
 
@@ -328,6 +351,127 @@ main.addEventListener('click', async event => {
     }
 });
 
+// ==================================================
+// NOTAS DE COMPORTAMENTO
+// ==================================================
+const formularioNota = main.querySelector('.anotacoes-comportamento__formulario');
+const campoNota = document.getElementById('nova-observacao');
+const botaoEnviarNota = formularioNota.querySelector('button[type="submit"]');
+const areaEdicaoNota = main.querySelector('[data-edicao-nota]');
+
+function avisarNotas(mensagem) {
+    const aviso = document.getElementById('anotacoes-mensagem');
+    aviso.textContent = mensagem;
+    aviso.hidden = !mensagem;
+}
+
+function sairDaEdicaoNota() {
+    notaEmEdicao = null;
+    campoNota.value = '';
+    areaEdicaoNota.hidden = true;
+    botaoEnviarNota.setAttribute('aria-label', 'Enviar observação');
+}
+
+// Depois de salvar, relê os pets da memória e redesenha o pet aberto.
+function atualizarPetAberto(petId) {
+    pets = listarPets();
+    const pet = pets.find(item => item.id === petId) ?? null;
+    if (petAtual?.id === petId) selecionarPet(pet);
+}
+
+formularioNota.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!petAtual) return;
+    const texto = campoNota.value.trim();
+    avisarNotas('');
+    if (!texto) {
+        avisarNotas('Escreva a observação antes de enviar.');
+        campoNota.focus();
+        return;
+    }
+
+    const petId = petAtual.id;
+    botaoEnviarNota.disabled = true;
+    try {
+        if (notaEmEdicao) {
+            definirObservacoesDoBanco(await atualizarObservacaoApi(notaEmEdicao.id, texto));
+        } else {
+            definirObservacoesDoBanco((await cadastrarObservacaoApi(petId, texto)).observacoes);
+        }
+        sairDaEdicaoNota();
+        atualizarPetAberto(petId);
+    } catch (erro) {
+        avisarNotas(erro.message || 'Não foi possível salvar a observação.');
+    } finally {
+        botaoEnviarNota.disabled = false;
+    }
+});
+
+areaEdicaoNota.querySelector('[data-cancelar-nota]').addEventListener('click', () => {
+    sairDaEdicaoNota();
+    avisarNotas('');
+});
+
+main.addEventListener('click', async event => {
+    const editar = event.target.closest('[data-editar-nota]');
+    if (editar) {
+        const alvo = notasRemoviveis.get(editar.dataset.editarNota);
+        if (!alvo) return;
+        notaEmEdicao = alvo.nota;
+        campoNota.value = alvo.nota.texto;
+        areaEdicaoNota.hidden = false;
+        botaoEnviarNota.setAttribute('aria-label', 'Salvar alteração da observação');
+        avisarNotas('');
+        campoNota.focus();
+        return;
+    }
+
+    const remover = event.target.closest('[data-remover-nota]');
+    const alvo = remover && notasRemoviveis.get(remover.dataset.removerNota);
+    if (!alvo) return;
+
+    try {
+        const { pet, nota } = alvo;
+        const confirmado = await confirmarExclusao({
+            titulo: 'Remover observação?',
+            mensagem: `A observação será removida de ${pet.nome}.`,
+            confirmar: 'Remover'
+        });
+        if (!confirmado) return;
+
+        if (notaEmEdicao?.id === nota.id) sairDaEdicaoNota();
+        const chave = chaveExclusao(pet, 'nota', nota.id);
+        avisarNotas('');
+        exclusoesPendentes.add(chave);
+        renderizarSelecaoAtual();
+
+        oferecerDesfazerExclusao({
+            antesDe: listaAnotacoes(),
+            mensagem: 'Observação removida da lista.',
+            aoDesfazer() {
+                exclusoesPendentes.delete(chave);
+                if (petAtual?.id === pet.id) renderizarSelecaoAtual();
+            },
+            async aoExcluir() {
+                definirObservacoesDoBanco(await excluirObservacaoApi(nota.id));
+                exclusoesPendentes.delete(chave);
+                atualizarPetAberto(pet.id);
+            },
+            aoFalhar(erro) {
+                exclusoesPendentes.delete(chave);
+                if (petAtual?.id === pet.id) renderizarSelecaoAtual();
+                avisarNotas(erro.message || 'Não foi possível remover a observação.');
+            }
+        });
+    } catch (erro) {
+        avisarNotas(erro.message || 'Não foi possível remover a observação.');
+    }
+});
+
+function listaAnotacoes() {
+    return main.querySelector('.anotacoes-comportamento__lista');
+}
+
 // Seleciona um pet e decide entre exibir a rotina ou o no-content compartilhado.
 function renderizarSelecaoAtual() {
     const petsVisiveis = mostrandoTodos ? pets : petAtual ? [petAtual] : [];
@@ -353,6 +497,7 @@ function selecionarPet(valor) {
     const pet = mostrandoTodos ? null : valor && typeof valor === 'object'
         ? valor
         : pets.find(item => item.id === valor) ?? null;
+    if (mostrandoTodos || pet?.id !== petAtual?.id) sairDaEdicaoNota();
     petAtual = pet;
     seletorPet.value = mostrandoTodos ? '__todos__' : pet?.id ?? '';
     main.dataset.petId = pet?.id ?? '';

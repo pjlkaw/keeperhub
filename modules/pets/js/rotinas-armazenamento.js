@@ -2,15 +2,14 @@
    KEEPERHUB — MÓDULO PETS
    Arquivo: js/rotinas-armazenamento.js
    Função: salvar, editar e remover as rotinas (higiene, alimentar e lazer)
-   pela API, mantendo a memória da página e o agrupamento visual atualizados.
+   pela API, mantendo a memória da página atualizada.
    ========================================================================== */
 
 import {
     GRUPO_DA_ROTINA,
     carregarPets,
     definirRotinasDoBanco,
-    listarPets,
-    separarRegistrosDoGrupo
+    listarPets
 } from './armazenamento.js';
 import { atualizarRotinasApi, cadastrarRotinaApi, excluirRotinasApi } from './api.js';
 import { registrosDoPet } from './selecao-pets.js';
@@ -28,12 +27,12 @@ export function rotinasDoPet(pet, tipo) {
 let gravacoesEmAndamento = 0;
 let houveSobreposicao = false;
 
-async function gravarNoServidor(tipo, chamada, idsDoGrupo) {
+async function gravarNoServidor(chamada) {
     gravacoesEmAndamento += 1;
     if (gravacoesEmAndamento > 1) houveSobreposicao = true;
     try {
-        const { rotinas, grupo } = await chamada();
-        definirRotinasDoBanco(rotinas, tipo, grupo ?? idsDoGrupo);
+        const { rotinas } = await chamada();
+        definirRotinasDoBanco(rotinas);
         if (gravacoesEmAndamento === 1 && houveSobreposicao) {
             houveSobreposicao = false;
             await carregarPets();
@@ -53,9 +52,9 @@ export async function salvarRotina(tipo, pets, registro) {
     if (!Array.isArray(pets) || !pets.length || !GRUPO_DA_ROTINA[tipo]) {
         throw new Error('Não foi possível localizar todos os pets selecionados.');
     }
-    await gravarNoServidor(tipo, async () => {
+    await gravarNoServidor(async () => {
         const resposta = await cadastrarRotinaApi({ ...registro, tipo, petIds: idsNumericos(pets) });
-        return { rotinas: resposta.rotinas, grupo: resposta.criados };
+        return { rotinas: resposta.rotinas };
     });
 }
 
@@ -87,7 +86,7 @@ export async function editarRotina(tipo, petsOrigem, idsOrigem, petsDestino, reg
         !Array.isArray(petsDestino) || !petsOrigem.length || !idsOrigem.length || !petsDestino.length) {
         return false;
     }
-    await gravarNoServidor(tipo, async () => {
+    await gravarNoServidor(async () => {
         const resposta = await atualizarRotinasApi({
             ...registro,
             tipo,
@@ -95,8 +94,7 @@ export async function editarRotina(tipo, petsOrigem, idsOrigem, petsDestino, reg
             petIdsOrigem: idsNumericos(petsOrigem),
             petIds: idsNumericos(petsDestino)
         });
-        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], idsOrigem.map(String));
-        return { rotinas: resposta.rotinas, grupo: resposta.grupoIds };
+        return { rotinas: resposta.rotinas };
     });
     return true;
 }
@@ -104,9 +102,8 @@ export async function editarRotina(tipo, petsOrigem, idsOrigem, petsDestino, reg
 // Remove a rotina só do pet informado; os outros pets do grupo continuam com ela.
 export async function removerRotina(tipo, pet, id) {
     if (!pet || !GRUPO_DA_ROTINA[tipo]) return false;
-    await gravarNoServidor(tipo, async () => {
+    await gravarNoServidor(async () => {
         const rotinas = await excluirRotinasApi(tipo, [Number(id)]);
-        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], [String(id)]);
         return { rotinas };
     });
     return true;
@@ -117,9 +114,8 @@ export async function removerRotinas(tipo, membros) {
     if (!GRUPO_DA_ROTINA[tipo] || !Array.isArray(membros) || !membros.length) return false;
     const ids = membros.map(membro => String(membro?.registro?.id ?? '')).filter(Boolean);
     if (ids.length !== membros.length) return false;
-    await gravarNoServidor(tipo, async () => {
+    await gravarNoServidor(async () => {
         const rotinas = await excluirRotinasApi(tipo, ids.map(Number));
-        separarRegistrosDoGrupo(GRUPO_DA_ROTINA[tipo], ids);
         return { rotinas };
     });
     return true;

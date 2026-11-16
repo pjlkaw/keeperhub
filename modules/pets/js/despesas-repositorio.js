@@ -8,7 +8,7 @@ Depende de: armazenamento.js, api.js, selecao-pets.js
 Usado por: despesas.js, cadastrar-despesa.js
 ================================================== */
 
-import { definirDespesasDoBanco, listarPets, separarRegistrosDoGrupo } from './armazenamento.js';
+import { definirDespesasDoBanco, listarPets } from './armazenamento.js';
 import { atualizarDespesasApi, cadastrarDespesaApi, excluirDespesasApi } from './api.js';
 import { agruparRegistros } from './selecao-pets.js';
 
@@ -66,7 +66,7 @@ export async function criarDespesa(petIds, dados) {
     const ids = [...new Set((Array.isArray(petIds) ? petIds : []).map(String))];
     if (!ids.length) throw new Error('Não foi possível localizar todos os pets selecionados.');
     const resposta = await cadastrarDespesaApi({ ...dados, petIds: ids.map(Number) });
-    definirDespesasDoBanco(resposta.despesas, resposta.criados);
+    definirDespesasDoBanco(resposta.despesas);
 }
 
 // Atualiza os dados e os pets associados ao lançamento.
@@ -82,8 +82,7 @@ export async function atualizarDespesa(id, petIds, dados) {
         petIdsOrigem: grupo.membros.map(({ pet }) => Number(pet.id)),
         petIds: destino.map(Number)
     });
-    separarRegistrosDoGrupo(CAMPO_DESPESAS, ids);
-    definirDespesasDoBanco(resposta.despesas, resposta.grupoIds);
+    definirDespesasDoBanco(resposta.despesas);
     return true;
 }
 
@@ -100,7 +99,6 @@ export async function excluirDespesa(id, petIds) {
 
     const ids = membros.map(({ registro }) => String(registro.id));
     const despesas = await excluirDespesasApi(ids.map(Number));
-    separarRegistrosDoGrupo(CAMPO_DESPESAS, ids);
     definirDespesasDoBanco(despesas);
     return true;
 }

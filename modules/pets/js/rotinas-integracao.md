@@ -22,11 +22,10 @@ Rotas usadas pelas telas (o tipo da rotina vai no corpo):
 - `DELETE ?acao=rotina` exclui os registros (`tipo` + `ids`).
 
 Todas conferem, numa transação, que os pets e as rotinas pertencem ao usuário.
-O agrupamento visual de um cadastro feito para vários pets fica no navegador
-(`keeperhub-pets-grupos`, campos `rotinaHigiene`, `rotinaLazer` e `refeicoes`), como
-nas medicações. Na Rotina diária, "Remover" apaga a rotina só do pet aberto, com a
+Um cadastro feito para vários pets guarda o mesmo `grupo_id` no banco e aparece
+como um card só, como nas medicações. Na Rotina diária, "Remover" apaga a rotina só do pet aberto, com a
 opção de desfazer; os outros pets do grupo continuam com ela.
 
-A observação geral da rotina alimentar (`rotinaAlimentar.observacoes`) ainda fica no
-localStorage. Rotinas que existiam só no navegador antes desta integração não são
-migradas automaticamente para o banco.
+Nada das rotinas fica no navegador. A antiga observação geral da rotina alimentar
+(`rotinaAlimentar.observacoes`, só no navegador) saiu da tela; cada refeição tem a
+sua própria observação no banco.
