@@ -16,12 +16,8 @@ body {
 /* Organiza os cards de resumo em duas colunas (2 x 2) */
 .despensa-resumo {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 3fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
-}
-/* Faz o card de Medicamentos ocupar toda a largura disponível */
-.despensa-resumo .summary-card:last-child {
-    grid-column: 1 / -1;
 }
 
 /* Faz o card de Medicamentos ocupar toda a largura disponível */
