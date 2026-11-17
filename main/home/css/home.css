@@ -10,6 +10,37 @@ body {
   color: var(--text-color);
 }
 
+.botao-hub-flutuante {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 1000;
+  display: inline-flex;
+  width: 54px;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: var(--bg-color);
+  color: var(--text-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: transform 160ms ease, background-color 160ms ease;
+}
+
+.botao-hub-flutuante:hover {
+  transform: translateY(-2px);
+  background: var(--cor-principal);
+  color: #fff;
+}
+
+.botao-hub-flutuante:focus-visible {
+  outline: 3px solid var(--cor-principal);
+  outline-offset: 3px;
+}
+
 .pagina {
   min-height: 100vh;
   overflow-x: hidden;
@@ -85,6 +116,7 @@ body {
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
+  flex-wrap: wrap;
 }
 
 .botao-entrar {
