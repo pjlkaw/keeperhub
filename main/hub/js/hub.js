@@ -127,7 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(async (usuario) => {
       userLoadContent({ name: usuario.nome_usuario, foto_usuario: usuario.foto_usuario });
       const modulos = await listarModulosUsuario();
-      aplicarAcessosModulos(new Set(modulos.map((modulo) => modulo.codigo)));
+      const modulosAtivos = new Set(modulos.map((modulo) => modulo.codigo));
+      aplicarAcessosModulos(modulosAtivos);
+      carregarResumoModulos(modulosAtivos);
     })
     .catch((error) => {
       if (error.status === 401) {
@@ -152,6 +154,83 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 });
+
+async function requisitarResumo(url) {
+  const resposta = await fetch(url, { credentials: 'same-origin' });
+  if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
+  return resposta.json();
+}
+
+function carregarResumoModulos(modulosAtivos) {
+  if (modulosAtivos.has('financas')) {
+    requisitarResumo('/api/modulos/financas-api?recurso=contas')
+      .then((dados) => {
+        const contas = Array.isArray(dados?.contas) ? dados.contas : [];
+        const card = document.getElementById('hub-card-financas');
+        if (!card) return;
+        const valor = card.querySelector('.module-card-val-title');
+        const legenda = card.querySelector('.module-card-sublabel');
+        const saldo = contas.reduce((total, conta) => total + (Number(conta.saldo_atual) || 0), 0);
+        valor.textContent = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        }).format(saldo);
+        legenda.textContent = contas.length
+          ? `${contas.length} ${contas.length === 1 ? 'conta ativa' : 'contas ativas'}`
+          : 'Sem contas cadastradas';
+      })
+      .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo financeiro:', erro));
+  }
+
+  if (modulosAtivos.has('pets')) {
+    requisitarResumo('/api/modulos/pets-api')
+      .then((dados) => {
+        const pets = Array.isArray(dados?.pets) ? dados.pets : [];
+        const card = document.getElementById('hub-card-pets');
+        if (!card) return;
+        card.querySelector('.module-pets-name').textContent =
+          pets.length ? pets[0].nome || `${pets.length} pets` : 'Nenhum pet';
+        card.querySelector('.module-card-sublabel').textContent =
+          `${pets.length} ${pets.length === 1 ? 'pet cadastrado' : 'pets cadastrados'}`;
+      })
+      .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo de pets:', erro));
+  }
+
+  if (modulosAtivos.has('medicamentos')) {
+    requisitarResumo('/api/modulos/medicamentos-api')
+      .then((dados) => {
+        const medicamentos = Array.isArray(dados?.medicamentos) ? dados.medicamentos : [];
+        const card = document.getElementById('hub-card-medicamentos');
+        if (!card) return;
+        card.querySelector('.meds-name-text').textContent =
+          medicamentos.length ? medicamentos[0].nome || `${medicamentos.length} medicamentos` : 'Nenhum medicamento';
+        card.querySelector('.module-card-sublabel').textContent =
+          `${medicamentos.length} ${medicamentos.length === 1 ? 'medicamento ativo' : 'medicamentos ativos'}`;
+      })
+      .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo de medicamentos:', erro));
+  }
+
+  if (modulosAtivos.has('despensa')) {
+    requisitarResumo('/api/modulos/despensa-api')
+      .then((dados) => {
+        const produtos = Array.isArray(dados?.produtos) ? dados.produtos : [];
+        const card = document.getElementById('hub-card-despensa');
+        if (!card) return;
+        const valor = card.querySelector('.module-card-val-title');
+        const legenda = card.querySelector('.module-card-sublabel');
+        if (!valor || !legenda) return;
+        valor.textContent = produtos.length.toLocaleString('pt-BR');
+        if (produtos.length === 1) {
+          legenda.textContent = 'produto cadastrado';
+        } else if (produtos.length > 1) {
+          legenda.textContent = 'produtos cadastrados';
+        } else {
+          legenda.textContent = 'Sem produtos cadastrados';
+        }
+      })
+      .catch((erro) => console.error('[Hub] Não foi possível carregar o resumo da despensa:', erro));
+  }
+}
 
 function userLoadContent(user) {
   if (!user) return;
