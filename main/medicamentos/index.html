@@ -64,6 +64,7 @@
   <link rel="stylesheet" href="../../shared/styles/variables.css" />
   <link rel="stylesheet" href="../../shared/styles/header-page.css" />
   <link rel="stylesheet" href="css/medicamentos.css" />
+    <link rel="stylesheet" href="../../shared/styles/module-previews.css" />
   <link rel="stylesheet" href="/main/css/account-header.css" />
   <link rel="stylesheet" href="../../shared/styles/rodape.css" />
 </head>
@@ -116,37 +117,31 @@
             <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-medicacoes" />
             <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-rotina" />
             <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-estoque" />
-            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-scanner" />
+            <input class="opcao-previa" type="radio" name="previa-medicamentos" id="opcao-receitas" />
 
             <div class="abas-previa">
               <label class="aba-previa" id="aba-visao-geral" for="opcao-visao-geral">Visão geral</label>
               <label class="aba-previa" id="aba-medicacoes" for="opcao-medicacoes">Medicações</label>
               <label class="aba-previa" id="aba-rotina" for="opcao-rotina">Rotina</label>
               <label class="aba-previa" id="aba-estoque" for="opcao-estoque">Estoque</label>
-              <label class="aba-previa" id="aba-scanner" for="opcao-scanner">Scanner</label>
+              <label class="aba-previa" id="aba-receitas" for="opcao-receitas">Receitas</label>
             </div>
             <div class="painel-previa" id="painel-visao-geral" role="region" aria-labelledby="aba-visao-geral" tabindex="0">
-              <h3>Veja o que faz parte da sua rotina.</h3>
-              <p class="descricao-previa">Acompanhe seus medicamentos, os horários registrados e os avisos de estoque e validade.</p>
+              <h3>Veja o progresso da sua rotina.</h3>
+              <p class="descricao-previa">Consulte sua sequência ativa, as doses concluídas e o calendário de medicação.</p>
               <figure class="captura-tela">
-                <div class="espaco-imagem">
-                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                  <p>Visão geral</p>
-                  <span>Imagem em preparação</span>
-                </div>
+                <img class="imagem-previa imagem-previa-clara" src="img/visao-geral-claro.webp" alt="Captura da tela Visão geral do módulo Medicamentos no tema claro." width="480" height="819" loading="lazy" decoding="async" />
+                <img class="imagem-previa imagem-previa-escura" src="img/visao-geral-escuro.webp" alt="Captura da tela Visão geral do módulo Medicamentos no tema escuro." width="480" height="819" loading="lazy" decoding="async" />
                 <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
               </figure>
             </div>
 
             <div class="painel-previa" id="painel-medicacoes" role="region" aria-labelledby="aba-medicacoes" tabindex="0">
-              <h3>Reúna as informações dos seus medicamentos.</h3>
-              <p class="descricao-previa">Consulte os medicamentos cadastrados e os detalhes de cada registro.</p>
+              <h3>Marque as doses da sua rotina.</h3>
+              <p class="descricao-previa">Acompanhe as doses pendentes e registre quando tomou ou ficou sem uma dose.</p>
               <figure class="captura-tela">
-                <div class="espaco-imagem">
-                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                  <p>Medicações</p>
-                  <span>Imagem em preparação</span>
-                </div>
+                <img class="imagem-previa imagem-previa-clara" src="img/medicacoes-claro.webp" alt="Captura da tela Medicações do módulo Medicamentos no tema claro." width="480" height="819" loading="lazy" decoding="async" />
+                <img class="imagem-previa imagem-previa-escura" src="img/medicacoes-escuro.webp" alt="Captura da tela Medicações do módulo Medicamentos no tema escuro." width="480" height="819" loading="lazy" decoding="async" />
                 <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
               </figure>
             </div>
@@ -155,11 +150,8 @@
               <h3>Acompanhe os horários e as doses.</h3>
               <p class="descricao-previa">Organize os horários registrados e acompanhe as tomadas ao longo do dia.</p>
               <figure class="captura-tela">
-                <div class="espaco-imagem">
-                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                  <p>Rotina</p>
-                  <span>Imagem em preparação</span>
-                </div>
+                <img class="imagem-previa imagem-previa-clara" src="img/rotina-claro.webp" alt="Captura da tela Rotina do módulo Medicamentos no tema claro." width="480" height="819" loading="lazy" decoding="async" />
+                <img class="imagem-previa imagem-previa-escura" src="img/rotina-escuro.webp" alt="Captura da tela Rotina do módulo Medicamentos no tema escuro." width="480" height="819" loading="lazy" decoding="async" />
                 <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
               </figure>
             </div>
@@ -168,24 +160,18 @@
               <h3>Saiba o que você tem disponível.</h3>
               <p class="descricao-previa">Consulte as quantidades e as validades para acompanhar quando será necessário repor um medicamento.</p>
               <figure class="captura-tela">
-                <div class="espaco-imagem">
-                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                  <p>Estoque</p>
-                  <span>Imagem em preparação</span>
-                </div>
+                <img class="imagem-previa imagem-previa-clara" src="img/estoque-claro.webp" alt="Captura da tela Estoque do módulo Medicamentos no tema claro." width="480" height="819" loading="lazy" decoding="async" />
+                <img class="imagem-previa imagem-previa-escura" src="img/estoque-escuro.webp" alt="Captura da tela Estoque do módulo Medicamentos no tema escuro." width="480" height="819" loading="lazy" decoding="async" />
                 <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
               </figure>
             </div>
 
-            <div class="painel-previa" id="painel-scanner" role="region" aria-labelledby="aba-scanner" tabindex="0">
-              <h3>Conheça o cadastro pelo código de barras.</h3>
-              <p class="descricao-previa">Veja como a leitura do código de barras da embalagem pode ajudar no cadastro de um medicamento.</p>
+            <div class="painel-previa" id="painel-receitas" role="region" aria-labelledby="aba-receitas" tabindex="0">
+              <h3>Consulte as receitas cadastradas.</h3>
+              <p class="descricao-previa">Acesse os dados das receitas e os medicamentos prescritos.</p>
               <figure class="captura-tela">
-                <div class="espaco-imagem">
-                  <img src="../assets/img/logo-medicamentos.png" alt="" width="90" height="60" />
-                  <p>Scanner</p>
-                  <span>Imagem em preparação</span>
-                </div>
+                <img class="imagem-previa imagem-previa-clara" src="img/receitas-claro.webp" alt="Captura da tela Receitas do módulo Medicamentos no tema claro." width="480" height="819" loading="lazy" decoding="async" />
+                <img class="imagem-previa imagem-previa-escura" src="img/receitas-escuro.webp" alt="Captura da tela Receitas do módulo Medicamentos no tema escuro." width="480" height="819" loading="lazy" decoding="async" />
                 <figcaption>Prévia ilustrativa do módulo Medicamentos.</figcaption>
               </figure>
             </div>
