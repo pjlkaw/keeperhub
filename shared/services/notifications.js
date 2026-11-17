@@ -233,6 +233,26 @@
     }
   }
 
+  // O botão voltar do header volta para a tela anterior do próprio KeeperHub
+  // (ex.: o módulo de onde a pessoa tocou no sino). Sem tela anterior, vai para o Hub.
+  function voltarParaTelaAnterior(evento) {
+    const botao = evento.target.closest('#btn-back-header');
+    if (!botao) return;
+    let anterior = null;
+    try {
+      anterior = document.referrer ? new URL(document.referrer) : null;
+    } catch {
+      anterior = null;
+    }
+    const mesmaOrigem = anterior && anterior.origin === window.location.origin &&
+      anterior.pathname !== window.location.pathname;
+    if (mesmaOrigem && window.history.length > 1) {
+      evento.preventDefault();
+      window.history.back();
+    }
+  }
+
+  document.addEventListener('click', voltarParaTelaAnterior);
   cartoes.forEach((cartao) => {
     cartao.addEventListener('click', () => escolherFiltro(cartao.dataset.modulo));
   });

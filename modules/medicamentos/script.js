@@ -104,7 +104,7 @@ document.addEventListener('keydown', (event) => {
 // alerta
 document.addEventListener('keydown', (event) => {
     if (event.key === '9') {
-        let oi = 'oi'
-        alertShared(oi)
+        
+        alertShared('oi')
     }
 });
