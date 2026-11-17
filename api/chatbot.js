@@ -1,34 +1,19 @@
 import { enviarMensagem } from '../shared/services/groq.js';
 import { usuarioDaSessao } from '../server/auth-session.js';
+import { listarAcessosUsuario } from '../server/repositories/modulos.js';
 import { listarPets } from '../server/repositories/pets/animais.js';
 import { listarMedicamentos } from '../server/repositories/medicamentos/medicamentos.js';
-
-function mensagemSobrePets(mensagem) {
-  return /\b(pets?|animais?|cachorros?|cadelas?|gatos?|gatas?)\b/i.test(mensagem);
-}
-
-function mensagemSobreMedicamentos(mensagem) {
-  return /\b(medicamentos?|rem[eé]dios?|medica[cç][aã]o|doses?|tratamentos?|estoque)\b/i.test(mensagem);
-}
-
-function dadosMedicamentosParaContexto(medicamentos) {
-  return medicamentos.map((medicamento) => ({
-    nome: medicamento.nome,
-    unidade: medicamento.unidade,
-    tipoUso: medicamento.tipoUso,
-    status: medicamento.status,
-    dose: medicamento.dose,
-    frequencia: medicamento.frequencia,
-    intervaloHoras: medicamento.intervaloHoras,
-    dataInicio: medicamento.dataInicio,
-    dataFim: medicamento.dataFim,
-    dias: medicamento.dias,
-    horarios: medicamento.horarios,
-    quantidade: medicamento.quantidade,
-    estoqueCadastrado: medicamento.estoqueCadastrado,
-    validade: medicamento.validade
-  }));
-}
+import { listarContas } from '../server/repositories/financas/contas.js';
+import { listarTransacoes } from '../server/repositories/financas/transacoes.js';
+import { listarProdutos } from '../server/repositories/despensa/produtos.js';
+import { listarItensDaListaAberta } from '../server/repositories/despensa/checklist.js';
+import {
+  dadosDespensaParaContexto,
+  dadosFinancasParaContexto,
+  dadosMedicamentosParaContexto,
+  dadosPetsParaContexto,
+  detectarModulosDaMensagem,
+} from '../server/services/keeper-context.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -49,18 +34,44 @@ export default async function handler(req, res) {
   }
 
   try {
-    const contexto = {};
+    const modulosSolicitados = detectarModulosDaMensagem(mensagem);
+    let contextoConsulta = null;
 
-    if (mensagemSobrePets(mensagem)) {
-      contexto.pets = await listarPets(usuarioId);
+    if (modulosSolicitados.length) {
+      const acessos = await listarAcessosUsuario(usuarioId);
+      const modulosDisponiveis = new Set(acessos.map((acesso) => acesso.codigo));
+      const contexto = {
+        modulosDisponiveis: [...modulosDisponiveis],
+        modulosSemAcesso: modulosSolicitados.filter((modulo) => !modulosDisponiveis.has(modulo)),
+      };
+
+      if (modulosSolicitados.includes('pets') && modulosDisponiveis.has('pets')) {
+        contexto.pets = dadosPetsParaContexto(await listarPets(usuarioId));
+      }
+
+      if (modulosSolicitados.includes('medicamentos') && modulosDisponiveis.has('medicamentos')) {
+        contexto.medicamentos = dadosMedicamentosParaContexto(await listarMedicamentos(usuarioId));
+      }
+
+      if (modulosSolicitados.includes('financas') && modulosDisponiveis.has('financas')) {
+        const [contas, transacoes] = await Promise.all([
+          listarContas(usuarioId),
+          listarTransacoes(usuarioId),
+        ]);
+        contexto.financas = dadosFinancasParaContexto(contas, transacoes);
+      }
+
+      if (modulosSolicitados.includes('despensa') && modulosDisponiveis.has('despensa')) {
+        const [produtos, itens] = await Promise.all([
+          listarProdutos(usuarioId),
+          listarItensDaListaAberta(usuarioId),
+        ]);
+        contexto.despensa = dadosDespensaParaContexto(produtos, itens);
+      }
+
+      contextoConsulta = contexto;
     }
 
-    if (mensagemSobreMedicamentos(mensagem)) {
-      const medicamentos = await listarMedicamentos(usuarioId);
-      contexto.medicamentos = dadosMedicamentosParaContexto(medicamentos);
-    }
-
-    const contextoConsulta = Object.keys(contexto).length ? contexto : null;
     const resposta = await enviarMensagem(mensagem, contextoConsulta);
     return res.status(200).json({ resposta });
   } catch (erro) {

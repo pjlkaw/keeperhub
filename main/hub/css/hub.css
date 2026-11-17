@@ -156,6 +156,16 @@
     border-bottom: 1px solid var(--border-color);
   }
 
+  .chatbot-context-notice {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+
   .chatbot-input-container {
     flex: 0 0 auto;
     display: flex;

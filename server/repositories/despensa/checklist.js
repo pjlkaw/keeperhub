@@ -57,6 +57,22 @@ export async function listarItens(usuarioId) {
   return linhas.map(mapearItem);
 }
 
+export async function listarItensDaListaAberta(usuarioId) {
+  const [listas] = await db.execute(
+    `SELECT id_lista FROM lista_compras
+      WHERE usuario_id = ? AND status = 'aberta'
+      ORDER BY id_lista LIMIT 1`,
+    [usuarioId]
+  );
+  if (!listas[0]) return [];
+
+  const [linhas] = await db.execute(
+    `${SELECT_ITENS} AND lc.id_lista = ? ORDER BY il.id_item_lista`,
+    [usuarioId, listas[0].id_lista]
+  );
+  return linhas.map(mapearItem);
+}
+
 async function buscarItem(idItemLista, usuarioId, executor = db) {
   const [linhas] = await executor.execute(
     `${SELECT_ITENS} AND il.id_item_lista = ? LIMIT 1`,
