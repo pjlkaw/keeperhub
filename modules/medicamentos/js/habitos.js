@@ -1,6 +1,7 @@
 import { definirHabitosDoBanco, listarRegistros } from "./armazenamento.js";
 import { alternarConclusaoHabitoApi, listarHabitosApi } from "./api.js";
 import { dataLocal } from "./dados-rotina.js";
+import { formatarMetaHabito } from "./formatar-habito.js";
 
 // Atualiza o checklist e o resumo dos hábitos diretamente na interface.
 export async function inicializarHabitos() {
@@ -134,7 +135,7 @@ function criarLinhaHabito(habito, hoje) {
     nome.textContent = habito.nome;
     const meta = document.createElement("span");
     meta.className = "habit-row-meta";
-    meta.textContent = `${habito.frequencia}: ${habito.meta} ${habito.unidade}`;
+    meta.textContent = `${habito.frequencia}: ${formatarMetaHabito(habito.meta, habito.unidade)}`;
     conteudo.append(nome, meta);
 
     const icone = document.createElement("i");
