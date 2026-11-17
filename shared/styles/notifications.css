@@ -129,7 +129,10 @@ button {
 .grade-categorias {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 5px;
 }
 
 .cartao-categoria {
