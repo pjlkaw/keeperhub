@@ -1,6 +1,8 @@
 import { listarRegistros } from "./armazenamento.js";
+import { renderizarPaginasPdf } from "./ler-pdf.js";
 import {
     adicionarAnexoReceitaApi,
+    analisarReceitaApi,
     buscarReceitaApi,
     excluirAnexoReceitaApi,
     excluirReceitaApi,
@@ -161,6 +163,8 @@ function inicializarFormulario() {
         return;
     }
 
+    inicializarLeituraAutomatica(formulario);
+
     formulario.addEventListener("submit", async (evento) => {
         evento.preventDefault();
         if (!formulario.reportValidity()) {
@@ -191,6 +195,160 @@ function inicializarFormulario() {
             mostrarRetornoFormulario(formulario, erro.message || "Não foi possível salvar a receita.", true);
         }
     });
+}
+
+function inicializarLeituraAutomatica(formulario) {
+    const seletorArquivos = formulario.querySelector("#prescription-files");
+    const botaoSeletor = formulario.querySelector("#prescription-files-trigger");
+    const listaArquivos = formulario.querySelector("#prescription-files-selected");
+    const consentimento = formulario.querySelector("#prescription-ai-consent");
+    const status = formulario.querySelector("#prescription-ai-status");
+    const tiposImagem = new Set(["image/jpeg", "image/png", "image/webp"]);
+    const tipoPdf = "application/pdf";
+    const maximoImagensAnalise = 3;
+    let leituraAtual = 0;
+
+    if (seletorArquivos && botaoSeletor) {
+        botaoSeletor.addEventListener("click", () => seletorArquivos.click());
+    }
+    if (seletorArquivos && listaArquivos) {
+        const atualizarListaArquivos = () => {
+            const arquivos = Array.from(seletorArquivos.files || []);
+            listaArquivos.replaceChildren();
+
+            if (!arquivos.length) {
+                const vazio = document.createElement("li");
+                vazio.className = "prescription-file-picker-empty";
+                vazio.textContent = "Nenhum arquivo selecionado";
+                listaArquivos.append(vazio);
+                return;
+            }
+
+            arquivos.forEach((arquivo) => {
+                const item = document.createElement("li");
+                item.className = "prescription-file-picker-item";
+
+                const icone = document.createElement("i");
+                icone.className = `fa-solid ${arquivo.type === tipoPdf ? "fa-file-pdf" : "fa-file-image"}`;
+                icone.setAttribute("aria-hidden", "true");
+
+                const nome = document.createElement("span");
+                nome.className = "prescription-file-picker-name";
+                nome.textContent = arquivo.name;
+                nome.title = arquivo.name;
+
+                item.append(icone, nome);
+                listaArquivos.append(item);
+            });
+        };
+
+        seletorArquivos.addEventListener("change", atualizarListaArquivos);
+        atualizarListaArquivos();
+    }
+
+    if (!seletorArquivos || !consentimento || !status) return;
+
+    const atualizarStatus = (mensagem) => {
+        status.textContent = mensagem;
+        status.classList.toggle("show", Boolean(mensagem));
+    };
+
+    const analisarSelecao = async () => {
+        const tentativa = ++leituraAtual;
+        const arquivos = Array.from(seletorArquivos.files || []);
+        if (!arquivos.length) {
+            atualizarStatus("");
+            return;
+        }
+
+        const arquivosAnalisaveis = arquivos.filter(
+            (arquivo) => tiposImagem.has(arquivo.type) || arquivo.type === tipoPdf,
+        );
+        if (!arquivosAnalisaveis.length) {
+            atualizarStatus("A leitura automática aceita imagens JPG, PNG, WebP ou arquivos PDF.");
+            return;
+        }
+        if (!consentimento.checked) {
+            atualizarStatus("Para ler as imagens ou páginas do PDF, marque a autorização acima. Você também pode preencher os campos manualmente.");
+            return;
+        }
+
+        atualizarStatus("Preparando as imagens e lendo a receita. Isso pode levar alguns instantes...");
+        try {
+            const imagensPreparadas = [];
+            let possuiMaisConteudo = false;
+            let possuiPdf = false;
+
+            for (let indice = 0; indice < arquivos.length; indice += 1) {
+                if (imagensPreparadas.length >= maximoImagensAnalise) {
+                    possuiMaisConteudo = true;
+                    break;
+                }
+
+                const arquivo = arquivos[indice];
+                if (tiposImagem.has(arquivo.type)) {
+                    imagensPreparadas.push(arquivo);
+                    continue;
+                }
+                if (arquivo.type !== tipoPdf) continue;
+
+                possuiPdf = true;
+                const resultadoPdf = await renderizarPaginasPdf(
+                    arquivo,
+                    maximoImagensAnalise - imagensPreparadas.length,
+                );
+                if (tentativa !== leituraAtual || !consentimento.checked) return;
+                imagensPreparadas.push(...resultadoPdf.arquivos);
+                possuiMaisConteudo = possuiMaisConteudo || resultadoPdf.possuiMaisPaginas;
+            }
+
+            if (!imagensPreparadas.length) {
+                atualizarStatus("Não foi possível encontrar páginas para ler no arquivo selecionado.");
+                return;
+            }
+            if (imagensPreparadas.reduce((total, arquivo) => total + arquivo.size, 0) > tamanhoMaximoAnexos) {
+                atualizarStatus("As imagens e páginas do PDF precisam ter até 1 MB no total após a preparação.");
+                return;
+            }
+
+            const anexos = await Promise.all(imagensPreparadas.map(lerArquivo));
+            if (tentativa !== leituraAtual || !consentimento.checked) return;
+            const sugestao = await analisarReceitaApi(anexos.map(({ tipo, conteudo }) => ({ tipo, conteudo })));
+            if (tentativa !== leituraAtual) return;
+
+            const campos = [
+                ["titulo", "#prescription-title"],
+                ["profissional", "#prescription-professional"],
+                ["especialidade", "#prescription-specialty"],
+                ["data", "#prescription-date"],
+            ];
+            let preenchidos = 0;
+            campos.forEach(([chave, seletor]) => {
+                const campo = formulario.querySelector(seletor);
+                const valor = sugestao[chave];
+                if (campo && typeof valor === "string" && valor && !campo.value.trim()) {
+                    campo.value = valor;
+                    preenchidos += 1;
+                }
+            });
+
+            const avisos = [];
+            if (preenchidos) {
+                avisos.push("Sugestões preenchidas; confira os dados antes de salvar.");
+            } else {
+                avisos.push("Não foi possível identificar campos com segurança. Confira a imagem e preencha manualmente.");
+            }
+            if (possuiMaisConteudo) avisos.push("Foram analisadas somente as três primeiras imagens ou páginas.");
+            if (possuiPdf) avisos.push("As páginas dos PDFs foram convertidas localmente para leitura.");
+            atualizarStatus(avisos.join(" "));
+        } catch (erro) {
+            if (tentativa !== leituraAtual) return;
+            atualizarStatus(`${erro.message || "Não foi possível ler a imagem."} Você pode preencher os campos manualmente.`);
+        }
+    };
+
+    seletorArquivos.addEventListener("change", analisarSelecao);
+    consentimento.addEventListener("change", analisarSelecao);
 }
 
 function lerArquivo(arquivo) {

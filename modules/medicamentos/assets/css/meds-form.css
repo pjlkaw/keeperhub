@@ -265,6 +265,82 @@ Usado por: apenas a página de adicionar medicamento
     line-height: 1.35;
 }
 
+.prescription-ai-consent {
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.prescription-ai-consent input[type="checkbox"] {
+    flex: 0 0 auto;
+    width: auto;
+    margin: 2px 0 0;
+}
+
+.prescription-file-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    padding: 10px;
+    background-color: #101114;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 10px;
+}
+
+.prescription-file-picker-button {
+    align-self: center;
+    min-height: 38px;
+}
+
+.prescription-file-picker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.prescription-file-picker-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 10px;
+    color: var(--meds-text);
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    font-size: 0.75rem;
+}
+
+.prescription-file-picker-item i {
+    flex: 0 0 auto;
+    color: var(--color-meds-primary);
+}
+
+.prescription-file-picker-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.prescription-file-picker-empty {
+    color: var(--meds-muted);
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+[data-theme="light"] .prescription-file-picker {
+    background-color: #f9fafb;
+    border-color: #d1d5db;
+}
+
+[data-theme="light"] .prescription-file-picker-item {
+    background-color: #ffffff;
+}
+
 [data-theme="light"] .meds-form-helper {
     color: #6b7280;
 }
