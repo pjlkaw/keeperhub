@@ -7,7 +7,7 @@
  */
 
 // Adição: reutiliza a função compartilhada que cria a conta pela API.
-import { criarUsuario } from '../../../shared/services/usuario.js';
+import { criarUsuario, carregarUsuarioAtual } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 // Adição: envia os dados do formulário para a API e redireciona após o sucesso.
@@ -300,6 +300,11 @@ function setupSignupForm() {
     });
   }
 }
+
+// Quem já está logado não deve ver esta tela: segue direto para a sua área.
+carregarUsuarioAtual()
+  .then(() => window.location.replace('../hub/index.html'))
+  .catch(() => { /* sem sessão: a tela continua normalmente */ });
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', setupSignupForm);

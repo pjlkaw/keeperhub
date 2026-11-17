@@ -6,7 +6,7 @@
  * ==================================================
  */
 
-import { loginUsuario } from '../../../shared/services/usuario.js';
+import { loginUsuario, carregarUsuarioAtual } from '../../../shared/services/usuario.js';
 import { alertShared } from '../../../shared/services/interface.js';
 
 function validarInformacoesLogin(email, senha) {
@@ -25,7 +25,7 @@ async function realizarLogin(email, senha) {
   try {
     await loginUsuario(email, senha);
     console.log('[Login] Login realizado com sucesso:', email);
-    window.location.href = '../home/index.html';
+    window.location.href = '../hub/index.html';
   } catch (erro) {
     console.error('[Login] Falha ao realizar login:', erro);
     alertShared(erro.message || 'Não foi possível entrar. Tente novamente.');
@@ -130,6 +130,11 @@ function setupLoginForm() {
     });
   }
 }
+
+// Quem já está logado não deve ver esta tela: segue direto para a sua área.
+carregarUsuarioAtual()
+  .then(() => window.location.replace('../hub/index.html'))
+  .catch(() => { /* sem sessão: a tela continua normalmente */ });
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', setupLoginForm);
