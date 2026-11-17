@@ -62,12 +62,21 @@ function initializeChatbotMessaging() {
 
   if (!form || !input || !messages) return;
 
+  let cadastroEmAndamento = null;
+
   form.addEventListener('submit', async (event) => {
     placeholder.style.display = 'none';
     event.preventDefault();
 
     const mensagem = input.value.trim();
     if (!mensagem) return;
+
+    const historico = Array.from(
+      messages.querySelectorAll('.user-message, .bot-message')
+    ).slice(-8).map((elemento) => ({
+      role: elemento.classList.contains('user-message') ? 'user' : 'assistant',
+      content: elemento.textContent.trim().slice(0, 2000)
+    }));
 
     const mensagemUsuario = document.createElement('p');
     mensagemUsuario.className = 'chatbot-message user-message';
@@ -81,7 +90,7 @@ function initializeChatbotMessaging() {
       const resposta = await fetch('/api/chatbot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mensagem })
+        body: JSON.stringify({ mensagem, historico, cadastroEmAndamento })
       });
       const tipoResposta = resposta.headers.get('content-type') || '';
       const dados = tipoResposta.includes('application/json')
@@ -96,6 +105,10 @@ function initializeChatbotMessaging() {
 
       if (!dados || typeof dados.resposta !== 'string') {
         throw new Error('A API do chatbot retornou uma resposta inválida.');
+      }
+
+      if (Object.hasOwn(dados, 'cadastroEmAndamento')) {
+        cadastroEmAndamento = dados.cadastroEmAndamento;
       }
 
       const mensagemBot = document.createElement('p');

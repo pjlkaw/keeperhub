@@ -9,7 +9,7 @@ const groqClient = new Groq({
     apiKey: process.env.GROQ_API_KEY
 });
 
-export async function enviarMensagem(mensagem, contexto = null) {
+export async function enviarMensagem(mensagem, contexto = null, historico = []) {
     const messages = [
         {
             role: 'system',
@@ -25,6 +25,10 @@ export async function enviarMensagem(mensagem, contexto = null) {
                 JSON.stringify(contexto)
             ].join('\n')
         });
+    }
+
+    for (const mensagemAnterior of historico) {
+        messages.push(mensagemAnterior);
     }
 
     messages.push({

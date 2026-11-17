@@ -63,21 +63,31 @@
         <div class="chatbot-window" id="chatbot-window" aria-hidden="true">
 
           <div class="chatbot-header">
-            <span class="chatbot-title">KeeperAI</span>
+            <div class="chatbot-brand">
+              <span class="chatbot-brand-icon" aria-hidden="true">
+                <i class="fas fa-robot"></i>
+              </span>
+              <span class="chatbot-heading">
+                <span class="chatbot-title">KeeperAI</span>
+                <span class="chatbot-subtitle">Seu assistente do KeeperHub</span>
+              </span>
+            </div>
             <button class="chatbot-close-button" id="chatbot-close-button" aria-label="Fechar Chatbot">
-              <i class="fas fa-times"></i>
+              <i class="fas fa-times" aria-hidden="true"></i>
             </button>
           </div>
           <p class="chatbot-context-notice" role="note">
-            Sua mensagem é enviada à Groq; dados dos módulos são incluídos somente quando necessários para responder.
+            <i class="fas fa-circle-info" aria-hidden="true"></i>
+            <span>Em respostas de orientação, mensagens e histórico recente podem ser enviados à Groq. Dados dos módulos são enviados quando necessários. Nos cadastros iniciados pelo chat, seus dados vão ao KeeperHub e só são gravados após sua confirmação.</span>
           </p>
           <div class="chatbot-messages" id="chatbot-messages">
             <!-- Mensagens do chatbot serão inseridas aqui -->
             <!-- placeholder -->
             <div class="chatbot-placeholder" id="chatbot-placeholder">
-              <i class="fas fa-robot"></i><br>
+              <i class="fas fa-robot" aria-hidden="true"></i>
               <img class="chatbot-logo" src="/shared/img/logo-keeperhub-wordmark.png" alt="">
-              <span class="placeholder-text">Estou aqui para ajudar!</span>
+              <span class="placeholder-text">Como posso ajudar?</span>
+              <span class="chatbot-hint">Pergunte sobre Finanças, Pets, Medicamentos ou Despensa.</span>
             </div>
 
           </div>
