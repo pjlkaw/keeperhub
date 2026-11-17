@@ -428,7 +428,7 @@ function renderizarAnexos(receita) {
 
         const link = document.createElement("a");
         link.className = "med-routine-item med-attachment-link";
-        link.href = anexo.url;
+        link.href = `/api/modulos/medicamentos-arquivo?id=${encodeURIComponent(anexo.id)}`;
         link.download = anexo.nome;
         link.target = "_blank";
         link.rel = "noopener";

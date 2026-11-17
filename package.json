@@ -19,7 +19,8 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"migrate:photos": "node scripts/migrate-photos-to-blob.js"
+		"migrate:photos": "node scripts/migrate-photos-to-blob.js",
+		"migrate:prescription-blobs-private": "node scripts/migrate-prescription-blobs-private.js"
 	},
 	"dependencies": {
 		"@tensorflow/tfjs": "^4.22.0",
