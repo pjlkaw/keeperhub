@@ -65,8 +65,19 @@ button {
   font-size: 1.45rem;
 }
 
+.lembretes-app > .section-header-section {
+  margin: 0;
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--lembretes-borda);
+}
+
+/* Nesta página o sino do header não faz sentido: a pessoa já está nas notificações. */
+#headerSection #btn-notifications {
+  display: none;
+}
+
 .lembretes-conteudo {
-  padding: 20px;
+  padding: 16px 20px 20px;
 }
 
 .busca-lembretes {
@@ -74,7 +85,7 @@ button {
   align-items: center;
   gap: 10px;
   min-height: 44px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   padding: 0 14px;
   color: var(--text-muted);
   background: var(--lembretes-superficie);
@@ -87,6 +98,12 @@ button {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--lembretes-acento) 22%, transparent);
 }
 
+#buscar-lembretes {
+  min-height: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
 .busca-lembretes input {
   width: 100%;
   min-width: 0;
@@ -96,77 +113,60 @@ button {
   outline: 0;
 }
 
+#buscar-lembretes,
+#buscar-lembretes:focus,
+#buscar-lembretes:focus-visible {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+
 .busca-lembretes input::placeholder {
   color: var(--text-muted);
 }
 
 .grade-categorias {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .cartao-categoria {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-rows: auto 1fr auto;
-  align-items: end;
-  min-height: 132px;
-  padding: 17px;
-  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 6px 8px 6px 10px;
   color: #ffffff;
-  text-align: left;
-  border-radius: 18px;
+  border-radius: 999px;
   cursor: pointer;
-  isolation: isolate;
   transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
-}
-
-.cartao-categoria::after {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: linear-gradient(140deg, rgb(255 255 255 / 24%), transparent 52%);
-  content: '';
 }
 
 .cartao-categoria > i,
 .cartao-categoria > img {
-  grid-column: 1;
-  grid-row: 1;
-  align-self: start;
-  width: 30px;
-  height: 30px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
-  font-size: 1.45rem;
+  font-size: 0.95rem;
 }
 
 .cartao-categoria strong {
-  grid-column: 1;
-  grid-row: 3;
-  min-width: 0;
-  padding-right: 8px;
-  font-size: 1.15rem;
-  line-height: 1.1;
-  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .cartao-categoria span {
-  position: static;
-  grid-column: 2;
-  grid-row: 3;
-  align-self: end;
-  justify-self: end;
-  padding-left: 8px;
-  font-size: 2.25rem;
+  min-width: 24px;
+  padding: 3px 7px;
+  font-size: 0.8rem;
   font-weight: 700;
   line-height: 1;
-}
-
-/* O texto mais longo exige um pouco menos de corpo, sem colidir com o contador. */
-.cartao-categoria--medicamentos strong {
-  font-size: 1rem;
+  text-align: center;
+  background: rgb(0 0 0 / 22%);
+  border-radius: 999px;
 }
 
 .cartao-categoria--pets { background-color: var(--tool-pets); }
@@ -188,7 +188,7 @@ LISTA DE AVISOS
 }
 
 .avisos {
-  margin-top: 28px;
+  margin-top: 18px;
 }
 
 .avisos__titulo {
@@ -397,13 +397,8 @@ LISTA DE AVISOS
     padding-inline: 14px;
   }
 
-  .cartao-categoria {
-    min-height: 118px;
-    padding: 14px;
-  }
-
   .cartao-categoria strong {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 }
 
