@@ -72,6 +72,20 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 400px) {
+  .cabecalho .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 15px;
+  }
+
+  .cabecalho nav {
+    gap: 20px;
+  }
+}
+
 .marca {
   align-items: center;
   gap: 8px;
@@ -142,6 +156,15 @@ body {
   justify-content: flex-end;
   padding-top: 4px;
 }
+
+@media (max-width: 400px) {
+  .controle-tema {
+    position: absolute;
+    top: 65px;
+    right: 16px;
+  }
+}
+
 .apresentacao {
   padding: 40px 0 64px;
 }
