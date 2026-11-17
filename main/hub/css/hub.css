@@ -12,7 +12,8 @@
 .app-page-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100dvh;
   background-color: var(--bg-color, #101114);
   color: var(--text-color, #ffffff);
   position: relative;
@@ -26,7 +27,7 @@
 /* Container Centralizado do App (Mobile Frame) */
 .app-container {
   width: 100%;
-  max-width: 420px;
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
   padding-left: 20px;
@@ -72,8 +73,8 @@
 
   .chatbot-toggle-button {
     position: fixed;
-    right: 24px;
-    bottom: 24px;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: calc(24px + env(safe-area-inset-bottom));
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -83,11 +84,13 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     color: #ffffff;
-    background: linear-gradient(145deg, #02bd9d, #008f78);
-    box-shadow: 0 8px 24px rgba(1, 171, 142, 0.35);
+    background: var(--color-brand);
+    box-shadow: 0 8px 20px rgba(1, 171, 142, 0.2);
     cursor: pointer;
     pointer-events: auto;
-    z-index: 1002;
+    z-index: 1102;
+    visibility: visible;
+    opacity: 1;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -115,15 +118,15 @@
     right: 24px;
     bottom: 100px;
     width: min(390px, calc(100vw - 32px));
-    height: min(640px, calc(100vh - 124px));
-    max-height: calc(100vh - 124px);
+    height: min(640px, calc(var(--chat-viewport-height, 100dvh) - 124px));
+    max-height: calc(var(--chat-viewport-height, 100dvh) - 124px);
     box-sizing: border-box;
     flex-direction: column;
     overflow: hidden;
     border: 1px solid var(--border-color);
     border-radius: 20px;
     background-color: var(--card-bg);
-    box-shadow: 0 18px 54px rgba(0, 0, 0, 0.34);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26);
     z-index: 1001;
     display: flex;
     visibility: hidden;
@@ -154,7 +157,7 @@
     align-items: center;
     gap: 12px;
     padding: 14px 16px;
-    background: linear-gradient(120deg, rgba(1, 171, 142, 0.14), var(--card-bg) 72%);
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
   }
 
@@ -172,10 +175,10 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 14px;
-    color: #ffffff;
-    background: linear-gradient(145deg, #02bd9d, #008f78);
-    box-shadow: 0 4px 12px rgba(1, 171, 142, 0.24);
+    border-radius: 50%;
+    background: rgba(1, 171, 142, 0.12);
+    border: 1px solid rgba(1, 171, 142, 0.28);
+    color: var(--color-brand);
   }
 
   .chatbot-brand-icon i {
@@ -226,25 +229,6 @@
   .chatbot-close-button:focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;
-  }
-
-  .chatbot-context-notice {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin: 0;
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-muted);
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .chatbot-context-notice i {
-    flex: 0 0 auto;
-    margin-top: 2px;
-    color: var(--color-brand);
   }
 
   .chatbot-input-container {
@@ -329,8 +313,8 @@
   }
 
   .chatbot-placeholder > i {
-    color: var(--color-brand);
-    font-size: 1.35rem;
+    color: var(--text-muted);
+    font-size: 1.2rem;
   }
 
   .chatbot-placeholder .chatbot-logo {
@@ -395,16 +379,16 @@
 
   @media (max-width: 520px) {
     .chatbot-toggle-button {
-      right: 16px;
-      bottom: 16px;
+      right: max(16px, env(safe-area-inset-right));
+      bottom: calc(16px + env(safe-area-inset-bottom));
     }
 
     .chatbot-window {
       right: 12px;
-      bottom: 88px;
+      bottom: calc(88px + env(safe-area-inset-bottom));
       width: calc(100vw - 24px);
-      height: min(620px, calc(100vh - 108px));
-      max-height: calc(100vh - 108px);
+      height: min(620px, calc(var(--chat-viewport-height, 100dvh) - 108px));
+      max-height: calc(var(--chat-viewport-height, 100dvh) - 108px);
       border-radius: 18px;
     }
   }
@@ -420,8 +404,13 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  background: linear-gradient(180deg, rgba(11, 11, 13, 0.96), rgba(11, 11, 13, 0.72) 72%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+[data-theme="light"] .app-header {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.78) 72%, transparent);
 }
 
 .app-header-inner {
@@ -999,5 +988,11 @@ a.module-card,
   .module-card-val-title {
     font-size: 1.25rem;
     /* 20px */
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 420px;
   }
 }

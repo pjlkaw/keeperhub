@@ -25,11 +25,14 @@ function initializeChatbot() {
     document.documentElement.classList.toggle('chatbot-open', isOpen);
     document.body.classList.toggle('chatbot-open', isOpen);
     chatbotWindow.setAttribute('aria-hidden', String(!isOpen));
-    toggleButton.setAttribute('aria-label', isOpen ? 'Fechar Chatbot' : 'Abrir Chatbot');
-    toggleIcon?.classList.toggle('fa-robot', !isOpen);
+    toggleButton.setAttribute('aria-expanded', String(isOpen));
+    toggleButton.setAttribute('aria-label', isOpen ? 'Fechar assistente' : 'Abrir assistente');
+    toggleIcon?.classList.toggle('fa-comment-dots', !isOpen);
     toggleIcon?.classList.toggle('fa-xmark', isOpen);
   };
 
+  toggleButton.hidden = false;
+  toggleButton.style.display = 'inline-flex';
   toggleChatbot(false);
 
   toggleButton.addEventListener('click', () => {
@@ -62,14 +65,33 @@ function initializeChatbotMessaging() {
 
   if (!form || !input || !messages) return;
 
+  input.setAttribute('enterkeyhint', 'send');
+  input.setAttribute('autocomplete', 'off');
+
+  const rolarMensagensParaFim = () => {
+    requestAnimationFrame(() => {
+      messages.scrollTop = messages.scrollHeight;
+    });
+  };
+
+  const atualizarAlturaViewport = () => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    document.documentElement.style.setProperty('--chat-viewport-height', `${viewport.height}px`);
+  };
+
+  atualizarAlturaViewport();
+  window.visualViewport?.addEventListener('resize', atualizarAlturaViewport);
+  window.visualViewport?.addEventListener('scroll', atualizarAlturaViewport);
+
   let cadastroEmAndamento = null;
 
   form.addEventListener('submit', async (event) => {
-    placeholder.style.display = 'none';
     event.preventDefault();
 
     const mensagem = input.value.trim();
     if (!mensagem) return;
+    placeholder.style.display = 'none';
 
     const historico = Array.from(
       messages.querySelectorAll('.user-message, .bot-message')
@@ -122,8 +144,10 @@ function initializeChatbotMessaging() {
       messages.appendChild(mensagemErro);
     } finally {
       input.disabled = false;
-      input.focus();
-      messages.scrollTop = messages.scrollHeight;
+      // No celular, focar novamente abre o teclado sem o usuário pedir.
+      // No desktop, manter o foco agiliza a conversa por teclado.
+      if (!window.matchMedia('(max-width: 768px)').matches) input.focus();
+      rolarMensagensParaFim();
     }
   });
 }
