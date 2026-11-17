@@ -20,6 +20,11 @@ body {
     gap: 16px;
 }
 
+/* Faz o card de Medicamentos ocupar toda a largura disponível */
+.despensa-resumo .summary-card:last-child {
+    grid-column: 1 / -1;
+}
+
 /* Cards de atalho no mesmo modelo dos atalhos de Finanças */
 .summary-card {
     display: flex;
