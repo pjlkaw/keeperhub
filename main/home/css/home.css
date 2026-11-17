@@ -160,7 +160,7 @@ body {
 @media (max-width: 400px) {
   .controle-tema {
     position: absolute;
-    top: 65px;
+    top: 30px; 
     right: 16px;
   }
 }
