@@ -10,9 +10,43 @@ Depende de: shared/styles/variables.css, meds-variables.css,
 Usado por: apenas a página Home do módulo
 ================================================== */
 
+.meds-main {
+    padding-top: 12px;
+}
+
+#section-delayed-title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 35px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 9px;
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--meds-text);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+[data-theme="light"] #section-delayed-title {
+    border-color: rgba(0, 0, 0, 0.14);
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
 /* ==================================================
 1. SUA MEDICAÇÃO / DOSE ATRASADA (PRIORITÁRIO)
 ================================================== */
+#home-dose-priority .meds-empty-state {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--color-meds-border-tint);
+    border-left: 3px solid var(--color-meds-primary);
+    border-radius: 10px;
+    background-color: var(--color-meds-bg-tint);
+    color: var(--meds-text);
+    line-height: 1.4;
+}
+
 .meds-card-delayed {
     position: relative;
     padding: 16px 18px;
@@ -209,6 +243,10 @@ Usado por: apenas a página Home do módulo
     line-height: 1.3;
     color: var(--text-color);
     font-weight: 500;
+}
+
+.upcoming-med-item::marker {
+    color: var(--color-meds-primary);
 }
 
 .upcoming-med-bullet {
@@ -538,6 +576,23 @@ Usado por: apenas a página Home do módulo
 .habit-value.habit-done {
     color: var(--color-meds-primary);
     font-weight: 700;
+}
+
+#section-habits-title {
+    position: relative;
+    padding-left: 12px;
+}
+
+#section-habits-title::before {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: 3px;
+    height: 18px;
+    border-radius: 999px;
+    background-color: var(--color-meds-primary);
+    content: "";
+    transform: translateY(-50%);
 }
 
 [data-theme="light"] .habit-value.habit-done {
