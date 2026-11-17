@@ -109,6 +109,14 @@ export async function buscarReceitaApi(id) {
   return resposta.receita;
 }
 
+export async function analisarReceitaApi(imagens) {
+  const resposta = await requisicao('/api/modulos/medicamentos-receita-ia', {
+    method: 'POST',
+    body: JSON.stringify({ imagens }),
+  });
+  return resposta.sugestao;
+}
+
 export async function salvarReceitaApi(dados) {
   const resposta = await requisicao(`${URL_API}?acao=receita`, {
     method: 'POST',

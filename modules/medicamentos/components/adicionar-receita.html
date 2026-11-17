@@ -78,9 +78,26 @@
                             <h2 class="meds-form-block-title" id="prescription-attachments-title">Anexos</h2>
                         </div>
                         <div class="meds-form-field">
-                            <label for="prescription-files" class="meds-form-label">Imagens ou PDFs</label>
-                            <input class="meds-form-input" id="prescription-files" name="attachments" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp" multiple />
-                            <p class="meds-form-helper">Até 1 MB no total. Os arquivos serão armazenados na conta.</p>
+                            <span class="meds-form-label">Imagens ou PDFs</span>
+                            <div class="prescription-file-picker">
+                                <input id="prescription-files" name="attachments" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp" multiple hidden />
+                                <button class="btn-meds-secondary prescription-file-picker-button" id="prescription-files-trigger" type="button" aria-controls="prescription-files-selected" aria-describedby="prescription-files-helper">
+                                    <i class="fa-solid fa-paperclip" aria-hidden="true"></i>
+                                    <span>Escolher arquivos</span>
+                                </button>
+                                <ul class="prescription-file-picker-list" id="prescription-files-selected" aria-live="polite" aria-relevant="all">
+                                    <li class="prescription-file-picker-empty">Nenhum arquivo selecionado</li>
+                                </ul>
+                            </div>
+                            <p class="meds-form-helper" id="prescription-files-helper">Até 1 MB no total. Os arquivos serão armazenados na conta.</p>
+                            <label class="meds-form-label prescription-ai-consent" for="prescription-ai-consent">
+                                <input id="prescription-ai-consent" type="checkbox" />
+                                <span>Autorizo enviar as imagens e páginas do PDF à Groq para leitura automática.</span>
+                            </label>
+                            <p class="meds-form-helper">
+                                As páginas dos PDFs são convertidas em imagens neste navegador. A Groq informa que pode manter registros temporários de inferência por até 30 dias para confiabilidade e prevenção de abuso. Confira as sugestões antes de salvar.
+                            </p>
+                            <p class="meds-form-feedback" id="prescription-ai-status" role="status" aria-live="polite"></p>
                         </div>
                     </section>
 
