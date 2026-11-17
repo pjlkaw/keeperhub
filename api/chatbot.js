@@ -5,6 +5,7 @@ import { validarDadosMedicamento } from './modulos/medicamentos-api.js';
 import { validarPet } from './modulos/pets-api.js';
 import { origemDaRequisicaoValida, usuarioDaSessao } from '../server/auth-session.js';
 import { listarAcessosUsuario } from '../server/repositories/modulos.js';
+import { buscarUsuario } from '../server/repositories/usuario.js';
 import { criarPet, listarPets } from '../server/repositories/pets/animais.js';
 import { criarMedicamento, listarMedicamentos } from '../server/repositories/medicamentos/medicamentos.js';
 import { criarConta, listarContas, normalizarTipoConta } from '../server/repositories/financas/contas.js';
@@ -118,13 +119,29 @@ const MODULO_POR_CADASTRO = {
 const ESPECIES_PET = {
   cachorro: 'cachorro',
   cao: 'cachorro',
+  cachorra: 'cachorro',
+  cachorrinho: 'cachorro',
+  cachorrinha: 'cachorro',
+  caozinho: 'cachorro',
+  cachoro: 'cachorro',
+  cachor: 'cachorro',
   gato: 'gato',
+  gata: 'gato',
+  gatinho: 'gato',
+  gatinha: 'gato',
+  gat: 'gato',
   passaro: 'passaro',
+  passarinho: 'passaro',
+  passarin: 'passaro',
   cavalo: 'cavalo',
   reptil: 'reptil',
+  coelho: 'pequeno-mamifero',
+  coelha: 'pequeno-mamifero',
+  hamster: 'pequeno-mamifero',
   'pequeno mamifero': 'pequeno-mamifero',
   'pequeno-mamifero': 'pequeno-mamifero',
   peixe: 'peixe',
+  pexe: 'peixe',
   'animal de fazenda': 'animal-fazenda',
   'animal-fazenda': 'animal-fazenda',
   anfibio: 'anfibio',
@@ -155,6 +172,31 @@ const ROTULOS_MODULO = {
   financas: 'Finanças',
   despensa: 'Despensa',
   medicamentos: 'Medicamentos',
+};
+
+const ALIASES_CATEGORIA_DESPENSA = {
+  laticinio: 'Laticínios',
+  laticinios: 'Laticínios',
+  lacteo: 'Laticínios',
+  lacteos: 'Laticínios',
+  grao: 'Grãos',
+  graos: 'Grãos',
+  bebida: 'Bebidas',
+  bebidas: 'Bebidas',
+  beb: 'Bebidas',
+  limpeza: 'Limpeza',
+  limp: 'Limpeza',
+  hortifruti: 'Hortifruti',
+  hortifrutis: 'Hortifruti',
+  horti: 'Hortifruti',
+  hoti: 'Hortifruti',
+  hortifruit: 'Hortifruti',
+  hortifruta: 'Hortifruti',
+  frutas: 'Hortifruti',
+  verduras: 'Hortifruti',
+  'frutas e verduras': 'Hortifruti',
+  outro: 'Outros',
+  outros: 'Outros',
 };
 
 function validarHistorico(historicoRecebido) {
@@ -188,12 +230,94 @@ function validarHistorico(historicoRecebido) {
 }
 
 function normalizarTexto(valor) {
-  return valor
+  return String(valor ?? '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .trim()
     .toLocaleLowerCase('pt-BR')
     .replace(/\s+/g, ' ');
+}
+
+function normalizarOpcao(valor) {
+  return normalizarTexto(valor)
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+}
+
+function distanciaLevenshtein(a, b) {
+  const linha = Array.from({ length: b.length + 1 }, (_, indice) => indice);
+  for (let indiceA = 1; indiceA <= a.length; indiceA += 1) {
+    let diagonal = linha[0];
+    linha[0] = indiceA;
+    for (let indiceB = 1; indiceB <= b.length; indiceB += 1) {
+      const acima = linha[indiceB];
+      linha[indiceB] = a[indiceA - 1] === b[indiceB - 1]
+        ? diagonal
+        : Math.min(diagonal + 1, acima + 1, linha[indiceB - 1] + 1);
+      diagonal = acima;
+    }
+  }
+  return linha[b.length];
+}
+
+function escolherAlias(valor, aliases, distanciaMaxima = 1) {
+  const comparacao = normalizarOpcao(valor);
+  const opcoes = Object.entries(aliases).map(([chave, resultado]) => ({
+    chave: normalizarOpcao(chave),
+    resultado,
+  }));
+  const exato = opcoes.find(({ chave }) => chave === comparacao);
+  if (exato) return exato.resultado;
+
+  const aproximados = opcoes
+    .map((opcao) => ({ ...opcao, distancia: distanciaLevenshtein(comparacao, opcao.chave) }))
+    .filter(({ distancia }) => distancia <= distanciaMaxima)
+    .sort((a, b) => a.distancia - b.distancia);
+  return aproximados.length === 1 || aproximados[0]?.distancia < aproximados[1]?.distancia
+    ? aproximados[0]?.resultado || null
+    : null;
+}
+
+function categoriaDespensa(valor) {
+  const comparacao = normalizarTexto(valor)
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+  const alias = ALIASES_CATEGORIA_DESPENSA[comparacao];
+  if (alias) return alias;
+
+  const categoriaExata = CATEGORIAS.find((categoria) =>
+    normalizarTexto(categoria) === comparacao
+  );
+  if (categoriaExata) return categoriaExata;
+
+  // Aceita abreviações digitadas pela metade, mas somente entre categorias válidas.
+  if (comparacao.length >= 4) {
+    const categoriaPorPrefixo = CATEGORIAS.find((categoria) =>
+      normalizarTexto(categoria).startsWith(comparacao)
+    );
+    if (categoriaPorPrefixo) return categoriaPorPrefixo;
+  }
+
+  return null;
+}
+
+function mensagemPedeAjudaCadastro(mensagem) {
+  const texto = normalizarTexto(mensagem);
+  return /\b(?:quais?|qual|o que|como)\b.*\b(?:dados?|informacoes?|informar|preencher|precisa|necessario)\b/.test(texto) ||
+    /\b(?:preciso|tem que|tenho que|devo)\b.*\b(?:informar|passar|mandar|preencher)\b/.test(texto);
+}
+
+function respostaAjudaCadastro(cadastro, campo) {
+  const orientacoes = {
+    pet: 'Para cadastrar o pet, preciso do nome, tipo de animal, raça, data de nascimento, peso e gênero. Vou pedir um por vez; você pode responder apenas o dado que já souber.',
+    medicamento: 'Para cadastrar o medicamento, preciso do nome, tipo de uso e unidade. Dose, frequência, dias e horários só entram se você tiver essas informações. Não vou inventar nem sugerir dose.',
+    produto: 'Para adicionar o produto, preciso do nome, categoria, quantidade e, se quiser, validade.',
+    itemLista: 'Para adicionar o item, preciso do nome, categoria e quantidade.',
+    transacao: 'Para registrar a transação, preciso do tipo, valor, descrição, conta e data.',
+    conta: 'Para cadastrar a conta, preciso do nome e do tipo da conta.',
+  };
+  const proxima = campo ? `Agora, me diga: ${campo.pergunta}` : '';
+  return `${orientacoes[cadastro.tipo] || 'Vou pedir os dados necessários um por vez.'}\n${proxima}`.trim();
 }
 
 function validarEstadoCadastro(estadoRecebido) {
@@ -259,14 +383,15 @@ function validarEstadoCadastro(estadoRecebido) {
 
 function pedidoDeCadastro(mensagem) {
   const texto = normalizarTexto(mensagem);
-  const verbo = /\b(?:cadastrar|cadastre|cadastra|adicionar|adicione|adiciona|incluir|inclua|inclui|registrar|registre|registra|lancar|lance|anotar|anote|criar|crie)\b/;
+  const verbo = /\b(?:cadastrar|cadastre|cadastra|adicionar|adicione|adiciona|incluir|inclua|inclui|registrar|registre|registra|lancar|lance|anotar|anote|criar|crie|colocar|coloque|guardar|guarde|salvar|salve)\b/;
   const fraseGenerica = /\b(?:cadastro|cadastrar)\s+(?:pelo chat|via chat|por aqui)\b/.test(texto);
+  const pedidoConversado = /\b(?:quero|preciso|pode|vamos|me ajuda a)\b.*\b(?:pet|animal|cachorro|gato|medicamento|remedio|remédio|produto|estoque|lista|conta|gasto|despesa|receita)\b/.test(texto);
   const temNegacao = /\b(?:nao|sem)\b/.test(texto);
   const intencaoNegada =
     /\b(?:nao|sem)\s+(?:(?:quero|preciso|vou|posso|desejo|pretendo|fazer|iniciar)\s+)?(?:cadastrar|cadastre|cadastra|adicionar|adicione|adiciona|incluir|inclua|inclui|registrar|registre|registra|lancar|lance|anotar|anote|criar|crie|cadastro)\b/.test(texto) ||
     (fraseGenerica && temNegacao) ||
     (/\bnao\s+(?:funciona|consigo|permite|pode)\b/.test(texto) && verbo.test(texto));
-  return !intencaoNegada && (verbo.test(texto) || fraseGenerica);
+  return !intencaoNegada && (verbo.test(texto) || fraseGenerica || pedidoConversado);
 }
 
 function tipoPadraoPorModulo(modulo) {
@@ -290,12 +415,12 @@ function detectarTipoCadastro(mensagem, historico) {
       /\b(?:criar|crie|cadastrar|cadastre|adicionar|adicione)\s+(?:uma\s+)?conta\b/.test(texto)) {
     return 'conta';
   }
-  if (/\b(financas?|financeiro|transacao|despesa|receita|gasto|renda|compra|pagamento|boleto|conta de luz|conta de agua)\b/.test(texto)) {
+  if (/\b(financas?|financeiro|finaceiro|transacao|despesa|receita|gasto|renda|compra|pagamento|boleto|conta de luz|conta de agua)\b/.test(texto)) {
     return 'transacao';
   }
   if (/\b(lista de compras|lista)\b/.test(texto)) return 'itemLista';
-  if (/\b(despensa|produto|estoque|alimentos?|comidas?)\b/.test(texto)) return 'produto';
-  if (/\b(pets?|animais?|cachorros?|cachorras?|gatos?|gatas?|passaros?|cavalos?|repteis?|peixes?|coelhos?|hamsters?)\b/.test(texto)) {
+  if (/\b(despensa|despenca|produto|estoque|alimentos?|comidas?|bebida|bebidas?)\b/.test(texto)) return 'produto';
+  if (/\b(pets?|animais?|cachorros?|cachorras?|cachoros?|gatos?|gatas?|passaros?|cavalos?|repteis?|peixes?|coelhos?|hamsters?)\b/.test(texto)) {
     return 'pet';
   }
 
@@ -308,12 +433,12 @@ function detectarTipoCadastro(mensagem, historico) {
 
 function tipoCadastroPelaEscolha(mensagem) {
   const texto = normalizarTexto(mensagem);
-  if (/\b(medicamentos?|remedios?|medicacao)\b/.test(texto)) return 'medicamento';
+  if (/\b(medicamentos?|remedios?|medicacao|remedio)\b/.test(texto)) return 'medicamento';
   if (/\b(lista de compras|lista)\b/.test(texto)) return 'itemLista';
   if (/\b(conta bancaria|conta corrente|carteira|poupanca|cartao)\b/.test(texto)) return 'conta';
   if (/\b(financas?|financeiro|transacao|despesa|receita|gasto|renda)\b/.test(texto)) return 'transacao';
-  if (/\b(despensa|produto|estoque|alimentos?)\b/.test(texto)) return 'produto';
-  if (/\b(pets?|animais?|cachorros?|gatos?)\b/.test(texto)) return 'pet';
+  if (/\b(despensa|despenca|produto|estoque|alimentos?|bebida|bebidas?)\b/.test(texto)) return 'produto';
+  if (/\b(pets?|animais?|cachorros?|cachoros?|gatos?|passaros?|cavalos?|coelhos?|hamsters?)\b/.test(texto)) return 'pet';
   return null;
 }
 
@@ -352,12 +477,18 @@ function normalizarValorPet(campo, valor) {
     return texto.length <= limite ? texto : null;
   }
 
-  const comparacao = normalizarTexto(texto);
-  if (campo === 'especie') return ESPECIES_PET[comparacao] || null;
+  if (campo === 'especie') return escolherAlias(texto, ESPECIES_PET, 1);
   if (campo === 'genero') {
-    if (['macho', 'masculino'].includes(comparacao)) return 'macho';
-    if (['femea', 'feminino', 'feminina'].includes(comparacao)) return 'femea';
-    return null;
+    return escolherAlias(texto, {
+      macho: 'macho',
+      mach: 'macho',
+      masculino: 'macho',
+      mascu: 'macho',
+      femea: 'femea',
+      feme: 'femea',
+      feminino: 'femea',
+      feminina: 'femea',
+    }, 1);
   }
   if (campo === 'dataNascimento') {
     const dataBrasileira = texto.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
@@ -372,7 +503,10 @@ function normalizarValorPet(campo, valor) {
       : null;
   }
   if (campo === 'peso') {
-    const peso = texto.replace(/\s/g, '').replace(',', '.');
+    const peso = normalizarTexto(texto)
+      .replace(/\b(?:kg|kgs|quilo|quilos|quilograma|quilogramas)\b/g, '')
+      .replace(/\s/g, '')
+      .replace(',', '.');
     return /^\d+(?:\.\d+)?$/.test(peso) ? peso : null;
   }
 
@@ -396,9 +530,18 @@ function dataHojeSaoPaulo() {
   return `${valor('year')}-${valor('month')}-${valor('day')}`;
 }
 
+function deslocarDataISO(dataISO, quantidadeDias) {
+  const data = new Date(`${dataISO}T00:00:00.000Z`);
+  data.setUTCDate(data.getUTCDate() + quantidadeDias);
+  return data.toISOString().slice(0, 10);
+}
+
 function dataISODeTexto(valor, aceitarHoje = false) {
   const texto = valor.trim();
   if (aceitarHoje && normalizarTexto(texto) === 'hoje') return dataHojeSaoPaulo();
+  if (aceitarHoje && normalizarTexto(texto) === 'ontem') {
+    return deslocarDataISO(dataHojeSaoPaulo(), -1);
+  }
   const brasileira = texto.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   const iso = /^\d{4}-\d{2}-\d{2}$/.test(texto)
     ? texto
@@ -426,11 +569,16 @@ function estadoInicialCadastro(tipo) {
 }
 
 function valorOpcionalIgnorado(valor) {
-  return ['pular', 'ignorar', 'sem', 'nao informado', 'nao informada']
+  return ['pular', 'ignorar', 'sem', 'nao informado', 'nao informada', 'nao sei',
+    'sem validade', 'nao tem validade', 'nao possui validade', 'nao vence']
     .includes(normalizarTexto(valor));
 }
 
 function diasDaSemana(valor) {
+  const texto = normalizarTexto(valor);
+  if (/^(?:seg|segunda)(?:\s+ate|\s+a)\s+(?:sex|sexta)(?:-feira)?$/.test(texto)) {
+    return ['seg', 'ter', 'qua', 'qui', 'sex'];
+  }
   const aliases = {
     dom: 'dom', domingo: 'dom',
     seg: 'seg', segunda: 'seg', 'segunda-feira': 'seg',
@@ -440,9 +588,38 @@ function diasDaSemana(valor) {
     sex: 'sex', sexta: 'sex', 'sexta-feira': 'sex',
     sab: 'sab', sabado: 'sab',
   };
-  const tokens = normalizarTexto(valor).replace(/\be\b/g, ',').split(/[,\s;]+/).filter(Boolean);
+  const tokens = texto.replace(/\be\b/g, ',').split(/[,\s;]+/).filter(Boolean);
   const dias = [...new Set(tokens.map((token) => aliases[token]).filter(Boolean))];
   return dias.length && dias.length === tokens.length ? dias : null;
+}
+
+function normalizarHorario(valor) {
+  const texto = normalizarTexto(valor).replace(/\s+/g, '');
+  const horaComH = texto.match(/^(\d{1,2})h(?:(\d{1,2}))?$/);
+  const horaComDoisPontos = texto.match(/^(\d{1,2}):(\d{1,2})$/);
+  const horaSozinha = texto.match(/^\d{1,2}$/);
+  const hora = horaComH || horaComDoisPontos || horaSozinha;
+  if (!hora) return null;
+  const horas = Number(hora[1]);
+  const minutos = horaComH ? Number(hora[2] || 0) : horaSozinha ? 0 : Number(hora[2]);
+  return horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59
+    ? `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}`
+    : null;
+}
+
+function quantidadeInteira(valor) {
+  const texto = normalizarTexto(valor);
+  const numerosPorExtenso = {
+    uma: 1, um: 1, duas: 2, dois: 2, tres: 3, quatro: 4, cinco: 5,
+    seis: 6, sete: 7, oito: 8, nove: 9, dez: 10,
+  };
+  const textoSemUnidade = texto.replace(/\s+(?:unidade|unidades|item|itens|caixas?|pacotes?)$/, '');
+  const numero = /^\d+$/.test(textoSemUnidade)
+    ? Number(textoSemUnidade)
+    : numerosPorExtenso[textoSemUnidade];
+  return Number.isInteger(numero) && numero >= 1 && numero <= 100000
+    ? String(numero)
+    : null;
 }
 
 async function normalizarValorCadastro(cadastro, campo, valor, usuarioId) {
@@ -450,16 +627,21 @@ async function normalizarValorCadastro(cadastro, campo, valor, usuarioId) {
   if (cadastro.tipo === 'pet') return normalizarValorPet(campo, texto);
   if (cadastro.tipo === 'transacao') {
     if (campo === 'tipo') {
-      const tipo = normalizarTexto(texto);
-      return ['receita', 'renda', 'entrada'].includes(tipo)
-        ? 'receita'
-        : ['despesa', 'gasto', 'saida'].includes(tipo)
-          ? 'despesa'
-          : null;
+      return escolherAlias(texto, {
+        receita: 'receita',
+        renda: 'receita',
+        entrada: 'receita',
+        recebimento: 'receita',
+        despesa: 'despesa',
+        gasto: 'despesa',
+        saida: 'despesa',
+        pagamento: 'despesa',
+      }, 1);
     }
     if (campo === 'valor') {
       const valorTexto = texto
         .replace(/^R\$\s*/i, '')
+        .replace(/\b(?:reais?|real|rs)\b/i, '')
         .replace(/\s/g, '');
       const valorNormalizado = /^\d{1,3}(?:\.\d{3})+,\d{1,2}$/.test(valorTexto)
         ? valorTexto.replace(/\./g, '').replace(',', '.')
@@ -491,28 +673,28 @@ async function normalizarValorCadastro(cadastro, campo, valor, usuarioId) {
   if (cadastro.tipo === 'conta') {
     if (campo === 'nome') return texto.length <= 100 ? texto : null;
     if (campo === 'tipo') {
-      const tipo = {
+      const tipo = escolherAlias(texto, {
         corrente: 'corrente',
         'conta corrente': 'corrente',
         investimento: 'investimento',
         poupanca: 'investimento',
+        'conta poupanca': 'investimento',
         carteira: 'carteira',
         credito: 'credito',
         cartao: 'credito',
-      }[normalizarTexto(texto)];
+        'cartao de credito': 'credito',
+        'cartao credito': 'credito',
+      }, 1);
       return tipo || normalizarTipoConta(texto);
     }
   }
   if (cadastro.tipo === 'produto' || cadastro.tipo === 'itemLista') {
     if (campo === 'nome') return texto.length <= 150 ? texto : null;
     if (campo === 'categoria') {
-      return CATEGORIAS.find((categoria) =>
-        normalizarTexto(categoria) === normalizarTexto(texto)) || null;
+      return categoriaDespensa(texto);
     }
     if (campo === 'quantidade') {
-      return /^\d+$/.test(texto) && Number(texto) >= 1 && Number(texto) <= 100000
-        ? String(Number(texto))
-        : null;
+      return quantidadeInteira(texto);
     }
     if (campo === 'validade') {
       return valorOpcionalIgnorado(texto) ? '' : dataISODeTexto(texto);
@@ -521,45 +703,71 @@ async function normalizarValorCadastro(cadastro, campo, valor, usuarioId) {
   if (cadastro.tipo === 'medicamento') {
     if (campo === 'nome') return texto.length <= 150 ? texto : null;
     if (campo === 'tipoUso') {
-      const tipo = normalizarTexto(texto);
-      return ['continuo', 'uso continuo'].includes(tipo)
-        ? 'continuo'
-        : ['temporario', 'tratamento temporario'].includes(tipo)
-          ? 'temporario'
-          : ['eventual', 'uso eventual'].includes(tipo)
-            ? 'eventual'
-            : null;
+      return escolherAlias(texto, {
+        continuo: 'continuo',
+        continua: 'continuo',
+        'uso continuo': 'continuo',
+        'uso continuado': 'continuo',
+        temporario: 'temporario',
+        temporaria: 'temporario',
+        'tratamento temporario': 'temporario',
+        eventual: 'eventual',
+        'uso eventual': 'eventual',
+      }, 1);
     }
     if (campo === 'unidade') {
-      const unidade = {
+      const unidade = escolherAlias(texto, {
+        comp: 'comprimidos',
+        comprim: 'comprimidos',
         comprimido: 'comprimidos',
         comprimidos: 'comprimidos',
+        caps: 'capsulas',
+        capsul: 'capsulas',
         capsula: 'capsulas',
         capsulas: 'capsulas',
         ml: 'ml',
+        mls: 'ml',
+        mililitro: 'ml',
+        mililitros: 'ml',
+        gts: 'gotas',
+        got: 'gotas',
         gota: 'gotas',
         gotas: 'gotas',
+        unid: 'unidades',
+        und: 'unidades',
         unidade: 'unidades',
         unidades: 'unidades',
-      }[normalizarTexto(texto)];
-      return unidade || null;
+        frasco: 'frascos',
+        frascos: 'frascos',
+        caixa: 'caixas',
+        caixas: 'caixas',
+      }, 1);
+      return unidade || (texto.length <= 30 ? texto : null);
     }
     if (campo === 'dose') {
       return valorOpcionalIgnorado(texto) ? '' : texto.length <= 100 ? texto : null;
     }
     if (campo === 'frequencia') {
       const frequencia = normalizarTexto(texto);
-      const intervalo = frequencia.match(/^(?:(?:a cada|de)\s*)?(\d{1,2})(?:\s+em\s+\d{1,2}|\/\s*\d{1,2})?\s*horas?$/);
+      const intervalo = frequencia.match(/^(?:(?:a cada|de)\s*)?(\d{1,2})(?:\s+em\s+\d{1,2}|\/\s*\d{1,2})?\s*(?:h|horas?)$/);
       if (intervalo && Number(intervalo[1]) >= 1 && Number(intervalo[1]) <= 48) {
         return `intervalo:${Number(intervalo[1])}`;
       }
-      return ['diario', 'todos os dias', 'diariamente'].includes(frequencia)
-        ? 'diario'
-        : ['especifico', 'dias especificos'].includes(frequencia)
-          ? 'especifico'
-          : ['intervalo', 'intervalo de horas', 'a cada x horas'].includes(frequencia)
-            ? 'intervalo'
-            : null;
+      return escolherAlias(frequencia, {
+        diario: 'diario',
+        diaria: 'diario',
+        diari: 'diario',
+        'todos os dias': 'diario',
+        'todo dia': 'diario',
+        diariamente: 'diario',
+        'uma vez por dia': 'diario',
+        especifico: 'especifico',
+        especifica: 'especifico',
+        'dias especificos': 'especifico',
+        intervalo: 'intervalo',
+        'intervalo de horas': 'intervalo',
+        'a cada x horas': 'intervalo',
+      }, 1);
     }
     if (campo === 'intervaloHoras') {
       return /^\d{1,2}$/.test(texto) && Number(texto) >= 1 && Number(texto) <= 48
@@ -572,9 +780,8 @@ async function normalizarValorCadastro(cadastro, campo, valor, usuarioId) {
     }
     if (campo === 'horarios') {
       if (valorOpcionalIgnorado(texto)) return '';
-      const horarios = texto.split(/[,;]|\s+e\s+/i).map((horario) => horario.trim());
-      return horarios.length > 0 &&
-        horarios.every((horario) => /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(horario))
+      const horarios = texto.split(/[,;]|\s+e\s+/i).map((horario) => normalizarHorario(horario.trim()));
+      return horarios.length > 0 && horarios.every(Boolean)
         ? [...new Set(horarios)].join(',')
         : null;
     }
@@ -822,11 +1029,15 @@ async function continuarCadastro(res, cadastro, usuarioId) {
 }
 
 function confirmacaoExplicita(mensagem) {
-  return /^(sim|confirmar|confirmo|confirmar cadastro)[.!]?$/i.test(mensagem.trim());
+  const texto = normalizarTexto(mensagem);
+  if (/\b(?:nao|nunca|ainda nao)\b/.test(texto)) return false;
+  return /\b(?:sim|s|confirmar|confirmo|confirma|pode salvar|pode cadastrar|pode registrar|manda ver|tudo certo|esta certo|ta certo)\b/.test(texto);
 }
 
 function cancelamentoExplicito(mensagem) {
-  return /^(não|nao|cancelar|cancelo|desistir)[.!]?$/i.test(mensagem.trim());
+  const texto = normalizarTexto(mensagem);
+  return /^(?:nao|cancelar|cancela|cancele|cancelo|desistir|desisto|pare|parar|deixa pra la|deixa isso)[.! ]*$/.test(texto) ||
+    /\b(?:nao quero|nao precisa|pode cancelar|pode parar)\b/.test(texto);
 }
 
 async function salvarCadastro(cadastro, usuarioId) {
@@ -936,10 +1147,12 @@ export default async function handler(req, res) {
         ? modulosDaMensagem
         : detectarModulosDaMensagem(ultimaMensagemDoKeeper?.content || '');
     let modulosDisponiveis = new Set();
+    let acessosDaConta = [];
+    const consultaConta = /\b(?:plano|assinatura|modulos?|módulos?|acessos?|tipo da minha conta)\b/.test(normalizarTexto(mensagem));
 
-    if (modulosSolicitados.length) {
-      const acessos = await listarAcessosUsuario(usuarioId);
-      modulosDisponiveis = new Set(acessos.map((acesso) => acesso.codigo));
+    if (modulosSolicitados.length || consultaConta) {
+      acessosDaConta = await listarAcessosUsuario(usuarioId);
+      modulosDisponiveis = new Set(acessosDaConta.map((acesso) => acesso.codigo));
     }
 
     if (cadastro) {
@@ -964,6 +1177,14 @@ export default async function handler(req, res) {
 
       if (cancelamentoExplicito(mensagem)) {
         return respostaCadastro(res, 'Cadastro cancelado. Nenhum dado foi gravado.');
+      }
+
+      if (mensagemPedeAjudaCadastro(mensagem)) {
+        return respostaCadastro(
+          res,
+          respostaAjudaCadastro(cadastro, proximoCampoCadastro(cadastro)),
+          cadastro,
+        );
       }
 
       if (cadastro.etapa === 'confirmando') {
@@ -1005,10 +1226,24 @@ export default async function handler(req, res) {
       return continuarCadastro(res, cadastro, usuarioId);
     }
 
-    let contextoConsulta = null;
+    const usuario = await buscarUsuario(usuarioId);
+    let contextoConsulta = usuario?.nome_usuario
+      ? { usuario: { nome: usuario.nome_usuario } }
+      : null;
+    if (consultaConta) {
+      contextoConsulta = {
+        ...(contextoConsulta || {}),
+        conta: {
+          modulosAtivos: acessosDaConta.map((acesso) => acesso.nome || acesso.codigo),
+          origem: [...new Set(acessosDaConta.map((acesso) => acesso.origem).filter(Boolean))],
+          periodos: [...new Set(acessosDaConta.map((acesso) => acesso.periodo).filter(Boolean))],
+        },
+      };
+    }
 
     if (modulosSolicitados.length) {
       const contexto = {
+        ...(contextoConsulta || {}),
         modulosDisponiveis: [...modulosDisponiveis],
         modulosSemAcesso: modulosSolicitados.filter((modulo) => !modulosDisponiveis.has(modulo)),
       };
@@ -1045,6 +1280,13 @@ export default async function handler(req, res) {
     return res.status(200).json({ resposta, modulo });
   } catch (erro) {
     console.error('Erro na API do chatbot:', erro);
-    return res.status(500).json({ erro: 'Não foi possível responder agora.' });
+    if (cadastro) {
+      return respostaCadastro(
+        res,
+        'Não consegui concluir esse cadastro agora. Seus dados continuam preenchidos. Tente confirmar novamente ou responda Cancelar.',
+        cadastro,
+      );
+    }
+    return res.status(500).json({ erro: 'Não consegui responder agora. Tente escrever de outra forma em instantes.' });
   }
 }
