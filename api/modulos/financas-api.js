@@ -33,7 +33,7 @@ function dadosConta(body) {
   return nome && tipo ? { nome, tipo } : null;
 }
 
-function dadosTransacao(body) {
+export function dadosTransacao(body = {}) {
   const valorOriginal = Number(body.valor);
   const valor = Number.isFinite(valorOriginal)
     ? Math.round((valorOriginal + Number.EPSILON) * 100) / 100

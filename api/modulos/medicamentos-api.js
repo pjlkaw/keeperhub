@@ -50,7 +50,7 @@ function quantidadeComDuasCasas(valor) {
   return Math.abs(valor * 100 - Math.round(valor * 100)) < 0.0000001;
 }
 
-function validarDados(body) {
+export function validarDadosMedicamento(body = {}) {
   const nome = typeof body.nome === 'string' ? body.nome.trim() : '';
   const unidade = typeof body.unidade === 'string' ? body.unidade.trim() : '';
   const dose = typeof body.dose === 'string' ? body.dose.trim() : '';
@@ -280,7 +280,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'POST' || req.method === 'PUT') {
-      const validacao = validarDados(req.body || {});
+      const validacao = validarDadosMedicamento(req.body || {});
       if (validacao.erro) return res.status(400).json({ erro: validacao.erro });
 
       const id = idDaRequisicao(req);
