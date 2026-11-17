@@ -228,6 +228,25 @@
     outline-offset: 2px;
   }
 
+  .chatbot-context-notice {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .chatbot-context-notice i {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--color-brand);
+  }
+
   .chatbot-input-container {
     flex: 0 0 auto;
     display: flex;
