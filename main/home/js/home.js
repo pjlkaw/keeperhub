@@ -88,9 +88,7 @@ function setupHomeInteractions() {
     }
   };
   document.querySelector('.formulario-teste')?.addEventListener('submit', ativarTeste);
-  document.querySelectorAll('a[href*="modo=teste"]').forEach((link) => {
-    link.addEventListener('click', ativarTeste);
-  });
+  // Os links "Experimentar por 30 dias" são tratados em /main/js/account-header.js.
 
   function atualizarBotaoTema() {
     if (!themeToggle) return;
