@@ -1,5 +1,6 @@
 import { listarRegistros } from "./armazenamento.js";
 import { dataLocal, nomeMedicamento, obterDosesDoDia, salvarEstadoDose } from "./dados-rotina.js";
+import { formatarMetaHabito } from "./formatar-habito.js";
 
 // Monta a página inicial com medicamentos, rotinas e estoque do servidor e hábitos locais.
 export function inicializarInicioMedicamentos() {
@@ -193,7 +194,9 @@ function renderizarHabitos() {
         nome.textContent = habito.nome;
         const meta = document.createElement("span");
         meta.className = `habit-value${concluido ? " habit-done" : ""}`;
-        meta.textContent = concluido ? "Feito hoje" : `${habito.meta} ${habito.unidade}`;
+        meta.textContent = concluido
+            ? "Feito hoje"
+            : `${formatarMetaHabito(habito.meta, habito.unidade)} · ${habito.frequencia}`;
         card.append(nome, meta);
         lista.append(card);
     });
