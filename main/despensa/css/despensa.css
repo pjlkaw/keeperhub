@@ -215,16 +215,16 @@ h3 {
 #opcao-visao-geral:checked ~ #painel-visao-geral,
 #opcao-produtos:checked ~ #painel-produtos,
 #opcao-vencimentos:checked ~ #painel-vencimentos,
-#opcao-comparacao:checked ~ #painel-comparacao,
-#opcao-novo-produto:checked ~ #painel-novo-produto {
+#opcao-checklist:checked ~ #painel-checklist,
+#opcao-medicamentos:checked ~ #painel-medicamentos {
   display: block;
 }
 
 #opcao-visao-geral:focus-visible ~ .abas-previa [for="opcao-visao-geral"],
 #opcao-produtos:focus-visible ~ .abas-previa [for="opcao-produtos"],
 #opcao-vencimentos:focus-visible ~ .abas-previa [for="opcao-vencimentos"],
-#opcao-comparacao:focus-visible ~ .abas-previa [for="opcao-comparacao"],
-#opcao-novo-produto:focus-visible ~ .abas-previa [for="opcao-novo-produto"] {
+#opcao-checklist:focus-visible ~ .abas-previa [for="opcao-checklist"],
+#opcao-medicamentos:focus-visible ~ .abas-previa [for="opcao-medicamentos"] {
   outline: 2px solid var(--text-color);
   outline-offset: 3px;
 }
@@ -257,8 +257,8 @@ h3 {
 #opcao-visao-geral:checked ~ .abas-previa [for="opcao-visao-geral"],
 #opcao-produtos:checked ~ .abas-previa [for="opcao-produtos"],
 #opcao-vencimentos:checked ~ .abas-previa [for="opcao-vencimentos"],
-#opcao-comparacao:checked ~ .abas-previa [for="opcao-comparacao"],
-#opcao-novo-produto:checked ~ .abas-previa [for="opcao-novo-produto"] {
+#opcao-checklist:checked ~ .abas-previa [for="opcao-checklist"],
+#opcao-medicamentos:checked ~ .abas-previa [for="opcao-medicamentos"] {
   border-color: var(--cor-modulo);
   background: var(--cor-modulo);
   color: #f4f4f5;

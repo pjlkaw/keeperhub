@@ -1,0 +1,36 @@
+.captura-tela {
+  width: min(100%, 370px);
+  margin: 0 auto;
+}
+
+.imagem-previa {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 18%);
+}
+
+.imagem-previa-escura {
+  display: block;
+}
+
+.imagem-previa-clara {
+  display: none;
+}
+
+[data-theme='light'] .imagem-previa-clara {
+  display: block;
+}
+
+[data-theme='light'] .imagem-previa-escura {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .captura-tela {
+    width: min(100%, 390px);
+  }
+}

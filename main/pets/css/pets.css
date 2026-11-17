@@ -216,7 +216,7 @@ h3 {
 #opcao-vacinas:checked ~ #painel-vacinas,
 #opcao-consultas:checked ~ #painel-consultas,
 #opcao-medicamentos:checked ~ #painel-medicamentos,
-#opcao-historico:checked ~ #painel-historico {
+#opcao-despesas:checked ~ #painel-despesas {
   display: block;
 }
 
@@ -224,7 +224,7 @@ h3 {
 #opcao-vacinas:focus-visible ~ .abas-previa [for="opcao-vacinas"],
 #opcao-consultas:focus-visible ~ .abas-previa [for="opcao-consultas"],
 #opcao-medicamentos:focus-visible ~ .abas-previa [for="opcao-medicamentos"],
-#opcao-historico:focus-visible ~ .abas-previa [for="opcao-historico"] {
+#opcao-despesas:focus-visible ~ .abas-previa [for="opcao-despesas"] {
   outline: 2px solid var(--text-color);
   outline-offset: 3px;
 }
@@ -258,7 +258,7 @@ h3 {
 #opcao-vacinas:checked ~ .abas-previa [for="opcao-vacinas"],
 #opcao-consultas:checked ~ .abas-previa [for="opcao-consultas"],
 #opcao-medicamentos:checked ~ .abas-previa [for="opcao-medicamentos"],
-#opcao-historico:checked ~ .abas-previa [for="opcao-historico"] {
+#opcao-despesas:checked ~ .abas-previa [for="opcao-despesas"] {
   border-color: var(--cor-modulo);
   background: var(--cor-modulo);
   color: #f4f4f5;

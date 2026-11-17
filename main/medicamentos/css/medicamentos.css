@@ -216,7 +216,7 @@ h3 {
 #opcao-medicacoes:checked ~ #painel-medicacoes,
 #opcao-rotina:checked ~ #painel-rotina,
 #opcao-estoque:checked ~ #painel-estoque,
-#opcao-scanner:checked ~ #painel-scanner {
+#opcao-receitas:checked ~ #painel-receitas {
   display: block;
 }
 
@@ -224,7 +224,7 @@ h3 {
 #opcao-medicacoes:focus-visible ~ .abas-previa [for="opcao-medicacoes"],
 #opcao-rotina:focus-visible ~ .abas-previa [for="opcao-rotina"],
 #opcao-estoque:focus-visible ~ .abas-previa [for="opcao-estoque"],
-#opcao-scanner:focus-visible ~ .abas-previa [for="opcao-scanner"] {
+#opcao-receitas:focus-visible ~ .abas-previa [for="opcao-receitas"] {
   outline: 2px solid var(--text-color);
   outline-offset: 3px;
 }
@@ -258,7 +258,7 @@ h3 {
 #opcao-medicacoes:checked ~ .abas-previa [for="opcao-medicacoes"],
 #opcao-rotina:checked ~ .abas-previa [for="opcao-rotina"],
 #opcao-estoque:checked ~ .abas-previa [for="opcao-estoque"],
-#opcao-scanner:checked ~ .abas-previa [for="opcao-scanner"] {
+#opcao-receitas:checked ~ .abas-previa [for="opcao-receitas"] {
   border-color: var(--cor-modulo);
   background: var(--cor-modulo);
   color: var(--texto-destaque);
