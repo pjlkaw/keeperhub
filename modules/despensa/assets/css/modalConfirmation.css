@@ -1,0 +1,156 @@
+
+/* =========================================
+   MODAL DE CONFIRMAÇÃO
+========================================= */
+
+/* FUNDO DO MODAL */
+.confirmation-modal {
+    width: calc(100% - 30px);
+    max-width: 390px;
+
+    padding: 0;
+
+    border: 1px solid var(--border-color, #303033);
+    border-radius: 12px;
+
+    background: #18181b;
+    color: #ffffff;
+
+    overflow: hidden;
+}
+
+/* FUNDO ESCURECIDO */
+.confirmation-modal::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(3px);
+}
+
+/* CONTEÚDO */
+.confirmation-content {
+    padding: 25px;
+
+    text-align: center;
+}
+
+/* ÍCONE */
+.confirmation-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(170, 126, 91, 0.15);
+
+    color: #b58a69;
+
+    font-size: 21px;
+}
+
+/* TÍTULO */
+.confirmation-content h2 {
+    margin: 0 0 12px;
+
+    color: #ffffff;
+
+    font-size: 19px;
+    font-weight: 600;
+}
+
+/* DESCRIÇÃO */
+.confirmation-content p {
+    margin: 0 0 24px;
+
+    color: #aaa;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* RODAPÉ */
+.confirmation-footer {
+    display: flex;
+    gap: 10px;
+}
+
+/* BOTÕES */
+.confirmation-footer button {
+    flex: 1;
+
+    padding: 12px 8px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background 0.2s, transform 0.2s;
+}
+
+/* BOTÃO CANCELAR */
+.confirmation-cancel {
+    background: transparent;
+
+    border: 1px solid #444;
+
+    color: #ddd;
+}
+
+.confirmation-cancel:hover {
+    background: #292929;
+}
+
+/* BOTÃO CONFIRMAR */
+.confirmation-delete {
+    background: #aa7e5b;
+
+    border: 1px solid #aa7e5b;
+
+    color: #ffffff;
+}
+
+.confirmation-delete:hover {
+    background: #946b4d;
+}
+
+/* EFEITO DE CLIQUE */
+.confirmation-footer button:active {
+    transform: scale(0.97);
+}
+
+/* ANIMAÇÃO */
+.confirmation-modal[open] {
+    animation: confirmationAppear 0.2s ease;
+}
+
+@keyframes confirmationAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 400px) {
+
+    .confirmation-content {
+        padding: 20px;
+    }
+
+    .confirmation-footer button {
+        font-size: 11px;
+    }
+
+}
