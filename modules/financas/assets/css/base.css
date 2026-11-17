@@ -148,7 +148,7 @@ ul {
 	min-height: 92px;
 }
 
-/* Mesmo motivo: a barra de módulos é preenchida por js/interface.js. */
+/* Mesmo motivo: a barra de módulos é preenchida por shared/services/load-components.js. */
 
 
 /* ---- Componentes: botões, atalhos, gráficos e botão de tema ---- */
@@ -432,4 +432,23 @@ body.finance-page .finance-back {
 	border: 0 !important;
 	border-radius: 0 !important;
 	background: transparent !important;
+}
+
+html[data-theme=dark] { color-scheme: dark; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-color) !important;
+  caret-color: var(--text-color);
+  -webkit-box-shadow: 0 0 0 1000px var(--card-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--card-bg) inset !important;
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.value-card .currency-field input:-webkit-autofill {
+  -webkit-text-fill-color: var(--tool-financas) !important;
 }
