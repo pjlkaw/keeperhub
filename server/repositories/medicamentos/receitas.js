@@ -53,18 +53,13 @@ export async function buscarReceita(idReceita, usuarioId) {
 
 async function listarAnexos(receitaId) {
   const [linhas] = await db.execute(
-    `SELECT id_arquivo AS id, nome_original AS nome, mime_type AS tipo, tamanho_bytes AS tamanho
+    `SELECT id_arquivo AS id, nome_original AS nome, mime_type AS tipo, tamanho_bytes AS tamanho, url
        FROM arquivo
       WHERE entidade_tipo = 'receita' AND entidade_id = ?
       ORDER BY id_arquivo`,
     [receitaId],
   );
-  return linhas.map(({ id, nome, tipo, tamanho }) => ({
-    id: String(id),
-    nome,
-    tipo,
-    tamanho: Number(tamanho || 0),
-  }));
+  return linhas.map((linha) => ({ ...linha, id: String(linha.id), tamanho: Number(linha.tamanho || 0) }));
 }
 
 function validarAnexo(anexo) {
@@ -129,8 +124,8 @@ export async function criarReceita(usuarioId, dados) {
       );
     }
     for (const anexo of anexos) {
-      const url = (await put(`usuarios/${usuarioId}/receitas/${randomUUID()}`, anexo.buffer, {
-        access: 'private',
+      const url = (await put(`usuarios/${usuarioId}/receitas/${randomUUID()}-${anexo.nome}`, anexo.buffer, {
+        access: 'public',
         contentType: anexo.tipo,
       })).url;
       await conexao.execute(
@@ -181,8 +176,8 @@ export async function adicionarAnexoReceita(usuarioId, idReceita, dados) {
 
   let url = '';
   try {
-    url = (await put(`usuarios/${usuarioId}/receitas/${randomUUID()}`, anexo.buffer, {
-      access: 'private',
+    url = (await put(`usuarios/${usuarioId}/receitas/${randomUUID()}-${anexo.nome}`, anexo.buffer, {
+      access: 'public',
       contentType: anexo.tipo,
     })).url;
     await db.execute(
