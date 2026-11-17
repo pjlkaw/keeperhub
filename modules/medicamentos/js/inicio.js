@@ -10,16 +10,21 @@ export function inicializarInicioMedicamentos() {
 
     try {
         const doses = obterDosesDoDia();
-        const pendentes = doses.filter((dose) => dose.status === "pendente");
+        const dosesSemHorario = doses.filter((dose) => dose.horario === "Sem horário");
+        const dosesComHorario = doses.filter((dose) => dose.horario !== "Sem horário");
+        const pendentes = dosesComHorario.filter((dose) => dose.status === "pendente");
         const agora = new Date();
         const atrasadas = pendentes.filter((dose) => horarioJaPassou(dose.horario, agora));
         const futuras = pendentes.filter((dose) => !horarioJaPassou(dose.horario, agora));
         const badge = document.querySelector("#home-pending-count");
-        if (badge) badge.textContent = `${pendentes.length} doses pendentes`;
+        if (badge) {
+            badge.textContent = `${pendentes.length} ${pendentes.length === 1 ? "dose pendente" : "doses pendentes"}`;
+        }
 
         renderizarPrioridade(prioridade, atrasadas);
+        renderizarSemHorario(document.querySelector("#home-unscheduled"), dosesSemHorario);
         renderizarProximaDose(document.querySelector("#home-upcoming"), futuras, doses);
-        renderizarMedicamentos(doses);
+        renderizarMedicamentos(dosesComHorario);
         renderizarEstoque();
         renderizarHabitos();
     } catch (erro) {
@@ -64,6 +69,49 @@ function renderizarPrioridade(container, doses) {
     });
 }
 
+function renderizarSemHorario(container, doses) {
+    const section = document.querySelector("#section-unscheduled");
+    const contador = document.querySelector("#home-unscheduled-count");
+    if (!container || !section || !contador) {
+        return;
+    }
+
+    container.replaceChildren();
+    section.hidden = doses.length === 0;
+    if (!doses.length) {
+        return;
+    }
+
+    contador.textContent = `${doses.length} ${doses.length === 1 ? "item" : "itens"}`;
+
+    const card = document.createElement("article");
+    card.className = "card meds-card-upcoming";
+    const lista = document.createElement("ul");
+    lista.className = "upcoming-med-list";
+    doses.forEach((dose) => {
+        const item = document.createElement("li");
+        item.className = "upcoming-med-item";
+        item.textContent = nomeMedicamento(dose.medicamento);
+        lista.append(item);
+    });
+
+    const corpo = document.createElement("div");
+    corpo.className = "upcoming-body";
+    corpo.append(lista);
+
+    const rodape = document.createElement("div");
+    rodape.className = "upcoming-footer";
+    const link = document.createElement("a");
+    link.className = "btn-meds-secondary";
+    link.href = "/modules/medicamentos/components/medicacoes.html";
+    link.textContent = "Ver medicações";
+    rodape.append(link);
+
+    corpo.append(rodape);
+    card.append(corpo);
+    container.append(card);
+}
+
 function renderizarProximaDose(container, futuras, doses) {
     if (!container) {
         return;
@@ -72,7 +120,13 @@ function renderizarProximaDose(container, futuras, doses) {
     container.replaceChildren();
     const proxima = futuras.sort((a, b) => a.horario.localeCompare(b.horario))[0];
     if (!proxima) {
-        container.append(mensagemVazia(doses.length ? "Não há próximas doses para hoje." : "Cadastre um medicamento para montar sua rotina."));
+        const temHorarioDefinido = doses.some((dose) => dose.horario !== "Sem horário");
+        const mensagem = doses.length === 0
+            ? "Cadastre um medicamento para montar sua rotina."
+            : temHorarioDefinido
+                ? "Não há próximas doses para hoje."
+                : "Não há próximas doses com horário definido.";
+        container.append(mensagemVazia(mensagem));
         return;
     }
 
