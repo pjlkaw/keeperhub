@@ -40,6 +40,19 @@ function prepararFormularioTeste() {
   formulario.noValidate = true;
 }
 
+function mostrarAtalhoHub() {
+  if (document.getElementById('btn-hub-flutuante')) return;
+
+  const atalhoHub = document.createElement('a');
+  atalhoHub.id = 'btn-hub-flutuante';
+  atalhoHub.className = 'botao-hub-flutuante';
+  atalhoHub.href = '../hub/index.html';
+  atalhoHub.setAttribute('aria-label', 'Ir para o Hub do KeeperHub');
+  atalhoHub.title = 'Ir para o Hub';
+  atalhoHub.innerHTML = '<i class="fa-solid fa-house" aria-hidden="true"></i>';
+  document.body.append(atalhoHub);
+}
+
 function setupHomeInteractions() {
   prepararFormularioTeste();
   const themeToggle = document.getElementById('theme-toggle');
@@ -50,6 +63,7 @@ function setupHomeInteractions() {
     .then(() => {
       estadoConta = 'autenticado';
       usuarioAutenticadoNaHome = true;
+      mostrarAtalhoHub();
       const campoEmail = document.getElementById('trial-email');
       if (campoEmail) campoEmail.required = false;
       if (!headerCta) return;
@@ -88,9 +102,7 @@ function setupHomeInteractions() {
     }
   };
   document.querySelector('.formulario-teste')?.addEventListener('submit', ativarTeste);
-  document.querySelectorAll('a[href*="modo=teste"]').forEach((link) => {
-    link.addEventListener('click', ativarTeste);
-  });
+  // Os links "Experimentar por 30 dias" são tratados em /main/js/account-header.js.
 
   function atualizarBotaoTema() {
     if (!themeToggle) return;

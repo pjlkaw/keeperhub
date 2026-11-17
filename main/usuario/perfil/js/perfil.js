@@ -6,6 +6,35 @@
 import { carregarUsuarioAtual, encerrarSessaoUsuario } from '../../../../shared/services/usuario.js';
 import { alertShared } from '../../../../shared/services/interface.js';
 
+// O botão voltar do perfil retorna para a tela de onde a pessoa abriu o perfil
+// (Hub, Home, página de um módulo...). Telas do próprio perfil (ex.: Editar) e de
+// login não contam como origem. Sem origem conhecida, volta para o Hub.
+const CHAVE_ORIGEM_PERFIL = 'keeperhub-perfil-origem';
+const DESTINO_PADRAO = '/main/hub/index.html';
+
+function registrarOrigemDoPerfil() {
+  try {
+    if (!document.referrer) return;
+    const anterior = new URL(document.referrer);
+    const ignorar = ['/main/usuario/', '/main/entrar/', '/main/criar-conta/'];
+    if (anterior.origin !== window.location.origin) return;
+    if (ignorar.some((caminho) => anterior.pathname.startsWith(caminho))) return;
+    sessionStorage.setItem(CHAVE_ORIGEM_PERFIL, anterior.pathname + anterior.search + anterior.hash);
+  } catch {
+    // Sem sessionStorage o voltar usa o Hub.
+  }
+}
+
+function destinoDoVoltar() {
+  try {
+    return sessionStorage.getItem(CHAVE_ORIGEM_PERFIL) || DESTINO_PADRAO;
+  } catch {
+    return DESTINO_PADRAO;
+  }
+}
+
+registrarOrigemDoPerfil();
+
 async function renderProfile() {
   try {
     const user = await carregarUsuarioAtual();
@@ -47,6 +76,12 @@ async function renderProfile() {
 document.addEventListener('click', (event) => {
   const target = event.target;
   if (!(target instanceof Element)) return;
+
+  if (target.closest('#btn-back-header')) {
+    event.preventDefault();
+    window.location.href = destinoDoVoltar();
+    return;
+  }
 
   if (target.closest('#sair-perfil')) {
     event.preventDefault();

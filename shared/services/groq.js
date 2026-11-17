@@ -5,11 +5,18 @@ import promptKeeper from './keeper-prompt.js';
 dotenv.config({ path: '.env.local' });
 dotenv.config();
 
-const groqClient = new Groq({
-    apiKey: process.env.GROQ_API_KEY
-});
+// O cliente é criado só na primeira mensagem: sem a GROQ_API_KEY a rota
+// devolve um erro tratado em vez de derrubar o carregamento do módulo.
+let groqClient = null;
 
-export async function enviarMensagem(mensagem, contexto = null) {
+function obterCliente() {
+    if (!groqClient) {
+        groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    }
+    return groqClient;
+}
+
+export async function enviarMensagem(mensagem, contexto = null, historico = []) {
     const messages = [
         {
             role: 'system',
@@ -27,12 +34,16 @@ export async function enviarMensagem(mensagem, contexto = null) {
         });
     }
 
+    for (const mensagemAnterior of historico) {
+        messages.push(mensagemAnterior);
+    }
+
     messages.push({
         role: 'user',
         content: mensagem
     });
 
-    const resposta = await groqClient.chat.completions.create({
+    const resposta = await obterCliente().chat.completions.create({
         messages,
         model: 'openai/gpt-oss-20b'
     });
