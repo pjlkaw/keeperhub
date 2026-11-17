@@ -11,6 +11,7 @@ import {
 } from '../server/auth-session.js';
 import { MODULOS_VALIDOS, salvarAcessosUsuario } from '../server/repositories/modulos.js';
 import db from '../server/db.js';
+import { tratarNotificacoes } from '../server/notificacoes/handler.js';
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GENEROS_VALIDOS = ['masculino', 'feminino', 'LGBTQ+', 'nao-binario', 'nao-informar', 'outro'];
@@ -203,6 +204,9 @@ async function atualizarPerfil(req, body, res) {
 
 export default async function handler(req, res) {
   try {
+    // A página de notificações usa esta mesma função (?recurso=notificacoes) para não
+    // somar mais uma função serverless ao deploy da Vercel.
+    if (req.query?.recurso === 'notificacoes') return await tratarNotificacoes(req, res);
     const body = req.body && typeof req.body === 'object' ? req.body : {};
 
     switch (req.method) {
